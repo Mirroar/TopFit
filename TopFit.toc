@@ -1,0 +1,15 @@
+## Interface: 20400
+## Author: Mirroar
+## Title: TopFit
+## Notes: Fit the Top
+## Notes-deDE: Passen die Oben
+## Version : 0.1
+## SavedVariables: TopFitDB
+
+
+embeds.xml
+
+core.lua
+options.lua
+gem_ids.lua
+enchant_ids.lua
