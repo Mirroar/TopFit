@@ -1,6 +1,6 @@
 -- function for getting the options table at runtime, so we can change it (like adding new sets, etc.)
 function TopFit:GetOptionsTable(uiType, uiName)
-    return TopFit.myOptions
+	return TopFit.myOptions
 end
 
 function TopFit:createCapOptions(setCode, subCat, stat)
@@ -21,7 +21,7 @@ function TopFit:createCapOptions(setCode, subCat, stat)
 end
 
 function TopFit:createWeightsOptionTable()
-    weightsTable = {
+	weightsTable = {
 	    test = {
 			type = 'execute',
 			name = 'Update this Set',
@@ -83,22 +83,22 @@ function TopFit:createWeightsOptionTable()
 				set = "SetIsCapped",
 			}
 		end
-    end
-    
-    return weightsTable
+	end
+	
+	return weightsTable
 end
 
 function TopFit:createSetOptionsTable(setName)
-    return {
+	return {
 		type = "group",
 		name = setName or "Set",
 		args = TopFit:createWeightsOptionTable(),
-    }
+	}
 end
 
 function TopFit:createOptionsTable()
-    -- list of weight categories and stats
-    TopFit.statList = {
+	-- list of weight categories and stats
+	TopFit.statList = {
 		["Basic Attributes"] = {
 			[1] = "ITEM_MOD_AGILITY_SHORT",
 			[2] = "ITEM_MOD_INTELLECT_SHORT",
@@ -145,10 +145,10 @@ function TopFit:createOptionsTable()
 			[5] = "RESISTANCE5_NAME",			-- shadow
 			[6] = "RESISTANCE6_NAME",			-- arcane
 		},
-    }
- 
-    -- create options table
-    TopFit.myOptions = {
+	}
+     
+	-- create options table
+	TopFit.myOptions = {
 		name = 'TopFit',
 		handler = TopFit,
 		type = 'group',
@@ -167,6 +167,7 @@ function TopFit:createOptionsTable()
 				func = 'AddSet',
 			},
 			options = {
+				order = 50,
 				type = 'group',
 				childGroups  = 'tree',
 				name = 'Options',
@@ -188,17 +189,18 @@ function TopFit:createOptionsTable()
 				},
 			},
 		},
-    }
-
-    -- create options for all sets
-    TopFit.myOptions.args.sets = {
+	}
+    
+	-- create options for all sets
+	TopFit.myOptions.args.sets = {
 		type = 'group',
 		childGroups  = 'tree',
 		name = 'Sets',
 		args = {},
-    }
-    
-    for setCode, setTable in pairs(self.db.profile.sets) do
+		order = 10,
+	}
+	
+	for setCode, setTable in pairs(self.db.profile.sets) do
 		TopFit.myOptions.args.sets.args[setCode] = TopFit:createSetOptionsTable(setTable.name)
 		
 		if setTable.caps then
@@ -216,28 +218,28 @@ function TopFit:createOptionsTable()
 				end
 			end
 		end
-    end
+	end
 end
 
 function TopFit:GetWeight(info)
-    --TopFit:Debug("GetWeight - stat: "..info[#info].."; set: "..info[#info-3])
-    if (self.db.profile.sets[info[#info-3]].weights[info[#info]]) then
+	--TopFit:Debug("GetWeight - stat: "..info[#info].."; set: "..info[#info-3])
+	if (self.db.profile.sets[info[#info-3]].weights[info[#info]]) then
 		return self.db.profile.sets[info[#info-3]].weights[info[#info]]
-    else
+	else
 		return 0
-    end
+	end
 end
 
 function TopFit:SetWeight(info, value)
-    --TopFit.Weights[info[#info]] = value
-    --TopFit:Debug("SetWeight("..info[#info]..", "..value..")")
-    self.db.profile.sets[info[#info-3]].weights[info[#info]] = value
+	--TopFit.Weights[info[#info]] = value
+	--TopFit:Debug("SetWeight("..info[#info]..", "..value..")")
+	self.db.profile.sets[info[#info-3]].weights[info[#info]] = value
 end
 
 function TopFit:AddSet(info, input)
-    i = 1
-    added = false
-    while (not added) do
+	i = 1
+	added = false
+	while (not added) do
 		-- check if set i exists
 		if (not TopFit.myOptions.args.sets.args["set_"..i]) then
 			TopFit.myOptions.args.sets.args["set_"..i] = TopFit:createSetOptionsTable("Set "..i)
@@ -249,7 +251,7 @@ function TopFit:AddSet(info, input)
 			added = true
 		end
 		i = i + 1
-    end
+	end
 end
 
 function TopFit:DeleteSet(info, input)
