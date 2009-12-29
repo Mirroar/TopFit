@@ -15,6 +15,19 @@ ranged slot enchants check only for hunter or something like that
 duplicate sets (to adjust for pvp or something)
 ]]--
 
+function round(input, places)
+    if not places then
+        places = 0
+    end
+    if type(input) == "number" and type(places) == "number" then
+        local pow = 1
+        for i = 1, ceil(places) do
+            pow = pow * 10
+        end
+        return floor(input * pow + 0.5) / pow
+    end
+end
+
 local function GetTextureIndex(tex) -- blatantly stolen from Tekkubs EquipSetUpdate. Thanks!
     RefreshEquipmentSetIconInfo()
     tex = tex:lower()
@@ -172,19 +185,26 @@ function TopFit:GetItemInfoTable(item, location)
 	["itemEquipLoc"] = itemEquipLoc,
 	["itemBonus"] = GetItemStats(itemLink),
 	["gems"] = gems,
-	["enchantBonus"] = enchantBonus,
-	["gemBonus"] = gemBonus,
+	["enchantBonus"] = enchantBonus or {},
+	["gemBonus"] = gemBonus or {},
 	["equipLocations"] = locations,
 	["itemLocation"] = location,
+	["totalBonus"] = {},
     }
     
-    if (result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"]) then  -- dirty little mana regen fix!
-	if (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"]) then
-	    result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] + result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"]
-	else
-	    result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"]
+    -- dirty little mana regen fix! TODO: better synonim handling
+    result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = (result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0)
+    result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+    result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = (result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0)
+    result["gemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+    result["enchantBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = (result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0)
+    result["enchantBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+    
+    -- calculate total values
+    for _, bonusTable in pairs({result["itemBonus"], result["gemBonus"], result["enchantBonus"]}) do
+	for stat, value in pairs(bonusTable) do
+	    result["totalBonus"][stat] = (result["totalBonus"][stat] or 0) + value
 	end
-	result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
     end
     
     return result
@@ -287,15 +307,47 @@ function TopFit:SaveCurrentCombination()
 	    itemTable = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i)
 	end
 	if ((TopFit.slotCounters[i]) or (itemTable)) then
+	    if itemTable and (i == TopFit.slots["MainHandSlot"]) and (itemTable.itemEquipLoc == "INVTYPE_2HWEAPON") then
+		-- make sure we use a 1h-weapon if it would be better together with offhand
+		
+		-- make a copy of itemsAlreadyChosen and add the weapon until we get a 1h or nothing
+		local iAC2 = {}
+		for _, item in pairs(itemsAlreadyChosen) do
+		    tinsert(iAC2, item)
+		end
+		tinsert(iAC2, itemTable)
+		
+		local best = TopFit:CalculateBestInSlot(iAC2, true, i)
+		
+		while best do
+		    if best.itemEquipLoc ~= "INVTYPE_2HWEAPON" then break end
+		    best = TopFit:CalculateBestInSlot(iAC2, true, i)
+		end
+		
+		if best then
+		    -- check together with offhand
+		    if (best.itemScore + TopFit:CalculateBestInSlot(iAC2, false, TopFit.slots["SecondaryHandSlot"]).itemScore) > itemTable.itemScore then
+			itemTable = best
+		    end
+		else
+		    -- TODO: check wether to use 2h or offhand
+		end
+	    end
+	    
 	    if not itemTable then itemTable = TopFit.itemListBySlot[i][TopFit.slotCounters[i]] end
 	    -- remove offhand if mainhand is 2h and (TODO:) no titan's grip
-	    if ((i == TopFit.slots["SecondaryHandSlot"]) and -- if we're checking offhand
-		(((TopFit.slotCounters[TopFit.slots["MainHandSlot"]] ~= nil) and
-		(TopFit.itemListBySlot[TopFit.slotCounters[TopFit.slots["MainHandSlot"]]]) and
-		(TopFit.itemListBySlot[TopFit.slotCounters[TopFit.slots["MainHandSlot"]]]["itemEquipLoc"] == "INVTYPE_2HWEAPON")) or
-		(TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, TopFit.slots["MainHandSlot"])["itemEquipLoc"] == "INVTYPE_2HWEAPON"))) then
-		-- do nothing
-		--TODO: check why it's still using offhand AND 2h-mainhand
+	    local ignoreSlot = false
+	    if (i == TopFit.slots["SecondaryHandSlot"]) then -- if we're checking offhand
+		TopFit:Debug("------------ Checking new Offhand ---------------")
+		if (cIC.items[TopFit.slots["MainHandSlot"]]) then
+		    if (cIC.items[TopFit.slots["MainHandSlot"]].itemEquipLoc == "INVTYPE_2HWEAPON") then
+			ignoreSlot = true
+		    end
+		end
+	    end
+	    if ignoreSlot then
+		-- do nothing (ignoring offhand slot)
+		TopFit:Debug("Ignoring offhand slot.");
 	    else
 		tinsert(itemsAlreadyChosen, itemTable)
 		cIC.items[i] = itemTable
@@ -335,9 +387,14 @@ function TopFit:SaveCurrentCombination()
 	    end
 	end
     end
-    
-    -- save combination
-    -- tinsert(TopFit.itemCombinations, cIC) -- removed due to lots of unnecessary memory usage
+    -- dump offhand
+    if (cIC.items[17]) then
+	TopFit:Debug("Offhand: "..(cIC.items[17]["itemEquipLoc"] or "NO_LOC"));
+	TopFit:Debug("Mainhand: "..(cIC.items[16]["itemEquipLoc"] or "NO_LOC"));
+    else
+	TopFit:Debug("Offhand: nil");
+	TopFit:Debug("Mainhand: "..(cIC.items[16]["itemEquipLoc"] or "NO_LOC"));
+    end
     
     -- check if it's better than old best
     local satisfied = true
@@ -357,7 +414,7 @@ function TopFit:SemiRecursiveCalculation()
     local operation
     local done = false
     for operation = 1, TopFit.operationsPerFrame do
-	if (not done) then
+	if ((not done) and (not TopFit.abortCalculation)) then
 	    -- traverse slots in current direction
 	    if (TopFit.goingUp) then
 		TopFit.currentSlotCounter = TopFit.currentSlotCounter + 1
@@ -469,7 +526,7 @@ function TopFit:SemiRecursiveCalculation()
 			    TopFit.maxRestStat[stat][TopFit.currentSlotCounter]) <
 			    tonumber(preferences["value"])) then
 			    -- in that case, stop here and go down again to find alternatives
-			    TopFit:Debug("Cap not reachable - cur: "..(TopFit.currentCapValues[stat][TopFit.currentSlotCounter] or "nil")..", rest: "..(TopFit.maxRestStat[stat][TopFit.currentSlotCounter] or "nil")..", cap: "..(tonumber(preferences.value) or "nil"))
+			    --TopFit:Debug("Cap not reachable - cur: "..(TopFit.currentCapValues[stat][TopFit.currentSlotCounter] or "nil")..", rest: "..(TopFit.maxRestStat[stat][TopFit.currentSlotCounter] or "nil")..", cap: "..(tonumber(preferences.value) or "nil"))
 			    notReachable = true
 			end
 		    end
@@ -484,7 +541,7 @@ function TopFit:SemiRecursiveCalculation()
 			if (TopFit.currentSlotCounter < 20) then
 			    if (TopFit.currentCapValues[stat][TopFit.currentSlotCounter] >=
 				tonumber(preferences["value"])) then
-				TopFit:Debug("Cap reached: "..(TopFit.currentCapValues[stat][TopFit.currentSlotCounter] or "nil"))
+				--TopFit:Debug("Cap reached: "..(TopFit.currentCapValues[stat][TopFit.currentSlotCounter] or "nil"))
 				
 				capReached = true
 			    end
@@ -525,9 +582,55 @@ function TopFit:SemiRecursiveCalculation()
 			tinsert(itemsAlreadyChosen, itemTable)
 		    end
 		    
+		    --[[ check if mainhand / offhand is filled correctly
+		    if (TopFit.itemRecommendations[TopFit.slots["MainHandSlot"] ]) then
+			if not TopFit.itemRecommendations[TopFit.slots["SecondaryHandSlot"] ] then
+			    -- fill offhand unless mainhand is a twohander
+			    if not (TopFit.itemRecommendations[TopFit.slots["MainHandSlot"] ].itemTable.itemEquipLoc == "INVTYPE_2HWEAPON") then
+				local best = TopFit:CalculateBestInSlot(itemsAlreadyChosen, true, TopFit.slots["SecondaryHandSlot"])
+				if best then
+				    TopFit.itemRecommendations[slotID] = {
+					["itemTable"] = best,
+				    }
+				end
+			    end
+			end
+		    else
+			if TopFit.itemRecommendations[TopFit.slots["SecondaryHandSlot"] ] then
+			    -- find fitting mainhand (not a 2h-weapon)
+			    local maxScore = nil
+			    local bis = nil
+			    
+			    -- iterate all mainhand-items
+			    for _, itemTable in pairs(TopFit.itemListBySlot[TopFit.slots["MainHandSlot"] ]) do
+				if (((maxScore == nil) or (maxScore < itemTable["itemScore"])) -- score
+				    and not (itemTable["itemEquipLoc" == "INVTYPE_2HWEAPON"]) -- one-handed
+				    and (itemTable["itemMinLevel"] <= TopFit.characterLevel)) then -- character level
+				    -- also check if item has been chosen already (so we don't get the same ring / trinket twice)
+				    local found = false
+				    if (itemsAlreadyChosen) then
+					for _, iTable in pairs(itemsAlreadyChosen) do
+					    if (iTable == itemTable) then
+						found = true
+					    end
+					end
+				    end
+				    
+				    if not found then
+					bis = itemTable
+					maxScore = itemTable["itemScore"]
+				    end
+				end
+			    end
+			else
+			    --TODO: find best scored main/offhand combo or 2h-weapon (maybe make function from simple calculation)
+			end
+		    end]]--
+		    
 		    -- fill all other slots with the best-in-slot items for that slot
+		    --TODO: check two-handed stuff if main hand slot has to be filled
 		    for slotID, itemTables in pairs(TopFit.itemListBySlot) do
-			if (not TopFit.itemRecommendations[slotID]) then
+			if (not TopFit.itemRecommendations[slotID]) --[[and not ((slotID == TopFit.slots["MainHandSlot"]) or (slotID == TopFit.slots["SecondaryHandSlot"]))]] then
 			    local best = TopFit:CalculateBestInSlot(itemsAlreadyChosen, true, slotID)
 			    if best then
 				TopFit.itemRecommendations[slotID] = {
@@ -543,15 +646,84 @@ function TopFit:SemiRecursiveCalculation()
 		end
 		
 		TopFit:EquipRecommendedItems()
+		TopFit:HideProgressFrame()
 	    end
 	end
+    end
+    
+    -- update progress
+    if not done then
+	local progress = 0
+	local impact = 1
+	local slot
+	for slot = 1,20 do
+	    -- check if slot has items for calculation
+	    if TopFit.itemListBySlot[slot] then
+		-- calculate current progress towards finish
+		local numItemsInSlot = #(TopFit.itemListBySlot[slot])
+		local selectedItem = TopFit.slotCounters[slot] or 1
+		
+		impact = impact / numItemsInSlot
+		progress = progress + impact * (selectedItem - 1)
+	    end
+	end
+	
+	TopFit:Debug("Progress: "..(progress * 100).."%");
+	TopFit.ProgressFrame:SetProgress(progress)
+    end
+    
+    if TopFit.abortCalculation then
+	TopFit.calculationsFrame:SetScript("OnUpdate", nil)
+	TopFit:Print("Calculation aborted.")
+	TopFit.abortCalculation = nil
+	TopFit.isBlocked = false
+	TopFit:HideProgressFrame()
     end
     
     TopFit:Debug("Current combination count: "..TopFit.combinationCount)
 end
 
 function TopFit:InitSemiRecursiveCalculations()
-    -- TODO: reduce item list: only best non-cap-item; remove items with < cap and < score, and whatever...
+    -- reduce item list: only best non-cap-item; remove items with < cap and < score, and whatever...
+    for slotID, itemList in pairs(TopFit.itemListBySlot) do
+	if #itemList > 1 then
+	    for i = #itemList, 1, -1 do
+		if (itemList[i].itemScore <= 0) then
+		    -- remove score 0 items
+		    tremove(itemList, i)
+		else
+		    -- try to see if an item exists which is definitely better
+		    local betterItemExists = false
+		    for j = 1, #itemList do
+			if i ~= j then
+			    if (itemList[i].itemScore < itemList[j].itemScore) and
+				(itemList[i].itemEquipLoc == itemList[j].itemEquipLoc) then -- especially important for weapons, we do not want to compare 2h and 1h weapons
+				-- score is greater, see if caps are also better
+				local allStats = true
+				for statCode, preferences in pairs(TopFit.Utopia) do
+				    if (itemList[i].totalBonus[statCode] or 0) > (itemList[j].totalBonus[statCode] or 0) then
+					allStats = false
+					break
+				    end
+				end
+				
+				if allStats then
+				    betterItemExists = true
+				    break
+				end
+			    end
+			end
+		    end
+		    
+		    if betterItemExists then
+			-- remove this item
+			tremove(itemList, i)
+		    end
+		end
+	    end
+	end
+    end
+    
     TopFit.slotCounters = {}
     TopFit.currentSlotCounter = 0
     TopFit.operationsPerFrame = 10000
@@ -572,16 +744,7 @@ function TopFit:InitSemiRecursiveCalculations()
 		-- get maximum value contributed to cap in this slot
 		local maxStat = nil
 		for _, itemTable in pairs(TopFit.itemListBySlot[slotID]) do
-		    local thisStat = 0
-		    if (itemTable["itemBonus"][statCode]) then
-			thisStat = thisStat + itemTable["itemBonus"][statCode]
-		    end
-		    if (itemTable["enchantBonus"] and itemTable["enchantBonus"][statCode]) then
-			thisStat = thisStat + itemTable["enchantBonus"][statCode]
-		    end
-		    if (itemTable["gemBonus"] and itemTable["gemBonus"][statCode]) then
-			thisStat = thisStat + itemTable["gemBonus"][statCode]
-		    end
+		    local thisStat = itemTable["totalBonus"][statCode] or 0
 		    
 		    if ((thisStat > 0) and ((maxStat == nil) or (thisStat > maxStat))) then
 			maxStat = thisStat
@@ -612,6 +775,9 @@ function TopFit:InitSemiRecursiveCalculations()
     
     TopFit.calculationsFrame = CreateFrame("Frame");
     TopFit.calculationsFrame:SetScript("OnUpdate", TopFit.SemiRecursiveCalculation)
+    
+    -- show progress frame
+    TopFit:CreateProgressFrame()
 end
 
 function TopFit:CalculateRecommendations(setName)
@@ -961,9 +1127,9 @@ function TopFit:collectItems()
     -- check bags
     for bag = 0,4 do
 	for slot = 1, GetContainerNumSlots(bag) do
-	local item = GetContainerItemLink(bag,slot)
-	
-	TopFit:AddToAvailableItems(item, bag, slot, nil, nil)
+	    local item = GetContainerItemLink(bag,slot)
+	    
+	    TopFit:AddToAvailableItems(item, bag, slot, nil, nil)
 	end
     end
     
@@ -983,6 +1149,12 @@ function TopFit:StartCalculations(info, input)
     end
     
     TopFit:CalculateSets()
+end
+
+function TopFit:AbortCalculations(info, input)
+    if TopFit.isBlocked then
+	TopFit.abortCalculation = true
+    end
 end
 
 function TopFit:StartCalculationsForSet(info, input)
@@ -1023,7 +1195,7 @@ function TopFit:CalculateSets()
 	TopFit:collectItems()
 	TopFit:CalculateScores(self.db.profile.sets[setCode]["weights"], TopFit.Utopia)
 	if hasCap then
-	TopFit:CalculateRecommendations(self.db.profile.sets[setCode]["name"])
+	    TopFit:CalculateRecommendations(self.db.profile.sets[setCode]["name"])
 	else
 	    TopFit:CalculateRecommendationsSimple(self.db.profile.sets[setCode]["name"])
 	    

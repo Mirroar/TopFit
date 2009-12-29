@@ -160,6 +160,12 @@ function TopFit:createOptionsTable()
 				desc = 'Find the bestest of items for all your sets.',
 				func = 'StartCalculations',
 			},
+			abort = {
+				type = 'execute',
+				name = 'Abort Set Calculation',
+				desc = 'Aborts any running set calculation if it takes too long.',
+				func = 'AbortCalculations',
+			},
 			addset = {
 				type = 'execute',
 				name = 'Add a new Set',
