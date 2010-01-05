@@ -22,43 +22,21 @@ end
 
 function TopFit:createWeightsOptionTable()
 	weightsTable = {
-	    test = {
-			type = 'execute',
-			name = 'Update this Set',
-			desc = 'Find the bestest of items for this set.',
-			func = 'StartCalculationsForSet',
-	    },
-	    delete = {
-			type = 'execute',
-			name = 'Delete',
-			desc = 'Delete this set. Like, Poof!\n|cffff0000Caution!|r This will also remove the associated set in the Equipment Manager.',
-			func = 'DeleteSet',
-			confirm = true,
-	    },
-	    rename = {
-			type = 'input',
-			name = 'Name this set',
-			desc = 'This name will be used in the configuration and in the equipment manager.',
-			get = 'GetSetName',
-			set = 'SetSetName',
-	    },
-		weights = {
-			type = "group",
-			name = "Weights",
-			desc = "Set the value for one point of a given stat.",
-			args = {},
-		},
+		type = "group",
+		name = "Weights",
+		desc = "Set the value for one point of a given stat.",
+		args = {},
 	}
 		
 	for groupName, group in pairs(TopFit.statList) do
-		weightsTable.weights.args[groupName] = {
+		weightsTable.args[groupName] = {
 			name = groupName,
 			type = "group",
 			args = {},
 		}
 		
 		for _, statCode in pairs(group) do
-			weightsTable.weights.args[groupName].args[statCode] = {
+			weightsTable.args[groupName].args[statCode] = {
 				name = _G[statCode],
 				type = 'range',
 				min = -10,
@@ -68,7 +46,7 @@ function TopFit:createWeightsOptionTable()
 			}
 		end
 		
-		weightsTable.weights.args[groupName].args["caps"] = {
+		weightsTable.args[groupName].args["caps"] = {
 			type = "group",
 			name = "Caps",
 			desc = "Set a target value to obtain for a given stat.",
@@ -76,7 +54,7 @@ function TopFit:createWeightsOptionTable()
 		}
 		
 		for _, statCode in pairs(group) do
-			weightsTable.weights.args[groupName].args["caps"].args[statCode] = {
+			weightsTable.args[groupName].args["caps"].args[statCode] = {
 				name = _G[statCode],
 				type = 'toggle',
 				get = "GetIsCapped",
@@ -92,8 +70,59 @@ function TopFit:createSetOptionsTable(setName)
 	return {
 		type = "group",
 		name = setName or "Set",
-		args = TopFit:createWeightsOptionTable(),
+		args = {
+			test = {
+				type = 'execute',
+				name = 'Update this Set',
+				desc = 'Find the bestest of items for this set.',
+				func = 'StartCalculationsForSet',
+			},
+			delete = {
+				type = 'execute',
+				name = 'Delete',
+				desc = 'Delete this set. Like, Poof!\n|cffff0000Caution!|r This will also remove the associated set in the Equipment Manager.',
+				func = 'DeleteSet',
+				confirm = true,
+			},
+			rename = {
+				type = 'input',
+				name = 'Name this set',
+				desc = 'This name will be used in the configuration and in the equipment manager.',
+				get = 'GetSetName',
+				set = 'SetSetName',
+			},
+			force = {
+				type = 'group',
+				name = 'Forced Items',
+				desc = 'Force certain items to be worn in this set, like an insignia or specific librams.',
+				args = TopFit:createForcedItemsOptionTable(),
+			},
+			weights = TopFit:createWeightsOptionTable(),
+		},
 	}
+end
+
+function TopFit:createForcedItemsOptionTable()
+	forcedTable = {}
+	
+	-- get item list
+	TopFit:collectItems()
+	
+	-- create selection for every slot
+	for slotID, slotName in pairs(TopFit.slotNames) do
+		forcedTable[slotName] = {
+			type = 'select',
+			name = slotName,
+			get = 'GetForced',
+			set = 'SetForced',
+			values = { [0] = "don't force" },
+		}
+		for _, itemTable in pairs(TopFit.itemListBySlot[slotID] or {}) do
+			forcedTable[slotName].values[itemTable.itemID] = itemTable.itemLink
+		end
+	end
+	
+	return forcedTable
 end
 
 function TopFit:createOptionsTable()
@@ -225,6 +254,14 @@ function TopFit:createOptionsTable()
 			end
 		end
 	end
+end
+
+function TopFit:GetForced(info)
+	return 0
+end
+
+function TopFit:SetForced(info, value)
+	TopFit:Debug("SetForced - slot: "..info[#info].."; set: "..info[#info-2])
 end
 
 function TopFit:GetWeight(info)

@@ -1,19 +1,4 @@
---[[
-TODO:
-[] zusammenstellung als gear-set speichern
-[] automatisch anlegen
-[] match socket colors
 
-set bonus (2 T9, 4 T8, ...)
-
-check whole addon for variables that should really be local!
-
-pawn support, etc.
-
-ranged slot enchants check only for hunter or something like that
-
-duplicate sets (to adjust for pvp or something)
-]]--
 
 function round(input, places)
     if not places then
@@ -25,6 +10,8 @@ function round(input, places)
             pow = pow * 10
         end
         return floor(input * pow + 0.5) / pow
+    else
+	return input
     end
 end
 
@@ -234,6 +221,7 @@ function TopFit:AddToAvailableItems(item, bag, slot, invSlot, location)
 end
 
 function TopFit:CalculateItemTableScore(itemTable, set, caps)
+    TopFit.debug = caps
     local bonuses = itemTable["itemBonus"]
     local enchants = itemTable["enchantBonus"]
     local gems = itemTable["gemBonus"]
@@ -338,7 +326,7 @@ function TopFit:SaveCurrentCombination()
 	    -- remove offhand if mainhand is 2h and (TODO:) no titan's grip
 	    local ignoreSlot = false
 	    if (i == TopFit.slots["SecondaryHandSlot"]) then -- if we're checking offhand
-		TopFit:Debug("------------ Checking new Offhand ---------------")
+		--TopFit:Debug("------------ Checking new Offhand ---------------")
 		if (cIC.items[TopFit.slots["MainHandSlot"]]) then
 		    if (cIC.items[TopFit.slots["MainHandSlot"]].itemEquipLoc == "INVTYPE_2HWEAPON") then
 			ignoreSlot = true
@@ -387,14 +375,14 @@ function TopFit:SaveCurrentCombination()
 	    end
 	end
     end
-    -- dump offhand
+    --[[ dump offhand
     if (cIC.items[17]) then
 	TopFit:Debug("Offhand: "..(cIC.items[17]["itemEquipLoc"] or "NO_LOC"));
 	TopFit:Debug("Mainhand: "..(cIC.items[16]["itemEquipLoc"] or "NO_LOC"));
     else
 	TopFit:Debug("Offhand: nil");
 	TopFit:Debug("Mainhand: "..(cIC.items[16]["itemEquipLoc"] or "NO_LOC"));
-    end
+    end]]
     
     -- check if it's better than old best
     local satisfied = true
@@ -646,7 +634,7 @@ function TopFit:SemiRecursiveCalculation()
 		end
 		
 		TopFit:EquipRecommendedItems()
-		TopFit:HideProgressFrame()
+		--TopFit:HideProgressFrame()
 	    end
 	end
     end
@@ -656,12 +644,16 @@ function TopFit:SemiRecursiveCalculation()
 	local progress = 0
 	local impact = 1
 	local slot
-	for slot = 1,20 do
+	for slot = 1, 20 do
 	    -- check if slot has items for calculation
 	    if TopFit.itemListBySlot[slot] then
 		-- calculate current progress towards finish
-		local numItemsInSlot = #(TopFit.itemListBySlot[slot])
+		local numItemsInSlot = #(TopFit.itemListBySlot[slot]) or 1
 		local selectedItem = TopFit.slotCounters[slot] or 1
+		if numItemsInSlot == 0 then numItemsInSlot = 1 end
+		if selectedItem == 0 then selectedItem = 1 end
+		
+		TopFit:Debug("(Slot "..slot..") - numItems: "..numItemsInSlot.."; selected: "..selectedItem.."; old Progress: "..progress.."; old impact: "..impact)
 		
 		impact = impact / numItemsInSlot
 		progress = progress + impact * (selectedItem - 1)
@@ -670,6 +662,23 @@ function TopFit:SemiRecursiveCalculation()
 	
 	TopFit:Debug("Progress: "..(progress * 100).."%");
 	TopFit.ProgressFrame:SetProgress(progress)
+    else
+	TopFit.ProgressFrame:SetProgress(1) -- done
+    end
+    
+    -- update icons if there is a "best" set
+    if TopFit.bestCombination then
+	-- reset to default icon
+        for _, button in pairs(TopFit.ProgressFrame.equipButtons) do
+            button:SetNormalTexture(button.emptyTexture or "Interface\\PaperDoll\\UI-PaperDoll-Slot-Bag")
+	    button.itemLink = nil
+        end
+	-- set to item icon
+	for slotID, itemTable in pairs(TopFit.bestCombination.items) do
+	    _, _, _, _, _, _, _, _, _, texture, _ = GetItemInfo(itemTable.itemID)
+	    TopFit.ProgressFrame.equipButtons[slotID]:SetNormalTexture(texture)
+	    TopFit.ProgressFrame.equipButtons[slotID].itemLink = itemTable.itemLink
+	end
     end
     
     if TopFit.abortCalculation then
@@ -677,7 +686,7 @@ function TopFit:SemiRecursiveCalculation()
 	TopFit:Print("Calculation aborted.")
 	TopFit.abortCalculation = nil
 	TopFit.isBlocked = false
-	TopFit:HideProgressFrame()
+	-- TopFit:HideProgressFrame()
     end
     
     TopFit:Debug("Current combination count: "..TopFit.combinationCount)
@@ -726,7 +735,7 @@ function TopFit:InitSemiRecursiveCalculations()
     
     TopFit.slotCounters = {}
     TopFit.currentSlotCounter = 0
-    TopFit.operationsPerFrame = 10000
+    TopFit.operationsPerFrame = 2
     TopFit.goingUp = true
     TopFit.combinationCount = 0
     TopFit.bestCombination = nil
@@ -867,7 +876,7 @@ function TopFit:CalculateRecommendationsSimple(setName)
 	
 	if (recommendedMainHand["itemEquipLoc"] == "INVTYPE_2HWEAPON") then --TODO: check for titan's grip!!
 	    useTwohand = true
-	    TopFit:Debug("2H Main Hand found with offhand recommendation...")
+	    --TopFit:Debug("2H Main Hand found with offhand recommendation...")
 	    
 	    -- check 2h-score vs. best main- / offhand combo
 	    twohandScore = recommendedMainHand["itemScore"]
@@ -939,6 +948,9 @@ function TopFit:CalculateRecommendationsSimple(setName)
 	    end
 	end
     end
+    
+    -- equip calculated set
+    TopFit:EquipRecommendedItems()
 end
 
 function TopFit:EquipRecommendedItems()
@@ -1089,7 +1101,7 @@ function TopFit:OnInitialize()
     
     -- create list of slot names with corresponding slot IDs
     TopFit.slots = {}
-	TopFit.slotNames = {}
+    TopFit.slotNames = {}
     for _, slotName in pairs(TopFit.slotList) do
 	slotID, _, _ = GetInventorySlotInfo(slotName)
 	TopFit.slots[slotName] = slotID;
@@ -1187,19 +1199,18 @@ function TopFit:CalculateSets()
 		TopFit.Utopia[statCode] = {
 		    value = preferences["value"],
 		    soft = preferences["soft"],
+		    active = true
 		}
 	    end
 	end
 	
 	-- do the actual work
 	TopFit:collectItems()
-	TopFit:CalculateScores(self.db.profile.sets[setCode]["weights"], TopFit.Utopia)
+	TopFit:CalculateScores(self.db.profile.sets[setCode].weights, TopFit.Utopia)
 	if hasCap then
-	    TopFit:CalculateRecommendations(self.db.profile.sets[setCode]["name"])
+	    TopFit:CalculateRecommendations(self.db.profile.sets[setCode].name)
 	else
-	    TopFit:CalculateRecommendationsSimple(self.db.profile.sets[setCode]["name"])
-	    
-	    TopFit:EquipRecommendedItems()
+	    TopFit:CalculateRecommendationsSimple(self.db.profile.sets[setCode].name)
 	end
     end
 end
