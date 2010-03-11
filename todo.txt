@@ -24,3 +24,5 @@ Functionality:
 - ability to add predefined sets (weights from wowhead or something)
 - leveling sets (taking into account even stuff like armor for levels 1-10, etc.)
 - Button at minimap or equip manager
+- what to do if a forced item is no longer in the player's inventory?
+- change equip function so it does not depend on equip locations saved with the item list (aka find the item again) - little less performance, but safer

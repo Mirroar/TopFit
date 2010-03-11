@@ -10,6 +10,7 @@
 embeds.xml
 
 core.lua
+calculation.lua
 options.lua
 frame.lua
 

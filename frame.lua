@@ -94,16 +94,16 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.equipButtons[11].emptyTexture = "Interface\\PaperDoll\\UI-PaperDoll-Slot-RFinger"
         TopFit.ProgressFrame.equipButtons[8].emptyTexture = "Interface\\PaperDoll\\UI-PaperDoll-Slot-Feet"
         TopFit.ProgressFrame.equipButtons[7].emptyTexture = "Interface\\PaperDoll\\UI-PaperDoll-Slot-Legs"
-        TopFit.ProgressFrame.equipButtons[6].emptyTexture = "Interface\\PaperDoll\\UI-PaperDoll-Slot-Waitst"
+        TopFit.ProgressFrame.equipButtons[6].emptyTexture = "Interface\\PaperDoll\\UI-PaperDoll-Slot-Waist"
         TopFit.ProgressFrame.equipButtons[10].emptyTexture = "Interface\\PaperDoll\\UI-PaperDoll-Slot-Hands"
         for _, button in pairs(TopFit.ProgressFrame.equipButtons) do
-            button:SetNormalTexture(button.emptyTexture or "Interface\\PaperDoll\\UI-PaperDoll-Slot-Bag")
+            button:SetNormalTexture(button.emptyTexture)
             -- also set tooltip functions
             button:SetScript("OnEnter", ShowTooltip)
             button:SetScript("OnLeave", HideTooltip)
         end
         
-        -- center scrollframe for stats summary
+        -- centered scrollframe for stats summary
         local boxHeight = 32 * 8 - 16
         local boxWidth = 32 * 3 + 48 * 2 - 22
 	TopFit.ProgressFrame.statScrollFrame = CreateFrame("ScrollFrame", "TopFit_StatScrollFrame", TopFit.ProgressFrame, "UIPanelScrollFrameTemplate")
@@ -123,6 +123,40 @@ function TopFit:CreateProgressFrame()
 	TopFit.ProgressFrame.statScrollFrame:SetBackdrop(backdrop)
 	TopFit.ProgressFrame.statScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
 	TopFit.ProgressFrame.statScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
+        
+        -- fontstrings for set name
+        TopFit.ProgressFrame.setNameFontString = group2:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
+        TopFit.ProgressFrame.setNameFontString:SetHeight(32)
+        TopFit.ProgressFrame.setNameFontString:SetPoint("TOP", TopFit.ProgressFrame.statScrollFrame, "TOP")
+        TopFit.ProgressFrame.setNameFontString:SetText("Set Name")
+        
+        -- fontsting for set value
+        TopFit.ProgressFrame.setScoreFontString = group2:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+        TopFit.ProgressFrame.setScoreFontString:SetHeight(32)
+        TopFit.ProgressFrame.setScoreFontString:SetPoint("TOP", TopFit.ProgressFrame.setNameFontString, "BOTTOM")
+        TopFit.ProgressFrame.setScoreFontString:SetText("Total Score: -")
+        
+        -- function for changing set name
+        function TopFit.ProgressFrame:SetSetName(text)
+            TopFit.ProgressFrame.setNameFontString:SetText(text)
+        end
+        
+        -- function for showing current calculated set
+        function TopFit.ProgressFrame:SetCurrentCombination(combination)
+            -- reset to default icon
+            for _, button in pairs(TopFit.ProgressFrame.equipButtons) do
+                button:SetNormalTexture(button.emptyTexture)
+                button.itemLink = nil
+            end
+            for slotID, itemTable in pairs(combination.items) do
+                -- set to item icon
+                _, _, _, _, _, _, _, _, _, texture, _ = GetItemInfo(itemTable.itemID)
+                TopFit.ProgressFrame.equipButtons[slotID]:SetNormalTexture(texture)
+                TopFit.ProgressFrame.equipButtons[slotID].itemLink = itemTable.itemLink
+            end
+            
+            TopFit.ProgressFrame.setScoreFontString:SetText("Total Score: "..combination.totalScore)
+        end
         
         -- center frame on screen
         TopFit.ProgressFrame:SetPoint("CENTER", 0, 0)

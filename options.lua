@@ -117,8 +117,10 @@ function TopFit:createForcedItemsOptionTable()
 			set = 'SetForced',
 			values = { [0] = "don't force" },
 		}
-		for _, itemTable in pairs(TopFit.itemListBySlot[slotID] or {}) do
-			forcedTable[slotName].values[itemTable.itemID] = itemTable.itemLink
+		if (TopFit.itemListBySlot[slotID]) then
+			for _, itemTable in pairs(TopFit.itemListBySlot[slotID]) do
+				forcedTable[slotName].values[itemTable.itemID] = itemTable.itemLink
+			end
 		end
 	end
 	
@@ -257,11 +259,14 @@ function TopFit:createOptionsTable()
 end
 
 function TopFit:GetForced(info)
-	return 0
+	--TopFit:Debug("GetForced - slot: "..info[#info].."; set: "..info[#info-2])
+	return self.db.profile.sets[info[#info-2]].forced[TopFit.slots[info[#info]]] or 0
 end
 
 function TopFit:SetForced(info, value)
-	TopFit:Debug("SetForced - slot: "..info[#info].."; set: "..info[#info-2])
+	TopFit:Debug("SetForced - slot: "..info[#info].."; set: "..info[#info-2].."; value: "..value)
+	if value == 0 then value = nil end
+	self.db.profile.sets[info[#info-2]].forced[TopFit.slots[info[#info]]] = value
 end
 
 function TopFit:GetWeight(info)
