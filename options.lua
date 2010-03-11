@@ -295,6 +295,7 @@ function TopFit:AddSet(info, input)
 				name = "Set "..i,
 				weights = {},
 				caps = {},
+				forced = {},
 			}
 			added = true
 		end
@@ -315,6 +316,13 @@ function TopFit:DeleteSet(info, input)
 	-- remove from equipment manager
 	if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(setName)) then
 		DeleteEquipmentSet(setName)
+	end
+	
+	if (TopFit.ProgressFrame) then
+		-- update setname if it is selected
+		if UIDropDownMenu_GetSelectedValue(TopFit.ProgressFrame.setDropDown) == setCode then
+			UIDropDownMenu_SetSelectedID(TopFit.ProgressFrame.setDropDown, 1)
+		end
 	end
 end
 
@@ -338,6 +346,13 @@ function TopFit:SetSetName(info, input)
 	-- rename equipment set if it exists
 	if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(oldSetName)) then
 		RenameEquipmentSet(oldSetName, newSetName)
+	end
+	
+	if (TopFit.ProgressFrame) then
+		-- update setname if it is selected
+		if UIDropDownMenu_GetSelectedValue(TopFit.ProgressFrame.setDropDown) == setCode then
+			UIDropDownMenu_SetSelectedName(TopFit.ProgressFrame.setDropDown, input)
+		end
 	end
 end
 

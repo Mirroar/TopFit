@@ -24,6 +24,7 @@ function TopFit:StartCalculationsForSet(info, input)
 end
 
 function TopFit:CalculateSets()
+    HideUIPanel(InterfaceOptionsFrame)
     local setCode = tremove(TopFit.workSetList)
 
     TopFit.characterLevel = UnitLevel("player")
@@ -120,14 +121,6 @@ function TopFit:InitSemiRecursiveCalculations()
 		end
 	    end
 	end
-	
-	-- always include off / mainhands in calculation
-	if (not TopFit.capHeuristics[statCode][TopFit.slots["SecondaryHandSlot"]]) then
-	    TopFit.capHeuristics[statCode][TopFit.slots["SecondaryHandSlot"]] = 1
-	end
-	if (not TopFit.capHeuristics[statCode][TopFit.slots["MainHandSlot"]]) then
-	    TopFit.capHeuristics[statCode][TopFit.slots["MainHandSlot"]] = 1
-	end
     end
     
     TopFit.calculationsFrame = CreateFrame("Frame");
@@ -136,6 +129,7 @@ function TopFit:InitSemiRecursiveCalculations()
     -- show progress frame
     TopFit:CreateProgressFrame()
     TopFit.ProgressFrame:SetSetName(TopFit.currentSetName)
+    TopFit.ProgressFrame:ResetProgress()
 end
 
 function TopFit:SemiRecursiveCalculation()
@@ -257,6 +251,9 @@ function TopFit:SemiRecursiveCalculation()
 		TopFit.calculationsFrame:SetScript("OnUpdate", nil)
 		operation = TopFit.operationsPerFrame
 		
+		-- save a default set of only best-in-slot items
+		TopFit:SaveCurrentCombination()
+		
 		TopFit:Print("Calculations are done. I tried a total of "..TopFit.combinationCount.." combinations.")
 		
 		-- find best combination that satisfies ALL caps
@@ -322,7 +319,7 @@ function TopFit:SemiRecursiveCalculation()
 	TopFit:Print("Calculation aborted.")
 	TopFit.abortCalculation = nil
 	TopFit.isBlocked = false
-	-- TopFit:HideProgressFrame()
+	TopFit.ProgressFrame:StoppedCalculation()
     end
     
     TopFit:Debug("Current combination count: "..TopFit.combinationCount)
@@ -396,82 +393,84 @@ function TopFit:SaveCurrentCombination()
 	    -- choose highest valued item for otherwise empty slots, if possible
 	    itemTable = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i)
 	    
-	    -- special cases for main an offhand (to accound for dualwielding and Titan's Grip)
-	    if (i == TopFit.slots["MainHandSlot"]) then
-		-- check if offhand is forced
-		if TopFit.slotCounters[i + 1] then
-		    -- use 1H-weapon in Mainhand (or a titan's grip 2H, if applicable)
-		    itemTable = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
-		else
-		    -- choose best main- and offhand combo
-		    if not TopFit:IsOnehandedWeapon(itemTable.itemID) then
-			-- see if a combination of main and offhand would have a better score
-			local bestMainScore, bestOffScore = 0, 0
-			local bestOff = nil
-			local bestMain = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
-			if bestMain ~= nil then
-			    bestMainScore = bestMain.itemScore
-			end
-			if (TopFit.playerCanDualWield) then
-			    -- any non-two-handed offhand is fine
-			    bestOff = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), i + 1, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
-			else
-			    -- offhand may not be a weapon (only shield, other offhand...)
-			    bestOff = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), i + 1, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
-			end
-			if bestOff ~= nil then
-			    bestOffScore = bestOff.itemScore
-			end
-			
-			-- alternatively, calculate offhand first, then mainhand
-			local bestMainScore2, bestOffScore2 = 0, 0
-			local bestMain2 = nil
-			local bestOff2 = nil
-			if (TopFit.playerCanDualWield) then
-			    -- any non-two-handed offhand is fine
-			    bestOff2 = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i + 1, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
-			else
-			    -- offhand may not be a weapon (only shield, other offhand...)
-			    bestOff2 = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i + 1, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
-			end
-			if bestOff2 ~= nil then
-			    bestOffScore2 = bestOff2.itemScore
-			end
-			
-			bestMain2 = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestOff2}), i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
-			if bestMain2 ~= nil then
-			    bestMainScore2 = bestMain2.itemScore
-			end
-			
-			local maxScore = itemTable.itemScore
-			--TopFit:Debug("2H: "..itemTable.itemScore.."; Main: "..bestMainScore.."; Off: "..bestOffScore)
-			if (maxScore < (bestMainScore + bestOffScore)) then
-			    -- main- + offhand is better, use the one-handed mainhand
-			    itemTable = bestMain
-			    maxScore = bestMainScore + bestOffScore
-			    --TopFit:Debug("Choosing Mainhand "..itemTable.itemLink)
-			end
-			if (maxScore < (bestMainScore2 + bestOffScore2)) then
-			    -- main- + offhand is better, use the one-handed mainhand
-			    itemTable = bestMain2
-			    --TopFit:Debug("Choosing Mainhand "..itemTable.itemLink)
-			end
-		    end -- if mainhand would not be twohanded anyway, it can just be used
-		end
-	    elseif (i == TopFit.slots["SecondaryHandSlot"]) then
-		-- check if mainhand is empty or one-handed
-		if (not cIC.items[i - 1]) or (TopFit:IsOnehandedWeapon(cIC.items[i - 1].itemID)) then
-		    -- check if player can dual wield
-		    if TopFit.playerCanDualWield then
-			-- player doesn't have Titan's grip, only use 1H-weapons in Offhand
+	    if (itemTable) then
+		-- special cases for main an offhand (to accound for dualwielding and Titan's Grip)
+		if (i == TopFit.slots["MainHandSlot"]) then
+		    -- check if offhand is forced
+		    if TopFit.slotCounters[i + 1] then
+			-- use 1H-weapon in Mainhand (or a titan's grip 2H, if applicable)
 			itemTable = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
 		    else
-			-- player cannot dualwield, only use offhands which are not weapons
-			itemTable = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+			-- choose best main- and offhand combo
+			if not TopFit:IsOnehandedWeapon(itemTable.itemID) then
+			    -- see if a combination of main and offhand would have a better score
+			    local bestMainScore, bestOffScore = 0, 0
+			    local bestOff = nil
+			    local bestMain = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
+			    if bestMain ~= nil then
+				bestMainScore = bestMain.itemScore
+			    end
+			    if (TopFit.playerCanDualWield) then
+				-- any non-two-handed offhand is fine
+				bestOff = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), i + 1, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
+			    else
+				-- offhand may not be a weapon (only shield, other offhand...)
+				bestOff = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), i + 1, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+			    end
+			    if bestOff ~= nil then
+				bestOffScore = bestOff.itemScore
+			    end
+			    
+			    -- alternatively, calculate offhand first, then mainhand
+			    local bestMainScore2, bestOffScore2 = 0, 0
+			    local bestMain2 = nil
+			    local bestOff2 = nil
+			    if (TopFit.playerCanDualWield) then
+				-- any non-two-handed offhand is fine
+				bestOff2 = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i + 1, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
+			    else
+				-- offhand may not be a weapon (only shield, other offhand...)
+				bestOff2 = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i + 1, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+			    end
+			    if bestOff2 ~= nil then
+				bestOffScore2 = bestOff2.itemScore
+			    end
+			    
+			    bestMain2 = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestOff2}), i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
+			    if bestMain2 ~= nil then
+				bestMainScore2 = bestMain2.itemScore
+			    end
+			    
+			    local maxScore = itemTable.itemScore
+			    --TopFit:Debug("2H: "..itemTable.itemScore.."; Main: "..bestMainScore.."; Off: "..bestOffScore)
+			    if (maxScore < (bestMainScore + bestOffScore)) then
+				-- main- + offhand is better, use the one-handed mainhand
+				itemTable = bestMain
+				maxScore = bestMainScore + bestOffScore
+				--TopFit:Debug("Choosing Mainhand "..itemTable.itemLink)
+			    end
+			    if (maxScore < (bestMainScore2 + bestOffScore2)) then
+				-- main- + offhand is better, use the one-handed mainhand
+				itemTable = bestMain2
+				--TopFit:Debug("Choosing Mainhand "..itemTable.itemLink)
+			    end
+			end -- if mainhand would not be twohanded anyway, it can just be used
 		    end
-		else
-		    -- Two-handed mainhand and no Titan's Grip means we leave offhand empty
-		    itemTable = nil
+		elseif (i == TopFit.slots["SecondaryHandSlot"]) then
+		    -- check if mainhand is empty or one-handed
+		    if (not cIC.items[i - 1]) or (TopFit:IsOnehandedWeapon(cIC.items[i - 1].itemID)) then
+			-- check if player can dual wield
+			if TopFit.playerCanDualWield then
+			    -- player doesn't have Titan's grip, only use 1H-weapons in Offhand
+			    itemTable = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
+			else
+			    -- player cannot dualwield, only use offhands which are not weapons
+			    itemTable = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+			end
+		    else
+			-- Two-handed mainhand and no Titan's Grip means we leave offhand empty
+			itemTable = nil
+		    end
 		end
 	    end
 	end
@@ -492,14 +491,6 @@ function TopFit:SaveCurrentCombination()
 	    end
 	end
     end
-    --[[ dump offhand
-    if (cIC.items[17]) then
-	TopFit:Debug("Offhand: "..(cIC.items[17]["itemEquipLoc"] or "NO_LOC"));
-	TopFit:Debug("Mainhand: "..(cIC.items[16]["itemEquipLoc"] or "NO_LOC"));
-    else
-	TopFit:Debug("Offhand: nil");
-	TopFit:Debug("Mainhand: "..(cIC.items[16]["itemEquipLoc"] or "NO_LOC"));
-    end]]
     
     -- check if it's better than old best
     local satisfied = true
@@ -513,10 +504,10 @@ function TopFit:SaveCurrentCombination()
 	TopFit.maxScore = cIC.totalScore
 	TopFit.bestCombination = cIC
 	
-	TopFit.debugSlotCounters = {}
+	--[[TopFit.debugSlotCounters = {} -- save slot counters for best combination
 	for i = 1, 20 do
 	    TopFit.debugSlotCounters[i] = TopFit.slotCounters[i]
-	end
+	end]]
     end
 end
 

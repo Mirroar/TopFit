@@ -242,7 +242,6 @@ end
 
 -- calculate an item's score relative to a given set
 function TopFit:CalculateItemTableScore(itemTable, set, caps)
-    TopFit.debug = caps
     local bonuses = itemTable["totalBonus"]
     
     -- calculate item score
@@ -287,6 +286,7 @@ function TopFit:EquipRecommendedItems()
     end
     
     TopFit.updateEquipmentCounter = 0
+    TopFit.equipRetries = 0
     TopFit.updateFrame:SetScript("OnUpdate", TopFit.onUpdateForEquipment)
 end
 
@@ -303,9 +303,61 @@ function TopFit:onUpdateForEquipment()
     
     TopFit.updateEquipmentCounter = TopFit.updateEquipmentCounter + 1
     
+    -- retry equipping the items if it takes a while (some weird ring positions might stop us from correctly equipping items in one try, for example)
+    if (TopFit.updateEquipmentCounter > 100) then
+	-- find current item positions
+	TopFit:collectItems()
+	
+	for slotID, recTable in pairs(TopFit.itemRecommendations) do
+	    slotItemID = GetInventoryItemID("player", slotID)
+	    if (slotItemID ~= recTable["itemTable"]["itemID"]) then
+		--TopFit:Print("  "..recTable["itemTable"]["itemLink"].." into Slot "..slotID.." ("..TopFit.slotNames[slotID]..")")
+		-- find itemLink in itemListBySlot
+		local itemTable = nil
+		local found = false
+		for _, iT in pairs(TopFit.itemListBySlot[slotID]) do
+		    if (iT.itemLink == recTable.itemTable.itemLink) then
+			if (not found) or (itemTable.invSlot) then -- if we find multiple versions of the same item, prioritize those that are not equipped
+			    itemTable = iT
+			    found = true
+			end
+		    end
+		end
+		
+		if not found then
+		    -- this should not really happen, but maybe our mean user socketet the item while we were calculating. look for the right itemID instead
+		    for _, iT in pairs(itemListBySlot[slotID]) do
+			if (iT.itemID == recTable.itemTable.itemID) then
+			    if (not found) or (itemTable.invSlot) then -- if we find multiple versions of the same item, prioritize those that are not equipped
+				itemTable = iT
+				found = true
+			    end
+			end
+		    end
+		end
+		
+		if not found then
+		    TopFit:Print(recTable.itemTable.itemLink.." could not be found in your inventory for equipping! Did you remove it during calculation?")
+		    TopFit.itemRecommendations[slotID] = nil
+		else
+		    -- try equipping the item again
+		    if ((itemTable["bag"]) and (itemTable["slot"])) then
+			PickupContainerItem(itemTable["bag"], itemTable["slot"])
+		    elseif (itemTable["invSlot"]) then
+			PickupInventoryItem(itemTable["invSlot"])
+		    end
+		    EquipCursorItem(slotID)
+		end
+	    end
+	end
+	
+	TopFit.updateEquipmentCounter = 0
+	TopFit.equipRetries = TopFit.equipRetries + 1
+    end
+    
     -- if all items have been equipped, save equipment set and unregister script
     -- also abort if it takes to long, just save the items that _have_ been equipped
-    if ((allDone) or (TopFit.updateEquipmentCounter > 450)) then
+    if ((allDone) or (TopFit.equipRetries > 5)) then
 	if (not allDone) then
 	    TopFit:Print("Oh. I am sorry, but I must have made a mistake. I can not equip all the items I chose:")
 	    
@@ -320,6 +372,7 @@ function TopFit:onUpdateForEquipment()
 	
 	TopFit:Debug("All Done!")
 	TopFit.updateFrame:SetScript("OnUpdate", nil)
+	TopFit.ProgressFrame:StoppedCalculation()
 	
 	EquipmentManagerClearIgnoredSlotsForSave()
 	for _, slotID in pairs(TopFit.slots) do
