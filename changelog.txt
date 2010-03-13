@@ -1,0 +1,5 @@
+3.3v2 - 2010/03/13
+
+- calculations frame can now be closed by pressing the ESC key
+- added predefined sets from WoWHead (with very slight scores for armor and dps, so  you can even use it starting at level 1)
+- fixed bug where statlist in progress frame would not show correctly if you had no item with a chosen stat

@@ -3,7 +3,8 @@ local minimalist = [=[Interface\AddOns\TopFit\media\minimalist]=]
 function TopFit:CreateProgressFrame()
     if not TopFit.ProgressFrame then
         -- actual frame
-        TopFit.ProgressFrame = CreateFrame("Frame")
+        TopFit.ProgressFrame = CreateFrame("Frame", "TopFit_ProgressFrame")
+        tinsert(UISpecialFrames, "TopFit_ProgressFrame")
         TopFit.ProgressFrame:ClearAllPoints()
         TopFit.ProgressFrame:SetBackdrop(StaticPopup1:GetBackdrop())
         TopFit.ProgressFrame:SetHeight(32 * 8 + 16 + 60 + 20 * 2)
@@ -269,7 +270,7 @@ function TopFit:CreateProgressFrame()
             local lastStat = 0
             local maxStatValue = scorePerStat[statList[1]]
             for i = 1, #statList do
-                if (scorePerStat[statList[i]] > 0) then
+                if (scorePerStat[statList[i]] ~= nil) and (scorePerStat[statList[i]] > 0) then
                     lastStat = i
                     if not statTexts[i] then
                         -- create FontStrings

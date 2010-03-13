@@ -201,8 +201,9 @@ function TopFit:createOptionsTable()
 				type = 'execute',
 				name = 'Add a new Set',
 				desc = 'Add a new equipment set for which you can set scales and calculate item values.',
-				func = 'AddSet',
+				func = 'AddSetClick',
 			},
+			addpreset = TopFit:AddPresetOptions(),
 			options = {
 				order = 50,
 				type = 'group',
@@ -258,6 +259,36 @@ function TopFit:createOptionsTable()
 	end
 end
 
+function TopFit:AddPresetOptions()
+	result = {
+		type = 'select',
+		name = 'Add predefined set',
+		get = 'GetPreset',
+		set = 'SetPreset',
+		values = { [0] = 'Choose...'},
+	}
+	local presets = TopFit:GetPresets()
+	for key, value in pairs(presets) do
+		result.values[key] = value.name
+	end
+	
+	return result
+end
+
+function TopFit:GetPreset(info)
+	--TopFit:Debug("GetForced - slot: "..info[#info].."; set: "..info[#info-2])
+	return 0
+end
+
+function TopFit:SetPreset(info, value)
+	TopFit:Debug("SetPreset - "..info[#info].."; value: "..value)
+	--if value == 0 then value = nil end
+	--self.db.profile.sets[info[#info-2]].forced[TopFit.slots[info[#info]]] = value
+	
+	local presets = TopFit:GetPresets()
+	TopFit:AddSet(presets[value])
+end
+
 function TopFit:GetForced(info)
 	--TopFit:Debug("GetForced - slot: "..info[#info].."; set: "..info[#info-2])
 	return self.db.profile.sets[info[#info-2]].forced[TopFit.slots[info[#info]]] or 0
@@ -284,19 +315,44 @@ function TopFit:SetWeight(info, value)
 	self.db.profile.sets[info[#info-3]].weights[info[#info]] = value
 end
 
-function TopFit:AddSet(info, input)
-	i = 1
-	added = false
+
+function TopFit:AddSetClick(info, input)
+	TopFit:AddSet()
+end
+
+function TopFit:AddSet(preset)
+	local i = 1
+	local added = false
 	while (not added) do
 		-- check if set i exists
 		if (not TopFit.myOptions.args.sets.args["set_"..i]) then
-			TopFit.myOptions.args.sets.args["set_"..i] = TopFit:createSetOptionsTable("Set "..i)
+			local setName
+			local weights = {}
+			local caps = {}
+			if preset then
+				TopFit.debug = preset
+				setName = preset.name
+				for key, value in pairs(preset.weights) do
+					weights[key] = value
+				end
+				for key, value in pairs(preset.caps) do
+					caps[key] = {}
+					for key2, value2 in pairs(value) do
+						caps[key][key2] = value2
+					end
+				end
+			else
+				setName = "Set "..i
+			end
+			--TODO: check if set name is taken
+			TopFit.myOptions.args.sets.args["set_"..i] = TopFit:createSetOptionsTable(setName)
 			self.db.profile.sets["set_"..i] = {
-				name = "Set "..i,
-				weights = {},
-				caps = {},
+				name = setName,
+				weights = weights,
+				caps = caps,
 				forced = {},
 			}
+			
 			added = true
 		end
 		i = i + 1
