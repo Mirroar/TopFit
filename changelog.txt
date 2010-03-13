@@ -1,5 +1,13 @@
-3.3v2 - 2010/03/13
+Changelog for TopFit
+====================
 
-- calculations frame can now be closed by pressing the ESC key
-- added predefined sets from WoWHead (with very slight scores for armor and dps, so  you can even use it starting at level 1)
-- fixed bug where statlist in progress frame would not show correctly if you had no item with a chosen stat
+3.3v2 - 2010/03/13
+  - calculations frame can now be closed by pressing the ESC key
+  - Binds-on-Equip-Items will no longer be included in set calculations - bind the item first if you intend to use it
+  - added predefined sets from WoWHead (with very slight scores for armor and dps, so you can even use it starting at level 1)
+  - added option to choose a set that will be updated whenever you get new equipment (will not show calculation frame or any output, designed for carefree questing)
+  - fixed bug where statlist in progress frame would not show correctly if you had no item with a chosen stat
+  - fixed bug when determining wether a weapon can be used for Titan's Grip
+
+3.3v1 - 2010/03/11
+  - initial release version

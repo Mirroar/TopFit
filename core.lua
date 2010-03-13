@@ -60,8 +60,53 @@ function TopFit:JoinTables(...)
 	return result
 end
 
+-- gather all items from inventory and bags
+function TopFit:collectItems()
+    -- collect items
+    TopFit.itemList = {}
+    TopFit.itemListBySlot = {}
+    -- check bags
+    for bag = 0, 4 do
+	for slot = 1, GetContainerNumSlots(bag) do
+	    local item = GetContainerItemLink(bag,slot)
+	    
+	    TopFit:AddToAvailableItems(item, bag, slot, nil, nil)
+	end
+    end
+    
+    -- check equipped items
+    for _, invSlot in pairs(TopFit.slots) do
+	local item = GetInventoryItemLink("player", invSlot)
+	
+	TopFit:AddToAvailableItems(item, nil, nil, invSlot, nil)
+    end
+end
+
+-- collect items
+function TopFit:AddToAvailableItems(item, bag, slot, invSlot, location)
+    if item then
+	-- check if it's equipment
+	if IsEquippableItem(item) then
+	    itemTable = TopFit:GetItemInfoTable(item, location, bag, slot)
+	    
+	    itemTable["bag"] = bag
+	    itemTable["slot"] = slot
+	    itemTable["invSlot"] = invSlot
+	    
+	    -- new table with slot ids
+	    for _, slotID in pairs(itemTable["equipLocations"]) do
+		if not TopFit.itemListBySlot[slotID] then
+		    TopFit.itemListBySlot[slotID] = {}
+		end
+		
+		tinsert(TopFit.itemListBySlot[slotID], itemTable)
+	    end
+	end
+    end
+end
+
 -- find out all we need to know about an item. and maybe even more
-function TopFit:GetItemInfoTable(item, location)
+function TopFit:GetItemInfoTable(item, location, bag, slot)
     local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(item)
     local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
     itemID = tonumber(itemID)
@@ -180,11 +225,29 @@ function TopFit:GetItemInfoTable(item, location)
 	end
     end
     
+    -- check if item is BoE, if it's in the player's bags
+    local isBoE = false
+    if bag then
+	TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+	TopFit.scanTooltip:SetHyperlink(itemLink)
+	local numLines = TopFit.scanTooltip:NumLines()
+	for i = 1, numLines do
+	    local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+	    local leftLineText = leftLine:GetText()
+	    
+	    if string.find(leftLineText, _G["ITEM_BIND_ON_EQUIP"]) then
+		isBoE = true
+		break
+	    end
+	end
+    end
+    
     local result = {
 	["itemLink"] = itemLink,
 	["itemID"] = itemID,
 	["itemMinLevel"] = itemMinLevel,
 	["itemEquipLoc"] = itemEquipLoc,
+	["isBoE"] = isBoE,
 	["itemBonus"] = GetItemStats(itemLink),
 	["gems"] = gems,
 	["enchantBonus"] = enchantBonus,
@@ -215,29 +278,6 @@ function TopFit:GetItemInfoTable(item, location)
     end
     
     return result
-end
-
--- collect items
-function TopFit:AddToAvailableItems(item, bag, slot, invSlot, location)
-    if item then
-	-- check if it's equipment
-	if IsEquippableItem(item) then
-	    itemTable = TopFit:GetItemInfoTable(item, location)
-	    
-	    itemTable["bag"] = bag
-	    itemTable["slot"] = slot
-	    itemTable["invSlot"] = invSlot
-	    
-	    -- new table with slot ids
-	    for _, slotID in pairs(itemTable["equipLocations"]) do
-		if not TopFit.itemListBySlot[slotID] then
-		    TopFit.itemListBySlot[slotID] = {}
-		end
-		
-		tinsert(TopFit.itemListBySlot[slotID], itemTable)
-	    end
-	end
-    end
 end
 
 -- calculate an item's score relative to a given set
@@ -272,20 +312,7 @@ end
 
 function TopFit:EquipRecommendedItems()
     -- equip them
-    for slotID, recTable in pairs(TopFit.itemRecommendations) do
-	itemTable = recTable["itemTable"]
-	
-	TopFit:Debug("Recommend "..itemTable["itemLink"].." for Slot "..slotID)
-	
-	if ((itemTable["bag"]) and (itemTable["slot"])) then
-	    PickupContainerItem(itemTable["bag"], itemTable["slot"])
-	elseif (itemTable["invSlot"]) then
-	    PickupInventoryItem(itemTable["invSlot"])
-	end
-	EquipCursorItem(slotID)
-    end
-    
-    TopFit.updateEquipmentCounter = 0
+    TopFit.updateEquipmentCounter = 10000
     TopFit.equipRetries = 0
     TopFit.updateFrame:SetScript("OnUpdate", TopFit.onUpdateForEquipment)
 end
@@ -303,7 +330,7 @@ function TopFit:onUpdateForEquipment()
     
     TopFit.updateEquipmentCounter = TopFit.updateEquipmentCounter + 1
     
-    -- retry equipping the items if it takes a while (some weird ring positions might stop us from correctly equipping items in one try, for example)
+    -- try equipping the items if it takes a while (some weird ring positions might stop us from correctly equipping items in one try, for example)
     if (TopFit.updateEquipmentCounter > 100) then
 	-- find current item positions
 	TopFit:collectItems()
@@ -402,7 +429,9 @@ function TopFit:onUpdateForEquipment()
 	-- we are done with this set
 	TopFit.isBlocked = false
 	
-	TopFit:Print("Here you are, master. All nice and spiffy looking, just as you like it.")
+	if not TopFit.silentCalculation then
+	    TopFit:Print("Here you are, master. All nice and spiffy looking, just as you like it.")
+	end
 	
 	-- initiate next round if necessary
 	if (#TopFit.workSetList > 0) then
@@ -498,6 +527,82 @@ function TopFit:OnInitialize()
     self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("TopFit", "TopFit")
     self:RegisterChatCommand("topfit", "ChatCommand")
     self:RegisterChatCommand("tf", "ChatCommand")
+    
+    -- frame for eventhandling
+    TopFit.eventFrame = CreateFrame("Frame")
+    TopFit.eventFrame:RegisterEvent("BAG_UPDATE")
+    TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
+    
+    -- table for equippable item list
+    TopFit.equippableItems = {}
+    TopFit:collectEquippableItems()
+end
+
+function TopFit:collectEquippableItems()
+    local newItem = false
+    
+    -- check bags
+    for bag = 0, 4 do
+	for slot = 1, GetContainerNumSlots(bag) do
+	    local item = GetContainerItemLink(bag,slot)
+	    
+	    if IsEquippableItem(item) then
+		local found = false
+		for _, link in pairs(TopFit.equippableItems) do
+		    if link == item then
+			found = true
+			break
+		    end
+		end
+		
+		if not found then
+		    tinsert(TopFit.equippableItems, item)
+		    newItem = true
+		end
+	    end
+	end
+    end
+    
+    -- check equipment (mostly so your set doesn't get recalculated just because you unequip an item)
+    for _, invSlot in pairs(TopFit.slots) do
+	local item = GetInventoryItemLink("player", invSlot)
+	if IsEquippableItem(item) then
+	    local found = false
+	    for _, link in pairs(TopFit.equippableItems) do
+		if link == item then
+		    found = true
+		    break
+		end
+	    end
+	    
+	    if not found then
+		tinsert(TopFit.equippableItems, item)
+		newItem = true
+	    end
+	end
+    end
+    
+    return newItem
+end
+
+function TopFit:FrameOnEvent(event, ...)
+    if (event == "BAG_UPDATE") then
+	--TopFit:Debug("BAG_UPDATE")
+	
+	-- check inventor for new equippable items
+	if TopFit:collectEquippableItems() then
+	    -- new equippable item in inventory!!!!
+	    -- calculate set silently if player wishes
+	    if TopFit.db.profile.defaultUpdateSet then
+		if not TopFit.workSetList then
+		    TopFit.workSetList = {}
+		end
+		tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
+		
+		TopFit:CalculateSets(true) -- calculate silently
+	    end
+	end
+    end
 end
 
 function TopFit:OnEnable()
@@ -506,27 +611,6 @@ end
 
 function TopFit:OnDisable()
     -- Called when the addon is disabled
-end
-
-function TopFit:collectItems()
-    -- collect items
-    TopFit.itemList = {}
-    TopFit.itemListBySlot = {}
-    -- check bags
-    for bag = 0,4 do
-	for slot = 1, GetContainerNumSlots(bag) do
-	    local item = GetContainerItemLink(bag,slot)
-	    
-	    TopFit:AddToAvailableItems(item, bag, slot, nil, nil)
-	end
-    end
-    
-    -- check equipped items
-    for _, invSlot in pairs(TopFit.slots) do
-	local item = GetInventoryItemLink("player", invSlot)
-	
-	TopFit:AddToAvailableItems(item, nil, nil, invSlot, nil)
-    end
 end
 
 

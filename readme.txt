@@ -2,8 +2,11 @@ TopFit
 ======
 
 Author: Mirroar
-Version: 3.3v1
+Version: 3.3v2
 WoW Version: 3.3.2 (TOC 30300)
+
+WoWInterface: http://www.wowinterface.com/downloads/info16177-3.3v1.html
+GitHub:       http://github.com/Mirroar/TopFit
 
 1. Description
 --------------
@@ -14,6 +17,13 @@ Any caps you're trying to reach can also be set (hit rating cap for damage deale
 
 2. Quickstart
 -------------
+
+How to level an alt without worrying about equipment:
+1. Create a set with fitting values for your alt or add one of the predefined set.
+2. In TopFit's Interface Options menu, choose that set under "Automatic Update Set".
+3. Have fun playing! Your equipment will automatically be updated whenever you get a new piece of equipment.
+
+How to create your own sets:
 1. Decide on a good scale or get one from WoWHead.com, ElitistJerks.com or a similar site.
 2. In WoW, open your Interface Menu, click on the Addons Tab and select "TopFit" in the list.
 3. In the "Sets" Tab, rename the default set to something fitting for your new set, or just create a new set.

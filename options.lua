@@ -204,6 +204,7 @@ function TopFit:createOptionsTable()
 				func = 'AddSetClick',
 			},
 			addpreset = TopFit:AddPresetOptions(),
+			defaultupdate = TopFit:AddDefaultUpdateSetOptions(),
 			options = {
 				order = 50,
 				type = 'group',
@@ -266,6 +267,7 @@ function TopFit:AddPresetOptions()
 		get = 'GetPreset',
 		set = 'SetPreset',
 		values = { [0] = 'Choose...'},
+		desc = "Add one of the predefined sets. Scores are taken from WowHead.com and are by no means the best values for your talent spec or playstyle. They will however give you a starting point to modify as you like, and will most likely suffice while you are still leveling.",
 	}
 	local presets = TopFit:GetPresets()
 	for key, value in pairs(presets) do
@@ -273,6 +275,44 @@ function TopFit:AddPresetOptions()
 	end
 	
 	return result
+end
+
+function TopFit:AddDefaultUpdateSetOptions()
+	result = {
+		type = 'select',
+		name = 'Automatic Update set',
+		get = 'GetDefaultUpdateSet',
+		set = 'SetDefaultUpdateSet',
+		values = { [0] = 'None' },
+		desc = "Select a set to automatically update when you get new equipment. This is helpful while leveling, if you don't want to manually start set calculation whenever you get a new quest reward or a nice drop.",
+	}
+	for key, value in pairs(TopFit.db.profile.sets) do
+		local newkey = string.gsub(key, "set_", "")
+		newkey = tonumber(newkey)
+		result.values[newkey] = value.name
+	end
+	
+	return result
+end
+
+function TopFit:GetDefaultUpdateSet(info)
+	--TopFit:Debug("GetForced - slot: "..info[#info].."; set: "..info[#info-2])
+	local newkey = nil
+	if TopFit.db.profile.defaultUpdateSet then
+		newkey = string.gsub(TopFit.db.profile.defaultUpdateSet, "set_", "")
+		newkey = tonumber(newkey)
+	end
+	return newkey or 0
+end
+
+function TopFit:SetDefaultUpdateSet(info, value)
+	TopFit:Debug("SetDefaultUpdateSet - "..info[#info].."; value: "..value)
+	
+	if value == 0 then
+		TopFit.db.profile.defaultUpdateSet = nil
+	else
+		TopFit.db.profile.defaultUpdateSet = "set_"..value
+	end
 end
 
 function TopFit:GetPreset(info)

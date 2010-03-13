@@ -23,8 +23,11 @@ function TopFit:StartCalculationsForSet(info, input)
     TopFit:CalculateSets()
 end
 
-function TopFit:CalculateSets()
-    HideUIPanel(InterfaceOptionsFrame)
+function TopFit:CalculateSets(silent)
+    if not silent then
+	HideUIPanel(InterfaceOptionsFrame)
+    end
+    TopFit.silentCalculation = silent
     local setCode = tremove(TopFit.workSetList)
 
     TopFit.characterLevel = UnitLevel("player")
@@ -73,7 +76,9 @@ function TopFit:CalculateRecommendations(setName)
         TopFit.playerCanTitansGrip = true
     end
     
-    TopFit:Print("Yes, master. I shall immediately gather your \""..setName.."\" items...")
+    if not TopFit.silentCalculation then
+	TopFit:Print("Yes, master. I shall immediately gather your \""..setName.."\" items...")
+    end
 
     --TopFit:CalculateItemTablesRecursively(slotsDone)
     TopFit:InitSemiRecursiveCalculations()
@@ -130,6 +135,9 @@ function TopFit:InitSemiRecursiveCalculations()
     TopFit:CreateProgressFrame()
     TopFit.ProgressFrame:SetSetName(TopFit.currentSetName)
     TopFit.ProgressFrame:ResetProgress()
+    if TopFit.silentCalculation then
+	TopFit.ProgressFrame:Hide()
+    end
 end
 
 function TopFit:SemiRecursiveCalculation()
@@ -254,7 +262,9 @@ function TopFit:SemiRecursiveCalculation()
 		-- save a default set of only best-in-slot items
 		TopFit:SaveCurrentCombination()
 		
-		TopFit:Print("Calculations are done. I tried a total of "..TopFit.combinationCount.." combinations.")
+		if not TopFit.silentCalculation then
+		    TopFit:Print("Calculations are done. I tried a total of "..TopFit.combinationCount.." combinations.")
+		end
 		
 		-- find best combination that satisfies ALL caps
 		if (TopFit.bestCombination) then
@@ -268,7 +278,9 @@ function TopFit:SemiRecursiveCalculation()
 		    end
 		else
 		    -- caps could not all be reached, calculate without caps instead
-		    TopFit:Print("I am very sorry, but you conditions could not all be fulfilled. I will however give you the items best suited to your tastes.")
+		    if not TopFit.silentCalculation then
+			TopFit:Print("I am very sorry, but you conditions could not all be fulfilled. I will however give you the items best suited to your tastes.")
+		    end
 		    TopFit.Utopia = {}
 		    TopFit:collectItems()
 		    TopFit:CalculateScores(TopFit.db.profile.sets[TopFit.setCode].weights, TopFit.Utopia)
@@ -613,6 +625,17 @@ function TopFit:ReduceItemList()
 	    end
 	end
     end
+    
+    -- remove BoE items
+    for slotID, itemList in pairs(TopFit.itemListBySlot) do
+	if #itemList > 1 then
+	    for i = #itemList, 1, -1 do
+		if itemList[i].isBoE then
+		    tremove(itemList, i)
+		end
+	    end
+	end
+    end
 
     -- reduce item list: remove items with < cap and < score
     for slotID, itemList in pairs(TopFit.itemListBySlot) do
@@ -667,10 +690,12 @@ function TopFit:IsOnehandedWeapon(itemID)
     _, _, _, _, _, class, subclass, _, equipSlot, _, _ = GetItemInfo(itemID)
     if string.find(equipSlot, "2HWEAPON") then
 	if (TopFit.playerCanTitansGrip) then
-	    local GAISC = GetAuctionItemSubClasses(1)
-	    if (subclass == GAISC[7]) or -- Polearms
-		    (subclass == GAISC[10]) or -- Staves
-		    (subclass == GAISC[17]) then -- Fishing Poles
+	    local polearms = select(7, GetAuctionItemSubClasses(1))
+	    local staves = select(10, GetAuctionItemSubClasses(1))
+	    local fischingPoles = select(17, GetAuctionItemSubClasses(1))
+	    if (subclass == polearms) or -- Polearms
+		    (subclass == staves) or -- Staves
+		    (subclass == fishingPoles) then -- Fishing Poles
 		return false
 	    end
 	else

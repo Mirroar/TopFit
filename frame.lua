@@ -180,7 +180,6 @@ function TopFit:CreateProgressFrame()
                 TopFit.ProgressFrame.progressBar:SetValue(progress * 100)
             end
         end
-        
         -- centered scrollframe for stats summary
         local boxHeight = 32 * 8 - 16
         local boxWidth = 32 * 3 + 48 * 2 - 22
