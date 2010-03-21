@@ -135,6 +135,7 @@ function TopFit:InitSemiRecursiveCalculations()
     TopFit:CreateProgressFrame()
     TopFit.ProgressFrame:SetSetName(TopFit.currentSetName)
     TopFit.ProgressFrame:ResetProgress()
+    TopFit.ProgressFrame:UpdateSetStats()
     if TopFit.silentCalculation then
 	TopFit.ProgressFrame:Hide()
     end
@@ -628,7 +629,7 @@ function TopFit:ReduceItemList()
     
     -- remove BoE items
     for slotID, itemList in pairs(TopFit.itemListBySlot) do
-	if #itemList > 1 then
+	if #itemList > 0 then
 	    for i = #itemList, 1, -1 do
 		if itemList[i].isBoE then
 		    tremove(itemList, i)

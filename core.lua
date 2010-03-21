@@ -141,10 +141,7 @@ function TopFit:GetItemInfoTable(item, location, bag, slot)
 	end
     end
 	
-    if #gems > 0 then
-	-- REFERENCE: Pawn.lua line ~1000
-	--TODO: check killLines
-	
+    if #gems > 0 then	
 	-- try to find socket bonus by scanning item tooltip (though I hoped to avoid that entirely)
 	TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
 	TopFit.scanTooltip:SetHyperlink(itemLink)
@@ -180,8 +177,6 @@ function TopFit:GetItemInfoTable(item, location, bag, slot)
 		for _, statCode in pairs(sTable) do
 		    if (string.find(socketBonus, _G[statCode])) then -- simple short stat codes like "Intellect", "Hit Rating"
 			local bonusValue = string.gsub(socketBonus, _G[statCode], "")
-			--TopFit:Debug("Value: \""..bonusValue.."\"")
-			--TopFit:Debug("ToNumber: "..(tonumber(bonusValue) or "nil"))
 			
 			bonusValue = (tonumber(bonusValue) or 0)
 			
@@ -229,7 +224,7 @@ function TopFit:GetItemInfoTable(item, location, bag, slot)
     local isBoE = false
     if bag then
 	TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-	TopFit.scanTooltip:SetHyperlink(itemLink)
+	TopFit.scanTooltip:SetBagItem(bag, slot)
 	local numLines = TopFit.scanTooltip:NumLines()
 	for i = 1, numLines do
 	    local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
@@ -239,6 +234,22 @@ function TopFit:GetItemInfoTable(item, location, bag, slot)
 		isBoE = true
 		break
 	    end
+	end
+    end
+    
+    -- scan for setname
+    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+    TopFit.scanTooltip:SetHyperlink(itemLink)
+    local numLines = TopFit.scanTooltip:NumLines()
+    local setName = nil
+    for i = 1, numLines do
+	local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+	local leftLineText = leftLine:GetText()
+	
+	if string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)") then
+	    setName = select(3, string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)"))
+	    --TopFit:Debug("Found set item! "..itemLink.." ("..setName..")")
+	    break
 	end
     end
     
@@ -256,6 +267,11 @@ function TopFit:GetItemInfoTable(item, location, bag, slot)
 	["itemLocation"] = location,
 	["totalBonus"] = {},
     }
+    
+    -- add set name
+    if setName then
+	result.itemBonus["SET: "..setName] = 1
+    end
     
     -- dirty little mana regen fix! TODO: better synonim handling
     result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
@@ -321,8 +337,8 @@ function TopFit:onUpdateForEquipment()
     allDone = true
     for slotID, recTable in pairs(TopFit.itemRecommendations) do
 	if (recTable["itemTable"]["itemScore"] > 0) then
-	    slotItemID = GetInventoryItemID("player", slotID)
-	    if (slotItemID ~= recTable["itemTable"]["itemID"]) then
+	    slotItemLink = GetInventoryItemLink("player", slotID)
+	    if (slotItemLink ~= recTable["itemTable"]["itemLink"]) then
 		allDone = false
 	    end
 	end
@@ -336,29 +352,18 @@ function TopFit:onUpdateForEquipment()
 	TopFit:collectItems()
 	
 	for slotID, recTable in pairs(TopFit.itemRecommendations) do
-	    slotItemID = GetInventoryItemID("player", slotID)
-	    if (slotItemID ~= recTable["itemTable"]["itemID"]) then
+	    slotItemLink = GetInventoryItemLink("player", slotID)
+	    if (slotItemLink ~= recTable["itemTable"]["itemLink"]) then
 		--TopFit:Print("  "..recTable["itemTable"]["itemLink"].." into Slot "..slotID.." ("..TopFit.slotNames[slotID]..")")
 		-- find itemLink in itemListBySlot
 		local itemTable = nil
 		local found = false
 		for _, iT in pairs(TopFit.itemListBySlot[slotID]) do
 		    if (iT.itemLink == recTable.itemTable.itemLink) then
-			if (not found) or (itemTable.invSlot) then -- if we find multiple versions of the same item, prioritize those that are not equipped
+			if (not found) or (iT.invSlot) then -- if we find multiple versions of the same item, prioritize those that are not equipped
 			    itemTable = iT
 			    found = true
-			end
-		    end
-		end
-		
-		if not found then
-		    -- this should not really happen, but maybe our mean user socketet the item while we were calculating. look for the right itemID instead
-		    for _, iT in pairs(itemListBySlot[slotID]) do
-			if (iT.itemID == recTable.itemTable.itemID) then
-			    if (not found) or (itemTable.invSlot) then -- if we find multiple versions of the same item, prioritize those that are not equipped
-				itemTable = iT
-				found = true
-			    end
+			    TopFit:Debug("Found the item "..iT.itemLink)
 			end
 		    end
 		end
@@ -389,8 +394,8 @@ function TopFit:onUpdateForEquipment()
 	    TopFit:Print("Oh. I am sorry, but I must have made a mistake. I can not equip all the items I chose:")
 	    
 	    for slotID, recTable in pairs(TopFit.itemRecommendations) do
-		slotItemID = GetInventoryItemID("player", slotID)
-		if (slotItemID ~= recTable["itemTable"]["itemID"]) then
+		slotItemLink = GetInventoryItemLink("player", slotID)
+		if (slotItemLink ~= recTable["itemTable"]["itemLink"]) then
 		    TopFit:Print("  "..recTable["itemTable"]["itemLink"].." into Slot "..slotID.." ("..TopFit.slotNames[slotID]..")")
 		    TopFit.itemRecommendations[slotID] = nil
 		end
@@ -637,18 +642,20 @@ local function OnTooltipSetItem(self)
 		    -- item stats
 		    GameTooltip:AddLine("Item stats as seen by TopFit:", 0.5, 0.9, 1)
 		    for stat, value in pairs(itemTable["itemBonus"]) do
-			local valueString = ""
-			local first = true
-			for _, setTable in pairs(TopFit.db.profile.sets) do
-			    local weightedValue = (setTable.weights[stat] or 0) * value
-			    if first then
-				first = false
-			    else
-				valueString = valueString.." / "
+			if not string.find(stat, "SET: ") then
+			    local valueString = ""
+			    local first = true
+			    for _, setTable in pairs(TopFit.db.profile.sets) do
+				local weightedValue = (setTable.weights[stat] or 0) * value
+				if first then
+				    first = false
+				else
+				    valueString = valueString.." / "
+				end
+				valueString = valueString..(tonumber(weightedValue) or "0")
 			    end
-			    valueString = valueString..(tonumber(weightedValue) or "0")
+			    GameTooltip:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 0.5, 0.9, 1)
 			end
-			GameTooltip:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 0.5, 0.9, 1)
 		    end
 		    
 		    -- enchantment stats

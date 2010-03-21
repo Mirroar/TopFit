@@ -1,6 +1,9 @@
 Changelog for TopFit
 ====================
 
+3.3v3
+  - fixed bug where a new item would not be equipped if you already had an item with the same item-ID equipped e.g. [xxx of the Whale] and [xxx of the Bandit]
+
 3.3v2 - 2010/03/13
   - calculations frame can now be closed by pressing the ESC key
   - Binds-on-Equip-Items will no longer be included in set calculations - bind the item first if you intend to use it
