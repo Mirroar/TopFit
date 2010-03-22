@@ -22,7 +22,7 @@ Functionality:
 - ability to comment set (for player's referece)
 - ability to exlude set from "update all sets" calculation
 - Stat synonym model (so all variations of mana regen are handled the same way)
-- set bonus targets (I want 2-piece t9), or even values (2-piece t9 = 100 AP)
+- set bonus targets (I want 2-piece t9), or even values (2-piece t9 = 100 AP) - working on it
 - ability to make copies of set (as backup or for slight adjustment)
 - Button at minimap or equip manager
 - what to do if a forced item is no longer in the player's inventory?

@@ -541,6 +541,60 @@ function TopFit:OnInitialize()
     -- table for equippable item list
     TopFit.equippableItems = {}
     TopFit:collectEquippableItems()
+    
+    -- button to open frame
+    hooksecurefunc("ToggleCharacter", function (...)
+	if not TopFit.toggleProgressFrameButton then
+	    TopFit.toggleProgressFrameButton = CreateFrame("Button", "TopFit_toggleProgressFrameButton", PaperDollFrame)
+	    TopFit.toggleProgressFrameButton:SetWidth(30)
+	    TopFit.toggleProgressFrameButton:SetHeight(32)
+	    TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "LEFT")
+	    
+	    local normalTexture = TopFit.toggleProgressFrameButton:CreateTexture()
+	    local pushedTexture = TopFit.toggleProgressFrameButton:CreateTexture()
+	    local highlightTexture = TopFit.toggleProgressFrameButton:CreateTexture()
+	    normalTexture:SetTexture("Interface\\Buttons\\UI-MicroButtonCharacter-Up")
+	    pushedTexture:SetTexture("Interface\\Buttons\\UI-MicroButtonCharacter-Down")
+	    highlightTexture:SetTexture("Interface\\Buttons\\UI-MicroButton-Hilight")
+	    normalTexture:SetTexCoord(0, 25/64, 0, 63/64, 1, 25/64, 1, 62/64)
+	    normalTexture:SetAllPoints()
+	    pushedTexture:SetTexCoord(0, 25/64, 0, 63/64, 1, 25/64, 1, 62/64)
+	    pushedTexture:SetAllPoints()
+	    highlightTexture:SetTexCoord(0, 25/64, 0, 63/64, 1, 25/64, 1, 62/64)
+	    highlightTexture:SetAllPoints()
+	    TopFit.toggleProgressFrameButton:SetNormalTexture(normalTexture)
+	    TopFit.toggleProgressFrameButton:SetPushedTexture(pushedTexture)
+	    TopFit.toggleProgressFrameButton:SetHighlightTexture(highlightTexture)
+	    local iconTexture = TopFit.toggleProgressFrameButton:CreateTexture()
+	    iconTexture:SetTexture("Interface\\Icons\\Achievement_BG_tophealer_EOS")
+	    iconTexture:SetTexCoord(4/64, 4/64, 4/64, 61/64, 50/64, 4/64, 50/64, 61/64)
+	    iconTexture:SetDrawLayer("OVERLAY")
+	    --iconTexture:SetBlendMode("ADD")
+	    iconTexture:SetPoint("TOPLEFT", TopFit.toggleProgressFrameButton, "TOPLEFT", 6, -4)
+	    iconTexture:SetPoint("BOTTOMRIGHT", TopFit.toggleProgressFrameButton, "BOTTOMRIGHT", -6, 4)
+	    
+	    TopFit.toggleProgressFrameButton:SetScript("OnClick", function (...)
+		--TopFit:Debug("boo!")
+		if (not TopFit.ProgressFrame) or (not TopFit.ProgressFrame:IsShown()) then
+		    TopFit:CreateProgressFrame()
+		else
+		    TopFit:HideProgressFrame()
+		end
+	    end)
+	    
+	    TopFit.toggleProgressFrameButton:SetScript("OnMouseDown", function (...)
+		iconTexture:SetVertexColor(0.5, 0.5, 0.5)
+	    end)
+	    TopFit.toggleProgressFrameButton:SetScript("OnMouseUp", function (...)
+		iconTexture:SetVertexColor(1, 1, 1)
+	    end)
+	end
+	if GearManagerToggleButton:IsShown() then
+	    TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "LEFT")
+	else
+	    TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "RIGHT")
+	end
+    end)
 end
 
 function TopFit:collectEquippableItems()

@@ -133,6 +133,7 @@ function TopFit:InitSemiRecursiveCalculations()
     
     -- show progress frame
     TopFit:CreateProgressFrame()
+    TopFit.ProgressFrame:SetSelectedSet(TopFit.setCode)
     TopFit.ProgressFrame:SetSetName(TopFit.currentSetName)
     TopFit.ProgressFrame:ResetProgress()
     TopFit.ProgressFrame:UpdateSetStats()
@@ -596,9 +597,11 @@ end
 function TopFit:ReduceItemList()
     -- remove all non-forced items from item list
     for slotID, forceID in pairs(self.db.profile.sets[TopFit.setCode].forced) do
-	for i = #(TopFit.itemListBySlot[slotID]), 1, -1 do
-	    if (TopFit.itemListBySlot[slotID][i].itemID ~= forceID) then
-		tremove(TopFit.itemListBySlot[slotID], i)
+	if TopFit.itemListBySlot[slotID] then
+	    for i = #(TopFit.itemListBySlot[slotID]), 1, -1 do
+		if (TopFit.itemListBySlot[slotID][i].itemID ~= forceID) then
+		    tremove(TopFit.itemListBySlot[slotID], i)
+		end
 	    end
 	end
     end
