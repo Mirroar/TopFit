@@ -15,6 +15,7 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame:SetHeight(32 * 8 + 16 + 60 + 20 * 2)
         TopFit.ProgressFrame:SetWidth(32 * 5 + 48 * 2 + 20 * 2)
         TopFit.ProgressFrame:EnableMouse(true)
+        TopFit.ProgressFrame:SetScale(GetCVar("uiScale"))
         local titleRegion = TopFit.ProgressFrame:CreateTitleRegion()
         titleRegion:SetAllPoints(TopFit.ProgressFrame)
         
@@ -231,7 +232,7 @@ function TopFit:CreateProgressFrame()
         
         -- abort button
         TopFit.ProgressFrame.abortButton = CreateFrame("Button", "TopFit_ProgressFrame_abortButton", TopFit.ProgressFrame, "UIPanelButtonTemplate")
-        TopFit.ProgressFrame.abortButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMRIGHT")
+        TopFit.ProgressFrame.abortButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMRIGHT", 0, 10)
         TopFit.ProgressFrame.abortButton:SetText("Abort")
         TopFit.ProgressFrame.abortButton:SetHeight(22)
         TopFit.ProgressFrame.abortButton:SetWidth(80)
@@ -531,31 +532,157 @@ function TopFit:CreateProgressFrame()
             ToggleDropDownMenu(1, nil, TopFit.ProgressFrame.statDropDown, self, -20, 0)
         end)
         
-	TopFit.ProgressFrame.editStatScrollFrame = CreateFrame("ScrollFrame", "TopFit_StatScrollFrame", TopFit.ProgressFrame.rightFrame, "UIPanelScrollFrameTemplate")
-	TopFit.ProgressFrame.editStatScrollFrame:SetPoint("TOPLEFT", TopFit.ProgressFrame.addStatButton, "BOTTOMLEFT", 0, -5)
-	TopFit.ProgressFrame.editStatScrollFrame:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame, "BOTTOMRIGHT", -40, 20)
-	TopFit.ProgressFrame.editStatScrollFrame:SetHeight(boxHeight)
-	TopFit.ProgressFrame.editStatScrollFrame:SetWidth(boxWidth)
-	local group3 = CreateFrame("Frame", nil, TopFit.ProgressFrame.editStatScrollFrame)
-	group3:SetAllPoints()
-	group3:SetHeight(boxHeight)
-	group3:SetWidth(235)
-	TopFit.ProgressFrame.editStatScrollFrame:SetScrollChild(group3)
-	TopFit.ProgressFrame.editStatScrollFrame:SetBackdrop(backdrop)
-	TopFit.ProgressFrame.editStatScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
-	TopFit.ProgressFrame.editStatScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
+        TopFit.ProgressFrame.editStatScrollFrame = CreateFrame("ScrollFrame", "TopFit_StatScrollFrame", TopFit.ProgressFrame.rightFrame, "UIPanelScrollFrameTemplate")
+        TopFit.ProgressFrame.editStatScrollFrame:SetPoint("TOPLEFT", TopFit.ProgressFrame.addStatButton, "BOTTOMLEFT", 0, -25)
+        TopFit.ProgressFrame.editStatScrollFrame:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame, "BOTTOMRIGHT", -40, 20)
+        TopFit.ProgressFrame.editStatScrollFrame:SetHeight(boxHeight)
+        TopFit.ProgressFrame.editStatScrollFrame:SetWidth(boxWidth)
+        local group3 = CreateFrame("Frame", nil, TopFit.ProgressFrame.editStatScrollFrame)
+        group3:SetAllPoints()
+        group3:SetHeight(boxHeight)
+        group3:SetWidth(235)
+        TopFit.ProgressFrame.editStatScrollFrame:SetScrollChild(group3)
+        TopFit.ProgressFrame.editStatScrollFrame:SetBackdrop(backdrop)
+        TopFit.ProgressFrame.editStatScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
+        TopFit.ProgressFrame.editStatScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
         
+        TopFit.ProgressFrame.rightFrame.menuHeaders = {}
         TopFit.ProgressFrame.editStatNameTexts = {}
         TopFit.ProgressFrame.editStatValueTexts = {}
         TopFit.ProgressFrame.editStatButtons = {}
         
+        local function CreateHeaderButton(parent, name)
+            local butt = CreateFrame("Button", name, parent)
+            butt:SetWidth(80) butt:SetHeight(18)
+
+            -- Fonts --
+            butt:SetHighlightFontObject(GameFontHighlightSmall)
+            butt:SetNormalFontObject(GameFontNormalSmall)
+
+            -- Textures --
+            --butt:SetHighlightTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
+            --butt:GetHighlightTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+            butt:SetHighlightTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight")
+            butt:GetHighlightTexture():SetBlendMode("ADD")
+            
+            local left = butt:CreateTexture("$parentLeft")
+            left:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+            left:SetTexCoord(0, 0.078125, 0, 0.59375)
+            left:SetPoint("BOTTOMLEFT")
+            left:SetWidth(5)
+            left:SetHeight(butt:GetHeight())
+            
+            local right = butt:CreateTexture("$parentRight")
+            right:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+            right:SetTexCoord(0.90625, 0.96875, 0, 0.59375)
+            right:SetPoint("BOTTOMRIGHT")
+            right:SetWidth(5)
+            right:SetHeight(butt:GetHeight())
+            
+            local center = butt:CreateTexture("$parentCenter")
+            center:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+            center:SetTexCoord(0.078125, 0.90625, 0, 0.59375)
+            center:SetPoint("LEFT", "$parentLeft", "RIGHT")
+            center:SetPoint("RIGHT", "$parentRight", "LEFT")
+            center:SetWidth(5)
+            center:SetHeight(butt:GetHeight())
+
+            -- Tooltip bits
+            butt:SetScript("OnEnter", ShowTooltip)
+            butt:SetScript("OnLeave", HideTooltip)
+
+            return butt
+        end
+        
         function TopFit.ProgressFrame:UpdateSetStats()
+            local menuHeaders = TopFit.ProgressFrame.rightFrame.menuHeaders
             local statTexts = TopFit.ProgressFrame.editStatNameTexts
             local valueTexts = TopFit.ProgressFrame.editStatValueTexts
             local statButtons = TopFit.ProgressFrame.editStatButtons
             
-            local i = 1
+            local sortableStatWeightTable = {}
             for stat, value in pairs(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights) do
+                table.insert(sortableStatWeightTable, {stat, value})
+            end
+            
+            table.sort(sortableStatWeightTable, function(a,b)
+                local order = TopFit.db.profile.statSortOrder
+                
+                if order == "NameAsc" then
+                    return _G[a[1]] < _G[b[1]]
+                elseif order == "NameDesc" then
+                    return _G[a[1]] > _G[b[1]]
+                    
+                elseif order == "ValueAsc" then
+                    return a[2] < b[2]
+                elseif order == "ValueDesc" then
+                    return a[2] > b[2]
+                    
+                elseif order == "CapAsc" then
+                    -- capped stats first, then ordered by name
+                    local a_capped = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[a[1]]
+                    local b_capped = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[b[1]]
+                    if (a_capped and a_capped.active) and (b_capped and b_capped.active) then
+                        return _G[a[1]] < _G[b[1]]
+                    elseif a_capped and a_capped.active then
+                        return true
+                    elseif b_capped and b_capped.active then
+                        return false
+                    else
+                        return _G[a[1]] < _G[b[1]]
+                    end
+                elseif order == "CapDesc" then
+                    -- capped stats last, then ordered by name
+                    local a_capped = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[a[1]]
+                    local b_capped = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[b[1]]
+                    if (a_capped and a_capped.active) and (b_capped and b_capped.active) then
+                        return _G[a[1]] < _G[b[1]]
+                    elseif a_capped and a_capped.active then
+                        return false
+                    elseif b_capped and b_capped.active then
+                        return true
+                    else
+                        return _G[a[1]] < _G[b[1]]
+                    end
+                else
+                    return a[1] < b[1]
+                end
+            end)
+            
+            -- headers
+            local headerTitles = {{"Name", 180}, {"Value", 40}, {"Cap", 20}}
+            if not menuHeaders[1] then
+                local prefix = "TopFit_ProgressFrame_MenuHeader_"
+                for i = 1, #headerTitles do
+                    menuHeaders[i] = CreateHeaderButton(TopFit.ProgressFrame.rightFrame, prefix .. headerTitles[i][1])
+                    if i == 1 then
+                        menuHeaders[i]:SetPoint("BOTTOMLEFT", group3, "TOPLEFT")
+                    else
+                        menuHeaders[i]:SetPoint("TOPLEFT", menuHeaders[i-1], "TOPRIGHT")
+                    end
+                    menuHeaders[i]:SetText(headerTitles[i][1])
+                    menuHeaders[i].tiptext = headerTitles[i][1]
+                    menuHeaders[i]:SetWidth(headerTitles[i][2])
+                    menuHeaders[i]:SetScript("OnClick", function(self)
+                        if TopFit.db.profile.statSortOrder == headerTitles[i][1].."Asc" then
+                            TopFit.db.profile.statSortOrder = headerTitles[i][1].."Desc"
+                        else
+                            TopFit.db.profile.statSortOrder = headerTitles[i][1].."Asc"
+                        end
+                        
+                        TopFit.ProgressFrame:UpdateSetStats()
+                    end)
+                    menuHeaders[i]:Show()
+                end
+            end
+            
+            -- actual stat entries
+            local stat, value
+            local actualStatCount = 1
+            for i = 1, #sortableStatWeightTable do
+                stat = sortableStatWeightTable[i][1]
+                value = sortableStatWeightTable[i][2]
+                
                 if not statTexts[i] then
                     statButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editStatButton"..i, group3)
                     statTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
@@ -574,7 +701,7 @@ function TopFit:CreateProgressFrame()
                     statButtons[i]:SetPoint("TOPLEFT", statTexts[i], "TOPLEFT")
                     statButtons[i]:SetPoint("BOTTOMRIGHT", valueTexts[i], "BOTTOMRIGHT")
                     --statButtons[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-                    statButtons[i]:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight2")
+                    statButtons[i]:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight")
                     statButtons[i]:SetAlpha(0.5)
                     statButtons[i]:SetScript("OnClick", function(self)
                         TopFit.ProgressFrame:HideStatEditTextBox()
@@ -586,11 +713,11 @@ function TopFit:CreateProgressFrame()
                 statTexts[i]:SetText(_G[stat])
                 valueTexts[i]:SetText(value)
                 statButtons[i].myStat = stat
-                i = i + 1
+                actualStatCount = actualStatCount + 1
             end
             
             -- hide any texts not in use
-            for i = i, #statTexts do
+            for i = actualStatCount, #statTexts do
                 statTexts[i]:Hide()
                 valueTexts[i]:Hide()
                 statButtons[i]:Hide()

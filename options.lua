@@ -191,6 +191,13 @@ function TopFit:createOptionsTable()
 				desc = 'Find the bestest of items for all your sets.',
 				func = 'StartCalculations',
 			},
+			-- TopFit:CreateProgressFrame()
+			show = {
+				type = 'execute',
+				name = 'Show the Calculation Frame',
+				desc = 'no desc',
+				func = 'CreateProgressFrame',
+			},
 			abort = {
 				type = 'execute',
 				name = 'Abort Set Calculation',
