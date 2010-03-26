@@ -4,7 +4,7 @@ Changelog for TopFit
 3.3v3
   - fixed bug where a new item would not be equipped if you already had an item with the same item-ID equipped e.g. [xxx of the Whale] and [xxx of the Bandit]
   - hopefully fixed bug with detecting BoE-items
-  - major options overhaul - set seights, forced items, etc. are now set in the calculations frame
+  - major options overhaul - set weights, forced items, etc. are now set in the calculations frame
   - added button to open the addon's options to the calculations frame
   - added a button to the character frame which lets you open the calculations frame
   - first step for supporting set bonus caps - detecting set bonus

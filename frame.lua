@@ -1,5 +1,17 @@
 local minimalist = [=[Interface\AddOns\TopFit\media\minimalist]=]
 
+-- tooltip functions for equipment buttons
+local function ShowTooltip(self)
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    if self.tipText then
+        GameTooltip:SetText(self.tipText, nil, nil, nil, nil, true)
+    elseif self.itemLink then
+        GameTooltip:SetHyperlink(self.itemLink)
+    end
+    GameTooltip:Show()
+end
+local function HideTooltip() GameTooltip:Hide() end
+
 function TopFit:CreateProgressFrame()
     if not TopFit.ProgressFrame then
         -- actual frame
@@ -15,7 +27,7 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame:SetHeight(32 * 8 + 16 + 70 + 20 * 2)
         TopFit.ProgressFrame:SetWidth(32 * 5 + 48 * 2 + 20 * 2)
         TopFit.ProgressFrame:EnableMouse(true)
-        TopFit.ProgressFrame:SetScale(GetCVar("uiScale"))
+        --TopFit.ProgressFrame:SetScale(GetCVar("uiScale"))
         local titleRegion = TopFit.ProgressFrame:CreateTitleRegion()
         titleRegion:SetAllPoints(TopFit.ProgressFrame)
         
@@ -28,7 +40,7 @@ function TopFit:CreateProgressFrame()
         
         -- select set label
         TopFit.ProgressFrame.selectSetLabel = TopFit.ProgressFrame:CreateFontString(nil, "BACKGROUND", "GameFontHighlight")
-        TopFit.ProgressFrame.selectSetLabel:SetPoint("TOPLEFT", TopFit.ProgressFrame, "TOPLEFT", 20, -20)
+        TopFit.ProgressFrame.selectSetLabel:SetPoint("TOPLEFT", TopFit.ProgressFrame, "TOPLEFT", 20, -30)
         --TopFit.ProgressFrame.selectSetLabel:SetPoint("TOPRIGHT", TopFit.ProgressFrame, "TOPRIGHT", -20, -20)
         TopFit.ProgressFrame.selectSetLabel:SetWidth(TopFit.ProgressFrame:GetWidth() - 40)
         TopFit.ProgressFrame.selectSetLabel:SetText("Select set to calculate:")
@@ -36,7 +48,7 @@ function TopFit:CreateProgressFrame()
         
         -- abort button
         TopFit.ProgressFrame.abortButton = CreateFrame("Button", "TopFit_ProgressFrame_abortButton", TopFit.ProgressFrame, "UIPanelButtonTemplate")
-        TopFit.ProgressFrame.abortButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMLEFT", 0, -30)
+        TopFit.ProgressFrame.abortButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMRIGHT", 0, 0)
         TopFit.ProgressFrame.abortButton:SetText("Abort")
         TopFit.ProgressFrame.abortButton:SetHeight(22)
         TopFit.ProgressFrame.abortButton:SetWidth(80)
@@ -78,6 +90,7 @@ function TopFit:CreateProgressFrame()
         -- set selection
         TopFit.ProgressFrame.setDropDown = CreateFrame("Frame", "TopFit_ProgressFrame_setDropDown", TopFit.ProgressFrame, "UIDropDownMenuTemplate")
         TopFit.ProgressFrame.setDropDown:SetPoint("TOPLEFT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMLEFT", -20, 2)
+        TopFit.ProgressFrame.setDropDown:SetWidth(150)
         UIDropDownMenu_Initialize(TopFit.ProgressFrame.setDropDown, function(self, level)
             local info = UIDropDownMenu_CreateInfo()
             for k, v in pairs(TopFit.db.profile.sets) do
@@ -88,10 +101,7 @@ function TopFit:CreateProgressFrame()
                 info.text = v.name
                 info.value = k
                 info.func = function(self)
-                    UIDropDownMenu_SetSelectedID(TopFit.ProgressFrame.setDropDown, self:GetID())
-                    TopFit.ProgressFrame.selectedSet = self.value
-                    TopFit.ProgressFrame:UpdateSetStats()
-                    --TopFit:Debug("ID: "..self:GetID().."; value: "..self.value)
+                    TopFit.ProgressFrame:SetSelectedSet(self.value)
                 end
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -99,9 +109,86 @@ function TopFit:CreateProgressFrame()
         UIDropDownMenu_SetSelectedID(TopFit.ProgressFrame.setDropDown, 1)
         UIDropDownMenu_JustifyText(TopFit.ProgressFrame.setDropDown, "LEFT")
         
+        -- add set button
+        TopFit.ProgressFrame.addSetButton = CreateFrame("Button", "TopFit_ProgressFrame_addSetButton", TopFit.ProgressFrame)
+        TopFit.ProgressFrame.addSetButton:SetPoint("LEFT", TopFit.ProgressFrame.setDropDown, "RIGHT", 0, 8)
+        --TopFit.ProgressFrame.optionsButton:SetText("Options")
+        TopFit.ProgressFrame.addSetButton:SetHeight(12)
+        TopFit.ProgressFrame.addSetButton:SetWidth(12)
+        TopFit.ProgressFrame.addSetButton:SetNormalTexture("Interface\\Icons\\Spell_chargepositive")
+        TopFit.ProgressFrame.addSetButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+        
+        -- set selection for add set button
+        TopFit.ProgressFrame.addSetButton.setDropDown = CreateFrame("Frame", "TopFit_ProgressFrame_addSetButton_setDropDown", TopFit.ProgressFrame.addSetButton, "UIDropDownMenuTemplate")
+        TopFit.ProgressFrame.addSetButton.setDropDown:SetPoint("TOPLEFT", TopFit.ProgressFrame.addSetButton, "BOTTOMLEFT", 0, 0)
+        UIDropDownMenu_Initialize(TopFit.ProgressFrame.addSetButton.setDropDown, function(self, level)
+            local info = UIDropDownMenu_CreateInfo()
+            info.hasArrow = false; -- no submenu
+            info.notCheckable = true;
+            info.text = "Empty Set"
+            info.value = 0
+            info.func = function(self)
+                TopFit:AddSet()
+            end
+            UIDropDownMenu_AddButton(info, level)
+            
+            local presets = TopFit:GetPresets()
+            for k, v in pairs(presets) do
+                info = UIDropDownMenu_CreateInfo()
+                info.hasArrow = false; -- no submenu
+                info.notCheckable = true;
+                info.text = v.name
+                info.value = k
+                info.func = function(self)
+                    TopFit:AddSet(v)
+                end
+                UIDropDownMenu_AddButton(info, level)
+            end
+        end, "MENU")
+        
+        TopFit.ProgressFrame.addSetButton:SetScript("OnClick", function(self)
+            ToggleDropDownMenu(1, nil, TopFit.ProgressFrame.addSetButton.setDropDown, self, 0, 0)
+        end)
+        TopFit.ProgressFrame.addSetButton.tipText = "Add a new equipment set\n|cffffffffAftewards, you can adjust this set's weights and caps in the right frame, or force items by clicking on any equipment slots below."
+        TopFit.ProgressFrame.addSetButton:SetScript("OnEnter", ShowTooltip)
+        TopFit.ProgressFrame.addSetButton:SetScript("OnLeave", HideTooltip)
+        
+        -- delete set button
+        TopFit.ProgressFrame.deleteSetButton = CreateFrame("Button", "TopFit_ProgressFrame_deleteSetButton", TopFit.ProgressFrame)
+        TopFit.ProgressFrame.deleteSetButton:SetPoint("TOP", TopFit.ProgressFrame.addSetButton, "BOTTOM", 0, 0)
+        --TopFit.ProgressFrame.optionsButton:SetText("Options")
+        TopFit.ProgressFrame.deleteSetButton:SetHeight(12)
+        TopFit.ProgressFrame.deleteSetButton:SetWidth(12)
+        TopFit.ProgressFrame.deleteSetButton:SetNormalTexture("Interface\\Icons\\Spell_chargenegative")
+        TopFit.ProgressFrame.deleteSetButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+        
+        TopFit.ProgressFrame.deleteSetButton:SetScript("OnClick", function(...)
+            -- on first click: mark red
+            if not TopFit.ProgressFrame.deleteSetButton.firstClick then
+                if not TopFit.ProgressFrame.deleteSetButton.redHightlight then
+                    TopFit.ProgressFrame.deleteSetButton.redHightlight = TopFit.ProgressFrame.deleteSetButton:CreateTexture("$parent_higlightTexture")
+                    TopFit.ProgressFrame.deleteSetButton.redHightlight:SetTexture("Interface\\Buttons\\CheckButtonHilight")
+                    TopFit.ProgressFrame.deleteSetButton.redHightlight:SetAllPoints()
+                    TopFit.ProgressFrame.deleteSetButton.redHightlight:SetBlendMode("ADD")
+                    TopFit.ProgressFrame.deleteSetButton.redHightlight:SetDrawLayer("OVERLAY")
+                    TopFit.ProgressFrame.deleteSetButton.redHightlight:SetVertexColor(1, 0, 0, 1)
+                end
+                TopFit.ProgressFrame.deleteSetButton.redHightlight:Show();
+                TopFit.ProgressFrame.deleteSetButton.firstClick = true
+            else
+            -- on second click: delete set
+                TopFit:DeleteSet(TopFit.ProgressFrame.selectedSet)
+                TopFit.ProgressFrame.deleteSetButton.redHightlight:Hide();
+                TopFit.ProgressFrame.deleteSetButton.firstClick = false
+            end
+        end)
+        TopFit.ProgressFrame.deleteSetButton.tipText = "Delete the selected set\n|cffffffffYou will have to click this button a second time to confirm the deletion.\n\n|cffff0000WARNING|cffffffff: The associated set in the equipment manager will also be deleted! If you want to keep it, create a copy in Blizzard's equipment manager first!"
+        TopFit.ProgressFrame.deleteSetButton:SetScript("OnEnter", ShowTooltip)
+        TopFit.ProgressFrame.deleteSetButton:SetScript("OnLeave", function() HideTooltip() if TopFit.ProgressFrame.deleteSetButton.redHightlight then TopFit.ProgressFrame.deleteSetButton.redHightlight:Hide(); TopFit.ProgressFrame.deleteSetButton.firstClick = false end end)
+        
         -- expand / contract button
         TopFit.ProgressFrame.expandButton = CreateFrame("Button", "TopFit_ProgressFrame_expandButton", TopFit.ProgressFrame, "UIPanelButtonTemplate")
-        TopFit.ProgressFrame.expandButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMRIGHT", 0, 0)
+        TopFit.ProgressFrame.expandButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMRIGHT", 0, 30)
         TopFit.ProgressFrame.expandButton:SetText(">>")
         TopFit.ProgressFrame.expandButton:SetHeight(22)
         TopFit.ProgressFrame.expandButton:SetWidth(80)
@@ -119,29 +206,6 @@ function TopFit:CreateProgressFrame()
                 TopFit.ProgressFrame:SetWidth(TopFit.ProgressFrame:GetWidth() * 2)
             end
         end)
-        
-        -- options button
-        TopFit.ProgressFrame.optionsButton = CreateFrame("Button", "TopFit_ProgressFrame_optionsButton", TopFit.ProgressFrame, "UIPanelButtonTemplate")
-        TopFit.ProgressFrame.optionsButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.selectSetLabel, "BOTTOMRIGHT", 0, -30)
-        TopFit.ProgressFrame.optionsButton:SetText("Options")
-        TopFit.ProgressFrame.optionsButton:SetHeight(22)
-        TopFit.ProgressFrame.optionsButton:SetWidth(80)
-        
-        TopFit.ProgressFrame.optionsButton:SetScript("OnClick", function(...)
-            InterfaceOptionsFrame_OpenToCategory(TopFit.optionsFrame)
-        end)
-        
-        -- tooltip functions for equipment buttons
-	local function ShowTooltip(self)
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            if self.tipText then
-                GameTooltip:SetText(self.tipText, nil, nil, nil, nil, true)
-            elseif self.itemLink then
-                GameTooltip:SetHyperlink(self.itemLink)
-            end
-            GameTooltip:Show()
-	end
-	local function HideTooltip() GameTooltip:Hide() end
         
         -- equipment buttons
         TopFit.ProgressFrame.equipButtons = {}
@@ -161,7 +225,7 @@ function TopFit:CreateProgressFrame()
         end
         -- anchor them all like in the equipment window
         TopFit.ProgressFrame.equipButtons[1]:SetPoint("LEFT", TopFit.ProgressFrame.selectSetLabel, "LEFT")
-        TopFit.ProgressFrame.equipButtons[1]:SetPoint("TOP", TopFit.ProgressFrame.abortButton, "BOTTOM", 0, -5)
+        TopFit.ProgressFrame.equipButtons[1]:SetPoint("TOP", TopFit.ProgressFrame.abortButton, "BOTTOM", 0, -15)
         TopFit.ProgressFrame.equipButtons[2]:SetPoint("TOPLEFT", TopFit.ProgressFrame.equipButtons[1], "BOTTOMLEFT")
         TopFit.ProgressFrame.equipButtons[3]:SetPoint("TOPLEFT", TopFit.ProgressFrame.equipButtons[2], "BOTTOMLEFT")
         TopFit.ProgressFrame.equipButtons[15]:SetPoint("TOPLEFT", TopFit.ProgressFrame.equipButtons[3], "BOTTOMLEFT")
@@ -415,13 +479,46 @@ function TopFit:CreateProgressFrame()
         
         -- function for changing set name
         function TopFit.ProgressFrame:SetSelectedSet(setCode)
-            TopFit:Debug("Setting set to "..setCode)
-            TopFit:Debug("Setting set to "..setCode)
-            TopFit:Debug("Setting set to "..setCode)
-            TopFit:Debug("Setting set to "..setCode)
-            TopFit:Debug("Setting set to "..setCode)
+            if not setCode then
+                -- select the first set
+                local i = 1
+                if TopFit.db.profile.sets and TopFit.db.profile.sets ~= {} then
+                    while not TopFit.db.profile.sets["set_"..i] do i = i + 1 end
+                    setCode = "set_"..i
+                end
+            end
+            
             TopFit.ProgressFrame.selectedSet = setCode
             UIDropDownMenu_SetSelectedValue(TopFit.ProgressFrame.setDropDown, setCode)
+            UIDropDownMenu_SetText(TopFit.ProgressFrame.setDropDown, TopFit.db.profile.sets[setCode].name)
+            TopFit.ProgressFrame:SetSetName(TopFit.db.profile.sets[setCode].name)
+            
+            TopFit.ProgressFrame:UpdateSetStats()
+            
+            -- generate pseudo equipment set to display when selecting a set
+            local items = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
+            local combination = {
+                items = {},
+                totalStats = {},
+                totalScore = 0,
+            }
+            if items then
+                for slotID, itemID in pairs(items) do
+                    if itemID and itemID ~= 1 then
+                        itemTable = TopFit:GetItemInfoTable(itemID, nil, nil, nil)
+                        TopFit:CalculateItemTableScore(itemTable, TopFit.db.profile.sets[setCode].weights, TopFit.db.profile.sets[setCode].caps)
+                        combination.items[slotID] = itemTable
+                        
+                        -- add to total stats and score
+                        for statName, statValue in pairs(itemTable.totalBonus) do
+                            combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
+                        end
+                        combination.totalScore = combination.totalScore + itemTable.itemScore
+                    end
+                end
+            end
+            
+            TopFit.ProgressFrame:SetCurrentCombination(combination)
         end
         
         function TopFit.ProgressFrame:SetSetName(text)
@@ -458,8 +555,8 @@ function TopFit:CreateProgressFrame()
                 tinsert(statList, key)
             end
             table.sort(statList, function(a, b)
-                local set = TopFit.db.profile.sets[TopFit.setCode].weights
-                local caps = TopFit.db.profile.sets[TopFit.setCode].caps
+                local set = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights
+                local caps = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps
                 
                 local score1, score2 = 0, 0
                 if set[a] and ((not caps) or (not caps[a]) or (not caps[a]["active"]) or (caps[a]["soft"])) then
@@ -536,6 +633,22 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.rightFrame:SetWidth(TopFit.ProgressFrame:GetWidth())
         TopFit.ProgressFrame.rightFrame:Hide()
         
+        -- options button
+        TopFit.ProgressFrame.optionsButton = CreateFrame("Button", "TopFit_ProgressFrame_optionsButton", TopFit.ProgressFrame.rightFrame)
+        TopFit.ProgressFrame.optionsButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.rightFrame, "TOPRIGHT", -30, -20)
+        --TopFit.ProgressFrame.optionsButton:SetText("Options")
+        TopFit.ProgressFrame.optionsButton:SetHeight(32)
+        TopFit.ProgressFrame.optionsButton:SetWidth(32)
+        TopFit.ProgressFrame.optionsButton:SetNormalTexture("Interface\\Icons\\INV_Misc_Gear_02")
+        TopFit.ProgressFrame.optionsButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+        
+        TopFit.ProgressFrame.optionsButton:SetScript("OnClick", function(...)
+            InterfaceOptionsFrame_OpenToCategory(TopFit.optionsFrame)
+        end)
+        TopFit.ProgressFrame.optionsButton.tipText = "Open TopFit's options"
+        TopFit.ProgressFrame.optionsButton:SetScript("OnEnter", ShowTooltip)
+        TopFit.ProgressFrame.optionsButton:SetScript("OnLeave", HideTooltip)
+        
         TopFit.ProgressFrame.statDropDown = CreateFrame("Frame", "TopFit_ProgressFrame_statDropDown", TopFit.ProgressFrame.rightFrame, "UIDropDownMenuTemplate")
         --TopFit.ProgressFrame.statDropDown:SetPoint("TOPLEFT", TopFit.ProgressFrame.rightFrame, "TOPLEFT", 20, -20)
         UIDropDownMenu_Initialize(TopFit.ProgressFrame.statDropDown, function(self, level)
@@ -581,7 +694,7 @@ function TopFit:CreateProgressFrame()
         UIDropDownMenu_JustifyText(TopFit.ProgressFrame.statDropDown, "LEFT")
         
         TopFit.ProgressFrame.addStatButton = CreateFrame("Button", "TopFit_ProgressFrame_expandButton", TopFit.ProgressFrame.rightFrame, "UIPanelButtonTemplate")
-        TopFit.ProgressFrame.addStatButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.rightFrame, "TOPLEFT", 20, -20)
+        TopFit.ProgressFrame.addStatButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.rightFrame, "TOPLEFT", 20, -60)
         TopFit.ProgressFrame.addStatButton:SetText("Add stat...")
         TopFit.ProgressFrame.addStatButton:SetHeight(22)
         TopFit.ProgressFrame.addStatButton:SetWidth(80)
@@ -605,11 +718,12 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.editStatScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
         
         TopFit.ProgressFrame.rightFrame.menuHeaders = {}
+        TopFit.ProgressFrame.rightFrame.statCapCheckboxes = {}
         TopFit.ProgressFrame.editStatNameTexts = {}
         TopFit.ProgressFrame.editStatValueTexts = {}
         TopFit.ProgressFrame.editStatButtons = {}
         
-        local function CreateHeaderButton(parent, name)
+        function TopFit.ProgressFrame:CreateHeaderButton(parent, name)
             local butt = CreateFrame("Button", name, parent)
             butt:SetWidth(80) butt:SetHeight(18)
 
@@ -656,6 +770,7 @@ function TopFit:CreateProgressFrame()
             local menuHeaders = TopFit.ProgressFrame.rightFrame.menuHeaders
             local statTexts = TopFit.ProgressFrame.editStatNameTexts
             local valueTexts = TopFit.ProgressFrame.editStatValueTexts
+            local capBox = TopFit.ProgressFrame.rightFrame.statCapCheckboxes
             local statButtons = TopFit.ProgressFrame.editStatButtons
             
             local sortableStatWeightTable = {}
@@ -712,7 +827,7 @@ function TopFit:CreateProgressFrame()
             if not menuHeaders[1] then
                 local prefix = "TopFit_ProgressFrame_MenuHeader_"
                 for i = 1, #headerTitles do
-                    menuHeaders[i] = CreateHeaderButton(TopFit.ProgressFrame.rightFrame, prefix .. headerTitles[i][1])
+                    menuHeaders[i] = TopFit.ProgressFrame:CreateHeaderButton(TopFit.ProgressFrame.rightFrame, prefix .. headerTitles[i][1])
                     if i == 1 then
                         menuHeaders[i]:SetPoint("BOTTOMLEFT", group3, "TOPLEFT")
                     else
@@ -745,16 +860,17 @@ function TopFit:CreateProgressFrame()
                     statButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editStatButton"..i, group3)
                     statTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
                     valueTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+                    capBox[i] = CreateFrame("CheckButton", "TopFit_ProgressFrame_CapCheckBox"..i, group3, "UICheckButtonTemplate")
+
                     statTexts[i]:SetTextHeight(11)
                     valueTexts[i]:SetTextHeight(11)
                     --statTexts[i]:SetHeight(32)
                     if i == 1 then
                         statTexts[i]:SetPoint("TOPLEFT", group3, "TOPLEFT", 3, -3)
-                        valueTexts[i]:SetPoint("TOPRIGHT", group3, "TOPRIGHT", -3, -3)
                     else
                         statTexts[i]:SetPoint("TOPLEFT", statTexts[i - 1], "BOTTOMLEFT")
-                        valueTexts[i]:SetPoint("TOPRIGHT", valueTexts[i - 1], "BOTTOMRIGHT")
                     end
+                    valueTexts[i]:SetPoint("RIGHT", statTexts[i], "LEFT", headerTitles[1][2] + headerTitles[2][2] - 4, 0)
                     statButtons[i].i = i
                     statButtons[i]:SetPoint("TOPLEFT", statTexts[i], "TOPLEFT")
                     statButtons[i]:SetPoint("BOTTOMRIGHT", valueTexts[i], "BOTTOMRIGHT")
@@ -765,11 +881,20 @@ function TopFit:CreateProgressFrame()
                         TopFit.ProgressFrame:HideStatEditTextBox()
                         TopFit.ProgressFrame:ShowStatEditTextBox(self.i)
                     end)
+                    
+                    capBox[i]:SetHeight(12); capBox[i]:SetWidth(12)
+                    capBox[i]:SetPoint("LEFT", valueTexts[i], "RIGHT")
                 end
                 statTexts[i]:Show()
                 valueTexts[i]:Show()
                 statTexts[i]:SetText(_G[stat])
                 valueTexts[i]:SetText(value)
+                if TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat] then
+                    capBox[i]:SetChecked(true)
+                else
+                    capBox[i]:SetChecked(false)
+                end
+                capBox[i]:Show()
                 statButtons[i].myStat = stat
                 actualStatCount = actualStatCount + 1
             end
@@ -779,6 +904,7 @@ function TopFit:CreateProgressFrame()
                 statTexts[i]:Hide()
                 valueTexts[i]:Hide()
                 statButtons[i]:Hide()
+                capBox[i]:Hide()
             end
         end
         
@@ -849,10 +975,15 @@ function TopFit:CreateProgressFrame()
         
         -- center frame on screen
         TopFit.ProgressFrame:SetPoint("CENTER", 0, 0)
+        
+        -- select default set
+        TopFit.ProgressFrame:SetSelectedSet()
     end
     
-    TopFit.ProgressFrame:Show()
-    TopFit.ProgressFrame:UpdateSetStats()
+    if not TopFit.ProgressFrame:IsShown() then
+        TopFit.ProgressFrame:Show()
+        TopFit.ProgressFrame:UpdateSetStats()
+    end
 end
 
 function TopFit:HideProgressFrame()

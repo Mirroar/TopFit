@@ -369,63 +369,53 @@ end
 
 function TopFit:AddSet(preset)
 	local i = 1
-	local added = false
-	while (not added) do
-		-- check if set i exists
-		if (not TopFit.myOptions.args.sets.args["set_"..i]) then
-			local setName
-			local weights = {}
-			local caps = {}
-			if preset then
-				TopFit.debug = preset
-				setName = preset.name
-				for key, value in pairs(preset.weights) do
-					weights[key] = value
-				end
-				for key, value in pairs(preset.caps) do
-					caps[key] = {}
-					for key2, value2 in pairs(value) do
-						caps[key][key2] = value2
-					end
-				end
-			else
-				setName = "Set "..i
-			end
-			--TODO: check if set name is taken
-			TopFit.myOptions.args.sets.args["set_"..i] = TopFit:createSetOptionsTable(setName)
-			self.db.profile.sets["set_"..i] = {
-				name = setName,
-				weights = weights,
-				caps = caps,
-				forced = {},
-			}
-			
-			added = true
+	while  TopFit.db.profile.sets["set_"..i] do i = i + 1 end
+	
+	local setName
+	local weights = {}
+	local caps = {}
+	if preset then
+		TopFit.debug = preset
+		setName = preset.name
+		for key, value in pairs(preset.weights) do
+			weights[key] = value
 		end
-		i = i + 1
+		for key, value in pairs(preset.caps) do
+			caps[key] = {}
+			for key2, value2 in pairs(value) do
+				caps[key][key2] = value2
+			end
+		end
+	else
+		setName = "Set "..i
+	end
+	--TODO: check if set name is taken
+	
+	TopFit.db.profile.sets["set_"..i] = {
+		name = setName,
+		weights = weights,
+		caps = caps,
+		forced = {}
+	}
+	
+	if TopFit.ProgressFrame then
+		TopFit.ProgressFrame:SetSelectedSet("set_"..i)
 	end
 end
 
-function TopFit:DeleteSet(info, input)
-	setCode = info[#info - 1]
-	setName = TopFit:GenerateSetName(self.db.profile.sets[setCode]["name"])
-	
-	-- remove from options
-	TopFit.myOptions.args.sets.args[setCode] = nil
-	
-	-- remove from saved variables
-	self.db.profile.sets[setCode] = nil
+function TopFit:DeleteSet(setCode)
+	local setName = TopFit:GenerateSetName(self.db.profile.sets[setCode].name)
 	
 	-- remove from equipment manager
 	if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(setName)) then
 		DeleteEquipmentSet(setName)
 	end
 	
+	-- remove from saved variables
+	self.db.profile.sets[setCode] = nil
+	
 	if (TopFit.ProgressFrame) then
-		-- update setname if it is selected
-		if UIDropDownMenu_GetSelectedValue(TopFit.ProgressFrame.setDropDown) == setCode then
-			UIDropDownMenu_SetSelectedID(TopFit.ProgressFrame.setDropDown, 1)
-		end
+		TopFit.ProgressFrame:SetSelectedSet()
 	end
 end
 

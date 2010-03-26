@@ -533,14 +533,14 @@ function TopFit:OnInitialize()
     self:RegisterChatCommand("topfit", "ChatCommand")
     self:RegisterChatCommand("tf", "ChatCommand")
     
+    -- table for equippable item list
+    TopFit.equippableItems = {}
+    TopFit:collectEquippableItems()
+    
     -- frame for eventhandling
     TopFit.eventFrame = CreateFrame("Frame")
     TopFit.eventFrame:RegisterEvent("BAG_UPDATE")
     TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
-    
-    -- table for equippable item list
-    TopFit.equippableItems = {}
-    TopFit:collectEquippableItems()
     
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
@@ -566,15 +566,18 @@ function TopFit:OnInitialize()
 	    TopFit.toggleProgressFrameButton:SetPushedTexture(pushedTexture)
 	    TopFit.toggleProgressFrameButton:SetHighlightTexture(highlightTexture)
 	    local iconTexture = TopFit.toggleProgressFrameButton:CreateTexture()
-	    iconTexture:SetTexture("Interface\\Icons\\Achievement_BG_tophealer_EOS")
-	    iconTexture:SetTexCoord(4/64, 4/64, 4/64, 61/64, 50/64, 4/64, 50/64, 61/64)
+	    --iconTexture:SetTexture("Interface\\Icons\\Achievement_BG_tophealer_EOS") -- Thumbs up
+	    --iconTexture:SetTexCoord(4/64, 4/64, 4/64, 61/64, 50/64, 4/64, 50/64, 61/64)
+	    --iconTexture:SetTexture("Interface\\Icons\\INV_Misc_Toy_07") -- Hula doll
+	    --iconTexture:SetTexCoord(4/64, 4/64, 4/64, 61/64, 50/64, 4/64, 50/64, 61/64)
+	    iconTexture:SetTexture("Interface\\Icons\\Achievement_BG_trueAVshutout") -- golden sword
+	    iconTexture:SetTexCoord(9/64, 4/64, 9/64, 61/64, 55/64, 4/64, 55/64, 61/64)
 	    iconTexture:SetDrawLayer("OVERLAY")
-	    --iconTexture:SetBlendMode("ADD")
+	    iconTexture:SetBlendMode("ADD")
 	    iconTexture:SetPoint("TOPLEFT", TopFit.toggleProgressFrameButton, "TOPLEFT", 6, -4)
 	    iconTexture:SetPoint("BOTTOMRIGHT", TopFit.toggleProgressFrameButton, "BOTTOMRIGHT", -6, 4)
 	    
 	    TopFit.toggleProgressFrameButton:SetScript("OnClick", function (...)
-		--TopFit:Debug("boo!")
 		if (not TopFit.ProgressFrame) or (not TopFit.ProgressFrame:IsShown()) then
 		    TopFit:CreateProgressFrame()
 		else
@@ -646,9 +649,8 @@ end
 
 function TopFit:FrameOnEvent(event, ...)
     if (event == "BAG_UPDATE") then
-	--TopFit:Debug("BAG_UPDATE")
 	
-	-- check inventor for new equippable items
+	-- check inventory for new equippable items
 	if TopFit:collectEquippableItems() then
 	    -- new equippable item in inventory!!!!
 	    -- calculate set silently if player wishes
