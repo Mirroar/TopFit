@@ -11,18 +11,15 @@ Options:
 Tooltip:
 - how much of an improvement is this item
 - show user-added stat for procs etc
+- support for reference tooltips
 
 
 Functionality:
 - Importing of Pawn Strings as equipment sets
-- Special Stats (iLvl for Flame Leviathan set)
 - Prevent set name conflicts (automatically rename xxx to 2-xxx or something like that)
 - Antispam for warnings, so they can be implemented for gems and enchants
 - seperate stats for main-, offhand and ranged weapon dps
 - ability to comment set (for player's referece)
-- ability to exlude set from "update all sets" calculation
 - Stat synonym model (so all variations of mana regen are handled the same way)
-- set bonus targets (I want 2-piece t9), or even values (2-piece t9 = 100 AP) - working on it
 - ability to make copies of set (as backup or for slight adjustment)
-- Button at minimap or equip manager
 - what to do if a forced item is no longer in the player's inventory?

@@ -472,9 +472,15 @@ end
 
 function TopFit:ChatCommand(input)
     if not input or input:trim() == "" then
-	InterfaceOptionsFrame_OpenToCategory(TopFit.optionsFrame)
+	InterfaceOptionsFrame_OpenToCategory("TopFit")
     else
-	LibStub("AceConfigCmd-3.0").HandleCommand(TopFit, "tf", "TopFit", input)
+	if input:trim():lower() == "show" then
+	    TopFit:CreateProgressFrame()
+	elseif input:trim():lower() == "options" then
+	    InterfaceOptionsFrame_OpenToCategory("TopFit")
+	else
+	    TopFit:Print("Available Options:\nshow - shows the calculations frame\noptions - shows TopFit's options")
+	end
     end
 end
 
@@ -590,7 +596,7 @@ function TopFit:OnInitialize()
     TopFit.slots = {}
     TopFit.slotNames = {}
     for _, slotName in pairs(TopFit.slotList) do
-	slotID, _, _ = GetInventorySlotInfo(slotName)
+	local slotID, _, _ = GetInventorySlotInfo(slotName)
 	TopFit.slots[slotName] = slotID;
 	TopFit.slotNames[slotID] = slotName;
     end
@@ -598,12 +604,10 @@ function TopFit:OnInitialize()
     -- create frame for OnUpdate
     TopFit.updateFrame = CreateFrame("Frame")
     
-    -- create Ace3 options table
-    TopFit:createOptionsTable()
+    -- create options
+    TopFit:createOptions()
 
     -- register Slash command
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("TopFit", TopFit.GetOptionsTable)
-    self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("TopFit", "TopFit")
     self:RegisterChatCommand("topfit", "ChatCommand")
     self:RegisterChatCommand("tf", "ChatCommand")
     

@@ -11,9 +11,9 @@ Changelog for TopFit
   - added a button to the calculations frame which opens the addon's options
   - the calculations frame will now show wether caps have been reached or not
   - support for set pieces
-  - added slash commands (/tf show)
+  - added slash commands (/tf show, /tf options)
   - removed profiles from options (there should be no real need for those)
-  - switched to tekKonfig for options
+  - switched to tekKonfig for options (the few that remain)
 
 3.3v2 - 2010/03/13
   - calculations frame can now be closed by pressing the ESC key

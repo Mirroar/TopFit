@@ -20,7 +20,7 @@ function TopFit:CreateProgressFrame()
         --              Left part of Panel
         --]]--
         
-        TopFit.ProgressFrame = CreateFrame("Frame", "TopFit_ProgressFrame")
+        TopFit.ProgressFrame = CreateFrame("Frame", "TopFit_ProgressFrame", nil) -- change nil to UIParent if the frame should be affected by UIScale
         tinsert(UISpecialFrames, "TopFit_ProgressFrame")
         TopFit.ProgressFrame:ClearAllPoints()
         TopFit.ProgressFrame:SetBackdrop(StaticPopup1:GetBackdrop())
@@ -112,7 +112,6 @@ function TopFit:CreateProgressFrame()
         -- add set button
         TopFit.ProgressFrame.addSetButton = CreateFrame("Button", "TopFit_ProgressFrame_addSetButton", TopFit.ProgressFrame)
         TopFit.ProgressFrame.addSetButton:SetPoint("LEFT", TopFit.ProgressFrame.setDropDown, "RIGHT", 0, 8)
-        --TopFit.ProgressFrame.optionsButton:SetText("Options")
         TopFit.ProgressFrame.addSetButton:SetHeight(12)
         TopFit.ProgressFrame.addSetButton:SetWidth(12)
         TopFit.ProgressFrame.addSetButton:SetNormalTexture("Interface\\Icons\\Spell_chargepositive")
@@ -156,7 +155,6 @@ function TopFit:CreateProgressFrame()
         -- delete set button
         TopFit.ProgressFrame.deleteSetButton = CreateFrame("Button", "TopFit_ProgressFrame_deleteSetButton", TopFit.ProgressFrame)
         TopFit.ProgressFrame.deleteSetButton:SetPoint("TOP", TopFit.ProgressFrame.addSetButton, "BOTTOM", 0, 0)
-        --TopFit.ProgressFrame.optionsButton:SetText("Options")
         TopFit.ProgressFrame.deleteSetButton:SetHeight(12)
         TopFit.ProgressFrame.deleteSetButton:SetWidth(12)
         TopFit.ProgressFrame.deleteSetButton:SetNormalTexture("Interface\\Icons\\Spell_chargenegative")
@@ -788,14 +786,14 @@ function TopFit:CreateProgressFrame()
         -- options button
         TopFit.ProgressFrame.optionsButton = CreateFrame("Button", "TopFit_ProgressFrame_optionsButton", TopFit.ProgressFrame.rightFrame)
         TopFit.ProgressFrame.optionsButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.rightFrame, "TOPRIGHT", -30, -20)
-        --TopFit.ProgressFrame.optionsButton:SetText("Options")
         TopFit.ProgressFrame.optionsButton:SetHeight(32)
         TopFit.ProgressFrame.optionsButton:SetWidth(32)
         TopFit.ProgressFrame.optionsButton:SetNormalTexture("Interface\\Icons\\INV_Misc_Gear_02")
         TopFit.ProgressFrame.optionsButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
         
         TopFit.ProgressFrame.optionsButton:SetScript("OnClick", function(...)
-            InterfaceOptionsFrame_OpenToCategory(TopFit.optionsFrame)
+            InterfaceOptionsFrame_OpenToCategory("TopFit")
+            TopFit.ProgressFrame:Hide()
         end)
         TopFit.ProgressFrame.optionsButton.tipText = "Open TopFit's options"
         TopFit.ProgressFrame.optionsButton:SetScript("OnEnter", ShowTooltip)
@@ -1042,7 +1040,7 @@ function TopFit:CreateProgressFrame()
             end)
             
             -- headers
-            local headerTitles = {{"Name", 170}, {"Value", 40}, {"Cap", 30}}
+            local headerTitles = {{"Name", 165}, {"Value", 40}, {"Cap", 35}}
             if not menuHeaders[1] then
                 local prefix = "TopFit_ProgressFrame_MenuHeader_"
                 for i = 1, #headerTitles do

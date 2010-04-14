@@ -29,32 +29,37 @@ function TopFit:CalculateSets(silent)
     end
     TopFit.silentCalculation = silent
     local setCode = tremove(TopFit.workSetList)
-
-    TopFit.characterLevel = UnitLevel("player")
-    TopFit.setCode = setCode
-
-    TopFit:Debug("Calculating items for "..setCode)
-
-    if (not TopFit.isBlocked) then
-	-- set as working to prevent any further calls from "interfering"
-	TopFit.isBlocked = true
+    while not self.db.profile.sets[setCode] and #(TopFit.workSetList) > 0 do
+	setCode = tremove(TopFit.workSetList)
+    end
+    
+    if self.db.profile.sets[setCode] then
+	TopFit.characterLevel = UnitLevel("player")
+	TopFit.setCode = setCode
 	
-	-- check if any "caps" have been set
-	TopFit.Utopia = {} -- I'm not just setting this to self.db.profile.sets[setCode].caps to prevent overwriting of user preferences
-	for statCode, preferences in pairs(self.db.profile.sets[setCode].caps) do
-	    if (preferences["active"]) then
-		TopFit.Utopia[statCode] = {
-		    value = preferences["value"],
-		    soft = preferences["soft"],
-		    active = true,
-		}
+	TopFit:Debug("Calculating items for "..setCode)
+	
+	if (not TopFit.isBlocked) then
+	    -- set as working to prevent any further calls from "interfering"
+	    TopFit.isBlocked = true
+	    
+	    -- check if any "caps" have been set
+	    TopFit.Utopia = {} -- I'm not just setting this to self.db.profile.sets[setCode].caps to prevent overwriting of user preferences
+	    for statCode, preferences in pairs(self.db.profile.sets[setCode].caps) do
+		if (preferences["active"]) then
+		    TopFit.Utopia[statCode] = {
+			value = preferences["value"],
+			soft = preferences["soft"],
+			active = true,
+		    }
+		end
 	    end
+	    
+	    -- do the actual work
+	    TopFit:collectItems()
+	    TopFit:CalculateScores(self.db.profile.sets[setCode].weights, TopFit.Utopia)
+	    TopFit:CalculateRecommendations(self.db.profile.sets[setCode].name)
 	end
-	
-	-- do the actual work
-	TopFit:collectItems()
-	TopFit:CalculateScores(self.db.profile.sets[setCode].weights, TopFit.Utopia)
-	TopFit:CalculateRecommendations(self.db.profile.sets[setCode].name)
     end
 end
 
@@ -561,7 +566,7 @@ function TopFit:SaveCurrentCombination()
 	if itemTable then -- slot will be filled
 	    tinsert(itemsAlreadyChosen, itemTable)
 	    cIC.items[i] = itemTable
-	    cIC.totalScore = cIC.totalScore + itemTable["itemScore"]
+	    cIC.totalScore = cIC.totalScore + (itemTable["itemScore"] or 0)
 	    
 	    -- add total stats
 	    local stat, value

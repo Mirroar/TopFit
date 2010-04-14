@@ -1,77 +1,89 @@
--- function for getting the options table at runtime, so we can change it (like adding new sets, etc.)
-function TopFit:GetOptionsTable(uiType, uiName)
-	return TopFit.myOptions
-end
 
-function TopFit:createOptionsTable()
-	-- create options table
-	TopFit.myOptions = {
-		name = 'TopFit',
-		handler = TopFit,
-		type = 'group',
-		childGroups  = 'tab',
-		args = {
-			-- TopFit:CreateProgressFrame()
-			show = {
-				type = 'execute',
-				name = 'Show the Calculation Frame',
-				desc = 'no desc',
-				func = 'CreateProgressFrame',
-			},
-			defaultupdate = TopFit:AddDefaultUpdateSetOptions(),
-			tooltip = {
-				type = 'toggle',
-				name = 'Show set values',
-				desc = 'Shows the calculated item values for your sets in the game tooltip.',
-				set = 'SetShowTooltip',
-				get = 'GetShowTooltip',
-			},
-			debug = {
-				type = 'toggle',
-				name = 'Debug Mode',
-				desc = 'Show Debug messages and item stats as seen by TopFit in item tooltips. Attention: Spams you chatframe. A lot.',
-				set = 'SetDebugMode',
-				get = 'GetDebugMode',
-			},
-		},
-	}
-end
-
-function TopFit:AddDefaultUpdateSetOptions()
-	result = {
-		type = 'select',
-		name = 'Automatic Update set',
-		get = 'GetDefaultUpdateSet',
-		set = 'SetDefaultUpdateSet',
-		values = { [0] = 'None' },
-		desc = "Select a set to automatically update when you get new equipment. This is helpful while leveling, if you don't want to manually start set calculation whenever you get a new quest reward or a nice drop.",
-	}
-	for key, value in pairs(TopFit.db.profile.sets) do
-		local newkey = string.gsub(key, "set_", "")
-		newkey = tonumber(newkey)
-		result.values[newkey] = value.name
+-- button tooltip infos
+local function ShowTooltip(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	if self.tiptext then
+		GameTooltip:SetText(self.tiptext, nil, nil, nil, nil, true)
+	elseif self.itemLink then
+		GameTooltip:SetHyperlink(self.itemLink)
 	end
-	
-	return result
+	GameTooltip:Show()
 end
+local function HideTooltip() GameTooltip:Hide() end
 
-function TopFit:GetDefaultUpdateSet(info)
-	--TopFit:Debug("GetForced - slot: "..info[#info].."; set: "..info[#info-2])
-	local newkey = nil
-	if TopFit.db.profile.defaultUpdateSet then
-		newkey = string.gsub(TopFit.db.profile.defaultUpdateSet, "set_", "")
-		newkey = tonumber(newkey)
-	end
-	return newkey or 0
-end
-
-function TopFit:SetDefaultUpdateSet(info, value)
-	TopFit:Debug("SetDefaultUpdateSet - "..info[#info].."; value: "..value)
-	
-	if value == 0 then
-		TopFit.db.profile.defaultUpdateSet = nil
-	else
-		TopFit.db.profile.defaultUpdateSet = "set_"..value
+function TopFit:createOptions()
+	if not TopFit.InterfaceOptionsFrame then
+		TopFit.InterfaceOptionsFrame = CreateFrame("Frame", "TopFit_InterfaceOptionsFrame", InterfaceOptionsFramePanelContainer)
+		TopFit.InterfaceOptionsFrame.name = "TopFit"
+		TopFit.InterfaceOptionsFrame:Hide()
+		
+		local title, subtitle = LibStub("tekKonfig-Heading").new(TopFit.InterfaceOptionsFrame, "TopFit", "Basic options")
+		
+		-- Show Tooltip Checkbox
+		local showTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Show set values in tooltip", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, 0)
+		showTooltip.tiptext = "|cffffffffCheck to show your sets' scores for an item in the item's tooltip."
+		showTooltip:SetChecked(TopFit.db.profile.showTooltip)
+		local checksound = showTooltip:GetScript("OnClick")
+		showTooltip:SetScript("OnClick", function(self)
+			checksound(self)
+			TopFit.db.profile.showTooltip = not TopFit.db.profile.showTooltip
+		end)
+		
+		-- Auto Update Set Dropdown
+		local autoUpdateSet, autoUpdateSetText, autoUpdateSetContainer = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, "Automatic update set", "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, 0)
+		if (TopFit.db.profile.defaultUpdateSet) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet]) then
+			autoUpdateSetText:SetText(TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet].name)
+		else
+			autoUpdateSetText:SetText("None")
+		end
+		autoUpdateSet.tiptext = "|cffffffffThe set you choose here will be updated automatically whenever you loot an equippable item.\n\n|cffffff00Warning: |cffffffffThis option is intended to be used while levelling. If you have a character with dualspec, it might suddenly equip the set you specify here even if you activated your other specialization."
+		
+		UIDropDownMenu_Initialize(autoUpdateSet, function()
+			local info = UIDropDownMenu_CreateInfo()
+			info.text = "None"
+			info.value = "none"
+			info.func = function()
+				UIDropDownMenu_SetSelectedValue(autoUpdateSet, this.value)
+				autoUpdateSetText:SetText("None")
+				TopFit.db.profile.defaultUpdateSet = nil
+			end
+			UIDropDownMenu_AddButton(info)
+			
+			for setCode, setTable in pairs(TopFit.db.profile.sets or {}) do
+				local info = UIDropDownMenu_CreateInfo()
+				info.text = setTable.name
+				info.value = setCode
+				info.func = function()
+					UIDropDownMenu_SetSelectedValue(autoUpdateSet, this.value)
+					autoUpdateSetText:SetText(TopFit.db.profile.sets[this.value].name)
+					TopFit.db.profile.defaultUpdateSet = this.value
+				end
+				UIDropDownMenu_AddButton(info)
+			end
+		end)
+		
+		-- Debug Mode Checkbox
+		local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Debug mode", "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, -70)
+		debugMode.tiptext = "|cffffffffCheck to enable debug messages.\n\n|cffffff00Caution: |cffffffffThis will spam your chatframe, a lot!"
+		debugMode:SetChecked(TopFit.db.profile.debugMode)
+		local checksound = debugMode:GetScript("OnClick")
+		debugMode:SetScript("OnClick", function(self)
+			checksound(self)
+			TopFit.db.profile.debugMode = not TopFit.db.profile.debugMode
+		end)
+		
+		InterfaceOptions_AddCategory(TopFit.InterfaceOptionsFrame)
+		LibStub("tekKonfig-AboutPanel").new("TopFit", "TopFit")
+		
+		TopFit.InterfaceOptionsFrame:SetScript("OnShow", function()
+			showTooltip:SetChecked(TopFit.db.profile.showTooltip)
+			if (TopFit.db.profile.defaultUpdateSet) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet]) then
+				autoUpdateSetText:SetText(TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet].name)
+			else
+				autoUpdateSetText:SetText("None")
+			end
+			debugMode:SetChecked(TopFit.db.profile.debugMode)
+		end)
 	end
 end
 
@@ -109,7 +121,6 @@ function TopFit:AddSet(preset)
 	if TopFit.ProgressFrame then
 		TopFit.ProgressFrame:SetSelectedSet("set_"..i)
 	end
-	TopFit:createOptionsTable()
 end
 
 function TopFit:DeleteSet(setCode)
@@ -133,7 +144,6 @@ function TopFit:DeleteSet(setCode)
 		TopFit.ProgressFrame:SetCurrentCombination()
 		TopFit.ProgressFrame:SetSetName("Set Name")
 	end
-	TopFit:createOptionsTable()
 end
 
 function TopFit:RenameSet(setCode, newName)
@@ -154,22 +164,4 @@ function TopFit:RenameSet(setCode, newName)
 			UIDropDownMenu_SetSelectedName(TopFit.ProgressFrame.setDropDown, newName)
 		end
 	end
-	TopFit:createOptionsTable()
 end
-
-function TopFit:GetDebugMode(info, input)
-	return self.db.profile.debugMode
-end
-
-function TopFit:SetDebugMode(info, input)
-	self.db.profile.debugMode = input
-end
-
-function TopFit:SetShowTooltip(info, input)
-	self.db.profile.showTooltip = input
-end
-
-function TopFit:GetShowTooltip(info, input)
-	return self.db.profile.showTooltip
-end
-
