@@ -987,6 +987,13 @@ function TopFit:CreateProgressFrame()
             
             local sortableStatWeightTable = {}
             if TopFit.ProgressFrame.selectedSet then
+                -- little fix: set values for active caps to 0 if they are nil, so they are always shown
+                for stat, capTable in pairs(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps) do
+                    if capTable.active and TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[stat] == nil then
+                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[stat] = 0
+                    end
+                end
+                
                 for stat, value in pairs(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights) do
                     table.insert(sortableStatWeightTable, {stat, value})
                 end
