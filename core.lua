@@ -87,19 +87,20 @@ function TopFit:AddToAvailableItems(item, bag, slot, invSlot, location)
     if item then
 	-- check if it's equipment
 	if IsEquippableItem(item) then
-	    itemTable = TopFit:GetItemInfoTable(item, location, bag, slot)
-	    
-	    itemTable["bag"] = bag
-	    itemTable["slot"] = slot
-	    itemTable["invSlot"] = invSlot
-	    
-	    -- new table with slot ids
-	    for _, slotID in pairs(itemTable["equipLocations"]) do
-		if not TopFit.itemListBySlot[slotID] then
-		    TopFit.itemListBySlot[slotID] = {}
-		end
+	    local itemTable = TopFit:GetItemInfoTable(item, location, bag, slot)
+	    if itemTable then
+		itemTable["bag"] = bag
+		itemTable["slot"] = slot
+		itemTable["invSlot"] = invSlot
 		
-		tinsert(TopFit.itemListBySlot[slotID], itemTable)
+		-- new table with slot ids
+		for _, slotID in pairs(itemTable["equipLocations"]) do
+		    if not TopFit.itemListBySlot[slotID] then
+			TopFit.itemListBySlot[slotID] = {}
+		    end
+		    
+		    tinsert(TopFit.itemListBySlot[slotID], itemTable)
+		end
 	    end
 	end
     end
@@ -108,192 +109,197 @@ end
 -- find out all we need to know about an item. and maybe even more
 function TopFit:GetItemInfoTable(item, location, bag, slot)
     local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(item)
-    local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
-    itemID = tonumber(itemID)
-
-    local enchantID = string.gsub(itemLink, ".*|Hitem:[0-9]*:([0-9]*):.*", "%1")
-    enchantID = tonumber(enchantID)
+    if itemLink then
+	local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
+	itemID = tonumber(itemID)
     
-    -- gems
-    local gemBonus = {}
-    local gems = {}
-    for i = 1,3 do
-	local _, gem = GetItemGem(item, i) -- name, itemlink
-	if gem then
-	    gems[i] = gem
-	    
-	    local gemID = string.gsub(gem, ".*|Hitem:([0-9]*):.*", "%1")
-	    gemID = tonumber(gemID)
-	    if (TopFit.gemIDs[gemID]) then
-		-- collect stats
+	local enchantID = string.gsub(itemLink, ".*|Hitem:[0-9]*:([0-9]*):.*", "%1")
+	enchantID = tonumber(enchantID)
+	
+	-- gems
+	local gemBonus = {}
+	local gems = {}
+	for i = 1,3 do
+	    local _, gem = GetItemGem(item, i) -- name, itemlink
+	    if gem then
+		gems[i] = gem
 		
-		for stat, value in pairs(TopFit.gemIDs[gemID].stats) do
-		    if (gemBonus[stat]) then
-			gemBonus[stat] = gemBonus[stat] + value
+		local gemID = string.gsub(gem, ".*|Hitem:([0-9]*):.*", "%1")
+		gemID = tonumber(gemID)
+		if (TopFit.gemIDs[gemID]) then
+		    -- collect stats
+		    
+		    for stat, value in pairs(TopFit.gemIDs[gemID].stats) do
+			if (gemBonus[stat]) then
+			    gemBonus[stat] = gemBonus[stat] + value
+			else
+			    gemBonus[stat] = value
+			end
+		    end
+		else
+		    -- unknown gem, tell the user
+		    TopFit:Warning("Could not identify gem "..i.." ("..gem..") of your "..itemLink..". Please tell the author so its stats can be added.")
+		end
+	    end
+	end
+	    
+	if #gems > 0 then	
+	    -- try to find socket bonus by scanning item tooltip (though I hoped to avoid that entirely)
+	    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+	    TopFit.scanTooltip:SetHyperlink(itemLink)
+	    local numLines = TopFit.scanTooltip:NumLines()
+	    
+	    local socketBonusString = _G["ITEM_SOCKET_BONUS"] -- "Socket Bonus: %s" in enUS client, for example
+	    socketBonusString = string.gsub(socketBonusString, "%%s", "(.*)")
+	    
+	    --TopFit:Debug("Socket Bonus String: "..socketBonusString)
+	    
+	    local socketBonusIsValid = false
+	    local socketBonus = nil
+	    for i = 1, numLines do
+		local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+		local leftLineText = leftLine:GetText()
+		
+		if string.find(leftLineText, socketBonusString) then
+		    -- This line is the socket bonus.
+		    if leftLine.GetTextColor then
+			socketBonusIsValid = (leftLine:GetTextColor() == 0) -- green's red component is 0, but grey's red component is .5	
 		    else
-			gemBonus[stat] = value
+			socketBonusIsValid = true -- we can't get the text color, so we assume the bonus is valid
+		    end
+		    
+		    --TopFit:Debug("Socket Bonus Found! It is "..(socketBonusIsValid and "" or "in").."active. Bonus: "..string.gsub(leftLineText, "^"..socketBonusString.."$", "%1"))
+		    socketBonus = string.gsub(leftLineText, "^"..socketBonusString.."$", "%1")
+		end
+	    end
+	    
+	    if (socketBonusIsValid) then
+		-- go through our stats to find the bonus
+		for _, sTable in pairs(TopFit.statList) do
+		    for _, statCode in pairs(sTable) do
+			if (string.find(socketBonus, _G[statCode])) then -- simple short stat codes like "Intellect", "Hit Rating"
+			    local bonusValue = string.gsub(socketBonus, _G[statCode], "")
+			    
+			    bonusValue = (tonumber(bonusValue) or 0)
+			    
+			    if (gemBonus[statCode]) then
+				gemBonus[statCode] = gemBonus[statCode] + bonusValue
+			    else
+				gemBonus[statCode] = bonusValue
+			    end
+			end
 		    end
 		end
-	    else
-		-- unknown gem, tell the user
-		TopFit:Warning("Could not identify gem "..i.." ("..gem..") of your "..itemLink..". Please tell the author so its stats can be added.")
 	    end
-	end
-    end
-	
-    if #gems > 0 then	
-	-- try to find socket bonus by scanning item tooltip (though I hoped to avoid that entirely)
-	TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-	TopFit.scanTooltip:SetHyperlink(itemLink)
-	local numLines = TopFit.scanTooltip:NumLines()
-	
-	local socketBonusString = _G["ITEM_SOCKET_BONUS"] -- "Socket Bonus: %s" in enUS client, for example
-	socketBonusString = string.gsub(socketBonusString, "%%s", "(.*)")
-	
-	--TopFit:Debug("Socket Bonus String: "..socketBonusString)
-	
-	local socketBonusIsValid = false
-	local socketBonus = nil
-	for i = 1, numLines do
-	    local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
-	    local leftLineText = leftLine:GetText()
 	    
-	    if string.find(leftLineText, socketBonusString) then
-		-- This line is the socket bonus.
-		if leftLine.GetTextColor then
-		    socketBonusIsValid = (leftLine:GetTextColor() == 0) -- green's red component is 0, but grey's red component is .5	
-		else
-		    socketBonusIsValid = true -- we can't get the text color, so we assume the bonus is valid
-		end
-		
-		--TopFit:Debug("Socket Bonus Found! It is "..(socketBonusIsValid and "" or "in").."active. Bonus: "..string.gsub(leftLineText, "^"..socketBonusString.."$", "%1"))
-		socketBonus = string.gsub(leftLineText, "^"..socketBonusString.."$", "%1")
-	    end
+	    TopFit.scanTooltip:Hide()
 	end
 	
-	if (socketBonusIsValid) then
-	    -- go through our stats to find the bonus
-	    for _, sTable in pairs(TopFit.statList) do
-		for _, statCode in pairs(sTable) do
-		    if (string.find(socketBonus, _G[statCode])) then -- simple short stat codes like "Intellect", "Hit Rating"
-			local bonusValue = string.gsub(socketBonus, _G[statCode], "")
-			
-			bonusValue = (tonumber(bonusValue) or 0)
-			
-			if (gemBonus[statCode]) then
-			    gemBonus[statCode] = gemBonus[statCode] + bonusValue
-			else
-			    gemBonus[statCode] = bonusValue
+	--equippable slots
+	locations = {}
+	for slotName, slotID in pairs(TopFit.slots) do
+	    slotAvailableItems = GetInventoryItemsForSlot(slotID)
+	    if (slotAvailableItems) then
+		for availableLocation, availableItemID in pairs(slotAvailableItems) do
+		    if (itemID == availableItemID) then
+			--TopFit:Debug(itemLink.." is equippable in Slot "..slotID.." ("..slotName..")")
+			tinsert(locations, slotID)
+			if not location then
+			    location = availableLocation
 			end
 		    end
 		end
 	    end
 	end
 	
-	TopFit.scanTooltip:Hide()
-    end
-    
-    --equippable slots
-    locations = {}
-    for slotName, slotID in pairs(TopFit.slots) do
-	slotAvailableItems = GetInventoryItemsForSlot(slotID)
-	if (slotAvailableItems) then
-	    for availableLocation, availableItemID in pairs(slotAvailableItems) do
-		if (itemID == availableItemID) then
-		    --TopFit:Debug(itemLink.." is equippable in Slot "..slotID.." ("..slotName..")")
-		    tinsert(locations, slotID)
-		    if not location then
-			location = availableLocation
-		    end
+	-- enchantment
+	local enchantBonus = {}
+	if enchantID > 0 then
+	    for _, slotID in pairs(locations) do
+		if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
+		    -- TopFit:Debug("Enchant found! ID: "..enchantID)
+		    enchantBonus = TopFit.enchantIDs[slotID][enchantID]
 		end
 	    end
 	end
-    end
-    
-    local enchantBonus = {}
-    if enchantID > 0 then
-	for _, slotID in pairs(locations) do
-	    if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
-		-- TopFit:Debug("Enchant found! ID: "..enchantID)
-		enchantBonus = TopFit.enchantIDs[slotID][enchantID]
+	
+	-- check if item is BoE, if it's in the player's bags
+	local isBoE = false
+	if bag then
+	    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+	    TopFit.scanTooltip:SetBagItem(bag, slot)
+	    local numLines = TopFit.scanTooltip:NumLines()
+	    for i = 1, numLines do
+		local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+		local leftLineText = leftLine:GetText()
+		
+		if string.find(leftLineText, _G["ITEM_BIND_ON_EQUIP"]) then
+		    isBoE = true
+		    break
+		end
 	    end
 	end
-    end
-    
-    -- check if item is BoE, if it's in the player's bags
-    local isBoE = false
-    if bag then
+	
+	-- scan for setname
 	TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-	TopFit.scanTooltip:SetBagItem(bag, slot)
+	TopFit.scanTooltip:SetHyperlink(itemLink)
 	local numLines = TopFit.scanTooltip:NumLines()
+	local setName = nil
 	for i = 1, numLines do
 	    local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
 	    local leftLineText = leftLine:GetText()
 	    
-	    if string.find(leftLineText, _G["ITEM_BIND_ON_EQUIP"]) then
-		isBoE = true
+	    if string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)") then
+		setName = select(3, string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)"))
+		--TopFit:Debug("Found set item! "..itemLink.." ("..setName..")")
 		break
 	    end
 	end
-    end
-    
-    -- scan for setname
-    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-    TopFit.scanTooltip:SetHyperlink(itemLink)
-    local numLines = TopFit.scanTooltip:NumLines()
-    local setName = nil
-    for i = 1, numLines do
-	local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
-	local leftLineText = leftLine:GetText()
 	
-	if string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)") then
-	    setName = select(3, string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)"))
-	    --TopFit:Debug("Found set item! "..itemLink.." ("..setName..")")
-	    break
+	local result = {
+	    ["itemLink"] = itemLink,
+	    ["itemID"] = itemID,
+	    ["itemMinLevel"] = itemMinLevel,
+	    ["itemEquipLoc"] = itemEquipLoc,
+	    ["isBoE"] = isBoE,
+	    ["itemBonus"] = GetItemStats(itemLink),
+	    ["gems"] = gems,
+	    ["enchantBonus"] = enchantBonus,
+	    ["gemBonus"] = gemBonus,
+	    ["equipLocations"] = locations,
+	    ["itemLocation"] = location,
+	    ["totalBonus"] = {},
+	}
+	
+	-- add set name
+	if setName then
+	    result.itemBonus["SET: "..setName] = 1
 	end
-    end
-    
-    local result = {
-	["itemLink"] = itemLink,
-	["itemID"] = itemID,
-	["itemMinLevel"] = itemMinLevel,
-	["itemEquipLoc"] = itemEquipLoc,
-	["isBoE"] = isBoE,
-	["itemBonus"] = GetItemStats(itemLink),
-	["gems"] = gems,
-	["enchantBonus"] = enchantBonus,
-	["gemBonus"] = gemBonus,
-	["equipLocations"] = locations,
-	["itemLocation"] = location,
-	["totalBonus"] = {},
-    }
-    
-    -- add set name
-    if setName then
-	result.itemBonus["SET: "..setName] = 1
-    end
-    
-    -- dirty little mana regen fix! TODO: better synonim handling
-    result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
-    result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
-    if (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
-    
-    result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((result["gemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
-    result["gemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
-    if (result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
-    
-    result["enchantBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((result["gemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
-    result["enchantBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
-    if (result["enchantBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then result["enchantBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
-    
-    -- calculate total values
-    for _, bonusTable in pairs({result["itemBonus"], result["gemBonus"], result["enchantBonus"]}) do
-	for stat, value in pairs(bonusTable) do
-	    result["totalBonus"][stat] = (result["totalBonus"][stat] or 0) + value
+	
+	-- dirty little mana regen fix! TODO: better synonim handling
+	result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
+	result["itemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+	if (result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then result["itemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
+	
+	result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((result["gemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
+	result["gemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+	if (result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
+	
+	result["enchantBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((result["gemBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (result["gemBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
+	result["enchantBonus"]["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+	if (result["enchantBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then result["enchantBonus"]["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
+	
+	-- calculate total values
+	for _, bonusTable in pairs({result["itemBonus"], result["gemBonus"], result["enchantBonus"]}) do
+	    for stat, value in pairs(bonusTable) do
+		result["totalBonus"][stat] = (result["totalBonus"][stat] or 0) + value
+	    end
 	end
+	
+	return result
+    else
+	return nil
     end
-    
-    return result
 end
 
 -- calculate an item's score relative to a given set
@@ -373,10 +379,15 @@ function TopFit:onUpdateForEquipment()
 		    TopFit.itemRecommendations[slotID] = nil
 		else
 		    -- try equipping the item again
+		    ClearCursor()
 		    if ((itemTable["bag"]) and (itemTable["slot"])) then
+			--TopFit:Print("Picking up "..(GetContainerItemLink(itemTable.bag, itemTable.slot) or "nil").."from (bag "..(itemTable.bag or "nil")..", slot "..(itemTable.slot or "nil").."), should be "..itemTable.itemLink)
 			PickupContainerItem(itemTable["bag"], itemTable["slot"])
 		    elseif (itemTable["invSlot"]) then
+			--TopFit:Print("Picking up "..(GetInventoryItemLink(itemTable.invSlot) or "nil").." from inventory slot "..(itemTable.invSlot or "nil")..", should be "..itemTable.itemLink)
 			PickupInventoryItem(itemTable["invSlot"])
+		    else
+			TopFit:Print("Error! "..itemTable.itemLink.." has no location information stored!")
 		    end
 		    EquipCursorItem(slotID)
 		end
@@ -409,7 +420,7 @@ function TopFit:onUpdateForEquipment()
 	EquipmentManagerClearIgnoredSlotsForSave()
 	for _, slotID in pairs(TopFit.slots) do
 	    if (not TopFit.itemRecommendations[slotID]) then
-		TopFit:Debug("Ignoring slot "..slotID)
+		--TopFit:Debug("Ignoring slot "..slotID)
 		EquipmentManagerIgnoreSlotForSave(slotID)
 	    end
 	end
@@ -435,7 +446,7 @@ function TopFit:onUpdateForEquipment()
 	TopFit.isBlocked = false
 	
 	if not TopFit.silentCalculation then
-	    TopFit:Print("Here you are, master. All nice and spiffy looking, just as you like it.")
+	    --TopFit:Print("Here you are, master. All nice and spiffy looking, just as you like it.")
 	end
 	
 	-- initiate next round if necessary
@@ -524,9 +535,6 @@ function TopFit:OnInitialize()
     -- create Ace3 options table
     TopFit:createOptionsTable()
 
-    -- add profile management to options
-    TopFit.myOptions.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
-    
     -- register Slash command
     LibStub("AceConfig-3.0"):RegisterOptionsTable("TopFit", TopFit.GetOptionsTable)
     self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("TopFit", "TopFit")
@@ -593,7 +601,7 @@ function TopFit:OnInitialize()
 	    end)
 	end
 	if GearManagerToggleButton:IsShown() then
-	    TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "LEFT")
+	    TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "LEFT", 4, 0)
 	else
 	    TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "RIGHT")
 	end

@@ -1,11 +1,12 @@
 TopFit
 ======
 
-Author: Mirroar
-Version: 3.3v2
-WoW Version: 3.3.2 (TOC 30300)
+Author: Mirroar (Thyrfall @ EU-Die Todeskrallen)
+Version: 3.3v3
+WoW Version: 3.3.3 (TOC 30300)
 
 WoWInterface: http://www.wowinterface.com/downloads/info16177-3.3v1.html
+Curse:        http://wow.curse.com/downloads/wow-addons/details/topfit.aspx
 GitHub:       http://github.com/Mirroar/TopFit
 
 1. Description
@@ -19,13 +20,14 @@ Any caps you're trying to reach can also be set (hit rating cap for damage deale
 -------------
 
 How to level an alt without worrying about equipment:
-1. Create a set with fitting values for your alt or add one of the predefined set.
+1. Create a set with fitting values for your character or add one of the predefined sets.
 2. In TopFit's Interface Options menu, choose that set under "Automatic Update Set".
-3. Have fun playing! Your equipment will automatically be updated whenever you get a new piece of equipment.
+3. Have fun playing! Your equipment will automatically be updated whenever you get a new equippable item.
 
 How to create your own sets:
 1. Decide on a good scale or get one from WoWHead.com, ElitistJerks.com or a similar site.
-2. In WoW, open your Interface Menu, click on the Addons Tab and select "TopFit" in the list.
+2. In WoW, open your Equipment window and click the glowing sword icon in the upper righthand corner.
+TODO: new description
 3. In the "Sets" Tab, rename the default set to something fitting for your new set, or just create a new set.
 4. Set weights for stats you're interested in. Those can be found in the subcategories of your set's "Weights" entry.
 5. If you need to set a cap, click the "+" next to the respective category, click on "Caps" and edit it as desired.
@@ -56,4 +58,4 @@ If you're missing a feature in TopFit, first check the Addon's website and see i
 
 5. What to do if you encounter a bug
 ------------------------------------
-If anything does not work as intended, you'll again want to check TopFit's page and check the description an comments before posting about it. I'll try to get back to you as soon as possible, or maybe another helpful user will be able to provide you with the necessary hints.
+If anything does not work as intended, you'll again want to check TopFit's page and check the description and comments before posting about it. I'll try to get back to you as soon as possible, or maybe another helpful user will be able to provide you with the necessary hints.
