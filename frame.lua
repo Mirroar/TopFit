@@ -548,44 +548,59 @@ function TopFit:CreateProgressFrame()
                 -- select the first set
                 local i = 1
                 if TopFit.db.profile.sets and TopFit.db.profile.sets ~= {} then
-                    while not TopFit.db.profile.sets["set_"..i] do i = i + 1 end
+                    while (not TopFit.db.profile.sets["set_"..i]) and (i < 1000) do i = i + 1 end
                     setCode = "set_"..i
                 end
             end
             
-            TopFit.ProgressFrame.selectedSet = setCode
-            UIDropDownMenu_SetSelectedValue(TopFit.ProgressFrame.setDropDown, setCode)
-            UIDropDownMenu_SetText(TopFit.ProgressFrame.setDropDown, TopFit.db.profile.sets[setCode].name)
-            TopFit.ProgressFrame:SetSetName(TopFit.db.profile.sets[setCode].name)
-            
-            TopFit.ProgressFrame:UpdateSetStats()
-            
-            -- generate pseudo equipment set to display when selecting a set
-            local items = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
-            local combination = {
-                items = {},
-                totalStats = {},
-                totalScore = 0,
-            }
-            if items then
-                for slotID, itemID in pairs(items) do
-                    if itemID and itemID ~= 1 then
-                        itemTable = TopFit:GetItemInfoTable(itemID, nil, nil, nil)
-                        if itemTable then
-                            TopFit:CalculateItemTableScore(itemTable, TopFit.db.profile.sets[setCode].weights, TopFit.db.profile.sets[setCode].caps)
-                            combination.items[slotID] = itemTable
-                            
-                            -- add to total stats and score
-                            for statName, statValue in pairs(itemTable.totalBonus) do
-                                combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
+            if not TopFit.db.profile.sets[setCode] then
+                TopFit.ProgressFrame.selectedSet = nil
+                -- disable some buttons
+                TopFit.ProgressFrame.deleteSetButton:Disable()
+                TopFit.ProgressFrame.startButton:Disable()
+                TopFit.ProgressFrame.addStatButton:Disable()
+                TopFit.ProgressFrame.renameSetButton:Disable()
+            else
+                -- (re-)enable buttons
+                TopFit.ProgressFrame.deleteSetButton:Enable()
+                TopFit.ProgressFrame.startButton:Enable()
+                TopFit.ProgressFrame.addStatButton:Enable()
+                TopFit.ProgressFrame.renameSetButton:Enable()
+                
+                TopFit.ProgressFrame.selectedSet = setCode
+                UIDropDownMenu_SetSelectedValue(TopFit.ProgressFrame.setDropDown, setCode)
+                UIDropDownMenu_SetText(TopFit.ProgressFrame.setDropDown, TopFit.db.profile.sets[setCode].name)
+                TopFit.ProgressFrame:SetSetName(TopFit.db.profile.sets[setCode].name)
+                
+                TopFit.ProgressFrame:UpdateSetStats()
+                
+                -- generate pseudo equipment set to display when selecting a set
+                local items = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
+                local combination = {
+                    items = {},
+                    totalStats = {},
+                    totalScore = 0,
+                }
+                if items then
+                    for slotID, itemID in pairs(items) do
+                        if itemID and itemID ~= 1 then
+                            itemTable = TopFit:GetItemInfoTable(itemID, nil, nil, nil)
+                            if itemTable then
+                                TopFit:CalculateItemTableScore(itemTable, TopFit.db.profile.sets[setCode].weights, TopFit.db.profile.sets[setCode].caps)
+                                combination.items[slotID] = itemTable
+                                
+                                -- add to total stats and score
+                                for statName, statValue in pairs(itemTable.totalBonus) do
+                                    combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
+                                end
+                                combination.totalScore = combination.totalScore + itemTable.itemScore
                             end
-                            combination.totalScore = combination.totalScore + itemTable.itemScore
                         end
                     end
                 end
+                
+                TopFit.ProgressFrame:SetCurrentCombination(combination)
             end
-            
-            TopFit.ProgressFrame:SetCurrentCombination(combination)
         end
         
         function TopFit.ProgressFrame:SetSetName(text)
@@ -594,6 +609,15 @@ function TopFit:CreateProgressFrame()
         
         -- function for showing current calculated set
         function TopFit.ProgressFrame:SetCurrentCombination(combination)
+            -- default: empty
+            if not combination then
+                combination = {
+                    items = {},
+                    totalScore = 0,
+                    totalStats = {},
+                }
+            end
+            
             -- reset to default icon
             for _, button in pairs(TopFit.ProgressFrame.equipButtons) do
                 button:SetNormalTexture(button.emptyTexture)
@@ -606,7 +630,8 @@ function TopFit:CreateProgressFrame()
                 TopFit.ProgressFrame.equipButtons[slotID].itemLink = itemTable.itemLink
                 
                 -- set highlight if forced item
-                if TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].forced[slotID] then
+                if (TopFit.ProgressFrame.selectedSet) and (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet]) and
+                        (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].forced[slotID]) then
                     TopFit.ProgressFrame.equipButtons[slotID].highlightTexture:SetVertexColor(1, 0, 0, 1)
                 else
                     TopFit.ProgressFrame.equipButtons[slotID].highlightTexture:SetVertexColor(1, 1, 1, 0)
@@ -621,8 +646,17 @@ function TopFit:CreateProgressFrame()
             for key, _ in pairs(combination.totalStats) do
                 tinsert(statList, key)
             end
-            local set = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights
-            local caps = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps
+            
+            local set
+            local caps
+            if not TopFit.ProgressFrame.selectedSet then
+                set = {}
+                caps = {}
+            else
+                set = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights
+                caps = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps
+            end
+            
             table.sort(statList, function(a, b)
                 local score1, score2 = 0, 0
                 if set[a] and ((not caps) or (not caps[a]) or (not caps[a]["active"]) or (caps[a]["soft"])) then
@@ -703,8 +737,6 @@ function TopFit:CreateProgressFrame()
                         capValueTexts[i] = group2:CreateTexture()
                         capValueTexts[i]:SetWidth(11)
                         capValueTexts[i]:SetHeight(11)
-                        statTexts[i]:SetTextHeight(11)
-                        valueTexts[i]:SetTextHeight(11)
                         if i == 1 then
                             capNameTexts[i]:SetPoint("TOPLEFT", group2.capHeader, "BOTTOMLEFT")
                             capValueTexts[i]:SetPoint("TOP", group2.capHeader, "BOTTOM")
@@ -956,8 +988,10 @@ function TopFit:CreateProgressFrame()
             local capTypeButtons = TopFit.ProgressFrame.rightFrame.capTypeButtons
             
             local sortableStatWeightTable = {}
-            for stat, value in pairs(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights) do
-                table.insert(sortableStatWeightTable, {stat, value})
+            if TopFit.ProgressFrame.selectedSet then
+                for stat, value in pairs(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights) do
+                    table.insert(sortableStatWeightTable, {stat, value})
+                end
             end
             
             table.sort(sortableStatWeightTable, function(a,b)

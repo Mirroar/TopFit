@@ -5,6 +5,7 @@ Changelog for TopFit
   - fixed bug where a new item would not be equipped if you already had an item with the same item-ID equipped e.g. [xxx of the Whale] and [xxx of the Bandit]
   - fixed bug with detecting BoE-items and accidentally trying to equip them if you had no other options for that slot
   - fixed a bug where fishing poles were considered One-Handed for Titan's Grip
+  - rewrote calculation function for easier maintenance. This should also fix the swap-bug and any problems with invalid main- / offhand combinations
   - major options overhaul - set weights, forced items, etc. are now set in the calculations frame (expand the options by clicking the button labeled ">>")
   - added a button to the character frame which lets you open the calculations frame
   - added a button to the calculations frame which opens the addon's options
@@ -12,6 +13,7 @@ Changelog for TopFit
   - support for set pieces
   - added slash commands (/tf show)
   - removed profiles from options (there should be no real need for those)
+  - switched to tekKonfig for options
 
 3.3v2 - 2010/03/13
   - calculations frame can now be closed by pressing the ESC key

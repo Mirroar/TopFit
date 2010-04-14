@@ -4,56 +4,6 @@ function TopFit:GetOptionsTable(uiType, uiName)
 end
 
 function TopFit:createOptionsTable()
-	-- list of weight categories and stats
-	TopFit.statList = {
-		["Basic Attributes"] = {
-			[1] = "ITEM_MOD_AGILITY_SHORT",
-			[2] = "ITEM_MOD_INTELLECT_SHORT",
-			[3] = "ITEM_MOD_SPIRIT_SHORT",
-			[4] = "ITEM_MOD_STAMINA_SHORT",
-			[5] = "ITEM_MOD_STRENGTH_SHORT",
-		},
-		["Melee"] = {
-			[1] = "ITEM_MOD_ARMOR_PENETRATION_RATING_SHORT",
-			[2] = "ITEM_MOD_ATTACK_POWER_SHORT",
-			[3] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
-			[4] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
-		},
-		["Caster"] = {
-			[1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
-			[2] = "ITEM_MOD_SPELL_POWER_SHORT",
-			[3] = "ITEM_MOD_MANA_REGENERATION_SHORT",
-		},
-		["Defensive"] = {
-			[1] = "ITEM_MOD_BLOCK_RATING_SHORT",
-			[2] = "ITEM_MOD_BLOCK_VALUE_SHORT",
-			[3] = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT",
-			[4] = "ITEM_MOD_DODGE_RATING_SHORT",
-			[5] = "ITEM_MOD_PARRY_RATING_SHORT",
-			[6] = "ITEM_MOD_RESILIENCE_RATING_SHORT",
-			[7] = "RESISTANCE0_NAME",			-- armor
-		},
-		["Hybrid"] = {
-			[1] = "ITEM_MOD_CRIT_RATING_SHORT",
-			[2] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
-			[3] = "ITEM_MOD_HASTE_RATING_SHORT",
-			[4] = "ITEM_MOD_HIT_RATING_SHORT",
-		},
-		["Misc."] = {
-			[1] = "ITEM_MOD_HEALTH_SHORT",
-			[2] = "ITEM_MOD_MANA_SHORT",
-			[3] = "ITEM_MOD_HEALTH_REGENERATION_SHORT",
-		},
-		["Resistances"] = {
-			[1] = "RESISTANCE1_NAME",			-- holy
-			[2] = "RESISTANCE2_NAME",			-- fire
-			[3] = "RESISTANCE3_NAME",			-- nature
-			[4] = "RESISTANCE4_NAME",			-- frost
-			[5] = "RESISTANCE5_NAME",			-- shadow
-			[6] = "RESISTANCE6_NAME",			-- arcane
-		},
-	}
-     
 	-- create options table
 	TopFit.myOptions = {
 		name = 'TopFit',
@@ -85,9 +35,6 @@ function TopFit:createOptionsTable()
 			},
 		},
 	}
-	
-	-- add profile management to options
-	--TopFit.myOptions.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 end
 
 function TopFit:AddDefaultUpdateSetOptions()
@@ -176,8 +123,15 @@ function TopFit:DeleteSet(setCode)
 	-- remove from saved variables
 	self.db.profile.sets[setCode] = nil
 	
+	-- remove automatic update set if necessary
+	if self.db.profile.defaultUpdateSet == setCode then
+		self.db.profile.defaultUpdateSet = nil
+	end
+	
 	if (TopFit.ProgressFrame) then
 		TopFit.ProgressFrame:SetSelectedSet()
+		TopFit.ProgressFrame:SetCurrentCombination()
+		TopFit.ProgressFrame:SetSetName("Set Name")
 	end
 	TopFit:createOptionsTable()
 end

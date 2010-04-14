@@ -80,6 +80,14 @@ function TopFit:collectItems()
 	
 	TopFit:AddToAvailableItems(item, nil, nil, invSlot, nil)
     end
+    
+    -- create empty subtables for all nil-entries in itemListBySlot
+    local i
+    for i = 1, 19 do
+	if TopFit.itemListBySlot[i] == nil then
+	    TopFit.itemListBySlot[i] = {}
+	end
+    end
 end
 
 -- collect items
@@ -494,7 +502,65 @@ function TopFit:OnInitialize()
 	if table.forced == nil then
 	    table.forced = {}
 	end
+	
+	-- also set if all stat and cap values are numbers
+	for stat, value in pairs(table.weights) do
+	    table.weights[stat] = tonumber(value) or nil
+	end
+	for _, capTable in pairs(table.caps) do
+	    capTable.value = tonumber(capTable.value)
+	end
     end
+    
+    -- list of weight categories and stats
+    TopFit.statList = {
+	["Basic Attributes"] = {
+	    [1] = "ITEM_MOD_AGILITY_SHORT",
+	    [2] = "ITEM_MOD_INTELLECT_SHORT",
+	    [3] = "ITEM_MOD_SPIRIT_SHORT",
+	    [4] = "ITEM_MOD_STAMINA_SHORT",
+	    [5] = "ITEM_MOD_STRENGTH_SHORT",
+	},
+	["Melee"] = {
+	    [1] = "ITEM_MOD_ARMOR_PENETRATION_RATING_SHORT",
+	    [2] = "ITEM_MOD_ATTACK_POWER_SHORT",
+	    [3] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
+	    [4] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
+	},
+	["Caster"] = {
+	    [1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
+	    [2] = "ITEM_MOD_SPELL_POWER_SHORT",
+	    [3] = "ITEM_MOD_MANA_REGENERATION_SHORT",
+	},
+	["Defensive"] = {
+	    [1] = "ITEM_MOD_BLOCK_RATING_SHORT",
+	    [2] = "ITEM_MOD_BLOCK_VALUE_SHORT",
+	    [3] = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT",
+	    [4] = "ITEM_MOD_DODGE_RATING_SHORT",
+	    [5] = "ITEM_MOD_PARRY_RATING_SHORT",
+	    [6] = "ITEM_MOD_RESILIENCE_RATING_SHORT",
+	    [7] = "RESISTANCE0_NAME",			-- armor
+	},
+	["Hybrid"] = {
+	    [1] = "ITEM_MOD_CRIT_RATING_SHORT",
+	    [2] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
+	    [3] = "ITEM_MOD_HASTE_RATING_SHORT",
+	    [4] = "ITEM_MOD_HIT_RATING_SHORT",
+	},
+	["Misc."] = {
+	    [1] = "ITEM_MOD_HEALTH_SHORT",
+	    [2] = "ITEM_MOD_MANA_SHORT",
+	    [3] = "ITEM_MOD_HEALTH_REGENERATION_SHORT",
+	},
+	["Resistances"] = {
+	    [1] = "RESISTANCE1_NAME",			-- holy
+	    [2] = "RESISTANCE2_NAME",			-- fire
+	    [3] = "RESISTANCE3_NAME",			-- nature
+	    [4] = "RESISTANCE4_NAME",			-- frost
+	    [5] = "RESISTANCE5_NAME",			-- shadow
+	    [6] = "RESISTANCE6_NAME",			-- arcane
+	},
+    }
     
     -- list of inventory slot names
     TopFit.slotList = {
