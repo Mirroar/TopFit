@@ -496,7 +496,7 @@ function TopFit:SaveCurrentCombination()
 			    local bestOff = nil
 			    local bestMain = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
 			    if bestMain ~= nil then
-				bestMainScore = bestMain.itemScore
+				bestMainScore = (bestMain.itemScore or 0)
 			    end
 			    if (TopFit.playerCanDualWield) then
 				-- any non-two-handed offhand is fine
@@ -506,7 +506,7 @@ function TopFit:SaveCurrentCombination()
 				bestOff = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), i + 1, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
 			    end
 			    if bestOff ~= nil then
-				bestOffScore = bestOff.itemScore
+				bestOffScore = (bestOff.itemScore or 0)
 			    end
 			    
 			    -- alternatively, calculate offhand first, then mainhand
@@ -521,15 +521,15 @@ function TopFit:SaveCurrentCombination()
 				bestOff2 = TopFit:CalculateBestInSlotWithCondition(itemsAlreadyChosen, i + 1, function(itemTable) if string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
 			    end
 			    if bestOff2 ~= nil then
-				bestOffScore2 = bestOff2.itemScore
+				bestOffScore2 = (bestOff2.itemScore or 0)
 			    end
 			    
 			    bestMain2 = TopFit:CalculateBestInSlotWithCondition(TopFit:JoinTables(itemsAlreadyChosen, {bestOff2}), i, function(itemTable) return TopFit:IsOnehandedWeapon(itemTable.itemID) end)
 			    if bestMain2 ~= nil then
-				bestMainScore2 = bestMain2.itemScore
+				bestMainScore2 = (bestMain2.itemScore or 0)
 			    end
 			    
-			    local maxScore = itemTable.itemScore
+			    local maxScore = (itemTable.itemScore or 0)
 			    --TopFit:Debug("2H: "..itemTable.itemScore.."; Main: "..bestMainScore.."; Off: "..bestOffScore)
 			    if (maxScore < (bestMainScore + bestOffScore)) then
 				-- main- + offhand is better, use the one-handed mainhand

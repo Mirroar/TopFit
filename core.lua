@@ -614,11 +614,13 @@ function TopFit:OnInitialize()
     -- table for equippable item list
     TopFit.equippableItems = {}
     TopFit:collectEquippableItems()
+    TopFit.loginDelay = 150
     
     -- frame for eventhandling
     TopFit.eventFrame = CreateFrame("Frame")
     TopFit.eventFrame:RegisterEvent("BAG_UPDATE")
     TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
+    TopFit.eventFrame:SetScript("OnUpdate", TopFit.delayCalculationOnLogin)
     
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
@@ -644,10 +646,6 @@ function TopFit:OnInitialize()
 	    TopFit.toggleProgressFrameButton:SetPushedTexture(pushedTexture)
 	    TopFit.toggleProgressFrameButton:SetHighlightTexture(highlightTexture)
 	    local iconTexture = TopFit.toggleProgressFrameButton:CreateTexture()
-	    --iconTexture:SetTexture("Interface\\Icons\\Achievement_BG_tophealer_EOS") -- Thumbs up
-	    --iconTexture:SetTexCoord(4/64, 4/64, 4/64, 61/64, 50/64, 4/64, 50/64, 61/64)
-	    --iconTexture:SetTexture("Interface\\Icons\\INV_Misc_Toy_07") -- Hula doll
-	    --iconTexture:SetTexCoord(4/64, 4/64, 4/64, 61/64, 50/64, 4/64, 50/64, 61/64)
 	    iconTexture:SetTexture("Interface\\Icons\\Achievement_BG_trueAVshutout") -- golden sword
 	    iconTexture:SetTexCoord(9/64, 4/64, 9/64, 61/64, 55/64, 4/64, 55/64, 61/64)
 	    iconTexture:SetDrawLayer("OVERLAY")
@@ -684,7 +682,7 @@ function TopFit:collectEquippableItems()
     -- check bags
     for bag = 0, 4 do
 	for slot = 1, GetContainerNumSlots(bag) do
-	    local item = GetContainerItemLink(bag,slot)
+	    local item = GetContainerItemLink(bag, slot)
 	    
 	    if IsEquippableItem(item) then
 		local found = false
@@ -725,11 +723,22 @@ function TopFit:collectEquippableItems()
     return newItem
 end
 
+function TopFit:delayCalculationOnLogin()
+    if TopFit.loginDelay then
+	TopFit.loginDelay = TopFit.loginDelay - 1
+	if TopFit.loginDelay <= 0 then
+	    TopFit.loginDelay = nil
+	    TopFit.eventFrame:SetScript("OnUpdate", nil)
+	end
+    end
+end
+
 function TopFit:FrameOnEvent(event, ...)
     if (event == "BAG_UPDATE") then
 	
 	-- check inventory for new equippable items
-	if TopFit:collectEquippableItems() then
+	if TopFit:collectEquippableItems() and not TopFit.loginDelay then
+	    TopFit:Print("new item!")
 	    -- new equippable item in inventory!!!!
 	    -- calculate set silently if player wishes
 	    if TopFit.db.profile.defaultUpdateSet then
