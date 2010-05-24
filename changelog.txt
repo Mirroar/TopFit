@@ -1,7 +1,17 @@
 Changelog for TopFit
 ====================
 
-3.3v3
+3.3v4 - 2010/05/24
+  - added set values to ItemRefTooltip and ShoppingTooltips
+  - added comparison value to toolip that shows how much of an improvement over currently equipped items another item is
+  - when selecting an existing set in the calculations frame, the shown score will now correctly take enchantments and gems into account
+  - fixed a couple of small bugs
+  - fixed incompatibility with Skinner and similar addons
+
+3.3v3b - 2010/04/16
+  - fixed errors on login when an automatic update set had been set
+
+3.3v3 - 2010/04/15
   - fixed bug where a new item would not be equipped if you already had an item with the same item-ID equipped e.g. [xxx of the Whale] and [xxx of the Bandit]
   - fixed bug with detecting BoE-items and accidentally trying to equip them if you had no other options for that slot
   - fixed a bug where fishing poles were considered One-Handed for Titan's Grip

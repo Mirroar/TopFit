@@ -29,8 +29,18 @@ function TopFit:createOptions()
 			TopFit.db.profile.showTooltip = not TopFit.db.profile.showTooltip
 		end)
 		
+		-- Show Comparison Tooltip Checkbox
+		local showComparisonTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Show item comparison values in tooltip", "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, 0)
+		showComparisonTooltip.tiptext = "|cffffffffCheck to show values in your tooltip which indicate how much of an improvement an item is in comparison with your equipped items for each set."
+		showComparisonTooltip:SetChecked(TopFit.db.profile.showComparisonTooltip)
+		local checksound = showComparisonTooltip:GetScript("OnClick")
+		showComparisonTooltip:SetScript("OnClick", function(self)
+			checksound(self)
+			TopFit.db.profile.showComparisonTooltip = not TopFit.db.profile.showComparisonTooltip
+		end)
+		
 		-- Auto Update Set Dropdown
-		local autoUpdateSet, autoUpdateSetText, autoUpdateSetContainer = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, "Automatic update set", "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, 0)
+		local autoUpdateSet, autoUpdateSetText, autoUpdateSetContainer = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, "Automatic update set", "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, 0)
 		if (TopFit.db.profile.defaultUpdateSet) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet]) then
 			autoUpdateSetText:SetText(TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet].name)
 		else
@@ -63,7 +73,7 @@ function TopFit:createOptions()
 		end)
 		
 		-- Debug Mode Checkbox
-		local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Debug mode", "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, -70)
+		local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Debug mode", "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -70)
 		debugMode.tiptext = "|cffffffffCheck to enable debug messages.\n\n|cffffff00Caution: |cffffffffThis will spam your chatframe, a lot!"
 		debugMode:SetChecked(TopFit.db.profile.debugMode)
 		local checksound = debugMode:GetScript("OnClick")

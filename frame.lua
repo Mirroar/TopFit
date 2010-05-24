@@ -23,7 +23,19 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame = CreateFrame("Frame", "TopFit_ProgressFrame", nil) -- change nil to UIParent if the frame should be affected by UIScale
         tinsert(UISpecialFrames, "TopFit_ProgressFrame")
         TopFit.ProgressFrame:ClearAllPoints()
-        TopFit.ProgressFrame:SetBackdrop(StaticPopup1:GetBackdrop())
+        TopFit.ProgressFrame:SetBackdrop({
+            bgFile="Interface\\DialogFrame\\UI-DialogBox-Background",
+            tileSize=32,
+            edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border",
+            tile=1,
+            edgeSize=32,
+            insets={
+                top=12,
+                right=12,
+                left=11,
+                bottom=11
+            }
+        })
         TopFit.ProgressFrame:SetHeight(32 * 8 + 16 + 70 + 20 * 2)
         TopFit.ProgressFrame:SetWidth(32 * 5 + 48 * 2 + 20 * 2)
         TopFit.ProgressFrame:EnableMouse(true)
@@ -573,25 +585,48 @@ function TopFit:CreateProgressFrame()
                 TopFit.ProgressFrame:UpdateSetStats()
                 
                 -- generate pseudo equipment set to display when selecting a set
-                local items = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
                 local combination = {
                     items = {},
                     totalStats = {},
                     totalScore = 0,
                 }
-                if items then
-                    for slotID, itemID in pairs(items) do
-                        if itemID and itemID ~= 1 then
-                            itemTable = TopFit:GetItemInfoTable(itemID, nil, nil, nil)
-                            if itemTable then
-                                TopFit:CalculateItemTableScore(itemTable, TopFit.db.profile.sets[setCode].weights, TopFit.db.profile.sets[setCode].caps)
-                                combination.items[slotID] = itemTable
-                                
-                                -- add to total stats and score
-                                for statName, statValue in pairs(itemTable.totalBonus) do
-                                    combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
+                local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
+                --local items = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
+                if itemPositions then
+                    for slotID, itemLocation in pairs(itemPositions) do
+                        if itemLocation and itemLocation ~= 1 then
+                            local itemLink = nil
+                            local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
+                            if player then
+                                if bank then
+                                    -- item is banked, use itemID
+                                    local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
+                                    if itemID and itemID ~= 1 then
+                                        _, itemLink = GetItemInfo(itemID)
+                                    end
+                                elseif bags then
+                                    -- item is in player's bags
+                                    itemLink = GetContainerItemLink(bag, slot)
+                                else
+                                    -- item is equipped
+                                    itemLink = GetInventoryItemLink("player", slot)
                                 end
-                                combination.totalScore = combination.totalScore + itemTable.itemScore
+                            else
+                                -- item not found
+                            end
+                            
+                            if itemLink then
+                                itemTable = TopFit:GetItemInfoTable(itemLink, nil, nil, nil)
+                                if itemTable then
+                                    TopFit:CalculateItemTableScore(itemTable, TopFit.db.profile.sets[setCode].weights, TopFit.db.profile.sets[setCode].caps)
+                                    combination.items[slotID] = itemTable
+                                    
+                                    -- add to total stats and score
+                                    for statName, statValue in pairs(itemTable.totalBonus) do
+                                        combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
+                                    end
+                                    combination.totalScore = combination.totalScore + itemTable.itemScore
+                                end
                             end
                         end
                     end
@@ -866,7 +901,7 @@ function TopFit:CreateProgressFrame()
                         info.isChecked = false;
                         info.value = setnames[i]
                         info.func = function(...)
-                            TopFit:Debug("Adding stat: "..value)
+                            TopFit:Debug("Adding stat: "..info.value)
                             TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights["SET: "..setnames[i]] = 0
                             TopFit.ProgressFrame:UpdateSetStats()
                         end

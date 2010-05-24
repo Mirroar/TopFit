@@ -9,9 +9,7 @@ Options:
 
 
 Tooltip:
-- how much of an improvement is this item
 - show user-added stat for procs etc
-- support for reference tooltips
 
 
 Functionality:
@@ -23,3 +21,5 @@ Functionality:
 - Stat synonym model (so all variations of mana regen are handled the same way)
 - ability to make copies of set (as backup or for slight adjustment)
 - what to do if a forced item is no longer in the player's inventory?
+- check if items from a set are missing
+- better caching (itemListBySlot with static information, calculated scores etc. in another table)

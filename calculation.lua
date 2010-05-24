@@ -34,7 +34,6 @@ function TopFit:CalculateSets(silent)
     end
     
     if self.db.profile.sets[setCode] then
-	TopFit.characterLevel = UnitLevel("player")
 	TopFit.setCode = setCode
 	
 	TopFit:Debug("Calculating items for "..setCode)
