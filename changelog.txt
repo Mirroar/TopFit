@@ -1,6 +1,16 @@
 Changelog for TopFit
 ====================
 
+3.3v5 alpha - 2010/06/24
+  - items will no longer be equipped while you are in combat
+  - item information is now properly cached, resulting in a performance increase
+  - looking at the tooltip for an item that is not yet in the client's itemCache should no longer cause an error
+  - comparing with items from your sets that are not in the client's itemCache should no longer cause an error
+  - comparison tooltips for weapons expanded - comparison of two-handed weapons with one-hand + off-hand combinations should be greatly improved
+
+3.3v4b - 2010/05/26
+  - fixed a bug that caused unusable items to be included in set calculation
+
 3.3v4 - 2010/05/24
   - added set values to ItemRefTooltip and ShoppingTooltips
   - added comparison value to toolip that shows how much of an improvement over currently equipped items another item is

@@ -10,7 +10,10 @@ local function ShowTooltip(self)
     end
     GameTooltip:Show()
 end
-local function HideTooltip() GameTooltip:Hide() end
+
+local function HideTooltip()
+    GameTooltip:Hide()
+end
 
 function TopFit:CreateProgressFrame()
     if not TopFit.ProgressFrame then
@@ -140,6 +143,7 @@ function TopFit:CreateProgressFrame()
             info.value = 0
             info.func = function(self)
                 TopFit:AddSet()
+                TopFit:CalculateScores()
             end
             UIDropDownMenu_AddButton(info, level)
             
@@ -152,6 +156,7 @@ function TopFit:CreateProgressFrame()
                 info.value = k
                 info.func = function(self)
                     TopFit:AddSet(v)
+                    TopFit:CalculateScores()
                 end
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -186,8 +191,9 @@ function TopFit:CreateProgressFrame()
                 TopFit.ProgressFrame.deleteSetButton.redHightlight:Show();
                 TopFit.ProgressFrame.deleteSetButton.firstClick = true
             else
-            -- on second click: delete set
+                -- on second click: delete set
                 TopFit:DeleteSet(TopFit.ProgressFrame.selectedSet)
+                --TopFit:CalculateScores()
                 TopFit.ProgressFrame.deleteSetButton.redHightlight:Hide();
                 TopFit.ProgressFrame.deleteSetButton.firstClick = false
             end
@@ -292,7 +298,6 @@ function TopFit:CreateProgressFrame()
             end)
             button:SetScript("OnClick", function (self, ...)
                 if not TopFit.isBlocked then
-                    TopFit:collectItems()
                     if not TopFit.ProgressFrame.forceItemsFrame then
                         -- creat frame for forced items
                         TopFit.ProgressFrame.forceItemsFrame = CreateFrame("Frame", "TopFit_ProgressFrame_forceItemsFrame", UIParent)
@@ -362,8 +367,11 @@ function TopFit:CreateProgressFrame()
                     TopFit:collectItems()
                     local i = 2
                     local maxWidth = 200
-                    if TopFit.itemListBySlot[self.slotID] then
-                        for _, itemTable in pairs(TopFit.itemListBySlot[self.slotID]) do
+                    
+                    local itemListBySlot = TopFit:GetEquippableItems(self.slotID)
+                    
+                    if itemListBySlot then
+                        for _, locationTable in pairs(itemListBySlot) do
                             if not itemButtons[i] then
                                 itemButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_forceItemsFrame_itemButton"..i, TopFit.ProgressFrame.forceItemsFrame)
                                 itemButtons[i]:SetWidth(280)
@@ -388,16 +396,20 @@ function TopFit:CreateProgressFrame()
                                 end)
                             end
                             
-                            itemButtons[i].itemID = itemTable.itemID
+                            local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
+                            
+                            if itemTable then
+                                itemButtons[i].itemID = itemTable.itemID
+                            end
                             itemButtons[i].slotID = self.slotID
                             itemButtons[i]:Show()
-                            itemButtons[i].itemLabel:SetText(itemTable.itemLink)
+                            itemButtons[i].itemLabel:SetText(locationTable.itemLink)
                             
                             if itemButtons[i].itemLabel:GetWidth() > maxWidth then
                                 maxWidth = itemButtons[i].itemLabel:GetWidth()
                             end
                             
-                            local tex = select(10, GetItemInfo(itemTable.itemID))
+                            local tex = select(10, GetItemInfo(locationTable.itemLink))
                             if not tex then tex = "Interface\\Icons\\Inv_misc_questionmark" end
                             itemButtons[i].itemTexture:SetTexture(tex)
                             
@@ -452,23 +464,23 @@ function TopFit:CreateProgressFrame()
         -- centered scrollframe for stats summary
         local boxHeight = 32 * 8 - 16
         local boxWidth = 32 * 3 + 48 * 2 - 22
-	TopFit.ProgressFrame.statScrollFrame = CreateFrame("ScrollFrame", "TopFit_StatScrollFrame", TopFit.ProgressFrame, "UIPanelScrollFrameTemplate")
-	TopFit.ProgressFrame.statScrollFrame:SetPoint("TOPLEFT", TopFit.ProgressFrame.equipButtons[1], "TOPRIGHT")
-	TopFit.ProgressFrame.statScrollFrame:SetHeight(boxHeight)
-	TopFit.ProgressFrame.statScrollFrame:SetWidth(boxWidth)
-	local group2 = CreateFrame("Frame", nil, TopFit.ProgressFrame.statScrollFrame)
-	group2:SetAllPoints()
-	group2:SetHeight(boxHeight)
-	group2:SetWidth(boxWidth)
-	TopFit.ProgressFrame.statScrollFrame:SetScrollChild(group2)
-	
-	local backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        TopFit.ProgressFrame.statScrollFrame = CreateFrame("ScrollFrame", "TopFit_StatScrollFrame", TopFit.ProgressFrame, "UIPanelScrollFrameTemplate")
+        TopFit.ProgressFrame.statScrollFrame:SetPoint("TOPLEFT", TopFit.ProgressFrame.equipButtons[1], "TOPRIGHT")
+        TopFit.ProgressFrame.statScrollFrame:SetHeight(boxHeight)
+        TopFit.ProgressFrame.statScrollFrame:SetWidth(boxWidth)
+        local group2 = CreateFrame("Frame", nil, TopFit.ProgressFrame.statScrollFrame)
+        group2:SetAllPoints()
+        group2:SetHeight(boxHeight)
+        group2:SetWidth(boxWidth)
+        TopFit.ProgressFrame.statScrollFrame:SetScrollChild(group2)
+        
+        local backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
             tile = true,
             tileSize = 32,
             insets = { left = 0, right = -22, top = 0, bottom = 0 }}
-	TopFit.ProgressFrame.statScrollFrame:SetBackdrop(backdrop)
-	TopFit.ProgressFrame.statScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
-	TopFit.ProgressFrame.statScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
+        TopFit.ProgressFrame.statScrollFrame:SetBackdrop(backdrop)
+        TopFit.ProgressFrame.statScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
+        TopFit.ProgressFrame.statScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
         
         -- Button for set renaming
         TopFit.ProgressFrame.renameSetButton = CreateFrame("Button", "TopFit_ProgressFrame_renameSetButton", group2)
@@ -594,7 +606,7 @@ function TopFit:CreateProgressFrame()
                 --local items = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
                 if itemPositions then
                     for slotID, itemLocation in pairs(itemPositions) do
-                        if itemLocation and itemLocation ~= 1 then
+                        if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
                             local itemLink = nil
                             local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
                             if player then
@@ -616,16 +628,19 @@ function TopFit:CreateProgressFrame()
                             end
                             
                             if itemLink then
-                                itemTable = TopFit:GetItemInfoTable(itemLink, nil, nil, nil)
+                                itemTable = TopFit:GetCachedItem(itemLink)
                                 if itemTable then
-                                    TopFit:CalculateItemTableScore(itemTable, TopFit.db.profile.sets[setCode].weights, TopFit.db.profile.sets[setCode].caps)
-                                    combination.items[slotID] = itemTable
+                                    combination.items[slotID] = {
+                                        itemLink = itemLink,
+                                        bag = bag,
+                                        slot = slot
+                                    }
                                     
                                     -- add to total stats and score
                                     for statName, statValue in pairs(itemTable.totalBonus) do
                                         combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
                                     end
-                                    combination.totalScore = combination.totalScore + itemTable.itemScore
+                                    combination.totalScore = combination.totalScore + TopFit:GetItemScore(itemTable.itemLink, setCode)
                                 end
                             end
                         end
@@ -656,11 +671,12 @@ function TopFit:CreateProgressFrame()
                 button:SetNormalTexture(button.emptyTexture)
                 button.itemLink = nil
             end
-            for slotID, itemTable in pairs(combination.items) do
+            for slotID, locationTable in pairs(combination.items) do
                 -- set to item icon
-                _, _, _, _, _, _, _, _, _, texture, _ = GetItemInfo(itemTable.itemID)
+                _, _, _, _, _, _, _, _, _, texture, _ = GetItemInfo(locationTable.itemLink)
+                if not texture then texture = "Interface\\Icons\\Inv_misc_questionmark" end
                 TopFit.ProgressFrame.equipButtons[slotID]:SetNormalTexture(texture)
-                TopFit.ProgressFrame.equipButtons[slotID].itemLink = itemTable.itemLink
+                TopFit.ProgressFrame.equipButtons[slotID].itemLink = locationTable.itemLink
                 
                 -- set highlight if forced item
                 if (TopFit.ProgressFrame.selectedSet) and (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet]) and
@@ -904,6 +920,7 @@ function TopFit:CreateProgressFrame()
                             TopFit:Debug("Adding stat: "..info.value)
                             TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights["SET: "..setnames[i]] = 0
                             TopFit.ProgressFrame:UpdateSetStats()
+                            TopFit:CalculateScores()
                         end
                         UIDropDownMenu_AddButton(info, level);
                     end
@@ -921,6 +938,7 @@ function TopFit:CreateProgressFrame()
                             TopFit:Debug("Adding stat: "..value)
                             TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[value] = 0
                             TopFit.ProgressFrame:UpdateSetStats()
+                            TopFit:CalculateScores()
                         end
                         UIDropDownMenu_AddButton(info, level);
                     end
@@ -1199,6 +1217,7 @@ function TopFit:CreateProgressFrame()
                         end
                         
                         TopFit.ProgressFrame:UpdateSetStats()
+                        TopFit:CalculateScores()
                     end)
                 end
                 statButtons[i]:Show()
@@ -1293,6 +1312,7 @@ function TopFit:CreateProgressFrame()
                     end
                     TopFit.ProgressFrame:HideStatEditTextBox()
                     TopFit.ProgressFrame:UpdateSetStats()
+                    TopFit:CalculateScores()
                 end)
             end
             if not isCap then

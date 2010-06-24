@@ -7,6 +7,8 @@ Options:
 - always match socket colors
 - special weapon types (dagger in main hand for certain rogues)
 
+- option to switch off automatic search for other offhand /mainhand in tooltip
+
 
 Tooltip:
 - show user-added stat for procs etc
@@ -22,4 +24,3 @@ Functionality:
 - ability to make copies of set (as backup or for slight adjustment)
 - what to do if a forced item is no longer in the player's inventory?
 - check if items from a set are missing
-- better caching (itemListBySlot with static information, calculated scores etc. in another table)
