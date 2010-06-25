@@ -276,7 +276,7 @@ end
 -- calculate item scores
 function TopFit:CalculateScores()
     -- iterate all cached items and recalculate their scores
-    for itemLink, _ in pairs(TopFit.itemscache) do
+    for itemLink, _ in pairs(TopFit.itemsCache) do
         TopFit:CalculateItemScore(itemLink)
     end
 end
