@@ -25,6 +25,7 @@ function TopFit:CreateProgressFrame()
         
         TopFit.ProgressFrame = CreateFrame("Frame", "TopFit_ProgressFrame", nil) -- change nil to UIParent if the frame should be affected by UIScale
         tinsert(UISpecialFrames, "TopFit_ProgressFrame")
+        TopFit.ProgressFrame:SetToplevel(true)
         TopFit.ProgressFrame:ClearAllPoints()
         TopFit.ProgressFrame:SetBackdrop({
             bgFile="Interface\\DialogFrame\\UI-DialogBox-Background",
@@ -134,7 +135,6 @@ function TopFit:CreateProgressFrame()
         
         -- set selection for add set button
         TopFit.ProgressFrame.addSetButton.setDropDown = CreateFrame("Frame", "TopFit_ProgressFrame_addSetButton_setDropDown", TopFit.ProgressFrame.addSetButton, "UIDropDownMenuTemplate")
-        TopFit.ProgressFrame.addSetButton.setDropDown:SetPoint("TOPLEFT", TopFit.ProgressFrame.addSetButton, "BOTTOMLEFT", 0, 0)
         UIDropDownMenu_Initialize(TopFit.ProgressFrame.addSetButton.setDropDown, function(self, level)
             local info = UIDropDownMenu_CreateInfo()
             info.hasArrow = false; -- no submenu
@@ -466,13 +466,14 @@ function TopFit:CreateProgressFrame()
         local boxWidth = 32 * 3 + 48 * 2 - 22
         TopFit.ProgressFrame.statScrollFrame = CreateFrame("ScrollFrame", "TopFit_StatScrollFrame", TopFit.ProgressFrame, "UIPanelScrollFrameTemplate")
         TopFit.ProgressFrame.statScrollFrame:SetPoint("TOPLEFT", TopFit.ProgressFrame.equipButtons[1], "TOPRIGHT")
-        TopFit.ProgressFrame.statScrollFrame:SetHeight(boxHeight)
-        TopFit.ProgressFrame.statScrollFrame:SetWidth(boxWidth)
-        local group2 = CreateFrame("Frame", nil, TopFit.ProgressFrame.statScrollFrame)
-        group2:SetAllPoints()
-        group2:SetHeight(boxHeight)
-        group2:SetWidth(boxWidth)
-        TopFit.ProgressFrame.statScrollFrame:SetScrollChild(group2)
+        TopFit.ProgressFrame.statScrollFrame:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame.equipButtons[14], "LEFT", -22, 0)
+        --TopFit.ProgressFrame.statScrollFrame:SetHeight(boxHeight)
+        --TopFit.ProgressFrame.statScrollFrame:SetWidth(boxWidth)
+        local statScrollFrameContent = CreateFrame("Frame", nil, TopFit.ProgressFrame.statScrollFrame)
+        statScrollFrameContent:SetAllPoints()
+        statScrollFrameContent:SetHeight(boxHeight)
+        statScrollFrameContent:SetWidth(boxWidth)
+        TopFit.ProgressFrame.statScrollFrame:SetScrollChild(statScrollFrameContent)
         
         local backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
             tile = true,
@@ -483,9 +484,9 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.statScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
         
         -- Button for set renaming
-        TopFit.ProgressFrame.renameSetButton = CreateFrame("Button", "TopFit_ProgressFrame_renameSetButton", group2)
-        TopFit.ProgressFrame.renameSetButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.statScrollFrame, "TOPLEFT", 3, 0)
-        TopFit.ProgressFrame.renameSetButton:SetPoint("RIGHT", TopFit.ProgressFrame.statScrollFrame, "RIGHT")
+        TopFit.ProgressFrame.renameSetButton = CreateFrame("Button", "TopFit_ProgressFrame_renameSetButton", statScrollFrameContent)
+        TopFit.ProgressFrame.renameSetButton:SetPoint("TOPLEFT", statScrollFrameContent, "TOPLEFT", 3, 0)
+        TopFit.ProgressFrame.renameSetButton:SetPoint("RIGHT", statScrollFrameContent, "RIGHT")
         TopFit.ProgressFrame.renameSetButton:SetHeight(32)
         TopFit.ProgressFrame.renameSetButton:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight")
         TopFit.ProgressFrame.renameSetButton:SetAlpha(0.5)
@@ -497,7 +498,7 @@ function TopFit:CreateProgressFrame()
             -- show edit box
             if not TopFit.ProgressFrame.setNameEditTextBox then
                 -- create box
-                TopFit.ProgressFrame.setNameEditTextBox = CreateFrame("EditBox", "TopFit_ProgressFrame_statEditTextBox", group2)
+                TopFit.ProgressFrame.setNameEditTextBox = CreateFrame("EditBox", "TopFit_ProgressFrame_statEditTextBox", statScrollFrameContent)
                 TopFit.ProgressFrame.setNameEditTextBox:SetPoint("TOPLEFT", TopFit.ProgressFrame.renameSetButton, "TOPLEFT")
                 TopFit.ProgressFrame.setNameEditTextBox:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame.renameSetButton, "BOTTOMRIGHT")
                 TopFit.ProgressFrame.setNameEditTextBox:SetAutoFocus(false)
@@ -506,12 +507,12 @@ function TopFit:CreateProgressFrame()
                 
                 -- background textures
                 local left = TopFit.ProgressFrame.setNameEditTextBox:CreateTexture(nil, "BACKGROUND")
-                left:SetWidth(8) left:SetHeight(32)
+                left:SetWidth(12) left:SetHeight(32)
                 left:SetPoint("LEFT", -5, 0)
                 left:SetTexture("Interface\\Common\\Common-Input-Border")
                 left:SetTexCoord(0, 0.0625, 0, 0.625)
                 local right = TopFit.ProgressFrame.setNameEditTextBox:CreateTexture(nil, "BACKGROUND")
-                right:SetWidth(8) right:SetHeight(32)
+                right:SetWidth(12) right:SetHeight(32)
                 right:SetPoint("RIGHT", 0, 0)
                 right:SetTexture("Interface\\Common\\Common-Input-Border")
                 right:SetTexCoord(0.9375, 1, 0, 0.625)
@@ -546,23 +547,23 @@ function TopFit:CreateProgressFrame()
         end)
         
         -- fontstrings for set name
-        TopFit.ProgressFrame.setNameFontString = group2:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
+        TopFit.ProgressFrame.setNameFontString = statScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
         TopFit.ProgressFrame.setNameFontString:SetHeight(32)
-        TopFit.ProgressFrame.setNameFontString:SetPoint("TOP", TopFit.ProgressFrame.statScrollFrame, "TOP")
+        TopFit.ProgressFrame.setNameFontString:SetPoint("TOP", statScrollFrameContent, "TOP")
         TopFit.ProgressFrame.setNameFontString:SetText("Set Name")
         
         -- fontsting for set value
-        TopFit.ProgressFrame.setScoreFontString = group2:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+        TopFit.ProgressFrame.setScoreFontString = statScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
         TopFit.ProgressFrame.setScoreFontString:SetHeight(32)
         TopFit.ProgressFrame.setScoreFontString:SetPoint("TOP", TopFit.ProgressFrame.setNameFontString, "BOTTOM")
         TopFit.ProgressFrame.setScoreFontString:SetText("Total Score: -")
         
         -- List of Score contributing Texts and Bars
-        group2.statNameFontStrings = {}
-        group2.statValueFontStrings = {}
-        group2.statValueStatusBars = {}
-        group2.capNameFontStrings = {}
-        group2.capValueFontStrings = {}
+        statScrollFrameContent.statNameFontStrings = {}
+        statScrollFrameContent.statValueFontStrings = {}
+        statScrollFrameContent.statValueStatusBars = {}
+        statScrollFrameContent.capNameFontStrings = {}
+        statScrollFrameContent.capValueFontStrings = {}
         
         -- function for changing set name
         function TopFit.ProgressFrame:SetSelectedSet(setCode)
@@ -582,18 +583,21 @@ function TopFit:CreateProgressFrame()
                 TopFit.ProgressFrame.startButton:Disable()
                 TopFit.ProgressFrame.addStatButton:Disable()
                 TopFit.ProgressFrame.renameSetButton:Disable()
+                TopFit.ProgressFrame.includeInTooltipCheckButton:Disable()
             else
                 -- (re-)enable buttons
                 TopFit.ProgressFrame.deleteSetButton:Enable()
                 TopFit.ProgressFrame.startButton:Enable()
                 TopFit.ProgressFrame.addStatButton:Enable()
                 TopFit.ProgressFrame.renameSetButton:Enable()
+                TopFit.ProgressFrame.includeInTooltipCheckButton:Enable()
                 
                 TopFit.ProgressFrame.selectedSet = setCode
                 UIDropDownMenu_SetSelectedValue(TopFit.ProgressFrame.setDropDown, setCode)
                 UIDropDownMenu_SetText(TopFit.ProgressFrame.setDropDown, TopFit.db.profile.sets[setCode].name)
                 TopFit.ProgressFrame:SetSetName(TopFit.db.profile.sets[setCode].name)
                 
+                TopFit.ProgressFrame.includeInTooltipCheckButton:SetChecked(not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].excludeFromTooltip)
                 TopFit.ProgressFrame:UpdateSetStats()
                 
                 -- generate pseudo equipment set to display when selecting a set
@@ -721,9 +725,9 @@ function TopFit:CreateProgressFrame()
                 return score1 > score2
             end)
             
-            local statTexts = group2.statNameFontStrings
-            local valueTexts = group2.statValueFontStrings
-            local statusBars = group2.statValueStatusBars
+            local statTexts = statScrollFrameContent.statNameFontStrings
+            local valueTexts = statScrollFrameContent.statValueFontStrings
+            local statusBars = statScrollFrameContent.statValueStatusBars
             local lastStat = 0
             local maxStatValue = scorePerStat[statList[1]]
             for i = 1, #statList do
@@ -732,7 +736,7 @@ function TopFit:CreateProgressFrame()
                     if not statTexts[i] then
                         -- create FontStrings
                         -- fontsting for stat name
-                        statusBars[i] = CreateFrame("StatusBar", "TopFit_ProgressFrame_statValueBar"..i, group2)
+                        statusBars[i] = CreateFrame("StatusBar", "TopFit_ProgressFrame_statValueBar"..i, statScrollFrameContent)
                         statTexts[i] = statusBars[i]:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
                         valueTexts[i] = statusBars[i]:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
                         statTexts[i]:SetTextHeight(11)
@@ -741,8 +745,8 @@ function TopFit:CreateProgressFrame()
                         if i == 1 then
                             statTexts[i]:SetPoint("TOP", TopFit.ProgressFrame.setScoreFontString, "BOTTOM", 0, -10)
                             valueTexts[i]:SetPoint("TOP", TopFit.ProgressFrame.setScoreFontString, "BOTTOM", 0, -10)
-                            statTexts[i]:SetPoint("LEFT", group2, "LEFT", 3, 0)
-                            valueTexts[i]:SetPoint("RIGHT", group2, "RIGHT", -3, 0)
+                            statTexts[i]:SetPoint("LEFT", statScrollFrameContent, "LEFT", 3, 0)
+                            valueTexts[i]:SetPoint("RIGHT", statScrollFrameContent, "RIGHT", -3, 0)
                         else
                             statTexts[i]:SetPoint("TOPLEFT", statTexts[i - 1], "BOTTOMLEFT")
                             valueTexts[i]:SetPoint("TOPRIGHT", valueTexts[i - 1], "BOTTOMRIGHT")
@@ -769,27 +773,27 @@ function TopFit:CreateProgressFrame()
             
             -- list for caps
             local i = 1
-            local capNameTexts = group2.capNameFontStrings
-            local capValueTexts = group2.capValueFontStrings
+            local capNameTexts = statScrollFrameContent.capNameFontStrings
+            local capValueTexts = statScrollFrameContent.capValueFontStrings
             
-            if not group2.capHeader then
-                group2.capHeader = group2:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-                group2.capHeader:SetTextHeight(15)
-                group2.capHeader:SetText("Caps")
+            if not statScrollFrameContent.capHeader then
+                statScrollFrameContent.capHeader = statScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                statScrollFrameContent.capHeader:SetTextHeight(15)
+                statScrollFrameContent.capHeader:SetText("Caps")
             end
-            group2.capHeader:Hide()
+            statScrollFrameContent.capHeader:Hide()
             
             for stat, capTable in pairs(caps) do
                 if capTable.active then
                     if not capNameTexts[i] then
-                        capNameTexts[i] = group2:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                        capValueTexts[i] = group2:CreateTexture()
+                        capNameTexts[i] = statScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+                        capValueTexts[i] = statScrollFrameContent:CreateTexture()
                         capValueTexts[i]:SetWidth(11)
                         capValueTexts[i]:SetHeight(11)
                         if i == 1 then
-                            capNameTexts[i]:SetPoint("TOPLEFT", group2.capHeader, "BOTTOMLEFT")
-                            capValueTexts[i]:SetPoint("TOP", group2.capHeader, "BOTTOM")
-                            capValueTexts[i]:SetPoint("RIGHT", group2, "RIGHT")
+                            capNameTexts[i]:SetPoint("TOPLEFT", statScrollFrameContent.capHeader, "BOTTOMLEFT")
+                            capValueTexts[i]:SetPoint("TOP", statScrollFrameContent.capHeader, "BOTTOM")
+                            capValueTexts[i]:SetPoint("RIGHT", statScrollFrameContent, "RIGHT")
                         else
                             capNameTexts[i]:SetPoint("TOPLEFT", capNameTexts[i - 1], "BOTTOMLEFT")
                             capValueTexts[i]:SetPoint("TOPRIGHT", capValueTexts[i - 1], "BOTTOMRIGHT")
@@ -803,14 +807,14 @@ function TopFit:CreateProgressFrame()
                     end
                     capNameTexts[i]:Show()
                     capValueTexts[i]:Show()
-                    group2.capHeader:Show()
+                    statScrollFrameContent.capHeader:Show()
                     
                     i = i + 1
                 end
             end
             -- anchor to bottom of stat list
             if capNameTexts[1] then
-                group2.capHeader:SetPoint("TOPLEFT", statTexts[lastStat], "BOTTOMLEFT", 0, -20)
+                statScrollFrameContent.capHeader:SetPoint("TOPLEFT", statTexts[lastStat], "BOTTOMLEFT", 0, -20)
             end
             
             -- hide unused cap texts
@@ -841,6 +845,16 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.optionsButton:SetWidth(32)
         TopFit.ProgressFrame.optionsButton:SetNormalTexture("Interface\\Icons\\INV_Misc_Gear_02")
         TopFit.ProgressFrame.optionsButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+        
+        -- set options
+        TopFit.ProgressFrame.includeInTooltipCheckButton = LibStub("tekKonfig-Checkbox").new(TopFit.ProgressFrame.rightFrame, nil, "Include set in tooltip", "TOPLEFT", TopFit.ProgressFrame.rightFrame, "TOPLEFT", 15, -15)
+        TopFit.ProgressFrame.includeInTooltipCheckButton.tiptext = "|cffffffffCheck to show this set in item comparison tooltips when that option is enabled."
+        TopFit.ProgressFrame.includeInTooltipCheckButton:SetChecked(TopFit.db.profile.debugMode)
+        local checksound = TopFit.ProgressFrame.includeInTooltipCheckButton:GetScript("OnClick")
+        TopFit.ProgressFrame.includeInTooltipCheckButton:SetScript("OnClick", function(self)
+            checksound(self)
+            TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].excludeFromTooltip = not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].excludeFromTooltip
+        end)
         
         TopFit.ProgressFrame.optionsButton:SetScript("OnClick", function(...)
             InterfaceOptionsFrame_OpenToCategory("TopFit")
@@ -888,19 +902,22 @@ function TopFit:CreateProgressFrame()
                 if parentValue == "setpieces" then
                     -- check all items' set names
                     local setnames = {}
-                    for _, itemList in pairs(TopFit.itemListBySlot) do
-                        for _, itemTable in pairs(itemList) do
-                            for stat, _ in pairs(itemTable.itemBonus) do
-                                if (string.find(stat, "SET: ")) then
-                                    local setname = string.gsub(stat, "SET: (.*)", "%1")
-                                    
-                                    -- check if set was added already
-                                    local found = false
-                                    for _, setname2 in pairs(setnames) do
-                                        if setname == setname2 then found = true break end
+                    for _, itemList in pairs(TopFit:GetEquippableItems()) do
+                        for _, locationTable in pairs(itemList) do
+                            local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
+                            if itemTable then
+                                for stat, _ in pairs(itemTable.itemBonus) do
+                                    if (string.find(stat, "SET: ")) then
+                                        local setname = string.gsub(stat, "SET: (.*)", "%1")
+                                        
+                                        -- check if set was added already
+                                        local found = false
+                                        for _, setname2 in pairs(setnames) do
+                                            if setname == setname2 then found = true break end
+                                        end
+                                        
+                                        if not found then tinsert(setnames, setname) end
                                     end
-                                    
-                                    if not found then tinsert(setnames, setname) end
                                 end
                             end
                         end
@@ -952,21 +969,22 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.addStatButton:SetText("Add stat...")
         TopFit.ProgressFrame.addStatButton:SetHeight(22)
         TopFit.ProgressFrame.addStatButton:SetWidth(80)
+        TopFit.ProgressFrame.addStatButton:RegisterForClicks("AnyUp")
         
         TopFit.ProgressFrame.addStatButton:SetScript("OnClick", function(self, button)
             ToggleDropDownMenu(1, nil, TopFit.ProgressFrame.statDropDown, self, -20, 0)
         end)
         
-        TopFit.ProgressFrame.editStatScrollFrame = CreateFrame("ScrollFrame", "TopFit_StatScrollFrame", TopFit.ProgressFrame.rightFrame, "UIPanelScrollFrameTemplate")
+        TopFit.ProgressFrame.editStatScrollFrame = CreateFrame("ScrollFrame", "TopFit_EditStatScrollFrame", TopFit.ProgressFrame.rightFrame, "UIPanelScrollFrameTemplate")
         TopFit.ProgressFrame.editStatScrollFrame:SetPoint("TOPLEFT", TopFit.ProgressFrame.addStatButton, "BOTTOMLEFT", 0, -25)
         TopFit.ProgressFrame.editStatScrollFrame:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame, "BOTTOMRIGHT", -40, 20)
         TopFit.ProgressFrame.editStatScrollFrame:SetHeight(boxHeight)
         TopFit.ProgressFrame.editStatScrollFrame:SetWidth(boxWidth)
-        local group3 = CreateFrame("Frame", nil, TopFit.ProgressFrame.editStatScrollFrame)
-        group3:SetAllPoints()
-        group3:SetHeight(boxHeight)
-        group3:SetWidth(235)
-        TopFit.ProgressFrame.editStatScrollFrame:SetScrollChild(group3)
+        local editStatScrollFrameContent = CreateFrame("Frame", nil, TopFit.ProgressFrame.editStatScrollFrame)
+        editStatScrollFrameContent:SetAllPoints()
+        editStatScrollFrameContent:SetHeight(boxHeight)
+        editStatScrollFrameContent:SetWidth(235)
+        TopFit.ProgressFrame.editStatScrollFrame:SetScrollChild(editStatScrollFrameContent)
         TopFit.ProgressFrame.editStatScrollFrame:SetBackdrop(backdrop)
         TopFit.ProgressFrame.editStatScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
         TopFit.ProgressFrame.editStatScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
@@ -1106,7 +1124,7 @@ function TopFit:CreateProgressFrame()
                 for i = 1, #headerTitles do
                     menuHeaders[i] = TopFit.ProgressFrame:CreateHeaderButton(TopFit.ProgressFrame.rightFrame, prefix .. headerTitles[i][1])
                     if i == 1 then
-                        menuHeaders[i]:SetPoint("BOTTOMLEFT", group3, "TOPLEFT")
+                        menuHeaders[i]:SetPoint("BOTTOMLEFT", TopFit.ProgressFrame.editStatScrollFrame, "TOPLEFT")
                     else
                         menuHeaders[i]:SetPoint("TOPLEFT", menuHeaders[i-1], "TOPRIGHT")
                     end
@@ -1134,15 +1152,15 @@ function TopFit:CreateProgressFrame()
                 value = sortableStatWeightTable[i][2]
                 
                 if not statTexts[i] then
-                    statButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editStatButton"..i, group3)
-                    statTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                    valueTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                    capBoxes[i] = CreateFrame("CheckButton", "TopFit_ProgressFrame_CapCheckBox"..i, group3, "UICheckButtonTemplate")
-                    capButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editCapButton"..i, group3)
-                    capTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                    capValueTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                    capTypeButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editCapTypeButton"..i, group3)
-                    capTypeTexts[i] = group3:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+                    statButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editStatButton"..i, editStatScrollFrameContent)
+                    statTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+                    valueTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+                    capBoxes[i] = CreateFrame("CheckButton", "TopFit_ProgressFrame_CapCheckBox"..i, editStatScrollFrameContent, "UICheckButtonTemplate")
+                    capButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editCapButton"..i, editStatScrollFrameContent)
+                    capTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+                    capValueTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+                    capTypeButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editCapTypeButton"..i, editStatScrollFrameContent)
+                    capTypeTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
                     
                     statTexts[i]:SetTextHeight(11)
                     valueTexts[i]:SetTextHeight(11)
@@ -1150,7 +1168,7 @@ function TopFit:CreateProgressFrame()
                     capValueTexts[i]:SetTextHeight(11)
                     capTypeTexts[i]:SetTextHeight(11)
                     if i == 1 then
-                        statTexts[i]:SetPoint("TOPLEFT", group3, "TOPLEFT", 3, -3)
+                        statTexts[i]:SetPoint("TOPLEFT", editStatScrollFrameContent, "TOPLEFT", 3, -3)
                     else
                         statTexts[i]:SetPoint("TOPLEFT", capTexts[i - 1], "BOTTOMLEFT")
                     end
@@ -1158,7 +1176,7 @@ function TopFit:CreateProgressFrame()
                     capTexts[i]:SetPoint("TOPLEFT", statTexts[i], "BOTTOMLEFT")
                     capValueTexts[i]:SetPoint("RIGHT", capTexts[i], "LEFT", headerTitles[1][2] + headerTitles[2][2] - 4, 0)
                     capTypeTexts[i]:SetPoint("LEFT", capBoxes[i], "LEFT")
-                    capTypeTexts[i]:SetPoint("RIGHT", group3, "RIGHT")
+                    capTypeTexts[i]:SetPoint("RIGHT", editStatScrollFrameContent, "RIGHT")
                     capTypeTexts[i]:SetPoint("TOP", capValueTexts[i], "TOP")
                     statButtons[i].i = i
                     statButtons[i]:SetPoint("TOPLEFT", statTexts[i], "TOPLEFT")
@@ -1264,7 +1282,7 @@ function TopFit:CreateProgressFrame()
         function TopFit.ProgressFrame:ShowStatEditTextBox(statID, isCap)
             if not TopFit.ProgressFrame.statEditTextBox then
                 -- create box
-                TopFit.ProgressFrame.statEditTextBox = CreateFrame("EditBox", "TopFit_ProgressFrame_statEditTextBox", group3)
+                TopFit.ProgressFrame.statEditTextBox = CreateFrame("EditBox", "TopFit_ProgressFrame_statEditTextBox", editStatScrollFrameContent)
                 TopFit.ProgressFrame.statEditTextBox:SetWidth(50)
                 TopFit.ProgressFrame.statEditTextBox:SetHeight(11)
                 TopFit.ProgressFrame.statEditTextBox:SetAutoFocus(false)
@@ -1354,4 +1372,3 @@ end
 function TopFit:HideProgressFrame()
     TopFit.ProgressFrame:Hide()
 end
-

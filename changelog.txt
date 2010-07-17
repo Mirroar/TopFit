@@ -1,7 +1,18 @@
 Changelog for TopFit
 ====================
 
-3.3v5 alpha - 2010/06/24
+3.3v5 - 2010/07/17
+  - fixed a bug with the preset protection paladin set - if you stil get an error calculating that set, update the defense cap value and it should work
+  - fixed a bug where you could not select item sets as values to add
+  - added a tooltip to TopFit's button in the character frame
+  - automatic set update will now also happen on level up (to equip items you previosly could not because of level)
+  - plate heirlooms should now correctly be chosen to equip for warriors, paladins and deathknights below level 40, same for mail heirlooms and hunters / shamans
+  - items will no longer be tried to equip while you are dead
+  - fixed scrollbars in options frame... again
+  - the options frame will now move to the top level of the UI when you click it
+  - you can now exclude individual sets from item tooltips (useful if you have multiple sets for different hitcaps, for example)
+
+3.3v5 beta - 2010/06/24
   - items will no longer be equipped while you are in combat
   - item information is now properly cached, resulting in a performance increase
   - looking at the tooltip for an item that is not yet in the client's itemCache should no longer cause an error

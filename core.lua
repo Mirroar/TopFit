@@ -68,8 +68,8 @@ function TopFit:EquipRecommendedItems()
 end
 
 function TopFit:onUpdateForEquipment()
-    -- don't try equipping in combat
-    if UnitAffectingCombat("player") then
+    -- don't try equipping in combat or while dead
+    if UnitAffectingCombat("player") or UnitIsDeadOrGhost("player") then
         return
     end
 
@@ -86,7 +86,7 @@ function TopFit:onUpdateForEquipment()
     
     TopFit.updateEquipmentCounter = TopFit.updateEquipmentCounter + 1
     
-    -- try equipping the items if it takes a while (some weird ring positions might stop us from correctly equipping items in one try, for example)
+    -- try equipping the items every 100 frames (some weird ring positions might stop us from correctly equipping items on the first try, for example)
     if (TopFit.updateEquipmentCounter > 100) then
         for slotID, recTable in pairs(TopFit.itemRecommendations) do
             slotItemLink = GetInventoryItemLink("player", slotID)
@@ -361,12 +361,50 @@ function TopFit:OnInitialize()
     -- frame for eventhandling
     TopFit.eventFrame = CreateFrame("Frame")
     TopFit.eventFrame:RegisterEvent("BAG_UPDATE")
+    TopFit.eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
     TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
     TopFit.eventFrame:SetScript("OnUpdate", TopFit.delayCalculationOnLogin)
     
     -- frame for calculation function
     TopFit.calculationsFrame = CreateFrame("Frame");
-
+    
+    -- heirloom info
+    local isPlateWearer, isMailWearer = false, false
+    if (select(2, UnitClass("player")) == "WARRIOR") or (select(2, UnitClass("player")) == "PALADIN") or (select(2, UnitClass("player")) == "DEATHKNIGHT") then
+        isPlateWearer = true
+    end
+    if (select(2, UnitClass("player")) == "SHAMAN") or (select(2, UnitClass("player")) == "HUNTER") then
+        isMailWearer = true
+    end
+    
+    -- tables of itemIDs for heirlooms which change armor type
+    TopFit.heirloomInfo = {
+        plateHeirlooms = {
+            [3] = {
+                [1] = 42949,
+                [2] = 44100,
+                [3] = 44099,
+            },
+            [5] = {
+                [1] = 48685,
+            },
+        },
+        mailHeirlooms = {
+            [3] = {
+                [1] = 44102,
+                [2] = 42950,
+                [3] = 42951,
+                [4] = 44101,
+            },
+            [5] = {
+                [1] = 48677,
+                [2] = 48683,
+            },
+        },
+        isPlateWearer = isPlateWearer,
+        isMailWearer = isMailWearer
+    }
+    
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
         if not TopFit.toggleProgressFrameButton then
@@ -398,7 +436,7 @@ function TopFit:OnInitialize()
             iconTexture:SetPoint("TOPLEFT", TopFit.toggleProgressFrameButton, "TOPLEFT", 6, -4)
             iconTexture:SetPoint("BOTTOMRIGHT", TopFit.toggleProgressFrameButton, "BOTTOMRIGHT", -6, 4)
             
-            TopFit.toggleProgressFrameButton:SetScript("OnClick", function (...)
+            TopFit.toggleProgressFrameButton:SetScript("OnClick", function(...)
                 if (not TopFit.ProgressFrame) or (not TopFit.ProgressFrame:IsShown()) then
                     TopFit:CreateProgressFrame()
                 else
@@ -406,11 +444,21 @@ function TopFit:OnInitialize()
                 end
             end)
             
-            TopFit.toggleProgressFrameButton:SetScript("OnMouseDown", function (...)
+            TopFit.toggleProgressFrameButton:SetScript("OnMouseDown", function(...)
                 iconTexture:SetVertexColor(0.5, 0.5, 0.5)
             end)
-            TopFit.toggleProgressFrameButton:SetScript("OnMouseUp", function (...)
+            TopFit.toggleProgressFrameButton:SetScript("OnMouseUp", function(...)
                 iconTexture:SetVertexColor(1, 1, 1)
+            end)
+            
+            -- tooltip
+            TopFit.toggleProgressFrameButton:SetScript("OnEnter", function(self)
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                GameTooltip:SetText("Open TopFit", nil, nil, nil, nil, true)
+                GameTooltip:Show()
+            end)
+            TopFit.toggleProgressFrameButton:SetScript("OnLeave", function(...)
+                GameTooltip:Hide()
             end)
         end
         if GearManagerToggleButton:IsShown() then
@@ -499,6 +547,24 @@ function TopFit:FrameOnEvent(event, ...)
                 TopFit:CalculateSets(true) -- calculate silently
             end
         end
+    elseif (event == "PLAYER_LEVEL_UP") then
+        -- remove cache info for heirlooms so they are rescanned
+        for itemLink, itemTable in pairs(TopFit.itemsCache) do
+            if itemTable.itemQuality == 7 then
+                TopFit.itemsCache[itemLink] = nil
+                TopFit.scoresCache[itemLink] = nil
+            end
+        end
+        
+        -- if an auto-update-set is set, update that as well
+        if TopFit.db.profile.defaultUpdateSet then
+            if not TopFit.workSetList then
+                TopFit.workSetList = {}
+            end
+            tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
+            
+            TopFit:CalculateSets(true) -- calculate silently
+        end
     end
 end
 
@@ -530,207 +596,208 @@ local function TooltipAddCompareLines(tt, link)
     tt:AddLine(" ")
     tt:AddLine("Compared with your current items for each set:")
     for setCode, setTable in pairs(TopFit.db.profile.sets) do
-        -- find current item(s) from set
-        local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(setTable.name))
-        local itemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(setTable.name))
-        local itemLinks = nil
-        if itemPositions then
-            itemLinks = {}
-            for slotID, itemLocation in pairs(itemPositions) do
-                if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then -- 0: set to no item; 1: slot is ignored
+        if not TopFit.db.profile.sets[setCode].excludeFromTooltip then
+            -- find current item(s) from set
+            local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(setTable.name))
+            local itemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(setTable.name))
+            local itemLinks = {}
+            if itemPositions then
+                for slotID, itemLocation in pairs(itemPositions) do
+                    if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then -- 0: set to no item; 1: slot is ignored
+                        local itemLink = nil
+                        local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
+                        if player then
+                            if bank then
+                                -- item is banked, use itemID
+                                local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
+                                if itemID and itemID ~= 1 then
+                                    _, itemLink = GetItemInfo(itemID)
+                                end
+                            elseif bags then
+                                -- item is in player's bags
+                                itemLink = GetContainerItemLink(bag, slot)
+                            else
+                                -- item is equipped
+                                itemLink = GetInventoryItemLink("player", slot)
+                            end
+                        else
+                            -- item not found
+                        end
+                        itemLinks[slotID] = itemLink
+                    end
+                end
+                
+                for _, slotID in pairs(itemTable.equipLocationsByType) do
+                    -- get compare items sorted out
+                    local itemID = nil
                     local itemLink = nil
-                    local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
-                    if player then
-                        if bank then
-                            -- item is banked, use itemID
-                            local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
-                            if itemID and itemID ~= 1 then
-                                _, itemLink = GetItemInfo(itemID)
+                    local rawScore, asIsScore, rawCompareScore, asIsCompareScore = 0, 0, 0, 0
+                    local extraText = ""
+                    local compareTable = nil
+                    local itemTable2 = nil
+                    local compareTable2 = nil
+                    local compareNotCached = false
+                    
+                    rawScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, true) -- including caps, raw score
+                    asIsScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, false) -- including caps, enchanted score
+                    
+                    if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 and itemIDs[slotID] ~= 0 then
+                        itemID = itemIDs[slotID]
+                        itemLink = itemLinks[slotID]
+                        
+                        if itemLink then
+                            compareTable = TopFit:GetCachedItem(itemLink)
+                        end
+                        
+                        if compareTable then
+                            rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
+                            asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
+                        else
+                            compareNotCached = true
+                        end
+                    end
+                    
+                    -- location tables for best-in-slot requests
+                    local locationTable, compLocationTable
+                    if (slotID == 16 or slotID == 17) then
+                        locationTable = {itemLink = itemTable.itemLink, slot = nil, bag = nil}
+                        if compareTable then
+                            local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemPositions[slotID])
+                            if player then
+                                if bags then
+                                    compLocationTable = {itemLink = compareTable.itemLink, slot = slot, bag = bag}
+                                elseif bank then
+                                    compLocationTable = {itemLink = compareTable.itemLink, slot = nil, bag = nil}
+                                else
+                                    compLocationTable = {itemLink = compareTable.itemLink, slot = slot, bag = nil}
+                                end
+                            else
+                                compLocationTable = {itemLink = compareTable.itemLink, slot = nil, bag = nil}
                             end
-                        elseif bags then
-                            -- item is in player's bags
-                            itemLink = GetContainerItemLink(bag, slot)
                         else
-                            -- item is equipped
-                            itemLink = GetInventoryItemLink("player", slot)
+                            compLocationTable = {itemLink = "", slot = nil, bag = nil}
                         end
-                    else
-                        -- item not found
                     end
-                    itemLinks[slotID] = itemLink
-                end
-            end
-        end
-        
-        for _, slotID in pairs(itemTable.equipLocationsByType) do
-            -- get compare items sorted out
-            local itemID = nil
-            local itemLink = nil
-            local rawScore, asIsScore, rawCompareScore, asIsCompareScore = 0, 0, 0, 0
-            local extraText = ""
-            local compareTable = nil
-            local itemTable2 = nil
-            local compareTable2 = nil
-            local compareNotCached = false
-            
-            rawScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, true) -- including caps, raw score
-            asIsScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, false) -- including caps, enchanted score
-            
-            if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 and itemIDs[slotID] ~= 0 then
-                itemID = itemIDs[slotID]
-                itemLink = itemLinks[slotID]
-                
-                if itemLink then
-                    compareTable = TopFit:GetCachedItem(itemLink)
-                end
-                
-                if compareTable then
-                    rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
-                    asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
-                else
-                    compareNotCached = true
-                end
-            end
-            
-            -- location tables for best-in-slot requests
-            local locationTable, compLocationTable
-            if (slotID == 16 or slotID == 17) then
-                locationTable = {itemLink = itemTable.itemLink, slot = nil, bag = nil}
-                if compareTable then
-                    local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemPositions[slotID])
-                    if player then
-                        if bags then
-                            compLocationTable = {itemLink = compareTable.itemLink, slot = slot, bag = bag}
-                        elseif bank then
-                            compLocationTable = {itemLink = compareTable.itemLink, slot = nil, bag = nil}
+                    
+                    if slotID == 16 then -- main hand slot
+                        if TopFit:IsOnehandedWeapon(link) then
+                            -- is the weapon we compare to (if it exists) two-handed?
+                            if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 and itemIDs[slotID] ~= 0 and not TopFit:IsOnehandedWeapon(itemIDs[slotID]) then
+                                -- try to find a fitting offhand for better comparison
+                                if TopFit.playerCanDualwield then
+                                    -- find best offhand regardless of type
+                                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                                    if lTable2 then
+                                        itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
+                                    end
+                                else
+                                    -- find best offhand that is not a weapon
+                                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+                                    if lTable2 then
+                                        itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
+                                    end
+                                end
+                            else
+                            end
                         else
-                            compLocationTable = {itemLink = compareTable.itemLink, slot = slot, bag = nil}
+                            if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 then
+                                -- mainhand is set
+                                if TopFit:IsOnehandedWeapon(itemIDs[slotID]) then
+                                    -- use offhand of that set as second compare item
+                                    if (itemLinks[17]) then
+                                        compareTable2 = TopFit:GetCachedItem(itemLinks[17])
+                                    end
+                                else
+                                    -- compare normally, these are 2 two-handed weapons
+                                end
+                            else
+                                -- compare with offhand if appliccapble
+                                if (itemLinks[17]) then
+                                    compareTable2 = TopFit:GetCachedItem(itemLinks[17])
+                                end
+                            end
                         end
-                    else
-                        compLocationTable = {itemLink = compareTable.itemLink, slot = nil, bag = nil}
-                    end
-                else
-                    compLocationTable = {itemLink = "", slot = nil, bag = nil}
-                end
-            end
-            
-            if slotID == 16 then -- main hand slot
-                if TopFit:IsOnehandedWeapon(link) then
-                    -- is the weapon we compare to (if it exists) two-handed?
-                    if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 and itemIDs[slotID] ~= 0 and not TopFit:IsOnehandedWeapon(itemIDs[slotID]) then
-                        -- try to find a fitting offhand for better comparison
-                        if TopFit.playerCanDualwield then
-                            -- find best offhand regardless of type
-                            local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                    elseif slotID == 17 then -- offhand slot
+                        -- find a valid mainhand to use in comparisons (only when comparing to a 2h)
+                        if itemIDs and itemIDs[16] and itemIDs[16] ~= 1 and not TopFit:IsOnehandedWeapon(itemIDs[16]) then
+                            local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 16, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
                             if lTable2 then
                                 itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                             end
-                        else
-                            -- find best offhand that is not a weapon
-                            local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
-                            if lTable2 then
-                                itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
+                            
+                            -- also set compareTable to the relevant MAIN HAND! since offhand is empty, obviously
+                            compareTable = TopFit:GetCachedItem(itemLinks[16])
+                            
+                            if compareTable then
+                                rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
+                                asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
+                            else
+                                compareNotCached = true
                             end
                         end
-                    else
-                    end
-                else
-                    if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 then
-                        -- mainhand is set
-                        if TopFit:IsOnehandedWeapon(itemIDs[slotID]) then
-                            -- use offhand of that set as second compare item
-                            if (itemLinks[17]) then
-                                compareTable2 = TopFit:GetCachedItem(itemLinks[17])
-                            end
-                        else
-                            -- compare normally, these are 2 two-handed weapons
-                        end
-                    else
-                        -- compare with offhand if appliccapble
-                        if (itemLinks[17]) then
-                            compareTable2 = TopFit:GetCachedItem(itemLinks[17])
-                        end
-                    end
-                end
-            elseif slotID == 17 then -- offhand slot
-                -- find a valid mainhand to use in comparisons (only when comparing to a 2h)
-                if itemIDs and itemIDs[16] and itemIDs[16] ~= 1 and not TopFit:IsOnehandedWeapon(itemIDs[16]) then
-                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 16, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
-                    if lTable2 then
-                        itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                     end
                     
-                    -- also set compareTable to the relevant MAIN HAND! since offhand is empty, obviously
-                    compareTable = TopFit:GetCachedItem(itemLinks[16])
+                    if itemTable2 then
+                        rawScore = rawScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, true)
+                        asIsScore = asIsScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, false)
+                        
+                        extraText = extraText..", if you also use "..itemTable2.itemLink
+                    end
                     
-                    if compareTable then
-                        rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
-                        asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
+                    if compareTable2 then
+                        rawCompareScore = rawCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, true)
+                        asIsCompareScore = asIsCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, false)
+                        
+                        extraText = extraText..", "..compareTable2.itemLink
+                    end
+                    
+                    local ratio, rawRatio, ratioString, rawRatioString = 1, 1, "", ""
+                    if rawCompareScore ~= 0 then
+                        rawRatio = rawScore / rawCompareScore
+                    elseif rawScore > 0 then
+                        rawRatio = 20
+                    elseif rawScore < 0 then
+                        rawRatio = -20
+                    end
+                    if asIsCompareScore ~= 0 then
+                        ratio = asIsScore / asIsCompareScore
+                    elseif asIsScore > 0 then
+                        ratio = 20
+                    elseif asIsScore < 0 then
+                        ratio = -20
+                    end
+                    
+                    local function percentilize(ratio)
+                        local ratioString
+                        if ratio > 11 then
+                            ratioString = "|cff00ff00> 1000%|r"
+                        elseif ratio > 1.1 then
+                            ratioString = "|cff00ff00"..round((ratio - 1) * 100, 2).."%|r"
+                        elseif ratio >= 1 then
+                            ratioString = "|cffffff00"..round((ratio - 1) * 100, 2).."%|r"
+                        elseif ratio < -9 then
+                            ratioString = "|cffff0000< -1000%|r"
+                        else -- ratio < 1
+                            ratioString = "|cffff0000"..round((ratio - 1) * 100, 2).."%|r"
+                        end
+                        return ratioString
+                    end
+                    
+                    local compareItemText = ""
+                    if compareNotCached then
+                        compareItemText = "Item not in cache!|n"
+                    elseif not compareTable then
+                        compareItemText = "No item in set"
                     else
-                        compareNotCached = true
+                        compareItemText = compareTable.itemLink
+                    end
+                    
+                    if ratio ~= rawRatio then
+                        tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, setTable.name)
+                    else
+                        tt:AddDoubleLine("["..percentilize(rawRatio).."] - "..compareItemText..extraText, setTable.name)
                     end
                 end
-            end
-            
-            if itemTable2 then
-                rawScore = rawScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, true)
-                asIsScore = asIsScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, false)
-                
-                extraText = extraText..", if you also use "..itemTable2.itemLink
-            end
-            
-            if compareTable2 then
-                rawCompareScore = rawCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, true)
-                asIsCompareScore = asIsCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, false)
-                
-                extraText = extraText..", "..compareTable2.itemLink
-            end
-            
-            local ratio, rawRatio, ratioString, rawRatioString = 1, 1, "", ""
-            if rawCompareScore ~= 0 then
-                rawRatio = rawScore / rawCompareScore
-            elseif rawScore > 0 then
-                rawRatio = 20
-            elseif rawScore < 0 then
-                rawRatio = -20
-            end
-            if asIsCompareScore ~= 0 then
-                ratio = asIsScore / asIsCompareScore
-            elseif asIsScore > 0 then
-                ratio = 20
-            elseif asIsScore < 0 then
-                ratio = -20
-            end
-            
-            local function percentilize(ratio)
-                local ratioString
-                if ratio > 11 then
-                    ratioString = "|cff00ff00> 1000%|r"
-                elseif ratio > 1.1 then
-                    ratioString = "|cff00ff00"..round((ratio - 1) * 100, 2).."%|r"
-                elseif ratio >= 1 then
-                    ratioString = "|cffffff00"..round((ratio - 1) * 100, 2).."%|r"
-                elseif ratio < -9 then
-                    ratioString = "|cffff0000< -1000%|r"
-                else -- ratio < 1
-                    ratioString = "|cffff0000"..round((ratio - 1) * 100, 2).."%|r"
-                end
-                return ratioString
-            end
-            
-            local compareItemText = ""
-            if compareNotCached then
-                compareItemText = "Item not in cache!|n"
-            elseif not compareTable then
-                compareItemText = "No item in set"
-            else
-                compareItemText = compareTable.itemLink
-            end
-            
-            if ratio ~= rawRatio then
-                tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, setTable.name)
-            else
-                tt:AddDoubleLine("["..percentilize(rawRatio).."] - "..compareItemText..extraText, setTable.name)
             end
         end
     end
@@ -809,12 +876,14 @@ local function TooltipAddLines(tt, link)
         -- scores for sets
         local first = true
         for setCode, setTable in pairs(TopFit.db.profile.sets) do
-            if first then
-                first = false
-                tt:AddLine("Set Values:", 0.6, 1, 0.7)
+            if not TopFit.db.profile.sets[setCode].excludeFromTooltip then
+                if first then
+                    first = false
+                    tt:AddLine("Set Values:", 0.6, 1, 0.7)
+                end
+                
+                tt:AddLine("  "..round(TopFit:GetItemScore(itemTable.itemLink, setCode), 2).." - "..setTable.name, 0.6, 1, 0.7)
             end
-            
-            tt:AddLine("  "..round(TopFit:GetItemScore(itemTable.itemLink, setCode), 2).." - "..setTable.name, 0.6, 1, 0.7)
         end
     end
 end

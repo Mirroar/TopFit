@@ -57,7 +57,7 @@ end
 -- find out all we need to know about an item. and maybe even more
 -- this does not return information which might change, only things you can get from the item link
 function TopFit:GetItemInfoTable(item)
-    local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(item)
+    local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(item)
     if itemLink then
         -- generate item info
         local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
@@ -202,6 +202,7 @@ function TopFit:GetItemInfoTable(item)
         local result = {
             ["itemLink"] = itemLink,
             ["itemID"] = itemID,
+            ["itemQuality"] = itemQuality,
             ["itemMinLevel"] = itemMinLevel,
             ["itemEquipLoc"] = itemEquipLoc,
             ["itemBonus"] = itemBonus,
@@ -329,6 +330,8 @@ function TopFit:GetEquipLocationsByInvType(itemEquipLoc)
     return {}
 end
 
+
+
 -- returns all equippable items, limited by slot, if given
 function TopFit:GetEquippableItems(requestedSlotID)
     local itemListBySlot = {}
@@ -344,6 +347,26 @@ function TopFit:GetEquippableItems(requestedSlotID)
                     availableSlots[availableItemID] = { slotID }
                 else
                     tinsert(availableSlots[availableItemID], slotID)
+                end
+            end
+        end
+        
+        if (TopFit.heirloomInfo.isPlateWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
+            for i = 1, #(TopFit.heirloomInfo.plateHeirlooms[slotID]) do
+                if (not availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]]) then
+                    availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]] = { slotID }
+                else
+                    tinsert(availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]], slotID)
+                end
+            end
+        end
+        
+        if (TopFit.heirloomInfo.isMailWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
+            for i = 1, #(TopFit.heirloomInfo.mailHeirlooms[slotID]) do
+                if (not availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]]) then
+                    availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]] = { slotID }
+                else
+                    tinsert(availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]], slotID)
                 end
             end
         end
