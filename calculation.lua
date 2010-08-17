@@ -55,7 +55,7 @@ function TopFit:CalculateRecommendations()
     -- determine if the player can dualwield
     TopFit.playerCanDualWield = false
     TopFit.playerCanTitansGrip = false
-    if (select(2, UnitClass("player")) == "ROGUE") or (((select(2, UnitClass("player")) == "WARRIOR") or (select(2, UnitClass("player")) == "HUNTER")) and (UnitLevel("player") > 20)) or
+    if (select(2, UnitClass("player")) == "ROGUE") or (select(2, UnitClass("player")) == "DEATHKNIGHT") or (((select(2, UnitClass("player")) == "WARRIOR") or (select(2, UnitClass("player")) == "HUNTER")) and (UnitLevel("player") > 20)) or
         ((select(2, UnitClass("player")) == "SHAMAN") and (select(5, GetTalentInfo(2, 20)) > 0)) then
         TopFit.playerCanDualWield = true
     end

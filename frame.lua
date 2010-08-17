@@ -15,6 +15,70 @@ local function HideTooltip()
     GameTooltip:Hide()
 end
 
+function TopFit:RegisterPlugin(pluginName, tooltipText)
+    -- create / register plugin-tab
+    local pluginInfo = {
+        name = pluginName,
+        tooltipText = tooltipText,
+    }
+    
+    tinsert(TopFit.plugins, pluginInfo)
+    pluginInfo.id = #(TopFit.plugins)
+    
+    -- return frame for plugin UI
+    pluginInfo.frame = CreateFrame("Frame", "TopFit_ProgressFrame_PluginFrame_"..(pluginInfo.id), nil)
+    if pluginInfo.id > 1 then
+        pluginInfo.frame:Hide()
+    end
+    
+    TopFit:UpdatePlugins()
+    
+    return pluginInfo.frame
+end
+
+function TopFit:UpdatePlugins()
+    if TopFit.ProgressFrame then
+        local i
+        for i = 1, #(TopFit.plugins) do
+            local pluginInfo = TopFit.plugins[i]
+            -- update parents and anchors for plugin frames
+            pluginInfo.frame:SetParent(TopFit.ProgressFrame.pluginContainer)
+            pluginInfo.frame:SetAllPoints()
+            
+            -- create tabs if necessary
+            if not pluginInfo.tabButton then
+                -- create plugin button and size / anchor it
+                pluginInfo.tabButton = TopFit.ProgressFrame:CreateHeaderButton(TopFit.ProgressFrame.pluginContainer, "TopFit_ProgressFrame_PluginButton_"..(pluginInfo.id))
+                pluginInfo.tabButton:SetPoint("BOTTOM", TopFit.ProgressFrame, "TOP", 0, -7)
+                if (pluginInfo.id == 1) then
+                    pluginInfo.tabButton:SetPoint("LEFT", TopFit.ProgressFrame.pluginContainer, "LEFT")
+                else
+                    pluginInfo.tabButton:SetPoint("LEFT", TopFit.plugins[pluginInfo.id - 1].tabButton, "RIGHT", 3, 0)
+                end
+                
+                -- set event handlers
+                pluginInfo.tabButton:SetScript("OnClick", function()
+                    TopFit:SelectPluginTab(pluginInfo.id)
+                end)
+            end
+            pluginInfo.tabButton:SetText(pluginInfo.name)
+            pluginInfo.tabButton:SetWidth(pluginInfo.tabButton:GetFontString():GetStringWidth() + 10)
+            pluginInfo.tabButton.tipText = pluginInfo.tooltipText
+        end
+    end
+end
+
+function TopFit:SelectPluginTab(id)
+    local i
+    for i = 1, #(TopFit.plugins) do
+        if i == id then
+            TopFit.plugins[i].frame:Show()
+        else
+            TopFit.plugins[i].frame:Hide()
+        end
+    end
+end
+
 function TopFit:CreateProgressFrame()
     if not TopFit.ProgressFrame then
         -- actual frame
@@ -157,6 +221,7 @@ function TopFit:CreateProgressFrame()
                 info.func = function(self)
                     TopFit:AddSet(v)
                     TopFit:CalculateScores()
+                    --TopFit.ProgressFrame:SetCurrentCombination()
                 end
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -192,6 +257,7 @@ function TopFit:CreateProgressFrame()
                 TopFit.ProgressFrame.deleteSetButton.firstClick = true
             else
                 -- on second click: delete set
+                --TopFit.ProgressFrame:SetCurrentCombination()
                 TopFit:DeleteSet(TopFit.ProgressFrame.selectedSet)
                 --TopFit:CalculateScores()
                 TopFit.ProgressFrame.deleteSetButton.redHightlight:Hide();
@@ -213,12 +279,12 @@ function TopFit:CreateProgressFrame()
             if TopFit.ProgressFrame.isExpanded then
                 TopFit.ProgressFrame.expandButton:SetText(">>")
                 TopFit.ProgressFrame.isExpanded = false
-                TopFit.ProgressFrame.rightFrame:Hide()
+                TopFit.ProgressFrame.pluginContainer:Hide()
                 TopFit.ProgressFrame:SetWidth(TopFit.ProgressFrame:GetWidth() / 2)
             else
                 TopFit.ProgressFrame.expandButton:SetText("<<")
                 TopFit.ProgressFrame.isExpanded = true
-                TopFit.ProgressFrame.rightFrame:Show()
+                TopFit.ProgressFrame.pluginContainer:Show()
                 TopFit.ProgressFrame:SetWidth(TopFit.ProgressFrame:GetWidth() * 2)
             end
         end)
@@ -671,17 +737,9 @@ function TopFit:CreateProgressFrame()
             end
             
             -- reset to default icon
-            for _, button in pairs(TopFit.ProgressFrame.equipButtons) do
+            for slotID, button in pairs(TopFit.ProgressFrame.equipButtons) do
                 button:SetNormalTexture(button.emptyTexture)
                 button.itemLink = nil
-            end
-            for slotID, locationTable in pairs(combination.items) do
-                -- set to item icon
-                _, _, _, _, _, _, _, _, _, texture, _ = GetItemInfo(locationTable.itemLink)
-                if not texture then texture = "Interface\\Icons\\Inv_misc_questionmark" end
-                TopFit.ProgressFrame.equipButtons[slotID]:SetNormalTexture(texture)
-                TopFit.ProgressFrame.equipButtons[slotID].itemLink = locationTable.itemLink
-                
                 -- set highlight if forced item
                 if (TopFit.ProgressFrame.selectedSet) and (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet]) and
                         (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].forced[slotID]) then
@@ -689,6 +747,13 @@ function TopFit:CreateProgressFrame()
                 else
                     TopFit.ProgressFrame.equipButtons[slotID].highlightTexture:SetVertexColor(1, 1, 1, 0)
                 end
+            end
+            for slotID, locationTable in pairs(combination.items) do
+                -- set to item icon
+                _, _, _, _, _, _, _, _, _, texture, _ = GetItemInfo(locationTable.itemLink)
+                if not texture then texture = "Interface\\Icons\\Inv_misc_questionmark" end
+                TopFit.ProgressFrame.equipButtons[slotID]:SetNormalTexture(texture)
+                TopFit.ProgressFrame.equipButtons[slotID].itemLink = locationTable.itemLink
             end
             
             TopFit.ProgressFrame.setScoreFontString:SetText("Total Score: "..round(combination.totalScore, 2))
@@ -832,15 +897,60 @@ function TopFit:CreateProgressFrame()
         -- stuff for second half of the frame goes here!
         TopFit.ProgressFrame.isExpanded = false
         
-        TopFit.ProgressFrame.rightFrame = CreateFrame("Frame", "TopFit_ProgressFrame_rightFrame", TopFit.ProgressFrame)
-        TopFit.ProgressFrame.rightFrame:SetPoint("TOPRIGHT")
-        TopFit.ProgressFrame.rightFrame:SetPoint("BOTTOMRIGHT")
-        TopFit.ProgressFrame.rightFrame:SetWidth(TopFit.ProgressFrame:GetWidth())
-        TopFit.ProgressFrame.rightFrame:Hide()
+        function TopFit.ProgressFrame:CreateHeaderButton(parent, name)
+            local butt = CreateFrame("Button", name, parent)
+            butt:SetWidth(80) butt:SetHeight(18)
+            
+            -- Fonts --
+            butt:SetHighlightFontObject(GameFontHighlightSmall)
+            butt:SetNormalFontObject(GameFontNormalSmall)
+            
+            -- Textures --
+            --butt:SetHighlightTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
+            --butt:GetHighlightTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+            butt:SetHighlightTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight")
+            butt:GetHighlightTexture():SetBlendMode("ADD")
+            
+            local left = butt:CreateTexture("$parentLeft")
+            left:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+            left:SetTexCoord(0, 0.078125, 0, 0.59375)
+            left:SetPoint("BOTTOMLEFT")
+            left:SetWidth(5)
+            left:SetHeight(butt:GetHeight())
+            
+            local right = butt:CreateTexture("$parentRight")
+            right:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+            right:SetTexCoord(0.90625, 0.96875, 0, 0.59375)
+            right:SetPoint("BOTTOMRIGHT")
+            right:SetWidth(5)
+            right:SetHeight(butt:GetHeight())
+            
+            local center = butt:CreateTexture("$parentCenter")
+            center:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+            center:SetTexCoord(0.078125, 0.90625, 0, 0.59375)
+            center:SetPoint("LEFT", "$parentLeft", "RIGHT")
+            center:SetPoint("RIGHT", "$parentRight", "LEFT")
+            --center:SetWidth(5)
+            center:SetHeight(butt:GetHeight())
+            
+            -- Tooltip bits
+            butt:SetScript("OnEnter", ShowTooltip)
+            butt:SetScript("OnLeave", HideTooltip)
+            
+            return butt
+        end
+        
+        TopFit.ProgressFrame.pluginContainer = CreateFrame("Frame", "TopFit_ProgressFrame_PluginContainer", TopFit.ProgressFrame)
+        TopFit.ProgressFrame.pluginContainer:SetPoint("TOPRIGHT", TopFit.ProgressFrame, "TOPRIGHT", -15, -15)
+        TopFit.ProgressFrame.pluginContainer:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame, "BOTTOMRIGHT", -15, 15)
+        TopFit.ProgressFrame.pluginContainer:SetWidth(TopFit.ProgressFrame:GetWidth() - 30)
+        TopFit.ProgressFrame.pluginContainer:Hide()
+        
+        TopFit.ProgressFrame.rightFrame = TopFit:RegisterPlugin("Weights & Caps", "Use this tab to set weights and caps for your sets, defining their basic behavior.")
         
         -- options button
         TopFit.ProgressFrame.optionsButton = CreateFrame("Button", "TopFit_ProgressFrame_optionsButton", TopFit.ProgressFrame.rightFrame)
-        TopFit.ProgressFrame.optionsButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.rightFrame, "TOPRIGHT", -30, -20)
+        TopFit.ProgressFrame.optionsButton:SetPoint("TOPRIGHT", TopFit.ProgressFrame.rightFrame, "TOPRIGHT", -15, -5)
         TopFit.ProgressFrame.optionsButton:SetHeight(32)
         TopFit.ProgressFrame.optionsButton:SetWidth(32)
         TopFit.ProgressFrame.optionsButton:SetNormalTexture("Interface\\Icons\\INV_Misc_Gear_02")
@@ -965,7 +1075,7 @@ function TopFit:CreateProgressFrame()
         UIDropDownMenu_JustifyText(TopFit.ProgressFrame.statDropDown, "LEFT")
         
         TopFit.ProgressFrame.addStatButton = CreateFrame("Button", "TopFit_ProgressFrame_expandButton", TopFit.ProgressFrame.rightFrame, "UIPanelButtonTemplate")
-        TopFit.ProgressFrame.addStatButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.rightFrame, "TOPLEFT", 20, -60)
+        TopFit.ProgressFrame.addStatButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.rightFrame, "TOPLEFT", 5, -45)
         TopFit.ProgressFrame.addStatButton:SetText("Add stat...")
         TopFit.ProgressFrame.addStatButton:SetHeight(22)
         TopFit.ProgressFrame.addStatButton:SetWidth(80)
@@ -977,7 +1087,7 @@ function TopFit:CreateProgressFrame()
         
         TopFit.ProgressFrame.editStatScrollFrame = CreateFrame("ScrollFrame", "TopFit_EditStatScrollFrame", TopFit.ProgressFrame.rightFrame, "UIPanelScrollFrameTemplate")
         TopFit.ProgressFrame.editStatScrollFrame:SetPoint("TOPLEFT", TopFit.ProgressFrame.addStatButton, "BOTTOMLEFT", 0, -25)
-        TopFit.ProgressFrame.editStatScrollFrame:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame, "BOTTOMRIGHT", -40, 20)
+        TopFit.ProgressFrame.editStatScrollFrame:SetPoint("BOTTOMRIGHT", TopFit.ProgressFrame, "BOTTOMRIGHT", -25, 5)
         TopFit.ProgressFrame.editStatScrollFrame:SetHeight(boxHeight)
         TopFit.ProgressFrame.editStatScrollFrame:SetWidth(boxWidth)
         local editStatScrollFrameContent = CreateFrame("Frame", nil, TopFit.ProgressFrame.editStatScrollFrame)
@@ -1000,49 +1110,6 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.rightFrame.statCapButtons = {}
         TopFit.ProgressFrame.rightFrame.capTypeTexts = {}
         TopFit.ProgressFrame.rightFrame.capTypeButtons = {}
-        
-        function TopFit.ProgressFrame:CreateHeaderButton(parent, name)
-            local butt = CreateFrame("Button", name, parent)
-            butt:SetWidth(80) butt:SetHeight(18)
-            
-            -- Fonts --
-            butt:SetHighlightFontObject(GameFontHighlightSmall)
-            butt:SetNormalFontObject(GameFontNormalSmall)
-            
-            -- Textures --
-            --butt:SetHighlightTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
-            --butt:GetHighlightTexture():SetTexCoord(0, 0.625, 0, 0.6875)
-            butt:SetHighlightTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight")
-            butt:GetHighlightTexture():SetBlendMode("ADD")
-            
-            local left = butt:CreateTexture("$parentLeft")
-            left:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
-            left:SetTexCoord(0, 0.078125, 0, 0.59375)
-            left:SetPoint("BOTTOMLEFT")
-            left:SetWidth(5)
-            left:SetHeight(butt:GetHeight())
-            
-            local right = butt:CreateTexture("$parentRight")
-            right:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
-            right:SetTexCoord(0.90625, 0.96875, 0, 0.59375)
-            right:SetPoint("BOTTOMRIGHT")
-            right:SetWidth(5)
-            right:SetHeight(butt:GetHeight())
-            
-            local center = butt:CreateTexture("$parentCenter")
-            center:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
-            center:SetTexCoord(0.078125, 0.90625, 0, 0.59375)
-            center:SetPoint("LEFT", "$parentLeft", "RIGHT")
-            center:SetPoint("RIGHT", "$parentRight", "LEFT")
-            center:SetWidth(5)
-            center:SetHeight(butt:GetHeight())
-            
-            -- Tooltip bits
-            butt:SetScript("OnEnter", ShowTooltip)
-            butt:SetScript("OnLeave", HideTooltip)
-            
-            return butt
-        end
         
         function TopFit.ProgressFrame:UpdateSetStats()
             local menuHeaders = TopFit.ProgressFrame.rightFrame.menuHeaders
@@ -1356,6 +1423,9 @@ function TopFit:CreateProgressFrame()
             end
         end
         
+        -- create plugin frame for virtual items
+        TopFit:CreateVirtualItemsPlugin()
+        
         -- center frame on screen
         TopFit.ProgressFrame:SetPoint("CENTER", 0, 0)
         
@@ -1371,4 +1441,109 @@ end
 
 function TopFit:HideProgressFrame()
     TopFit.ProgressFrame:Hide()
+end
+
+function TopFit:CreateVirtualItemsPlugin()
+    local frame = TopFit:RegisterPlugin("Vir(tu)al Items", "Use this tab to include items you currently do not have in your inventory in the calculation.")
+    
+    -- label for item text box
+    frame.addItemLabel = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+    frame.addItemLabel:SetWordWrap(true)
+    frame.addItemLabel:SetHeight(30)
+    frame.addItemLabel:SetPoint("TOPLEFT")
+    frame.addItemLabel:SetPoint("TOPRIGHT")
+    frame.addItemLabel:SetText("Paste an item link or an item ID in this edit box and press <Enter> to add that item to your virtual items.")
+    
+    -- create text box for items
+    frame.addItemTextBox = CreateFrame("EditBox", "$parent_AddItemTextBox", frame)
+    frame.addItemTextBox:SetWidth(50)
+    frame.addItemTextBox:SetHeight(11)
+    frame.addItemTextBox:SetAutoFocus(false)
+    frame.addItemTextBox:SetFontObject("GameFontHighlightSmall")
+    frame.addItemTextBox:SetJustifyH("LEFT")
+    
+    frame.addItemTextBox:SetPoint("LEFT")
+    frame.addItemTextBox:SetPoint("RIGHT")
+    frame.addItemTextBox:SetPoint("TOP", frame.addItemLabel, "BOTTOM", 0, -10)
+    
+    -- background textures
+    local left = frame.addItemTextBox:CreateTexture(nil, "BACKGROUND")
+    left:SetWidth(8) left:SetHeight(20)
+    left:SetPoint("LEFT", -5, 0)
+    left:SetTexture("Interface\\Common\\Common-Input-Border")
+    left:SetTexCoord(0, 0.0625, 0, 0.625)
+    local right = frame.addItemTextBox:CreateTexture(nil, "BACKGROUND")
+    right:SetWidth(8) right:SetHeight(20)
+    right:SetPoint("RIGHT", 0, 0)
+    right:SetTexture("Interface\\Common\\Common-Input-Border")
+    right:SetTexCoord(0.9375, 1, 0, 0.625)
+    local center = frame.addItemTextBox:CreateTexture(nil, "BACKGROUND")
+    center:SetHeight(20)
+    center:SetPoint("RIGHT", right, "LEFT", 0, 0)
+    center:SetPoint("LEFT", left, "RIGHT", 0, 0)
+    center:SetTexture("Interface\\Common\\Common-Input-Border")
+    center:SetTexCoord(0.0625, 0.9375, 0, 0.625)
+    
+    -- scripts
+    frame.addItemTextBox:SetScript("OnEscapePressed", function (self)
+        frame.addItemTextBox:SetText("")
+        frame.addItemTextBox:ClearFocus()
+    end)
+    
+    frame.addItemTextBox:SetScript("OnEnterPressed", function (self)
+        -- check if input is itemLink or itemID
+        name, link = GetItemInfo(self:GetText())
+        
+        if not link then
+            TopFit:Print("Item not found.")
+        else
+            TopFit:Print("Adding "..link.." to virtual items...")
+        end
+    end)
+    
+    -- hook shift-clicks on items
+    -- Hook the container buttons
+    local containerFunc = function(button)
+        if IsShiftKeyDown() and frame.addItemTextBox:HasFocus() then
+            frame.addItemTextBox:Insert(GetContainerItemLink(button:GetParent():GetID(), button:GetID()))
+        end
+    end
+    hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", containerFunc)
+
+    -- Hook the bank buttons
+    local bankFunc = function(button)
+        if IsShiftKeyDown() and frame.addItemTextBox:HasFocus() then
+            frame.addItemTextBox:Insert(GetContainerItemLink(BANK_CONTAINER, button:GetID()))
+        end
+    end
+    hooksecurefunc("BankFrameItemButtonGeneric_OnModifiedClick", bankFunc)
+
+    -- Hook the paper doll frame buttons
+    local dollFunc = function(button)
+        if IsShiftKeyDown() and frame.addItemTextBox:HasFocus() then
+            frame.addItemTextBox:Insert(GetInventoryItemLink("player", button:GetID()))
+        end
+    end
+    hooksecurefunc("PaperDollItemSlotButton_OnModifiedClick", dollFunc)
+    
+    -- item list
+    local backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        tile = true,
+        tileSize = 32,
+        insets = { left = 0, right = -22, top = 0, bottom = 0 }}
+    
+    frame.itemsFrame = CreateFrame("ScrollFrame", "$parent_ItemsFrame", frame, "UIPanelScrollFrameTemplate")
+    frame.itemsFrame:SetPoint("TOPLEFT", frame.addItemTextBox, "BOTTOMLEFT", 0, -25)
+    frame.itemsFrame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -25, 0)
+    frame.itemsFrame:SetHeight(frame.itemsFrame:GetHeight())
+    frame.itemsFrame:SetWidth(frame.itemsFrame:GetWidth())
+    local itemsFrameContent = CreateFrame("Frame", nil, frame.itemsFrame)
+    itemsFrameContent:SetAllPoints()
+    --itemsFrameContent:SetHeight(boxHeight)
+    --itemsFrameContent:SetWidth(235)
+    frame.itemsFrame:SetScrollChild(editStatScrollFrameContent)
+    frame.itemsFrame:SetBackdrop(backdrop)
+    frame.itemsFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
+    frame.itemsFrame:SetBackdropColor(0.1, 0.1, 0.1)
+    
 end

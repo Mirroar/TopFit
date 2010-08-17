@@ -6,6 +6,19 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 
 ]]--
 
+local function tinsertonce(table, data)
+    local found = false
+    for _, v in pairs(table) do
+        if v == data then
+            found = true
+            break
+        end
+    end
+    if not found then
+        tinsert(table, data)
+    end
+end
+
 -- gather all items from inventory and bags, save their info to cache
 function TopFit:collectItems(bag)
     TopFit.characterLevel = UnitLevel("player")
@@ -346,27 +359,29 @@ function TopFit:GetEquippableItems(requestedSlotID)
                 if (not availableSlots[availableItemID]) then
                     availableSlots[availableItemID] = { slotID }
                 else
-                    tinsert(availableSlots[availableItemID], slotID)
+                    tinsertonce(availableSlots[availableItemID], slotID)
                 end
             end
         end
         
+        -- special handling for plate heirlooms
         if (TopFit.heirloomInfo.isPlateWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
             for i = 1, #(TopFit.heirloomInfo.plateHeirlooms[slotID]) do
                 if (not availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]]) then
                     availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]] = { slotID }
                 else
-                    tinsert(availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]], slotID)
+                    tinsertonce(availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]], slotID)
                 end
             end
         end
         
+        -- special handling for mail heirlooms
         if (TopFit.heirloomInfo.isMailWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
             for i = 1, #(TopFit.heirloomInfo.mailHeirlooms[slotID]) do
                 if (not availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]]) then
                     availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]] = { slotID }
                 else
-                    tinsert(availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]], slotID)
+                    tinsertonce(availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]], slotID)
                 end
             end
         end

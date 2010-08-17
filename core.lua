@@ -405,6 +405,9 @@ function TopFit:OnInitialize()
         isMailWearer = isMailWearer
     }
     
+    -- container for plugin information and frames
+    TopFit.plugins = {}
+    
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
         if not TopFit.toggleProgressFrameButton then

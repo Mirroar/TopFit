@@ -37,7 +37,7 @@ function TopFit:GetPresets()
                                                         ["active"] = true,
                                                 },
                                                 ["ITEM_MOD_DEFENSE_SKILL_RATING_SHORT"] = {
-                                                        ["value"] = "689",
+                                                        ["value"] = 689,
                                                         ["soft"] = true,
                                                         ["active"] = true,
                                                 },
