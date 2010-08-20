@@ -2,7 +2,7 @@ TopFit
 ======
 
 Author: Mirroar (Thyrfall @ EU-Die Todeskrallen)
-Version: 3.3v5
+Version: 3.3v6
 WoW Version: 3.3.5 (TOC 30300)
 
 WoWInterface: http://www.wowinterface.com/downloads/info16177-TopFit.html

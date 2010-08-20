@@ -1,12 +1,15 @@
 Changelog for TopFit
 ====================
 
-3.3v6 -
+3.3v6 - 2010/08/21
   - fixed items with the same itemID showing up multiple times in the force item menu
   - fixed forced slots not being correctly updated when adding or deleting a set in the options frame
   - fixed bug when trying to calculate blood tank preset. Again, if you get an error with it from before this version, click the defense cap value, and overwrite it with <Enter>
   - Deathknights can now Dualwield. D'oh
-  
+  - Added first parts of plugin API. Documentation can be found at http://github.com/Mirroar/TopFit/wiki/API
+  - Stats / Caps editor and virtual items UI use the new plugin functions.
+  - Virtual items can now be included in set calculation, to see what would happen if you had a certain item. Items are not sanitized (you can calculate with a level 80 item or a plate item as a level 70 priest) and any calculation including virtual items will result in the set not being equipped.
+  - Shamans and Warriors can now choose to simulate dual wielding or Titan's Grip for a set, indifferent of their current spec.
 
 3.3v5 - 2010/07/17
   - fixed a bug with the preset protection paladin set - if you stil get an error calculating that set, update the defense cap value and it should work

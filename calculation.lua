@@ -63,6 +63,13 @@ function TopFit:CalculateRecommendations()
         TopFit.playerCanTitansGrip = true
     end
     
+    if (TopFit.db.profile.sets[TopFit.setCode].simulateDualWield) then
+        TopFit.playerCanDualWield = true
+    end
+    if (TopFit.db.profile.sets[TopFit.setCode].simulateTitansGrip) then
+        TopFit.playerCanTitansGrip = true
+    end
+    
     TopFit:InitSemiRecursiveCalculations()
 end
 
@@ -129,7 +136,6 @@ function TopFit:InitSemiRecursiveCalculations()
     TopFit.ProgressFrame:SetSelectedSet(TopFit.setCode)
     TopFit.ProgressFrame:SetSetName(TopFit.currentSetName)
     TopFit.ProgressFrame:ResetProgress()
-    TopFit.ProgressFrame:UpdateSetStats()
 end
 
 function TopFit:ReduceItemList()
@@ -652,7 +658,7 @@ function TopFit:CalculateBestInSlot(itemsAlreadyChosen, insert, sID, setCode, as
                 local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
                 
                 if (itemTable and ((maxScore == nil) or (maxScore < TopFit:GetItemScore(itemTable.itemLink, setCode, TopFit.ignoreCapsForCalculation))) -- score
-                    and (itemTable.itemMinLevel <= TopFit.characterLevel)) -- character level
+                    and (itemTable.itemMinLevel <= TopFit.characterLevel or locationTable.isVirtual)) -- character level
                     and (not assertion or assertion(locationTable)) then -- optional assertion is true
                     -- also check if item has been chosen already (so we don't get the same ring / trinket twice)
                     local found = false

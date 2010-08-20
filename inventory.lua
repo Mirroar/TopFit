@@ -436,10 +436,24 @@ function TopFit:GetEquippableItems(requestedSlotID)
                     tinsert(itemListBySlot[slotID], {
                         itemLink = itemLink,
                         isBoE = false, -- it is already equipped
-                        bag = nil,
                         slot = invSlot
                     })
                 end
+            end
+        end
+    end
+    
+    -- add virtual items
+    if (TopFit.setCode and TopFit.db.profile.sets[TopFit.setCode].virtualItems and not TopFit.db.profile.sets[TopFit.setCode].skipVirtualItems) then
+        for _, itemLink in pairs(TopFit.db.profile.sets[TopFit.setCode].virtualItems) do
+            local item = TopFit:GetCachedItem(itemLink)
+            local equipSlots = TopFit:GetEquipLocationsByInvType(item.itemEquipLoc)
+            for _, slotID in pairs(equipSlots) do
+                tinsert(itemListBySlot[slotID], {
+                    itemLink = itemLink,
+                    isBoE = false, -- if it's in virtual items, we want to include it
+                    isVirtual = true
+                })
             end
         end
     end
