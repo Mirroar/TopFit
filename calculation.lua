@@ -1,4 +1,3 @@
-
 function TopFit:StartCalculations()
     -- generate table of set codes
     TopFit.workSetList = {}
@@ -134,7 +133,6 @@ function TopFit:InitSemiRecursiveCalculations()
         TopFit.ProgressFrame:Hide()
     end
     TopFit.ProgressFrame:SetSelectedSet(TopFit.setCode)
-    TopFit.ProgressFrame:SetSetName(TopFit.currentSetName)
     TopFit.ProgressFrame:ResetProgress()
 end
 
@@ -310,7 +308,7 @@ function TopFit:SemiRecursiveCalculation()
                         else
                             -- caps could not all be reached, calculate without caps instead
                             if not TopFit.silentCalculation then
-                                TopFit:Print("Caps could not be reached, calculating again without caps.")
+                                TopFit:Print(TopFit.locale.ErrorCapNotReached)
                             end
                             TopFit.Utopia = {}
                             TopFit.ignoreCapsForCalculation = true

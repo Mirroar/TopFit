@@ -1,9 +1,9 @@
-
-function TopFit:RegisterPlugin(pluginName, tooltipText)
+function TopFit:RegisterPlugin(pluginName, icon, tooltipText)
     -- create / register plugin-tab
     local pluginInfo = {
         name = pluginName,
         tooltipText = tooltipText,
+        icon = icon,
     }
     
     tinsert(TopFit.plugins, pluginInfo)
@@ -20,46 +20,62 @@ function TopFit:RegisterPlugin(pluginName, tooltipText)
     return pluginInfo.frame, pluginInfo.id
 end
 
+local function CreateSideTab(tabTexture, tabName, parent)
+    local button = CreateFrame("CheckButton", tabName, parent, "SpellBookSkillLineTabTemplate")
+    button:SetNormalTexture(tabTexture or "Interface\\Icons\\INV_Misc_QuestionMark")
+    button:Hide()
+	return button
+end
+
 function TopFit:UpdatePlugins()
     if TopFit.ProgressFrame then
-        local i
-        for i = 1, #(TopFit.plugins) do
-            local pluginInfo = TopFit.plugins[i]
+        for pluginID, pluginInfo in ipairs(TopFit.plugins) do
             -- update parents and anchors for plugin frames
             pluginInfo.frame:SetParent(TopFit.ProgressFrame.pluginContainer)
             pluginInfo.frame:SetAllPoints()
             
             -- create tabs if necessary
             if not pluginInfo.tabButton then
-                -- create plugin button and size / anchor it
-                pluginInfo.tabButton = TopFit.ProgressFrame:CreateHeaderButton(TopFit.ProgressFrame.pluginContainer, "TopFit_ProgressFrame_PluginButton_"..(pluginInfo.id))
-                pluginInfo.tabButton:SetPoint("BOTTOM", TopFit.ProgressFrame, "TOP", 0, -7)
-                if (pluginInfo.id == 1) then
-                    pluginInfo.tabButton:SetPoint("LEFT", TopFit.ProgressFrame.pluginContainer, "LEFT")
+                pluginInfo.tabButton = CreateSideTab(pluginInfo.icon, "TopFit_ProgressFrame_PluginButton_"..pluginID, TopFit.ProgressFrame.pluginContainer)
+                pluginInfo.tabButton:SetID(pluginID)
+                if (pluginID == 1) then
+                    pluginInfo.tabButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.pluginContainer, "TOPRIGHT", 14, -4)
+                    pluginInfo.tabButton:SetChecked(true)
                 else
-                    pluginInfo.tabButton:SetPoint("LEFT", TopFit.plugins[pluginInfo.id - 1].tabButton, "RIGHT", 3, 0)
+                    pluginInfo.tabButton:SetPoint("TOPLEFT", TopFit.plugins[pluginID - 1].tabButton, "BOTTOMLEFT", 0, -16)
                 end
+                pluginInfo.tabButton:Show()
                 
                 -- set event handlers
-                pluginInfo.tabButton:SetScript("OnClick", function()
-                    TopFit:SelectPluginTab(pluginInfo.id)
+                pluginInfo.tabButton:SetScript("OnClick", function(self)
+                    local id = self:GetID()
+                    for i = 1, #(TopFit.plugins) do
+                        if i == id then
+                            TopFit.plugins[i].frame:Show()
+                            TopFit.eventHandler:Fire("OnShow", id)
+                        else
+                            TopFit.plugins[i].tabButton:SetChecked(false)
+                            TopFit.plugins[i].frame:Hide()
+                        end
+                    end
                 end)
             end
-            pluginInfo.tabButton:SetText(pluginInfo.name)
-            pluginInfo.tabButton:SetWidth(pluginInfo.tabButton:GetFontString():GetStringWidth() + 10)
-            pluginInfo.tabButton.tipText = pluginInfo.tooltipText
+            pluginInfo.tabButton.tipText = pluginInfo.name .. (pluginInfo.tooltipText and "\n"..HIGHLIGHT_FONT_COLOR_CODE..pluginInfo.tooltipText..FONT_COLOR_CODE_CLOSE or "")
+            pluginInfo.tabButton:SetScript("OnEnter", TopFit.ShowTooltip)
+            pluginInfo.tabButton:SetScript("OnLeave", TopFit.HideTooltip)
         end
     end
 end
 
-function TopFit:SelectPluginTab(id)
-    local i
+--[[function TopFit:SelectPluginTab(self)
+    local id = self:GetID()
     for i = 1, #(TopFit.plugins) do
         if i == id then
             TopFit.plugins[i].frame:Show()
             TopFit.eventHandler:Fire("OnShow", id)
         else
+            TopFit.plugins[i].tabButton:SetChecked(false)
             TopFit.plugins[i].frame:Hide()
         end
     end
-end
+end]]

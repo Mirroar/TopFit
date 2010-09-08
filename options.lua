@@ -1,27 +1,14 @@
-
--- button tooltip infos
-local function ShowTooltip(self)
-    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    if self.tiptext then
-        GameTooltip:SetText(self.tiptext, nil, nil, nil, nil, true)
-    elseif self.itemLink then
-        GameTooltip:SetHyperlink(self.itemLink)
-    end
-    GameTooltip:Show()
-end
-local function HideTooltip() GameTooltip:Hide() end
-
 function TopFit:createOptions()
     if not TopFit.InterfaceOptionsFrame then
         TopFit.InterfaceOptionsFrame = CreateFrame("Frame", "TopFit_InterfaceOptionsFrame", InterfaceOptionsFramePanelContainer)
         TopFit.InterfaceOptionsFrame.name = "TopFit"
         TopFit.InterfaceOptionsFrame:Hide()
         
-        local title, subtitle = LibStub("tekKonfig-Heading").new(TopFit.InterfaceOptionsFrame, "TopFit", "Basic options")
+        local title, subtitle = LibStub("tekKonfig-Heading").new(TopFit.InterfaceOptionsFrame, "TopFit", TopFit.locale.SubTitle)
         
         -- Show Tooltip Checkbox
-        local showTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Show set values in tooltip", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, 0)
-        showTooltip.tiptext = "|cffffffffCheck to show your sets' scores for an item in the item's tooltip."
+        local showTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowTooltipScores, "TOPLEFT", subtitle, "BOTTOMLEFT", -2, 0)
+        showTooltip.tiptext = TopFit.locale.ShowTooltipScoresTooltip
         showTooltip:SetChecked(TopFit.db.profile.showTooltip)
         local checksound = showTooltip:GetScript("OnClick")
         showTooltip:SetScript("OnClick", function(self)
@@ -30,8 +17,8 @@ function TopFit:createOptions()
         end)
         
         -- Show Comparison Tooltip Checkbox
-        local showComparisonTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Show item comparison values in tooltip", "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, 0)
-        showComparisonTooltip.tiptext = "|cffffffffCheck to show values in your tooltip which indicate how much of an improvement an item is in comparison with your equipped items for each set."
+        local showComparisonTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowTooltipComparison, "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, 0)
+        showComparisonTooltip.tiptext = TopFit.locale.ShowTooltipComparisonTooltip
         showComparisonTooltip:SetChecked(TopFit.db.profile.showComparisonTooltip)
         local checksound = showComparisonTooltip:GetScript("OnClick")
         showComparisonTooltip:SetScript("OnClick", function(self)
@@ -40,21 +27,21 @@ function TopFit:createOptions()
         end)
         
         -- Auto Update Set Dropdown
-        local autoUpdateSet, autoUpdateSetText, autoUpdateSetContainer = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, "Automatic update set", "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, 0)
+        local autoUpdateSet, autoUpdateSetText, autoUpdateSetContainer = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, TopFit.locale.AutoUpdateSet, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, 0)
         if (TopFit.db.profile.defaultUpdateSet) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet]) then
             autoUpdateSetText:SetText(TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet].name)
         else
-            autoUpdateSetText:SetText("None")
+            autoUpdateSetText:SetText(TopFit.locale.None)
         end
-        autoUpdateSet.tiptext = "|cffffffffThe set you choose here will be updated automatically whenever you loot an equippable item.\n\n|cffffff00Warning: |cffffffffThis option is intended to be used while levelling. If you have a character with dualspec, it might suddenly equip the set you specify here even if you activated your other specialization."
+        autoUpdateSet.tiptext = TopFit.locale.AutoUpdateSetTooltip
         
         UIDropDownMenu_Initialize(autoUpdateSet, function()
             local info = UIDropDownMenu_CreateInfo()
-            info.text = "None"
+            info.text = TopFit.locale.None
             info.value = "none"
             info.func = function()
                 UIDropDownMenu_SetSelectedValue(autoUpdateSet, this.value)
-                autoUpdateSetText:SetText("None")
+                autoUpdateSetText:SetText(TopFit.locale.None)
                 TopFit.db.profile.defaultUpdateSet = nil
             end
             UIDropDownMenu_AddButton(info)
@@ -73,8 +60,8 @@ function TopFit:createOptions()
         end)
         
         -- Debug Mode Checkbox
-        local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, "Debug mode", "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -70)
-        debugMode.tiptext = "|cffffffffCheck to enable debug messages.\n\n|cffffff00Caution: |cffffffffThis will spam your chatframe, a lot!"
+        local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.Debug, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -70)
+        debugMode.tiptext = TopFit.locale.DebugTooltip
         debugMode:SetChecked(TopFit.db.profile.debugMode)
         local checksound = debugMode:GetScript("OnClick")
         debugMode:SetScript("OnClick", function(self)
@@ -90,7 +77,7 @@ function TopFit:createOptions()
             if (TopFit.db.profile.defaultUpdateSet) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet]) then
                 autoUpdateSetText:SetText(TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet].name)
             else
-                autoUpdateSetText:SetText("None")
+                autoUpdateSetText:SetText(TopFit.locale.None)
             end
             debugMode:SetChecked(TopFit.db.profile.debugMode)
         end)
@@ -152,7 +139,7 @@ function TopFit:DeleteSet(setCode)
     if (TopFit.ProgressFrame) then
         TopFit.ProgressFrame:SetSelectedSet()
         TopFit.ProgressFrame:SetCurrentCombination()
-        TopFit.ProgressFrame:SetSetName("Set Name")
+        TopFit.ProgressFrame:SetSetName(TopFit.locale.SetName)
     end
 end
 

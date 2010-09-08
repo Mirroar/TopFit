@@ -5,16 +5,18 @@
 ## Version: 3.3v6
 ## X-Embeds: AceAddon-3.0, AceConsole-3.0, AceGUI-3.0, AceConfig-3.0, AceDB-3.0, AceDBOptions-3.0, AceLocale-3.0
 ## X-Category: Inventory
-## X-Credits: ckaotik (for adding almost all the gems and enchant info), tekkub, trefane (SmartFitter), vger(Pawn)
+## X-Credits: ckaotik (gems & enchants), tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
 
 
 embeds.xml
+template.xml
+
+locale\enUS.lua
 
 core.lua
 inventory.lua
 tooltip.lua
-presets.lua
 calculation.lua
 options.lua
 frame.lua
@@ -22,6 +24,8 @@ plugin.lua
 
 plugins\stats.lua
 plugins\virtual_items.lua
+plugins\utilities.lua
 
-gem_ids.lua
-enchant_ids.lua
+data_gems.lua
+data_enchants.lua
+data_presets.lua

@@ -1,67 +1,125 @@
-function TopFit:CreateStatsPlugin()
-    local statsFrame, pluginId = TopFit:RegisterPlugin("Weights & Caps", "Use this tab to set weights and caps for your sets, defining their basic behavior.")
+local function CreateHeaderButton(text, name, parent)
+    local button = CreateFrame("Button", name, parent)
+	button:SetFrameLevel(button:GetFrameLevel() + 4)
+
+	button.left = button:CreateTexture("$parentLeft", "BACKGROUND")
+	button.left:SetWidth(5) button.left:SetHeight(19)
+    button.left:SetPoint("TOPLEFT", 0, 5)
+    button.left:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+	button.left:SetTexCoord(0, 0.078125, 0, 0.59375)
+
+	button.right = button:CreateTexture("$parentRight", "BACKGROUND")
+	button.right:SetWidth(4) button.right:SetHeight(19)
+	button.right:SetPoint("TOPRIGHT", 0, 5)
+    button.right:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+	button.right:SetTexCoord(0.90625, 0.96875, 0, 0.59375)
+
+	button.middle = button:CreateTexture("$parentMiddle", "BACKGROUND")
+	button.middle:SetWidth(10) button.middle:SetHeight(19)
+	button.middle:SetPoint("LEFT", "$parentLeft", "RIGHT")
+	button.middle:SetPoint("RIGHT", "$parentRight", "LEFT")
+    button.middle:SetTexture("Interface\\FriendsFrame\\WhoFrame-ColumnTabs")
+	button.middle:SetTexCoord(0.078125, 0.90625, 0, 0.59375)
     
-    -- options button
-    statsFrame.optionsButton = CreateFrame("Button", "TopFit_ProgressFrame_optionsButton", statsFrame)
-    statsFrame.optionsButton:SetPoint("TOPRIGHT", statsFrame, "TOPRIGHT", -15, -5)
-    statsFrame.optionsButton:SetHeight(32)
-    statsFrame.optionsButton:SetWidth(32)
-    statsFrame.optionsButton:SetNormalTexture("Interface\\Icons\\INV_Misc_Gear_02")
-    statsFrame.optionsButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+    button.text = button:CreateFontString("$parentText", nil, "GameFontHighlightSmall")
+    button.text:SetPoint("LEFT", 8, 0)
+    button.text:SetText(text)
+    
+    button.arrow = button:CreateTexture("$parentArrow")
+    button.arrow:SetWidth(9) button.arrow:SetHeight(8)
+    button.arrow:SetPoint("LEFT", "$parentText", "RIGHT", 3, -2)
+    button.arrow:SetTexture("Interface\\Buttons\\UI-SortArrow")
+    button.arrow:SetTexCoord(0, 0.5625, 0, 1.0)
+    button.arrow:Hide()
+    
+	button:SetHighlightTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight", "ADD")
+	local hilite = button:GetHighlightTexture()
+	hilite:ClearAllPoints()
+	hilite:SetPoint("LEFT", 0, 0)
+	hilite:SetPoint("RIGHT", 4, 0)
+    hilite:SetWidth(5) hilite:SetHeight(24)
+    
+	return button
+end
+
+function TopFit:CreateStatsPlugin()
+    local statsFrame, pluginId = TopFit:RegisterPlugin(TopFit.locale.Stats, "Interface\\Icons\\Ability_Druid_BalanceofPower", TopFit.locale.StatsTooltip)
+    
+    local title = statsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+    title:SetPoint("TOPLEFT", 16, -4)
+    title:SetText(TopFit.locale.Stats)
+    
+    local explain = statsFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+    explain:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -10, -8)
+    explain:SetPoint("RIGHT", statsFrame, -4, 0)
+    explain:SetHeight(55)
+    explain:SetNonSpaceWrap(true)
+    explain:SetJustifyH("LEFT")
+    explain:SetJustifyV("TOP")
+    explain:SetText(TopFit.locale.StatsExplanation)
     
     -- set options
-    statsFrame.includeInTooltipCheckButton = LibStub("tekKonfig-Checkbox").new(statsFrame, nil, "Include set in tooltip", "TOPLEFT", statsFrame, "TOPLEFT", 15, -15)
-    statsFrame.includeInTooltipCheckButton.tiptext = "|cffffffffCheck to show this set in item comparison tooltips when that option is enabled."
+    local enable = LibStub("tekKonfig-Checkbox").new(statsFrame, nil, TopFit.locale.StatsShowTooltip, "TOPLEFT", explain, "BOTTOMLEFT", 10, -4)
+    enable.tiptext = TopFit.locale.StatsShowTooltipTooltip
     if (TopFit.ProgressFrame and TopFit.ProgressFrame.selectedSet) then
-        statsFrame.includeInTooltipCheckButton:SetChecked(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].excludeFromTooltip)
+        enable:SetChecked(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].excludeFromTooltip)
     end
-    local checksound = statsFrame.includeInTooltipCheckButton:GetScript("OnClick")
-    statsFrame.includeInTooltipCheckButton:SetScript("OnClick", function(self)
+    local checksound = enable:GetScript("OnClick")
+    enable:SetScript("OnClick", function(self)
         checksound(self)
         if (TopFit.ProgressFrame.selectedSet) then
             TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].excludeFromTooltip = not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].excludeFromTooltip
         end
     end)
+    statsFrame.includeInTooltipCheckButton = enable
     
     -- option to simulate dualwielding / titan's grip
+    local extraButton
     if select(2, UnitClass("player")) == "SHAMAN" then
-        statsFrame.simulateDualWieldCheckButton = LibStub("tekKonfig-Checkbox").new(statsFrame, nil, "Force dual-wield", "TOPLEFT", statsFrame, "TOPLEFT", 15, -35)
-        statsFrame.simulateDualWieldCheckButton.tiptext = "|cffffffffCheck to calculate this set with dualwielding in mind even if your current spec does not allow you to. If left off, the set will be calculated with your current spec in mind."
+        extraButton = LibStub("tekKonfig-Checkbox").new(statsFrame, nil, TopFit.locale.StatsEnableDualWield, "TOPLEFT", enable, "BOTTOMLEFT", 0, -2)
+        extraButton.tiptext = TopFit.locale.StatsEnableDualWieldTooltip
         if TopFit.ProgressFrame and TopFit.ProgressFrame.selectedSet then
-            statsFrame.simulateDualWieldCheckButton:SetChecked(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateDualWield)
+            extraButton:SetChecked(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateDualWield)
         end
-        local checksound = statsFrame.simulateDualWieldCheckButton:GetScript("OnClick")
-        statsFrame.simulateDualWieldCheckButton:SetScript("OnClick", function(self)
+        local checksound = extraButton:GetScript("OnClick")
+        extraButton:SetScript("OnClick", function(self)
             checksound(self)
             if (TopFit.ProgressFrame.selectedSet) then
                 TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateDualWield = not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateDualWield
             end
         end)
+        statsFrame.simulateDualWieldCheckButton = extraButton
     elseif select(2, UnitClass("player")) == "WARRIOR" then
-        statsFrame.simulateTitansGripCheckButton = LibStub("tekKonfig-Checkbox").new(statsFrame, nil, "Force Titan's Grip", "TOPLEFT", statsFrame, "TOPLEFT", 15, -35)
-        statsFrame.simulateTitansGripCheckButton.tiptext = "|cffffffffCheck to calculate this set with Titan's Grip in mind even if your current spec does not include it. If left off, the set will be calculated with your current spec in mind."
+        extraButton = LibStub("tekKonfig-Checkbox").new(statsFrame, nil, TopFit.locale.StatsEnableTitansGrip, "TOPLEFT", enable, "BOTTOMLEFT", 0, -2)
+        extraButton.tiptext = TopFit.locale.StatsEnableTitansGripTooltip
         if TopFit.ProgressFrame and TopFit.ProgressFrame.selectedSet then
-            statsFrame.simulateTitansGripCheckButton:SetChecked(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateTitansGrip)
+            extraButton:SetChecked(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateTitansGrip)
         end
-        local checksound = statsFrame.simulateTitansGripCheckButton:GetScript("OnClick")
-        statsFrame.simulateTitansGripCheckButton:SetScript("OnClick", function(self)
+        local checksound = extraButton:GetScript("OnClick")
+        extraButton:SetScript("OnClick", function(self)
             checksound(self)
             if (TopFit.ProgressFrame.selectedSet) then
                 TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateTitansGrip = not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].simulateTitansGrip
             end
         end)
+        statsFrame.simulateTitansGripCheckButton = extraButton
     end
     
-    statsFrame.optionsButton:SetScript("OnClick", function(...)
-        InterfaceOptionsFrame_OpenToCategory("TopFit")
-        TopFit.ProgressFrame:Hide()
-    end)
-    statsFrame.optionsButton.tipText = "Open TopFit's options"
-    statsFrame.optionsButton:SetScript("OnEnter", ShowTooltip)
-    statsFrame.optionsButton:SetScript("OnLeave", HideTooltip)
+    local usage = statsFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+    usage:SetPoint("TOPLEFT", extraButton or enable, "BOTTOMLEFT", -10, -4)
+    usage:SetPoint("RIGHT", statsFrame, -4, 0)
+    usage:SetHeight(55)
+    usage:SetNonSpaceWrap(true)
+    usage:SetJustifyH("LEFT")
+    usage:SetJustifyV("TOP")
+    usage:SetText(TopFit.locale.StatsUsage)
+    
+    statsFrame.panel = LibStub("tekKonfig-Group").new(statsFrame, TopFit.locale.StatsPanelLabel)
+    statsFrame.panel:SetPoint("BOTTOMRIGHT", statsFrame, -2, 2)
+    statsFrame.panel:SetPoint("TOPLEFT", usage, "BOTTOMLEFT", 0, -10)
+    statsFrame.panel:SetHeight(250)
     
     statsFrame.statDropDown = CreateFrame("Frame", "TopFit_ProgressFrame_statDropDown", statsFrame, "UIDropDownMenuTemplate")
-    --statsFrame.statDropDown:SetPoint("TOPLEFT", statsFrame, "TOPLEFT", 20, -20)
     UIDropDownMenu_Initialize(statsFrame.statDropDown, function(self, level)
         level = level or 1
         local info = UIDropDownMenu_CreateInfo()
@@ -88,7 +146,7 @@ function TopFit:CreateStatsPlugin()
             local info = UIDropDownMenu_CreateInfo();
             info.hasArrow = true;
             info.notCheckable = true;
-            info.text = "Set Piece";
+            info.text = TopFit.locale.StatsSetPiece;
             info.isTitle = false;
             info.value = "setpieces"
             UIDropDownMenu_AddButton(info, level);
@@ -164,55 +222,68 @@ function TopFit:CreateStatsPlugin()
     end, "MENU")
     UIDropDownMenu_JustifyText(statsFrame.statDropDown, "LEFT")
     
-    statsFrame.addStatButton = CreateFrame("Button", "TopFit_ProgressFrame_expandButton", statsFrame, "UIPanelButtonTemplate")
-    statsFrame.addStatButton:SetPoint("TOPLEFT", statsFrame, "TOPLEFT", 5, -65)
-    statsFrame.addStatButton:SetText("Add stat...")
+    statsFrame.addStatButton = CreateFrame("Button", nil, statsFrame, "UIPanelButtonTemplate")
+    statsFrame.addStatButton:SetPoint("BOTTOMRIGHT", statsFrame.panel, "TOPRIGHT", -2, 0)
+    statsFrame.addStatButton:SetText(TopFit.locale.StatsAdd)
     statsFrame.addStatButton:SetHeight(22)
     statsFrame.addStatButton:SetWidth(80)
     statsFrame.addStatButton:RegisterForClicks("AnyUp")
-    
     statsFrame.addStatButton:SetScript("OnClick", function(self, button)
         ToggleDropDownMenu(1, nil, statsFrame.statDropDown, self, -20, 0)
     end)
     
-    statsFrame.editStatScrollFrame = CreateFrame("ScrollFrame", "TopFit_EditStatScrollFrame", statsFrame, "UIPanelScrollFrameTemplate")
-    statsFrame.editStatScrollFrame:SetPoint("TOPLEFT", statsFrame.addStatButton, "BOTTOMLEFT", 0, -25)
-    statsFrame.editStatScrollFrame:SetPoint("BOTTOMRIGHT", statsFrame, "BOTTOMRIGHT", -25, 5)
-    statsFrame.editStatScrollFrame:SetHeight(statsFrame.editStatScrollFrame:GetHeight())
-    statsFrame.editStatScrollFrame:SetWidth(statsFrame.editStatScrollFrame:GetWidth())
-    local editStatScrollFrameContent = CreateFrame("Frame", nil, statsFrame.editStatScrollFrame)
-    editStatScrollFrameContent:SetAllPoints()
-    editStatScrollFrameContent:SetHeight(10)
-    editStatScrollFrameContent:SetWidth(235)
-    statsFrame.editStatScrollFrame:SetScrollChild(editStatScrollFrameContent)
-    statsFrame.editStatScrollFrame:SetBackdrop(backdrop)
-    statsFrame.editStatScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
-    statsFrame.editStatScrollFrame:SetBackdropColor(0.1, 0.1, 0.1)
+    local headerName = CreateHeaderButton(TopFit.locale.StatsHeaderName, "TopFit_StatsHeader_Name", statsFrame.panel)
+    headerName.width = 185
+    headerName:SetPoint("TOPLEFT", 2, -7)
+    headerName:SetWidth(headerName.width); headerName:SetHeight(10)
+    TopFit.db.profile.statSortOrder = "NameAsc"
+    
+    local headerValue = CreateHeaderButton(TopFit.locale.StatsHeaderValue, "TopFit_StatsHeader_Value", statsFrame.panel)
+    headerValue.width = 55
+    headerValue:SetPoint("TOPLEFT", headerName, "TOPRIGHT")
+    headerValue:SetWidth(headerValue.width); headerValue:SetHeight(10)
+    
+    local headerCap = CreateHeaderButton(TopFit.locale.StatsHeaderCap, "TopFit_StatsHeader_Cap", statsFrame.panel)
+    headerCap.width = 44
+    headerCap:SetPoint("TOPLEFT", headerValue, "TOPRIGHT")
+    headerCap:SetWidth(headerCap.width); headerCap:SetHeight(10)
+    
+    local function SortStats(self)
+        local order = TopFit.db.profile.statSortOrder
+        local orderBy
+        if self == headerCap then
+            orderBy = "Cap"
+        elseif self == headerValue then
+            orderBy = "Value"
+        else
+            orderBy = "Name"
+        end
+        
+        if order == orderBy.."Asc" then
+            TopFit.db.profile.statSortOrder = orderBy.."Desc"
+        else
+            TopFit.db.profile.statSortOrder = orderBy.."Asc"
+        end
+        
+        statsFrame:UpdateSetStats()
+    end
+    headerName:SetScript("OnClick", SortStats)
+    headerValue:SetScript("OnClick", SortStats)
+    headerCap:SetScript("OnClick", SortStats)
+    
+    statsFrame.scrollFrame = CreateFrame("ScrollFrame", "TopFit_EditScrollFrame", statsFrame, "UIPanelScrollFrameTemplate")
+    statsFrame.scrollFrame:SetPoint("TOPLEFT", headerName, "BOTTOMLEFT", 4, -4)
+    statsFrame.scrollFrame:SetPoint("BOTTOMRIGHT", statsFrame.panel, -27, 4)
+    statsFrame.scrollFrame.content = CreateFrame("Frame", nil, statsFrame.scrollFrame)
+    statsFrame.scrollFrame.content:SetHeight(225)
+    statsFrame.scrollFrame.content:SetWidth(280)
+    statsFrame.scrollFrame.content:SetAllPoints()
+    statsFrame.scrollFrame:SetScrollChild(statsFrame.scrollFrame.content)
     
     -- containers for stat list
-    statsFrame.menuHeaders = {}
-    statsFrame.statCapCheckboxes = {}
-    statsFrame.editStatNameTexts = {}
-    statsFrame.editStatValueTexts = {}
-    statsFrame.editStatButtons = {}
-    statsFrame.statCapTexts = {}
-    statsFrame.statCapValueTexts = {}
-    statsFrame.statCapButtons = {}
-    statsFrame.capTypeTexts = {}
-    statsFrame.capTypeButtons = {}
+    statsFrame.statEntry = {}
     
     function statsFrame:UpdateSetStats()
-        local menuHeaders = statsFrame.menuHeaders
-        local statTexts = statsFrame.editStatNameTexts
-        local valueTexts = statsFrame.editStatValueTexts
-        local capBoxes = statsFrame.statCapCheckboxes
-        local statButtons = statsFrame.editStatButtons
-        local capTexts = statsFrame.statCapTexts
-        local capValueTexts = statsFrame.statCapValueTexts
-        local capButtons = statsFrame.statCapButtons
-        local capTypeTexts = statsFrame.capTypeTexts
-        local capTypeButtons = statsFrame.capTypeButtons
-        
         local sortableStatWeightTable = {}
         if TopFit.ProgressFrame.selectedSet then
             -- little fix: set values for active caps to 0 if they are nil, so they are always shown
@@ -274,108 +345,70 @@ function TopFit:CreateStatsPlugin()
             end
         end)
         
-        -- headers
-        local headerTitles = {{"Name", 165}, {"Value", 40}, {"Cap", 35}}
-        if not menuHeaders[1] then
-            local prefix = "TopFit_ProgressFrame_MenuHeader_"
-            for i = 1, #headerTitles do
-                menuHeaders[i] = TopFit.ProgressFrame:CreateHeaderButton(statsFrame, prefix .. headerTitles[i][1])
-                if i == 1 then
-                    menuHeaders[i]:SetPoint("BOTTOMLEFT", statsFrame.editStatScrollFrame, "TOPLEFT")
-                else
-                    menuHeaders[i]:SetPoint("TOPLEFT", menuHeaders[i-1], "TOPRIGHT")
-                end
-                menuHeaders[i]:SetText(headerTitles[i][1])
-                menuHeaders[i].tiptext = headerTitles[i][1]
-                menuHeaders[i]:SetWidth(headerTitles[i][2])
-                menuHeaders[i]:SetScript("OnClick", function(self)
-                    if TopFit.db.profile.statSortOrder == headerTitles[i][1].."Asc" then
-                        TopFit.db.profile.statSortOrder = headerTitles[i][1].."Desc"
-                    else
-                        TopFit.db.profile.statSortOrder = headerTitles[i][1].."Asc"
-                    end
-                    
-                    statsFrame:UpdateSetStats()
-                end)
-                menuHeaders[i]:Show()
-            end
-        end
-        
-        -- actual stat entries
-        local stat, value
-        local actualStatCount = 1
-        for i = 1, #sortableStatWeightTable do
-            stat = sortableStatWeightTable[i][1]
-            value = sortableStatWeightTable[i][2]
+        local lineHeight = 14
+        for i, data in ipairs(sortableStatWeightTable) do
+            local stat = data[1]
+            local value = data[2]
+            local isCapped = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat] and TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].active
             
-            if not statTexts[i] then
-                statButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editStatButton"..i, editStatScrollFrameContent)
-                statTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                valueTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                capBoxes[i] = CreateFrame("CheckButton", "TopFit_ProgressFrame_CapCheckBox"..i, editStatScrollFrameContent, "UICheckButtonTemplate")
-                capButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editCapButton"..i, editStatScrollFrameContent)
-                capTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                capValueTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
-                capTypeButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_editCapTypeButton"..i, editStatScrollFrameContent)
-                capTypeTexts[i] = editStatScrollFrameContent:CreateFontString(nil, "ARTWORK", "GameFontHighlightExtraSmall")
+            if not statsFrame.statEntry[i] then
+                -- create new stat line
+                local entry = CreateFrame("Frame", "TopFit_StatEntry"..i, statsFrame.scrollFrame.content)
+                entry:EnableMouse(true)
                 
-                statTexts[i]:SetTextHeight(11)
-                valueTexts[i]:SetTextHeight(11)
-                capTexts[i]:SetTextHeight(11)
-                capValueTexts[i]:SetTextHeight(11)
-                capTypeTexts[i]:SetTextHeight(11)
-                if i == 1 then
-                    statTexts[i]:SetPoint("TOPLEFT", editStatScrollFrameContent, "TOPLEFT", 3, -3)
-                else
-                    statTexts[i]:SetPoint("TOPLEFT", capTexts[i - 1], "BOTTOMLEFT")
-                end
-                valueTexts[i]:SetPoint("RIGHT", statTexts[i], "LEFT", headerTitles[1][2] + headerTitles[2][2] - 4, 0)
-                capTexts[i]:SetPoint("TOPLEFT", statTexts[i], "BOTTOMLEFT")
-                capValueTexts[i]:SetPoint("RIGHT", capTexts[i], "LEFT", headerTitles[1][2] + headerTitles[2][2] - 4, 0)
-                capTypeTexts[i]:SetPoint("LEFT", capBoxes[i], "LEFT")
-                capTypeTexts[i]:SetPoint("RIGHT", editStatScrollFrameContent, "RIGHT")
-                capTypeTexts[i]:SetPoint("TOP", capValueTexts[i], "TOP")
-                statButtons[i].i = i
-                statButtons[i]:SetPoint("TOPLEFT", statTexts[i], "TOPLEFT")
-                statButtons[i]:SetPoint("BOTTOMRIGHT", valueTexts[i], "BOTTOMRIGHT")
-                --statButtons[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-                statButtons[i]:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight")
-                statButtons[i]:SetAlpha(0.5)
-                statButtons[i]:SetScript("OnClick", function(self)
-                    statsFrame:HideStatEditTextBox()
-                    statsFrame:ShowStatEditTextBox(self.i)
-                end)
-                capButtons[i].i = i
-                capButtons[i]:SetPoint("TOPLEFT", capTexts[i], "TOPLEFT")
-                capButtons[i]:SetPoint("BOTTOMRIGHT", capValueTexts[i], "BOTTOMRIGHT")
-                --statButtons[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-                capButtons[i]:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight")
-                capButtons[i]:SetAlpha(0.5)
-                capButtons[i]:SetScript("OnClick", function(self)
-                    statsFrame:HideStatEditTextBox()
-                    statsFrame:ShowStatEditTextBox(self.i, true)
-                end)
-                capTypeButtons[i].i = i
-                capTypeButtons[i]:SetPoint("TOPLEFT", capTypeTexts[i], "TOPLEFT")
-                capTypeButtons[i]:SetPoint("BOTTOMRIGHT", capTypeTexts[i], "BOTTOMRIGHT")
-                --statButtons[i]:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-                capTypeButtons[i]:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight")
-                capTypeButtons[i]:SetAlpha(0.5)
-                capTypeButtons[i]:SetScript("OnClick", function(self)
-                    local stat = statsFrame.editStatButtons[self.i].myStat
-                    if TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft then
-                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft = false
-                    else
-                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft = true
+                local hoverBackground = entry:CreateTexture("$parentHover", "BACKGROUND")
+                hoverBackground:SetTexture("Interface\\Buttons\\UI-ListBox-Highlight")
+                hoverBackground:SetPoint("TOPLEFT")
+                hoverBackground:SetPoint("BOTTOMRIGHT", entry, "TOPRIGHT", 0, -lineHeight)
+                hoverBackground:Hide()
+                entry:SetScript("OnEnter", function(self) hoverBackground:Show() end)
+                entry:SetScript("OnLeave", function(self) hoverBackground:Hide() end)
+                
+                entry.statName = entry:CreateFontString(nil, nil, "GameFontNormalSmall")
+                entry.statName:SetJustifyH("LEFT")
+                entry.statName:SetPoint("TOPLEFT")
+                entry.statName:SetPoint("BOTTOMRIGHT", entry, "TOPLEFT", headerName.width - 4, -lineHeight)
+                
+                entry.statValue = CreateFrame("EditBox", nil, entry)
+                entry.statValue:SetPoint("TOPLEFT")
+                entry.statValue:SetPoint("BOTTOMRIGHT", entry, "TOPLEFT", headerName.width + headerValue.width - 8, -lineHeight)
+                entry.statValue:SetAutoFocus(false)
+                entry.statValue:SetFontObject("GameFontHighlightSmall")
+                entry.statValue:SetJustifyH("RIGHT")
+                
+                -- scripts
+                entry.statValue:SetScript("OnEnter", function(self) _G[self:GetParent():GetName().."Hover"]:Show() end)
+                entry.statValue:SetScript("OnLeave", function(self) _G[self:GetParent():GetName().."Hover"]:Hide() end)
+                entry.statValue:SetScript("OnEditFocusGained", entry.statValue.HighlightText)
+                local function EditBoxFocusLost(self)
+                    local stat = self:GetParent().stat
+                    if TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[stat] then
+                        self:SetText(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[stat])
                     end
+                    self:ClearFocus()
+                end
+                entry.statValue:SetScript("OnEditFocusLost", EditBoxFocusLost)
+                entry.statValue:SetScript("OnEscapePressed", EditBoxFocusLost)
+                entry.statValue:SetScript("OnEnterPressed", function(self)
+                    local value = tonumber(self:GetText())  -- save new stat value if it is numeric
+                    local stat = self:GetParent().stat
+                    if stat and value then
+                        if value == 0 then value = nil end  -- used for removing stats from the list
+                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[stat] = value
+                    else
+                        TopFit:Debug("invalid input")
+                    end
+                    EditBoxFocusLost(self)
                     statsFrame:UpdateSetStats()
+                    TopFit:CalculateScores()
                 end)
                 
-                capBoxes[i].i = i
-                capBoxes[i]:SetHeight(12); capBoxes[i]:SetWidth(12)
-                capBoxes[i]:SetPoint("LEFT", valueTexts[i], "RIGHT")
-                capBoxes[i]:SetScript("OnClick", function(self)
-                    local stat = statsFrame.editStatButtons[self.i].myStat
+                entry.statCapped = CreateFrame("CheckButton", nil, entry, "UICheckButtonTemplate")
+                entry.statCapped:SetWidth(lineHeight+4); entry.statCapped:SetHeight(lineHeight+4)
+                entry.statCapped:SetPoint("CENTER", entry, "TOPLEFT", headerName.width + headerValue.width - 4 + headerCap.width/2, -lineHeight/2)
+                
+                entry.statCapped:SetScript("OnClick", function(self)
+                    local stat = self:GetParent().stat
                     if not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat] then
                         -- create new cap
                         TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat] = {
@@ -394,122 +427,108 @@ function TopFit:CreateStatsPlugin()
                     statsFrame:UpdateSetStats()
                     TopFit:CalculateScores()
                 end)
+                
+                if i == 1 then
+                    entry:SetPoint("TOPLEFT", statsFrame.scrollFrame.content, 0, -2)
+                else
+                    entry:SetPoint("TOPLEFT", statsFrame.statEntry[i - 1], "BOTTOMLEFT", 0, 0)
+                end
+                entry:SetPoint("RIGHT", statsFrame.scrollFrame.content)
+                
+                statsFrame.statEntry[i] = entry
             end
-            statButtons[i]:Show()
-            statTexts[i]:Show()
-            valueTexts[i]:Show()
-            statTexts[i]:SetText(_G[stat] or string.gsub(stat, "SET: ", "Set: "))
-            valueTexts[i]:SetText(value)
-            if TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat] and TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].active then
-                capBoxes[i]:SetChecked(true)
-                capTexts[i]:SetText("   Cap")
-                capValueTexts[i]:SetText(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].value)
-                capTypeTexts[i]:SetText(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft and "Soft" or "Hard")
-                capValueTexts[i]:Show()
-                capTypeTexts[i]:Show()
-                capButtons[i]:Show()
-                capTypeButtons[i]:Show()
+            
+            local entry = statsFrame.statEntry[i]
+            -- update with new data
+            entry.stat = stat
+            entry.statName:SetText(_G[stat] or string.gsub(stat, "SET: ", TopFit.locale.StatsSet))
+            entry.statValue:SetText(value)
+            entry.statCapped:SetChecked(isCapped)
+            
+            if isCapped then
+                entry:SetHeight(2*lineHeight)
+                if not entry.capValue then
+                    -- add an extra line for cap settings
+                    entry.capValue = CreateFrame("EditBox", nil, entry)
+                    entry.capValue:SetAutoFocus(false)
+                    entry.capValue:SetFontObject("GameFontHighlightSmall")
+                    entry.capValue:SetJustifyH("RIGHT")
+                    entry.capValue:SetPoint("TOPLEFT", headerName.width, -lineHeight)
+                    entry.capValue:SetPoint("BOTTOMRIGHT", entry, "TOPLEFT", headerName.width + headerValue.width - 8, -2*lineHeight)
+                    entry.capValue.bg = entry.capValue:CreateTexture(nil, "BACKGROUND")
+                    entry.capValue.bg:SetTexture("Interface\\Buttons\\UI-ListBox-Highlight")
+                    entry.capValue.bg:SetAllPoints()
+                    entry.capValue.bg:Hide()
+                    entry.capValue:SetScript("OnEnter", function(self) self.bg:Show() end)
+                    entry.capValue:SetScript("OnLeave", function(self) self.bg:Hide() end)
+                    entry.capValue:SetScript("OnEditFocusGained", entry.capValue.HighlightText)
+                    local function EditBox2FocusLost(self)
+                        local stat = self:GetParent().stat
+                        local value = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].value
+                        self:SetText(value)
+                        self:ClearFocus()
+                    end
+                    entry.capValue:SetScript("OnEditFocusLost", EditBox2FocusLost)
+                    entry.capValue:SetScript("OnEscapePressed", EditBox2FocusLost)
+                    entry.capValue:SetScript("OnEnterPressed", function(self)
+                        local value = tonumber(self:GetText())  -- save new stat value if it is numeric
+                        local stat = self:GetParent().stat
+                        if stat and value then
+                            TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].value = value
+                        end
+                        EditBox2FocusLost(self)
+                        statsFrame:UpdateSetStats()
+                        TopFit:CalculateScores()
+                    end)
+                    
+                    entry.capType = CreateFrame("Button", nil, entry)
+                    entry.capType:SetPoint("TOPLEFT", headerName.width + headerValue.width, -lineHeight)
+                    entry.capType:SetPoint("BOTTOMRIGHT")
+                    
+                    entry.capType.bg = entry.capType:CreateTexture(nil, "BACKGROUND")
+                    entry.capType.bg:SetTexture("Interface\\Buttons\\UI-ListBox-Highlight")
+                    entry.capType.bg:SetAllPoints()
+                    entry.capType.bg:Hide()
+                    entry.capType:SetScript("OnEnter", function(self)
+                        TopFit.ShowTooltip(self)
+                        entry.capType.bg:Show()
+                    end)
+                    entry.capType:SetScript("OnLeave", function(self)
+                        TopFit.HideTooltip(self)
+                        entry.capType.bg:Hide()
+                    end)
+                    entry.capType:SetScript("OnClick", function(self)
+                        local stat = self:GetParent().stat
+                        if TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft then
+                            TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft = false
+                        else
+                            TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft = true
+                        end
+                        statsFrame:UpdateSetStats()
+                    end)
+                    entry.capTypeText = entry.capType:CreateFontString(nil, nil, "GameFontHighlightSmall")
+                    entry.capTypeText:SetAllPoints()
+                    entry.capTypeText:SetJustifyH("CENTER")
+                end
+                entry.capValue:SetText(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].value)
+                entry.capValue:Show()
+                
+                entry.capTypeText:SetText(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].soft and TopFit.locale.StatsCapSoft or TopFit.locale.StatsCapHard)
+                entry.capType:Show()
             else
-                capBoxes[i]:SetChecked(false)
-                capTexts[i]:SetText("")
-                capValueTexts[i]:Hide()
-                capTypeTexts[i]:Hide()
-                capButtons[i]:Hide()
-                capTypeButtons[i]:Hide()
+                entry:SetHeight(lineHeight)
+                if entry.capValue then
+                    entry.capValue:Hide()
+                    entry.capType:Hide()
+                end
             end
-            capBoxes[i]:Show()
-            statButtons[i].myStat = stat
-            actualStatCount = actualStatCount + 1
+            
+            entry:Show()
         end
         
-        -- hide any texts not in use
-        for i = actualStatCount, #statTexts do
-            statTexts[i]:Hide()
-            valueTexts[i]:Hide()
-            statButtons[i]:Hide()
-            capBoxes[i]:Hide()
-            capTexts[i]:SetText("")
-            capValueTexts[i]:Hide()
-            capTypeTexts[i]:Hide()
-            capButtons[i]:Hide()
-            capTypeButtons[i]:Hide()
-        end
-    end
-    
-    function statsFrame:ShowStatEditTextBox(statID, isCap)
-        if not statsFrame.statEditTextBox then
-            -- create box
-            statsFrame.statEditTextBox = CreateFrame("EditBox", "TopFit_ProgressFrame_statEditTextBox", editStatScrollFrameContent)
-            statsFrame.statEditTextBox:SetWidth(50)
-            statsFrame.statEditTextBox:SetHeight(11)
-            statsFrame.statEditTextBox:SetAutoFocus(false)
-            statsFrame.statEditTextBox:SetFontObject("GameFontHighlightSmall")
-            statsFrame.statEditTextBox:SetJustifyH("RIGHT")
-            
-            -- background textures
-            local left = statsFrame.statEditTextBox:CreateTexture(nil, "BACKGROUND")
-            left:SetWidth(8) left:SetHeight(20)
-            left:SetPoint("LEFT", -5, 0)
-            left:SetTexture("Interface\\Common\\Common-Input-Border")
-            left:SetTexCoord(0, 0.0625, 0, 0.625)
-            local right = statsFrame.statEditTextBox:CreateTexture(nil, "BACKGROUND")
-            right:SetWidth(8) right:SetHeight(20)
-            right:SetPoint("RIGHT", 0, 0)
-            right:SetTexture("Interface\\Common\\Common-Input-Border")
-            right:SetTexCoord(0.9375, 1, 0, 0.625)
-            local center = statsFrame.statEditTextBox:CreateTexture(nil, "BACKGROUND")
-            center:SetHeight(20)
-            center:SetPoint("RIGHT", right, "LEFT", 0, 0)
-            center:SetPoint("LEFT", left, "RIGHT", 0, 0)
-            center:SetTexture("Interface\\Common\\Common-Input-Border")
-            center:SetTexCoord(0.0625, 0.9375, 0, 0.625)
-            
-            -- scripts
-            statsFrame.statEditTextBox:SetScript("OnEscapePressed", function (self)
-                statsFrame:HideStatEditTextBox()
-                statsFrame:UpdateSetStats()
-            end)
-            
-            statsFrame.statEditTextBox:SetScript("OnEnterPressed", function (self)
-                -- save new stat value if it is numeric
-                local value = tonumber(statsFrame.statEditTextBox:GetText())
-                local stat = statsFrame.editStatButtons[statsFrame.statEditTextBox.statID].myStat
-                local isCap = statsFrame.statEditTextBox.isCap
-                if value and stat then -- otherwise, the text was probably not a number
-                    if not isCap then
-                        if value == 0 then value = nil end
-                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[stat] = value
-                    else
-                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[stat].value = value
-                    end
-                else
-                    TopFit:Debug("invalid input")
-                end
-                statsFrame:HideStatEditTextBox()
-                statsFrame:UpdateSetStats()
-                TopFit:CalculateScores()
-            end)
-        end
-        if not isCap then
-            statsFrame.statEditTextBox:SetPoint("RIGHT", statsFrame.editStatValueTexts[statID], "RIGHT")
-            statsFrame.statEditTextBox:SetText(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights[statsFrame.editStatButtons[statID].myStat])
-            statsFrame.editStatValueTexts[statID]:Hide()
-        else
-            statsFrame.statEditTextBox:SetPoint("RIGHT", statsFrame.statCapValueTexts[statID], "RIGHT")
-            statsFrame.statEditTextBox:SetText(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps[statsFrame.editStatButtons[statID].myStat].value)
-            statsFrame.statCapValueTexts[statID]:Hide()
-        end
-        statsFrame.statEditTextBox:Show()
-        statsFrame.statEditTextBox:HighlightText()
-        statsFrame.statEditTextBox:SetFocus()
-        statsFrame.statEditTextBox.statID = statID
-        statsFrame.statEditTextBox.isCap = isCap
-    end
-    
-    function statsFrame:HideStatEditTextBox()
-        if statsFrame.statEditTextBox then
-            statsFrame.statEditTextBox:Hide()
-            statsFrame.statEditTextBox:ClearFocus()
+        -- hide excess entries
+        for i = #sortableStatWeightTable+1, #statsFrame.statEntry do
+            statsFrame.statEntry[i]:Hide()
         end
     end
     
@@ -538,7 +557,7 @@ function TopFit:CreateStatsPlugin()
             -- no set selected, disable inputs
             statsFrame.addStatButton:Disable()
             statsFrame.includeInTooltipCheckButton:Disable()
-            if (tatsFrame.simulateDualWieldCheckButton) then
+            if (StatsFrame.simulateDualWieldCheckButton) then
                 statsFrame.simulateDualWieldCheckButton:Disable()
             end
             if (statsFrame.simulateTitansGripCheckButton) then

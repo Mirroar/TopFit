@@ -1,4 +1,4 @@
-
+local _, addon = ...
 -- utility for rounding
 function round(input, places)
     if not places then
@@ -29,6 +29,7 @@ end
 
 -- create Addon object
 TopFit = LibStub("AceAddon-3.0"):NewAddon("TopFit", "AceConsole-3.0")
+TopFit.locale = addon.locale
 
 -- debug function
 function TopFit:Debug(text)
@@ -60,10 +61,21 @@ function TopFit:JoinTables(...)
     return result
 end
 
+function TopFit.ShowTooltip(self)
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    if self.tipText then
+        GameTooltip:SetText(self.tipText, nil, nil, nil, nil, true)
+    elseif self.itemLink then
+        GameTooltip:SetHyperlink(self.itemLink)
+    end
+    GameTooltip:Show()
+end
+function TopFit.HideTooltip() GameTooltip:Hide() end
+
 function TopFit:EquipRecommendedItems()
     -- skip equipping if virtual items were included
     if (not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].skipVirtualItems) and TopFit.db.profile.sets[TopFit.setCode].virtualItems and #(TopFit.db.profile.sets[TopFit.setCode].virtualItems) > 0 then
-        TopFit:Print("No items will be equipped because virtual items were included in the set calculation.")
+        TopFit:Print(TopFit.locale.NoticeVirtualItemsUsed)
         
         -- reenable options and quit
         TopFit.ProgressFrame:StoppedCalculation()
@@ -141,7 +153,7 @@ function TopFit:onUpdateForEquipment()
                 end
                 
                 if not found then
-                    TopFit:Print(recTable.locationTable.itemLink.." could not be found in your inventory for equipping! Did you remove it during calculation?")
+                    TopFit:Print(string.format(TopFit.locale.ErrorItemNotFound, recTable.locationTable.itemLink))
                     TopFit.itemRecommendations[slotID] = nil
                 else
                     -- try equipping the item again
@@ -165,12 +177,12 @@ function TopFit:onUpdateForEquipment()
     -- also abort if it takes to long, just save the items that _have_ been equipped
     if ((allDone) or (TopFit.equipRetries > 5)) then
         if (not allDone) then
-            TopFit:Print("Oh. I am sorry, but I must have made a mistake. I cannot equip all the items I chose:")
+            TopFit:Print(TopFit.locale.NoticeEquipFailure)
             
             for slotID, recTable in pairs(TopFit.itemRecommendations) do
                 slotItemLink = GetInventoryItemLink("player", slotID)
                 if (slotItemLink ~= recTable.locationTable.itemLink) then
-                    TopFit:Print("  "..recTable.locationTable.itemLink.." into Slot "..slotID.." ("..TopFit.slotNames[slotID]..")")
+                    TopFit:Print(string.format(TopFit.locale.ErrorEquipFailure, recTable.locationTable.itemLink, slotID, TopFit.slotNames[slotID]))
                     TopFit.itemRecommendations[slotID] = nil
                 end
             end
@@ -233,7 +245,7 @@ function TopFit:ChatCommand(input)
         elseif input:trim():lower() == "options" then
             InterfaceOptionsFrame_OpenToCategory("TopFit")
         else
-            TopFit:Print("Available Options:\n  show - shows the calculations frame\n  options - shows TopFit's options")
+            TopFit:Print(TopFit.locale.SlashHelp)
         end
     end
 end
@@ -277,25 +289,25 @@ function TopFit:OnInitialize()
     
     -- list of weight categories and stats
     TopFit.statList = {
-        ["Basic Attributes"] = {
+        [TopFit.locale.StatsCategoryBasic] = {
             [1] = "ITEM_MOD_AGILITY_SHORT",
             [2] = "ITEM_MOD_INTELLECT_SHORT",
             [3] = "ITEM_MOD_SPIRIT_SHORT",
             [4] = "ITEM_MOD_STAMINA_SHORT",
             [5] = "ITEM_MOD_STRENGTH_SHORT",
         },
-        ["Melee"] = {
+        [TopFit.locale.StatsCategoryMelee] = {
             [1] = "ITEM_MOD_ARMOR_PENETRATION_RATING_SHORT",
             [2] = "ITEM_MOD_ATTACK_POWER_SHORT",
             [3] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
             [4] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
         },
-        ["Caster"] = {
+        [TopFit.locale.StatsCategoryCaster] = {
             [1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
             [2] = "ITEM_MOD_SPELL_POWER_SHORT",
             [3] = "ITEM_MOD_MANA_REGENERATION_SHORT",
         },
-        ["Defensive"] = {
+        [TopFit.locale.StatsCategoryDefensive] = {
             [1] = "ITEM_MOD_BLOCK_RATING_SHORT",
             [2] = "ITEM_MOD_BLOCK_VALUE_SHORT",
             [3] = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT",
@@ -304,18 +316,18 @@ function TopFit:OnInitialize()
             [6] = "ITEM_MOD_RESILIENCE_RATING_SHORT",
             [7] = "RESISTANCE0_NAME",                   -- armor
         },
-        ["Hybrid"] = {
+        [TopFit.locale.StatsCategoryHybrid] = {
             [1] = "ITEM_MOD_CRIT_RATING_SHORT",
             [2] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
             [3] = "ITEM_MOD_HASTE_RATING_SHORT",
             [4] = "ITEM_MOD_HIT_RATING_SHORT",
         },
-        ["Misc."] = {
+        [TopFit.locale.StatsCategoryMisc] = {
             [1] = "ITEM_MOD_HEALTH_SHORT",
             [2] = "ITEM_MOD_MANA_SHORT",
             [3] = "ITEM_MOD_HEALTH_REGENERATION_SHORT",
         },
-        ["Resistances"] = {
+        [TopFit.locale.StatsCategoryResistances] = {
             [1] = "RESISTANCE1_NAME",                   -- holy
             [2] = "RESISTANCE2_NAME",                   -- fire
             [3] = "RESISTANCE3_NAME",                   -- nature
@@ -349,7 +361,7 @@ function TopFit:OnInitialize()
         "WristSlot",
     }
     
-    -- create list of slot names with corresponding slot IDs
+    -- create list of slot names with corresponding slot IDs    -- CKAOTIK: unused?
     TopFit.slots = {}
     TopFit.slotNames = {}
     for _, slotName in pairs(TopFit.slotList) do
@@ -493,6 +505,7 @@ function TopFit:OnInitialize()
     -- create default plugin frames
     TopFit:CreateStatsPlugin()
     TopFit:CreateVirtualItemsPlugin()
+    TopFit:CreateUtilitiesPlugin()
     
     TopFit:collectItems()
 end

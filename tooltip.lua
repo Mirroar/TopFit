@@ -1,4 +1,3 @@
-
 -- Tooltip functions
 local cleared = true
 local refCleared = true
