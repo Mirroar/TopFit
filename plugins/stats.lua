@@ -244,7 +244,7 @@ function TopFit:CreateStatsPlugin()
     headerValue:SetWidth(headerValue.width); headerValue:SetHeight(10)
     
     local headerCap = CreateHeaderButton(TopFit.locale.StatsHeaderCap, "TopFit_StatsHeader_Cap", statsFrame.panel)
-    headerCap.width = 48
+    headerCap.width = 44
     headerCap:SetPoint("TOPLEFT", headerValue, "TOPRIGHT")
     headerCap:SetWidth(headerCap.width); headerCap:SetHeight(10)
     

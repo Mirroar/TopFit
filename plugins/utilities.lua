@@ -12,7 +12,10 @@
 --  TopFit:AddSet(preset)   -- takes scales, returns <setCode> if successful
 --  TopFit:GetSetItemFromSlot(slotID, setCode)	-- takes an inventory slotID and returns the itemLink of the item in that slot for a set (default: currently selected set)
 -- ------------------------------------------------------------
-
+-- TODO: remove when API is available!
+function TopFit:GetSetItemFromSlot(slotID, setCore)
+	return nil
+end
 -- ------------------------------------------------------------
 --  GearScore	:: parts of the code, full formulas, taken from GearScoreLite by Mirrikat45
 -- ------------------------------------------------------------
@@ -240,7 +243,7 @@ local globalString = {  -- insert all known strings in here
 	["YellowSocket"] = nil, -- empty yellow socket
 	["BlueSocket"] = nil,   -- empty blue socket
 	["MetaSocket"] = nil,   -- empty meta socket
-	["MetaSocketEffect"] = nil, -- value of "the" meta gem (e.g. +3% critical heal is worth 40 points)
+	["MetaSocketEffect"] = nil, -- value of "the" meta gem's effect (e.g. +3% critical heal is worth 40 points)
 	
 	["Dps"] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",  -- weapon damage per second
 	["Speed"] = nil,           -- weapon speed, in seconds per swing; fast weapons -> use negative score!
@@ -338,7 +341,7 @@ local globalString = {  -- insert all known strings in here
 -- takes a string and filteres any stats + stat weights it finds; e.g.( Pawn: v1: "SetName": Intellect=A, RangedDps=B, CritRating=C )
 local function ParsePawn(importString)
 	-- Read the scale and perform basic validation.
-	local found, _, Version, Name, ValuesString = strfind(importString, "^%s*%(%s*Pawn%s*:%s*v(%d+)%s*:%s*\"([^\"]+)\"%s*:%s*(.+)%s*%)%s*$")  -- TODO: add TopFit format for caps
+	local found, _, Version, Name, ValuesString = strfind(importString, "^%s*%(%s*Pawn%s*:%s*v(%d+)%s*:%s*\"([^\"]+)\"%s*:%s*(.+)%s*%)%s*$")
 	Version = tonumber(Version)
 	if (not found) or (not Version) or (not Name) or (Name == "") or (not ValuesString) or (ValuesString == "") then return end
 	
@@ -607,6 +610,15 @@ function TopFit:CreateUtilitiesPlugin()
 	exportBox:SetScript("OnEnterPressed", Accept)
 	exportBox:SetScript("OnEscapePressed", Reset)
     
+	local pwned = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	pwned:SetPoint("TOPLEFT", exportBox, "BOTTOMLEFT", 0, -10)
+	pwned:SetPoint("RIGHT", frame, -4, 0)
+	pwned:SetHeight(55)
+	pwned:SetNonSpaceWrap(true)
+	pwned:SetJustifyH("LEFT")
+	pwned:SetJustifyV("TOP")
+	pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
+
     -- register events
     TopFit.RegisterCallback("TopFit_utilities", "OnShow", function(event, id)
         if (id == pluginId) then

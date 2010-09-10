@@ -94,4 +94,5 @@ do
     TopFit.locale.UtilitiesErrorStringParse = "Error! String could not be parsed."
     TopFit.locale.UtilitiesErrorSetExists = "Error! A set with this name already exists."
     TopFit.locale.UtilitiesNoticeImported = "Import of %s succeeded."
+    TopFit.locale.GearScore = "You rock! Your GearScore is %s!"
 end
