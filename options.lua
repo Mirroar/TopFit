@@ -39,8 +39,8 @@ function TopFit:createOptions()
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.None
             info.value = "none"
-            info.func = function()
-                UIDropDownMenu_SetSelectedValue(autoUpdateSet, this.value)
+            info.func = function(self)
+                UIDropDownMenu_SetSelectedValue(autoUpdateSet, self.value)
                 autoUpdateSetText:SetText(TopFit.locale.None)
                 TopFit.db.profile.defaultUpdateSet = nil
             end
@@ -50,10 +50,10 @@ function TopFit:createOptions()
                 local info = UIDropDownMenu_CreateInfo()
                 info.text = setTable.name
                 info.value = setCode
-                info.func = function()
-                    UIDropDownMenu_SetSelectedValue(autoUpdateSet, this.value)
-                    autoUpdateSetText:SetText(TopFit.db.profile.sets[this.value].name)
-                    TopFit.db.profile.defaultUpdateSet = this.value
+                info.func = function(self)
+                    UIDropDownMenu_SetSelectedValue(autoUpdateSet, self.value)
+                    autoUpdateSetText:SetText(TopFit.db.profile.sets[self.value].name)
+                    TopFit.db.profile.defaultUpdateSet = self.value
                 end
                 UIDropDownMenu_AddButton(info)
             end

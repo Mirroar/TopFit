@@ -12,10 +12,7 @@
 --  TopFit:AddSet(preset)   -- takes scales, returns <setCode> if successful
 --  TopFit:GetSetItemFromSlot(slotID, setCode)	-- takes an inventory slotID and returns the itemLink of the item in that slot for a set (default: currently selected set)
 -- ------------------------------------------------------------
--- TODO: remove when API is available!
-function TopFit:GetSetItemFromSlot(slotID, setCore)
-	return nil
-end
+
 -- ------------------------------------------------------------
 --  GearScore	:: parts of the code, full formulas, taken from GearScoreLite by Mirrikat45
 -- ------------------------------------------------------------
@@ -243,7 +240,7 @@ local globalString = {  -- insert all known strings in here
 	["YellowSocket"] = nil, -- empty yellow socket
 	["BlueSocket"] = nil,   -- empty blue socket
 	["MetaSocket"] = nil,   -- empty meta socket
-	["MetaSocketEffect"] = nil, -- value of "the" meta gem's effect (e.g. +3% critical heal is worth 40 points)
+	["MetaSocketEffect"] = nil, -- value of "the" meta gem (e.g. +3% critical heal is worth 40 points)
 	
 	["Dps"] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",  -- weapon damage per second
 	["Speed"] = nil,           -- weapon speed, in seconds per swing; fast weapons -> use negative score!
@@ -264,8 +261,8 @@ local globalString = {  -- insert all known strings in here
 	["SpellPenetration"] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
     
 	["Armor"] = "RESISTANCE0_NAME",  -- regardless of item type.  classes with abilties that give armor bonuses should assign a value to base and bonus armor instead
-	["BaseArmor"] = nil,       -- regular items (cloth, leather, mail, plate) [included in +x% armor]
-	["BonusArmor"] = nil,      -- weapons, trinkets, rings [excluded from +x% armor]
+	["BaseArmor"] = nil,       -- regular items (cloth, leather, mail, plate) [included for +x% armor]
+	["BonusArmor"] = nil,      -- weapons, trinkets, rings [excluded for +x% armor]
 	["BlockValue"] = "ITEM_MOD_BLOCK_VALUE_SHORT",      -- increases amount of damage blocked
 	["BlockRating"] = "ITEM_MOD_BLOCK_RATING_SHORT",     -- increases chance to block
 	["DefenseRating"] = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT",
@@ -341,7 +338,7 @@ local globalString = {  -- insert all known strings in here
 -- takes a string and filteres any stats + stat weights it finds; e.g.( Pawn: v1: "SetName": Intellect=A, RangedDps=B, CritRating=C )
 local function ParsePawn(importString)
 	-- Read the scale and perform basic validation.
-	local found, _, Version, Name, ValuesString = strfind(importString, "^%s*%(%s*Pawn%s*:%s*v(%d+)%s*:%s*\"([^\"]+)\"%s*:%s*(.+)%s*%)%s*$")
+	local found, _, Version, Name, ValuesString = strfind(importString, "^%s*%(%s*Pawn%s*:%s*v(%d+)%s*:%s*\"([^\"]+)\"%s*:%s*(.+)%s*%)%s*$")  -- TODO: add TopFit format for caps
 	Version = tonumber(Version)
 	if (not found) or (not Version) or (not Name) or (Name == "") or (not ValuesString) or (ValuesString == "") then return end
 	
@@ -610,15 +607,6 @@ function TopFit:CreateUtilitiesPlugin()
 	exportBox:SetScript("OnEnterPressed", Accept)
 	exportBox:SetScript("OnEscapePressed", Reset)
     
-	local pwned = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-    pwned:SetPoint("TOPLEFT", exportBox, "BOTTOMLEFT", 0, -10)
-    pwned:SetPoint("RIGHT", frame, -4, 0)
-    pwned:SetHeight(55)
-    pwned:SetNonSpaceWrap(true)
-    pwned:SetJustifyH("LEFT")
-    pwned:SetJustifyV("TOP")
-    pwned:SetText("You rock! Your GearScore is "..TopFit:CalculateGearScore() or "?")	-- TODO: offer more useful text
-	
     -- register events
     TopFit.RegisterCallback("TopFit_utilities", "OnShow", function(event, id)
         if (id == pluginId) then

@@ -295,6 +295,7 @@ function TopFit:OnInitialize()
             [3] = "ITEM_MOD_SPIRIT_SHORT",
             [4] = "ITEM_MOD_STAMINA_SHORT",
             [5] = "ITEM_MOD_STRENGTH_SHORT",
+            [6] = "ITEM_MOD_MASTERY_RATING_SHORT",
         },
         [TopFit.locale.StatsCategoryMelee] = {
             [1] = "ITEM_MOD_ARMOR_PENETRATION_RATING_SHORT",

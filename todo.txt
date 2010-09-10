@@ -1,0 +1,28 @@
+To Do / Wishlist
+
+Options:
+- automatically equip generated set
+- save as equipment set (needs to be equipped)
+
+- always match socket colors
+- special weapon types (dagger in main hand for certain rogues)
+
+- option to switch off automatic search for other offhand /mainhand in tooltip
+
+
+Tooltip:
+- show user-added stat for procs etc
+
+
+Functionality:
+- Importing of Pawn Strings as equipment sets
+- maybe add leveling scores
+- Prevent set name conflicts (automatically rename xxx to 2-xxx or something like that)
+- Antispam for warnings, so they can be implemented for gems and enchants
+- seperate stats for main-, offhand and ranged weapon dps
+- ability to comment set (for player's reference)
+- Stat synonym model (so all variations of mana regen are handled the same way)
+- ability to make copies of set (as backup or for slight adjustment)
+- what to do if a forced item is no longer in the player's inventory?
+- check if items from a set are missing
+- fix wrong item being referenced in tooltip
