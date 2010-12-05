@@ -6,6 +6,19 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 
 ]]--
 
+local ReforgingInfo = LibStub("LibReforgingInfo-1.0") -- used for detecting reforged stats on items
+
+local ReforgingStats = {
+    "ITEM_MOD_SPIRIT_SHORT",
+    "ITEM_MOD_DODGE_RATING_SHORT",
+    "ITEM_MOD_PARRY_RATING_SHORT",
+    "ITEM_MOD_HIT_RATING_SHORT",
+    "ITEM_MOD_CRIT_RATING_SHORT",
+    "ITEM_MOD_HASTE_RATING_SHORT",
+    "ITEM_MOD_EXPERTISE_RATING_SHORT",
+    "ITEM_MOD_MASTERY_RATING_SHORT"
+}
+
 local function tinsertonce(table, data)
     local found = false
     for _, v in pairs(table) do
@@ -17,6 +30,35 @@ local function tinsertonce(table, data)
     if not found then
         tinsert(table, data)
     end
+end
+
+function TopFit:GetSetItemFromSlot(slotID, setCode)
+    local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
+    if itemPositions then
+        local itemLocation = itemPositions[slotID]
+        if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
+            local itemLink = nil
+            local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
+            if player then
+                if bank then
+                    -- item is banked, use itemID
+                    local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
+                    if itemID and itemID ~= 1 then
+                        _, itemLink = GetItemInfo(itemID)
+                    end
+                elseif bags then
+                    -- item is in player's bags
+                    itemLink = GetContainerItemLink(bag, slot)
+                else
+                    -- item is equipped
+                    itemLink = GetInventoryItemLink("player", slot)
+                end
+                
+                return itemLink
+            end
+        end
+    end
+    return nil
 end
 
 -- gather all items from inventory and bags, save their info to cache
@@ -109,7 +151,7 @@ function TopFit:GetItemInfoTable(item)
             end
         end
             
-        if #gems > 0 then       
+        if #gems > 0 then
             -- try to find socket bonus by scanning item tooltip (though I hoped to avoid that entirely)
             --TODO: this will have to be rewritten to be calculated on the fly at some point. meta gem requirements will not always work this way
             TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
@@ -200,13 +242,26 @@ function TopFit:GetItemInfoTable(item)
         gemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
         if (gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
         
-        enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((gemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
+        enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((enchantBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
         enchantBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
         if (enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
         
+        -- add reforged stats to base item stats if applicable
+        local reforgeBonus = {}
+        if (ReforgingInfo:IsItemReforged(itemLink)) then
+            local reforgeID = ReforgingInfo:GetReforgeID(itemLink)
+            local minus, plus = ReforgingInfo:GetReforgedStatIDs(reforgeID)
+            -- replace IDs with their global string (the library only returns IDs or localized Strings)
+            minus = ReforgingStats[minus]
+            plus = ReforgingStats[plus]
+            local statValue = math.floor((itemBonus[minus] or 0) * 0.4)
+            reforgeBonus[minus] = -statValue
+            reforgeBonus[plus] = statValue
+        end
+        
         -- calculate total values
         local totalBonus = {}
-        for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus}) do
+        for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus, reforgeBonus}) do
             for stat, value in pairs(bonusTable) do
                 totalBonus[stat] = (totalBonus[stat] or 0) + value
             end
@@ -219,9 +274,10 @@ function TopFit:GetItemInfoTable(item)
             ["itemMinLevel"] = itemMinLevel,
             ["itemEquipLoc"] = itemEquipLoc,
             ["itemBonus"] = itemBonus,
-            ["gems"] = gems,
             ["enchantBonus"] = enchantBonus,
             ["gemBonus"] = gemBonus,
+            ["reforgeBonus"] = reforgeBonus,
+            ["gems"] = gems,
             ["equipLocationsByType"] = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
             ["totalBonus"] = totalBonus,
         }

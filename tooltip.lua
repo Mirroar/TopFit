@@ -292,6 +292,30 @@ local function TooltipAddLines(tt, link)
                 tt:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 0.8, 0.2, 0)
             end
         end
+        
+        -- reforging
+        if (itemTable["reforgeBonus"]) then
+            local first = true
+            for stat, value in pairs(itemTable["reforgeBonus"]) do
+                if first then
+                    first = false
+                    tt:AddLine("Reforging:", 0.8, 0.8, 0)
+                end
+                
+                local valueString = ""
+                local first = true
+                for _, setTable in pairs(TopFit.db.profile.sets) do
+                    local weightedValue = (setTable.weights[stat] or 0) * value
+                    if first then
+                        first = false
+                    else
+                        valueString = valueString.." / "
+                    end
+                    valueString = valueString..(tonumber(weightedValue) or "0")
+                end
+                tt:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 0.8, 0.8, 0)
+            end
+        end
     end
     
     if (TopFit.db.profile.showTooltip) then

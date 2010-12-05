@@ -106,7 +106,17 @@ function TopFit:AddSet(preset)
     else
         setName = "Set "..i
     end
-    --TODO: check if set name is taken
+    
+    -- check if set name is already taken, generate a unique one in that case
+    if (TopFit:HasSet(setName)) then
+        local newSetName = "2-"..setName
+        local k = 2
+        while TopFit:HasSet(newSetName) do
+            k = k + 1
+            newSetName = k.."-"..setName
+        end
+        setName = newSetName
+    end
     
     TopFit.db.profile.sets["set_"..i] = {
         name = setName,
@@ -118,6 +128,20 @@ function TopFit:AddSet(preset)
     if TopFit.ProgressFrame then
         TopFit.ProgressFrame:SetSelectedSet("set_"..i)
     end
+    
+    -- precalculate item scores for this set
+    TopFit:CalculateScores()
+    
+    return "set_"..i
+end
+
+function TopFit:HasSet(setName)
+    for setCode, setTable in pairs(TopFit.db.profile.sets) do
+        if (setTable.name == setName) then
+            return true
+        end
+    end
+    return false
 end
 
 function TopFit:DeleteSet(setCode)
@@ -144,7 +168,19 @@ function TopFit:DeleteSet(setCode)
 end
 
 function TopFit:RenameSet(setCode, newName)
-    oldSetName = TopFit:GenerateSetName(self.db.profile.sets[setCode]["name"])
+    oldSetName = TopFit:GenerateSetName(self.db.profile.sets[setCode].name)
+    
+    -- check if set name is already taken, generate a unique one in that case
+    if (TopFit:HasSet(newName)) then
+        local newSetName = "2-"..newName
+        local k = 2
+        while TopFit:HasSet(newSetName) do
+            k = k + 1
+            newSetName = k.."-"..newName
+        end
+        newName = newSetName
+    end
+    
     newSetName = TopFit:GenerateSetName(newName)
 
     -- rename in saved variables

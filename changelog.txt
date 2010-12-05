@@ -1,6 +1,23 @@
 Changelog for TopFit
 ====================
 
+4.0v1 - 2010/12/04
+  - compatible with WoW 4.0.3
+  - reforged stats should be recognized correctly
+  - mastery rating added to stats
+  - armor penetration, attack power, defense rating and block value removed from stats
+  - localization support, though only english locale exists for now (thanks to ckaotik)
+  - module tabs have been made prettier (thanks to ckaotik)
+  - a module for importing and exporting pawn strings has been added (thanks to ckaotik) it also shows gearscore of the selected set
+  - gem stats have been updated (thanks to ckaotik, once again!)
+  - enchant stats have been updated
+  - some cataclysm enchants and gems have been included (those that were on WoWHead already)
+  - updated presets to use the current values from wowhead (though they are not very good, especially concerning the changes to spirit for all casters - they just added mastery rating at 10 value, and kept all other stats the same from WoW 3.3)
+  - presets currently have no caps assigned, since I don't know the current values
+  - added arms warrior preset
+  - removed blood DPS and frost tank presets for death knights
+  - when creating or renaming sets, TopFit will now make sure set names are always unique
+
 3.3v6 - 2010/08/21
   - fixed items with the same itemID showing up multiple times in the force item menu
   - fixed forced slots not being correctly updated when adding or deleting a set in the options frame

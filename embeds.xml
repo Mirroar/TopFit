@@ -8,4 +8,5 @@
   <Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
   <Include file="Libs\AceLocale-3.0\AceLocale-3.0.xml"/>
   <Include file="Libs\tekKonfig\tekKonfig.xml"/>
+  <Include file="Libs\LibReforgingInfo-1.0\LibReforgingInfo-1.0.xml"/>
 </Ui>

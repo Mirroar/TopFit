@@ -24,7 +24,7 @@ local function CreateSideTab(tabTexture, tabName, parent)
     local button = CreateFrame("CheckButton", tabName, parent, "SpellBookSkillLineTabTemplate")
     button:SetNormalTexture(tabTexture or "Interface\\Icons\\INV_Misc_QuestionMark")
     button:Hide()
-	return button
+    return button
 end
 
 function TopFit:UpdatePlugins()
