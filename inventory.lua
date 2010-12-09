@@ -267,18 +267,34 @@ function TopFit:GetItemInfoTable(item)
             end
         end
         
+        -- add hit for spirit for caster classes with the respective talent
+        local hitForSpirit = 0;
+        if (select(2, UnitClass("player")) == "PRIEST") then
+            hitForSpirit = 0.5 * (select(5, GetTalentInfo(3, 7)) or 0);
+        elseif (select(2, UnitClass("player")) == "DRUID") then
+            hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 6)) or 0);
+        elseif (select(2, UnitClass("player")) == "PALADIN") then
+            hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 11)) or 0);
+        elseif (select(2, UnitClass("player")) == "SHAMAN") then
+            hitForSpirit = 1 / 3 * (select(5, GetTalentInfo(1, 7)) or 0);
+        end
+        
+        if (hitForSpirit > 0) then
+            totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
+        end
+        
         local result = {
             ["itemLink"] = itemLink,
             ["itemID"] = itemID,
             ["itemQuality"] = itemQuality,
             ["itemMinLevel"] = itemMinLevel,
             ["itemEquipLoc"] = itemEquipLoc,
+            ["equipLocationsByType"] = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
+            ["gems"] = gems,
             ["itemBonus"] = itemBonus,
             ["enchantBonus"] = enchantBonus,
             ["gemBonus"] = gemBonus,
             ["reforgeBonus"] = reforgeBonus,
-            ["gems"] = gems,
-            ["equipLocationsByType"] = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
             ["totalBonus"] = totalBonus,
         }
         

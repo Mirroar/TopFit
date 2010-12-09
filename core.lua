@@ -259,7 +259,7 @@ function TopFit:OnInitialize()
     
     -- create gametooltip for scanning
     TopFit.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
-
+    
     -- check if any set is saved already, if not, create default
     if (not self.db.profile.sets) then
         self.db.profile.sets = {
@@ -359,7 +359,7 @@ function TopFit:OnInitialize()
         "WristSlot",
     }
     
-    -- create list of slot names with corresponding slot IDs    -- CKAOTIK: unused?
+    -- create list of slot names with corresponding slot IDs
     TopFit.slots = {}
     TopFit.slotNames = {}
     for _, slotName in pairs(TopFit.slotList) do

@@ -1,6 +1,11 @@
 Changelog for TopFit
 ====================
 
+4.0v2 - 2010/12/09
+  - updated toc version
+  - dual wield and titan's grip should be detected correctly again - if for some class it isn't, tell me, please
+  - spririt-to-hit talents for priests, shamans, druids and paladins will internally add hit rating to an item's score as a hotfix for calculating correct hit rating caps - again, if it doesn't work for a class, I will need a notice from you
+
 4.0v1 - 2010/12/04
   - compatible with WoW 4.0.3
   - reforged stats should be recognized correctly
