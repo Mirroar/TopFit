@@ -642,7 +642,7 @@ end
 -- now with assertion as optional parameter
 function TopFit:CalculateBestInSlot(itemsAlreadyChosen, insert, sID, setCode, assertion)
     if not setCode then setCode = TopFit.setCode end
-
+    
     -- get best item(s) for each equipment slot
     local bis = {}
     local itemListBySlot = TopFit.itemListBySlot or TopFit:GetEquippableItems()

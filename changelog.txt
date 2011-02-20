@@ -1,6 +1,9 @@
 Changelog for TopFit
 ====================
 
+4.0v3 -
+  - added API function to check if an item is interesting to the player
+
 4.0v2 - 2010/12/09
   - updated toc version
   - dual wield and titan's grip should be detected correctly again - if for some class it isn't, tell me, please
