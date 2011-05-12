@@ -440,10 +440,10 @@ function TopFit:OnInitialize()
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
         if not TopFit.toggleProgressFrameButton then
-            TopFit.toggleProgressFrameButton = CreateFrame("Button", "TopFit_toggleProgressFrameButton", PaperDollFrame)
+            TopFit.toggleProgressFrameButton = CreateFrame("Button", "TopFit_toggleProgressFrameButton", PaperDollSidebarTab1)
             TopFit.toggleProgressFrameButton:SetWidth(30)
             TopFit.toggleProgressFrameButton:SetHeight(32)
-            TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "LEFT")
+            TopFit.toggleProgressFrameButton:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT")
             
             local normalTexture = TopFit.toggleProgressFrameButton:CreateTexture()
             local pushedTexture = TopFit.toggleProgressFrameButton:CreateTexture()
@@ -492,11 +492,6 @@ function TopFit:OnInitialize()
             TopFit.toggleProgressFrameButton:SetScript("OnLeave", function(...)
                 GameTooltip:Hide()
             end)
-        end
-        if GearManagerToggleButton:IsShown() then
-            TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "LEFT", 4, 0)
-        else
-            TopFit.toggleProgressFrameButton:SetPoint("RIGHT", GearManagerToggleButton, "RIGHT")
         end
     end)
     

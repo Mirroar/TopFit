@@ -513,7 +513,7 @@ end
 function TopFit:GetEquippableItems(requestedSlotID)
     local itemListBySlot = {}
     local availableSlots = {}
-
+    
     -- find available item ids for each slot
     for slotName, slotID in pairs(TopFit.slots) do
         itemListBySlot[slotID] = {}
