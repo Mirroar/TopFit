@@ -444,7 +444,7 @@ function TopFit:IsInterestingItem(itemID, setID)
         for set, _ in pairs(TopFit.db.profile.sets) do
             local isInteresting, reason = TopFit:IsInterestingItem(itemID, set)
             if (isInteresting) then
-                return isIntersting, reason
+                return isInteresting, reason
             end
         end
         return false, "item is not interesting for any set"
