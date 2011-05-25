@@ -1,6 +1,19 @@
 Changelog for TopFit
 ====================
 
+4.1v1 -
+  - fixed a bug in TopFit:IsInterestingItem which would result in false negatives
+  - fixed a bug in the hit-for-spirit calculation where hit rating would not be granted to the raw item value
+  - items and score cache is now cleared on talent change
+  - this should also fix items sometimes not being granted hit-for-spirit values directly after login
+  - TODO: reworked set management interface to integrate nicely with the character frame
+  - TODO: think of a way to integrate TopFit Plugins as well
+  - TODO: add stats for armor types
+  - TODO: option to enforce shields / dual wielding / 2-handed weapon
+  - TODO: move checks for titan's grip etc to PLAYER_TALENT_UPDATE
+  - TODO: rewrite calculation and set managemant functions to handle set objects (maybe with "real" OOP)
+  - TODO: document all functions that are relevant for an API
+
 4.0v3 -
   - added API function to check if an item is interesting to the player
 

@@ -391,6 +391,8 @@ function TopFit:OnInitialize()
     TopFit.eventFrame = CreateFrame("Frame")
     TopFit.eventFrame:RegisterEvent("BAG_UPDATE")
     TopFit.eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
+    TopFit.eventFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    TopFit.eventFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
     TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
     TopFit.eventFrame:SetScript("OnUpdate", TopFit.delayCalculationOnLogin)
     
@@ -493,6 +495,8 @@ function TopFit:OnInitialize()
                 GameTooltip:Hide()
             end)
         end
+        
+        TopFit:initializeCharacterFrameUI()
     end)
     
     -- create default plugin frames
@@ -570,11 +574,19 @@ function TopFit:FrameOnEvent(event, ...)
         if TopFit:collectEquippableItems() and not TopFit.loginDelay then
             -- new equippable item in inventory!!!!
             -- calculate set silently if player wishes
-            if TopFit.db.profile.defaultUpdateSet then
+            if (TopFit.db.profile.defaultUpdateSet and GetActiveTalentGroup() == 1) then
                 if not TopFit.workSetList then
                     TopFit.workSetList = {}
                 end
                 tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
+                
+                TopFit:CalculateSets(true) -- calculate silently
+            end
+            if (TopFit.db.profile.defaultUpdateSet2 and GetActiveTalentGroup() == 2) then
+                if not TopFit.workSetList then
+                    TopFit.workSetList = {}
+                end
+                tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
                 
                 TopFit:CalculateSets(true) -- calculate silently
             end
@@ -597,6 +609,10 @@ function TopFit:FrameOnEvent(event, ...)
             
             TopFit:CalculateSets(true) -- calculate silently
         end
+    elseif (event == "ACTIVE_TALENT_GROUP_CHANGED") then
+        TopFit:ClearCache()
+    elseif (event == "PLAYER_TALENT_UPDATE") then
+        TopFit:ClearCache()
     end
 end
 
@@ -606,4 +622,271 @@ end
 
 function TopFit:OnDisable()
     -- Called when the addon is disabled
+end
+
+TopFit.characterFrameUIcreated = false;
+
+function TopFit:initializeCharacterFrameUI()
+    if (TopFit.characterFrameUIcreated) then return end
+    TopFit.characterFrameUIcreated = true;
+    PaperDollSidebarTab3:SetPoint("BOTTOMRIGHT", PaperDollSidebarTabs, "BOTTOMRIGHT", -64, 0)
+    PanelTemplates_SetNumTabs(CharacterFrame, 4);
+    PanelTemplates_UpdateTabs(CharacterFrame);
+    
+    local pane = TopFitSidebarFrameScrollChild
+    
+    local setDropDown = TopFit:initializeSetDropdown(pane)
+    
+    local i = 1
+    for statCategory, statsTable in pairs(TopFit.statList) do
+        local statGroup = CreateFrame("Frame", "TopFitSidebarStatGroup"..i, pane, "TopFitStatGroupTemplate")
+        if (i == 1) then
+            statGroup:SetPoint("TOPLEFT", setDropDown, "BOTTOMLEFT", 0, -5)
+        else
+            statGroup:SetPoint("TOPLEFT", _G["TopFitSidebarStatGroup"..(i - 1)], "BOTTOMLEFT", 0, -2)
+        end
+        statGroup.NameText:SetText(statCategory)
+        TopFit:UpdateStatGroup(statGroup)
+        
+        i = i + 1
+    end
+
+    TopFit:CreateEditStatPane(pane)
+end
+
+function TopFit:initializeSetDropdown(pane)
+    local paneWidth = pane:GetWidth()
+    
+    local setDropDown = CreateFrame("Frame", "TopFitSetDropDown", pane, "UIDropDownMenuTemplate")
+    setDropDown:SetPoint("TOPLEFT", pane, "TOPLEFT")
+    setDropDown:SetWidth(paneWidth)
+    _G["TopFitSetDropDownMiddle"]:SetWidth(paneWidth - 35)
+    _G["TopFitSetDropDownButton"]:SetWidth(paneWidth - 20)
+    
+    UIDropDownMenu_Initialize(setDropDown, function(self, level)
+        local info = UIDropDownMenu_CreateInfo()
+        for k, v in pairs(TopFit.db.profile.sets) do
+            if not TopFit.selectedSet then
+                TopFit.selectedSet = k
+            end
+            info = UIDropDownMenu_CreateInfo()
+            info.text = v.name
+            info.value = k
+            info.func = function(self)
+                TopFit:SetSelectedSet(self.value)
+            end
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end)
+    UIDropDownMenu_SetSelectedID(setDropDown, 1)
+    UIDropDownMenu_JustifyText(setDropDown, "LEFT")
+    
+    return setDropDown
+end
+
+function TopFit:CreateEditStatPane(pane)
+    local editStatPane = CreateFrame("Frame", "TopFitSidebarEditStatPane", pane)
+    local valueString = editStatPane:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+    valueString:SetPoint("TOPLEFT", editStatPane, "TOPLEFT", 0, -5)
+    valueString:SetPoint("RIGHT")
+    valueString:SetJustifyH("LEFT")
+    valueString:SetTextHeight(10)
+    valueString:SetText("Has a value of:")
+
+    local capString = editStatPane:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+    capString:SetPoint("TOPLEFT", valueString, "BOTTOMLEFT")
+    capString:SetPoint("RIGHT")
+    capString:SetJustifyH("LEFT")
+    capString:SetTextHeight(10)
+    capString:SetText("Until you reach:")
+
+    local forceCapString = editStatPane:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+    forceCapString:SetPoint("TOPLEFT", capString, "BOTTOMLEFT")
+    forceCapString:SetPoint("RIGHT")
+    forceCapString:SetJustifyH("LEFT")
+    forceCapString:SetTextHeight(10)
+    forceCapString:SetText("Which must be reached:")
+
+    local afterCapValueString = editStatPane:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+    afterCapValueString:SetPoint("TOPLEFT", forceCapString, "BOTTOMLEFT")
+    afterCapValueString:SetPoint("RIGHT")
+    afterCapValueString:SetJustifyH("LEFT")
+    afterCapValueString:SetTextHeight(10)
+    afterCapValueString:SetText("After which its value is:")
+
+    editStatPane:SetHeight(valueString:GetHeight() + capString:GetHeight() + forceCapString:GetHeight() + afterCapValueString:GetHeight() + 10)
+
+
+    statValueTextBox = CreateFrame("EditBox", "TopFitSidebarEditStatPaneStatValue", editStatPane)
+    statValueTextBox:SetFrameStrata("HIGH")
+    statValueTextBox:SetPoint("TOP", valueString, "TOP")
+    statValueTextBox:SetPoint("BOTTOM", valueString, "BOTTOM")
+    statValueTextBox:SetPoint("RIGHT", editStatPane, "RIGHT")
+    statValueTextBox:SetWidth(100)
+    statValueTextBox:SetAutoFocus(false)
+    statValueTextBox:EnableMouse(true)
+    statValueTextBox:SetFontObject("GameFontHighlightSmall")
+    statValueTextBox:SetJustifyH("RIGHT")
+    
+    -- scripts
+    statValueTextBox:SetScript("OnEditFocusGained", function(...) statValueTextBox.HighlightText(...) TopFit:Print("Focus gained") end)
+    local function EditBoxFocusLost(self)
+        local stat = self:GetParent().statCode
+        self:SetText(TopFit.db.profile.sets[TopFit.selectedSet].weights[stat] or "0")
+        self:ClearFocus()
+    end
+    statValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLost)
+    statValueTextBox:SetScript("OnEscapePressed", EditBoxFocusLost)
+    statValueTextBox:SetScript("OnEnterPressed", function(self)
+        local value = tonumber(self:GetText())
+        local stat = self:GetParent().statCode
+        if stat and value then
+            if value == 0 then value = nil end  -- used for removing stats from the list
+            TopFit.db.profile.sets[TopFit.selectedSet].weights[stat] = value
+        else
+            TopFit:Debug("invalid input")
+        end
+        EditBoxFocusLost(self)
+        TopFit:UpdateStatGroups()
+        TopFit:CalculateScores()
+    end)
+    
+end
+
+function TopFit:SetSelectedSet(setID)
+    local i
+    if not setID then
+        for i = 1, 500 do
+            if (TopFit.db.profile.sets["set_"..i]) then
+                setID = "set_"..i
+                break
+            end
+        end
+        if not setID then return end
+    end
+    
+    TopFit.selectedSet = setID
+    
+    TopFit:UpdateStatGroups()
+end
+
+function TopFit:ExpandStatGroup(statGroup)
+    statGroup.collapsed = false
+    statGroup.CollapsedIcon:Hide()
+    statGroup.ExpandedIcon:Show()
+    TopFit:UpdateStatGroup(statGroup)
+    statGroup.BgMinimized:Hide()
+    statGroup.BgTop:Show()
+    statGroup.BgMiddle:Show()
+    statGroup.BgBottom:Show()
+end
+
+function TopFit:CollapseStatGroup(statGroup)
+    statGroup.collapsed = true
+    statGroup.CollapsedIcon:Show()
+    statGroup.ExpandedIcon:Hide()
+    local i = 1;
+    while (_G[statGroup:GetName().."Stat"..i]) do 
+        _G[statGroup:GetName().."Stat"..i]:Hide()
+        i = i + 1;
+    end
+    statGroup:SetHeight(18)
+    statGroup.BgMinimized:Show()
+    statGroup.BgTop:Hide()
+    statGroup.BgMiddle:Hide()
+    statGroup.BgBottom:Hide()
+end
+
+function TopFit:UpdateStatGroups()
+    local i = 1
+    while (_G["TopFitSidebarStatGroup"..i]) do
+        TopFit:UpdateStatGroup(_G["TopFitSidebarStatGroup"..i])
+        i = i + 1
+    end
+end
+
+function TopFit:UpdateStatGroup(statGroup)
+    local STRIPE_COLOR = {r = 0.9, g = 0.9, b = 1}
+    local subStats = TopFit.statList[statGroup.NameText:GetText()]
+    local i = 1
+    local totalHeight = statGroup.NameText:GetHeight() + 10
+    for i = 1, #subStats do
+        local statCode = subStats[i]
+        local statFrame = _G[statGroup:GetName().."Stat"..i]
+        
+        if not statFrame then
+            statFrame = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
+            statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
+            statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
+        end
+        
+        --statFrame.statID = i
+        --statFrame.statGroup = statGroup:GetName()
+        statFrame.statCode = statCode
+        _G[statGroup:GetName().."Stat"..i.."Label"]:SetText(_G[statCode]..":")
+        _G[statGroup:GetName().."Stat"..i.."StatText"]:SetText(TopFit.db.profile.sets[TopFit.selectedSet].weights[statCode] or "0")
+        statFrame:Show()
+        
+        totalHeight = totalHeight + statFrame:GetHeight()
+        
+        if (i % 2 == 0) then
+            if (not statFrame.Bg) then
+                statFrame.Bg = statFrame:CreateTexture(statFrame:GetName().."Bg", "BACKGROUND")
+                statFrame.Bg:SetPoint("LEFT", statGroup, "LEFT", 1, 0)
+                statFrame.Bg:SetPoint("RIGHT", statGroup, "RIGHT", 0, 0)
+                statFrame.Bg:SetPoint("TOP")
+                statFrame.Bg:SetPoint("BOTTOM")
+                statFrame.Bg:SetTexture(STRIPE_COLOR.r, STRIPE_COLOR.g, STRIPE_COLOR.b)
+                statFrame.Bg:SetAlpha(0.1)
+            end
+        end
+    end
+    statGroup:SetHeight(totalHeight)
+    
+    -- fix for groups with only 1 item
+    if (totalHeight < 44) then
+        statGroup.BgBottom:SetHeight(totalHeight - 2);
+    else
+        statGroup.BgBottom:SetHeight(46);
+    end
+end
+
+function TopFit:ToggleStatFrame(statFrame)
+    if (statFrame:GetHeight() > 20) then
+        statFrame:SetHeight(13)
+        TopFitSidebarEditStatPane:Hide()
+    else
+        TopFit:CollapseAllStatGroups()
+        TopFitSidebarEditStatPane:SetPoint("TOPLEFT", statFrame, "TOPLEFT", 0, -13)
+        TopFitSidebarEditStatPane:SetPoint("TOPRIGHT", statFrame, "TOPRIGHT", 0, -13)
+        TopFitSidebarEditStatPane:Show()
+        TopFitSidebarEditStatPane.statCode = statFrame.statCode
+        statFrame:SetHeight(13 + TopFitSidebarEditStatPane:GetHeight())
+
+        local statInSet = TopFit.db.profile.sets[TopFit.selectedSet].weights[statFrame.statCode]
+        TopFitSidebarEditStatPaneStatValue:SetText(statInSet or 0);
+        --TopFitSidebarEditStatPaneStatValue:Raise()
+    end
+    
+    TopFit:UpdateStatGroups()
+end
+
+function TopFit:CollapseAllStatGroups()
+    local i = 1
+    local statGroup = _G["TopFitSidebarStatGroup"..i]
+    while (statGroup) do
+        local j = 1
+        local statFrame = _G[statGroup:GetName().."Stat"..j]
+        while (statFrame) do
+            if (statFrame:GetHeight() > 20) then
+                statFrame:SetHeight(13)
+            end
+
+            j = j + 1
+            statFrame = _G[statGroup:GetName().."Stat"..j]
+        end
+
+        i = i + 1
+        statGroup = _G["TopFitSidebarStatGroup"..i]
+    end
 end

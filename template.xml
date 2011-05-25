@@ -1,74 +1,266 @@
-<Button name="TopFit_HeaderTemplate" virtual="true">
-    <Layers>
-        <Layer level="BACKGROUND">
-            <Texture name="$parentLeft" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
-                <Size>
-                    <AbsDimension x="5" y="19"/>
-                </Size>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    
+    <Button name="TopFit_HeaderTemplate" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentLeft" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+                    <Size>
+                        <AbsDimension x="5" y="19"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                    <TexCoords left="0" right="0.078125" top="0" bottom="0.59375"/>
+                </Texture>
+                <Texture name="$parentRight" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+                    <Size>
+                        <AbsDimension x="4" y="19"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0.90625" right="0.96875" top="0" bottom="0.59375"/>
+                </Texture>
+                <Texture name="$parentMiddle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+                    <Size>
+                        <AbsDimension x="10" y="19"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="0.078125" right="0.90625" top="0" bottom="0.59375"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        <ButtonText name="$parentText">
+            <Anchors>
+                <Anchor point="LEFT">
+                    <Offset>
+                        <AbsDimension x="8" y="0"/>
+                    </Offset>
+                </Anchor>
+            </Anchors>
+        </ButtonText>
+        <NormalFont style="GameFontHighlightSmall"/>
+        <NormalTexture name="$parentArrow" file="Interface\Buttons\UI-SortArrow">
+            <Size>
+                <AbsDimension x="9" y="8"/>
+            </Size>
+            <Anchors>
+                <Anchor point="LEFT" relativeTo="$parentText" relativePoint="RIGHT">
+                    <Offset>
+                        <AbsDimension x="3" y="-2"/>
+                    </Offset>
+                </Anchor>
+            </Anchors>
+            <TexCoords left="0" right="0.5625" top="0" bottom="1.0"/>
+        </NormalTexture>
+        <HighlightTexture file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+            <Size>
+                <AbsDimension x="5" y="24"/>
+            </Size>
+            <Anchors>
+                <Anchor point="LEFT">
+                    <Offset>
+                        <AbsDimension x="0" y="0"/>
+                    </Offset>
+                </Anchor>
+                <Anchor point="RIGHT">
+                    <Offset>
+                        <AbsDimension x="4" y="0"/>
+                    </Offset>
+                </Anchor>
+            </Anchors>
+        </HighlightTexture>
+    </Button>
+    
+    
+    <Button name="TopFitStatFrameTemplate" virtual="true">
+        <Size x="104" y="13"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <FontString name="$parentLabel" inherits="GameFontNormalSmall" parentKey="Label">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension y="-1"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentStatText" inherits="GameFontHighlightSmall" justifyH="RIGHT" parentKey="Value">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT">
+                            <Offset>
+                                <AbsDimension y="-1"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                self.startingHeight = self:GetHeight()
+            </OnLoad>
+            <OnEnter>
+                if (not self.Highlight) then
+                    self.Highlight = self:CreateTexture(self:GetName().."Highlight", "BACKGROUND")
+                    self.Highlight:SetPoint("LEFT", self:GetParent(), "LEFT", 1, 0)
+                    self.Highlight:SetPoint("RIGHT", self:GetParent(), "RIGHT", 0, 0)
+                    self.Highlight:SetPoint("TOP")
+                    self.Highlight:SetPoint("BOTTOM")
+                    self.Highlight:SetTexture(1, 0, 0)
+                    self.Highlight:SetAlpha(0.2)
+                end
+                
+                self.Highlight:Show()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+                
+                self.Highlight:Hide()
+            </OnLeave>
+            <OnClick>
+                TopFit:ToggleStatFrame(self)
+            </OnClick>
+        </Scripts>
+    </Button>
+    
+    <Frame name="TopFitStatGroupTemplate" virtual="true">
+        <Size x="169" y="100"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBgTop" inherits="Char-Stat-Top" parentKey="BgTop">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBgBottom" inherits="Char-Stat-Bottom" parentKey="BgBottom">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentBgMiddle" file="Interface\CharacterFrame\Char-Stat-Middle" parentKey="BgMiddle" vertTile="true">
+                    <Size x="169" y="8"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBgTop" relativePoint="BOTTOMLEFT" x="1"/>
+                        <Anchor point="BOTTOMLEFT" relativeTo="$parentBgBottom" relativePoint="TOPLEFT"/>
+                    </Anchors>
+                    <TexCoords left="0.00390625" right="0.66406250" top="0.00000000" bottom="1.00000000"/>
+                </Texture>
+            <Texture name="$parentBgMinimized" inherits="Char-Stat-Minimized" parentKey="BgMinimized" hidden="true">
+                    <Size x="169" y="18"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <FontString name="$parentNameText" inherits="GameFontHighlight" justifyH="LEFT" parentKey="NameText">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="15" y="-3"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parentCollapsedIcon" parentKey="CollapsedIcon" inherits="Char-Stat-Plus" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="5" y="-5"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentExpandedIcon" parentKey="ExpandedIcon" inherits="Char-Stat-Minus">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="5" y="-7"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button name="$parentToolbar">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="-20"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        if self:GetParent().collapsed then
+                            TopFit:ExpandStatGroup(self:GetParent());
+                        else
+                            TopFit:CollapseStatGroup(self:GetParent());
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parentStat1" inherits="TopFitStatFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-19"/>
+                    <Anchor point="RIGHT" x="-4"/>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
+    
+    
+    
+    <ScrollFrame parent="PaperDollSidebarTabs" name="TopFitSidebarFrame" inherits="UIPanelScrollFrameTemplate2" hidden="true">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="CharacterFrameInsetRight" x="4" y="-4"/>
+            <Anchor point="BOTTOMRIGHT" relativeTo="CharacterFrameInsetRight" x="-27" y="2"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                self.ScrollBar.scrollStep = 50;
+                ScrollFrame_OnLoad(self);
+                ScrollFrame_OnScrollRangeChanged(self);
+            </OnLoad>
+            <!--<OnShow function="PaperDollEquipmentManagerPane_OnShow"/>
+            <OnHide function="PaperDollEquipmentManagerPane_OnHide"/>
+            <OnEvent function="PaperDollEquipmentManagerPane_OnEvent"/>
+            <OnUpdate function="PaperDollEquipmentManagerPane_OnUpdate"/>-->
+        </Scripts>
+        <ScrollChild>
+            <Frame name="TopFitSidebarFrameScrollChild">
+                <Size x="170" y="1000"/>
                 <Anchors>
                     <Anchor point="TOPLEFT"/>
                 </Anchors>
-                <TexCoords left="0" right="0.078125" top="0" bottom="0.59375"/>
-            </Texture>
-            <Texture name="$parentRight" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
-                <Size>
-                    <AbsDimension x="4" y="19"/>
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPRIGHT"/>
-                </Anchors>
-                <TexCoords left="0.90625" right="0.96875" top="0" bottom="0.59375"/>
-            </Texture>
-            <Texture name="$parentMiddle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
-                <Size>
-                    <AbsDimension x="10" y="19"/>
-                </Size>
-                <Anchors>
-                    <Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
-                    <Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
-                </Anchors>
-                <TexCoords left="0.078125" right="0.90625" top="0" bottom="0.59375"/>
-            </Texture>
-        </Layer>
-    </Layers>
-    <ButtonText name="$parentText">
+                <Frames>
+                    <Frame name="TopFitSidebarStatSettings">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" />
+                        </Anchors>
+                        <Frames>
+                            
+                        </Frames>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </ScrollChild>
+    </ScrollFrame>
+    
+    <Button parent="PaperDollSidebarTabs" name="PaperDollSidebarTab4" inherits="PaperDollSidebarTabTemplate" id="4">
         <Anchors>
-            <Anchor point="LEFT">
-                <Offset>
-                    <AbsDimension x="8" y="0"/>
-                </Offset>
-            </Anchor>
+            <Anchor point="LEFT" relativeTo="PaperDollSidebarTab3" relativePoint="RIGHT" x="4"/>
         </Anchors>
-    </ButtonText>
-    <NormalFont style="GameFontHighlightSmall"/>
-    <NormalTexture name="$parentArrow" file="Interface\Buttons\UI-SortArrow">
-        <Size>
-            <AbsDimension x="9" y="8"/>
-        </Size>
-        <Anchors>
-            <Anchor point="LEFT" relativeTo="$parentText" relativePoint="RIGHT">
-                <Offset>
-                    <AbsDimension x="3" y="-2"/>
-                </Offset>
-            </Anchor>
-        </Anchors>
-        <TexCoords left="0" right="0.5625" top="0" bottom="1.0"/>
-    </NormalTexture>
-    <HighlightTexture file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
-        <Size>
-            <AbsDimension x="5" y="24"/>
-        </Size>
-        <Anchors>
-            <Anchor point="LEFT">
-                <Offset>
-                    <AbsDimension x="0" y="0"/>
-                </Offset>
-            </Anchor>
-            <Anchor point="RIGHT">
-                <Offset>
-                    <AbsDimension x="4" y="0"/>
-                </Offset>
-            </Anchor>
-        </Anchors>
-    </HighlightTexture>
-</Button>
+        <Scripts>
+            <OnLoad>
+                tinsert(PAPERDOLL_SIDEBARS, {
+                    icon = "Interface\\Icons\\Achievement_BG_trueAVshutout",
+                    frame = "TopFitSidebarFrame",
+                    name = "TopFit",
+                    texCoords = {
+                        0, 1,
+                        0, 1
+                    ,}
+                })
+                self.Icon:SetTexture(PAPERDOLL_SIDEBARS[self:GetID()].icon);
+                local tcoords = PAPERDOLL_SIDEBARS[self:GetID()].texCoords;
+                self.Icon:SetTexCoord(tcoords[1], tcoords[2], tcoords[3], tcoords[4]);
+            </OnLoad>
+        </Scripts>
+    </Button>
+    
+</Ui>

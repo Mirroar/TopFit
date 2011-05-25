@@ -59,8 +59,41 @@ function TopFit:createOptions()
             end
         end)
         
+        -- Auto Update Set 2 Dropdown
+        local autoUpdateSet2, autoUpdateSetText2, autoUpdateSetContainer2 = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, TopFit.locale.AutoUpdateSet.." 2", "TOPLEFT", autoUpdateSetContainer, "BOTTOMLEFT", 0, 0)
+        if (TopFit.db.profile.defaultUpdateSet2) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet2]) then
+            autoUpdateSetText2:SetText(TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet2].name)
+        else
+            autoUpdateSetText2:SetText(TopFit.locale.None)
+        end
+        autoUpdateSet2.tiptext = TopFit.locale.AutoUpdateSetTooltip
+        
+        UIDropDownMenu_Initialize(autoUpdateSet2, function()
+            local info = UIDropDownMenu_CreateInfo()
+            info.text = TopFit.locale.None
+            info.value = "none"
+            info.func = function(self)
+                UIDropDownMenu_SetSelectedValue(autoUpdateSet2, self.value)
+                autoUpdateSetText2:SetText(TopFit.locale.None)
+                TopFit.db.profile.defaultUpdateSet2 = nil
+            end
+            UIDropDownMenu_AddButton(info)
+            
+            for setCode, setTable in pairs(TopFit.db.profile.sets or {}) do
+                local info = UIDropDownMenu_CreateInfo()
+                info.text = setTable.name
+                info.value = setCode
+                info.func = function(self)
+                    UIDropDownMenu_SetSelectedValue(autoUpdateSet2, self.value)
+                    autoUpdateSetText2:SetText(TopFit.db.profile.sets[self.value].name)
+                    TopFit.db.profile.defaultUpdateSet2 = self.value
+                end
+                UIDropDownMenu_AddButton(info)
+            end
+        end)
+        
         -- Debug Mode Checkbox
-        local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.Debug, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -70)
+        local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.Debug, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -130)
         debugMode.tiptext = TopFit.locale.DebugTooltip
         debugMode:SetChecked(TopFit.db.profile.debugMode)
         local checksound = debugMode:GetScript("OnClick")
@@ -158,6 +191,9 @@ function TopFit:DeleteSet(setCode)
     -- remove automatic update set if necessary
     if self.db.profile.defaultUpdateSet == setCode then
         self.db.profile.defaultUpdateSet = nil
+    end
+    if self.db.profile.defaultUpdateSet2 == setCode then
+        self.db.profile.defaultUpdateSet2 = nil
     end
     
     if (TopFit.ProgressFrame) then

@@ -32,6 +32,11 @@ local function tinsertonce(table, data)
     end
 end
 
+function TopFit:ClearCache()
+    TopFit.itemsCache = {}
+    TopFit.scoresCache = {}
+end
+
 function TopFit:GetSetItemFromSlot(slotID, setCode)
     local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
     if itemPositions then
@@ -281,6 +286,7 @@ function TopFit:GetItemInfoTable(item)
         
         if (hitForSpirit > 0) then
             totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
+            itemBonus["ITEM_MOD_HIT_RATING_SHORT"] = (itemBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (itemBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
         end
         
         local result = {

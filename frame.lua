@@ -90,6 +90,38 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.addSetButton:SetNormalTexture("Interface\\Icons\\Spell_chargepositive")
         TopFit.ProgressFrame.addSetButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
         
+        
+-- new (copy paste from core.lua)
+        local function GetTextureIndex(tex) -- blatantly stolen from Tekkubs EquipSetUpdate. Thanks!
+            RefreshEquipmentSetIconInfo()
+            tex = tex:lower()
+            local numicons = GetNumMacroIcons()
+            for i = INVSLOT_FIRST_EQUIPPED,INVSLOT_LAST_EQUIPPED do if GetInventoryItemTexture("player", i) then numicons = numicons + 1 end end
+            for i = 1, numicons do
+                local texture, index = GetEquipmentSetIconInfo(i)
+                if texture:lower() == tex then return index end
+            end
+        end
+        
+        function TopFit:CreateEquipmentSet(set)
+            if (CanUseEquipmentSets()) then
+                setName = TopFit:GenerateSetName(set)
+                -- check if a set with this name exists
+                if (GetEquipmentSetInfoByName(setName)) then
+                    texture = GetEquipmentSetInfoByName(setName)
+                    texture = "Interface\\Icons\\"..texture
+                    
+                    textureIndex = GetTextureIndex(texture)
+                else
+                    textureIndex = GetTextureIndex("Interface\\Icons\\Spell_Holy_EmpowerChampion")
+                end
+                
+                TopFit:Debug("Trying to save set: "..setName..", "..(textureIndex or "nil"))
+                SaveEquipmentSet(setName, textureIndex)
+            end
+        end
+        -- end:new
+        
         -- set selection for add set button
         TopFit.ProgressFrame.addSetButton.setDropDown = CreateFrame("Frame", "TopFit_ProgressFrame_addSetButton_setDropDown", TopFit.ProgressFrame.addSetButton, "UIDropDownMenuTemplate")
         UIDropDownMenu_Initialize(TopFit.ProgressFrame.addSetButton.setDropDown, function(self, level)
@@ -101,6 +133,7 @@ function TopFit:CreateProgressFrame()
             info.func = function(self)
                 TopFit:AddSet()
                 TopFit:CalculateScores()
+                TopFit:CreateEquipmentSet(v.name)
             end
             UIDropDownMenu_AddButton(info, level)
             
@@ -126,6 +159,45 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.addSetButton.tipText = TopFit.locale.AddSetTooltip
         TopFit.ProgressFrame.addSetButton:SetScript("OnEnter", TopFit.ShowTooltip)
         TopFit.ProgressFrame.addSetButton:SetScript("OnLeave", TopFit.HideTooltip)
+        
+        
+        -- new 
+        local function AddTopFitSetButton()
+            local buttons, addButton, newButton = PaperDollEquipmentManagerPane.buttons
+            for i = 1, #buttons do
+                addButton = buttons[i]
+                if addButton:IsVisible() and not addButton.name then
+                    -- this is the add new set button
+                    newButton = _G["TopFitAddSetButton"]
+                    if not newButton then
+                        newButton = CreateFrame("Button", "TopFitAddSetButton", addButton)
+                        newButton:SetNormalTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-FlyoutButton")
+                        newButton:SetHighlightTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-FlyoutButton")
+                        
+                        newButton:SetHeight(38);
+                        newButton:SetWidth(16);
+                        
+                        newButton:GetNormalTexture():SetTexCoord(0.15625, 0.5, 0.84375, 0.5, 0.15625, 0, 0.84375, 0);
+                        newButton:GetHighlightTexture():SetTexCoord(0.15625, 1, 0.84375, 1, 0.15625, 0.5, 0.84375, 0.5);
+                        newButton:ClearAllPoints();
+                        
+                        newButton:SetScript("OnClick", function(self)
+                            ToggleDropDownMenu(1, nil, TopFit.ProgressFrame.addSetButton.setDropDown, self, 0, 0)
+                        end)
+                        newButton.tipText = TopFit.locale.AddSetTooltip
+                        newButton:SetScript("OnEnter", TopFit.ShowTooltip)
+                        newButton:SetScript("OnLeave", TopFit.HideTooltip)
+                    else
+                        -- just in case the sets were changed
+                        newButton:SetParent(addButton)
+                    end
+                    newButton:SetPoint("RIGHT", addButton) -- , "RIGHT", 0, 0)
+                end
+            end
+        end
+        hooksecurefunc("PaperDollEquipmentManagerPane_Update", AddTopFitSetButton)
+        -- end:new
+        
         
         -- delete set button
         TopFit.ProgressFrame.deleteSetButton = CreateFrame("Button", "TopFit_ProgressFrame_deleteSetButton", TopFit.ProgressFrame)
