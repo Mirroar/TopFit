@@ -712,17 +712,24 @@ function TopFit:initializeSetDropdown(pane)
     return setDropDown
 end
 
+function TopFit.StatValueEditBoxFocusLost(self)
+    local statCode = self:GetParent().statCode
+    self:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
+    self:ClearFocus()
+end
+
 function TopFit:CreateEditStatPane(pane)
     local editStatPane = CreateFrame("Frame", "TopFitSidebarEditStatPane", pane)
-    local valueString = editStatPane:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
-    valueString:SetPoint("TOPLEFT", editStatPane, "TOPLEFT", 0, -5)
-    valueString:SetPoint("RIGHT")
-    valueString:SetJustifyH("LEFT")
-    valueString:SetTextHeight(10)
-    valueString:SetText("Has a value of:")
+    --[[local valueString = editStatPane:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+            valueString:SetPoint("TOPLEFT", editStatPane, "TOPLEFT", 0, -5)
+            valueString:SetPoint("RIGHT")
+            valueString:SetJustifyH("LEFT")
+            valueString:SetTextHeight(10)
+            valueString:SetText("Has a value of:")]]
 
     local capString = editStatPane:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
-    capString:SetPoint("TOPLEFT", valueString, "BOTTOMLEFT")
+    --capString:SetPoint("TOPLEFT", valueString, "BOTTOMLEFT")
+    capString:SetPoint("TOPLEFT", editStatPane, "TOPLEFT", 0, -5)
     capString:SetPoint("RIGHT")
     capString:SetJustifyH("LEFT")
     capString:SetTextHeight(10)
@@ -742,43 +749,43 @@ function TopFit:CreateEditStatPane(pane)
     afterCapValueString:SetTextHeight(10)
     afterCapValueString:SetText("After which its value is:")
 
-    editStatPane:SetHeight(valueString:GetHeight() + capString:GetHeight() + forceCapString:GetHeight() + afterCapValueString:GetHeight() + 10)
+    editStatPane:SetHeight(--[[valueString:GetHeight() +]] capString:GetHeight() + forceCapString:GetHeight() + afterCapValueString:GetHeight() + 10)
 
-
-    local function EditBoxFocusLost(self)
-        local statCode = self:GetParent().statCode
-        self:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
-        self:ClearFocus()
-    end
-
-    statValueTextBox = CreateFrame("EditBox", "TopFitSidebarEditStatPaneStatValue", editStatPane)
-    statValueTextBox:SetFrameStrata("HIGH")
-    statValueTextBox:SetPoint("TOP", valueString, "TOP")
-    statValueTextBox:SetPoint("BOTTOM", valueString, "BOTTOM")
-    statValueTextBox:SetPoint("RIGHT", editStatPane, "RIGHT")
-    statValueTextBox:SetWidth(100)
-    statValueTextBox:SetAutoFocus(false)
-    statValueTextBox:EnableMouse(true)
-    statValueTextBox:SetFontObject("GameFontHighlightSmall")
-    statValueTextBox:SetJustifyH("RIGHT")
-    
-    -- scripts
-    statValueTextBox:SetScript("OnEditFocusGained", function(...) statValueTextBox.HighlightText(...) end)
-    statValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLost)
-    statValueTextBox:SetScript("OnEscapePressed", EditBoxFocusLost)
-    statValueTextBox:SetScript("OnEnterPressed", function(self)
-        local value = tonumber(self:GetText())
-        local stat = self:GetParent().statCode
-        if stat and value then
-            if value == 0 then value = nil end  -- used for removing stats from the list
-            TopFit:SetStatValue(TopFit.selectedSet, stat, value)
-        else
-            TopFit:Debug("invalid input")
-        end
-        EditBoxFocusLost(self)
-        TopFit:UpdateStatGroups()
-        TopFit:CalculateScores()
-    end)
+    --[[
+            local function EditBoxFocusLost(self)
+                local statCode = self:GetParent().statCode
+                self:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
+                self:ClearFocus()
+            end
+        
+            statValueTextBox = CreateFrame("EditBox", "TopFitSidebarEditStatPaneStatValue", editStatPane)
+            statValueTextBox:SetFrameStrata("HIGH")
+            statValueTextBox:SetPoint("TOP", valueString, "TOP")
+            statValueTextBox:SetPoint("BOTTOM", valueString, "BOTTOM")
+            statValueTextBox:SetPoint("RIGHT", editStatPane, "RIGHT")
+            statValueTextBox:SetWidth(100)
+            statValueTextBox:SetAutoFocus(false)
+            statValueTextBox:EnableMouse(true)
+            statValueTextBox:SetFontObject("GameFontHighlightSmall")
+            statValueTextBox:SetJustifyH("RIGHT")
+            
+            -- scripts
+            statValueTextBox:SetScript("OnEditFocusGained", function(...) statValueTextBox.HighlightText(...) end)
+            statValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLost)
+            statValueTextBox:SetScript("OnEscapePressed", EditBoxFocusLost)
+            statValueTextBox:SetScript("OnEnterPressed", function(self)
+                local value = tonumber(self:GetText())
+                local stat = self:GetParent().statCode
+                if stat and value then
+                    if value == 0 then value = nil end  -- used for removing stats from the list
+                    TopFit:SetStatValue(TopFit.selectedSet, stat, value)
+                else
+                    TopFit:Debug("invalid input")
+                end
+                EditBoxFocusLost(self)
+                TopFit:UpdateStatGroups()
+                TopFit:CalculateScores()
+            end)]]
     
     local function EditBoxFocusLostCap(self)
         local stat = self:GetParent().statCode
@@ -893,6 +900,8 @@ function TopFit:CollapseStatGroup(statGroup)
     statGroup.BgTop:Hide()
     statGroup.BgMiddle:Hide()
     statGroup.BgBottom:Hide()
+
+    TopFit:CalculateStatFrameHeight()
 end
 
 function TopFit:UpdateStatGroups()
@@ -943,10 +952,24 @@ function TopFit:UpdateStatGroup(statGroup)
     
     -- fix for groups with only 1 item
     if (totalHeight < 44) then
-        statGroup.BgBottom:SetHeight(totalHeight - 2);
+        statGroup.BgBottom:SetHeight(totalHeight - 2)
     else
-        statGroup.BgBottom:SetHeight(46);
+        statGroup.BgBottom:SetHeight(46)
     end
+
+    TopFit:CalculateStatFrameHeight()
+end
+
+function TopFit:CalculateStatFrameHeight()
+    local totalHeight = 30
+    local i = 1
+
+    while (_G["TopFitSidebarStatGroup"..i]) do
+        totalHeight = totalHeight + _G["TopFitSidebarStatGroup"..i]:GetHeight()
+        i = i + 1
+    end
+
+    TopFitSidebarFrameScrollChild:SetHeight(totalHeight)
 end
 
 function TopFit:ToggleStatFrame(statFrame)
@@ -962,7 +985,7 @@ function TopFit:ToggleStatFrame(statFrame)
         statFrame:SetHeight(13 + TopFitSidebarEditStatPane:GetHeight())
 
         local statInSet = TopFit:GetStatValue(TopFit.selectedSet, statFrame.statCode)
-        TopFitSidebarEditStatPaneStatValue:SetText(statInSet)
+        --TopFitSidebarEditStatPaneStatValue:SetText(statInSet)
         local capInSet = TopFit:GetCapValue(TopFit.selectedSet, statFrame.statCode)
         TopFitSidebarEditStatPaneStatCap:SetText(capInSet)
         local afterCap = TopFit:GetAfterCapStatValue(TopFit.selectedSet, statFrame.statCode)

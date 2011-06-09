@@ -92,20 +92,46 @@
                         </Anchor>
                     </Anchors>
                 </FontString>
-                <FontString name="$parentStatText" inherits="GameFontHighlightSmall" justifyH="RIGHT" parentKey="Value">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT">
-                            <Offset>
-                                <AbsDimension y="-1"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </FontString>
             </Layer>
         </Layers>
+        <Frames>
+            <EditBox name="$parentStatText" inherits="GameFontHighlightSmall" justifyH="RIGHT" parentKey="Value">
+                <Size x="100"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension y="-1"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </EditBox>
+        </Frames>
         <Scripts>
             <OnLoad>
                 self.startingHeight = self:GetHeight()
+                self.Value:SetFrameStrata("HIGH")
+                self.Value:SetHeight(self:GetHeight())
+                self.Value:SetAutoFocus(false)
+                self.Value:EnableMouse(true)
+                self.Value:SetFontObject("GameFontHighlightSmall")
+                self.Value:SetJustifyH("RIGHT")
+
+                self.Value:SetScript("OnEditFocusGained", function(...) self.Value:HighlightText(...) end)
+                self.Value:SetScript("OnEditFocusLost", TopFit.StatValueEditBoxFocusLost)
+                self.Value:SetScript("OnEscapePressed", TopFit.StatValueEditBoxFocusLost)
+                self.Value:SetScript("OnEnterPressed", function(self)
+                    local value = tonumber(self:GetText())
+                    local stat = self:GetParent().statCode
+                    if stat and value then
+                        if value == 0 then value = nil end  -- used for removing stats from the list
+                        TopFit:SetStatValue(TopFit.selectedSet, stat, value)
+                    else
+                        TopFit:Debug("invalid input")
+                    end
+                    TopFit.StatValueEditBoxFocusLost(self)
+                    TopFit:UpdateStatGroups()
+                    TopFit:CalculateScores()
+                end)
             </OnLoad>
             <OnEnter>
                 if (not self.Highlight) then
@@ -212,7 +238,7 @@
         </Anchors>
         <Scripts>
             <OnLoad>
-                self.ScrollBar.scrollStep = 50;
+                self.ScrollBar.scrollStep = 10;
                 ScrollFrame_OnLoad(self);
                 ScrollFrame_OnScrollRangeChanged(self);
             </OnLoad>
