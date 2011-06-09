@@ -1,5 +1,21 @@
 local minimalist = [=[Interface\AddOns\TopFit\media\minimalist]=]
 
+-- utility for rounding
+local function round(input, places)
+    if not places then
+        places = 0
+    end
+    if type(input) == "number" and type(places) == "number" then
+        local pow = 1
+        for i = 1, ceil(places) do
+            pow = pow * 10
+        end
+        return floor(input * pow + 0.5) / pow
+    else
+        return input
+    end
+end
+
 function TopFit:CreateProgressFrame()
     if not TopFit.ProgressFrame then
         -- actual frame

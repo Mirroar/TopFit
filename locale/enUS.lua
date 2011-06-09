@@ -74,6 +74,7 @@ do
     TopFit.locale.StatsCategoryHybrid = "Hybrid"
     TopFit.locale.StatsCategoryMisc = "Misc"
     TopFit.locale.StatsCategoryResistances = "Resistances"
+    TopFit.locale.StatsCategoryArmorTypes = "Armor Types"
     
     -- virtual items
     TopFit.locale.VirtualItems = "Virtual Items"

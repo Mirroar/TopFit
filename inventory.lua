@@ -236,6 +236,20 @@ function TopFit:GetItemInfoTable(item)
         if setName then
             itemBonus["SET: "..setName] = 1
         end
+
+        -- add armor type
+        if itemSubType == TOPFIT_ARMORTYPE_CLOTH then
+            itemBonus["TOPFIT_ARMORTYPE_CLOTH"] = 1
+        end
+        if itemSubType == TOPFIT_ARMORTYPE_LEATHER then
+            itemBonus["TOPFIT_ARMORTYPE_LEATHER"] = 1
+        end
+        if itemSubType == TOPFIT_ARMORTYPE_MAIL then
+            itemBonus["TOPFIT_ARMORTYPE_MAIL"] = 1
+        end
+        if itemSubType == TOPFIT_ARMORTYPE_PLATE then
+            itemBonus["TOPFIT_ARMORTYPE_PLATE"] = 1
+        end
         
         -- dirty little mana regen fix!
         --TODO: better synonim handling

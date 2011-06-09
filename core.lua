@@ -1,6 +1,6 @@
 local _, addon = ...
 -- utility for rounding
-function round(input, places)
+local function round(input, places)
     if not places then
         places = 0
     end
@@ -20,7 +20,7 @@ local function GetTextureIndex(tex) -- blatantly stolen from Tekkubs EquipSetUpd
     RefreshEquipmentSetIconInfo()
     tex = tex:lower()
     local numicons = GetNumMacroIcons()
-    for i = INVSLOT_FIRST_EQUIPPED,INVSLOT_LAST_EQUIPPED do if GetInventoryItemTexture("player", i) then numicons = numicons + 1 end end
+    for i = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do if GetInventoryItemTexture("player", i) then numicons = numicons + 1 end end
     for i = 1, numicons do
         local texture, index = GetEquipmentSetIconInfo(i)
         if texture:lower() == tex then return index end
@@ -333,8 +333,19 @@ function TopFit:OnInitialize()
             [5] = "RESISTANCE5_NAME",                   -- shadow
             [6] = "RESISTANCE6_NAME",                   -- arcane
         },
+        [TopFit.locale.StatsCategoryArmorTypes] = {
+            [1] = "TOPFIT_ARMORTYPE_CLOTH",
+            [2] = "TOPFIT_ARMORTYPE_LEATHER",
+            [3] = "TOPFIT_ARMORTYPE_MAIL",
+            [4] = "TOPFIT_ARMORTYPE_PLATE",
+        }
     }
-    
+
+    TOPFIT_ARMORTYPE_CLOTH = select(2, GetAuctionItemSubClasses(2));
+    TOPFIT_ARMORTYPE_LEATHER = select(3, GetAuctionItemSubClasses(2));
+    TOPFIT_ARMORTYPE_MAIL = select(4, GetAuctionItemSubClasses(2));
+    TOPFIT_ARMORTYPE_PLATE = select(5, GetAuctionItemSubClasses(2));
+
     -- list of inventory slot names
     TopFit.slotList = {
         --"AmmoSlot",
@@ -574,20 +585,19 @@ function TopFit:FrameOnEvent(event, ...)
         if TopFit:collectEquippableItems() and not TopFit.loginDelay then
             -- new equippable item in inventory!!!!
             -- calculate set silently if player wishes
+            if not TopFit.workSetList then
+                TopFit.workSetList = {}
+            end
+            local runUpdate = false;
             if (TopFit.db.profile.defaultUpdateSet and GetActiveTalentGroup() == 1) then
-                if not TopFit.workSetList then
-                    TopFit.workSetList = {}
-                end
                 tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
-                
-                TopFit:CalculateSets(true) -- calculate silently
+                runUpdate = true;
             end
             if (TopFit.db.profile.defaultUpdateSet2 and GetActiveTalentGroup() == 2) then
-                if not TopFit.workSetList then
-                    TopFit.workSetList = {}
-                end
                 tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
-                
+                runUpdate = true;
+            end
+            if runUpdate then
                 TopFit:CalculateSets(true) -- calculate silently
             end
         end
@@ -601,14 +611,32 @@ function TopFit:FrameOnEvent(event, ...)
         end
         
         -- if an auto-update-set is set, update that as well
-        if TopFit.db.profile.defaultUpdateSet then
             if not TopFit.workSetList then
                 TopFit.workSetList = {}
             end
-            tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
-            
-            TopFit:CalculateSets(true) -- calculate silently
-        end
+            local runUpdate = false;
+            if (TopFit.db.profile.defaultUpdateSet and GetActiveTalentGroup() == 1) then
+                tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
+                runUpdate = true;
+            end
+            if (TopFit.db.profile.defaultUpdateSet2 and GetActiveTalentGroup() == 2) then
+                tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
+                runUpdate = true;
+            end
+            if runUpdate then
+                -- because right on level up there seem to be problems finding the items for equipping, delay the actual update
+                if (not TopFit.eventFrame:HasScript("OnUpdate")) then
+                    TopFit.delayCalculation = 100
+                    TopFit.eventFrame:SetScript("OnUpdate", function(self)
+                        if (TopFit.delayCalculation > 0) then
+                            TopFit.delayCalculation = TopFit.delayCalculation - 1
+                        else
+                            TopFit.eventFrame:SetScript("OnUpdate", nil)
+                            TopFit:CalculateSets(true) -- calculate silently
+                        end
+                    end)
+                end
+            end
     elseif (event == "ACTIVE_TALENT_GROUP_CHANGED") then
         TopFit:ClearCache()
     elseif (event == "PLAYER_TALENT_UPDATE") then
@@ -717,6 +745,12 @@ function TopFit:CreateEditStatPane(pane)
     editStatPane:SetHeight(valueString:GetHeight() + capString:GetHeight() + forceCapString:GetHeight() + afterCapValueString:GetHeight() + 10)
 
 
+    local function EditBoxFocusLost(self)
+        local statCode = self:GetParent().statCode
+        self:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
+        self:ClearFocus()
+    end
+
     statValueTextBox = CreateFrame("EditBox", "TopFitSidebarEditStatPaneStatValue", editStatPane)
     statValueTextBox:SetFrameStrata("HIGH")
     statValueTextBox:SetPoint("TOP", valueString, "TOP")
@@ -729,12 +763,7 @@ function TopFit:CreateEditStatPane(pane)
     statValueTextBox:SetJustifyH("RIGHT")
     
     -- scripts
-    statValueTextBox:SetScript("OnEditFocusGained", function(...) statValueTextBox.HighlightText(...) TopFit:Print("Focus gained") end)
-    local function EditBoxFocusLost(self)
-        local stat = self:GetParent().statCode
-        self:SetText(TopFit.db.profile.sets[TopFit.selectedSet].weights[stat] or "0")
-        self:ClearFocus()
-    end
+    statValueTextBox:SetScript("OnEditFocusGained", function(...) statValueTextBox.HighlightText(...) end)
     statValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLost)
     statValueTextBox:SetScript("OnEscapePressed", EditBoxFocusLost)
     statValueTextBox:SetScript("OnEnterPressed", function(self)
@@ -742,11 +771,80 @@ function TopFit:CreateEditStatPane(pane)
         local stat = self:GetParent().statCode
         if stat and value then
             if value == 0 then value = nil end  -- used for removing stats from the list
-            TopFit.db.profile.sets[TopFit.selectedSet].weights[stat] = value
+            TopFit:SetStatValue(TopFit.selectedSet, stat, value)
         else
             TopFit:Debug("invalid input")
         end
         EditBoxFocusLost(self)
+        TopFit:UpdateStatGroups()
+        TopFit:CalculateScores()
+    end)
+    
+    local function EditBoxFocusLostCap(self)
+        local stat = self:GetParent().statCode
+        self:SetText(TopFit:GetCapValue(TopFit.selectedSet, stat))
+        self:ClearFocus()
+    end
+
+    capValueTextBox = CreateFrame("EditBox", "TopFitSidebarEditStatPaneStatCap", editStatPane)
+    capValueTextBox:SetFrameStrata("HIGH")
+    capValueTextBox:SetPoint("TOP", capString, "TOP")
+    capValueTextBox:SetPoint("BOTTOM", capString, "BOTTOM")
+    capValueTextBox:SetPoint("RIGHT", editStatPane, "RIGHT")
+    capValueTextBox:SetWidth(100)
+    capValueTextBox:SetAutoFocus(false)
+    capValueTextBox:EnableMouse(true)
+    capValueTextBox:SetFontObject("GameFontHighlightSmall")
+    capValueTextBox:SetJustifyH("RIGHT")
+    
+    -- scripts
+    capValueTextBox:SetScript("OnEditFocusGained", function(...) capValueTextBox.HighlightText(...) end)
+    capValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLostCap)
+    capValueTextBox:SetScript("OnEscapePressed", EditBoxFocusLostCap)
+    capValueTextBox:SetScript("OnEnterPressed", function(self)
+        local value = tonumber(self:GetText())
+        local stat = self:GetParent().statCode
+        if stat and value then
+            TopFit:SetCapValue(TopFit.selectedSet, stat, value)
+        else
+            TopFit:Debug("invalid input")
+        end
+        EditBoxFocusLostCap(self)
+        TopFit:UpdateStatGroups()
+        TopFit:CalculateScores()
+    end)
+    
+    local function EditBoxFocusLostAfterCap(self)
+        local statCode = self:GetParent().statCode
+        self:SetText(TopFit:GetAfterCapStatValue(TopFit.selectedSet, statCode))
+        self:ClearFocus()
+    end
+
+    afterCapStatValueTextBox = CreateFrame("EditBox", "TopFitSidebarEditStatPaneStatAfterCapValue", editStatPane)
+    afterCapStatValueTextBox:SetFrameStrata("HIGH")
+    afterCapStatValueTextBox:SetPoint("TOP", afterCapValueString, "TOP")
+    afterCapStatValueTextBox:SetPoint("BOTTOM", afterCapValueString, "BOTTOM")
+    afterCapStatValueTextBox:SetPoint("RIGHT", editStatPane, "RIGHT")
+    afterCapStatValueTextBox:SetWidth(100)
+    afterCapStatValueTextBox:SetAutoFocus(false)
+    afterCapStatValueTextBox:EnableMouse(true)
+    afterCapStatValueTextBox:SetFontObject("GameFontHighlightSmall")
+    afterCapStatValueTextBox:SetJustifyH("RIGHT")
+    
+    -- scripts
+    afterCapStatValueTextBox:SetScript("OnEditFocusGained", function(...) afterCapStatValueTextBox.HighlightText(...) end)
+    afterCapStatValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLostAfterCap)
+    afterCapStatValueTextBox:SetScript("OnEscapePressed", EditBoxFocusLostAfterCap)
+    afterCapStatValueTextBox:SetScript("OnEnterPressed", function(self)
+        local value = tonumber(self:GetText())
+        local stat = self:GetParent().statCode
+        if stat and value then
+            if value == 0 then value = nil end  -- used for removing stats from the list
+            TopFit:SetAfterCapStatValue(TopFit.selectedSet, stat, value)
+        else
+            TopFit:Debug("invalid input")
+        end
+        EditBoxFocusLostAfterCap(self)
         TopFit:UpdateStatGroups()
         TopFit:CalculateScores()
     end)
@@ -863,8 +961,12 @@ function TopFit:ToggleStatFrame(statFrame)
         TopFitSidebarEditStatPane.statCode = statFrame.statCode
         statFrame:SetHeight(13 + TopFitSidebarEditStatPane:GetHeight())
 
-        local statInSet = TopFit.db.profile.sets[TopFit.selectedSet].weights[statFrame.statCode]
-        TopFitSidebarEditStatPaneStatValue:SetText(statInSet or 0);
+        local statInSet = TopFit:GetStatValue(TopFit.selectedSet, statFrame.statCode)
+        TopFitSidebarEditStatPaneStatValue:SetText(statInSet)
+        local capInSet = TopFit:GetCapValue(TopFit.selectedSet, statFrame.statCode)
+        TopFitSidebarEditStatPaneStatCap:SetText(capInSet)
+        local afterCap = TopFit:GetAfterCapStatValue(TopFit.selectedSet, statFrame.statCode)
+        TopFitSidebarEditStatPaneStatAfterCapValue:SetText(afterCap)
         --TopFitSidebarEditStatPaneStatValue:Raise()
     end
     
