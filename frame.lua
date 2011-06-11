@@ -136,7 +136,7 @@ function TopFit:CreateProgressFrame()
                 SaveEquipmentSet(setName, textureIndex)
             end
         end
-        -- end:new
+-- end:new
         
         -- set selection for add set button
         TopFit.ProgressFrame.addSetButton.setDropDown = CreateFrame("Frame", "TopFit_ProgressFrame_addSetButton_setDropDown", TopFit.ProgressFrame.addSetButton, "UIDropDownMenuTemplate")
@@ -162,6 +162,7 @@ function TopFit:CreateProgressFrame()
                 info.value = k
                 info.func = function(self)
                     TopFit:AddSet(v)
+                    TopFit:CreateEquipmentSet(v)
                     TopFit:CalculateScores()
                     --TopFit.ProgressFrame:SetCurrentCombination()
                 end
@@ -177,7 +178,7 @@ function TopFit:CreateProgressFrame()
         TopFit.ProgressFrame.addSetButton:SetScript("OnLeave", TopFit.HideTooltip)
         
         
-        -- new 
+-- new 
         local function AddTopFitSetButton()
             local buttons, addButton, newButton = PaperDollEquipmentManagerPane.buttons
             for i = 1, #buttons do
@@ -212,7 +213,7 @@ function TopFit:CreateProgressFrame()
             end
         end
         hooksecurefunc("PaperDollEquipmentManagerPane_Update", AddTopFitSetButton)
-        -- end:new
+-- end:new
         
         
         -- delete set button

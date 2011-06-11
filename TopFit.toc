@@ -20,6 +20,7 @@ tooltip.lua
 calculation.lua
 options.lua
 frame.lua
+ui.lua
 plugin.lua
 
 plugins\stats.lua

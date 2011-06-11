@@ -271,21 +271,27 @@ function TopFit:SetStatValue(setCode, statCode, value)
 end
 
 function TopFit:SetCapValue(setCode, statCode, value)
-    if TopFit.db.profile.sets[setCode].caps[statCode] then
-        TopFit.db.profile.sets[setCode].caps[statCode].value = value
-    else
+    TopFit:InitializeCapTable(setCode, statCode)
+    TopFit.db.profile.sets[setCode].caps[statCode].value = value
+end
+
+function TopFit:SetAfterCapStatValue(setCode, statCode, value)
+    TopFit:InitializeCapTable(setCode, statCode)
+    TopFit.db.profile.sets[setCode].caps[statCode].statValueAfter = value
+end
+
+function TopFit:SetCapActive(setCode, statCode, value)
+    TopFit:InitializeCapTable(setCode, statCode)
+    TopFit.db.profile.sets[setCode].caps[statCode].active = value
+end
+
+function TopFit:InitializeCapTable(setCode, statCode)
+    if not TopFit.db.profile.sets[setCode].caps[statCode] then
         TopFit.db.profile.sets[setCode].caps[statCode] = {
-            value = value,
+            value = 0,
             active = false,
             statValueAfter = 0
         }
     end
 end
-
-function TopFit:SetAfterCapStatValue(setCode, statCode, value)
-end
-
-function TopFit:SetCapActive(setCode, statCode, value)
-end
-
 

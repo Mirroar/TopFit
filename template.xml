@@ -96,7 +96,7 @@
         </Layers>
         <Frames>
             <EditBox name="$parentStatText" inherits="GameFontHighlightSmall" justifyH="RIGHT" parentKey="Value">
-                <Size x="100"/>
+                <Size x="50"/>
                 <Anchors>
                     <Anchor point="TOPRIGHT">
                         <Offset>
