@@ -238,11 +238,13 @@ end
 
 
 function TopFit:GetStatValue(setCode, statCode)
+    if not setCode or not statCode then return 0 end
     local result = TopFit.db.profile.sets[setCode].weights[statCode] or 0
     return result
 end
 
 function TopFit:GetCapValue(setCode, statCode)
+    if not setCode or not statCode then return 0 end
     if TopFit.db.profile.sets[setCode].caps[statCode] then
         return TopFit.db.profile.sets[setCode].caps[statCode].value or 0
     else
@@ -251,6 +253,7 @@ function TopFit:GetCapValue(setCode, statCode)
 end
 
 function TopFit:GetAfterCapStatValue(setCode, statCode)
+    if not setCode or not statCode then return 0 end
     if TopFit.db.profile.sets[setCode].caps[statCode] then
         return TopFit.db.profile.sets[setCode].caps[statCode].statValueAfter or 0
     else
@@ -259,6 +262,7 @@ function TopFit:GetAfterCapStatValue(setCode, statCode)
 end
 
 function TopFit:IsCapActive(setCode, statCode)
+    if not setCode or not statCode then return false end
     if TopFit.db.profile.sets[setCode].caps[statCode] then
         return TopFit.db.profile.sets[setCode].caps[statCode].active or false
     else

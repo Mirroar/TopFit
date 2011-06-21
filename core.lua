@@ -41,7 +41,7 @@ end
 -- debug function
 function TopFit:Warning(text)
     --TODO: create table of warnings and dont print any multiples
-    --TopFit:Print("|cffff0000Warning: "..text)
+    TopFit:Print("|cffff0000Warning: "..text)
 end
 
 -- joins any number of tables together, one after the other. elements within the input-tables will get mixed, though
