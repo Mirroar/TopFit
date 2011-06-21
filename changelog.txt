@@ -10,6 +10,9 @@ Changelog for TopFit
   - reworked set management interface to integrate nicely with the character frame
   - added stats for armor types
   - added some scanning of Trinket on-use and on-proc effects (thanks ckaotik!)
+  - updated gem list with theoretically all missing Cata gems for 4.1 (thanks ckaotik!)
+  - added a small number of enchants, might still be missing some
+  - fixed warnings about missing enchant data being printed even though the data was there
   - TODO: think of a way to integrate TopFit Plugins as well
   - TODO: option to enforce shields / dual wielding / 2-handed weapon
   - TODO: move checks for titan's grip etc to PLAYER_TALENT_UPDATE

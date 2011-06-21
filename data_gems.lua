@@ -19,6 +19,14 @@ TopFit.gemIDs = {
         -- Unique-Equipped: Jeweler's Gems (3)
         -- Requires: Jewelcrafting (500)
     },
+    [52262] = {          -- Sparkling Chimera's Eye
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_SPIRIT_SHORT"] = 67,
+        }
+        -- Unique-Equipped: Jeweler's Gems (3)
+        -- Requires: Jewelcrafting (500)
+    },
     [52263] = {         -- Stormy Chimera's Eye
         colors = {"BLUE"},
         stats = {
@@ -204,10 +212,26 @@ TopFit.gemIDs = {
     -- Level: 85, Quality: EPIC, Color: RED
     -- -----------------------------------------------
     -- Jewelcrafting Only
+    [52255] = {          -- Bold Chimera's Eye
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 67,
+        }
+        -- Unique-Equipped: Jeweler's Gems (3)
+        -- Requires: Jewelcrafting (500)
+    },
     [52257] = {         -- Brilliant Chimera's Eye
         colors = {"RED"},
         stats = {
             ["ITEM_MOD_INTELLECT_SHORT"] = 67,
+        }
+        -- Unique-Equipped: Jeweler's Gems (3)
+        -- Requires: Jewelcrafting (500)
+    },
+    [52258] = {          -- Delicate Chimera's Eye
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 67,
         }
         -- Unique-Equipped: Jeweler's Gems (3)
         -- Requires: Jewelcrafting (500)
@@ -481,6 +505,14 @@ TopFit.gemIDs = {
         -- Unique-Equipped: Jeweler's Gems (3)
         -- Requires: Jewelcrafting (500)
     },
+    [52267] = {          -- Mystic Chimera's Eye
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 67,
+        }
+        -- Unique-Equipped: Jeweler's Gems (3)
+        -- Requires: Jewelcrafting (500)
+    },
     [52268] = {         -- Quick Chimera's Eye
         colors = {"YELLOW"},
         stats = {
@@ -493,6 +525,14 @@ TopFit.gemIDs = {
         colors = {"YELLOW"},
         stats = {
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 67,
+        }
+        -- Unique-Equipped: Jeweler's Gems (3)
+        -- Requires: Jewelcrafting (500)
+    },
+    [52265] = {          -- Subtle Chimera's Eye
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 67,
         }
         -- Unique-Equipped: Jeweler's Gems (3)
         -- Requires: Jewelcrafting (500)
@@ -1639,7 +1679,30 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: RARE, Color: BLUE
     -- -----------------------------------------------
-    -- TODO: not known yet
+    [52244] = {          -- Sparkling Ocean Sapphire
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_SPIRIT_SHORT"] = 40,
+        }
+    },
+    [52235] = {          -- Rigid Ocean Sapphire
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 40,
+        }
+    },
+    [52242] = {          -- Solid Ocean Sapphire
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_STAMINA_SHORT"] = 60,
+        }
+    },
+    [52246] = {          -- Stormy Ocean Sapphire
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 50,
+        }
+    },
     
     -- -----------------------------------------------
     -- Level: 80, Quality: RARE, Color: BLUE
@@ -1735,6 +1798,18 @@ TopFit.gemIDs = {
         stats = {
             ["ITEM_MOD_PARRY_RATING_SHORT"] = 40,
         },
+    },
+    [52206] = {          -- Bold Inferno Ruby
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 40,
+        }
+    },
+    [52230] = {          -- Precise Inferno Ruby
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 40,
+        }
     },
 
     -- -----------------------------------------------
@@ -1900,7 +1975,36 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: RARE, Color: YELLOW
     -- -----------------------------------------------
-    -- TODO: not known yet
+    [52219] = {          -- Fractured Amberjewel
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 40,
+        }
+    },
+    [52226] = {          -- Mystic Amberjewel
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 40,
+        }
+    },
+    [52232] = {          -- Quick Amberjewel
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 40,
+        }
+    },
+    [52241] = {          -- Smooth Amberjewel
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 40,
+        }
+    },
+    [52247] = {          -- Subtle Amberjewel
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 40,
+        }
+    },
     
     -- -----------------------------------------------
     -- Level: 80, Quality: RARE, Color: YELLOW
@@ -2046,6 +2150,20 @@ TopFit.gemIDs = {
             ["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
             ["ITEM_MOD_SPIRIT_SHORT"] = 20,
         },
+    },
+    [52223] = {          -- Jagged Dream Emerald
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+            ["ITEM_MOD_STAMINA_SHORT"] = 30,
+        }
+    },
+    [68741] = {          -- Vivid Dream Emerald
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+            ["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 25,
+        }
     },
 
     -- -----------------------------------------------
@@ -2290,12 +2408,26 @@ TopFit.gemIDs = {
             ["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
         },
     },
+    [52209] = {          -- Deadly Amber Topaz
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 20,
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+        }
+    },
     [52211] = {         -- Deft Ember Topaz
         colors = {"YELLOW", "RED"},
         stats = {
             ["ITEM_MOD_AGILITY_SHORT"] = 20,
             ["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
         },
+    },
+    [52214] = {          -- Fierce Ember Topaz
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 20,
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+        }
     },
     [52215] = {         -- Fine Ember Topaz
         colors = {"YELLOW", "RED"},
@@ -2325,12 +2457,33 @@ TopFit.gemIDs = {
             ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
         },
     },
+    [52229] = {          -- Polished Ember Topaz
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 20,
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
+        }
+    },
     [52239] = {         -- Potent Ember Topaz
         colors = {"YELLOW", "RED"},
         stats = {
             ["ITEM_MOD_INTELLECT_SHORT"] = 20,
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
         },
+    },
+    [52208] = {          -- Reckless Ember Topaz
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 20,
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+        }
+    },
+    [52249] = {          -- Resolute Ember Topaz
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
+        }
     },
     [68358] = {         -- Resplendent Ember Topaz
         colors = {"YELLOW", "RED"},
@@ -2554,6 +2707,20 @@ TopFit.gemIDs = {
             ["ITEM_MOD_HIT_RATING_SHORT"] = 20,
         },
     },
+    [52220] = {          -- Glinting Demonseye
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 20,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+        }
+    },
+    [52221] = {          -- Guardian's Demonseye
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
+            ["ITEM_MOD_STAMINA_SHORT"] = 30,
+        }
+    },
     [52236] = {         -- Purified Demonseye
         colors = {"BLUE", "RED"},
         stats = {
@@ -2588,6 +2755,13 @@ TopFit.gemIDs = {
             ["ITEM_MOD_INTELLECT_SHORT"] = 20,
             ["ITEM_MOD_STAMINA_SHORT"] = 30,
         },
+    },
+    [52217] = {          --Veiled Demonseye
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 20,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+        }
     },
 
     -- -----------------------------------------------
@@ -2836,7 +3010,7 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: RARE, Color: PRISMATIC
     -- -----------------------------------------------
-    -- TODO: not known yet
+    -- TODO: don't exist?
     
     -- -----------------------------------------------
     -- Level: 80, Quality: RARE, Color: PRISMATIC
@@ -2907,6 +3081,12 @@ TopFit.gemIDs = {
         -- Unique-Equipped
         -- Requires: Engineering (525)
     },
+    [68660] = {          -- Mystic Cogwheel
+        colors = {"COGWHEEL"},
+        stats = {
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 208,
+        }
+    },
     [59489] = {         -- Precise Cogwheel
         colors = {"COGWHEEL"},
         stats = {
@@ -2964,6 +3144,13 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: RARE, Color: META
     -- -----------------------------------------------
+    [68778] = {          -- Agile Shadowspirit Diamond
+        colors = {"META"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 54,
+            -- ["critdmg"] = 3%,
+        }
+    },
     [52294] = {         -- Austere Shadowspirit Diamond
         colors = {"META"},
         stats = {
@@ -2978,6 +3165,13 @@ TopFit.gemIDs = {
             -- ["threatreduce"] = 2%,
         },
     },
+    [68780] = {          -- Burning Shadowspirit Diamond
+        colors = {"META"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 54,
+            -- ["critdmg"] = 3%
+        }
+    },
     [52291] = {         -- Chaotic Shadowspirit Diamond
         colors = {"META"},
         stats = {
@@ -2991,6 +3185,13 @@ TopFit.gemIDs = {
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
             -- ["spellreflect"] = 1%,
         },
+    },
+    [52295] = {          -- Effulgent Shadowspirit Diamond
+        colors = {"META"},
+        stats = {
+            ["ITEM_MOD_STAMINA_SHORT"] = 81,
+            -- ["spelldamage"] = -2%,
+        }
     },
     [52296] = {         -- Ember Shadowspirit Diamond
         colors = {"META"},
@@ -3040,6 +3241,13 @@ TopFit.gemIDs = {
             ["ITEM_MOD_STAMINA_SHORT"] = 81,
             -- ["stunduration"] = 10%,
         },
+    },
+    [68779] = {          -- Reverberating Shadowspirit Diamond
+        colors = {"META"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 54,
+            -- ["critdmg"] = 3%,
+        }
     },
     [52297] = {         -- Revitalizing Shadowspirit Diamond
         colors = {"META"},
@@ -3388,6 +3596,36 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: UNCOMMON, Color: BLUE
     -- -----------------------------------------------
+    [52168] = {          -- Perfect Rigid Zephyrite
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 35,
+        }
+    },
+    [52171] = {         -- Perfect Solid Zephyrite
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_STAMINA_SHORT"] = 53,
+        },
+    },
+    [52170] = {         -- Perfect Sparkling Zephyrite
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_SPIRIT_SHORT"] = 35,
+        },
+    },
+    [52169] = {         -- Perfect Stormy Zephyrite
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 44,
+        },
+    },
+    [52089] = {          -- Rigid Zephyrite
+        colors = {"BLUE"},
+        stats = {
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 30,
+        }
+    },
     [52086] = {         -- Solid Zephyrite
         colors = {"BLUE"},
         stats = {
@@ -3514,6 +3752,36 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: UNCOMMON, Color: RED
     -- -----------------------------------------------
+    [52176] = {         -- Perfect Bold Carnelian
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 35,
+        },
+    },
+    [52173] = {         -- Perfect Brilliant Carnelian
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 35,
+        },
+    },
+    [52175] = {         -- Perfect Delicate Carnelian
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 35,
+        },
+    },
+    [52174] = {         -- Perfect Flashing Carnelian
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 35,
+        },
+    },
+    [52172] = {         -- Perfect Precise Carnelian
+        colors = {"RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 35,
+        },
+    },
     [52081] = {         -- Bold Carnelian
         colors = {"RED"},
         stats = {
@@ -3677,6 +3945,36 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: UNCOMMON, Color: YELLOW
     -- -----------------------------------------------
+    [52163] = {         -- Perfect Fractured Alicite
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 35,
+        },
+    },
+    [52165] = {         -- Perfect Mystic Alicite
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
+        },
+    },
+    [52164] = {          -- Perfect Quick Alicite
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 35,
+        }
+    },
+    [52166] = {          -- Perfect Smooth Alicite
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 35,
+        }
+    },
+    [52167] = {         -- Perfect Subtle Alicite
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 35,
+        },
+    },
     [52094] = {         -- Fractured Alicite
         colors = {"YELLOW"},
         stats = {
@@ -3688,6 +3986,18 @@ TopFit.gemIDs = {
         stats = {
             ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 30,
         },
+    },
+    [52093] = {          -- Quick Alicite
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 30,
+        }
+    },
+    [52091] = {          -- Smooth Alicite
+        colors = {"YELLOW"},
+        stats = {
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 30,
+        }
     },
     [52090] = {         -- Subtle Alicite
         colors = {"YELLOW"},
@@ -3798,6 +4108,76 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: UNCOMMON, Color: GREEN
     -- -----------------------------------------------
+    [52133] = {     -- Perfect Forceful Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        },
+    },
+    [52136] = {     -- Perfect Jagged Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        },
+    },
+    [52132] = {     -- Perfect Lightning Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        }
+    },
+    [52137] = {     -- Perfect Nimble Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        },
+    },
+    [52135] = {     -- Perfect Piercing Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        },
+    },
+    [52131] = {     -- Perfect Puissant Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        },
+    },
+    [52138] = {     -- Perfect Regal Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        },
+    },
+    [52129] = {     -- Perfect Sensei's Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        },
+    },
+    [52134] = {     -- Perfect Steady Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        }
+    },
+    [52130] = {     -- Perfect Zen Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
+            ["ITEM_MOD_SPIRIT_SHORT"] = 17,
+        },
+    },
     [52124] = {     -- Forceful Jasper
         colors = {"BLUE", "YELLOW"},
         stats = {
@@ -3811,6 +4191,13 @@ TopFit.gemIDs = {
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
             ["ITEM_MOD_STAMINA_SHORT"] = 23,
         },
+    },
+    [52125] = {          -- Lightning Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+        }
     },
     [52120] = {     -- Nimble Jasper
         colors = {"BLUE", "YELLOW"},
@@ -3833,7 +4220,7 @@ TopFit.gemIDs = {
             ["ITEM_MOD_STAMINA_SHORT"] = 23,
         },
     },
-    [52119] = {     -- Refal Jasper
+    [52119] = {     -- Regal Jasper
         colors = {"BLUE", "YELLOW"},
         stats = {
             ["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
@@ -3846,6 +4233,13 @@ TopFit.gemIDs = {
             ["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
             ["ITEM_MOD_HIT_RATING_SHORT"] = 15,
         },
+    },
+    [52123] = {          -- Steady Jasper
+        colors = {"BLUE", "YELLOW"},
+        stats = {
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,
+            ["ITEM_MOD_STAMINA_SHORT"] = 23,
+        }
     },
     [52127] = {     -- Zen Jasper
         colors = {"BLUE", "YELLOW"},
@@ -4140,6 +4534,104 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: UNCOMMON, Color: ORANGE
     -- -----------------------------------------------
+    [52142] = {          -- Perfect Adept Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 18,
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+        }
+    },
+    [52140] = {         -- Perfect Artful Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 18,
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+        },
+    },
+    [52148] = {         -- Perfect Deadly Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 18,
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+        },
+    },
+    [52145] = {          -- Perfect Deft Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 18,
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
+        }
+    },
+    [52146] = {          -- Perfect Fierce Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 18,
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
+        }
+    },
+    [52141] = {          -- Perfect Fine Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+        }
+    },
+    [52149] = {          -- Perfect Inscribed Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 18,
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+        }
+    },
+    [52139] = {         -- Perfect Keen Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+        },
+    },
+    [52151] = {          -- Perfect Polished Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 18,
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 17,
+        }
+    },
+    [52147] = {          -- Perfect Potent Huge
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 18,
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+        }
+    },
+    [52144] = {         -- Perfect Reckless Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 18,
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
+        },
+    },
+    [52150] = {          -- Perfect Resolute Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 17,
+        }
+    },
+    [52143] = {         -- Perfect Skillful Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 18,
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+        },
+    },
+    [52115] = {          -- Adept Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 15,
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+        }
+    },
     [52117] = {         -- Artful Hessonite
         colors = {"YELLOW", "RED"},
         stats = {
@@ -4154,6 +4646,34 @@ TopFit.gemIDs = {
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
         },
     },
+    [52112] = {          -- Deft Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 15,
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+        }
+    },
+    [52111] = {          -- Fierce Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 15,
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+        }
+    },
+    [52116] = {          -- Fine Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+        }
+    },
+    [52108] = {          -- Inscribed Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 15,
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
+        }
+    },
     [52118] = {         -- Keen Hessonite
         colors = {"YELLOW", "RED"},
         stats = {
@@ -4161,12 +4681,33 @@ TopFit.gemIDs = {
             ["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
         },
     },
+    [52106] = {          -- Polished Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 15,
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
+        }
+    },
+    [52110] = {          -- Potent Huge
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 15,
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
+        }
+    },
     [52113] = {         -- Reckless Hessonite
         colors = {"YELLOW", "RED"},
         stats = {
             ["ITEM_MOD_INTELLECT_SHORT"] = 15,
             ["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
         },
+    },
+    [52107] = {          -- Resolute Hessonite
+        colors = {"YELLOW", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
+        }
     },
     [52114] = {         -- Skillful Hessonite
         colors = {"YELLOW", "RED"},
@@ -4447,12 +4988,138 @@ TopFit.gemIDs = {
     -- -----------------------------------------------
     -- Level: 85, Quality: UNCOMMON, Color: VIOLET
     -- -----------------------------------------------
+    [52152] = {         -- Perfect Accurate Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        },
+    },
+    [52160] = {          -- Perfect Defender's Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        }
+    },
+    [52156] = {          -- Perfect Etched Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        }
+    },
+    [52155] = {          -- Perfect Glinting Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        }
+    },
+    [52158] = {          -- Perfect Guardian's Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        }
+    },
+    [52157] = {          -- Perfect Purified Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 18,
+            ["ITEM_MOD_SPIRIT_SHORT"] = 17,
+        }
+    },
+    [52154] = {          -- Perfect Retaliating Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        }
+    },
+    [52161] = {          -- Perfect Shifting Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 23,
+        }
+    },
+    [52162] = {         -- Perfect Sovereign Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        },
+    },
+    [52159] = {         -- Perfect Timeless Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 18,
+            ["ITEM_MOD_STAMINA_SHORT"] = 26,
+        },
+    },
+    [52153] = {         -- Perfect Veiled Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 18,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+        },
+    },
     [52105] = {         -- Accurate Nightstone
         colors = {"BLUE", "RED"},
         stats = {
             ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
             ["ITEM_MOD_HIT_RATING_SHORT"] = 15,
         },
+    },
+    [52097] = {          -- Defender's Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
+            ["ITEM_MOD_STAMINA_SHORT"] = 23,
+        }
+    },
+    [52101] = {          -- Etched Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_STRENGTH_SHORT"] = 15,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+        }
+    },
+    [52102] = {          -- Glinting Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 15,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+        }
+    },
+    [52099] = {          -- Guardian's Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
+            ["ITEM_MOD_STAMINA_SHORT"] = 23,
+        }
+    },
+    [52100] = {          -- Purified Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_INTELLECT_SHORT"] = 15,
+            ["ITEM_MOD_SPIRIT_SHORT"] = 15,
+        }
+    },
+    [52103] = {          -- Retaliating Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+        }
+    },
+    [52096] = {          -- Shifting Nightstone
+        colors = {"BLUE", "RED"},
+        stats = {
+            ["ITEM_MOD_AGILITY_SHORT"] = 15,
+            ["ITEM_MOD_STAMINA_SHORT"] = 23,
+        }
     },
     [52095] = {         -- Sovereign Nightstone
         colors = {"BLUE", "RED"},
@@ -4852,7 +5519,7 @@ TopFit.gemIDs = {
 
 
 --[[
-Last Update: 012/05/2010
+Last Update: 06/21/2011
 Order:
     EPIC, RARE, UNCOMMON
     BLUE, RED, YELLOW, GREEN, ORANGE, VIOLET, PRISMATIC, COGWHEEL, HYDRAULIC, META

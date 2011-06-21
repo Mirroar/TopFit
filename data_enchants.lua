@@ -1567,7 +1567,7 @@ TopFit.enchantIDs = {
         -- enchanting
         -- cataclysm
         [4091] = {                                                      -- Enchant Off-Hand - Superior Intellect
-            ["ITEM_MOD_INTELLECT_SHORT"] = 100,
+            ["ITEM_MOD_INTELLECT_SHORT"] = 40,
             -- iLvl 300+
         },
         [4085] = {                                                      -- Enchant Shield - Blocking
@@ -2665,6 +2665,10 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_HASTE_RATING_SHORT"] = 50,
             -- iLvl 300+
         },
+        [4061] = {                                                      -- Enchant Gloves - Mastery
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 50,
+            -- iLvl 300+
+        },
         
         -- level 85
         [3253] = {                                                      -- Enchant Gloves - Armsman
@@ -3113,7 +3117,7 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_INTELLECT_SHORT"] = 15,
         },
         
-        [4126] = {                                                      -- Dragonbone Leg Reinforcements
+        [4126] = {                                                      -- Dragonscale Leg Reinforcements
             ["ITEM_MOD_ATTACK_POWER_SHORT"] = 190,
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 55,
             -- leatherworking ???
@@ -3121,6 +3125,16 @@ TopFit.enchantIDs = {
         [4127] = {                                                      -- Charscale Leg Reinforcements
             ["ITEM_MOD_STAMINA_SHORT"] = 145,
             ["ITEM_MOD_AGILITY_SHORT"] = 55,
+            -- leatherworking ???
+        },
+        [4122] = {                                                      -- Dragonscale Leg Reinforcements
+            ["ITEM_MOD_ATTACK_POWER_SHORT"] = 110,
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 45,
+            -- leatherworking ???
+        },
+        [4124] = {                                                      -- Charscale Leg Reinforcements
+            ["ITEM_MOD_STAMINA_SHORT"] = 85,
+            ["ITEM_MOD_AGILITY_SHORT"] = 45,
             -- leatherworking ???
         },
         [3328] = {                                                      -- Nerubian Leg Reinforcements
@@ -3258,6 +3272,12 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_STAMINA_SHORT"] = 15,
             -- minor speed
             -- 60+
+        },
+        
+        [4062] = {                                                      -- Enchant Boots - Earthen Vitality
+            ["ITEM_MOD_STAMINA_SHORT"] = 30,
+            -- minor speed
+            -- iLvl 300+
         },
         
         -- level 82

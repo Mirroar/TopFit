@@ -206,13 +206,17 @@ function TopFit:GetItemInfoTable(item)
         -- enchantment
         local enchantBonus = {}
         if enchantID > 0 then
+            local found = false
             for _, slotID in pairs(TopFit.slots) do
                 if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
                     enchantBonus = TopFit.enchantIDs[slotID][enchantID]
-                else
-                    -- unknown enchant, tell the user
-                    TopFit:Warning("Could not identify enchant ID "..enchantID.." of your "..itemLink..". Please tell the author so its stats can be added.")
+                    found = true
                 end
+            end
+
+            if not found then
+                -- unknown enchant, tell the user
+                TopFit:Warning("Could not identify enchant ID "..enchantID.." of your "..itemLink..". Please tell the author so its stats can be added.")
             end
         end
         
