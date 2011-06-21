@@ -130,7 +130,8 @@ function TopFit:initializeSetDropdown(pane)
             info.value = 'select_'..UIDROPDOWNMENU_MENU_VALUE
             info.notCheckable = true
             info.func = function()
-                --TopFit:SetSelectedSet(UIDROPDOWNMENU_MENU_VALUE)
+            TopFit.currentlyRenamingSetID = UIDROPDOWNMENU_MENU_VALUE
+                StaticPopup_Show("TOPFIT_RENAMESET", TopFit.db.profile.sets[UIDROPDOWNMENU_MENU_VALUE].name)
                 ToggleDropDownMenu(1, nil, setDropDown)
             end
             UIDropDownMenu_AddButton(info, level)
@@ -154,9 +155,29 @@ function TopFit:initializeSetDropdown(pane)
     for k, v in pairs(TopFit.db.profile.sets) do
         if not TopFit.selectedSet then
             UIDropDownMenu_SetText(setDropDown, v.name)
+            TopFit:SetSelectedSet(k)
             break
         end
     end
+
+    StaticPopupDialogs["TOPFIT_RENAMESET"] = {
+        text = "Rename set \"%s\" to:",
+        button1 = "OK",
+        button2 = "Cancel",
+        OnAccept = function(self)
+            local newName = self.editBox:GetText()
+            TopFit:Print(newName)
+            TopFit:RenameSet(TopFit.currentlyRenamingSetID, newName)
+        end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true,
+        hasEditBox = true,
+        enterClicksFirstButton = true,
+        OnShow = function(self)
+            self.editBox:SetText(TopFit.db.profile.sets[TopFit.currentlyRenamingSetID].name)
+        end
+    }
     
     return setDropDown
 end

@@ -40,8 +40,14 @@ end
 
 -- debug function
 function TopFit:Warning(text)
-    --TODO: create table of warnings and dont print any multiples
-    TopFit:Print("|cffff0000Warning: "..text)
+    if not TopFit.warningsCache then
+        TopFit.warningsCache = {}
+    end
+    
+    if not TopFit.warningsCache[text] then
+        TopFit.warningsCache[text] = true
+        TopFit:Print("|cffff0000Warning: "..text)
+    end
 end
 
 -- joins any number of tables together, one after the other. elements within the input-tables will get mixed, though

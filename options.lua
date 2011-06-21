@@ -207,7 +207,7 @@ function TopFit:RenameSet(setCode, newName)
     oldSetName = TopFit:GenerateSetName(self.db.profile.sets[setCode].name)
     
     -- check if set name is already taken, generate a unique one in that case
-    if (TopFit:HasSet(newName)) then
+    if (TopFit:HasSet(newName) and not newName == TopFit.db.profile.sets[setCode].name) then
         local newSetName = "2-"..newName
         local k = 2
         while TopFit:HasSet(newSetName) do
@@ -220,13 +220,16 @@ function TopFit:RenameSet(setCode, newName)
     newSetName = TopFit:GenerateSetName(newName)
 
     -- rename in saved variables
-    self.db.profile.sets[setCode]["name"] = newName
+    self.db.profile.sets[setCode].name = newName
     
     -- rename equipment set if it exists
     if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(oldSetName)) then
-        RenameEquipmentSet(oldSetName, newSetName)
+        ModifyEquipmentSet(oldSetName, newSetName)
     end
     
+    TopFit:SetSelectedSet(TopFit.selectedSet)
+
+    --TODO: remove when progress frame is removed
     if (TopFit.ProgressFrame) then
         -- update setname if it is selected
         if UIDropDownMenu_GetSelectedValue(TopFit.ProgressFrame.setDropDown) == setCode then
