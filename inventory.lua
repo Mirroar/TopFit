@@ -194,11 +194,7 @@ function TopFit:GetItemInfoTable(item)
                             
                             bonusValue = (tonumber(bonusValue) or 0)
                             
-                            if (gemBonus[statCode]) then
-                                gemBonus[statCode] = gemBonus[statCode] + bonusValue
-                            else
-                                gemBonus[statCode] = bonusValue
-                            end
+                            gemBonus[statCode] = (gemBonus[statCode] or 0) + bonusValue
                         end
                     end
                 end
@@ -305,20 +301,39 @@ function TopFit:GetItemInfoTable(item)
             totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
             itemBonus["ITEM_MOD_HIT_RATING_SHORT"] = (itemBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (itemBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
         end
+
+        -- also check proc / on-use effects for score calculation
+        if not TopFit.allStatsInATable then
+            TopFit.allStatsInATable = {}
+            for _, statsTable in pairs(TopFit.statList) do
+                for _, stat in pairs(statsTable) do
+                    tinsert(TopFit.allStatsInATable, stat)
+                end
+            end
+        end
+
+        local procBonus = {}
+        local procUptime = 0.5
+        local searchStat, amount, duration, cooldown = TopFit:ItemHasSpecialBonus(itemLink, unpack(TopFit.allStatsInATable))
+        if searchStat and amount and amount > 0 then
+            if not cooldown or cooldown <= 0 then cooldown = 45 end
+            procBonus[searchStat] = procUptime * amount * duration / cooldown
+        end
         
         local result = {
-            ["itemLink"] = itemLink,
-            ["itemID"] = itemID,
-            ["itemQuality"] = itemQuality,
-            ["itemMinLevel"] = itemMinLevel,
-            ["itemEquipLoc"] = itemEquipLoc,
-            ["equipLocationsByType"] = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
-            ["gems"] = gems,
-            ["itemBonus"] = itemBonus,
-            ["enchantBonus"] = enchantBonus,
-            ["gemBonus"] = gemBonus,
-            ["reforgeBonus"] = reforgeBonus,
-            ["totalBonus"] = totalBonus,
+            itemLink = itemLink,
+            itemID = itemID,
+            itemQuality = itemQuality,
+            itemMinLevel = itemMinLevel,
+            itemEquipLoc = itemEquipLoc,
+            equipLocationsByType = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
+            gems = gems,
+            itemBonus = itemBonus,
+            enchantBonus = enchantBonus,
+            gemBonus = gemBonus,
+            reforgeBonus = reforgeBonus,
+            totalBonus = totalBonus,
+            procBonus = procBonus
         }
         
         return result
@@ -350,6 +365,15 @@ function TopFit:CalculateItemScore(itemLink)
                     capsModifier = capsModifier + statValue * itemTable.totalBonus[stat]
                 end
             end
+            if itemTable.procBonus[stat] then
+                -- check for hard cap on this stat
+                if ((not caps) or (not caps[stat]) or (not caps[stat]["active"]) or (caps[stat]["soft"])) then
+                    itemScore = itemScore + statValue * itemTable.procBonus[stat]
+                else
+                    -- part of hard cap, score calculated extra
+                    capsModifier = capsModifier + statValue * itemTable.procBonus[stat]
+                end
+            end
         end
         
         -- also calculate raw item score
@@ -364,6 +388,15 @@ function TopFit:CalculateItemScore(itemLink)
                 else
                     -- part of hard cap, score calculated extra
                     rawModifier = rawModifier + statValue * itemTable.totalBonus[stat]
+                end
+            end
+            if itemTable.procBonus[stat] then
+                -- check for hard cap on this stat
+                if ((not caps) or (not caps[stat]) or (not caps[stat]["active"]) or (caps[stat]["soft"])) then
+                    rawScore = itemScore + statValue * itemTable.procBonus[stat]
+                else
+                    -- part of hard cap, score calculated extra
+                    rawModifier = capsModifier + statValue * itemTable.procBonus[stat]
                 end
             end
         end

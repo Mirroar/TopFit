@@ -326,11 +326,6 @@ function TopFit:OnInitialize()
             [4] = "ITEM_MOD_HIT_RATING_SHORT",
             [5] = "ITEM_MOD_MASTERY_RATING_SHORT",
         },
-        [TopFit.locale.StatsCategoryMisc] = {
-            [1] = "ITEM_MOD_HEALTH_SHORT",
-            [2] = "ITEM_MOD_MANA_SHORT",
-            [3] = "ITEM_MOD_HEALTH_REGENERATION_SHORT",
-        },
         [TopFit.locale.StatsCategoryResistances] = {
             [1] = "RESISTANCE1_NAME",                   -- holy
             [2] = "RESISTANCE2_NAME",                   -- fire
@@ -584,6 +579,7 @@ end
 function TopFit:FrameOnEvent(event, ...)
     if (event == "BAG_UPDATE") then
         -- update item list
+        if TopFit.loginDelay then return end
         --TODO: only update affected bag
         TopFit:collectItems()
         
