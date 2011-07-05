@@ -38,6 +38,7 @@ function TopFit:createOptions()
         UIDropDownMenu_Initialize(autoUpdateSet, function()
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.None
+            info.notCheckable = true
             info.value = "none"
             info.func = function(self)
                 UIDropDownMenu_SetSelectedValue(autoUpdateSet, self.value)
@@ -50,6 +51,7 @@ function TopFit:createOptions()
                 local info = UIDropDownMenu_CreateInfo()
                 info.text = setTable.name
                 info.value = setCode
+                info.notCheckable = true
                 info.func = function(self)
                     UIDropDownMenu_SetSelectedValue(autoUpdateSet, self.value)
                     autoUpdateSetText:SetText(TopFit.db.profile.sets[self.value].name)
@@ -72,6 +74,7 @@ function TopFit:createOptions()
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.None
             info.value = "none"
+            info.notCheckable = true
             info.func = function(self)
                 UIDropDownMenu_SetSelectedValue(autoUpdateSet2, self.value)
                 autoUpdateSetText2:SetText(TopFit.locale.None)
@@ -83,6 +86,7 @@ function TopFit:createOptions()
                 local info = UIDropDownMenu_CreateInfo()
                 info.text = setTable.name
                 info.value = setCode
+                info.notCheckable = true
                 info.func = function(self)
                     UIDropDownMenu_SetSelectedValue(autoUpdateSet2, self.value)
                     autoUpdateSetText2:SetText(TopFit.db.profile.sets[self.value].name)

@@ -1,10 +1,10 @@
 local function ReformatGlobalString(globalString)
-	if not globalString then return end
+	if not globalString then return "" end
 
 	local returnString = globalString
-	returnString = string.replace(returnString, "(", "%(")
-	returnString = string.replace(returnString, ")", "%)")
-	returnString = string.replace(returnString, ".", "%.")
+	returnString = string.gsub(returnString, "%(", "%%(")
+	returnString = string.gsub(returnString, "%)", "%%)")
+	returnString = string.gsub(returnString, "%.", "%%.")
 	returnString = string.gsub(returnString, "%%[1-9]?$?s", "(.+)")
 	returnString = string.gsub(returnString, "%%[1-9]?$?c", "([+-]?)")
 	returnString = string.gsub(returnString, "%%[1-9]?$?d", "(%%d+)")

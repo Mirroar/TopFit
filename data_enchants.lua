@@ -3117,9 +3117,14 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_INTELLECT_SHORT"] = 15,
         },
         
-        [4126] = {                                                      -- Dragonscale Leg Reinforcements
+        [4126] = {                                                      -- Dragonscale Leg Armor
             ["ITEM_MOD_ATTACK_POWER_SHORT"] = 190,
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 55,
+            -- leatherworking ???
+        },
+        [4270] = {                                                      -- Drakehide Leg Armor
+            ["ITEM_MOD_STAMINA_SHORT"] = 145,
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 55,
             -- leatherworking ???
         },
         [4127] = {                                                      -- Charscale Leg Reinforcements

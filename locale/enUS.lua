@@ -25,6 +25,7 @@ do
     TopFit.locale.HeadingStats = "Statistics"
     TopFit.locale.HeadingCaps = "Caps"
     TopFit.locale.SetScore = "Total Score: %s"
+    TopFit.locale.SetHeader = "Item Sets"
     
     TopFit.locale.SlashHelp = "Available Options:\n  show - shows the calculations frame\n  options - shows TopFit's options"
     

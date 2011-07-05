@@ -263,6 +263,17 @@
                         </Frames>
                     </Frame>
                 </Frames>
+                <Scripts>
+                    <OnShow>
+                        _G['TopFitStatScrollFrame']:Show();
+                        _G['TopFitStatScrollFrame']:SetFrameLevel(CharacterModelFrame:GetFrameLevel() + 1);
+                        TopFit:ShowItemPopoutButtons();
+                    </OnShow>
+                    <OnHide>
+                        _G['TopFitStatScrollFrame']:Hide();
+                        TopFit:HideItemPopoutButtons();
+                    </OnHide>
+                </Scripts>
             </Frame>
         </ScrollChild>
     </ScrollFrame>
@@ -289,4 +300,20 @@
         </Scripts>
     </Button>
     
+
+    <Button name="TopFitItemPopoutButtonTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="16" y="32"/>
+        </Size>
+        <Scripts>
+            <OnLoad>
+                --PaperDollFrameItemPopoutButton_OnLoad(self);
+            </OnLoad>
+            <OnClick>
+                --PaperDollFrameItemPopoutButton_OnClick(self);
+            </OnClick>
+        </Scripts>
+        <NormalTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
+        <HighlightTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
+    </Button>
 </Ui>

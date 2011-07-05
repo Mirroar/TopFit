@@ -1,17 +1,34 @@
+local minimalist = [=[Interface\AddOns\TopFit\media\minimalist]=]
+
 TopFit.characterFrameUIcreated = false;
+
+-- utility for rounding
+local function round(input, places)
+    if not places then
+        places = 0
+    end
+    if type(input) == "number" and type(places) == "number" then
+        local pow = 1
+        for i = 1, ceil(places) do
+            pow = pow * 10
+        end
+        return floor(input * pow + 0.5) / pow
+    else
+        return input
+    end
+end
 
 function TopFit:initializeCharacterFrameUI()
     if (TopFit.characterFrameUIcreated) then return end
     TopFit.characterFrameUIcreated = true;
     PaperDollSidebarTab3:SetPoint("BOTTOMRIGHT", PaperDollSidebarTabs, "BOTTOMRIGHT", -64, 0)
-    PanelTemplates_SetNumTabs(CharacterFrame, 4);
-    PanelTemplates_UpdateTabs(CharacterFrame);
     
     local pane = TopFitSidebarFrameScrollChild
-    
+
+    TopFit:InitializeStaticPopupDialogs()
     local setDropDown = TopFit:initializeSetDropdown(CharacterModelFrame)
 
-    local calculateButton = CreateFrame("Button", "TopFitSidebarCalculateButton", CharacterModelFrame, "UIPanelButtonTemplate")
+    local calculateButton = CreateFrame("Button", "TopFitSidebarCalculateButton", PaperDollItemsFrame, "UIPanelButtonTemplate")
     calculateButton:SetPoint("BOTTOMLEFT", PaperDollItemsFrame, "BOTTOMLEFT", 10, 10)
     calculateButton:SetHeight(22)
     calculateButton:SetWidth(80)
@@ -26,11 +43,28 @@ function TopFit:initializeCharacterFrameUI()
         end
     end)
 
+    -- progress bar
+    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", CharacterModelFrame)
+    progressBar:SetPoint("TOPLEFT", setDropDown, 10, -5)
+    progressBar:SetPoint("BOTTOMRIGHT", setDropDown, -4, 9)
+    progressBar:SetStatusBarTexture(minimalist)
+    progressBar:SetMinMaxValues(0, 100)
+    progressBar:SetStatusBarColor(0, 1, 0, 1)
+    progressBar:Hide()
+
+    -- progress text
+    local progressText = progressBar:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    progressText:SetAllPoints()
+    progressText:SetText("0.00%")
+    progressBar.text = progressText
+
+    TopFit:CreateOptionsStatFrame(pane)
+    
     local i = 1
     for statCategory, statsTable in pairs(TopFit.statList) do
         local statGroup = CreateFrame("Frame", "TopFitSidebarStatGroup"..i, pane, "TopFitStatGroupTemplate")
         if (i == 1) then
-            statGroup:SetPoint("TOPLEFT", pane, "TOPLEFT")
+            statGroup:SetPoint("TOPLEFT", TopFitSidebarOptionsStatGroup, "BOTTOMLEFT", 0, -3)
         else
             statGroup:SetPoint("TOPLEFT", _G["TopFitSidebarStatGroup"..(i - 1)], "BOTTOMLEFT", 0, -3)
         end
@@ -40,10 +74,81 @@ function TopFit:initializeCharacterFrameUI()
         i = i + 1
     end
 
-    --TopFit:CreateItemButtons()
+    local statGroup = CreateFrame("Frame", "TopFitSidebarStatGroup"..i, pane, "TopFitStatGroupTemplate")
+    statGroup:SetPoint("TOPLEFT", _G["TopFitSidebarStatGroup"..(i - 1)], "BOTTOMLEFT", 0, -3)
+    statGroup.NameText:SetText(TopFit.locale.SetHeader)
+    statGroup.isSetsGroup = true
+    TopFit:UpdateStatGroup(statGroup)
 
     TopFit:CreateEditStatPane(pane)
     TopFit:SetDefaultCollapsedStates()
+    TopFit:InitializeStatScrollFrame()
+
+    TopFit:SetSelectedSet()
+end
+
+function TopFit:InitializeStatScrollFrame()
+    local scrollFrameWidth, scrollFrameHeight = CharacterModelFrame:GetWidth() - 28, CharacterModelFrame:GetHeight() - 45
+    local statScrollFrame = CreateFrame("ScrollFrame", "TopFitStatScrollFrame", CharacterFrame, "UIPanelScrollFrameTemplate")
+    statScrollFrame:SetWidth(scrollFrameWidth)
+    statScrollFrame:SetHeight(scrollFrameHeight)
+    statScrollFrame:SetPoint("TOPLEFT", CharacterModelFrame, 3, -30)
+    statScrollFrame:SetPoint("BOTTOMRIGHT", CharacterModelFrame, -25, 15)
+    local statScrollFrameContent = CreateFrame("Frame", nil, statScrollFrame)
+    statScrollFrameContent:SetAllPoints()
+    statScrollFrameContent:SetHeight(scrollFrameHeight)
+    statScrollFrameContent:SetWidth(scrollFrameWidth)
+    statScrollFrame:SetScrollChild(statScrollFrameContent)
+    
+    -- List of Score contributing Texts and Bars
+    statScrollFrameContent.statNameFontStrings = {}
+    statScrollFrameContent.statValueFontStrings = {}
+    statScrollFrameContent.statValueStatusBars = {}
+    statScrollFrameContent.capNameFontStrings = {}
+    statScrollFrameContent.capValueFontStrings = {}
+    
+    local backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        tile = true,
+        tileSize = 32,
+        insets = { left = 0, right = -22, top = 0, bottom = 0 }}
+    statScrollFrame:SetBackdrop(backdrop)
+    statScrollFrame:SetBackdropBorderColor(0.4, 0.4, 0.4)
+    statScrollFrame:SetBackdropColor(0, 0, 0, 0.5)
+
+    statScrollFrame:Hide()
+end
+
+function TopFit:InitializeStaticPopupDialogs()
+    StaticPopupDialogs["TOPFIT_RENAMESET"] = {
+        text = "Rename set \"%s\" to:",
+        button1 = "OK",
+        button2 = "Cancel",
+        OnAccept = function(self)
+            local newName = self.editBox:GetText()
+            TopFit:RenameSet(TopFit.currentlyRenamingSetID, newName)
+        end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true,
+        hasEditBox = true,
+        enterClicksFirstButton = true,
+        OnShow = function(self)
+            self.editBox:SetText(TopFit.db.profile.sets[TopFit.currentlyRenamingSetID].name)
+        end
+    }
+
+    StaticPopupDialogs["TOPFIT_DELETESET"] = {
+        text = "Do you really want to delete the set \"%s\"? The associated set in the equipment manager will also be lost.",
+        button1 = "OK",
+        button2 = "Cancel",
+        OnAccept = function(self)
+            TopFit:DeleteSet(TopFit.currentlyDeletingSetID)
+            TopFit:SetSelectedSet()
+        end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true
+    }
 end
 
 function TopFit:initializeSetDropdown(pane)
@@ -117,7 +222,7 @@ function TopFit:initializeSetDropdown(pane)
         elseif level == 2 then
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.ModifySetSelectText
-            info.value = 'select_'..UIDROPDOWNMENU_MENU_VALUE
+            info.value = 'rename_'..UIDROPDOWNMENU_MENU_VALUE
             info.notCheckable = true
             info.func = function()
                 TopFit:SetSelectedSet(UIDROPDOWNMENU_MENU_VALUE)
@@ -130,7 +235,7 @@ function TopFit:initializeSetDropdown(pane)
             info.value = 'select_'..UIDROPDOWNMENU_MENU_VALUE
             info.notCheckable = true
             info.func = function()
-            TopFit.currentlyRenamingSetID = UIDROPDOWNMENU_MENU_VALUE
+                TopFit.currentlyRenamingSetID = UIDROPDOWNMENU_MENU_VALUE
                 StaticPopup_Show("TOPFIT_RENAMESET", TopFit.db.profile.sets[UIDROPDOWNMENU_MENU_VALUE].name)
                 ToggleDropDownMenu(1, nil, setDropDown)
             end
@@ -138,11 +243,11 @@ function TopFit:initializeSetDropdown(pane)
 
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.ModifySetDeleteText
-            info.value = 'select_'..UIDROPDOWNMENU_MENU_VALUE
+            info.value = 'delete_'..UIDROPDOWNMENU_MENU_VALUE
             info.notCheckable = true
             info.func = function()
-                TopFit:DeleteSet(UIDROPDOWNMENU_MENU_VALUE)
-                TopFit:SetSelectedSet()
+                TopFit.currentlyDeletingSetID = UIDROPDOWNMENU_MENU_VALUE
+                StaticPopup_Show("TOPFIT_DELETESET", TopFit.db.profile.sets[UIDROPDOWNMENU_MENU_VALUE].name)
                 ToggleDropDownMenu(1, nil, setDropDown)
             end
             UIDropDownMenu_AddButton(info, level)
@@ -160,25 +265,6 @@ function TopFit:initializeSetDropdown(pane)
         end
     end
 
-    StaticPopupDialogs["TOPFIT_RENAMESET"] = {
-        text = "Rename set \"%s\" to:",
-        button1 = "OK",
-        button2 = "Cancel",
-        OnAccept = function(self)
-            local newName = self.editBox:GetText()
-            TopFit:Print(newName)
-            TopFit:RenameSet(TopFit.currentlyRenamingSetID, newName)
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = true,
-        hasEditBox = true,
-        enterClicksFirstButton = true,
-        OnShow = function(self)
-            self.editBox:SetText(TopFit.db.profile.sets[TopFit.currentlyRenamingSetID].name)
-        end
-    }
-    
     return setDropDown
 end
 
@@ -304,18 +390,111 @@ function TopFit:SetSelectedSet(setID)
                 break
             end
         end
-        if not setID then return end
     end
     
     TopFit.selectedSet = setID
     
-    UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, TopFit.selectedSet)
-    UIDropDownMenu_SetText(TopFitSetDropDown, TopFit.db.profile.sets[TopFit.selectedSet].name)
-    TopFit:UpdateStatGroups()
-    TopFit:SetDefaultCollapsedStates()
+    if not setID then
+        if TopFitSidebarCalculateButton then
+            TopFitSidebarCalculateButton:Disable()
+        end
+    else
+        if TopFitSidebarCalculateButton then
+            TopFitSidebarCalculateButton:Enable()
+        end
+        TopFit:SetCurrentCombinationFromEquipmentSet(setID)
+        UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, TopFit.selectedSet)
+        UIDropDownMenu_SetText(TopFitSetDropDown, TopFit.db.profile.sets[TopFit.selectedSet].name)
+        TopFit:UpdateStatGroups()
+        TopFit:SetDefaultCollapsedStates()
+    end
+end
+
+function TopFit:SetCurrentCombinationFromEquipmentSet(setCode)
+    -- generate pseudo equipment set to display when selecting a set
+    local combination = {
+        items = {},
+        totalStats = {},
+        totalScore = 0,
+    }
+    local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
+    if itemPositions then
+        for slotID, itemLocation in pairs(itemPositions) do
+            if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
+                local itemLink = nil
+                local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
+                if player then
+                    if bank then
+                        -- item is banked, use itemID
+                        local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
+                        if itemID and itemID ~= 1 then
+                            _, itemLink = GetItemInfo(itemID)
+                        end
+                    elseif bags then
+                        -- item is in player's bags
+                        itemLink = GetContainerItemLink(bag, slot)
+                    else
+                        -- item is equipped
+                        itemLink = GetInventoryItemLink("player", slot)
+                    end
+                else
+                    -- item not found
+                end
+                
+                if itemLink then
+                    itemTable = TopFit:GetCachedItem(itemLink)
+                    if itemTable then
+                        combination.items[slotID] = {
+                            itemLink = itemLink,
+                            bag = bag,
+                            slot = slot
+                        }
+                        
+                        -- add to total stats and score
+                        for statName, statValue in pairs(itemTable.totalBonus) do
+                            combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
+                        end
+                        combination.totalScore = combination.totalScore + TopFit:GetItemScore(itemTable.itemLink, setCode)
+                    end
+                end
+            end
+        end
+    end
+    
+    TopFit:SetCurrentCombination(combination)
+end
+
+function TopFit:ResetProgress()
+    TopFit.progress = nil
+    if not TopFitSidebarCalculateButton then return end
+    TopFitSidebarCalculateButton:Hide()
+    TopFitSetDropDown:Hide()
+
+    TopFitProgressBar:Show()
+
+    --PanelTemplates_SetTab(CharacterFrame, 3)
+    PaperDollFrame_SetSidebar(PaperDollFrame, 4);
+end
+
+function TopFit:StoppedCalculation()
+    if not TopFitSidebarCalculateButton then return end
+    TopFitSidebarCalculateButton:Show()
+    TopFitSetDropDown:Show()
+
+    TopFitProgressBar:Hide()
+end
+
+function TopFit:SetProgress(progress)
+    if (TopFit.progress == nil) or (TopFit.progress < progress) then
+        TopFit.progress = progress
+        if not TopFitSidebarCalculateButton then return end
+        TopFitProgressBar.text:SetText(round(progress * 100, 2).."%")
+        TopFitProgressBar:SetValue(progress * 100)
+    end
 end
 
 function TopFit:ExpandStatGroup(statGroup)
+    if not statGroup then return end
     statGroup.collapsed = false
     statGroup.CollapsedIcon:Hide()
     statGroup.ExpandedIcon:Show()
@@ -327,6 +506,7 @@ function TopFit:ExpandStatGroup(statGroup)
 end
 
 function TopFit:CollapseStatGroup(statGroup)
+    if not statGroup then return end
     statGroup.collapsed = true
     statGroup.CollapsedIcon:Show()
     statGroup.ExpandedIcon:Hide()
@@ -345,6 +525,7 @@ function TopFit:CollapseStatGroup(statGroup)
 end
 
 function TopFit:UpdateStatGroups()
+    TopFit:UpdateStatGroup(TopFitSidebarOptionsStatGroup)
     local i = 1
     while (_G["TopFitSidebarStatGroup"..i]) do
         TopFit:UpdateStatGroup(_G["TopFitSidebarStatGroup"..i])
@@ -353,41 +534,78 @@ function TopFit:UpdateStatGroups()
 end
 
 function TopFit:UpdateStatGroup(statGroup)
+    if not statGroup then return end
     local STRIPE_COLOR = {r = 0.9, g = 0.9, b = 1}
-    local subStats = TopFit.statList[statGroup.NameText:GetText()]
+    local subStats
+    if statGroup.isSetsGroup then
+        subStats = TopFit:GetAvailableItemSetNames()
+    else
+        subStats = TopFit.statList[statGroup.NameText:GetText()]
+    end
     local i = 1
     local totalHeight = statGroup.NameText:GetHeight() + 10
-    for i = 1, #subStats do
-        local statCode = subStats[i]
-        local statFrame = _G[statGroup:GetName().."Stat"..i]
-        
-        if not statFrame then
-            statFrame = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
-            statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
-            statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
-        end
-        
-        statFrame.statCode = statCode
-        _G[statGroup:GetName().."Stat"..i.."Label"]:SetText(_G[statCode]..":")
-        _G[statGroup:GetName().."Stat"..i.."StatText"]:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
-        if statGroup.collapsed then
-            statFrame:Hide()
-        else
-            statFrame:Show()
-        end
-        
-        totalHeight = totalHeight + statFrame:GetHeight()
-        
-        if (i % 2 == 0) then
-            if (not statFrame.Bg) then
-                statFrame.Bg = statFrame:CreateTexture(statFrame:GetName().."Bg", "BACKGROUND")
-                statFrame.Bg:SetPoint("LEFT", statGroup, "LEFT", 1, 0)
-                statFrame.Bg:SetPoint("RIGHT", statGroup, "RIGHT", 0, 0)
-                statFrame.Bg:SetPoint("TOP")
-                statFrame.Bg:SetPoint("BOTTOM")
-                statFrame.Bg:SetTexture(STRIPE_COLOR.r, STRIPE_COLOR.g, STRIPE_COLOR.b)
-                statFrame.Bg:SetAlpha(0.1)
+    if subStats then
+        for i = 1, #subStats do
+            local statCode = subStats[i]
+            local statFrame = _G[statGroup:GetName().."Stat"..i]
+            
+            if not statFrame then
+                statFrame = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
+                statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
+                statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
             end
+            
+            statFrame.statCode = statCode
+            _G[statGroup:GetName().."Stat"..i.."Label"]:SetText((_G[statCode] or string.gsub(statCode, "SET: ", ""))..":")
+            _G[statGroup:GetName().."Stat"..i.."StatText"]:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
+            if statGroup.collapsed then
+                statFrame:Hide()
+            else
+                statFrame:Show()
+            end
+            
+            totalHeight = totalHeight + statFrame:GetHeight()
+            
+            if (i % 2 == 0) then
+                if (not statFrame.Bg) then
+                    statFrame.Bg = statFrame:CreateTexture(statFrame:GetName().."Bg", "BACKGROUND")
+                    statFrame.Bg:SetPoint("LEFT", statGroup, "LEFT", 1, 0)
+                    statFrame.Bg:SetPoint("RIGHT", statGroup, "RIGHT", 0, 0)
+                    statFrame.Bg:SetPoint("TOP")
+                    statFrame.Bg:SetPoint("BOTTOM")
+                    statFrame.Bg:SetTexture(STRIPE_COLOR.r, STRIPE_COLOR.g, STRIPE_COLOR.b)
+                    statFrame.Bg:SetAlpha(0.1)
+                end
+            end
+        end
+    else
+        -- options stat group
+        local i = 1
+        while(_G[statGroup:GetName().."Stat"..i]) do
+            local statFrame = _G[statGroup:GetName().."Stat"..i]
+
+            if statGroup.collapsed then
+                statFrame:Hide()
+            else
+                statFrame:Show()
+                statFrame:updateData()
+            end
+
+            totalHeight = totalHeight + statFrame:GetHeight()
+            
+            if (i % 2 == 0) then
+                if (not statFrame.Bg) then
+                    statFrame.Bg = statFrame:CreateTexture(statFrame:GetName().."Bg", "BACKGROUND")
+                    statFrame.Bg:SetPoint("LEFT", statGroup, "LEFT", 1, 0)
+                    statFrame.Bg:SetPoint("RIGHT", statGroup, "RIGHT", 0, 0)
+                    statFrame.Bg:SetPoint("TOP")
+                    statFrame.Bg:SetPoint("BOTTOM")
+                    statFrame.Bg:SetTexture(STRIPE_COLOR.r, STRIPE_COLOR.g, STRIPE_COLOR.b)
+                    statFrame.Bg:SetAlpha(0.1)
+                end
+            end
+
+            i = i + 1
         end
     end
 
@@ -405,6 +623,101 @@ function TopFit:UpdateStatGroup(statGroup)
     TopFit:CalculateStatFrameHeight()
 end
 
+function TopFit:CreateOptionsStatFrame(parent)
+    local statGroup = CreateFrame("Frame", "TopFitSidebarOptionsStatGroup", parent, "TopFitStatGroupTemplate")
+    statGroup:SetPoint("TOPLEFT", parent, "TOPLEFT")
+    statGroup.NameText:SetText("Options")
+
+    local i = 1
+    local showInTooltip = _G[statGroup:GetName().."Stat1"]
+    _G[showInTooltip:GetName().."Label"]:SetText(TopFit.locale.StatsShowTooltip)
+    _G[showInTooltip:GetName().."StatText"]:Hide()
+    local showInTooltipCheckBox, _ = LibStub("tekKonfig-Checkbox").new(showInTooltip, 16, nil, "TOP", showInTooltip, "TOP", 0, 1)
+    showInTooltipCheckBox:SetPoint("RIGHT", showInTooltip, "RIGHT")
+    showInTooltipCheckBox:SetHitRectInsets(0, 0, 0, 0)
+    showInTooltipCheckBox:Raise()
+    showInTooltipCheckBox.tiptext = TopFit.locale.StatsShowTooltipTooltip
+    local checksound = showInTooltipCheckBox:GetScript("OnClick")
+    showInTooltipCheckBox:SetScript("OnClick", function(self)
+        checksound(self)
+        local value = self:GetChecked()
+        if (TopFit.selectedSet) then
+            TopFit.db.profile.sets[TopFit.selectedSet].excludeFromTooltip = not TopFit.db.profile.sets[TopFit.selectedSet].excludeFromTooltip
+        end
+        TopFit:UpdateStatGroups()
+    end)
+    showInTooltip.updateData = function(self)
+        if TopFit.selectedSet then
+            showInTooltipCheckBox:SetChecked(not TopFit.db.profile.sets[TopFit.selectedSet].excludeFromTooltip)
+        end
+    end
+
+    if select(2, UnitClass("player")) == "SHAMAN" or select(2, UnitClass("player")) == "WARRIOR" then
+        i = i + 1
+        local dualWield = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
+        dualWield:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
+        dualWield:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
+        _G[dualWield:GetName().."Label"]:SetText(TopFit.locale.StatsEnableDualWield)
+        _G[dualWield:GetName().."StatText"]:Hide()
+        local dualWieldCheckBox, _ = LibStub("tekKonfig-Checkbox").new(dualWield, 16, nil, "TOP", dualWield, "TOP", 0, 1)
+        dualWieldCheckBox:SetPoint("RIGHT", dualWield, "RIGHT")
+        dualWieldCheckBox:SetHitRectInsets(0, 0, 0, 0)
+        dualWieldCheckBox:Raise()
+        dualWieldCheckBox.tiptext = TopFit.locale.StatsEnableDualWieldTooltip
+        local checksound = dualWieldCheckBox:GetScript("OnClick")
+        dualWieldCheckBox:SetScript("OnClick", function(self)
+            checksound(self)
+            local value = self:GetChecked()
+            if (TopFit.selectedSet) then
+                TopFit.db.profile.sets[TopFit.selectedSet].simulateDualWield = not TopFit.db.profile.sets[TopFit.selectedSet].simulateDualWield
+            end
+            TopFit:UpdateStatGroups()
+        end)
+        dualWield.updateData = function(self)
+            if TopFit.selectedSet then
+                dualWieldCheckBox:SetChecked(TopFit.db.profile.sets[TopFit.selectedSet].simulateDualWield)
+            end
+        end
+    end
+    if select(2, UnitClass("player")) == "WARRIOR" then
+        i = i + 1
+        local titansGrip = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
+        titansGrip:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
+        titansGrip:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
+        _G[titansGrip:GetName().."Label"]:SetText(TopFit.locale.StatsEnableTitansGrip)
+        _G[titansGrip:GetName().."StatText"]:Hide()
+        local titansGripCheckBox, _ = LibStub("tekKonfig-Checkbox").new(titansGrip, 16, nil, "TOP", titansGrip, "TOP", 0, 1)
+        titansGripCheckBox:SetPoint("RIGHT", titansGrip, "RIGHT")
+        titansGripCheckBox:SetHitRectInsets(0, 0, 0, 0)
+        titansGripCheckBox:Raise()
+        titansGripCheckBox.tiptext = TopFit.locale.StatsEnableTitansGripTooltip
+        local checksound = titansGripCheckBox:GetScript("OnClick")
+        titansGripCheckBox:SetScript("OnClick", function(self)
+            checksound(self)
+            local value = self:GetChecked()
+            if (TopFit.selectedSet) then
+                TopFit.db.profile.sets[TopFit.selectedSet].simulateTitansGrip = not TopFit.db.profile.sets[TopFit.selectedSet].simulateTitansGrip
+            end
+            TopFit:UpdateStatGroups()
+        end)
+        titansGrip.updateData = function(self)
+            if TopFit.selectedSet then
+                titansGripCheckBox:SetChecked(TopFit.db.profile.sets[TopFit.selectedSet].simulateTitansGrip)
+            end
+        end
+    end
+--[[
+    statFrame = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
+    statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
+    statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
+    
+    statFrame.statCode = statCode
+    _G[statGroup:GetName().."Stat"..i.."Label"]:SetText(_G[statCode]..":")
+    _G[statGroup:GetName().."Stat"..i.."StatText"]:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
+]]
+    TopFit:UpdateStatGroup(statGroup)
+end
+
 function TopFit:CalculateStatFrameHeight()
     local totalHeight = 0
     local i = 1
@@ -413,6 +726,7 @@ function TopFit:CalculateStatFrameHeight()
         totalHeight = totalHeight + _G["TopFitSidebarStatGroup"..i]:GetHeight() + 3
         i = i + 1
     end
+    totalHeight = totalHeight + TopFitSidebarOptionsStatGroup:GetHeight() + 3
 
     TopFitSidebarFrameScrollChild:SetHeight(totalHeight)
 end
@@ -422,7 +736,12 @@ function TopFit:SetDefaultCollapsedStates()
     while (_G["TopFitSidebarStatGroup"..i]) do
         local statGroup = _G["TopFitSidebarStatGroup"..i]
 
-        local subStats = TopFit.statList[statGroup.NameText:GetText()]
+        local subStats
+        if statGroup.isSetsGroup then
+            subStats = TopFit:GetAvailableItemSetNames()
+        else
+            subStats = TopFit.statList[statGroup.NameText:GetText()]
+        end
         local j = 1
         local foundActiveStat = false
         for j = 1, #subStats do
@@ -442,9 +761,12 @@ function TopFit:SetDefaultCollapsedStates()
 
         i = i + 1
     end
+
+    TopFit:CollapseStatGroup(TopFitSidebarOptionsStatGroup)
 end
 
 function TopFit:ToggleStatFrame(statFrame)
+    if not statFrame.statCode then return end
     if (statFrame:GetHeight() > 20) then
         statFrame:SetHeight(13)
         TopFitSidebarEditStatPane:Hide()
@@ -491,174 +813,272 @@ function TopFit:CollapseAllStatGroups()
     end
 end
 
-function TopFit:CreateItemButtons()
-    local itemButtons = {}
-    for _, slotName in ipairs(TopFit.slotList) do
-        local slotID, emptyTexture, isRelic = GetInventorySlotInfo(slotName)
-        local button = CreateFrame("Button", "TopFit"..slotName.."Button", CharacterModelFrame, "ItemButtonTemplate")
-        button:Raise()
-        button:SetID(slotID)
-        button.backgroundTextureName = emptyTexture
-        button.checkRelic = isRelic
-        
-        -- create extra highlight texture for marking purposes
-        button.highlightTexture = button:CreateTexture("$parentHiglightTexture")
-        button.highlightTexture:SetTexture("Interface\\Buttons\\CheckButtonHilight")
-        button.highlightTexture:SetAllPoints()
-        button.highlightTexture:SetBlendMode("ADD")
-        button.highlightTexture:SetDrawLayer("OVERLAY")
-        button.highlightTexture:SetVertexColor(1, 1, 1, 0)
-        
-        button:SetScript("OnEnter", TopFit.ShowTooltip)
-        button:SetScript("OnLeave", function (...)
-            TopFit.HideTooltip()
-            --[[if TopFit.ProgressFrame.forceItemsFrame then
-                                        if not TopFit.ProgressFrame.forceItemsFrame:IsMouseOver() then
-                                            TopFit.ProgressFrame.forceItemsFrame:Hide()
-                                        end
-                                    end]]
-        end)
-        button:SetScript("OnClick", function (self, ...)
-            --[[if not TopFit.isBlocked then
-                                        local slotID = self:GetID()
-                                        if not TopFit.ProgressFrame.forceItemsFrame then
-                                            -- create frame for forced items
-                                            TopFit.ProgressFrame.forceItemsFrame = CreateFrame("Frame", "TopFit_ProgressFrame_forceItemsFrame", UIParent)
-                                            TopFit.ProgressFrame.forceItemsFrame:SetBackdrop({
-                                                bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-                                                edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-                                                tile = true,
-                                                tileSize = 16,
-                                                edgeSize = 16,
-                                                -- distance from the edges of the frame to those of the background texture (in pixels)
-                                                insets = {left = 4, right = 4, top = 4, bottom = 4}
-                                            })
-                                            TopFit.ProgressFrame.forceItemsFrame:SetBackdropColor(0, 0, 0)
-                                            TopFit.ProgressFrame.forceItemsFrame:SetWidth(300)
-                                            TopFit.ProgressFrame.forceItemsFrame:EnableMouse(true)
-                                            TopFit.ProgressFrame.forceItemsFrame:SetScript("OnLeave", function (self, ...)
-                                                if not self:IsMouseOver() then
-                                                    self:Hide()
-                                                end
-                                            end)
-                                            
-                                            -- label
-                                            TopFit.ProgressFrame.forceItemsFrame.slotLabel = TopFit.ProgressFrame.forceItemsFrame:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
-                                            TopFit.ProgressFrame.forceItemsFrame.slotLabel:SetPoint("TOPLEFT", TopFit.ProgressFrame.forceItemsFrame, "TOPLEFT", 10, -10)
-                                            
-                                            TopFit.ProgressFrame.forceItemsFrame.itemButtons = {}
-                                            --TopFit.ProgressFrame.forceItemsFrame.itemLabels = {}
-                                        end
-                                        TopFit.ProgressFrame.forceItemsFrame.slotLabel:SetText(string.format(TopFit.locale.ForceItem, TopFit.slotNames[slotID]))
-                                        
-                                        local itemButtons = TopFit.ProgressFrame.forceItemsFrame.itemButtons
-                                        -- create "Force none" button
-                                        if not itemButtons[1] then
-                                            itemButtons[1] = CreateFrame("Button", "TopFit_ProgressFrame_forceItemsFrame_itemButton1", TopFit.ProgressFrame.forceItemsFrame)
-                                            itemButtons[1]:SetWidth(280)
-                                            itemButtons[1]:SetHeight(24)
-                                            itemButtons[1]:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight")
-                                            itemButtons[1]:SetPoint("TOPLEFT", TopFit.ProgressFrame.forceItemsFrame.slotLabel, "BOTTOMLEFT", 0, -5)
-                                            
-                                            itemButtons[1].itemTexture = itemButtons[1]:CreateTexture()
-                                            itemButtons[1].itemTexture:SetWidth(24)
-                                            itemButtons[1].itemTexture:SetHeight(24)
-                                            itemButtons[1].itemTexture:SetPoint("TOPLEFT")
-                                            
-                                            itemButtons[1].itemLabel = itemButtons[1]:CreateFontString(nil, "BACKGROUND", "GameFontHighlight")
-                                            itemButtons[1].itemLabel:SetPoint("LEFT", itemButtons[1].itemTexture, "RIGHT", 3)
-                                            
-                                            itemButtons[1].itemLabel:SetText(TopFit.locale.ForceItemNone)
-                                            itemButtons[1].itemTexture:SetTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
-                                            
-                                            itemButtons[1]:SetScript("OnClick", function(self)
-                                                TopFit:Debug("Cleared forced item for slot "..self.slotID)
-                                                TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].forced[self.slotID] = nil
-                                                TopFit.ProgressFrame.equipButtons[self.slotID].highlightTexture:SetVertexColor(1, 1, 1, 0)
-                                                TopFit.ProgressFrame.forceItemsFrame:Hide()
-                                            end)
-                                        end
-                                        itemButtons[1].slotID = slotID
-                                        
-                                        -- create buttons for all items
-                                        TopFit:collectItems()
-                                        local i = 2
-                                        local maxWidth = 200
-                                        
-                                        local itemListBySlot = TopFit:GetEquippableItems(self:GetID())
-                                        
-                                        if itemListBySlot then
-                                            for _, locationTable in pairs(itemListBySlot) do
-                                                if not itemButtons[i] then
-                                                    itemButtons[i] = CreateFrame("Button", "TopFit_ProgressFrame_forceItemsFrame_itemButton"..i, TopFit.ProgressFrame.forceItemsFrame)
-                                                    itemButtons[i]:SetWidth(280)
-                                                    itemButtons[i]:SetHeight(24)
-                                                    itemButtons[i]:SetHighlightTexture("Interface\\Buttons\\UI-ListBox-Highlight")
-                                                    itemButtons[i]:SetPoint("TOPLEFT", itemButtons[i - 1], "BOTTOMLEFT")
-                                                    
-                                                    itemButtons[i].itemTexture = itemButtons[i]:CreateTexture()
-                                                    itemButtons[i].itemTexture:SetWidth(24)
-                                                    itemButtons[i].itemTexture:SetHeight(24)
-                                                    itemButtons[i].itemTexture:SetPoint("TOPLEFT")
-                                                    
-                                                    itemButtons[i].itemLabel = itemButtons[i]:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
-                                                    itemButtons[i].itemLabel:SetPoint("LEFT", itemButtons[i].itemTexture, "RIGHT", 3)
-                                                    
-                                                    -- script handlers
-                                                    itemButtons[i]:SetScript("OnClick", function(self)
-                                                        TopFit:Debug("Forced item "..select(2, GetItemInfo(self.itemID)).." for slot "..self.slotID)
-                                                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].forced[self.slotID] = self.itemID
-                                                        TopFit.ProgressFrame.equipButtons[self.slotID].highlightTexture:SetVertexColor(1, 0, 0, 1)
-                                                        TopFit.ProgressFrame.forceItemsFrame:Hide()
-                                                    end)
-                                                end
-                                                
-                                                local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
-                                                
-                                                if itemTable then
-                                                    itemButtons[i].itemID = itemTable.itemID
-                                                end
-                                                itemButtons[i].slotID = slotID
-                                                itemButtons[i]:Show()
-                                                itemButtons[i].itemLabel:SetText(locationTable.itemLink)
-                                                
-                                                if itemButtons[i].itemLabel:GetWidth() > maxWidth then
-                                                    maxWidth = itemButtons[i].itemLabel:GetWidth()
-                                                end
-                                                
-                                                local tex = select(10, GetItemInfo(locationTable.itemLink))
-                                                if not tex then tex = "Interface\\Icons\\Inv_misc_questionmark" end
-                                                itemButtons[i].itemTexture:SetTexture(tex)
-                                                
-                                                i = i + 1
-                                            end
-                                        end
-                                        
-                                        TopFit.ProgressFrame.forceItemsFrame:SetHeight(25 + (i - 1) * 24 + TopFit.ProgressFrame.forceItemsFrame.slotLabel:GetHeight())
-                                        TopFit.ProgressFrame.forceItemsFrame:SetWidth(maxWidth + 24 + 20)
-                                        for j = 1, i - 1 do
-                                            itemButtons[j]:SetWidth(maxWidth + 24)
-                                        end
-                                        
-                                        -- hide unused buttons
-                                        for i = i, #itemButtons do
-                                            itemButtons[i]:Hide()
-                                        end
-                                        
-                                        TopFit.ProgressFrame.forceItemsFrame:Show()
-                                        TopFit.ProgressFrame.forceItemsFrame:ClearAllPoints()
-                                        TopFit.ProgressFrame.forceItemsFrame:SetParent(self) -- so "OnLeave" will fire when the mouse leaves this frame or the button
-                                        TopFit.ProgressFrame.forceItemsFrame:SetPoint("RIGHT", self, "RIGHT")
-                                    end]]
-        end)
-        
-        itemButtons[slotID] = button
+
+function TopFit:SetCurrentCombination(combination)
+    if not TopFitStatScrollFrame then return end
+
+    if not combination then
+        combination = {
+            items = {},
+            totalScore = 0,
+            totalStats = {},
+        }
+    end
+    --[[
+            for slotID, button in pairs(TopFit.ProgressFrame.equipButtons) do
+                local button = TopFit.ProgressFrame.equipButtons[slotID]
+                button.itemLink = combination.items[slotID] and combination.items[slotID].itemLink
+                
+                -- set highlight if forced item
+                if (TopFit.ProgressFrame.selectedSet) and 
+                    (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet]) and
+                    (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].forced[slotID]) then
+                    button.highlightTexture:SetVertexColor(1, 0, 0, 1)
+                else
+                    button.highlightTexture:SetVertexColor(1, 1, 1, 0)
+                end
+                
+                local itemTexture
+                if button.itemLink then -- an item was set
+                    itemTexture = select(10, GetItemInfo(combination.items[slotID].itemLink)) or "Interface\\Icons\\Inv_misc_questionmark"
+                else                    -- no item set
+                    itemTexture = button.backgroundTextureName
+                    if button.checkRelic and UnitHasRelicSlot("player") then
+                        textureName = "Interface\\Paperdoll\\UI-PaperDoll-Slot-Relic.blp";
+                    end
+                    
+                end
+                SetItemButtonTexture(button, itemTexture)
+            end]]
+    
+    --TopFit.ProgressFrame.setScoreFontString:SetText(string.format(TopFit.locale.SetScore, round(combination.totalScore, 2)))
+    
+    -- sort stats by score contribution
+    statList = {}
+    scorePerStat = {}
+    for key, _ in pairs(combination.totalStats) do
+        tinsert(statList, key)
     end
     
-    do  -- anchor them all like in the equipment window
-        local i = 1
-        for i = 1, 19 do
-            itemButtons[i]:SetPoint("TOPLEFT", _G["Character"..TopFit.slotList[i]], "TOPLEFT")
+    local set
+    local caps
+    if not TopFit.selectedSet then
+        set = {}
+        caps = {}
+    else
+        set = TopFit.db.profile.sets[TopFit.selectedSet].weights
+        caps = TopFit.db.profile.sets[TopFit.selectedSet].caps
+    end
+    
+    table.sort(statList, function(a, b)
+        local score1, score2 = 0, 0
+        if set[a] and ((not caps) or (not caps[a]) or (not caps[a]["active"]) or (caps[a]["soft"])) then
+            score1 = combination.totalStats[a] * set[a]
         end
+        if set[b] and ((not caps) or (not caps[b]) or (not caps[b]["active"]) or (caps[b]["soft"])) then
+            score2 = combination.totalStats[b] * set[b]
+        end
+        
+        scorePerStat[a] = score1
+        scorePerStat[b] = score2
+        
+        return score1 > score2
+    end)
+    
+    local statScrollFrameContent = TopFitStatScrollFrame:GetScrollChild()
+
+    local statTexts = statScrollFrameContent.statNameFontStrings
+    local valueTexts = statScrollFrameContent.statValueFontStrings
+    local statusBars = statScrollFrameContent.statValueStatusBars
+    local lastStat = 0
+    local maxStatValue = statList[1] and scorePerStat[statList[1]] or 0
+    
+    if not statScrollFrameContent.statsHeader then
+        statScrollFrameContent.statsHeader = statScrollFrameContent:CreateFontString(nil, nil, "GameFontNormalLarge")
+        statScrollFrameContent.statsHeader:SetPoint("TOP", TopFitStatScrollFrame:GetScrollChild(), "TOP", 0, -5)
+        statScrollFrameContent.statsHeader:SetPoint("LEFT", statScrollFrameContent, "LEFT", 3, 0)
+        statScrollFrameContent.statsHeader:SetText(TopFit.locale.HeadingStats)
+    end
+    
+    for i = 1, #statList do
+        if (scorePerStat[statList[i]] ~= nil) and (scorePerStat[statList[i]] > 0) then
+            lastStat = i
+            if not statTexts[i] then
+                -- create FontStrings
+                -- fontsting for stat name
+                statusBars[i] = CreateFrame("StatusBar", "TopFitStatValueBar"..i, statScrollFrameContent)
+                statusBars[i]:SetHeight(14)
+                statusBars[i]:SetStatusBarTexture(minimalist)
+                
+                statTexts[i] = statusBars[i]:CreateFontString(nil, nil, "GameFontHighlight")
+                valueTexts[i] = statusBars[i]:CreateFontString(nil, nil, "NumberFontNormal")
+                valueTexts[i]:SetPoint("RIGHT", statusBars[i])
+                valueTexts[i]:SetPoint("LEFT", statusBars[i], "RIGHT", -40, 0)
+                valueTexts[i]:SetJustifyH("RIGHT")
+                statTexts[i]:SetPoint("LEFT", statusBars[i])
+                statTexts[i]:SetPoint("RIGHT", valueTexts[i], "LEFT")
+                statTexts[i]:SetJustifyH("LEFT")
+                
+                statusBars[i]:SetPoint("TOPLEFT", statusBars[i - 1] or statScrollFrameContent.statsHeader, "BOTTOMLEFT")
+                statusBars[i]:SetPoint("RIGHT")
+            end
+            statTexts[i]:Show()
+            valueTexts[i]:Show()
+            statusBars[i]:Show()
+            statTexts[i]:SetText(_G[statList[i]])
+            valueTexts[i]:SetText(round(combination.totalStats[statList[i]], 1))
+            statusBars[i]:SetMinMaxValues(0, maxStatValue)
+            statusBars[i]:SetValue(scorePerStat[statList[i]])
+            statusBars[i]:SetStatusBarColor(0.3, 1, 0.5, 0.5)
+        end
+    end
+    for i = lastStat + 1, #statTexts do
+        statTexts[i]:Hide()
+        valueTexts[i]:Hide()
+        statusBars[i]:Hide()
+    end
+    
+    -- list for caps
+    local i = 0
+    local capNameTexts = statScrollFrameContent.capNameFontStrings
+    local capValueTexts = statScrollFrameContent.capValueFontStrings
+    
+    if not statScrollFrameContent.capHeader then
+        statScrollFrameContent.capHeader = statScrollFrameContent:CreateFontString(nil, nil, "GameFontNormalLarge")
+        statScrollFrameContent.capHeader:SetText(TopFit.locale.HeadingCaps)
+    end
+    statScrollFrameContent.capHeader:Hide()
+    
+    for stat, capTable in pairs(caps) do
+        if capTable.active then
+            i = i + 1
+            if not capNameTexts[i] then
+                capNameTexts[i] = statScrollFrameContent:CreateFontString(nil, nil, "GameFontHighlight")
+                capValueTexts[i] = statScrollFrameContent:CreateTexture()
+                capValueTexts[i]:SetWidth(14)
+                capValueTexts[i]:SetHeight(14)
+                if i == 1 then
+                    capNameTexts[i]:SetPoint("TOPLEFT", statScrollFrameContent.capHeader, "BOTTOMLEFT")
+                    capValueTexts[i]:SetPoint("TOP", statScrollFrameContent.capHeader, "BOTTOM", 0, 2)
+                    capValueTexts[i]:SetPoint("RIGHT", statScrollFrameContent, "RIGHT")
+                else
+                    capNameTexts[i]:SetPoint("TOPLEFT", capNameTexts[i - 1], 0, -12)
+                    capValueTexts[i]:SetPoint("TOPRIGHT", capValueTexts[i - 1], 0, -12)
+                end
+            end
+            capNameTexts[i]:SetText((_G[stat] or string.gsub(stat, "SET: ", "")))
+            if (combination.totalStats[stat]) and (combination.totalStats[stat] >= capTable.value) then
+                capValueTexts[i]:SetTexture("Interface\\RAIDFRAME\\ReadyCheck-Ready")
+            else
+                capValueTexts[i]:SetTexture("Interface\\RAIDFRAME\\ReadyCheck-NotReady")
+            end
+            capNameTexts[i]:Show()
+            capValueTexts[i]:Show()
+            statScrollFrameContent.capHeader:Show()
+        end
+    end
+    -- anchor to bottom of stat list
+    if capNameTexts[1] then
+        statScrollFrameContent.capHeader:SetPoint("TOPLEFT", statTexts[lastStat], "BOTTOMLEFT", 0, -20)
+    end
+    
+    -- hide unused cap texts
+    local numCaps = i
+    for i = numCaps + 1, #capNameTexts do
+        capNameTexts[i]:Hide()
+        capValueTexts[i]:Hide()
+    end
+    
+    -- creates a 20px spacing to the bottom, so all caps are always readable!
+    if not statScrollFrameContent.placeHolder then
+        statScrollFrameContent.placeHolder = CreateFrame("Frame", nil, statScrollFrameContent)
+        statScrollFrameContent.placeHolder:SetHeight(20)
+    end
+
+    if numCaps > 0 then
+        statScrollFrameContent.placeHolder:SetPoint("TOPLEFT", capNameTexts[numCaps], "BOTTOMLEFT")
+    else
+        statScrollFrameContent.placeHolder:SetPoint("TOPLEFT", statTexts[lastStat], "BOTTOMLEFT")
+    end
+    statScrollFrameContent.placeHolder:SetPoint("RIGHT")
+end
+
+function TopFit:GetAvailableItemSetNames()
+    local setnames = {}
+    for _, itemList in pairs(TopFit:GetEquippableItems()) do
+        for _, locationTable in pairs(itemList) do
+            local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
+            if itemTable then
+                for stat, _ in pairs(itemTable.itemBonus) do
+                    if (string.find(stat, "SET: ")) then
+                        TopFit:InsertIntoItemSetNames(stat, setnames)
+                    end
+                end
+            end
+        end
+    end
+
+    -- also ad sets that might have been added in one of the player's TopFit sets
+    for _, setTable in pairs(TopFit.db.profile.sets) do
+        for statCode, _ in pairs(setTable.weights) do
+            if (string.find(statCode, "SET: ")) then
+                TopFit:InsertIntoItemSetNames(statCode, setnames)
+            end
+        end
+        for statCode, _ in pairs(setTable.caps) do
+            if (string.find(statCode, "SET: ")) then
+                TopFit:InsertIntoItemSetNames(statCode, setnames)
+            end
+        end
+    end
+
+    return setnames
+end
+
+function TopFit:InsertIntoItemSetNames(statCode, setNames)
+    --local setname = string.gsub(statCode, "SET: (.*)", "%1")
+    local setname = statCode
+    
+    -- check if set was added already
+    local found = false
+    for _, setname2 in pairs(setNames) do
+        if setname == setname2 then found = true break end
+    end
+    
+    if not found then tinsert(setNames, setname) end
+end
+
+function TopFit:ShowItemPopoutButtons()
+    for slotID, slotName in pairs(TopFit.slotNames) do
+        local popoutButton = _G['TopFit'..slotName..'PoupoutButton'];
+        if not popoutButton then
+            popoutButton = CreateFrame('Button', 'TopFit'..slotName..'PoupoutButton', _G['Character'..slotName], 'TopFitItemPopoutButtonTemplate')
+
+            if ( _G['Character'..slotName].verticalFlyout ) then
+                popoutButton:SetHeight(16);
+                popoutButton:SetWidth(38);
+
+                popoutButton:GetNormalTexture():SetTexCoord(0.15625, 0.84375, 0.5, 0);
+                popoutButton:GetHighlightTexture():SetTexCoord(0.15625, 0.84375, 1, 0.5);
+                popoutButton:ClearAllPoints();
+                popoutButton:SetPoint("TOP", _G['Character'..slotName], "BOTTOM", 0, 4);
+            else
+                popoutButton:SetHeight(38);
+                popoutButton:SetWidth(16);
+
+                popoutButton:GetNormalTexture():SetTexCoord(0.15625, 0.5, 0.84375, 0.5, 0.15625, 0, 0.84375, 0);
+                popoutButton:GetHighlightTexture():SetTexCoord(0.15625, 1, 0.84375, 1, 0.15625, 0.5, 0.84375, 0.5);
+                popoutButton:ClearAllPoints();
+                popoutButton:SetPoint("LEFT", _G['Character'..slotName], "RIGHT", -8, 0);
+            end
+        end
+        popoutButton:Show()
+    end
+end
+
+function TopFit:HideItemPopoutButtons()
+    for slotID, slotName in pairs(TopFit.slotNames) do
+        local popoutButton = _G['TopFit'..slotName..'PoupoutButton'];
+        if popoutButton then popoutButton:Hide() end
     end
 end

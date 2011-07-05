@@ -86,7 +86,7 @@ function TopFit:InitSemiRecursiveCalculations()
     
     TopFit.slotCounters = {}
     TopFit.currentSlotCounter = 0
-    TopFit.operationsPerFrame = 500
+    TopFit.operationsPerFrame = 5
     TopFit.combinationCount = 0
     TopFit.bestCombination = nil
     TopFit.maxScore = nil
@@ -133,14 +133,11 @@ function TopFit:InitSemiRecursiveCalculations()
     TopFit.calculationsFrame:SetScript("OnUpdate", TopFit.SemiRecursiveCalculation)
     
     -- show progress frame
-    if not TopFit.silentCalculation then
-        TopFit:CreateProgressFrame()
-    elseif not TopFit.ProgressFrame then
-        TopFit:CreateProgressFrame()
-        TopFit.ProgressFrame:Hide()
-    end
+    TopFit:CreateProgressFrame()
+    TopFit.ProgressFrame:Hide()
+
     TopFit.ProgressFrame:SetSelectedSet(TopFit.setCode)
-    TopFit.ProgressFrame:ResetProgress()
+    TopFit:ResetProgress()
 end
 
 function TopFit:ReduceItemList()
@@ -370,14 +367,14 @@ function TopFit:SemiRecursiveCalculation()
             end
         end
         
-        TopFit.ProgressFrame:SetProgress(progress)
+        TopFit:SetProgress(progress)
     else
-        TopFit.ProgressFrame:SetProgress(1) -- done
+        TopFit:SetProgress(1) -- done
     end
     
     -- update icons and statistics
     if TopFit.bestCombination then
-        TopFit.ProgressFrame:SetCurrentCombination(TopFit.bestCombination)
+        TopFit:SetCurrentCombination(TopFit.bestCombination)
     end
     
     if TopFit.abortCalculation then
@@ -385,7 +382,7 @@ function TopFit:SemiRecursiveCalculation()
         --TopFit:Print("Calculation aborted.")
         TopFit.abortCalculation = nil
         TopFit.isBlocked = false
-        TopFit.ProgressFrame:StoppedCalculation()
+        TopFit:StoppedCalculation()
     end
     
     TopFit:Debug("Current combination count: "..TopFit.combinationCount)

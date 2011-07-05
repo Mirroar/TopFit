@@ -80,11 +80,11 @@ function TopFit.HideTooltip() GameTooltip:Hide() end
 
 function TopFit:EquipRecommendedItems()
     -- skip equipping if virtual items were included
-    if (not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].skipVirtualItems) and TopFit.db.profile.sets[TopFit.setCode].virtualItems and #(TopFit.db.profile.sets[TopFit.setCode].virtualItems) > 0 then
+    if (not TopFit.db.profile.sets[TopFit.setCode].skipVirtualItems) and TopFit.db.profile.sets[TopFit.setCode].virtualItems and #(TopFit.db.profile.sets[TopFit.setCode].virtualItems) > 0 then
         TopFit:Print(TopFit.locale.NoticeVirtualItemsUsed)
         
         -- reenable options and quit
-        TopFit.ProgressFrame:StoppedCalculation()
+        TopFit:StoppedCalculation()
         TopFit.isBlocked = false
         
         -- reset relevant score field
@@ -103,7 +103,7 @@ function TopFit:EquipRecommendedItems()
     TopFit.updateFrame:SetScript("OnUpdate", TopFit.onUpdateForEquipment)
 end
 
-function TopFit:onUpdateForEquipment()
+function TopFit:onUpdateForEquipment(elapsed)
     -- don't try equipping in combat or while dead
     if UnitAffectingCombat("player") or UnitIsDeadOrGhost("player") then
         return
@@ -120,10 +120,10 @@ function TopFit:onUpdateForEquipment()
         end
     end
     
-    TopFit.updateEquipmentCounter = TopFit.updateEquipmentCounter + 1
+    TopFit.updateEquipmentCounter = TopFit.updateEquipmentCounter + elapsed
     
     -- try equipping the items every 100 frames (some weird ring positions might stop us from correctly equipping items on the first try, for example)
-    if (TopFit.updateEquipmentCounter > 100) then
+    if (TopFit.updateEquipmentCounter > 1) then
         for slotID, recTable in pairs(TopFit.itemRecommendations) do
             slotItemLink = GetInventoryItemLink("player", slotID)
             if (slotItemLink ~= recTable.locationTable.itemLink) then
@@ -196,7 +196,7 @@ function TopFit:onUpdateForEquipment()
         
         TopFit:Debug("All Done!")
         TopFit.updateFrame:SetScript("OnUpdate", nil)
-        TopFit.ProgressFrame:StoppedCalculation()
+        TopFit:StoppedCalculation()
         
         EquipmentManagerClearIgnoredSlotsForSave()
         for _, slotID in pairs(TopFit.slots) do
