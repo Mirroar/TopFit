@@ -1324,5 +1324,7 @@ end
 
 function TopFit:HideFlyout()
     TopFitItemFlyout:Hide()
-    TopFit:ReversePopoutButton(TopFitItemFlyout.button.topFitPopoutButton, false)
+    if TopFitItemFlyout.button then
+        TopFit:ReversePopoutButton(TopFitItemFlyout.button.topFitPopoutButton, false)
+    end
 end
