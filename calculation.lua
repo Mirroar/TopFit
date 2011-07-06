@@ -16,9 +16,6 @@ end
 
 function TopFit:CalculateSets(silent)
     if (not TopFit.isBlocked) then
-        if not silent then
-            HideUIPanel(InterfaceOptionsFrame)
-        end
         TopFit.silentCalculation = silent
         local setCode = tremove(TopFit.workSetList)
         while not self.db.profile.sets[setCode] and #(TopFit.workSetList) > 0 do

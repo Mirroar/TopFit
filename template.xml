@@ -272,6 +272,7 @@
                     <OnHide>
                         _G['TopFitStatScrollFrame']:Hide();
                         TopFit:HideItemPopoutButtons();
+                        TopFit:HideFlyout();
                     </OnHide>
                 </Scripts>
             </Frame>
@@ -315,5 +316,73 @@
         </Scripts>
         <NormalTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
         <HighlightTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
+    </Button>
+
+
+    <Frame name="TopFitItemFlyout" parent="PaperDollFrame" hidden="true" enableMouse="false" frameStrata="HIGH">
+        <Size x="43" y="43"/>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentHighlight" file="Interface\PaperDollInfoFrame\UI-GearManager-ItemButton-Highlight">
+                    <Size x="50" y="50"/>
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset x="-4" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0" right="0.78125" top="0" bottom="0.78125"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentButtons" frameStrata="HIGH" enableMouse="true" parentKey="buttonFrame" clampedToScreen="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+                        <Offset x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="bg1" inherits="PaperDollFrameFlyoutTexture">
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset x="-5" y="4"/>
+                                </Anchor>
+                            </Anchors>
+                        </Texture>
+                    </Layer>                    
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self.numBGs = 1;
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self.buttons = {};
+            </OnLoad>
+            <!--<OnUpdate function="PaperDollFrameItemFlyout_OnUpdate"/>
+            <OnShow function="PaperDollFrameItemFlyout_OnShow"/>
+            <OnHide function="PaperDollFrameItemFlyout_OnHide"/>
+            <OnEvent function="PaperDollFrameItemFlyout_OnEvent"/>-->
+        </Scripts>
+    </Frame>
+
+
+    <Button name="TopFitItemFlyoutButtonTemplate" inherits="ItemButtonTemplate" virtual="true">
+        <Scripts>
+            <OnEnter>
+                --PaperDollFrameItemFlyoutButton_OnEnter(self, motion);
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+                ResetCursor();
+            </OnLeave>
+            <OnClick>
+                --PaperDollFrameItemFlyoutButton_OnClick(self, button, down);
+            </OnClick>
+        </Scripts>
     </Button>
 </Ui>

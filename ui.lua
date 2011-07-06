@@ -37,6 +37,7 @@ function TopFit:initializeCharacterFrameUI()
         -- TODO: call a function for starting set calculation instead of this
         if not TopFit.isBlocked then
             if TopFit.db.profile.sets[TopFit.selectedSet] then
+                PaperDollFrame_SetSidebar(PaperDollFrame, 4)
                 TopFit.workSetList = { TopFit.selectedSet }
                 TopFit:CalculateSets()
             end
@@ -471,9 +472,6 @@ function TopFit:ResetProgress()
     TopFitSetDropDown:Hide()
 
     TopFitProgressBar:Show()
-
-    --PanelTemplates_SetTab(CharacterFrame, 3)
-    PaperDollFrame_SetSidebar(PaperDollFrame, 4);
 end
 
 function TopFit:StoppedCalculation()
@@ -1018,7 +1016,7 @@ function TopFit:GetAvailableItemSetNames()
         end
     end
 
-    -- also ad sets that might have been added in one of the player's TopFit sets
+    -- also add sets that might have been added in one of the player's TopFit sets
     for _, setTable in pairs(TopFit.db.profile.sets) do
         for statCode, _ in pairs(setTable.weights) do
             if (string.find(statCode, "SET: ")) then
@@ -1071,6 +1069,20 @@ function TopFit:ShowItemPopoutButtons()
                 popoutButton:ClearAllPoints();
                 popoutButton:SetPoint("LEFT", _G['Character'..slotName], "RIGHT", -8, 0);
             end
+
+            _G['Character'..slotName].topFitPopoutButton = popoutButton
+
+            popoutButton:RegisterForClicks("LeftButtonUp");
+            popoutButton:SetScript("OnClick", function()
+                if TopFitItemFlyout:IsShown() and TopFitItemFlyout.button == _G['Character'..slotName] then
+                    TopFit:HideFlyout()
+                else
+                    if TopFitItemFlyout.button then
+                        TopFit:ReversePopoutButton(TopFitItemFlyout.button.topFitPopoutButton, false)
+                    end
+                    TopFit:ShowFlyout(_G['Character'..slotName], slotID)
+                end
+            end)
         end
         popoutButton:Show()
     end
@@ -1081,4 +1093,236 @@ function TopFit:HideItemPopoutButtons()
         local popoutButton = _G['TopFit'..slotName..'PoupoutButton'];
         if popoutButton then popoutButton:Hide() end
     end
+end
+
+function TopFit:ReversePopoutButton(button, reverse)
+    if not button then return end
+    if (button:GetParent().verticalFlyout) then
+        if (reverse) then
+            button:GetNormalTexture():SetTexCoord(0.15625, 0.84375, 0, 0.5)
+            button:GetHighlightTexture():SetTexCoord(0.15625, 0.84375, 0.5, 1)
+        else
+            button:GetNormalTexture():SetTexCoord(0.15625, 0.84375, 0.5, 0)
+            button:GetHighlightTexture():SetTexCoord(0.15625, 0.84375, 1, 0.5)
+        end
+    else
+        if (reverse) then
+            button:GetNormalTexture():SetTexCoord(0.15625, 0, 0.84375, 0, 0.15625, 0.5, 0.84375, 0.5)
+            button:GetHighlightTexture():SetTexCoord(0.15625, 0.5, 0.84375, 0.5, 0.15625, 1, 0.84375, 1)
+        else
+            button:GetNormalTexture():SetTexCoord(0.15625, 0.5, 0.84375, 0.5, 0.15625, 0, 0.84375, 0)
+            button:GetHighlightTexture():SetTexCoord(0.15625, 1, 0.84375, 1, 0.15625, 0.5, 0.84375, 0.5)
+        end
+    end
+end
+
+function TopFit:ShowFlyout(itemButton, slotID)
+    local flyout = TopFitItemFlyout
+    local buttons = flyout.buttons
+    local buttonAnchor = flyout.buttonFrame
+    flyout.button = itemButton
+
+    local popoutButton = itemButton.topFitPopoutButton
+    if popoutButton.flyoutLocked then
+        popoutButton.flyoutLocked = false
+        PaperDollFrameItemPopoutButton_SetReversed(popoutButton, false)
+    end
+
+    TopFit:ReversePopoutButton(TopFitItemFlyout.button.topFitPopoutButton, true)
+
+    local itemList = TopFit:GetEquippableItems(slotID)
+
+    --table.sort(itemList); -- Sort by location. This ends up as: inventory, backpack, bags, bank, and bank bags.
+
+    local numItems = #itemList;
+
+    --for i = PDFITEMFLYOUT_MAXITEMS + 1, numItems do -- this would remove any items in excess of maxitems
+    --    itemDisplayTable[i] = nil;
+    --end
+
+    --numItems = min(numItems, PDFITEMFLYOUT_MAXITEMS);
+
+    while #buttons < numItems do -- Create any buttons we need.
+        TopFit:CreateFlyoutButton()
+    end
+
+    if (numItems == 0) then
+        flyout:Hide()
+        return
+    end
+
+    for i, button in ipairs(buttons) do
+        if (i <= numItems) then
+            button.id = slotID;
+            button.item = itemList[i];
+            button:Show();
+
+            TopFit:DisplayFlyoutButton(button);
+        else
+            button:Hide();
+        end
+    end
+
+    flyout:ClearAllPoints();
+    flyout:SetFrameLevel(itemButton:GetFrameLevel() - 1);
+    flyout.button = itemButton;
+    flyout:SetPoint("TOPLEFT", itemButton, "TOPLEFT", -PDFITEMFLYOUT_BORDERWIDTH, PDFITEMFLYOUT_BORDERWIDTH);
+    local horizontalItems = min(numItems, PDFITEMFLYOUT_ITEMS_PER_ROW);
+    if itemButton.verticalFlyout then
+        buttonAnchor:SetPoint("TOPLEFT", itemButton.topFitPopoutButton, "BOTTOMLEFT", 0, -PDFITEMFLYOUT_BORDERWIDTH);
+    else
+        buttonAnchor:SetPoint("TOPLEFT", itemButton.topFitPopoutButton, "TOPRIGHT", 0, 0);
+    end
+    buttonAnchor:SetWidth((horizontalItems * PDFITEM_WIDTH) + ((horizontalItems - 1) * PDFITEM_XOFFSET) + PDFITEMFLYOUT_BORDERWIDTH);
+    buttonAnchor:SetHeight(PDFITEMFLYOUT_HEIGHT + (math.floor((numItems - 1)/PDFITEMFLYOUT_ITEMS_PER_ROW) * (PDFITEM_HEIGHT - PDFITEM_YOFFSET)));
+
+    local function _createFlyoutBG (buttonAnchor)
+        local numBGs = buttonAnchor["numBGs"];
+        numBGs = numBGs + 1;
+        local texture = buttonAnchor:CreateTexture(nil, nil, "PaperDollFrameFlyoutTexture");
+        buttonAnchor["bg" .. numBGs] = texture;
+        buttonAnchor["numBGs"] = numBGs;
+        return texture;
+    end
+
+    if flyout.numItems ~= numItems then
+        local texturesUsed = 0;
+        if numItems == 1 then
+            local bgTex, lastBGTex;
+            bgTex = buttonAnchor.bg1;
+            bgTex:ClearAllPoints();
+            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONESLOT_LEFT_COORDS));
+            bgTex:SetWidth(PDFITEMFLYOUT_ONESLOT_LEFTWIDTH);
+            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetPoint("TOPLEFT", -5, 4);
+            bgTex:Show();
+            texturesUsed = texturesUsed + 1;
+            lastBGTex = bgTex;
+
+            bgTex = buttonAnchor.bg2 or _createFlyoutBG(buttonAnchor);
+            bgTex:ClearAllPoints();
+            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONESLOT_RIGHT_COORDS));
+            bgTex:SetWidth(PDFITEMFLYOUT_ONESLOT_RIGHTWIDTH);
+            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetPoint("TOPLEFT", lastBGTex, "TOPRIGHT");
+            bgTex:Show();
+            texturesUsed = texturesUsed + 1;
+            lastBGTex = bgTex;
+        elseif ( numItems <= PDFITEMFLYOUT_ITEMS_PER_ROW ) then
+            local bgTex, lastBGTex;
+            bgTex = buttonAnchor.bg1;
+            bgTex:ClearAllPoints();
+            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONEROW_LEFT_COORDS));
+            bgTex:SetWidth(PDFITEMFLYOUT_ONEROW_LEFT_WIDTH);
+            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetPoint("TOPLEFT", -5, 4);
+            bgTex:Show();
+            texturesUsed = texturesUsed + 1;
+            lastBGTex = bgTex;
+            for i = texturesUsed + 1, numItems - 1 do
+                bgTex = buttonAnchor["bg"..i] or _createFlyoutBG(buttonAnchor);
+                bgTex:ClearAllPoints();
+                bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONEROW_CENTER_COORDS));
+                bgTex:SetWidth(PDFITEMFLYOUT_ONEROW_CENTER_WIDTH);
+                bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+                bgTex:SetPoint("TOPLEFT", lastBGTex, "TOPRIGHT");
+                bgTex:Show();
+                texturesUsed = texturesUsed + 1;
+                lastBGTex = bgTex;
+            end
+
+            bgTex = buttonAnchor["bg"..numItems] or _createFlyoutBG(buttonAnchor);
+            bgTex:ClearAllPoints();
+            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONEROW_RIGHT_COORDS));
+            bgTex:SetWidth(PDFITEMFLYOUT_ONEROW_RIGHT_WIDTH);
+            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetPoint("TOPLEFT", lastBGTex, "TOPRIGHT");
+            bgTex:Show();
+            texturesUsed = texturesUsed + 1;
+        elseif ( numItems > PDFITEMFLYOUT_ITEMS_PER_ROW ) then
+            local numRows = math.ceil(numItems/PDFITEMFLYOUT_ITEMS_PER_ROW);
+            local bgTex, lastBGTex;
+            bgTex = buttonAnchor.bg1;
+            bgTex:ClearAllPoints();
+            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_MULTIROW_TOP_COORDS));
+            bgTex:SetWidth(PDFITEMFLYOUT_MULTIROW_WIDTH);
+            bgTex:SetHeight(PDFITEMFLYOUT_MULTIROW_TOP_HEIGHT);
+            bgTex:SetPoint("TOPLEFT", -5, 4);
+            bgTex:Show();
+            texturesUsed = texturesUsed + 1;
+            lastBGTex = bgTex;
+            for i = 2, numRows - 1 do -- Middle rows
+                bgTex = buttonAnchor["bg"..i] or _createFlyoutBG(buttonAnchor);
+                bgTex:ClearAllPoints();
+                bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_MULTIROW_MIDDLE_COORDS));
+                bgTex:SetWidth(PDFITEMFLYOUT_MULTIROW_WIDTH);
+                bgTex:SetHeight(PDFITEMFLYOUT_MULTIROW_MIDDLE_HEIGHT);
+                bgTex:SetPoint("TOPLEFT", lastBGTex, "BOTTOMLEFT");
+                bgTex:Show();
+                texturesUsed = texturesUsed + 1;
+                lastBGTex = bgTex;
+            end
+
+            bgTex = buttonAnchor["bg"..numRows] or _createFlyoutBG(buttonAnchor);
+            bgTex:ClearAllPoints();
+            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_MULTIROW_BOTTOM_COORDS));
+            bgTex:SetWidth(PDFITEMFLYOUT_MULTIROW_WIDTH);
+            bgTex:SetHeight(PDFITEMFLYOUT_MULTIROW_BOTTOM_HEIGHT);
+            bgTex:SetPoint("TOPLEFT", lastBGTex, "BOTTOMLEFT");
+            bgTex:Show();
+            texturesUsed = texturesUsed + 1;
+            lastBGTex = bgTex;
+        end
+
+        for i = texturesUsed + 1, buttonAnchor["numBGs"] do
+            buttonAnchor["bg" .. i]:Hide();
+        end
+        flyout.numItems = numItems;
+    end
+
+    flyout:Show();
+end
+
+function TopFit:CreateFlyoutButton()
+    local buttons = TopFitItemFlyout.buttons
+    local buttonAnchor = TopFitItemFlyoutButtons
+    local numButtons = #buttons
+
+    local button = CreateFrame("BUTTON", "TopFitItemFlyoutButtons" .. numButtons + 1, buttonAnchor, "TopFitItemFlyoutButtonTemplate")
+
+    local pos = numButtons / PDFITEMFLYOUT_ITEMS_PER_ROW
+    if (math.floor(pos) == pos) then
+        -- This is the first button in a row.
+        button:SetPoint("TOPLEFT", buttonAnchor, "TOPLEFT", PDFITEMFLYOUT_BORDERWIDTH, -PDFITEMFLYOUT_BORDERWIDTH - (PDFITEM_HEIGHT - PDFITEM_YOFFSET) * pos)
+    else
+        button:SetPoint("TOPLEFT", buttons[numButtons], "TOPRIGHT", PDFITEM_XOFFSET, 0)
+    end
+
+    tinsert(buttons, button)
+    return button
+end
+
+function TopFit:DisplayFlyoutButton(button)
+    local itemTable = button.item
+    if (not itemTable) then
+        return
+    end
+
+    local textureName = select(10, GetItemInfo(itemTable.itemLink))
+
+    SetItemButtonTexture(button, textureName);
+
+    button.UpdateTooltip = function ()
+        GameTooltip:SetOwner(TopFitItemFlyoutButtons, "ANCHOR_RIGHT", 6, -TopFitItemFlyoutButtons:GetHeight() - 6)
+        setTooltip()
+    end
+
+    if button:IsMouseOver() then
+        button.UpdateTooltip()
+    end
+end
+
+function TopFit:HideFlyout()
+    TopFitItemFlyout:Hide()
+    TopFit:ReversePopoutButton(TopFitItemFlyout.button.topFitPopoutButton, false)
 end
