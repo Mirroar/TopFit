@@ -24,7 +24,6 @@ frame.lua
 ui.lua
 plugin.lua
 
-plugins\stats.lua
 plugins\virtual_items.lua
 plugins\utilities.lua
 

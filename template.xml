@@ -268,6 +268,7 @@
                         _G['TopFitStatScrollFrame']:Show();
                         _G['TopFitStatScrollFrame']:SetFrameLevel(CharacterModelFrame:GetFrameLevel() + 1);
                         TopFit:ShowItemPopoutButtons();
+                        TopFit:UpdatePlugins();
                     </OnShow>
                     <OnHide>
                         _G['TopFitStatScrollFrame']:Hide();
@@ -307,12 +308,13 @@
             <AbsDimension x="16" y="32"/>
         </Size>
         <Scripts>
-            <OnLoad>
-                --PaperDollFrameItemPopoutButton_OnLoad(self);
-            </OnLoad>
-            <OnClick>
-                --PaperDollFrameItemPopoutButton_OnClick(self);
-            </OnClick>
+            <OnEnter>
+                self.tipText = TopFit.locale.FlyoutTooltip;
+                TopFit.ShowTooltip(self);
+            </OnEnter>
+            <OnLeave>
+                TopFit.HideTooltip();
+            </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
         <HighlightTexture file="Interface\PaperDollInfoFrame\UI-GearManager-FlyoutButton"/>
@@ -371,10 +373,44 @@
     </Frame>
 
 
-    <Button name="TopFitItemFlyoutButtonTemplate" inherits="ItemButtonTemplate" virtual="true">
+    <Button name="TopFitVirtualItemButtonTemplate" inherits="ItemButtonTemplate" virtual="true">
+        <Size x="20" y="20"/>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="overlay" file="Interface\Buttons\CheckButtonHilight" hidden="true">
+                    <Size x="20" y="20"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
         <Scripts>
             <OnEnter>
-                --PaperDollFrameItemFlyoutButton_OnEnter(self, motion);
+                self.UpdateTooltip()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+                ResetCursor();
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+
+    <Button name="TopFitItemFlyoutButtonTemplate" inherits="ItemButtonTemplate" virtual="true">
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="isForced" file="Interface\Buttons\CheckButtonHilight" hidden="true">
+                    <Size x="40" y="40"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnEnter>
+                self.UpdateTooltip()
             </OnEnter>
             <OnLeave>
                 GameTooltip:Hide();
@@ -382,6 +418,13 @@
             </OnLeave>
             <OnClick>
                 --PaperDollFrameItemFlyoutButton_OnClick(self, button, down);
+                if self.isForced:IsShown() then
+                    self.isForced:Hide()
+                    TopFit:RemoveForcedItem(TopFit.selectedSet, self.id, self.itemID)
+                else
+                    self.isForced:Show()
+                    TopFit:AddForcedItem(TopFit.selectedSet, self.id, self.itemID)
+                end
             </OnClick>
         </Scripts>
     </Button>

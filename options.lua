@@ -306,3 +306,38 @@ function TopFit:InitializeCapTable(setCode, statCode)
     end
 end
 
+function TopFit:GetForcedItems(setCode, slotID)
+    if not TopFit.db.profile.sets[setCode].forced then
+        return {}
+    elseif not TopFit.db.profile.sets[setCode].forced[slotID] then
+        return {}
+    elseif type(TopFit.db.profile.sets[setCode].forced[slotID]) ~= "table" then
+        TopFit.db.profile.sets[setCode].forced[slotID] = {TopFit.db.profile.sets[setCode].forced[slotID]}
+    end
+    return TopFit.db.profile.sets[setCode].forced[slotID]
+end
+
+function TopFit:AddForcedItem(setCode, slotID, itemID)
+    if not TopFit.db.profile.sets[setCode].forced then
+        TopFit.db.profile.sets[setCode].forced = {}
+    end
+    if not TopFit.db.profile.sets[setCode].forced[slotID] then
+        TopFit.db.profile.sets[setCode].forced[slotID] = {itemID}
+    else
+        tinsert(TopFit.db.profile.sets[setCode].forced[slotID], itemID)
+    end
+end
+
+function TopFit:RemoveForcedItem(setCode, slotID, itemID)
+    if TopFit.db.profile.sets[setCode].forced then
+        if TopFit.db.profile.sets[setCode].forced[slotID] then
+            for i, forcedItem in ipairs(TopFit.db.profile.sets[setCode].forced[slotID]) do
+                if forcedItem == itemID then
+                    tremove(TopFit.db.profile.sets[setCode].forced[slotID], i)
+                    break
+                end
+            end
+        end
+    end
+end
+

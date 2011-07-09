@@ -76,7 +76,10 @@ function TopFit.ShowTooltip(self)
     end
     GameTooltip:Show()
 end
-function TopFit.HideTooltip() GameTooltip:Hide() end
+
+function TopFit.HideTooltip()
+    GameTooltip:Hide()
+end
 
 function TopFit:EquipRecommendedItems()
     -- skip equipping if virtual items were included
@@ -334,12 +337,12 @@ function TopFit:OnInitialize()
             [5] = "RESISTANCE5_NAME",                   -- shadow
             [6] = "RESISTANCE6_NAME",                   -- arcane
         },
-        [TopFit.locale.StatsCategoryArmorTypes] = {
+        --[[ [TopFit.locale.StatsCategoryArmorTypes] = {
             [1] = "TOPFIT_ARMORTYPE_CLOTH",
             [2] = "TOPFIT_ARMORTYPE_LEATHER",
             [3] = "TOPFIT_ARMORTYPE_MAIL",
             [4] = "TOPFIT_ARMORTYPE_PLATE",
-        }
+        }]]
     }
 
     TOPFIT_ARMORTYPE_CLOTH = select(2, GetAuctionItemSubClasses(2));
@@ -370,7 +373,18 @@ function TopFit:OnInitialize()
         "WaistSlot",
         "WristSlot",
     }
-    
+        
+    TopFit.armoredSlots = {
+        [1] = true,
+        [3] = true,
+        [5] = true,
+        [6] = true,
+        [7] = true,
+        [8] = true,
+        [9] = true,
+        [10] = true,
+    }
+
     -- create list of slot names with corresponding slot IDs
     TopFit.slots = {}
     TopFit.slotNames = {}
@@ -453,7 +467,7 @@ function TopFit:OnInitialize()
     
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
-        if not TopFit.toggleProgressFrameButton then
+        --[[if not TopFit.toggleProgressFrameButton then
             TopFit.toggleProgressFrameButton = CreateFrame("Button", "TopFit_toggleProgressFrameButton", PaperDollSidebarTab1)
             TopFit.toggleProgressFrameButton:SetWidth(30)
             TopFit.toggleProgressFrameButton:SetHeight(32)
@@ -506,15 +520,10 @@ function TopFit:OnInitialize()
             TopFit.toggleProgressFrameButton:SetScript("OnLeave", function(...)
                 GameTooltip:Hide()
             end)
-        end
+        end]]
         
         TopFit:initializeCharacterFrameUI()
     end)
-    
-    -- create default plugin frames
-    TopFit:CreateStatsPlugin()
-    TopFit:CreateVirtualItemsPlugin()
-    TopFit:CreateUtilitiesPlugin()
     
     TopFit:collectItems()
 end

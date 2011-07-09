@@ -36,14 +36,14 @@ function TopFit:CreateVirtualItemsPlugin()
                 -- option for disabling virtual items calculation
                 local enable = LibStub("tekKonfig-Checkbox").new(frame, nil, TopFit.locale.IncludeVI, "TOPLEFT", explain, "BOTTOMLEFT", 10, -4)
                 enable.tiptext = TopFit.locale.IncludeVITooltip
-                if TopFit.ProgressFrame and TopFit.ProgressFrame.selectedSet then
-                    enable:SetChecked(not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].skipVirtualItems)
+                if TopFit.selectedSet then
+                    enable:SetChecked(not TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems)
                 end
                 local checksound = enable:GetScript("OnClick")
                 enable:SetScript("OnClick", function(self)
                     checksound(self)
-                    if (TopFit.ProgressFrame.selectedSet) then
-                        TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].skipVirtualItems = not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].skipVirtualItems
+                    if (TopFit.selectedSet) then
+                        TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems = not TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems
                     end
                 end)
                 frame.includeVirtualItemsCheckButton = enable
@@ -112,7 +112,8 @@ function TopFit:CreateVirtualItemsPlugin()
                 
                 frame.itemsFrame = CreateFrame("ScrollFrame", "TopFit_VirtualItemsScrollFrame", frame.panel, "UIPanelScrollFrameTemplate")
                 frame.itemsFrame:SetPoint("TOPLEFT", 6, -6)
-                frame.itemsFrame:SetPoint("BOTTOMRIGHT", -27, 4)
+                frame.itemsFrame:SetPoint("RIGHT", -27, 4)
+                frame.itemsFrame:SetHeight(150)
                 frame.itemsFrame.content = CreateFrame("Frame", nil, frame.itemsFrame)
                 frame.itemsFrame.content:SetHeight(225)
                 frame.itemsFrame.content:SetWidth(280)
@@ -122,15 +123,15 @@ function TopFit:CreateVirtualItemsPlugin()
                 frame.itemsFrame.buttons = {}
                 function frame.itemsFrame:AddItem(link)
                     local invSlot = select(9, GetItemInfo(link))
-                    if TopFit.ProgressFrame.selectedSet and invSlot and 
+                    if TopFit.selectedSet and invSlot and 
                         string.find(invSlot, "INVTYPE") and not string.find(invSlot, "BAG") then
                         
-                        if not TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems then 
-                            TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems = {}
+                        if not TopFit.db.profile.sets[TopFit.selectedSet].virtualItems then 
+                            TopFit.db.profile.sets[TopFit.selectedSet].virtualItems = {}
                         end
-                        tinsertonce(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems, link)
+                        tinsertonce(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, link)
                     else
-                        if TopFit.ProgressFrame.selectedSet then
+                        if TopFit.selectedSet then
                             TopFit:Print(string.format(TopFit.locale.VIErrorNotEquippable, link))
                         else
                             TopFit:Print(TopFit.locale.VIErrorNoSet)
@@ -142,9 +143,9 @@ function TopFit:CreateVirtualItemsPlugin()
                 function frame.itemsFrame:RefreshItems()
                     local lastLine, totalWidth = 1, 0
                     local numUsedButtons = 9
-                    if (TopFit.ProgressFrame.selectedSet) then
-                        if (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems) then
-                            for i = 1, #(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems) do
+                    if (TopFit.selectedSet) then
+                        if (TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
+                            for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
                                 numUsedButtons = numUsedButtons + 1
                                 if not frame.itemsFrame.buttons[i] then
                                     local button = CreateFrame("Button", "$parent_ItemButton"..i, frame.itemsFrame.content, "ItemButtonTemplate")
@@ -154,12 +155,12 @@ function TopFit:CreateVirtualItemsPlugin()
                                     button:SetScript("OnLeave", TopFit.HideTooltip)
                                     button:SetScript("OnClick", function(self)
                                         -- remove item from list
-                                        if (TopFit.ProgressFrame.selectedSet and TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems) then
+                                        if (TopFit.selectedSet and TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
                                             -- find item and remove it
                                             local i
-                                            for i = 1, #(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems) do
-                                                if (self.itemLink == TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems[i]) then
-                                                    tremove(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems, i)
+                                            for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
+                                                if (self.itemLink == TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]) then
+                                                    tremove(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, i)
                                                 end
                                             end
                                             
@@ -169,9 +170,9 @@ function TopFit:CreateVirtualItemsPlugin()
                                     frame.itemsFrame.buttons[i] = button
                                 end
                                 local button = frame.itemsFrame.buttons[i]
-                                button.itemLink = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems[i]
+                                button.itemLink = TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]
                                 
-                                local texture = select(10, GetItemInfo(TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].virtualItems[i]))
+                                local texture = select(10, GetItemInfo(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]))
                                 if not texture then texture = "Interface\\Icons\\Inv_Misc_Questionmark" end
                                 SetItemButtonTexture(button, texture)
                                 button:Show()

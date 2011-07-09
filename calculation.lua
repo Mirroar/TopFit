@@ -83,7 +83,7 @@ function TopFit:InitSemiRecursiveCalculations()
     
     TopFit.slotCounters = {}
     TopFit.currentSlotCounter = 0
-    TopFit.operationsPerFrame = 5
+    TopFit.operationsPerFrame = 500
     TopFit.combinationCount = 0
     TopFit.bestCombination = nil
     TopFit.maxScore = nil
@@ -139,13 +139,25 @@ end
 
 function TopFit:ReduceItemList()
     -- remove all non-forced items from item list
-    for slotID, forceID in pairs(self.db.profile.sets[TopFit.setCode].forced) do
-        if TopFit.itemListBySlot[slotID] then
+    for slotID, _ in pairs(TopFit.slotNames) do
+        local forcedItems = TopFit:GetForcedItems(TopFit.setCode, slotID)
+        if TopFit.itemListBySlot[slotID] and #forcedItems > 0 then
             for i = #(TopFit.itemListBySlot[slotID]), 1, -1 do
                 local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[slotID][i].itemLink)
-                if not itemTable or (itemTable.itemID ~= forceID) then
+                if not itemTable then
                     tremove(TopFit.itemListBySlot[slotID], i)
-                    --TopFit.itemListBySlot[slotID][i].reason = TopFit.itemListBySlot[slotID][i].reason.."forced item in slot; "
+                else
+                    local found = false
+                    for _, forceID in pairs(forcedItems) do
+                        if forceID == itemTable.itemID then
+                            found = true
+                            break
+                        end
+                    end
+
+                    if not found then 
+                        tremove(TopFit.itemListBySlot[slotID], i)
+                    end
                 end
             end
         end
@@ -155,13 +167,38 @@ function TopFit:ReduceItemList()
             -- always remove all 2H-weapons from mainhand
         end
     end
+
+    -- if enabled, remove armor that is not part of armor specialization
+    if TopFit.db.profile.sets[TopFit.setCode].forceArmorType and TopFit.characterLevel >= 50 then
+        local playerClass = select(2, UnitClass("player"))
+        for slotID, _ in pairs(TopFit.armoredSlots) do
+            if TopFit.itemListBySlot[slotID] and #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
+                for i = #(TopFit.itemListBySlot[slotID]), 1, -1 do
+                    local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[slotID][i].itemLink)
+                    if playerClass == "DRUID" or playerClass == "ROGUE" then
+                        if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_LEATHER"] then
+                            tremove(TopFit.itemListBySlot[slotID], i)
+                        end
+                    elseif playerClass == "HUNTER" or playerClass == "SHAMAN" then
+                        if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_MAIL"] then
+                            tremove(TopFit.itemListBySlot[slotID], i)
+                        end
+                    elseif playerClass == "WARRIOR" or playerClass == "DEATHKNIGHT" or playerClass == "PALADIN" then
+                        if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_PLATE"] then
+                            tremove(TopFit.itemListBySlot[slotID], i)
+                        end
+                    end 
+                end
+            end
+        end
+    end
     
     -- remove all items with score <= 0 that are neither forced nor contribute to caps
     for slotID, itemList in pairs(TopFit.itemListBySlot) do
         if #itemList >= 1 then
             for i = #itemList, 1, -1 do
                 if (TopFit:GetItemScore(itemList[i].itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) <= 0) then
-                    if not (self.db.profile.sets[TopFit.setCode].forced[slotID]) then
+                    if #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
                         -- check caps
                         local hasCap = false
                         for statCode, preferences in pairs(TopFit.Utopia) do

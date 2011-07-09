@@ -26,6 +26,7 @@ do
     TopFit.locale.HeadingCaps = "Caps"
     TopFit.locale.SetScore = "Total Score: %s"
     TopFit.locale.SetHeader = "Item Sets"
+    TopFit.locale.FlyoutTooltip = "Force Items\n|cffffffffClick items in this flyout menu and TopFit will only use those items for calculation in that slot. Click them again to remove their selection."
     
     TopFit.locale.SlashHelp = "Available Options:\n  show - shows the calculations frame\n  options - shows TopFit's options"
     
@@ -54,8 +55,8 @@ do
     --  Plugins
     -- ------------------------------------------------------------
     -- stats
-    TopFit.locale.Stats = "Weights & Caps"
-    TopFit.locale.StatsTooltip = "Use this tab to set weights and caps for your sets, defining their basic behavior."
+    TopFit.locale.Stats = "Stats"
+    TopFit.locale.StatsTooltip = "See the stats for your currently selected set."
     TopFit.locale.StatsExplanation = "Every stat gets its own value, i.e. "..NORMAL_FONT_COLOR_CODE.."1 point of this stat"..FONT_COLOR_CODE_CLOSE.." is worth this much when calculating.\nA stat may also have a cap that TopFit will try to reach with first priority. It can be either "..NORMAL_FONT_COLOR_CODE.."hard"..FONT_COLOR_CODE_CLOSE.." (more points in this stat are wasted) or "..NORMAL_FONT_COLOR_CODE.."soft"..FONT_COLOR_CODE_CLOSE.." (more points in it are OK)."
     TopFit.locale.StatsUsage = "To change a stat's value, simply click on the stat name or value in the list below.\nTo remove a stat, set its value to "..NORMAL_FONT_COLOR_CODE.."0"..FONT_COLOR_CODE_CLOSE.."."
     TopFit.locale.StatsShowTooltip = "Include set in tooltip"
@@ -64,6 +65,8 @@ do
     TopFit.locale.StatsEnableDualWieldTooltip = "|cffffffffCheck to calculate this set with dualwielding in mind even if your current spec does not allow you to. If left off, the set will be calculated with your current spec in mind."
     TopFit.locale.StatsEnableTitansGrip = "Calculate with Titan's Grip"
     TopFit.locale.StatsEnableTitansGripTooltip = "|cffffffffCheck to calculate this set with Titan's Grip in mind even if your current spec does not include it. If left off, the set will be calculated with your current spec in mind."
+    TopFit.locale.StatsForceArmorType = "Force Armor Type"
+    TopFit.locale.StatsForceArmorTypeTooltip = "After reaching character level 50, only armor that counts towards your armor specialization will be equipped in the appropriate slots."
     TopFit.locale.StatsSetPiece = "Set Piece"
     TopFit.locale.StatsHeaderName = "Name"
     TopFit.locale.StatsHeaderValue = "Value"

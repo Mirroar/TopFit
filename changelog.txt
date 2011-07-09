@@ -1,24 +1,19 @@
 Changelog for TopFit
 ====================
 
-4.2v1 - 2011/06/29
+4.2v1 - 2011/07/10
   - added API function to check if an item is interesting to the player
   - fixed a bug in the hit-for-spirit calculation where hit rating would not be granted to the raw item value
   - items and score cache is now cleared on talent change
   - this should also fix items sometimes not being granted hit-for-spirit values directly after login
   - you can now specify a second automatic update set which will be equipped when your second talent specialization is active
   - reworked set management interface to integrate nicely with the character frame
-  - added stats for armor types
+  - added option to force you classes specialization armor type
   - added some scanning of Trinket on-use and on-proc effects (thanks ckaotik!)
   - updated gem list with theoretically all missing Cata gems for 4.1 (thanks ckaotik!)
   - added a small number of enchants (notably leg armor), might still be missing some
   - fixed warnings about missing enchant data being printed even though the data was there
-  - TODO: think of a way to integrate TopFit Plugins as well
-  - TODO: option to enforce shields / dual wielding / 2-handed weapon
-  - TODO: move checks for titan's grip etc to PLAYER_TALENT_UPDATE
-  - TODO: force NOT using an item in a slot (e.g. a trinket you don't really want)
-  - TODO: find the "best" gems for a socket, and calculate empty sockets with its value
-  - TODO: make items in frame link-able
+  - You can now force multiple items per inventory slot - TopFit will consider any forced items for a slot if set
 
 4.0v2 - 2010/12/09
   - updated toc version

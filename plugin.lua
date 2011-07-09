@@ -28,18 +28,18 @@ local function CreateSideTab(tabTexture, tabName, parent)
 end
 
 function TopFit:UpdatePlugins()
-    if TopFit.ProgressFrame then
+    if TopFit.characterFrameUIcreated then
         for pluginID, pluginInfo in ipairs(TopFit.plugins) do
             -- update parents and anchors for plugin frames
-            pluginInfo.frame:SetParent(TopFit.ProgressFrame.pluginContainer)
+            pluginInfo.frame:SetParent(TopFitStatScrollFrame)
             pluginInfo.frame:SetAllPoints()
             
             -- create tabs if necessary
             if not pluginInfo.tabButton then
-                pluginInfo.tabButton = CreateSideTab(pluginInfo.icon, "TopFit_ProgressFrame_PluginButton_"..pluginID, TopFit.ProgressFrame.pluginContainer)
+                pluginInfo.tabButton = CreateSideTab(pluginInfo.icon, "TopFitPluginButton"..pluginID, TopFitStatScrollFrame)
                 pluginInfo.tabButton:SetID(pluginID)
                 if (pluginID == 1) then
-                    pluginInfo.tabButton:SetPoint("TOPLEFT", TopFit.ProgressFrame.pluginContainer, "TOPRIGHT", 14, -4)
+                    pluginInfo.tabButton:SetPoint("TOPLEFT", CharacterFrame, "TOPRIGHT", 0, -54)
                     pluginInfo.tabButton:SetChecked(true)
                 else
                     pluginInfo.tabButton:SetPoint("TOPLEFT", TopFit.plugins[pluginID - 1].tabButton, "BOTTOMLEFT", 0, -16)
@@ -51,6 +51,10 @@ function TopFit:UpdatePlugins()
                     local id = self:GetID()
                     for i = 1, #(TopFit.plugins) do
                         if i == id then
+                            --TopFit.plugins[i].frame:Show()
+                            TopFit.plugins[i].frame:SetWidth(TopFitStatScrollFrame:GetWidth())
+                            TopFit.plugins[i].frame:SetHeight(TopFitStatScrollFrame:GetHeight())
+                            TopFitStatScrollFrame:SetScrollChild(TopFit.plugins[i].frame)
                             TopFit.plugins[i].frame:Show()
                             TopFit.eventHandler:Fire("OnShow", id)
                         else

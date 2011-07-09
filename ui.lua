@@ -85,6 +85,9 @@ function TopFit:initializeCharacterFrameUI()
     TopFit:SetDefaultCollapsedStates()
     TopFit:InitializeStatScrollFrame()
 
+    TopFit:CreateVirtualItemsPlugin()
+    TopFit:CreateUtilitiesPlugin()
+
     TopFit:SetSelectedSet()
 end
 
@@ -95,7 +98,7 @@ function TopFit:InitializeStatScrollFrame()
     statScrollFrame:SetHeight(scrollFrameHeight)
     statScrollFrame:SetPoint("TOPLEFT", CharacterModelFrame, 3, -30)
     statScrollFrame:SetPoint("BOTTOMRIGHT", CharacterModelFrame, -25, 15)
-    local statScrollFrameContent = CreateFrame("Frame", nil, statScrollFrame)
+    local statScrollFrameContent = CreateFrame("Frame", "TopFitStatScrollFrameContent", statScrollFrame)
     statScrollFrameContent:SetAllPoints()
     statScrollFrameContent:SetHeight(scrollFrameHeight)
     statScrollFrameContent:SetWidth(scrollFrameWidth)
@@ -117,6 +120,9 @@ function TopFit:InitializeStatScrollFrame()
     statScrollFrame:SetBackdropColor(0, 0, 0, 0.5)
 
     statScrollFrame:Hide()
+
+    local frame, pluginID = TopFit:RegisterPlugin(TopFit.locale.Stats, "Interface\\Icons\\Ability_Druid_BalanceofPower", TopFit.locale.StatsTooltip)
+    TopFit.plugins[pluginID].frame = statScrollFrameContent
 end
 
 function TopFit:InitializeStaticPopupDialogs()
@@ -623,6 +629,7 @@ end
 
 function TopFit:CreateOptionsStatFrame(parent)
     local statGroup = CreateFrame("Frame", "TopFitSidebarOptionsStatGroup", parent, "TopFitStatGroupTemplate")
+    local playerClass = select(2, UnitClass("player"))
     statGroup:SetPoint("TOPLEFT", parent, "TOPLEFT")
     statGroup.NameText:SetText("Options")
 
@@ -650,7 +657,7 @@ function TopFit:CreateOptionsStatFrame(parent)
         end
     end
 
-    if select(2, UnitClass("player")) == "SHAMAN" or select(2, UnitClass("player")) == "WARRIOR" then
+    if playerClass == "SHAMAN" or playerClass == "WARRIOR" then
         i = i + 1
         local dualWield = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
         dualWield:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
@@ -677,7 +684,7 @@ function TopFit:CreateOptionsStatFrame(parent)
             end
         end
     end
-    if select(2, UnitClass("player")) == "WARRIOR" then
+    if playerClass == "WARRIOR" then
         i = i + 1
         local titansGrip = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
         titansGrip:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
@@ -701,6 +708,33 @@ function TopFit:CreateOptionsStatFrame(parent)
         titansGrip.updateData = function(self)
             if TopFit.selectedSet then
                 titansGripCheckBox:SetChecked(TopFit.db.profile.sets[TopFit.selectedSet].simulateTitansGrip)
+            end
+        end
+    end
+    if playerClass ~= "PRIEST" and playerClass ~= "WARLOCK" and playerClass ~= "MAGE" then
+        i = i + 1
+        local forceArmorType = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
+        forceArmorType:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
+        forceArmorType:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
+        _G[forceArmorType:GetName().."Label"]:SetText(TopFit.locale.StatsForceArmorType)
+        _G[forceArmorType:GetName().."StatText"]:Hide()
+        local forceArmorTypeCheckBox, _ = LibStub("tekKonfig-Checkbox").new(forceArmorType, 16, nil, "TOP", forceArmorType, "TOP", 0, 1)
+        forceArmorTypeCheckBox:SetPoint("RIGHT", forceArmorType, "RIGHT")
+        forceArmorTypeCheckBox:SetHitRectInsets(0, 0, 0, 0)
+        forceArmorTypeCheckBox:Raise()
+        forceArmorTypeCheckBox.tiptext = TopFit.locale.StatsForceArmorTypeTooltip
+        local checksound = forceArmorTypeCheckBox:GetScript("OnClick")
+        forceArmorTypeCheckBox:SetScript("OnClick", function(self)
+            checksound(self)
+            local value = self:GetChecked()
+            if (TopFit.selectedSet) then
+                TopFit.db.profile.sets[TopFit.selectedSet].forceArmorType = not TopFit.db.profile.sets[TopFit.selectedSet].forceArmorType
+            end
+            TopFit:UpdateStatGroups()
+        end)
+        forceArmorType.updateData = function(self)
+            if TopFit.selectedSet then
+                forceArmorTypeCheckBox:SetChecked(TopFit.db.profile.sets[TopFit.selectedSet].forceArmorType)
             end
         end
     end
@@ -822,32 +856,46 @@ function TopFit:SetCurrentCombination(combination)
             totalStats = {},
         }
     end
-    --[[
-            for slotID, button in pairs(TopFit.ProgressFrame.equipButtons) do
-                local button = TopFit.ProgressFrame.equipButtons[slotID]
-                button.itemLink = combination.items[slotID] and combination.items[slotID].itemLink
-                
-                -- set highlight if forced item
-                if (TopFit.ProgressFrame.selectedSet) and 
-                    (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet]) and
-                    (TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].forced[slotID]) then
-                    button.highlightTexture:SetVertexColor(1, 0, 0, 1)
-                else
-                    button.highlightTexture:SetVertexColor(1, 1, 1, 0)
+
+    for slotID, slotName in pairs(TopFit.slotNames) do
+        local button = _G["TopFit"..slotName.."Button"]
+        if not button then
+            button = CreateFrame("Button", "TopFit"..slotName.."Button", TopFitStatScrollFrame, "TopFitVirtualItemButtonTemplate")
+            button:SetPoint("TOPLEFT", "Character"..slotName, "TOPLEFT", -5, 5)
+            _G["TopFit"..slotName.."ButtonNormalTexture"]:Hide()
+
+            button.overlay:SetBlendMode("ADD")
+            button.overlay:Hide()
+
+            button.UpdateTooltip = function ()
+                if button.itemLink then
+                    GameTooltip:SetOwner(button, "ANCHOR_RIGHT", 6, -6)
+                    GameTooltip:SetHyperlink(button.itemLink)
+                    GameTooltip:Show()
                 end
-                
-                local itemTexture
-                if button.itemLink then -- an item was set
-                    itemTexture = select(10, GetItemInfo(combination.items[slotID].itemLink)) or "Interface\\Icons\\Inv_misc_questionmark"
-                else                    -- no item set
-                    itemTexture = button.backgroundTextureName
-                    if button.checkRelic and UnitHasRelicSlot("player") then
-                        textureName = "Interface\\Paperdoll\\UI-PaperDoll-Slot-Relic.blp";
-                    end
-                    
-                end
-                SetItemButtonTexture(button, itemTexture)
-            end]]
+            end
+        end
+
+        button.itemLink = combination.items[slotID] and combination.items[slotID].itemLink
+        
+        -- set highlight if forced item
+        --[[if (TopFit.selectedSet) and 
+            (TopFit.db.profile.sets[TopFit.selectedSet]) and
+            #(TopFit:GetForcedItems(TopFit.selectedSet, slotID)) > 0 then
+            button.overlay:SetVertexColor(1, 0, 0, 1)
+        else
+            button.overlay:SetVertexColor(1, 1, 1, 0)
+        end]]
+        
+        local itemTexture
+        if button.itemLink then -- an item was set
+            itemTexture = select(10, GetItemInfo(combination.items[slotID].itemLink)) or "Interface\\Icons\\Inv_misc_questionmark"
+            SetItemButtonTexture(button, itemTexture)
+            button:Show()
+        else                    -- no item set
+            button:Hide()
+        end
+    end
     
     --TopFit.ProgressFrame.setScoreFontString:SetText(string.format(TopFit.locale.SetScore, round(combination.totalScore, 2)))
     
@@ -883,7 +931,7 @@ function TopFit:SetCurrentCombination(combination)
         return score1 > score2
     end)
     
-    local statScrollFrameContent = TopFitStatScrollFrame:GetScrollChild()
+    local statScrollFrameContent = TopFitStatScrollFrameContent
 
     local statTexts = statScrollFrameContent.statNameFontStrings
     local valueTexts = statScrollFrameContent.statValueFontStrings
@@ -1151,11 +1199,21 @@ function TopFit:ShowFlyout(itemButton, slotID)
         return
     end
 
+    local forcedItems = TopFit:GetForcedItems(TopFit.selectedSet, slotID)
     for i, button in ipairs(buttons) do
         if (i <= numItems) then
-            button.id = slotID;
-            button.item = itemList[i];
-            button:Show();
+            button.id = slotID
+            button.item = itemList[i]
+            button:Show()
+            button.isForced:Hide()
+
+            local cachedItem = TopFit:GetCachedItem(button.item.itemLink)
+            button.itemID = cachedItem.itemID
+            for _, forcedItem in pairs(forcedItems) do
+                if cachedItem.itemID == forcedItem then
+                    button.isForced:Show()
+                end
+            end
 
             TopFit:DisplayFlyoutButton(button);
         else
@@ -1297,6 +1355,8 @@ function TopFit:CreateFlyoutButton()
     else
         button:SetPoint("TOPLEFT", buttons[numButtons], "TOPRIGHT", PDFITEM_XOFFSET, 0)
     end
+    button.isForced:SetBlendMode("ADD")
+    button.isForced:SetVertexColor(0, 1, 0)
 
     tinsert(buttons, button)
     return button
@@ -1314,7 +1374,8 @@ function TopFit:DisplayFlyoutButton(button)
 
     button.UpdateTooltip = function ()
         GameTooltip:SetOwner(TopFitItemFlyoutButtons, "ANCHOR_RIGHT", 6, -TopFitItemFlyoutButtons:GetHeight() - 6)
-        setTooltip()
+        GameTooltip:SetHyperlink(button.item.itemLink)
+        GameTooltip:Show()
     end
 
     if button:IsMouseOver() then

@@ -503,7 +503,7 @@ end
 -- ( TopFit: v1: "SetName": Intellect=A, RangedDps=B, CritRating=C : HitRating=<value>; <isSoftCap>; <active>, DefenseRating=[...] )
 local function GenerateExportString(addon, version)
     local export = " ( "..addon..": v"..version..": "
-    local statWeightTable = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].weights
+    local statWeightTable = TopFit.db.profile.sets[TopFit.selectedSet].weights
     local first = true
     for stat, value in pairs(statWeightTable) do
         local statName = GetInverseStat(stat)
@@ -513,7 +513,7 @@ local function GenerateExportString(addon, version)
         end
     end
     if addon == "TopFit" then
-        local statCapTable = TopFit.db.profile.sets[TopFit.ProgressFrame.selectedSet].caps
+        local statCapTable = TopFit.db.profile.sets[TopFit.selectedSet].caps
         first = true
         for stat, data in pairs(statCapTable) do
             local statName = GetInverseStat(stat)
