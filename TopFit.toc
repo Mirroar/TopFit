@@ -20,7 +20,6 @@ tooltip.lua
 calculation.lua
 trinketlogic.lua
 options.lua
-frame.lua
 ui.lua
 plugin.lua
 
