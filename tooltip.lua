@@ -263,7 +263,7 @@ local function TooltipAddLines(tt, link)
                     end
                     valueString = valueString..(tonumber(weightedValue) or "0")
                 end
-                tt:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 0.5, 0.9, 1)
+                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.5, 0.9, 1)
             end
         end
         
@@ -282,7 +282,7 @@ local function TooltipAddLines(tt, link)
                     end
                     valueString = valueString..(tonumber(weightedValue) or "0")
                 end
-                tt:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 1, 0.9, 0.5)
+                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 1, 0.9, 0.5)
             end
         end
         
@@ -306,7 +306,7 @@ local function TooltipAddLines(tt, link)
                     end
                     valueString = valueString..(tonumber(weightedValue) or "0")
                 end
-                tt:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 0.8, 0.2, 0)
+                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.8, 0.2, 0)
             end
         end
         
@@ -330,7 +330,7 @@ local function TooltipAddLines(tt, link)
                     end
                     valueString = valueString..(tonumber(weightedValue) or "0")
                 end
-                tt:AddDoubleLine("  +"..value.." ".._G[stat], valueString, 0.8, 0.8, 0)
+                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.8, 0.8, 0)
             end
         end
     end

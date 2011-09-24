@@ -1,8 +1,8 @@
-## Interface: 40100
+## Interface: 40200
 ## Author: Mirroar
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
-## Version: 4.1v1
+## Version: 4.2v2
 ## X-Embeds: AceAddon-3.0, AceConsole-3.0, AceGUI-3.0, AceConfig-3.0, AceDB-3.0, AceDBOptions-3.0, AceLocale-3.0
 ## X-Category: Inventory
 ## X-Credits: ckaotik (gems & enchants), tekkub, trefane (SmartFitter), vger(Pawn)

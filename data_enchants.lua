@@ -22,6 +22,20 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_STAMINA_SHORT"] = 90,
             ["ITEM_MOD_DODGE_RATING_SHORT"] = 35,
         },
+
+        -- level 85, rare
+        [4245] = {                                                      -- Arcanum of Vicious Intellect
+            ["ITEM_MOD_INTELLECT_SHORT"] = 60,
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
+        },
+        [4246] = {                                                      -- Arcanum of Vicious Agility
+            ["ITEM_MOD_AGILITY_SHORT"] = 60,
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
+        },
+        [4247] = {                                                      -- Arcanum of Vicious Strength
+            ["ITEM_MOD_STRENGTH_SHORT"] = 60,
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
+        },
         
         -- level 80, heirloom
         [3819] = {                                                      -- Arcanum of Blissful Mending
@@ -73,6 +87,14 @@ TopFit.enchantIDs = {
         [3812] = {                                                      -- Arcanum of the Frosty Soul
             ["ITEM_MOD_STAMINA_SHORT"] = 30,
             ["RESISTANCE4_NAME"] = 25,
+        },
+
+        -- level 80 armor kit
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
         },
         
         -- level 70, uncommon
@@ -243,6 +265,18 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_STAMINA_SHORT"] = 75,
             ["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
         },
+        [4250] = {                                                      -- Greater Inscription of Vicious Agility
+            ["ITEM_MOD_AGILITY_SHORT"] = 50,
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+        },
+        [4248] = {                                                      -- Greater Inscription of Vicious Intellect
+            ["ITEM_MOD_INTELLECT_SHORT"] = 50,
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+        },
+        [4249] = {                                                      -- Greater Inscription of Vicious Strength
+            ["ITEM_MOD_STRENGTH_SHORT"] = 50,
+            ["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+        },
         
         -- level 85, rare
         [4199] = {                                                      -- Lesser Inscription of Charged Lodestone
@@ -304,6 +338,14 @@ TopFit.enchantIDs = {
         [3806] = {                                                      -- Lesser Inscription of the Storm 
             ["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+        },
+
+        -- level 80 armor kits
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
         },
         
         -- level 70, epic
@@ -752,14 +794,20 @@ TopFit.enchantIDs = {
     
     -- Chest
     [5] = {
-    -- level 70 armor kits
+        -- level 80 armor kits
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
+        },
+        
+        -- level 70 armor kits
         [3330] = {                                                      -- Heavy Borean Armor Kit
             ["ITEM_MOD_STAMINA_SHORT"] = 18,
-            -- 70+
         },
         [3329] = {                                                      -- Borean Armor Kit
             ["ITEM_MOD_STAMINA_SHORT"] = 12,
-            -- 70+
         },
         
         -- level 65 armor kits
@@ -1464,6 +1512,10 @@ TopFit.enchantIDs = {
         },
         [4177] = {                                                      -- Safety Catch Removal Kit
             ["ITEM_MOD_HASTE_RATING_SHORT"] = 88,
+            -- ranged only
+        },
+        [4267] = {                                                      -- Flintlocke's Woodchucker
+            ["ITEM_MOD_AGILITY_SHORT"] = 50, -- 300 AGI for 10 sec., ICD of about 40 sec.
             -- ranged only
         },
         
@@ -2581,6 +2633,12 @@ TopFit.enchantIDs = {
     -- Hands
     [10] = {
         -- armor kits
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
+        },
         [3330] = {                                                      -- Heavy Borean Armor Kit
             ["ITEM_MOD_STAMINA_SHORT"] = 18,
             -- 70+
@@ -3104,7 +3162,7 @@ TopFit.enchantIDs = {
         [2590] = {                                                      -- Prophetic Aura
             ["ITEM_MOD_SPELL_POWER_SHORT"] = 13,
             ["ITEM_MOD_STAMINA_SHORT"] = 10,
-            ["ITEM_MOD_SPIRIT_SHORT"] = 10, -- there is still mana reg on this item, but it is usually converted into double the amount in spirit everywhere
+            ["ITEM_MOD_SPIRIT_SHORT"] = 10, -- there is still mana reg on this item, but it is usually converted into double the amount in spirit everywhere else
             --["ITEM_MOD_MANA_REGENERATION_SHORT"] = 5,
         },
         [2584] = {                                                      -- Syncretist's Sigil
@@ -3127,17 +3185,17 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_DODGE_RATING_SHORT"] = 55,
             -- leatherworking ???
         },
-        [4127] = {                                                      -- Charscale Leg Reinforcements
+        [4127] = {                                                      -- Charscale Leg Reinforcements aka Charscale Leg Armor
             ["ITEM_MOD_STAMINA_SHORT"] = 145,
             ["ITEM_MOD_AGILITY_SHORT"] = 55,
             -- leatherworking ???
         },
-        [4122] = {                                                      -- Dragonscale Leg Reinforcements
+        [4122] = {                                                      -- Dragonscale Leg Reinforcements aka Scorched Leg Armor
             ["ITEM_MOD_ATTACK_POWER_SHORT"] = 110,
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 45,
             -- leatherworking ???
         },
-        [4124] = {                                                      -- Charscale Leg Reinforcements
+        [4124] = {                                                      -- Charscale Leg Reinforcements aka Twilight Leg Armor
             ["ITEM_MOD_STAMINA_SHORT"] = 85,
             ["ITEM_MOD_AGILITY_SHORT"] = 45,
             -- leatherworking ???
@@ -3173,10 +3231,23 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_STAMINA_SHORT"] = 30,
             -- tailoring 405
         },
+
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
+        },
     },
     
     -- Feet
     [8] = {
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
+        },
         [3330] = {                                                      -- Heavy Borean Armor Kit
             ["ITEM_MOD_STAMINA_SHORT"] = 18,
             -- 70+

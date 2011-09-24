@@ -118,232 +118,266 @@ end
 -- this does not return information which might change, only things you can get from the item link
 function TopFit:GetItemInfoTable(item)
     local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(item)
-    if itemLink then
-        -- generate item info
-        local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
-        itemID = tonumber(itemID)
-    
-        local enchantID = string.gsub(itemLink, ".*|Hitem:[0-9]*:([0-9]*):.*", "%1")
-        enchantID = tonumber(enchantID)
-        
-        -- item stats
-        local itemBonus = GetItemStats(itemLink)
-        
-        -- gems
-        local gemBonus = {}
-        local gems = {}
-        for i = 1, 3 do
-            local _, gem = GetItemGem(item, i) -- name, itemlink
-            if gem then
-                gems[i] = gem
-                
-                local gemID = string.gsub(gem, ".*|Hitem:([0-9]*):.*", "%1")
-                gemID = tonumber(gemID)
-                if (TopFit.gemIDs[gemID]) then
-                    -- collect stats
-                    
-                    for stat, value in pairs(TopFit.gemIDs[gemID].stats) do
-                        if (gemBonus[stat]) then
-                            gemBonus[stat] = gemBonus[stat] + value
-                        else
-                            gemBonus[stat] = value
-                        end
-                    end
-                else
-                    -- unknown gem, tell the user
-                    TopFit:Warning("Could not identify gem "..i.." ("..gem..") of your "..itemLink..". Please tell the author so its stats can be added.")
-                end
-            end
-        end
-            
-        if #gems > 0 then
-            -- try to find socket bonus by scanning item tooltip (though I hoped to avoid that entirely)
-            --TODO: this will have to be rewritten to be calculated on the fly at some point. meta gem requirements will not always work this way
-            TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-            TopFit.scanTooltip:SetHyperlink(itemLink)
-            local numLines = TopFit.scanTooltip:NumLines()
-            
-            local socketBonusString = _G["ITEM_SOCKET_BONUS"] -- "Socket Bonus: %s" in enUS client, for example
-            socketBonusString = string.gsub(socketBonusString, "%%s", "(.*)")
-            
-            local socketBonusIsActive = false
-            local socketBonus = nil
-            for i = 1, numLines do
-                local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
-                local leftLineText = leftLine:GetText()
-                
-                if string.find(leftLineText, socketBonusString) then
-                    -- This line is the socket bonus.
-                    if leftLine.GetTextColor then
-                        socketBonusIsActive = (leftLine:GetTextColor() == 0) -- green's red component is 0, but grey's red component is .5      
-                    else
-                        socketBonusIsActive = true -- we can't get the text color, so we assume the bonus is active
-                    end
-                    
-                    socketBonus = string.gsub(leftLineText, "^"..socketBonusString.."$", "%1")
-                    break
-                end
-            end
-            
-            if (socketBonusIsActive) then
-                -- go through our stats to find the bonus
-                for _, sTable in pairs(TopFit.statList) do
-                    for _, statCode in pairs(sTable) do
-                        if (string.find(socketBonus, _G[statCode])) then -- simple short stat codes like "Intellect", "Hit Rating"
-                            local bonusValue = string.gsub(socketBonus, _G[statCode], "")
-                            
-                            bonusValue = (tonumber(bonusValue) or 0)
-                            
-                            gemBonus[statCode] = (gemBonus[statCode] or 0) + bonusValue
-                        end
-                    end
-                end
-            end
-            
-            TopFit.scanTooltip:Hide()
-        end
-        
-        -- enchantment
-        local enchantBonus = {}
-        if enchantID > 0 then
-            local found = false
-            for _, slotID in pairs(TopFit.slots) do
-                if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
-                    enchantBonus = TopFit.enchantIDs[slotID][enchantID]
-                    found = true
-                end
-            end
+    if not itemLink then
+        return nil
+    end
 
-            if not found then
-                -- unknown enchant, tell the user
-                TopFit:Warning("Could not identify enchant ID "..enchantID.." of your "..itemLink..". Please tell the author so its stats can be added.")
+    -- generate item info
+    local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
+    itemID = tonumber(itemID)
+
+    local enchantID = string.gsub(itemLink, ".*|Hitem:[0-9]*:([0-9]*):.*", "%1")
+    enchantID = tonumber(enchantID)
+    
+    -- item stats
+    local itemBonus = GetItemStats(itemLink)
+    
+    -- gems
+    local gemBonus = {}
+    local gems = {}
+    for i = 1, 3 do
+        local _, gem = GetItemGem(item, i) -- name, itemlink
+        if gem then
+            gems[i] = gem
+            
+            local gemID = string.gsub(gem, ".*|Hitem:([0-9]*):.*", "%1")
+            gemID = tonumber(gemID)
+            if (TopFit.gemIDs[gemID]) then
+                -- collect stats
+                
+                for stat, value in pairs(TopFit.gemIDs[gemID].stats) do
+                    if (gemBonus[stat]) then
+                        gemBonus[stat] = gemBonus[stat] + value
+                    else
+                        gemBonus[stat] = value
+                    end
+                end
+            else
+                -- unknown gem, tell the user
+                TopFit:Warning("Could not identify gem "..i.." ("..gem..") of your "..itemLink..". Please tell the author so its stats can be added.")
             end
         end
-        
-        -- scan for setname
+    end
+    
+    if #gems > 0 then
+        -- try to find socket bonus by scanning item tooltip (though I hoped to avoid that entirely)
+        --TODO: this will have to be rewritten to be calculated on the fly at some point. meta gem requirements will not always work this way
         TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
         TopFit.scanTooltip:SetHyperlink(itemLink)
         local numLines = TopFit.scanTooltip:NumLines()
-        local setName = nil
+        
+        local socketBonusString = _G["ITEM_SOCKET_BONUS"] -- "Socket Bonus: %s" in enUS client, for example
+        socketBonusString = string.gsub(socketBonusString, "%%s", "(.*)")
+
+        local socketBonusIsActive = false
+        local socketBonus = nil
         for i = 1, numLines do
             local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
             local leftLineText = leftLine:GetText()
-            
-            if string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)") then
-                setName = select(3, string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)"))
+            if string.find(leftLineText, socketBonusString) then
+                -- This line is the socket bonus.
+                if leftLine.GetTextColor then
+                    socketBonusIsActive = (leftLine:GetTextColor() == 0) -- green's red component is 0, but grey's red component is .5      
+                else
+                    socketBonusIsActive = true -- we can't get the text color, so we assume the bonus is active
+                end
+                
+                socketBonus = string.gsub(leftLineText, "^"..socketBonusString.."$", "%1")
                 break
             end
         end
         
-        -- add set name
-        if setName then
-            itemBonus["SET: "..setName] = 1
-        end
-
-        -- add armor type
-        if itemSubType == TOPFIT_ARMORTYPE_CLOTH then
-            itemBonus["TOPFIT_ARMORTYPE_CLOTH"] = 1
-        end
-        if itemSubType == TOPFIT_ARMORTYPE_LEATHER then
-            itemBonus["TOPFIT_ARMORTYPE_LEATHER"] = 1
-        end
-        if itemSubType == TOPFIT_ARMORTYPE_MAIL then
-            itemBonus["TOPFIT_ARMORTYPE_MAIL"] = 1
-        end
-        if itemSubType == TOPFIT_ARMORTYPE_PLATE then
-            itemBonus["TOPFIT_ARMORTYPE_PLATE"] = 1
-        end
-        
-        -- dirty little mana regen fix!
-        --TODO: better synonim handling
-        itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((itemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
-        itemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
-        if (itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
-        
-        gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((gemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
-        gemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
-        if (gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
-        
-        enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((enchantBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
-        enchantBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
-        if (enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
-        
-        -- add reforged stats to base item stats if applicable
-        local reforgeBonus = {}
-        if (ReforgingInfo:IsItemReforged(itemLink)) then
-            local reforgeID = ReforgingInfo:GetReforgeID(itemLink)
-            local minus, plus = ReforgingInfo:GetReforgedStatIDs(reforgeID)
-            -- replace IDs with their global string (the library only returns IDs or localized Strings)
-            minus = ReforgingStats[minus]
-            plus = ReforgingStats[plus]
-            local statValue = math.floor((itemBonus[minus] or 0) * 0.4)
-            reforgeBonus[minus] = -statValue
-            reforgeBonus[plus] = statValue
-        end
-        
-        -- calculate total values
-        local totalBonus = {}
-        for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus, reforgeBonus}) do
-            for stat, value in pairs(bonusTable) do
-                totalBonus[stat] = (totalBonus[stat] or 0) + value
-            end
-        end
-        
-        -- add hit for spirit for caster classes with the respective talent
-        local hitForSpirit = 0;
-        if (select(2, UnitClass("player")) == "PRIEST") then
-            hitForSpirit = 0.5 * (select(5, GetTalentInfo(3, 7)) or 0);
-        elseif (select(2, UnitClass("player")) == "DRUID") then
-            hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 6)) or 0);
-        elseif (select(2, UnitClass("player")) == "PALADIN") then
-            hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 11)) or 0);
-        elseif (select(2, UnitClass("player")) == "SHAMAN") then
-            hitForSpirit = 1 / 3 * (select(5, GetTalentInfo(1, 7)) or 0);
-        end
-        
-        if (hitForSpirit > 0) then
-            totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
-            itemBonus["ITEM_MOD_HIT_RATING_SHORT"] = (itemBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (itemBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
-        end
-
-        -- also check proc / on-use effects for score calculation
-        if not TopFit.allStatsInATable then
-            TopFit.allStatsInATable = {}
-            for _, statsTable in pairs(TopFit.statList) do
-                for _, stat in pairs(statsTable) do
-                    tinsert(TopFit.allStatsInATable, stat)
+        if (socketBonusIsActive) then
+            -- go through our stats to find the bonus
+            for _, sTable in pairs(TopFit.statList) do
+                for _, statCode in pairs(sTable) do
+                    if (string.find(socketBonus, _G[statCode])) then -- simple short stat codes like "Intellect", "Hit Rating"
+                        local bonusValue = string.gsub(socketBonus, _G[statCode], "")
+                        
+                        bonusValue = (tonumber(bonusValue) or 0)
+                        
+                        gemBonus[statCode] = (gemBonus[statCode] or 0) + bonusValue
+                    end
                 end
             end
         end
-
-        local procBonus = {}
-        local procUptime = 0.5
-        local searchStat, amount, duration, cooldown = TopFit:ItemHasSpecialBonus(itemLink, unpack(TopFit.allStatsInATable))
-        if searchStat and amount and amount > 0 then
-            if not cooldown or cooldown <= 0 then cooldown = 45 end
-            procBonus[searchStat] = procUptime * amount * duration / cooldown
-        end
         
-        local result = {
-            itemLink = itemLink,
-            itemID = itemID,
-            itemQuality = itemQuality,
-            itemMinLevel = itemMinLevel,
-            itemEquipLoc = itemEquipLoc,
-            equipLocationsByType = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
-            gems = gems,
-            itemBonus = itemBonus,
-            enchantBonus = enchantBonus,
-            gemBonus = gemBonus,
-            reforgeBonus = reforgeBonus,
-            totalBonus = totalBonus,
-            procBonus = procBonus
-        }
-        
-        return result
-    else
-        return nil
+        TopFit.scanTooltip:Hide()
     end
+    
+    -- enchantment
+    local enchantBonus = {}
+    if enchantID > 0 then
+        local found = false
+        for _, slotID in pairs(TopFit.slots) do
+            if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
+                enchantBonus = TopFit.enchantIDs[slotID][enchantID]
+                found = true
+            end
+        end
+
+        if not found then
+            -- unknown enchant, tell the user
+            TopFit:Warning("Could not identify enchant ID "..enchantID.." of your "..itemLink..". Please tell the author so its stats can be added. Also include the enchant's name to make it easier to add, please.")
+        end
+    end
+    
+    -- scan for setname
+    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+    TopFit.scanTooltip:SetHyperlink(itemLink)
+    local numLines = TopFit.scanTooltip:NumLines()
+    local setName = nil
+    for i = 1, numLines do
+        local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+        local leftLineText = leftLine:GetText()
+        
+        if string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)") then
+            setName = select(3, string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)"))
+            break
+        end
+    end
+    
+    -- add set name
+    if setName then
+        itemBonus["SET: "..setName] = 1
+    end
+
+    -- add armor type
+    if itemSubType == TOPFIT_ARMORTYPE_CLOTH then
+        itemBonus["TOPFIT_ARMORTYPE_CLOTH"] = 1
+    end
+    if itemSubType == TOPFIT_ARMORTYPE_LEATHER then
+        itemBonus["TOPFIT_ARMORTYPE_LEATHER"] = 1
+    end
+    if itemSubType == TOPFIT_ARMORTYPE_MAIL then
+        itemBonus["TOPFIT_ARMORTYPE_MAIL"] = 1
+    end
+    if itemSubType == TOPFIT_ARMORTYPE_PLATE then
+        itemBonus["TOPFIT_ARMORTYPE_PLATE"] = 1
+    end
+
+    -- for weapons, add melee/ranged dps
+    if (string.find(itemEquipLoc, "RANGED") or string.find(itemEquipLoc, "THROWN")) then
+        itemBonus["TOPFIT_RANGED_DPS"] = itemBonus["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] or nil
+    end
+    if (string.find(itemEquipLoc, "WEAPON")) then
+        itemBonus["TOPFIT_MELEE_DPS"] = itemBonus["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] or nil
+    end
+    
+    -- add weapon speeds
+    if (string.find(itemEquipLoc, "RANGED") or string.find(itemEquipLoc, "THROWN") or string.find(itemEquipLoc, "WEAPON")) then
+        TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+        TopFit.scanTooltip:SetHyperlink(itemLink)
+        local numLines = TopFit.scanTooltip:NumLines()
+        
+        local speedString = SPEED.." ([0-9.]*)";
+
+        for i = 1, numLines do
+            local rightLine = getglobal("TFScanTooltip".."TextRight"..i)
+            local rightLineText = rightLine:GetText()
+            
+            if (rightLineText and string.find(rightLineText, speedString)) then
+                TopFit:Debug("SPEED FOUND!")
+                local speed = string.gsub(rightLineText, "^"..speedString.."$", "%1")
+                speed = tonumber(speed)
+
+                if (string.find(itemEquipLoc, "RANGED") or string.find(itemEquipLoc, "THROWN")) then
+                    itemBonus["TOPFIT_RANGED_WEAPON_SPEED"] = speed
+                end
+                if (string.find(itemEquipLoc, "WEAPON")) then
+                    itemBonus["TOPFIT_MELEE_WEAPON_SPEED"] = speed
+                end
+            end
+        end
+        TopFit.scanTooltip:Hide()
+    end
+    
+    -- dirty little mana regen fix
+    itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((itemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
+    itemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+    if (itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
+    
+    gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((gemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
+    gemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+    if (gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then gemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
+    
+    enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((enchantBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
+    enchantBonus["ITEM_MOD_POWER_REGEN0_SHORT"] = nil
+    if (enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] == 0) then enchantBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = nil end
+    
+    -- add reforged stats to base item stats if applicable
+    local reforgeBonus = {}
+    if (ReforgingInfo:IsItemReforged(itemLink)) then
+        local reforgeID = ReforgingInfo:GetReforgeID(itemLink)
+        local minus, plus = ReforgingInfo:GetReforgedStatIDs(reforgeID)
+        -- replace IDs with their global string (the library only returns IDs or localized Strings)
+        minus = ReforgingStats[minus]
+        plus = ReforgingStats[plus]
+        local statValue = math.floor((itemBonus[minus] or 0) * 0.4)
+        reforgeBonus[minus] = -statValue
+        reforgeBonus[plus] = statValue
+    end
+    
+    -- calculate total values
+    local totalBonus = {}
+    for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus, reforgeBonus}) do
+        for stat, value in pairs(bonusTable) do
+            totalBonus[stat] = (totalBonus[stat] or 0) + value
+        end
+    end
+    
+    -- add hit for spirit for caster classes with the respective talent
+    local hitForSpirit = 0;
+    if (select(2, UnitClass("player")) == "PRIEST") then
+        hitForSpirit = 0.5 * (select(5, GetTalentInfo(3, 7)) or 0);
+    elseif (select(2, UnitClass("player")) == "DRUID") then
+        hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 6)) or 0);
+    elseif (select(2, UnitClass("player")) == "PALADIN") then
+        hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 11)) or 0);
+    elseif (select(2, UnitClass("player")) == "SHAMAN") then
+        hitForSpirit = 1 / 3 * (select(5, GetTalentInfo(1, 7)) or 0);
+    end
+    
+    if (hitForSpirit > 0) then
+        totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
+        itemBonus["ITEM_MOD_HIT_RATING_SHORT"] = (itemBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (itemBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
+    end
+
+    -- also check proc / on-use effects for score calculation
+    if not TopFit.allStatsInATable then
+        TopFit.allStatsInATable = {}
+        for _, statsTable in pairs(TopFit.statList) do
+            for _, stat in pairs(statsTable) do
+                tinsert(TopFit.allStatsInATable, stat)
+            end
+        end
+    end
+
+    local procBonus = {}
+    local procUptime = 0.5
+    local searchStat, amount, duration, cooldown = TopFit:ItemHasSpecialBonus(itemLink, unpack(TopFit.allStatsInATable))
+    if searchStat and amount and amount > 0 then
+        if not cooldown or cooldown <= 0 then cooldown = 45 end
+        procBonus[searchStat] = procUptime * amount * duration / cooldown
+    end
+    
+    local result = {
+        itemLink = itemLink,
+        itemID = itemID,
+        itemQuality = itemQuality,
+        itemMinLevel = itemMinLevel,
+        itemEquipLoc = itemEquipLoc,
+        equipLocationsByType = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
+        gems = gems,
+        itemBonus = itemBonus,
+        enchantBonus = enchantBonus,
+        gemBonus = gemBonus,
+        reforgeBonus = reforgeBonus,
+        totalBonus = totalBonus,
+        procBonus = procBonus
+    }
+    
+    return result
 end
 
 -- calculate an item's score relative to a given set
@@ -667,18 +701,20 @@ function TopFit:GetEquippableItems(requestedSlotID)
         end
     end
     
-    -- add virtual items
-    if (TopFit.setCode and TopFit.db.profile.sets[TopFit.setCode].virtualItems and not TopFit.db.profile.sets[TopFit.setCode].skipVirtualItems) then
-        for _, itemLink in pairs(TopFit.db.profile.sets[TopFit.setCode].virtualItems) do
-            local item = TopFit:GetCachedItem(itemLink)
-            if item then    -- in case weird items end up in our cache
-                local equipSlots = TopFit:GetEquipLocationsByInvType(item.itemEquipLoc)
-                for _, slotID in pairs(equipSlots) do
-                    tinsert(itemListBySlot[slotID], {
-                        itemLink = itemLink,
-                        isBoE = false, -- if it's in virtual items, we want to include it
-                        isVirtual = true
-                    })
+    if (TopFit.setCode) then
+        -- add virtual items
+        if (TopFit.setCode and TopFit.db.profile.sets[TopFit.setCode].virtualItems and not TopFit.db.profile.sets[TopFit.setCode].skipVirtualItems) then
+            for _, itemLink in pairs(TopFit.db.profile.sets[TopFit.setCode].virtualItems) do
+                local item = TopFit:GetCachedItem(itemLink)
+                if item then    -- in case weird items end up in our cache
+                    local equipSlots = TopFit:GetEquipLocationsByInvType(item.itemEquipLoc)
+                    for _, slotID in pairs(equipSlots) do
+                        tinsert(itemListBySlot[slotID], {
+                            itemLink = itemLink,
+                            isBoE = false, -- if it's in virtual items, we want to include it
+                            isVirtual = true
+                        })
+                    end
                 end
             end
         end

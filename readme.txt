@@ -2,8 +2,8 @@ TopFit
 ======
 
 Author: Mirroar (Thyrfall @ EU-Die Todeskrallen)
-Version: 4.1v1
-WoW Version: 4.1.0 (TOC 40100)
+Version: 4.2v2
+WoW Version: 4.2.0 (TOC 40200)
 
 WoWInterface: http://www.wowinterface.com/downloads/info16177-TopFit.html
 Curse:        http://wow.curse.com/downloads/wow-addons/details/topfit.aspx

@@ -3,6 +3,15 @@ local _, TopFit = ...
 TopFit.locale = {}
 do
     -- ------------------------------------------------------------
+    -- Stats used by TopFit for which there are no decent global
+    -- strings. Ideally doesn't need to be translated
+    -- ------------------------------------------------------------
+    TOPFIT_MELEE_WEAPON_SPEED = MELEE.." "..WEAPON_SPEED
+    TOPFIT_RANGED_WEAPON_SPEED = RANGED.." "..WEAPON_SPEED
+    TOPFIT_MELEE_DPS = MELEE.." "..ITEM_MOD_DAMAGE_PER_SECOND_SHORT
+    TOPFIT_RANGED_DPS = RANGED.." "..ITEM_MOD_DAMAGE_PER_SECOND_SHORT
+
+    -- ------------------------------------------------------------
     --  Basic Addon
     -- ------------------------------------------------------------
     TopFit.locale.SelectSet = "Select set to calculate:"
@@ -27,6 +36,7 @@ do
     TopFit.locale.SetScore = "Total Score: %s"
     TopFit.locale.SetHeader = "Item Sets"
     TopFit.locale.FlyoutTooltip = "Force Items\n|cffffffffClick items in this flyout menu and TopFit will only use those items for calculation in that slot. Click them again to remove their selection."
+    TopFit.locale.missingForcedItemTooltip = "Forced Item missing\n|cffffffffThis item is still forced for this slot, but could not be found in your inventory."
     
     TopFit.locale.SlashHelp = "Available Options:\n  show - shows the calculations frame\n  options - shows TopFit's options"
     
@@ -77,7 +87,7 @@ do
     TopFit.locale.StatsCapSoft = "Soft"
     TopFit.locale.StatsCapHard = "Hard"
     TopFit.locale.StatsCategoryBasic = "Basic Attributes"
-    TopFit.locale.StatsCategoryMelee = "Melee"
+    TopFit.locale.StatsCategoryMelee = "Physical"
     TopFit.locale.StatsCategoryCaster = "Caster"
     TopFit.locale.StatsCategoryDefensive = "Defensive"
     TopFit.locale.StatsCategoryHybrid = "Hybrid"

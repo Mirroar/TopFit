@@ -57,7 +57,7 @@ function TopFit:CalculateRecommendations()
     
     if (playerClass == "ROGUE")
         or (playerClass == "DEATHKNIGHT")
-        or (playerClass == "HUNTER")
+        or (playerClass == "HUNTER" and UnitLevel("player") >= 20)
         or (playerClass == "WARRIOR" and specialization == 2)
         or (playerClass == "SHAMAN" and specialization == 2) then
         TopFit.playerCanDualWield = true
@@ -129,11 +129,6 @@ function TopFit:InitSemiRecursiveCalculations()
     
     TopFit.calculationsFrame:SetScript("OnUpdate", TopFit.SemiRecursiveCalculation)
     
-    -- show progress frame
-    TopFit:CreateProgressFrame()
-    TopFit.ProgressFrame:Hide()
-
-    TopFit.ProgressFrame:SetSelectedSet(TopFit.setCode)
     TopFit:ResetProgress()
 end
 
@@ -162,9 +157,14 @@ function TopFit:ReduceItemList()
             end
         end
         
-        if (slotID == 17) then -- offhand
+        if (slotID == 17 and #forcedItems > 0) then -- offhand
             --TODO: check if forced item is a weapon and remove all weapons from mainhand if player cannot dualwield
             -- always remove all 2H-weapons from mainhand
+            for i = #(TopFit.itemListBySlot[16]), 1, -1 do
+                if (not TopFit:IsOnehandedWeapon(TopFit.itemListBySlot[16][i].itemLink)) then
+                    tremove(TopFit.itemListBySlot[16], i)
+                end
+            end
         end
     end
 

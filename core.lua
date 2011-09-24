@@ -1,4 +1,5 @@
 local _, addon = ...
+
 -- utility for rounding
 local function round(input, places)
     if not places then
@@ -309,11 +310,15 @@ function TopFit:OnInitialize()
             [1] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
             [2] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
             [3] = "ITEM_MOD_ATTACK_POWER_SHORT",
+            [4] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
+            [5] = "TOPFIT_MELEE_DPS",
+            [6] = "TOPFIT_RANGED_DPS",
+            [7] = "TOPFIT_MELEE_WEAPON_SPEED",
+            [8] = "TOPFIT_RANGED_WEAPON_SPEED",
         },
         [TopFit.locale.StatsCategoryCaster] = {
             [1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
             [2] = "ITEM_MOD_SPELL_POWER_SHORT",
-            --[3] = "ITEM_MOD_MANA_REGENERATION_SHORT",
         },
         [TopFit.locale.StatsCategoryDefensive] = {
             [1] = "ITEM_MOD_BLOCK_RATING_SHORT",
@@ -324,10 +329,9 @@ function TopFit:OnInitialize()
         },
         [TopFit.locale.StatsCategoryHybrid] = {
             [1] = "ITEM_MOD_CRIT_RATING_SHORT",
-            [2] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
-            [3] = "ITEM_MOD_HASTE_RATING_SHORT",
-            [4] = "ITEM_MOD_HIT_RATING_SHORT",
-            [5] = "ITEM_MOD_MASTERY_RATING_SHORT",
+            [2] = "ITEM_MOD_HASTE_RATING_SHORT",
+            [3] = "ITEM_MOD_HIT_RATING_SHORT",
+            [4] = "ITEM_MOD_MASTERY_RATING_SHORT",
         },
         [TopFit.locale.StatsCategoryResistances] = {
             [1] = "RESISTANCE1_NAME",                   -- holy
@@ -467,61 +471,6 @@ function TopFit:OnInitialize()
     
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
-        --[[if not TopFit.toggleProgressFrameButton then
-            TopFit.toggleProgressFrameButton = CreateFrame("Button", "TopFit_toggleProgressFrameButton", PaperDollSidebarTab1)
-            TopFit.toggleProgressFrameButton:SetWidth(30)
-            TopFit.toggleProgressFrameButton:SetHeight(32)
-            TopFit.toggleProgressFrameButton:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT")
-            
-            local normalTexture = TopFit.toggleProgressFrameButton:CreateTexture()
-            local pushedTexture = TopFit.toggleProgressFrameButton:CreateTexture()
-            local highlightTexture = TopFit.toggleProgressFrameButton:CreateTexture()
-            normalTexture:SetTexture("Interface\\Buttons\\UI-MicroButtonCharacter-Up")
-            pushedTexture:SetTexture("Interface\\Buttons\\UI-MicroButtonCharacter-Down")
-            highlightTexture:SetTexture("Interface\\Buttons\\UI-MicroButton-Hilight")
-            normalTexture:SetTexCoord(0, 25/64, 0, 63/64, 1, 25/64, 1, 62/64)
-            normalTexture:SetAllPoints()
-            pushedTexture:SetTexCoord(0, 25/64, 0, 63/64, 1, 25/64, 1, 62/64)
-            pushedTexture:SetAllPoints()
-            highlightTexture:SetTexCoord(0, 25/64, 0, 63/64, 1, 25/64, 1, 62/64)
-            highlightTexture:SetAllPoints()
-            TopFit.toggleProgressFrameButton:SetNormalTexture(normalTexture)
-            TopFit.toggleProgressFrameButton:SetPushedTexture(pushedTexture)
-            TopFit.toggleProgressFrameButton:SetHighlightTexture(highlightTexture)
-            local iconTexture = TopFit.toggleProgressFrameButton:CreateTexture()
-            iconTexture:SetTexture("Interface\\Icons\\Achievement_BG_trueAVshutout") -- golden sword
-            iconTexture:SetTexCoord(9/64, 4/64, 9/64, 61/64, 55/64, 4/64, 55/64, 61/64)
-            iconTexture:SetDrawLayer("OVERLAY")
-            iconTexture:SetBlendMode("ADD")
-            iconTexture:SetPoint("TOPLEFT", TopFit.toggleProgressFrameButton, "TOPLEFT", 6, -4)
-            iconTexture:SetPoint("BOTTOMRIGHT", TopFit.toggleProgressFrameButton, "BOTTOMRIGHT", -6, 4)
-            
-            TopFit.toggleProgressFrameButton:SetScript("OnClick", function(...)
-                if (not TopFit.ProgressFrame) or (not TopFit.ProgressFrame:IsShown()) then
-                    TopFit:CreateProgressFrame()
-                else
-                    TopFit:HideProgressFrame()
-                end
-            end)
-            
-            TopFit.toggleProgressFrameButton:SetScript("OnMouseDown", function(...)
-                iconTexture:SetVertexColor(0.5, 0.5, 0.5)
-            end)
-            TopFit.toggleProgressFrameButton:SetScript("OnMouseUp", function(...)
-                iconTexture:SetVertexColor(1, 1, 1)
-            end)
-            
-            -- tooltip
-            TopFit.toggleProgressFrameButton:SetScript("OnEnter", function(self)
-                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                GameTooltip:SetText("Open TopFit", nil, nil, nil, nil, true)
-                GameTooltip:Show()
-            end)
-            TopFit.toggleProgressFrameButton:SetScript("OnLeave", function(...)
-                GameTooltip:Hide()
-            end)
-        end]]
-        
         TopFit:initializeCharacterFrameUI()
     end)
     

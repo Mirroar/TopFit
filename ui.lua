@@ -1180,15 +1180,28 @@ function TopFit:ShowFlyout(itemButton, slotID)
 
     local itemList = TopFit:GetEquippableItems(slotID)
 
-    --table.sort(itemList); -- Sort by location. This ends up as: inventory, backpack, bags, bank, and bank bags.
+    local numNormalItems = #itemList;
 
-    local numItems = #itemList;
+    --check for forced items that are not in itemList - they'll need a button, too
+    local forcedItems = TopFit:GetForcedItems(TopFit.selectedSet, slotID)
+    local missingForcedItems = {}
+    for _, itemID in pairs(forcedItems) do
+        local found = false
+        for _, item in pairs(itemList) do
+            local cachedItem = TopFit:GetCachedItem(item.itemLink);
+            if (cachedItem.itemID == itemID) then
+                found = true
+                break
+            end
+        end
 
-    --for i = PDFITEMFLYOUT_MAXITEMS + 1, numItems do -- this would remove any items in excess of maxitems
-    --    itemDisplayTable[i] = nil;
-    --end
+        if not found then
+            tinsert(missingForcedItems, itemID)
+        end
+    end
 
-    --numItems = min(numItems, PDFITEMFLYOUT_MAXITEMS);
+    local numMissingForcedItems = #missingForcedItems
+    local numItems = numNormalItems + numMissingForcedItems
 
     while #buttons < numItems do -- Create any buttons we need.
         TopFit:CreateFlyoutButton()
@@ -1199,12 +1212,12 @@ function TopFit:ShowFlyout(itemButton, slotID)
         return
     end
 
-    local forcedItems = TopFit:GetForcedItems(TopFit.selectedSet, slotID)
     for i, button in ipairs(buttons) do
-        if (i <= numItems) then
+        if (i <= numNormalItems) then
             button.id = slotID
             button.item = itemList[i]
             button:Show()
+            button:GetNormalTexture():SetDesaturated(false)
             button.isForced:Hide()
 
             local cachedItem = TopFit:GetCachedItem(button.item.itemLink)
@@ -1215,7 +1228,16 @@ function TopFit:ShowFlyout(itemButton, slotID)
                 end
             end
 
-            TopFit:DisplayFlyoutButton(button);
+            TopFit:DisplayFlyoutButton(button)
+        elseif (i <= numItems) then
+            button.id = slotID
+            button.item = nil
+            button:Show()
+            button:GetNormalTexture():SetDesaturated(true)
+            button.isForced:Show()
+            button.itemID = missingForcedItems[i - numNormalItems]
+
+            TopFit:DisplayFlyoutButton(button)
         else
             button:Hide();
         end
@@ -1364,17 +1386,22 @@ end
 
 function TopFit:DisplayFlyoutButton(button)
     local itemTable = button.item
+    local textureName
     if (not itemTable) then
-        return
+        textureName = select(10, GetItemInfo(button.itemID))
+    else
+        textureName = select(10, GetItemInfo(itemTable.itemLink))
     end
-
-    local textureName = select(10, GetItemInfo(itemTable.itemLink))
 
     SetItemButtonTexture(button, textureName);
 
     button.UpdateTooltip = function ()
         GameTooltip:SetOwner(TopFitItemFlyoutButtons, "ANCHOR_RIGHT", 6, -TopFitItemFlyoutButtons:GetHeight() - 6)
-        GameTooltip:SetHyperlink(button.item.itemLink)
+        if (button.item) then
+            GameTooltip:SetHyperlink(button.item.itemLink)
+        else
+            GameTooltip:SetText(TopFit.locale.missingForcedItemTooltip);
+        end
         GameTooltip:Show()
     end
 
