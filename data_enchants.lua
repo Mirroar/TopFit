@@ -1756,8 +1756,7 @@ TopFit.enchantIDs = {
         
         -- level 63
         [3594] = {                                                      -- Rune of Swordbreaking
-            ["ITEM_MOD_PARRY_RATING_SHORT"] = 2*45.25018692,
-            -- parry +2% [~90]
+            -- parry +2%
             -- disarm duration -50%
             -- runeforging
         },

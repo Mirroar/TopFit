@@ -17,6 +17,7 @@ do
     TopFit.locale.SelectSet = "Select set to calculate:"
     TopFit.locale.Abort = "Abort"
     TopFit.locale.Start = "Calculate"
+    TopFit.locale.StartTooltip = "Start Calculation\n|cffffffffClick this button to start calculation for the currently selected set and equip it.\n\n|rShift-Click|cffffffff to calculate all your sets at once."
     TopFit.locale.EditSetNameTooltip = "Click here to edit this set's name!"
     TopFit.locale.SelectSetDropDown = "Select / Modify Set"
     TopFit.locale.AddSetDropDown = "Add New Set"
@@ -37,6 +38,7 @@ do
     TopFit.locale.SetHeader = "Item Sets"
     TopFit.locale.FlyoutTooltip = "Force Items\n|cffffffffClick items in this flyout menu and TopFit will only use those items for calculation in that slot. Click them again to remove their selection."
     TopFit.locale.missingForcedItemTooltip = "Forced Item missing\n|cffffffffThis item is still forced for this slot, but could not be found in your inventory."
+    TopFit.locale.capActiveTooltip = "When checked, TopFit will try everything it can to reach this cap. Otherwise, this value just specifies the point at which the alternate value kicks in."
     
     TopFit.locale.SlashHelp = "Available Options:\n  show - shows the calculations frame\n  options - shows TopFit's options"
     
@@ -58,6 +60,8 @@ do
     TopFit.locale.AutoUpdateSet = "Automatic update set"
     TopFit.locale.AutoUpdateSetTooltip = "|cffffffffThe set you choose here will be updated automatically whenever you loot an equippable item.\n\n|cffffff00Warning: |cffffffffThis option is intended to be used while levelling. If you have a character with dualspec, it might suddenly equip the set you specify here even if you activated your other specialization."
     TopFit.locale.None = "None"
+    TopFit.locale.AutoUpdateOnRespec = "Update Set automatically when you change spec"
+    TopFit.locale.AutoUpdateOnRespecTooltip = "|cffffffffThis will automatically calculate your selected auto-update set when you change specializations. Effectively, this will provide you with your correct gear whenever you respec."
     TopFit.locale.Debug = "Debug mode"
     TopFit.locale.DebugTooltip = "|cffffffffCheck to enable debug messages.\n\n|cffffff00Caution: |cffffffffThis will spam your chatframe, a lot!"
     

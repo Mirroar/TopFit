@@ -36,13 +36,26 @@ function TopFit:initializeCharacterFrameUI()
     calculateButton:SetScript("OnClick", function(...)
         -- TODO: call a function for starting set calculation instead of this
         if not TopFit.isBlocked then
-            if TopFit.db.profile.sets[TopFit.selectedSet] then
-                PaperDollFrame_SetSidebar(PaperDollFrame, 4)
-                TopFit.workSetList = { TopFit.selectedSet }
+            if not IsShiftKeyDown() then
+                -- calculate selected set
+                if TopFit.db.profile.sets[TopFit.selectedSet] then
+                    PaperDollFrame_SetSidebar(PaperDollFrame, 4)
+                    TopFit.workSetList = { TopFit.selectedSet }
+                    TopFit:CalculateSets()
+                end
+            else
+                -- calculate all sets
+                TopFit.workSetList = {}
+                for setID, _ in pairs(TopFit.db.profile.sets) do
+                    tinsert(TopFit.workSetList, setID)
+                end
                 TopFit:CalculateSets()
             end
         end
     end)
+    calculateButton.tipText = TopFit.locale.StartTooltip
+    calculateButton:SetScript("OnEnter", TopFit.ShowTooltip);
+    calculateButton:SetScript("OnLeave", TopFit.HideTooltip);
 
     -- progress bar
     local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", CharacterModelFrame)
@@ -288,7 +301,7 @@ function TopFit:CreateEditStatPane(pane)
     capActive:SetPoint("LEFT", editStatPane, "LEFT", -3, 0)
     capActive:SetHitRectInsets(0, 0, 0, 0)
     capActive:Raise()
-    capActive.tiptext = "When checked, TopFit will try everything it can to reach this cap. Otherwise, this value just specifies the point at which the alternate value kicks in."
+    capActive.tiptext = TopFit.locale.capActiveTooltip
     local checksound = capActive:GetScript("OnClick")
     capActive:SetScript("OnClick", function(self)
         checksound(self)

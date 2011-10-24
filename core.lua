@@ -545,21 +545,7 @@ function TopFit:FrameOnEvent(event, ...)
         if TopFit:collectEquippableItems() and not TopFit.loginDelay then
             -- new equippable item in inventory!!!!
             -- calculate set silently if player wishes
-            if not TopFit.workSetList then
-                TopFit.workSetList = {}
-            end
-            local runUpdate = false;
-            if (TopFit.db.profile.defaultUpdateSet and GetActiveTalentGroup() == 1) then
-                tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
-                runUpdate = true;
-            end
-            if (TopFit.db.profile.defaultUpdateSet2 and GetActiveTalentGroup() == 2) then
-                tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
-                runUpdate = true;
-            end
-            if runUpdate then
-                TopFit:CalculateSets(true) -- calculate silently
-            end
+            TopFit:RunAutoUpdate(true)
         end
     elseif (event == "PLAYER_LEVEL_UP") then
         -- remove cache info for heirlooms so they are rescanned
@@ -571,36 +557,48 @@ function TopFit:FrameOnEvent(event, ...)
         end
         
         -- if an auto-update-set is set, update that as well
-            if not TopFit.workSetList then
-                TopFit.workSetList = {}
-            end
-            local runUpdate = false;
-            if (TopFit.db.profile.defaultUpdateSet and GetActiveTalentGroup() == 1) then
-                tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
-                runUpdate = true;
-            end
-            if (TopFit.db.profile.defaultUpdateSet2 and GetActiveTalentGroup() == 2) then
-                tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
-                runUpdate = true;
-            end
-            if runUpdate then
-                -- because right on level up there seem to be problems finding the items for equipping, delay the actual update
-                if (not TopFit.eventFrame:HasScript("OnUpdate")) then
-                    TopFit.delayCalculation = 100
-                    TopFit.eventFrame:SetScript("OnUpdate", function(self)
-                        if (TopFit.delayCalculation > 0) then
-                            TopFit.delayCalculation = TopFit.delayCalculation - 1
-                        else
-                            TopFit.eventFrame:SetScript("OnUpdate", nil)
-                            TopFit:CalculateSets(true) -- calculate silently
-                        end
-                    end)
-                end
-            end
+        TopFit:RunAutoUpdate()
     elseif (event == "ACTIVE_TALENT_GROUP_CHANGED") then
         TopFit:ClearCache()
+        if not TopFit.db.profile.preventAutoUpdateOnRespec then
+            TopFit:RunAutoUpdate()
+        end
     elseif (event == "PLAYER_TALENT_UPDATE") then
         TopFit:ClearCache()
+    end
+end
+
+function TopFit:RunAutoUpdate(skipDelay)
+    if not TopFit.workSetList then
+        TopFit.workSetList = {}
+    end
+    local runUpdate = false;
+    if (TopFit.db.profile.defaultUpdateSet and GetActiveTalentGroup() == 1) then
+        tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
+        runUpdate = true;
+    end
+    if (TopFit.db.profile.defaultUpdateSet2 and GetActiveTalentGroup() == 2) then
+        tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
+        runUpdate = true;
+    end
+    if runUpdate then
+        if not TopFit.autoUpdateTimerFrame then
+            TopFit.autoUpdateTimerFrame = CreateFrame("Frame")
+        end
+        -- because right on level up there seem to be problems finding the items for equipping, delay the actual update
+        if not skipDelay then
+            TopFit.delayCalculation = 0.5 -- delay in seconds until update
+        else
+            TopFit.delayCalculation = 0
+        end
+        TopFit.autoUpdateTimerFrame:SetScript("OnUpdate", function(self, delay)
+            if (TopFit.delayCalculation > 0) then
+                TopFit.delayCalculation = TopFit.delayCalculation - delay
+            else
+                TopFit.autoUpdateTimerFrame:SetScript("OnUpdate", nil)
+                TopFit:CalculateSets(true) -- calculate silently
+            end
+        end)
     end
 end
 

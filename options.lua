@@ -96,8 +96,18 @@ function TopFit:createOptions()
             end
         end)
         
+        -- Autoupdate on Spec switch Checkbox
+        local autoUpdateOnRespec = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.AutoUpdateOnRespec, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -110)
+        autoUpdateOnRespec.tiptext = TopFit.locale.AutoUpdateOnRespecTooltip
+        autoUpdateOnRespec:SetChecked(not TopFit.db.profile.preventAutoUpdateOnRespec)
+        local checksound = autoUpdateOnRespec:GetScript("OnClick")
+        autoUpdateOnRespec:SetScript("OnClick", function(self)
+            checksound(self)
+            TopFit.db.profile.preventAutoUpdateOnRespec = not TopFit.db.profile.preventAutoUpdateOnRespec
+        end)
+        
         -- Debug Mode Checkbox
-        local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.Debug, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -130)
+        local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.Debug, "TOPLEFT", autoUpdateOnRespec, "BOTTOMLEFT", 0, -30)
         debugMode.tiptext = TopFit.locale.DebugTooltip
         debugMode:SetChecked(TopFit.db.profile.debugMode)
         local checksound = debugMode:GetScript("OnClick")

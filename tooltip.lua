@@ -15,6 +15,118 @@ local function round(input, places)
     end
 end
 
+local function percentilize(ratio)
+    local ratioString
+    if ratio > 11 then
+        ratioString = "|cff00ff00> 1000%|r"
+    elseif ratio > 1.1 then
+        ratioString = "|cff00ff00"..round((ratio - 1) * 100, 2).."%|r"
+    elseif ratio >= 1 then
+        ratioString = "|cffffff00"..round((ratio - 1) * 100, 2).."%|r"
+    elseif ratio < -9 then
+        ratioString = "|cffff0000< -1000%|r"
+    else -- ratio < 1
+        ratioString = "|cffff0000"..round((ratio - 1) * 100, 2).."%|r"
+    end
+    return ratioString
+end
+
+-- Tooltip formatter
+function TopFit:getComparisonTooltipLines(item)
+    local lines = {}
+    compareItem = TopFit:GetCachedItem(12345)
+
+    local tooltipFormat = {
+        {"TopFit Tooltip!"},
+        {"Comparing with your items for [setlist]"},
+        {"[setpercentages]"},
+    }
+
+    for lineNumber = 1, #tooltipFormat do
+        local lineTable = tooltipFormat[lineNumber]
+        local tooltipLine = {}
+        for rowNumber = 1, 2 do
+            local lineText = lineTable[rowNumber] or ""
+
+            lineText = TopFit:replaceTokensInString(lineText, item)
+
+            tinsert(tooltipLine, lineText)
+        end
+        tinsert(lines, tooltipLine)
+    end
+
+    return lines
+end
+
+function TopFit:replaceTokensInString(text, item)
+    local findOffset = 1
+    local setIDs = TopFit:getSetIDs(true)
+    local setNames = TopFit:getSetNames(true)
+
+    repeat
+        local findStart, findEnd, findString = string.find(text, "%[(.-)%]", findOffset)
+
+        if findStart then
+            if findString == "setlist" then
+                local namesString = ''
+                for i = 1, #setNames do
+                    local setName = setNames[i];
+                    if namesString ~= '' then
+                        namesString = namesString..', '
+                    end
+                    namesString = namesString..setName
+                end
+                text = string.gsub(text, "%["..findString.."%]", namesString)
+            elseif findString == "setpercentages" then
+                local percentagesString = ''
+                for i = 1, #setIDs do
+                    local setID = setIDs[i]
+
+                    local percentage = TopFit:getComparePercentage(item)
+
+                    if percentagesString ~= '' then
+                        percentagesString = percentagesString..', '
+                    end
+                    percentagesString = percentagesString..percentage
+                end
+                text = string.gsub(text, "%["..findString.."%]", percentagesString)
+            else
+                findOffset = findStart + 1 -- keep loking after this unknown token started
+            end
+        end
+    until not findStart
+end
+
+function TopFit:getSetNames(forTooltip)
+    local output = {}
+
+    for i = 1, 100 do
+        setTable = TopFit.db.profile.sets['set_'..i];
+        if setTable and (not forTooltip or not setTable.excludeFromTooltip) then
+            tinsert(output, setTable.name)
+        end
+    end
+
+    return output
+end
+
+function TopFit:getSetIDs(forTooltip)
+    local output = {}
+
+    for i = 1, 100 do
+        setTable = TopFit.db.profile.sets['set_'..i];
+        if setTable and (not forTooltip or not setTable.excludeFromTooltip) then
+            tinsert(output, 'set_'..i)
+        end
+    end
+
+    return output
+end
+
+function TopFit:getComparePercentage(item)
+    return 0
+end
+
 -- Tooltip functions
 local cleared = true
 local refCleared = true
@@ -204,22 +316,6 @@ local function TooltipAddCompareLines(tt, link)
                         ratio = 20
                     elseif asIsScore < 0 then
                         ratio = -20
-                    end
-                    
-                    local function percentilize(ratio)
-                        local ratioString
-                        if ratio > 11 then
-                            ratioString = "|cff00ff00> 1000%|r"
-                        elseif ratio > 1.1 then
-                            ratioString = "|cff00ff00"..round((ratio - 1) * 100, 2).."%|r"
-                        elseif ratio >= 1 then
-                            ratioString = "|cffffff00"..round((ratio - 1) * 100, 2).."%|r"
-                        elseif ratio < -9 then
-                            ratioString = "|cffff0000< -1000%|r"
-                        else -- ratio < 1
-                            ratioString = "|cffff0000"..round((ratio - 1) * 100, 2).."%|r"
-                        end
-                        return ratioString
                     end
                     
                     local compareItemText = ""
