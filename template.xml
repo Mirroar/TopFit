@@ -345,7 +345,7 @@
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture parentKey="bg1" inherits="PaperDollFrameFlyoutTexture">
+                        <Texture parentKey="bg1" inherits="EquipmentFlyoutTexture">
                             <Anchors>
                                 <Anchor point="TOPLEFT">
                                     <Offset x="-5" y="4"/>

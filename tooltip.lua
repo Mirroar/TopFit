@@ -15,18 +15,18 @@ local function round(input, places)
     end
 end
 
-local function percentilize(ratio)
+local function percentilize(ratio, noColor)
     local ratioString
     if ratio > 11 then
-        ratioString = "|cff00ff00> 1000%|r"
+        ratioString = (noColor and '' or "|cff00ff00").."> 1000%"..(noColor and '' or "|r")
     elseif ratio > 1.1 then
-        ratioString = "|cff00ff00"..round((ratio - 1) * 100, 2).."%|r"
+        ratioString = (noColor and '' or "|cff00ff00")..round((ratio - 1) * 100, 2).."%"..(noColor and '' or "|r")
     elseif ratio >= 1 then
-        ratioString = "|cffffff00"..round((ratio - 1) * 100, 2).."%|r"
+        ratioString = (noColor and '' or "|cffffff00")..round((ratio - 1) * 100, 2).."%"..(noColor and '' or "|r")
     elseif ratio < -9 then
-        ratioString = "|cffff0000< -1000%|r"
+        ratioString = (noColor and '' or "|cffff0000").."< -1000%"..(noColor and '' or "|r")
     else -- ratio < 1
-        ratioString = "|cffff0000"..round((ratio - 1) * 100, 2).."%|r"
+        ratioString = (noColor and '' or "|cffff0000")..round((ratio - 1) * 100, 2).."%"..(noColor and '' or "|r")
     end
     return ratioString
 end
@@ -39,7 +39,7 @@ function TopFit:getComparisonTooltipLines(item)
     local tooltipFormat = {
         {"TopFit Tooltip!"},
         {"Comparing with your items for [setlist]"},
-        {"[setpercentages]"},
+        {"[setpercentages:nocolor]"},
     }
 
     for lineNumber = 1, #tooltipFormat do
@@ -66,8 +66,11 @@ function TopFit:replaceTokensInString(text, item)
     repeat
         local findStart, findEnd, findString = string.find(text, "%[(.-)%]", findOffset)
 
+        local parts = TopFit:getTokenAndArguments(findString)
+        local token = parts[1]
+
         if findStart then
-            if findString == "setlist" then
+            if token == "setlist" then
                 local namesString = ''
                 for i = 1, #setNames do
                     local setName = setNames[i];
@@ -77,7 +80,15 @@ function TopFit:replaceTokensInString(text, item)
                     namesString = namesString..setName
                 end
                 text = string.gsub(text, "%["..findString.."%]", namesString)
-            elseif findString == "setpercentages" then
+            elseif token == "setpercentages" then
+                local noColor = false
+                for i = 2, #parts do
+                    local modifier = parts[i]
+                    if tolower(modifier) == 'nocolor' then
+                        noColor = true
+                    end
+                end
+
                 local percentagesString = ''
                 for i = 1, #setIDs do
                     local setID = setIDs[i]
@@ -87,14 +98,20 @@ function TopFit:replaceTokensInString(text, item)
                     if percentagesString ~= '' then
                         percentagesString = percentagesString..', '
                     end
-                    percentagesString = percentagesString..percentage
+                    percentagesString = percentagesString..percentilize(percentage, noColor)
                 end
                 text = string.gsub(text, "%["..findString.."%]", percentagesString)
             else
-                findOffset = findStart + 1 -- keep loking after this unknown token started
+                findOffset = findStart + 1 -- keep looking behind this unknown token
             end
         end
     until not findStart
+end
+
+function TopFit:getTokenAndArguments(token)
+    local parts = string.split(':', token)
+
+    return parts
 end
 
 function TopFit:getSetNames(forTooltip)

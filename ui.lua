@@ -858,7 +858,6 @@ function TopFit:CollapseAllStatGroups()
     end
 end
 
-
 function TopFit:SetCurrentCombination(combination)
     if not TopFitStatScrollFrame then return end
 
@@ -870,46 +869,8 @@ function TopFit:SetCurrentCombination(combination)
         }
     end
 
-    for slotID, slotName in pairs(TopFit.slotNames) do
-        local button = _G["TopFit"..slotName.."Button"]
-        if not button then
-            button = CreateFrame("Button", "TopFit"..slotName.."Button", TopFitStatScrollFrame, "TopFitVirtualItemButtonTemplate")
-            button:SetPoint("TOPLEFT", "Character"..slotName, "TOPLEFT", -5, 5)
-            _G["TopFit"..slotName.."ButtonNormalTexture"]:Hide()
+    TopFit:UpdateVirtualItemButtons(combination);
 
-            button.overlay:SetBlendMode("ADD")
-            button.overlay:Hide()
-
-            button.UpdateTooltip = function ()
-                if button.itemLink then
-                    GameTooltip:SetOwner(button, "ANCHOR_RIGHT", 6, -6)
-                    GameTooltip:SetHyperlink(button.itemLink)
-                    GameTooltip:Show()
-                end
-            end
-        end
-
-        button.itemLink = combination.items[slotID] and combination.items[slotID].itemLink
-        
-        -- set highlight if forced item
-        --[[if (TopFit.selectedSet) and 
-            (TopFit.db.profile.sets[TopFit.selectedSet]) and
-            #(TopFit:GetForcedItems(TopFit.selectedSet, slotID)) > 0 then
-            button.overlay:SetVertexColor(1, 0, 0, 1)
-        else
-            button.overlay:SetVertexColor(1, 1, 1, 0)
-        end]]
-        
-        local itemTexture
-        if button.itemLink then -- an item was set
-            itemTexture = select(10, GetItemInfo(combination.items[slotID].itemLink)) or "Interface\\Icons\\Inv_misc_questionmark"
-            SetItemButtonTexture(button, itemTexture)
-            button:Show()
-        else                    -- no item set
-            button:Hide()
-        end
-    end
-    
     --TopFit.ProgressFrame.setScoreFontString:SetText(string.format(TopFit.locale.SetScore, round(combination.totalScore, 2)))
     
     -- sort stats by score contribution
@@ -1062,6 +1023,58 @@ function TopFit:SetCurrentCombination(combination)
     statScrollFrameContent.placeHolder:SetPoint("RIGHT")
 end
 
+function TopFit:UpdateVirtualItemButtons(combination)
+    if not combination then
+        combination = {
+            items = {},
+        }
+    end
+
+    for slotID, slotName in pairs(TopFit.slotNames) do
+        local button = _G["TopFit"..slotName.."Button"]
+        if not button then
+            button = CreateFrame("Button", "TopFit"..slotName.."Button", TopFitStatScrollFrame, "TopFitVirtualItemButtonTemplate")
+            button:SetPoint("TOPLEFT", "Character"..slotName, "TOPLEFT", -5, 5)
+            button.itemButton = _G["Character"..slotName]
+            _G["TopFit"..slotName.."ButtonNormalTexture"]:Hide()
+
+            button.overlay:SetBlendMode("ADD")
+            button.overlay:Hide()
+
+            button.UpdateTooltip = function ()
+                if button.itemLink then
+                    GameTooltip:SetOwner(button, "ANCHOR_RIGHT", 6, -6)
+                    GameTooltip:SetHyperlink(button.itemLink)
+                    GameTooltip:Show()
+                end
+            end
+        end
+
+        button.itemLink = combination.items[slotID] and combination.items[slotID].itemLink
+        
+        -- set highlight if forced item
+        if (TopFit.selectedSet) and 
+            (TopFit.db.profile.sets[TopFit.selectedSet]) and
+            #(TopFit:GetForcedItems(TopFit.selectedSet, slotID)) > 0 then
+            button.overlay:SetVertexColor(0, 0.5, 1, 1)
+            button.isForced = true
+        else
+            button.overlay:SetVertexColor(1, 1, 1, 0) -- transparent
+            button.isForced = false
+        end
+        
+        local itemTexture
+        if button.itemLink and (button.isForced or true --[[or button.itemLink ~= button.itemButton.item]]) then -- an item was set, and there is information to show to the user
+            --TODO: find a way to check if calculated and equipped item are the same, also update when equipping items
+            itemTexture = select(10, GetItemInfo(combination.items[slotID].itemLink)) or "Interface\\Icons\\Inv_misc_questionmark"
+            SetItemButtonTexture(button, itemTexture)
+            button:Show()
+        else                    -- no item set
+            button:Hide()
+        end
+    end
+end
+
 function TopFit:GetAvailableItemSetNames()
     local setnames = {}
     for _, itemList in pairs(TopFit:GetEquippableItems()) do
@@ -1178,6 +1191,7 @@ function TopFit:ReversePopoutButton(button, reverse)
 end
 
 function TopFit:ShowFlyout(itemButton, slotID)
+
     local flyout = TopFitItemFlyout
     local buttons = flyout.buttons
     local buttonAnchor = flyout.buttonFrame
@@ -1259,20 +1273,20 @@ function TopFit:ShowFlyout(itemButton, slotID)
     flyout:ClearAllPoints();
     flyout:SetFrameLevel(itemButton:GetFrameLevel() - 1);
     flyout.button = itemButton;
-    flyout:SetPoint("TOPLEFT", itemButton, "TOPLEFT", -PDFITEMFLYOUT_BORDERWIDTH, PDFITEMFLYOUT_BORDERWIDTH);
-    local horizontalItems = min(numItems, PDFITEMFLYOUT_ITEMS_PER_ROW);
+    flyout:SetPoint("TOPLEFT", itemButton, "TOPLEFT", -EQUIPMENTFLYOUT_BORDERWIDTH, EQUIPMENTFLYOUT_BORDERWIDTH);
+    local horizontalItems = min(numItems, EQUIPMENTFLYOUT_ITEMS_PER_ROW);
     if itemButton.verticalFlyout then
-        buttonAnchor:SetPoint("TOPLEFT", itemButton.topFitPopoutButton, "BOTTOMLEFT", 0, -PDFITEMFLYOUT_BORDERWIDTH);
+        buttonAnchor:SetPoint("TOPLEFT", itemButton.topFitPopoutButton, "BOTTOMLEFT", 0, -EQUIPMENTFLYOUT_BORDERWIDTH);
     else
         buttonAnchor:SetPoint("TOPLEFT", itemButton.topFitPopoutButton, "TOPRIGHT", 0, 0);
     end
-    buttonAnchor:SetWidth((horizontalItems * PDFITEM_WIDTH) + ((horizontalItems - 1) * PDFITEM_XOFFSET) + PDFITEMFLYOUT_BORDERWIDTH);
-    buttonAnchor:SetHeight(PDFITEMFLYOUT_HEIGHT + (math.floor((numItems - 1)/PDFITEMFLYOUT_ITEMS_PER_ROW) * (PDFITEM_HEIGHT - PDFITEM_YOFFSET)));
+    buttonAnchor:SetWidth((horizontalItems * EFITEM_WIDTH) + ((horizontalItems - 1) * EFITEM_XOFFSET) + EQUIPMENTFLYOUT_BORDERWIDTH);
+    buttonAnchor:SetHeight(EQUIPMENTFLYOUT_HEIGHT + (math.floor((numItems - 1)/EQUIPMENTFLYOUT_ITEMS_PER_ROW) * (EFITEM_HEIGHT - EFITEM_YOFFSET)));
 
     local function _createFlyoutBG (buttonAnchor)
         local numBGs = buttonAnchor["numBGs"];
         numBGs = numBGs + 1;
-        local texture = buttonAnchor:CreateTexture(nil, nil, "PaperDollFrameFlyoutTexture");
+        local texture = buttonAnchor:CreateTexture(nil, nil, "EquipmentFlyoutTexture");
         buttonAnchor["bg" .. numBGs] = texture;
         buttonAnchor["numBGs"] = numBGs;
         return texture;
@@ -1284,9 +1298,9 @@ function TopFit:ShowFlyout(itemButton, slotID)
             local bgTex, lastBGTex;
             bgTex = buttonAnchor.bg1;
             bgTex:ClearAllPoints();
-            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONESLOT_LEFT_COORDS));
-            bgTex:SetWidth(PDFITEMFLYOUT_ONESLOT_LEFTWIDTH);
-            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_ONESLOT_LEFT_COORDS));
+            bgTex:SetWidth(EQUIPMENTFLYOUT_ONESLOT_LEFTWIDTH);
+            bgTex:SetHeight(EQUIPMENTFLYOUT_ONEROW_HEIGHT);
             bgTex:SetPoint("TOPLEFT", -5, 4);
             bgTex:Show();
             texturesUsed = texturesUsed + 1;
@@ -1294,20 +1308,20 @@ function TopFit:ShowFlyout(itemButton, slotID)
 
             bgTex = buttonAnchor.bg2 or _createFlyoutBG(buttonAnchor);
             bgTex:ClearAllPoints();
-            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONESLOT_RIGHT_COORDS));
-            bgTex:SetWidth(PDFITEMFLYOUT_ONESLOT_RIGHTWIDTH);
-            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_ONESLOT_RIGHT_COORDS));
+            bgTex:SetWidth(EQUIPMENTFLYOUT_ONESLOT_RIGHTWIDTH);
+            bgTex:SetHeight(EQUIPMENTFLYOUT_ONEROW_HEIGHT);
             bgTex:SetPoint("TOPLEFT", lastBGTex, "TOPRIGHT");
             bgTex:Show();
             texturesUsed = texturesUsed + 1;
             lastBGTex = bgTex;
-        elseif ( numItems <= PDFITEMFLYOUT_ITEMS_PER_ROW ) then
+        elseif ( numItems <= EQUIPMENTFLYOUT_ITEMS_PER_ROW ) then
             local bgTex, lastBGTex;
             bgTex = buttonAnchor.bg1;
             bgTex:ClearAllPoints();
-            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONEROW_LEFT_COORDS));
-            bgTex:SetWidth(PDFITEMFLYOUT_ONEROW_LEFT_WIDTH);
-            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_ONEROW_LEFT_COORDS));
+            bgTex:SetWidth(EQUIPMENTFLYOUT_ONEROW_LEFT_WIDTH);
+            bgTex:SetHeight(EQUIPMENTFLYOUT_ONEROW_HEIGHT);
             bgTex:SetPoint("TOPLEFT", -5, 4);
             bgTex:Show();
             texturesUsed = texturesUsed + 1;
@@ -1315,9 +1329,9 @@ function TopFit:ShowFlyout(itemButton, slotID)
             for i = texturesUsed + 1, numItems - 1 do
                 bgTex = buttonAnchor["bg"..i] or _createFlyoutBG(buttonAnchor);
                 bgTex:ClearAllPoints();
-                bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONEROW_CENTER_COORDS));
-                bgTex:SetWidth(PDFITEMFLYOUT_ONEROW_CENTER_WIDTH);
-                bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+                bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_ONEROW_CENTER_COORDS));
+                bgTex:SetWidth(EQUIPMENTFLYOUT_ONEROW_CENTER_WIDTH);
+                bgTex:SetHeight(EQUIPMENTFLYOUT_ONEROW_HEIGHT);
                 bgTex:SetPoint("TOPLEFT", lastBGTex, "TOPRIGHT");
                 bgTex:Show();
                 texturesUsed = texturesUsed + 1;
@@ -1326,20 +1340,20 @@ function TopFit:ShowFlyout(itemButton, slotID)
 
             bgTex = buttonAnchor["bg"..numItems] or _createFlyoutBG(buttonAnchor);
             bgTex:ClearAllPoints();
-            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_ONEROW_RIGHT_COORDS));
-            bgTex:SetWidth(PDFITEMFLYOUT_ONEROW_RIGHT_WIDTH);
-            bgTex:SetHeight(PDFITEMFLYOUT_ONEROW_HEIGHT);
+            bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_ONEROW_RIGHT_COORDS));
+            bgTex:SetWidth(EQUIPMENTFLYOUT_ONEROW_RIGHT_WIDTH);
+            bgTex:SetHeight(EQUIPMENTFLYOUT_ONEROW_HEIGHT);
             bgTex:SetPoint("TOPLEFT", lastBGTex, "TOPRIGHT");
             bgTex:Show();
             texturesUsed = texturesUsed + 1;
-        elseif ( numItems > PDFITEMFLYOUT_ITEMS_PER_ROW ) then
-            local numRows = math.ceil(numItems/PDFITEMFLYOUT_ITEMS_PER_ROW);
+        elseif ( numItems > EQUIPMENTFLYOUT_ITEMS_PER_ROW ) then
+            local numRows = math.ceil(numItems/EQUIPMENTFLYOUT_ITEMS_PER_ROW);
             local bgTex, lastBGTex;
             bgTex = buttonAnchor.bg1;
             bgTex:ClearAllPoints();
-            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_MULTIROW_TOP_COORDS));
-            bgTex:SetWidth(PDFITEMFLYOUT_MULTIROW_WIDTH);
-            bgTex:SetHeight(PDFITEMFLYOUT_MULTIROW_TOP_HEIGHT);
+            bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_MULTIROW_TOP_COORDS));
+            bgTex:SetWidth(EQUIPMENTFLYOUT_MULTIROW_WIDTH);
+            bgTex:SetHeight(EQUIPMENTFLYOUT_MULTIROW_TOP_HEIGHT);
             bgTex:SetPoint("TOPLEFT", -5, 4);
             bgTex:Show();
             texturesUsed = texturesUsed + 1;
@@ -1347,9 +1361,9 @@ function TopFit:ShowFlyout(itemButton, slotID)
             for i = 2, numRows - 1 do -- Middle rows
                 bgTex = buttonAnchor["bg"..i] or _createFlyoutBG(buttonAnchor);
                 bgTex:ClearAllPoints();
-                bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_MULTIROW_MIDDLE_COORDS));
-                bgTex:SetWidth(PDFITEMFLYOUT_MULTIROW_WIDTH);
-                bgTex:SetHeight(PDFITEMFLYOUT_MULTIROW_MIDDLE_HEIGHT);
+                bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_MULTIROW_MIDDLE_COORDS));
+                bgTex:SetWidth(EQUIPMENTFLYOUT_MULTIROW_WIDTH);
+                bgTex:SetHeight(EQUIPMENTFLYOUT_MULTIROW_MIDDLE_HEIGHT);
                 bgTex:SetPoint("TOPLEFT", lastBGTex, "BOTTOMLEFT");
                 bgTex:Show();
                 texturesUsed = texturesUsed + 1;
@@ -1358,9 +1372,9 @@ function TopFit:ShowFlyout(itemButton, slotID)
 
             bgTex = buttonAnchor["bg"..numRows] or _createFlyoutBG(buttonAnchor);
             bgTex:ClearAllPoints();
-            bgTex:SetTexCoord(unpack(PDFITEMFLYOUT_MULTIROW_BOTTOM_COORDS));
-            bgTex:SetWidth(PDFITEMFLYOUT_MULTIROW_WIDTH);
-            bgTex:SetHeight(PDFITEMFLYOUT_MULTIROW_BOTTOM_HEIGHT);
+            bgTex:SetTexCoord(unpack(EQUIPMENTFLYOUT_MULTIROW_BOTTOM_COORDS));
+            bgTex:SetWidth(EQUIPMENTFLYOUT_MULTIROW_WIDTH);
+            bgTex:SetHeight(EQUIPMENTFLYOUT_MULTIROW_BOTTOM_HEIGHT);
             bgTex:SetPoint("TOPLEFT", lastBGTex, "BOTTOMLEFT");
             bgTex:Show();
             texturesUsed = texturesUsed + 1;
@@ -1383,12 +1397,12 @@ function TopFit:CreateFlyoutButton()
 
     local button = CreateFrame("BUTTON", "TopFitItemFlyoutButtons" .. numButtons + 1, buttonAnchor, "TopFitItemFlyoutButtonTemplate")
 
-    local pos = numButtons / PDFITEMFLYOUT_ITEMS_PER_ROW
+    local pos = numButtons / EQUIPMENTFLYOUT_ITEMS_PER_ROW
     if (math.floor(pos) == pos) then
         -- This is the first button in a row.
-        button:SetPoint("TOPLEFT", buttonAnchor, "TOPLEFT", PDFITEMFLYOUT_BORDERWIDTH, -PDFITEMFLYOUT_BORDERWIDTH - (PDFITEM_HEIGHT - PDFITEM_YOFFSET) * pos)
+        button:SetPoint("TOPLEFT", buttonAnchor, "TOPLEFT", EQUIPMENTFLYOUT_BORDERWIDTH, -EQUIPMENTFLYOUT_BORDERWIDTH - (EFITEM_HEIGHT - EFITEM_YOFFSET) * pos)
     else
-        button:SetPoint("TOPLEFT", buttons[numButtons], "TOPRIGHT", PDFITEM_XOFFSET, 0)
+        button:SetPoint("TOPLEFT", buttons[numButtons], "TOPRIGHT", EFITEM_XOFFSET, 0)
     end
     button.isForced:SetBlendMode("ADD")
     button.isForced:SetVertexColor(0, 1, 0)

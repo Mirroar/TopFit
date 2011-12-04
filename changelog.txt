@@ -1,7 +1,7 @@
 Changelog for TopFit
 ====================
 
-4.2v3 -
+4.3v1 - 2011/12/04
   - you can now calculate all your sets at once by shift-clicking the calculate button
   - added an option to calculate auto-update sets on switching talent specs
 

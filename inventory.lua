@@ -604,24 +604,26 @@ function TopFit:IsInterestingItem(itemID, setID)
 end
 
 -- returns all equippable items, limited by slot, if given
+local slotAvailableItems = {}
 function TopFit:GetEquippableItems(requestedSlotID)
     local itemListBySlot = {}
     local availableSlots = {}
-    
+
     -- find available item ids for each slot
     for slotName, slotID in pairs(TopFit.slots) do
         itemListBySlot[slotID] = {}
-        slotAvailableItems = GetInventoryItemsForSlot(slotID)
-        if (slotAvailableItems) then
-            for availableLocation, availableItemID in pairs(slotAvailableItems) do
-                if (not availableSlots[availableItemID]) then
-                    availableSlots[availableItemID] = { slotID }
-                else
-                    tinsertonce(availableSlots[availableItemID], slotID)
-                end
+
+        wipe(slotAvailableItems)
+        GetInventoryItemsForSlot(slotID, slotAvailableItems)
+
+        for availableLocation, availableItemID in pairs(slotAvailableItems) do
+            if (not availableSlots[availableItemID]) then
+                availableSlots[availableItemID] = { slotID }
+            else
+                tinsertonce(availableSlots[availableItemID], slotID)
             end
         end
-        
+
         -- special handling for plate heirlooms
         if (TopFit.heirloomInfo.isPlateWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
             for i = 1, #(TopFit.heirloomInfo.plateHeirlooms[slotID]) do
