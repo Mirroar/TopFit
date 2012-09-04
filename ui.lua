@@ -28,8 +28,8 @@ function TopFit:initializeCharacterFrameUI()
     TopFit:InitializeStaticPopupDialogs()
     local setDropDown = TopFit:initializeSetDropdown(CharacterModelFrame)
 
-    local calculateButton = CreateFrame("Button", "TopFitSidebarCalculateButton", PaperDollItemsFrame, "UIPanelButtonTemplate")
-    calculateButton:SetPoint("BOTTOMLEFT", PaperDollItemsFrame, "BOTTOMLEFT", 10, 10)
+    local calculateButton = CreateFrame("Button", "TopFitSidebarCalculateButton", CharacterModelFrame, "UIPanelButtonTemplate")
+    calculateButton:SetPoint("BOTTOMRIGHT", CharacterModelFrame, "BOTTOMRIGHT", 15, -29)
     calculateButton:SetHeight(22)
     calculateButton:SetWidth(80)
     calculateButton:SetText(TopFit.locale.Start)
@@ -154,7 +154,8 @@ function TopFit:InitializeStaticPopupDialogs()
         enterClicksFirstButton = true,
         OnShow = function(self)
             self.editBox:SetText(TopFit.db.profile.sets[TopFit.currentlyRenamingSetID].name)
-        end
+        end,
+        preferredIndex = 3
     }
 
     StaticPopupDialogs["TOPFIT_DELETESET"] = {
@@ -167,7 +168,8 @@ function TopFit:InitializeStaticPopupDialogs()
         end,
         timeout = 0,
         whileDead = true,
-        hideOnEscape = true
+        hideOnEscape = true,
+        preferredIndex = 3
     }
 end
 
@@ -175,7 +177,7 @@ function TopFit:initializeSetDropdown(pane)
     local paneWidth = pane:GetWidth() - 70
     
     local setDropDown = CreateFrame("Frame", "TopFitSetDropDown", pane, "UIDropDownMenuTemplate")
-    setDropDown:SetPoint("TOPRIGHT", pane, "TOPRIGHT", -3, -3)
+    setDropDown:SetPoint("TOP", pane, "TOP", -10, 17)
     setDropDown:SetWidth(paneWidth)
     _G["TopFitSetDropDownMiddle"]:SetWidth(paneWidth - 35)
     _G["TopFitSetDropDownButton"]:SetWidth(paneWidth - 20)
@@ -221,9 +223,10 @@ function TopFit:initializeSetDropdown(pane)
             info.text = TopFit.locale.EmptySet
             info.value = 'addemptyset'
             info.func = function(self)
-                TopFit:AddSet()
+                local setCode = TopFit:AddSet()
+                local setName = TopFit.db.profile.sets[setCode].name
+                TopFit:CreateEquipmentSet(setName)
                 TopFit:CalculateScores()
-                TopFit:CreateEquipmentSet(v.name)
             end
             UIDropDownMenu_AddButton(info, level)
             
@@ -233,8 +236,9 @@ function TopFit:initializeSetDropdown(pane)
                 info.text = v.name
                 info.value = 'add_'..k
                 info.func = function(self)
-                    TopFit:AddSet(v)
-                    TopFit:CreateEquipmentSet(v.name)
+                    local setCode = TopFit:AddSet(v)
+                    local setName = TopFit.db.profile.sets[setCode].name
+                    TopFit:CreateEquipmentSet(setName)
                     TopFit:CalculateScores()
                 end
                 UIDropDownMenu_AddButton(info, level)
@@ -274,16 +278,9 @@ function TopFit:initializeSetDropdown(pane)
 
         end
     end)
-    -- UIDropDownMenu_SetSelectedID(setDropDown, 2)
-    UIDropDownMenu_JustifyText(setDropDown, "LEFT")
     
-    for k, v in pairs(TopFit.db.profile.sets) do
-        if not TopFit.selectedSet then
-            UIDropDownMenu_SetText(setDropDown, v.name)
-            TopFit:SetSelectedSet(k)
-            break
-        end
-    end
+    UIDropDownMenu_JustifyText(setDropDown, "LEFT")
+    TopFit:SetSelectedSet()
 
     return setDropDown
 end
@@ -403,6 +400,18 @@ end
 
 function TopFit:SetSelectedSet(setID)
     local i
+
+    -- select current auto-update set by default
+    if not setID then
+        if (TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
+            setID = TopFit.db.profile.defaultUpdateSet
+        end
+        if (TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
+            setID = TopFit.db.profile.defaultUpdateSet2
+        end
+    end
+
+    -- if still no set is selected, select first available set instead
     if not setID then
         for i = 1, 500 do
             if (TopFit.db.profile.sets["set_"..i]) then
@@ -1039,7 +1048,8 @@ function TopFit:UpdateVirtualItemButtons(combination)
             _G["TopFit"..slotName.."ButtonNormalTexture"]:Hide()
 
             button.overlay:SetBlendMode("ADD")
-            button.overlay:Hide()
+            button.overlay:Show()
+            button.overlay:SetVertexColor(1, 1, 1, 0) -- transparent
 
             button.UpdateTooltip = function ()
                 if button.itemLink then
@@ -1056,7 +1066,7 @@ function TopFit:UpdateVirtualItemButtons(combination)
         if (TopFit.selectedSet) and 
             (TopFit.db.profile.sets[TopFit.selectedSet]) and
             #(TopFit:GetForcedItems(TopFit.selectedSet, slotID)) > 0 then
-            button.overlay:SetVertexColor(0, 0.5, 1, 1)
+            button.overlay:SetVertexColor(1, 0, 0, 1)
             button.isForced = true
         else
             button.overlay:SetVertexColor(1, 1, 1, 0) -- transparent

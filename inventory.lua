@@ -328,14 +328,13 @@ function TopFit:GetItemInfoTable(item)
     
     -- add hit for spirit for caster classes with the respective talent
     local hitForSpirit = 0;
-    if (select(2, UnitClass("player")) == "PRIEST") then
-        hitForSpirit = 0.5 * (select(5, GetTalentInfo(3, 7)) or 0);
-    elseif (select(2, UnitClass("player")) == "DRUID") then
-        hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 6)) or 0);
-    elseif (select(2, UnitClass("player")) == "PALADIN") then
-        hitForSpirit = 0.5 * (select(5, GetTalentInfo(1, 11)) or 0);
-    elseif (select(2, UnitClass("player")) == "SHAMAN") then
-        hitForSpirit = 1 / 3 * (select(5, GetTalentInfo(1, 7)) or 0);
+    local specialization = GetSpecialization()
+    if (select(2, UnitClass("player")) == "PRIEST" and specialization == 3)
+        or (select(2, UnitClass("player")) == "DRUID" and specialization == 1)
+        or (select(2, UnitClass("player")) == "SHAMAN" and specialization == 1) then
+        if UnitLevel("player") >= 20 then
+            hitForSpirit = 1;
+        end
     end
     
     if (hitForSpirit > 0) then
@@ -486,8 +485,8 @@ function TopFit:GetEquipLocationsByInvType(itemEquipLoc)
         return {7}
     elseif itemEquipLoc == "INVTYPE_NECK" then
         return {2}
-    elseif itemEquipLoc == "INVTYPE_RANGED" or itemEquipLoc == "INVTYPE_RANGEDRIGHT" or itemEquipLoc == "INVTYPE_RELIC" or itemEquipLoc == "INVTYPE_THROWN" then
-        return {18}
+    elseif itemEquipLoc == "INVTYPE_RANGED" or itemEquipLoc == "INVTYPE_RANGEDRIGHT" or itemEquipLoc == "INVTYPE_THROWN" then
+        return {16}
     elseif itemEquipLoc == "INVTYPE_SHOULDER" then
         return {3}
     elseif itemEquipLoc == "INVTYPE_TABARD" then

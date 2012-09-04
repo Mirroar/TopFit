@@ -1,6 +1,16 @@
 Changelog for TopFit
 ====================
 
+5.0v1 - 2012/09/04
+  - If an auto-update-set is set for your current spec, it will now automatically be selected in the ui on login
+  - added new epic gems
+  - fixed an error that occured when creating a new set
+  - fixed an error when trying to delete a set
+  - Compatible with WoW Patch 5.0.4
+  - Updated gems for WoW 5.0.4
+  - moved Set Dropdown and Calculate button in Character Frame to not collide with default UI elements
+  - When calculating a set, slots that have forced items in them are shown with a red outline on their virtual item buttons
+
 4.3v1 - 2011/12/04
   - you can now calculate all your sets at once by shift-clicking the calculate button
   - added an option to calculate auto-update sets on switching talent specs

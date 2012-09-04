@@ -15,11 +15,8 @@ Tooltip:
 
 Functionality:
 - maybe add leveling scores
-- Prevent set name conflicts (automatically rename xxx to 2-xxx or something like that)
-- Antispam for warnings, so they can be implemented for gems and enchants
 - seperate stats for main-, offhand and ranged weapon dps
 - ability to comment set (for player's reference)
-- Stat synonym model (so all variations of mana regen are handled the same way)
 - ability to make copies of set (as backup or for slight adjustment)
 - what to do if a forced item is no longer in the player's inventory?
 - check if items from a set are missing

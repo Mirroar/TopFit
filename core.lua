@@ -295,12 +295,14 @@ function TopFit:OnInitialize()
         [TopFit.locale.StatsCategoryMelee] = {
             [1] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
             [2] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
-            [3] = "ITEM_MOD_ATTACK_POWER_SHORT",
-            [4] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
-            [5] = "TOPFIT_MELEE_DPS",
-            [6] = "TOPFIT_RANGED_DPS",
-            [7] = "TOPFIT_MELEE_WEAPON_SPEED",
-            [8] = "TOPFIT_RANGED_WEAPON_SPEED",
+            -- [3] = "ITEM_MOD_ATTACK_POWER_SHORT",
+            [3] = "ITEM_MOD_MELEE_ATTACK_POWER_SHORT",
+            [4] = "ITEM_MOD_RANGED_ATTACK_POWER_SHORT",
+            [5] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
+            [6] = "TOPFIT_MELEE_DPS",
+            [7] = "TOPFIT_RANGED_DPS",
+            [8] = "TOPFIT_MELEE_WEAPON_SPEED",
+            [9] = "TOPFIT_RANGED_WEAPON_SPEED",
         },
         [TopFit.locale.StatsCategoryCaster] = {
             [1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
@@ -353,7 +355,7 @@ function TopFit:OnInitialize()
         "LegsSlot",
         "MainHandSlot",
         "NeckSlot",
-        "RangedSlot",
+        -- "RangedSlot",
         "SecondaryHandSlot",
         "ShirtSlot",
         "ShoulderSlot",
@@ -405,7 +407,7 @@ function TopFit:OnInitialize()
     
     -- frame for eventhandling
     TopFit.eventFrame = CreateFrame("Frame")
-    TopFit.eventFrame:RegisterEvent("BAG_UPDATE")
+    TopFit.eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
     TopFit.eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
     TopFit.eventFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     TopFit.eventFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
@@ -532,7 +534,7 @@ function TopFit:delayCalculationOnLogin()
 end
 
 function TopFit:FrameOnEvent(event, ...)
-    if (event == "BAG_UPDATE") then
+    if (event == "BAG_UPDATE_DELAYED") then
         -- update item list
         if TopFit.loginDelay then return end
         --TODO: only update affected bag
@@ -545,23 +547,22 @@ function TopFit:FrameOnEvent(event, ...)
             TopFit:RunAutoUpdate(true)
         end
     elseif (event == "PLAYER_LEVEL_UP") then
-        -- remove cache info for heirlooms so they are rescanned
+        --[[ remove cache info for heirlooms so they are rescanned
         for itemLink, itemTable in pairs(TopFit.itemsCache) do
             if itemTable.itemQuality == 7 then
                 TopFit.itemsCache[itemLink] = nil
                 TopFit.scoresCache[itemLink] = nil
             end
-        end
+        end--]]
         
         -- if an auto-update-set is set, update that as well
+        TopFit:ClearCache()
         TopFit:RunAutoUpdate()
     elseif (event == "ACTIVE_TALENT_GROUP_CHANGED") then
         TopFit:ClearCache()
         if not TopFit.db.profile.preventAutoUpdateOnRespec then
             TopFit:RunAutoUpdate()
         end
-    elseif (event == "PLAYER_TALENT_UPDATE") then
-        TopFit:ClearCache()
     end
 end
 
@@ -570,11 +571,11 @@ function TopFit:RunAutoUpdate(skipDelay)
         TopFit.workSetList = {}
     end
     local runUpdate = false;
-    if (TopFit.db.profile.defaultUpdateSet and GetActiveTalentGroup() == 1) then
+    if (TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
         tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
         runUpdate = true;
     end
-    if (TopFit.db.profile.defaultUpdateSet2 and GetActiveTalentGroup() == 2) then
+    if (TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
         tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
         runUpdate = true;
     end

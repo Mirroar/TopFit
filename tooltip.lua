@@ -34,7 +34,7 @@ end
 -- Tooltip formatter
 function TopFit:getComparisonTooltipLines(item)
     local lines = {}
-    compareItem = TopFit:GetCachedItem(12345)
+    --compareItem = TopFit:GetCachedItem(12345)
 
     local tooltipFormat = {
         {"TopFit Tooltip!"},
@@ -45,8 +45,8 @@ function TopFit:getComparisonTooltipLines(item)
     for lineNumber = 1, #tooltipFormat do
         local lineTable = tooltipFormat[lineNumber]
         local tooltipLine = {}
-        for rowNumber = 1, 2 do
-            local lineText = lineTable[rowNumber] or ""
+        for columnNumber = 1, 2 do
+            local lineText = lineTable[columnNumber] or ""
 
             lineText = TopFit:replaceTokensInString(lineText, item)
 
@@ -66,10 +66,10 @@ function TopFit:replaceTokensInString(text, item)
     repeat
         local findStart, findEnd, findString = string.find(text, "%[(.-)%]", findOffset)
 
-        local parts = TopFit:getTokenAndArguments(findString)
-        local token = parts[1]
-
         if findStart then
+            local parts = TopFit:getTokenAndArguments(findString)
+            local token = parts[1]
+
             if token == "setlist" then
                 local namesString = ''
                 for i = 1, #setNames do
@@ -355,6 +355,19 @@ local function TooltipAddCompareLines(tt, link)
     end
 end
 
+local function TooltipAddNewLines(tt, link)
+    local itemTable = TopFit:GetCachedItem(link)
+    local lines = TopFit:getComparisonTooltipLines(itemTable)
+
+    for _, line in ipairs(lines) do
+        if (#line == 1) then
+            tt:AddLine(line[1])
+        else
+            tt:AddDoubleLine(line[1], line[2])
+        end
+    end
+end
+
 local function TooltipAddLines(tt, link)
     local itemTable = TopFit:GetCachedItem(link)
     
@@ -480,6 +493,7 @@ local function OnTooltipSetItem(self)
                 if (TopFit.db.profile.showComparisonTooltip and not TopFit.isBlocked) then
                     TooltipAddCompareLines(self, link)
                 end
+                TooltipAddNewLines(self, link)
             end
             cleared = false
         end

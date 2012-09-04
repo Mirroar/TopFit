@@ -1,8 +1,8 @@
-## Interface: 40300
+## Interface: 50001
 ## Author: Mirroar
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
-## Version: 4.3v1
+## Version: 5.0v1
 ## X-Embeds: AceAddon-3.0, AceConsole-3.0, AceGUI-3.0, AceConfig-3.0, AceDB-3.0, AceDBOptions-3.0, AceLocale-3.0
 ## X-Category: Inventory
 ## X-Credits: ckaotik (gems & enchants), tekkub, trefane (SmartFitter), vger(Pawn)
@@ -27,6 +27,7 @@ plugins\virtual_items.lua
 plugins\utilities.lua
 
 data_gems.lua
+#data_gems_build.lua #used during WoW version updates
 data_enchants.lua
 data_presets.lua
 

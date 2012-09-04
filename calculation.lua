@@ -47,33 +47,40 @@ function TopFit:CalculateRecommendations()
     TopFit.currentItemCombination = {}
     TopFit.itemCombinations = {}
     TopFit.currentSetName = setName
-    
+
     -- determine if the player can dualwield
-    TopFit.playerCanDualWield = false
-    TopFit.playerCanTitansGrip = false
-    
-    local playerClass = select(2, UnitClass("player"))
-    local specialization = GetPrimaryTalentTree()
-    
-    if (playerClass == "ROGUE")
-        or (playerClass == "DEATHKNIGHT")
-        or (playerClass == "HUNTER" and UnitLevel("player") >= 20)
-        or (playerClass == "WARRIOR" and specialization == 2)
-        or (playerClass == "SHAMAN" and specialization == 2) then
-        TopFit.playerCanDualWield = true
-    end
-    if ((select(2, UnitClass("player")) == "WARRIOR") and (select(5, GetTalentInfo(2, 20)) > 0)) then
-        TopFit.playerCanTitansGrip = true
-    end
-    
+    TopFit.playerCanDualWield = TopFit:PlayerCanDualWield()
+    TopFit.playerCanTitansGrip = TopFit:PlayerHasTitansGrip()
+
     if (TopFit.db.profile.sets[TopFit.setCode].simulateDualWield) then
         TopFit.playerCanDualWield = true
     end
     if (TopFit.db.profile.sets[TopFit.setCode].simulateTitansGrip) then
         TopFit.playerCanTitansGrip = true
     end
-    
+
     TopFit:InitSemiRecursiveCalculations()
+end
+
+function TopFit:PlayerCanDualWield()
+    local playerClass = select(2, UnitClass("player"))
+    local specialization = GetSpecialization()
+
+    if (playerClass == "ROGUE")
+        or (playerClass == "DEATHKNIGHT")
+        or (playerClass == "HUNTER" and UnitLevel("player") >= 20)
+        or (playerClass == "WARRIOR" and specialization == 2)
+        or (playerClass == "SHAMAN" and specialization == 2) then
+        return true
+    end
+end
+function TopFit:PlayerHasTitansGrip()
+    local playerClass = select(2, UnitClass("player"))
+    local specialization = GetSpecialization()
+
+    if (playerClass == "WARRIOR") and (UnitLevel("player") >= 38) and (specialization == 2) then
+        return true
+    end
 end
 
 function TopFit:InitSemiRecursiveCalculations()
