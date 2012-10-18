@@ -477,7 +477,7 @@ function TopFit:OnInitialize()
 end
 
 function TopFit:collectEquippableItems()
-    local newItem = false
+    local newItem = {}
     
     -- check bags
     for bag = 0, 4 do
@@ -495,7 +495,11 @@ function TopFit:collectEquippableItems()
                 
                 if not found then
                     tinsert(TopFit.equippableItems, item)
-                    newItem = true
+                    tinsert(newItem, {
+                        itemLink = item,
+                        bag = bag,
+                        slot = slot
+                    })
                 end
             end
         end
@@ -515,11 +519,15 @@ function TopFit:collectEquippableItems()
             
             if not found then
                 tinsert(TopFit.equippableItems, item)
-                newItem = true
+                tinsert(newItem, {
+                    itemLink = item,
+                    slot = invSlot
+                })
             end
         end
     end
     
+    if (#newItem == 0) then return false end
     return newItem
 end
 
@@ -529,6 +537,7 @@ function TopFit:delayCalculationOnLogin()
         if TopFit.loginDelay <= 0 then
             TopFit.loginDelay = nil
             TopFit.eventFrame:SetScript("OnUpdate", nil)
+            TopFit:collectEquippableItems()
         end
     end
 end
@@ -541,10 +550,43 @@ function TopFit:FrameOnEvent(event, ...)
         TopFit:collectItems()
         
         -- check inventory for new equippable items
-        if TopFit:collectEquippableItems() and not TopFit.loginDelay then
-            -- new equippable item in inventory!!!!
-            -- calculate set silently if player wishes
-            TopFit:RunAutoUpdate(true)
+        local newEquip = TopFit:collectEquippableItems()
+        if newEquip and not TopFit.loginDelay and
+            ((TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) or
+            (TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2))
+        then
+            -- new equippable item in inventory, check if it is actually better than anything currently available
+            for _, newItem in pairs(newEquip) do
+                -- skip BoE items
+                if not newItem.bag or not TopFit:IsItemBoE(newItem.bag, newItem.slot) then
+                    TopFit:Debug("New Item: "..newItem.itemLink)
+                    local itemTable = TopFit:GetCachedItem(newItem.itemLink)
+                    local setCode = GetActiveSpecGroup() == 1 and TopFit.db.profile.defaultUpdateSet or TopFit.db.profile.defaultUpdateSet2
+
+                    for _, slotID in pairs(itemTable.equipLocationsByType) do
+                        -- try to get the currently used item from the player's equipment set
+                        local setItem = TopFit:GetSetItemFromSlot(slotID, setCode)
+                        local setItemTable = TopFit:GetCachedItem(setItem)
+                        if setItem and setItemTable then
+                            -- if either score or any cap is higher than currently equipped, calculate
+                            if TopFit:GetItemScore(newItem.itemLink, setCode) > TopFit:GetItemScore(setItem, setCode) then
+                                TopFit:Debug('Higher Score!')
+                                TopFit:RunAutoUpdate(true)
+                                return
+                            else
+                                -- check caps
+                                for stat, cap in pairs(TopFit.db.profile.sets[setCode].caps) do
+                                    if cap.active and (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
+                                        TopFit:Debug('Higher Cap!')
+                                        TopFit:RunAutoUpdate(true)
+                                        return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
         end
     elseif (event == "PLAYER_LEVEL_UP") then
         --[[ remove cache info for heirlooms so they are rescanned

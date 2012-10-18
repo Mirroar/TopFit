@@ -1,6 +1,15 @@
 Changelog for TopFit
 ====================
 
+5.0v2 - 
+  - fixed an error with the set dropdown on classes that have no weight presets
+  - added rudimentary weight presets for monk class (based on druid weights)
+  - fixed trying to dual wield ranged weapons
+  - fixed monk dual wielding
+  - when auto-update is enabled and a new equipment item is put into the player's bags, TopFit will only do a full calculation if that item is actually relevant for the auto-update-set
+  - added MoP Cogwheel gems
+  - TopFit is now finally aware of unique-equipped items and will not try to equip more than possible
+
 5.0v1 - 2012/09/04
   - If an auto-update-set is set for your current spec, it will now automatically be selected in the ui on login
   - added new epic gems

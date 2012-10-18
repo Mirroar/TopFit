@@ -229,6 +229,59 @@ function TopFit:GetPresets()
                                         },
                                 },
                         },
+                        ["MONK"] = {
+                                [1] = {
+                                        name = "Brewmaster",
+                                        weights = {
+                                                ["ITEM_MOD_AGILITY_SHORT"] = 10,
+                                                ["ITEM_MOD_DODGE_RATING_SHORT"] = 8.8,
+                                                ["ITEM_MOD_PARRY_RATING_SHORT"] = 8.8,
+                                                ["RESISTANCE0_NAME"] = 7.1,
+                                                ["ITEM_MOD_MASTERY_RATING_SHORT"] = 4.8,
+                                                ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3,
+                                                ["ITEM_MOD_CRIT_RATING_SHORT"] = 2.8,
+                                                ["ITEM_MOD_HIT_RATING_SHORT"] = 1.5,
+                                                ["ITEM_MOD_STAMINA_SHORT"] = 1.3,
+                                                ["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.2,
+                                                ["ITEM_MOD_HASTE_RATING_SHORT"] = 0.4,
+                                                ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 0.001,
+                                        },
+                                        caps = {
+                                        },
+                                },
+                                [2] = {
+                                        name = "Windwalker",
+                                        weights = {
+                                                ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 15.6,
+                                                ["ITEM_MOD_AGILITY_SHORT"] = 10,
+                                                ["ITEM_MOD_STRENGTH_SHORT"] = 3.8,
+                                                ["ITEM_MOD_ATTACK_POWER_SHORT"] = 3.7,
+                                                ["ITEM_MOD_FERAL_ATTACK_POWER_SHORT"] = 3.7,
+                                                ["ITEM_MOD_MASTERY_RATING_SHORT"] = 3.3,
+                                                ["ITEM_MOD_CRIT_RATING_SHORT"] = 3.2,
+                                                ["ITEM_MOD_HASTE_RATING_SHORT"] = 3.2,
+                                                ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.1,
+                                                ["ITEM_MOD_HIT_RATING_SHORT"] = 3.1,
+                                                ["RESISTANCE0_NAME"] = 0.001,
+                                        },
+                                        caps = {
+                                        },
+                                },
+                                [3] = {
+                                        name = "Mistweaver",
+                                        weights = {
+                                                ["ITEM_MOD_INTELLECT_SHORT"] = 10,
+                                                ["ITEM_MOD_SPELL_POWER_SHORT"] = 8.5,
+                                                ["ITEM_MOD_SPIRIT_SHORT"] = 7.5,
+                                                ["ITEM_MOD_HASTE_RATING_SHORT"] = 6.5,
+                                                ["ITEM_MOD_MASTERY_RATING_SHORT"] = 6,
+                                                ["ITEM_MOD_CRIT_RATING_SHORT"] = 5.0,
+                                                ["RESISTANCE0_NAME"] = 0.001,
+                                                ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 0.001,
+                                        },
+                                        caps = {},
+                                },
+                        },
                         ["PALADIN"] = {
                                 [1] = {
                                         name = "Holy",

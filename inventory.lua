@@ -242,6 +242,18 @@ function TopFit:GetItemInfoTable(item)
         itemBonus["SET: "..setName] = 1
     end
 
+    local uniqueFamily, maxEquipped = GetItemUniqueness(item)
+    if uniqueFamily then
+        if uniqueFamily == -1 then
+            -- single unique item
+            itemBonus["UNIQUE: item-"..itemID.."*"..maxEquipped] = 1
+        else
+            -- item belongs to a unique family
+            itemBonus["UNIQUE: family-"..uniqueFamily.."*"..maxEquipped] = 1
+        end
+    end
+
+
     -- add armor type
     if itemSubType == TOPFIT_ARMORTYPE_CLOTH then
         itemBonus["TOPFIT_ARMORTYPE_CLOTH"] = 1
@@ -531,8 +543,6 @@ function TopFit:IsInterestingItem(itemID, setID)
             end
         end
         
-        if item.isBoE then return true, "item is BoE" end
-        
         -- check for all sets
         for set, _ in pairs(TopFit.db.profile.sets) do
             local isInteresting, reason = TopFit:IsInterestingItem(itemID, set)
@@ -602,11 +612,31 @@ function TopFit:IsInterestingItem(itemID, setID)
     return false, "item is not interesting for this set"
 end
 
+-- checks whether an item is BoE by given bag and slot number
+function TopFit:IsItemBoE(bag, slot)
+    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+    TopFit.scanTooltip:SetBagItem(bag, slot)
+    local numLines = TopFit.scanTooltip:NumLines()
+    for i = 1, numLines do
+        local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+        local leftLineText = leftLine:GetText()
+        
+        if string.find(leftLineText, ITEM_BIND_ON_EQUIP) then
+            return true
+        end
+    end
+
+    return false
+end
+
 -- returns all equippable items, limited by slot, if given
 local slotAvailableItems = {}
 function TopFit:GetEquippableItems(requestedSlotID)
     local itemListBySlot = {}
     local availableSlots = {}
+    for i = 1, 20 do
+        itemListBySlot[i] = {}
+    end
 
     -- find available item ids for each slot
     for slotName, slotID in pairs(TopFit.slots) do
@@ -656,19 +686,7 @@ function TopFit:GetEquippableItems(requestedSlotID)
                 
                 if (availableSlots[itemID]) then
                     -- check if item is BoE
-                    local isBoE = false
-                    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-                    TopFit.scanTooltip:SetBagItem(bag, slot)
-                    local numLines = TopFit.scanTooltip:NumLines()
-                    for i = 1, numLines do
-                        local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
-                        local leftLineText = leftLine:GetText()
-                        
-                        if string.find(leftLineText, _G["ITEM_BIND_ON_EQUIP"]) then
-                            isBoE = true
-                            break
-                        end
-                    end
+                    local isBoE = TopFit:IsItemBoE(bag, slot)
                     
                     for _, slotID in pairs(availableSlots[itemID]) do
                         tinsert(itemListBySlot[slotID], {

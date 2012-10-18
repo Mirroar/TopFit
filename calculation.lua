@@ -30,9 +30,13 @@ function TopFit:CalculateSets(silent)
             -- set as working to prevent any further calls from "interfering"
             TopFit.isBlocked = true
             
-            TopFit.Utopia = TopFit.db.profile.sets[setCode].caps
+            -- copy caps
+            TopFit.Utopia = {}
+            for key, value in pairs(TopFit.db.profile.sets[setCode].caps) do
+                TopFit.Utopia[key] = value
+            end
             TopFit.ignoreCapsForCalculation = false
-            
+
             -- do the actual work
             TopFit:collectItems()
             TopFit:CalculateRecommendations()
@@ -70,7 +74,8 @@ function TopFit:PlayerCanDualWield()
         or (playerClass == "DEATHKNIGHT")
         or (playerClass == "HUNTER" and UnitLevel("player") >= 20)
         or (playerClass == "WARRIOR" and specialization == 2)
-        or (playerClass == "SHAMAN" and specialization == 2) then
+        or (playerClass == "SHAMAN" and specialization == 2)
+        or (playerClass == "MONK" and specialization ~= 2) then
         return true
     end
 end
@@ -133,6 +138,30 @@ function TopFit:InitSemiRecursiveCalculations()
             end
         end
     end
+
+    -- cache up to which slot unique items are available
+    TopFit.moreUniquesAvailable = {}
+    local uniqueFound = false
+    for slotID = 20, 0, -1 do
+        if uniqueFound then
+            TopFit.moreUniquesAvailable[slotID] = true
+        else
+            TopFit.moreUniquesAvailable[slotID] = false
+            if (TopFit.itemListBySlot[slotID]) then
+                for _, locationTable in pairs(TopFit.itemListBySlot[slotID]) do
+                    local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
+                    if itemTable then
+                        for statCode, _ in pairs(itemTable.totalBonus) do
+                            if (string.sub(statCode, 1, 8) == "UNIQUE: ") then
+                                uniqueFound = true
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
     
     TopFit.calculationsFrame:SetScript("OnUpdate", TopFit.SemiRecursiveCalculation)
     
@@ -182,7 +211,7 @@ function TopFit:ReduceItemList()
             if TopFit.itemListBySlot[slotID] and #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
                 for i = #(TopFit.itemListBySlot[slotID]), 1, -1 do
                     local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[slotID][i].itemLink)
-                    if playerClass == "DRUID" or playerClass == "ROGUE" then
+                    if playerClass == "DRUID" or playerClass == "ROGUE" or playerClass == "MONK" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_LEATHER"] then
                             tremove(TopFit.itemListBySlot[slotID], i)
                         end
@@ -283,9 +312,18 @@ function TopFit:ReduceItemList()
                                 end
                                 
                                 if allStats then
-                                    betterItemExists = betterItemExists + 1
-                                    if (betterItemExists >= numBetterItemsNeeded) then
-                                        break
+                                    -- items with a uniqueness are special and don't count as a better item
+                                    for stat, _ in pairs(itemTable.totalBonus) do
+                                        if (string.sub(stat, 1, 8) == "UNIQUE: ") then
+                                            allStats = false
+                                        end
+                                    end
+    
+                                    if allStats then
+                                        betterItemExists = betterItemExists + 1
+                                        if (betterItemExists >= numBetterItemsNeeded) then
+                                            break
+                                        end
                                     end
                                 end
                             end
@@ -366,11 +404,11 @@ function TopFit:SemiRecursiveCalculation()
             
             if not done then
                 -- fill all further slots with first choices again - until caps are reached or unreachable
-                while (not TopFit:IsCapsReached(currentSlot)) and (not TopFit:IsCapsUnreachable(currentSlot)) and (currentSlot < 19) do
+                while (not TopFit:IsCapsReached(currentSlot) or TopFit:MoreUniquesAvailable(currentSlot)) and not TopFit:IsCapsUnreachable(currentSlot) and not TopFit:UniquenessViolated(currentSlot) and (currentSlot < 19) do
                     currentSlot = currentSlot + 1
                     if #(TopFit.itemListBySlot[currentSlot]) > 0 then
                         TopFit.slotCounters[currentSlot] = 1
-                        while TopFit:IsDuplicateItem(currentSlot) or (not TopFit:IsOffhandValid(currentSlot)) do
+                        while TopFit:IsDuplicateItem(currentSlot) or TopFit:UniquenessViolated(currentSlot) or (not TopFit:IsOffhandValid(currentSlot)) do
                             TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
                         end
                         if TopFit.slotCounters[currentSlot] > #(TopFit.itemListBySlot[currentSlot]) then
@@ -381,7 +419,7 @@ function TopFit:SemiRecursiveCalculation()
                     end
                 end
                 
-                if TopFit:IsCapsReached(currentSlot) then
+                if TopFit:IsCapsReached(currentSlot) and not TopFit:UniquenessViolated(currentSlot) then
                     -- valid combination, save
                     TopFit:SaveCurrentCombination()
                 end
@@ -479,6 +517,38 @@ function TopFit:IsCapsUnreachable(currentSlot)
         end
     end
     return false
+end
+
+function TopFit:UniquenessViolated(currentSlot)
+    local currentValues = {}
+    local i
+    for i = 1, currentSlot do
+        if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 then
+            for stat, preferences in pairs(TopFit.Utopia) do
+                if preferences.active then
+                    local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
+                    if itemTable then
+                        currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
+                    end
+                end
+            end
+        end
+    end
+    
+    for stat, value in pairs(currentValues) do
+        if (string.sub(stat, 1, 8) == "UNIQUE: ") then
+            local _, maxCount = strsplit("*", stat)
+            maxCount = tonumber(maxCount)
+            if value > maxCount then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function TopFit:MoreUniquesAvailable(currentSlot)
+    return TopFit.moreUniquesAvailable[currentSlot]
 end
 
 function TopFit:IsDuplicateItem(currentSlot)
@@ -656,23 +726,35 @@ function TopFit:SaveCurrentCombination()
             -- add total stats
             local stat, value
             for stat, value in pairs(itemTable.totalBonus) do
-                if (cIC.totalStats[stat]) then
-                    cIC.totalStats[stat] = cIC.totalStats[stat] + value
-                else
-                    cIC.totalStats[stat] = value
-                end
+                cIC.totalStats[stat] = (cIC.totalStats[stat] or 0) + value
             end
         end
     end
     
-    -- check if it's better than old best
+    -- check all caps one last time and see if all are reached
     local satisfied = true
     for stat, preferences in pairs(TopFit.Utopia) do
         if preferences.active and ((not cIC.totalStats[stat]) or (cIC.totalStats[stat] < tonumber(preferences["value"]))) then
             satisfied = false
+            break
         end
     end
+
+    -- check if any uniqueness contraints are broken
+    if not TopFit.ignoreCapsForCalculation then
+        for stat, value in pairs(cIC.totalStats) do
+            if (string.sub(stat, 1, 8) == "UNIQUE: ") then
+                local _, maxCount = strsplit("*", stat)
+                maxCount = tonumber(maxCount)
+                if value > maxCount then
+                    satisfied = false
+                    break
+                end
+            end
+        end--]]
+    end
     
+    -- check if it's better than old best
     if ((satisfied) and ((TopFit.maxScore == nil) or (TopFit.maxScore < cIC.totalScore))) then
         TopFit.maxScore = cIC.totalScore
         TopFit.bestCombination = cIC
@@ -760,6 +842,12 @@ function TopFit:IsOnehandedWeapon(itemID)
         else
             return false
         end
+    elseif equipSlot and string.find(equipSlot, "RANGED") then
+        local wands = select(16, GetAuctionItemSubClasses(1))
+        if (subclass == wands) then
+            return true
+        end
+        return false
     end
     return true
 end

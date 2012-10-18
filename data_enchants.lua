@@ -904,6 +904,14 @@ TopFit.enchantIDs = {
             ["ITEM_MOD_STAMINA_SHORT"] = 55,
             -- iLvl 300+
         },
+        [4063] = {                                                      -- Enchant Chest - Mighty Stats
+            ["ITEM_MOD_AGILITY_SHORT"] = 15,
+            ["ITEM_MOD_INTELLECT_SHORT"] = 15,
+            ["ITEM_MOD_SPIRIT_SHORT"] = 15,
+            ["ITEM_MOD_STAMINA_SHORT"] = 15,
+            ["ITEM_MOD_STRENGTH_SHORT"] = 15,
+            -- iLvl 300+
+        },
         
         -- level 85
         [3297] = {                                                      -- Enchant Chest - Super Health
@@ -1153,6 +1161,10 @@ TopFit.enchantIDs = {
         [3757] = {                                                      -- Fur Lining - Stamina
             ["ITEM_MOD_STAMINA_SHORT"] = 102,
         },
+        [4190] = {                                                      -- Fur Lining - Agility
+            ["ITEM_MOD_AGILITY_SHORT"] = 130,
+            -- leatherworking 400
+        },
         
         -- blacksmithing
         [3717] = {                                                      -- Socket Bracer
@@ -1169,6 +1181,10 @@ TopFit.enchantIDs = {
         },
         [4108] = {                                                      -- Enchant Bracer - Greater Speed
             ["ITEM_MOD_HASTE_RATING_SHORT"] = 65,
+            -- iLvl 300+
+        },
+        [4065] = {                                                      -- Enchant Bracer - Speed
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 50,
             -- iLvl 300+
         },
         [4095] = {                                                      -- Enchant Bracer - Greater Expertise
@@ -1189,6 +1205,18 @@ TopFit.enchantIDs = {
         },
         [4071] = {                                                      -- Enchant Bracer - Critical Strike
             ["ITEM_MOD_CRIT_RATING_SHORT"] = 50,
+            -- iLvl 300+
+        },
+        [4256] = {                                                      -- Enchant Bracer - Greater Strength
+            ["ITEM_MOD_STRENGTH_SHORT"] = 50,
+            -- iLvl 300+
+        },
+        [4257] = {                                                      -- Enchant Bracer - Mighty Intellect
+            ["ITEM_MOD_INTELLECT_SHORT"] = 50,
+            -- iLvl 300+
+        },
+        [4258] = {                                                      -- Enchant Bracer - Agility
+            ["ITEM_MOD_AGILITY_SHORT"] = 50,
             -- iLvl 300+
         },
         
@@ -2631,6 +2659,14 @@ TopFit.enchantIDs = {
     
     -- Hands
     [10] = {
+        -- level 80 armor kit
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
+        },
+        
         -- armor kits
         [4120] = {                                                      -- Savage Armor Kit
             ["ITEM_MOD_STAMINA_SHORT"] = 36,
@@ -2901,6 +2937,14 @@ TopFit.enchantIDs = {
     
     -- Legs
     [7] = {
+        -- level 80 armor kit
+        [4120] = {                                                      -- Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 36,
+        },
+        [4121] = {                                                      -- Heavy Savage Armor Kit
+            ["ITEM_MOD_STAMINA_SHORT"] = 44,
+        },
+        
         -- normal armor kits
         [3330] = {                                                      -- Heavy Borean Armor Kit
             ["ITEM_MOD_STAMINA_SHORT"] = 18,

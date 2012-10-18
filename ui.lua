@@ -231,17 +231,19 @@ function TopFit:initializeSetDropdown(pane)
             UIDropDownMenu_AddButton(info, level)
             
             local presets = TopFit:GetPresets()
-            for k, v in pairs(presets) do
-                info = UIDropDownMenu_CreateInfo()
-                info.text = v.name
-                info.value = 'add_'..k
-                info.func = function(self)
-                    local setCode = TopFit:AddSet(v)
-                    local setName = TopFit.db.profile.sets[setCode].name
-                    TopFit:CreateEquipmentSet(setName)
-                    TopFit:CalculateScores()
+            if presets then
+                for k, v in pairs(presets) do
+                    info = UIDropDownMenu_CreateInfo()
+                    info.text = v.name
+                    info.value = 'add_'..k
+                    info.func = function(self)
+                        local setCode = TopFit:AddSet(v)
+                        local setName = TopFit.db.profile.sets[setCode].name
+                        TopFit:CreateEquipmentSet(setName)
+                        TopFit:CalculateScores()
+                    end
+                    UIDropDownMenu_AddButton(info, level)
                 end
-                UIDropDownMenu_AddButton(info, level)
             end
         elseif level == 2 then
             local info = UIDropDownMenu_CreateInfo()

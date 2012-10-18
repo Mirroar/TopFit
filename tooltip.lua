@@ -31,13 +31,19 @@ local function percentilize(ratio, noColor)
     return ratioString
 end
 
+-- takes a string and escapes the magic characters ^$()%.[]*+-? with a %-character for safe use in Lua patterns
+local function noPattern(text)
+    return string.gsub(text, "([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
+end
+
 -- Tooltip formatter
 function TopFit:getComparisonTooltipLines(item)
     local lines = {}
     --compareItem = TopFit:GetCachedItem(12345)
 
     local tooltipFormat = {
-        {"TopFit Tooltip!"},
+        {" "},
+        {"##############TopFit Tooltip!################"},
         {"Comparing with your items for [setlist]"},
         {"[setpercentages:nocolor]"},
     }
@@ -68,7 +74,9 @@ function TopFit:replaceTokensInString(text, item)
 
         if findStart then
             local parts = TopFit:getTokenAndArguments(findString)
-            local token = parts[1]
+            local token = string.lower(parts[1])
+
+            replaceText = "[" .. findString .. "]"
 
             if token == "setlist" then
                 local namesString = ''
@@ -79,12 +87,12 @@ function TopFit:replaceTokensInString(text, item)
                     end
                     namesString = namesString..setName
                 end
-                text = string.gsub(text, "%["..findString.."%]", namesString)
+                replaceText = namesString
             elseif token == "setpercentages" then
                 local noColor = false
                 for i = 2, #parts do
                     local modifier = parts[i]
-                    if tolower(modifier) == 'nocolor' then
+                    if string.lower(modifier) == 'nocolor' then
                         noColor = true
                     end
                 end
@@ -93,23 +101,26 @@ function TopFit:replaceTokensInString(text, item)
                 for i = 1, #setIDs do
                     local setID = setIDs[i]
 
-                    local percentage = TopFit:getComparePercentage(item)
+                    local percentage = TopFit:getComparePercentage(item, setID)
 
                     if percentagesString ~= '' then
                         percentagesString = percentagesString..', '
                     end
-                    percentagesString = percentagesString..percentilize(percentage, noColor)
+                    percentagesString = percentagesString..percentilize(percentage, noColor)..'%'
                 end
-                text = string.gsub(text, "%["..findString.."%]", percentagesString)
+                replaceText = percentagesString
             else
                 findOffset = findStart + 1 -- keep looking behind this unknown token
             end
+            text = string.gsub(text, "%["..noPattern(findString).."%]", replaceText)
         end
     until not findStart
+
+    return text
 end
 
 function TopFit:getTokenAndArguments(token)
-    local parts = string.split(':', token)
+    local parts = {string.split(':', token)}
 
     return parts
 end
@@ -118,8 +129,8 @@ function TopFit:getSetNames(forTooltip)
     local output = {}
 
     for i = 1, 100 do
-        setTable = TopFit.db.profile.sets['set_'..i];
-        if setTable and (not forTooltip or not setTable.excludeFromTooltip) then
+        local setTable = TopFit.db.profile.sets['set_'..i];
+        if setTable and not (forTooltip and setTable.excludeFromTooltip) then
             tinsert(output, setTable.name)
         end
     end
@@ -140,8 +151,222 @@ function TopFit:getSetIDs(forTooltip)
     return output
 end
 
-function TopFit:getComparePercentage(item)
-    return 0
+-- calculates the items that the given item should be compared to in a tooltip
+function TopFit:getCompareItems(itemTable, setCode)
+    local compareSets = {}
+
+    if itemTable and setCode then
+        -- find current item(s) from set
+        local setItemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(setTable.name))
+        local setItemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(setTable.name))
+        local setItemLinks = {}
+        if not setItemPositions then return end
+
+        for slotID, setItemLocation in pairs(setItemPositions) do
+            if setItemLocation and setItemLocation ~= 1 and setItemLocation ~= 0 then -- 0: no item; 1: slot is ignored
+                local setItemLink = nil
+                local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(setItemLocation)
+                if player then
+                    if bank then
+                        -- item is banked, use itemID
+                        local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
+                        if itemID and itemID ~= 1 then
+                            _, setItemLink = GetItemInfo(itemID)
+                        end
+                    elseif bags then
+                        -- item is in player's bags
+                        setItemLink = GetContainerItemLink(bag, slot)
+                    else
+                        -- item is equipped
+                        setItemLink = GetInventoryItemLink("player", slot)
+                    end
+                else
+                    -- item not found
+                end
+                setItemLinks[slotID] = setItemLink
+            end
+        end
+        
+        for _, slotID in pairs(itemTable.equipLocationsByType) do
+            -- for each slot the item can be equipped in
+            local setItemID = nil
+            local setItemLink = nil
+            local extraText = ""
+            local compareTable = nil
+            local itemTable2 = nil
+            local compareTable2 = nil
+            local compareNotCached = false
+            
+            if setItemIDs and setItemIDs[slotID] and setItemIDs[slotID] ~= 1 and setItemIDs[slotID] ~= 0 then
+                setItemID = setItemIDs[slotID]
+                setItemLink = setItemLinks[slotID]
+                
+                if setItemLink then
+                    setItemTable = TopFit:GetCachedItem(setItemLink)
+                end
+                
+                if not setItemTable then
+                    compareNotCached = true
+                end
+            end
+
+            -- location tables for best-in-slot requests
+            local locationTable, compLocationTable
+            if (slotID == 16 or slotID == 17) then
+                locationTable = {itemLink = itemTable.itemLink, slot = nil, bag = nil}
+                if setItemTable then
+                    local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(setItemPositions[slotID])
+                    if player then
+                        if bags then
+                            compLocationTable = {itemLink = setItemTable.itemLink, slot = slot, bag = bag}
+                        elseif bank then
+                            compLocationTable = {itemLink = setItemTable.itemLink, slot = nil, bag = nil}
+                        else
+                            compLocationTable = {itemLink = setItemTable.itemLink, slot = slot, bag = nil}
+                        end
+                    else
+                        compLocationTable = {itemLink = setItemTable.itemLink, slot = nil, bag = nil}
+                    end
+                else
+                    compLocationTable = {itemLink = "", slot = nil, bag = nil}
+                end
+            end
+        
+
+            tinsert(compareSets, {
+                setItemTable
+            })
+        end
+    end
+
+    return compareSets
+end
+
+
+
+
+
+
+
+
+
+
+function TopFit:getComparePercentage(itemTable, setCode)
+    if not itemTable or not setCode then return 0 end
+    local setTable = TopFit.db.profile.sets[setCode]
+    if not setTable then return 0 end
+    
+    local rawScore, asIsScore, rawCompareScore, asIsCompareScore = 0, 0, 0, 0
+
+    rawScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, true) -- including caps, raw score
+    asIsScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, false) -- including caps, enchanted score
+            
+    if true then return 0 end
+
+
+
+    if slotID == 16 then -- main hand slot
+        if TopFit:IsOnehandedWeapon(link) then
+            -- is the weapon we compare to (if it exists) two-handed?
+            if setItemIDs and setItemIDs[slotID] and setItemIDs[slotID] ~= 1 and setItemIDs[slotID] ~= 0 and not TopFit:IsOnehandedWeapon(setItemIDs[slotID]) then
+                -- try to find a fitting offhand for better comparison
+                if TopFit.playerCanDualwield then
+                    -- find best offhand regardless of type
+                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                    if lTable2 then
+                        itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
+                    end
+                else
+                    -- find best offhand that is not a weapon
+                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+                    if lTable2 then
+                        itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
+                    end
+                end
+            else
+            end
+        else
+            if setItemIDs and setItemIDs[slotID] and setItemIDs[slotID] ~= 1 then
+                -- mainhand is set
+                if TopFit:IsOnehandedWeapon(setItemIDs[slotID]) then
+                    -- use offhand of that set as second compare item
+                    if (setItemLinks[17]) then
+                        compareTable2 = TopFit:GetCachedItem(setItemLinks[17])
+                    end
+                else
+                    -- compare normally, these are 2 two-handed weapons
+                end
+            else
+                -- compare with offhand if appliccapble
+                if (setItemLinks[17]) then
+                    compareTable2 = TopFit:GetCachedItem(setItemLinks[17])
+                end
+            end
+        end
+    elseif slotID == 17 then -- offhand slot
+        -- find a valid mainhand to use in comparisons (only when comparing to a 2h)
+        if setItemIDs and setItemIDs[16] and setItemIDs[16] ~= 1 and not TopFit:IsOnehandedWeapon(setItemIDs[16]) then
+            local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 16, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+            if lTable2 then
+                itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
+            end
+            
+            -- also set compareTable to the relevant MAIN HAND! since offhand is empty, obviously
+            compareTable = TopFit:GetCachedItem(setItemLinks[16])
+            
+            if compareTable then
+                rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
+                asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
+            else
+                compareNotCached = true
+            end
+        end
+    end
+    
+    if itemTable2 then
+        rawScore = rawScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, true)
+        asIsScore = asIsScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, false)
+        
+        extraText = extraText..", if you also use "..itemTable2.itemLink
+    end
+    
+    if compareTable2 then
+        rawCompareScore = rawCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, true)
+        asIsCompareScore = asIsCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, false)
+        
+        extraText = extraText..", "..compareTable2.itemLink
+    end
+    
+    local ratio, rawRatio, ratioString, rawRatioString = 1, 1, "", ""
+    if rawCompareScore ~= 0 then
+        rawRatio = rawScore / rawCompareScore
+    elseif rawScore > 0 then
+        rawRatio = 20
+    elseif rawScore < 0 then
+        rawRatio = -20
+    end
+    if asIsCompareScore ~= 0 then
+        ratio = asIsScore / asIsCompareScore
+    elseif asIsScore > 0 then
+        ratio = 20
+    elseif asIsScore < 0 then
+        ratio = -20
+    end
+    
+    local compareItemText = ""
+    if compareNotCached then
+        compareItemText = "Item not in cache!|n"
+    elseif not compareTable then
+        compareItemText = "No item in set"
+    else
+        compareItemText = compareTable.itemLink
+    end
+    
+    if ratio ~= rawRatio then
+        tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, setTable.name)
+    else
+        tt:AddDoubleLine("["..percentilize(rawRatio).."] - "..compareItemText..extraText, setTable.name)
+    end
 end
 
 -- Tooltip functions
@@ -356,14 +581,16 @@ local function TooltipAddCompareLines(tt, link)
 end
 
 local function TooltipAddNewLines(tt, link)
+    if not (TopFit.db.profile.debugMode) then return end
+
     local itemTable = TopFit:GetCachedItem(link)
     local lines = TopFit:getComparisonTooltipLines(itemTable)
 
     for _, line in ipairs(lines) do
         if (#line == 1) then
-            tt:AddLine(line[1])
+            tt:AddLine(line[1], 0.5, 0.9, 1)
         else
-            tt:AddDoubleLine(line[1], line[2])
+            tt:AddDoubleLine(line[1], line[2], 0.5, 0.9, 1)
         end
     end
 end
@@ -475,6 +702,8 @@ local function TooltipAddLines(tt, link)
             end
         end
     end
+
+    TooltipAddNewLines(tt, link)
 end
 
 local function OnTooltipCleared(self)

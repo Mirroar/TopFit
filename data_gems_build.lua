@@ -10029,6 +10029,87 @@ TopFit.newGemIDs = {
         -- skill: Jewelcrafting 550
     }
 
+    -- Cogwheels - crafted
+    [77544] = {         -- Flashing Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_PARRY_RATING_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
+    [77547] = {         -- Fractured Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_MASTERY_RATING_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
+    [77543] = {         -- Precise Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
+    [77542] = {         -- Quick Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_HASTE_RATING_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
+    [77545] = {         -- Rigid Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_HIT_RATING_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
+    [77541] = {         -- Smooth Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_CRIT_RATING_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
+    [77546] = {         -- Sparkling Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_SPIRIT_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
+    [77540] = {         -- Subtle Tinker's Gear
+        ["colors"] = {
+            "COGWHEEL", -- [1]
+        },
+        ["stats"] = {
+            ["ITEM_MOD_DODGE_RATING_SHORT"] = 600,
+        },
+        -- Unique-Equipped
+        -- required item level: 417
+    },
 }
 
 
