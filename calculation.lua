@@ -269,6 +269,34 @@ function TopFit:ReduceItemList()
         end
     end
 
+    -- preprocess unique items - so we are able to remove items when uniqueness doesn't matter in the next step
+    -- step 1: sum up the number of unique items for each uniqueness family
+    local preprocessUniqueness = {}
+    for slotID, itemList in pairs(TopFit.itemListBySlot) do
+        if #itemList > 1 then
+            for i = #itemList, 1, -1 do
+                local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
+                if itemTable then
+                    for stat, value in pairs(itemTable.totalBonus) do
+                        if (string.sub(stat, 1, 8) == "UNIQUE: ") then
+                            preprocessUniqueness[stat] = (preprocessUniqueness[stat] or 0) + value
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    -- step 2: remember all uniqueness families where uniqueness could actually be violated
+    local problematicUniqueness = {}
+    for stat, value in pairs(preprocessUniqueness) do
+        local _, maxCount = strsplit("*", stat)
+        maxCount = tonumber(maxCount)
+        if value > maxCount then
+            problematicUniqueness[stat] = true
+        end
+    end
+
     -- reduce item list: remove items with < cap and < score
     for slotID, itemList in pairs(TopFit.itemListBySlot) do
         if #itemList > 1 then
@@ -312,9 +340,9 @@ function TopFit:ReduceItemList()
                                 end
                                 
                                 if allStats then
-                                    -- items with a uniqueness are special and don't count as a better item
+                                    -- items with a problematic uniqueness are special and don't count as a better item
                                     for stat, _ in pairs(itemTable.totalBonus) do
-                                        if (string.sub(stat, 1, 8) == "UNIQUE: ") then
+                                        if (string.sub(stat, 1, 8) == "UNIQUE: ") and problematicUniqueness[stat] then
                                             allStats = false
                                         end
                                     end
@@ -471,7 +499,7 @@ function TopFit:IsCapsReached(currentSlot)
     local currentValues = {}
     local i
     for i = 1, currentSlot do
-        if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 then
+        if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 and TopFit.itemListBySlot[i][TopFit.slotCounters[i]] then
             for stat, preferences in pairs(TopFit.Utopia) do
                 if preferences.active then
                     local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
@@ -498,7 +526,7 @@ function TopFit:IsCapsUnreachable(currentSlot)
     for stat, preferences in pairs(TopFit.Utopia) do
         if preferences.active then
             for i = 1, currentSlot do
-                if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 then
+                if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 and TopFit.itemListBySlot[i][TopFit.slotCounters[i]] then
                     local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
                     if itemTable then
                         currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
@@ -523,7 +551,7 @@ function TopFit:UniquenessViolated(currentSlot)
     local currentValues = {}
     local i
     for i = 1, currentSlot do
-        if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 then
+        if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 and TopFit.itemListBySlot[i][TopFit.slotCounters[i]] then
             for stat, preferences in pairs(TopFit.Utopia) do
                 if preferences.active then
                     local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)

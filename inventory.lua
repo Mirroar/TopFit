@@ -142,15 +142,26 @@ function TopFit:GetItemInfoTable(item)
             
             local gemID = string.gsub(gem, ".*|Hitem:([0-9]*):.*", "%1")
             gemID = tonumber(gemID)
+
+            -- add gem uniqueness
+            local uniqueFamily, maxEquipped = GetItemUniqueness(gem)
+            local uniqueStat
+            if uniqueFamily then
+                if uniqueFamily == -1 then
+                    -- single unique item
+                    uniqueStat = "UNIQUE: item-"..gemID.."*"..maxEquipped
+                else
+                    -- item belongs to a unique family
+                    uniqueStat = "UNIQUE: family-"..uniqueFamily.."*"..maxEquipped
+                end
+                gemBonus[uniqueStat] = (gemBonus[uniqueStat] or 0) + 1
+            end
+
             if (TopFit.gemIDs[gemID]) then
                 -- collect stats
                 
                 for stat, value in pairs(TopFit.gemIDs[gemID].stats) do
-                    if (gemBonus[stat]) then
-                        gemBonus[stat] = gemBonus[stat] + value
-                    else
-                        gemBonus[stat] = value
-                    end
+                    gemBonus[stat] = (gemBonus[stat] or 0) + value
                 end
             else
                 -- unknown gem, tell the user
@@ -242,6 +253,7 @@ function TopFit:GetItemInfoTable(item)
         itemBonus["SET: "..setName] = 1
     end
 
+    -- add item uniqueness
     local uniqueFamily, maxEquipped = GetItemUniqueness(item)
     if uniqueFamily then
         if uniqueFamily == -1 then
@@ -252,7 +264,6 @@ function TopFit:GetItemInfoTable(item)
             itemBonus["UNIQUE: family-"..uniqueFamily.."*"..maxEquipped] = 1
         end
     end
-
 
     -- add armor type
     if itemSubType == TOPFIT_ARMORTYPE_CLOTH then
