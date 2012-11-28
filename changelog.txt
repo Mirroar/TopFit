@@ -1,6 +1,10 @@
 Changelog for TopFit
 ====================
 
+5.1v1 - 2012/11/28
+  - updated toc for 5.1
+  - added MoP Enchants (including Inscription, Leatherworking and Tailoring)
+
 5.0v2 - 2012/11/04
   - fixed an error with the set dropdown on classes that have no weight presets
   - added rudimentary weight presets for monk class (based on druid weights)
