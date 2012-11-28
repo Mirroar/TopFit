@@ -1,7 +1,7 @@
 TopFit
 ======
 
-Author: Mirroar (Thyrfall @ EU-Die Todeskrallen)
+Author: Mirroar (Nadasha @ EU-Die Aldor)
 Version: 5.1v1
 WoW Version: 5.1 (TOC 50100)
 
