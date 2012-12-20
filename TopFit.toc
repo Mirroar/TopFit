@@ -16,19 +16,19 @@ locale\enUS.lua
 
 core.lua
 inventory.lua
-tooltip.lua
-calculation.lua
-trinketlogic.lua
-options.lua
-ui.lua
+modules\tooltip.lua
+modules\calculation.lua
+modules\trinketlogic.lua
+modules\options.lua
+modules\ui.lua
 plugin.lua
 
-plugins\virtual_items.lua
-plugins\utilities.lua
+modules\virtual_items.lua
+modules\utilities.lua
 
-data_gems.lua
-#data_gems_build.lua #used during WoW version updates
-data_enchants.lua
-data_presets.lua
+data\gems.lua
+#data\gems_build.lua #used during WoW version updates
+data\enchants.lua
+data\presets.lua
 
 tests.lua
