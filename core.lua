@@ -32,7 +32,7 @@ function TopFit:Warning(text)
     if not TopFit.warningsCache then
         TopFit.warningsCache = {}
     end
-    
+
     if not TopFit.warningsCache[text] then
         TopFit.warningsCache[text] = true
         TopFit:Print("|cffff0000Warning: "..text)
@@ -43,7 +43,7 @@ end
 function TopFit:JoinTables(...)
     local result = {}
     local tab
-    
+
     for i = 1, select("#", ...) do
         tab = select(i, ...)
         if tab then
@@ -52,7 +52,7 @@ function TopFit:JoinTables(...)
             end
         end
     end
-    
+
     return result
 end
 
@@ -74,21 +74,21 @@ function TopFit:EquipRecommendedItems()
     -- skip equipping if virtual items were included
     if (not TopFit.db.profile.sets[TopFit.setCode].skipVirtualItems) and TopFit.db.profile.sets[TopFit.setCode].virtualItems and #(TopFit.db.profile.sets[TopFit.setCode].virtualItems) > 0 then
         TopFit:Print(TopFit.locale.NoticeVirtualItemsUsed)
-        
+
         -- reenable options and quit
         TopFit:StoppedCalculation()
         TopFit.isBlocked = false
-        
+
         -- reset relevant score field
         TopFit.ignoreCapsForCalculation = nil
-        
+
         -- initiate next calculation if necessary
         if (#TopFit.workSetList > 0) then
             TopFit:CalculateSets()
         end
         return
     end
-    
+
     -- equip them
     TopFit.updateEquipmentCounter = 10000
     TopFit.equipRetries = 0
@@ -111,9 +111,9 @@ function TopFit:onUpdateForEquipment(elapsed)
             end
         end
     end
-    
+
     TopFit.updateEquipmentCounter = TopFit.updateEquipmentCounter + elapsed
-    
+
     -- try equipping the items every 100 frames (some weird ring positions might stop us from correctly equipping items on the first try, for example)
     if (TopFit.updateEquipmentCounter > 1) then
         for slotID, recTable in pairs(TopFit.itemRecommendations) do
@@ -126,7 +126,7 @@ function TopFit:onUpdateForEquipment(elapsed)
                 for bag = 0, 4 do
                     for slot = 1, GetContainerNumSlots(bag) do
                         local itemLink = GetContainerItemLink(bag,slot)
-                        
+
                         if itemLink == recTable.locationTable.itemLink then
                             foundBag = bag
                             foundSlot = slot
@@ -135,12 +135,12 @@ function TopFit:onUpdateForEquipment(elapsed)
                         end
                     end
                 end
-                
+
                 if not found then
                     -- try to find item in equipped items
                     for _, invSlot in pairs(TopFit.slots) do
                         local itemLink = GetInventoryItemLink("player", invSlot)
-                        
+
                         if itemLink == recTable.locationTable.itemLink then
                             foundBag = nil
                             foundSlot = invSlot
@@ -149,7 +149,7 @@ function TopFit:onUpdateForEquipment(elapsed)
                         end
                     end
                 end
-                
+
                 if not found then
                     TopFit:Print(string.format(TopFit.locale.ErrorItemNotFound, recTable.locationTable.itemLink))
                     TopFit.itemRecommendations[slotID] = nil
@@ -166,17 +166,17 @@ function TopFit:onUpdateForEquipment(elapsed)
                 end
             end
         end
-        
+
         TopFit.updateEquipmentCounter = 0
         TopFit.equipRetries = TopFit.equipRetries + 1
     end
-    
+
     -- if all items have been equipped, save equipment set and unregister script
     -- also abort if it takes to long, just save the items that _have_ been equipped
     if ((allDone) or (TopFit.equipRetries > 5)) then
         if (not allDone) then
             TopFit:Print(TopFit.locale.NoticeEquipFailure)
-            
+
             for slotID, recTable in pairs(TopFit.itemRecommendations) do
                 slotItemLink = GetInventoryItemLink("player", slotID)
                 if (slotItemLink ~= recTable.locationTable.itemLink) then
@@ -185,11 +185,11 @@ function TopFit:onUpdateForEquipment(elapsed)
                 end
             end
         end
-        
+
         TopFit:Debug("All Done!")
         TopFit.updateFrame:SetScript("OnUpdate", nil)
         TopFit:StoppedCalculation()
-        
+
         EquipmentManagerClearIgnoredSlotsForSave()
         for _, slotID in pairs(TopFit.slots) do
             if (not TopFit.itemRecommendations[slotID]) then
@@ -197,7 +197,7 @@ function TopFit:onUpdateForEquipment(elapsed)
                 EquipmentManagerIgnoreSlotForSave(slotID)
             end
         end
-        
+
         -- save equipment set
         if (CanUseEquipmentSets()) then
             local texture
@@ -208,17 +208,17 @@ function TopFit:onUpdateForEquipment(elapsed)
             else
                 texture = "Spell_Holy_EmpowerChampion"
             end
-            
+
             TopFit:Debug("Trying to save set: "..setName..", "..(texture or "nil"))
             SaveEquipmentSet(setName, texture)
         end
-    
+
         -- we are done with this set
         TopFit.isBlocked = false
-        
+
         -- reset relevant score field
         TopFit.ignoreCapsForCalculation = nil
-        
+
         -- initiate next calculation if necessary
         if (#TopFit.workSetList > 0) then
             TopFit:CalculateSets()
@@ -241,21 +241,41 @@ function TopFit:ChatCommand(input)
         elseif input:trim():lower() == "options" then
             InterfaceOptionsFrame_OpenToCategory("TopFit")
         else
-            TopFit:Print(TopFit.locale.SlashHelp)
+            TopFit:Print(TopF<t.locale.SlashHelp)
         end
     end
 end
 
 function TopFit:OnInitialize()
     -- load saved variables
-    self.db = LibStub("AceDB-3.0"):New("TopFitDB")
-    
+    local profileName = GetUnitName('player')..' - '..GetRealmName('player')
+    local selectedProfile = profileName
+    if TopFitDB then
+        selectedProfile = TopFitDB.profileKeys[profileName]
+        if not selectedProfile then
+            -- initialize profile for this character
+            TopFitDB.profileKeys[profileName] = profileName
+            TopFitDB.profiles[profileName] = {}
+        end
+    else
+        -- initialize saved variables
+        TopFitDB = {
+            profileKeys = {
+                [profileName] = profileName
+            },
+            profiles = {
+                [profileName] = {}
+            }
+        }
+    end
+    self.db = {profile = TopFitDB.profiles[selectedProfile]}
+
     -- set callback handler
     TopFit.eventHandler = TopFit.eventHandler or LibStub("CallbackHandler-1.0"):New(TopFit)
-    
+
     -- create gametooltip for scanning
     TopFit.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
-    
+
     -- check if any set is saved already, if not, create default
     if (not self.db.profile.sets) then
         self.db.profile.sets = {
@@ -267,13 +287,13 @@ function TopFit:OnInitialize()
             },
         }
     end
-    
+
     -- for savedvariable updates: check if each set has a forced table
     for set, table in pairs(self.db.profile.sets) do
         if table.forced == nil then
             table.forced = {}
         end
-        
+
         -- also set if all stat and cap values are numbers
         for stat, value in pairs(table.weights) do
             table.weights[stat] = tonumber(value) or nil
@@ -282,7 +302,7 @@ function TopFit:OnInitialize()
             capTable.value = tonumber(capTable.value)
         end
     end
-    
+
     -- list of weight categories and stats
     TopFit.statList = {
         [TopFit.locale.StatsCategoryBasic] = {
@@ -365,7 +385,7 @@ function TopFit:OnInitialize()
         "WaistSlot",
         "WristSlot",
     }
-        
+
     TopFit.armoredSlots = {
         [1] = true,
         [3] = true,
@@ -385,26 +405,26 @@ function TopFit:OnInitialize()
         TopFit.slots[slotName] = slotID;
         TopFit.slotNames[slotID] = slotName;
     end
-    
+
     -- create frame for OnUpdate
     TopFit.updateFrame = CreateFrame("Frame")
-    
+
     -- create options
     TopFit:createOptions()
 
     -- register Slash command
     self:RegisterChatCommand("topfit", "ChatCommand")
     self:RegisterChatCommand("tf", "ChatCommand")
-    
+
     -- cache tables
     TopFit.itemsCache = {}
     TopFit.scoresCache = {}
-    
+
     -- table for equippable item list
     TopFit.equippableItems = {}
     TopFit:collectEquippableItems()
     TopFit.loginDelay = 150
-    
+
     -- frame for eventhandling
     TopFit.eventFrame = CreateFrame("Frame")
     TopFit.eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
@@ -413,10 +433,10 @@ function TopFit:OnInitialize()
     TopFit.eventFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
     TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
     TopFit.eventFrame:SetScript("OnUpdate", TopFit.delayCalculationOnLogin)
-    
+
     -- frame for calculation function
     TopFit.calculationsFrame = CreateFrame("Frame");
-    
+
     -- heirloom info
     local isPlateWearer, isMailWearer = false, false
     if (select(2, UnitClass("player")) == "WARRIOR") or (select(2, UnitClass("player")) == "PALADIN") or (select(2, UnitClass("player")) == "DEATHKNIGHT") then
@@ -425,7 +445,7 @@ function TopFit:OnInitialize()
     if (select(2, UnitClass("player")) == "SHAMAN") or (select(2, UnitClass("player")) == "HUNTER") then
         isMailWearer = true
     end
-    
+
     -- tables of itemIDs for heirlooms which change armor type
     -- 1: head, 3: shoulder, 5: chest
     TopFit.heirloomInfo = {
@@ -464,26 +484,26 @@ function TopFit:OnInitialize()
         isPlateWearer = isPlateWearer,
         isMailWearer = isMailWearer
     }
-    
+
     -- container for plugin information and frames
     TopFit.plugins = {}
-    
+
     -- button to open frame
     hooksecurefunc("ToggleCharacter", function (...)
         TopFit:initializeCharacterFrameUI()
     end)
-    
+
     TopFit:collectItems()
 end
 
 function TopFit:collectEquippableItems()
     local newItem = {}
-    
+
     -- check bags
     for bag = 0, 4 do
         for slot = 1, GetContainerNumSlots(bag) do
             local item = GetContainerItemLink(bag, slot)
-            
+
             if IsEquippableItem(item) then
                 local found = false
                 for _, link in pairs(TopFit.equippableItems) do
@@ -492,7 +512,7 @@ function TopFit:collectEquippableItems()
                         break
                     end
                 end
-                
+
                 if not found then
                     tinsert(TopFit.equippableItems, item)
                     tinsert(newItem, {
@@ -504,7 +524,7 @@ function TopFit:collectEquippableItems()
             end
         end
     end
-    
+
     -- check equipment (mostly so your set doesn't get recalculated just because you unequip an item)
     for _, invSlot in pairs(TopFit.slots) do
         local item = GetInventoryItemLink("player", invSlot)
@@ -516,7 +536,7 @@ function TopFit:collectEquippableItems()
                     break
                 end
             end
-            
+
             if not found then
                 tinsert(TopFit.equippableItems, item)
                 tinsert(newItem, {
@@ -526,7 +546,7 @@ function TopFit:collectEquippableItems()
             end
         end
     end
-    
+
     if (#newItem == 0) then return false end
     return newItem
 end
@@ -548,7 +568,7 @@ function TopFit:FrameOnEvent(event, ...)
         if TopFit.loginDelay then return end
         --TODO: only update affected bag
         TopFit:collectItems()
-        
+
         -- check inventory for new equippable items
         local newEquip = TopFit:collectEquippableItems()
         if newEquip and not TopFit.loginDelay and
@@ -596,7 +616,7 @@ function TopFit:FrameOnEvent(event, ...)
                 TopFit.scoresCache[itemLink] = nil
             end
         end--]]
-        
+
         -- if an auto-update-set is set, update that as well
         TopFit:ClearCache()
         TopFit:RunAutoUpdate()
@@ -659,7 +679,7 @@ function TopFit:CreateEquipmentSet(set)
         else
             texture = "Spell_Holy_EmpowerChampion"
         end
-        
+
         TopFit:Debug("Trying to create set: "..setName..", "..(texture or "nil"))
         SaveEquipmentSet(setName, texture)
     end
