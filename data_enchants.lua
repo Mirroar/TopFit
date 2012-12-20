@@ -989,7 +989,7 @@ TopFit.enchantIDs = {
 
 		-- enchants
 		-- pandaria
-		[4417] = {                                                      -- Enchant Chest - Glorious Stats
+		[4419] = {                                                      -- Enchant Chest - Glorious Stats
 			["ITEM_MOD_AGILITY_SHORT"] = 80,
 			["ITEM_MOD_INTELLECT_SHORT"] = 80,
 			["ITEM_MOD_SPIRIT_SHORT"] = 80,
@@ -1355,6 +1355,10 @@ TopFit.enchantIDs = {
 
 		-- enchanting
 		-- pandaria
+		[4725] = {                                                      -- Enchant Bracer - ??
+			["ITEM_MOD_AGILITY_SHORT"] = 1,
+		},
+
 		[4415] = {                                                      -- Enchant Bracer - Exceptional Strength
 			["ITEM_MOD_STRENGTH_SHORT"] = 180,
 			-- iLvl 372+

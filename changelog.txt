@@ -1,9 +1,13 @@
 Changelog for TopFit
 ====================
 
+5.1v2 -
+  - fixed +80 Stats enchant
+
 5.1v1 - 2012/11/28
   - updated toc for 5.1
   - added MoP Enchants (including Inscription, Leatherworking and Tailoring)
+  - updated presets for monks
 
 5.0v2 - 2012/11/04
   - fixed an error with the set dropdown on classes that have no weight presets
