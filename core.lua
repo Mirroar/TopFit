@@ -1,5 +1,9 @@
 local _, addon = ...
 
+SLASH_TopFit1 = "/topfit"
+SLASH_TopFit2 = "/tf"
+SLASH_TopFit3 = "/fit"
+
 -- utility for rounding
 local function round(input, places)
     if not places then
@@ -17,8 +21,12 @@ local function round(input, places)
 end
 
 -- create Addon object
-TopFit = LibStub("AceAddon-3.0"):NewAddon("TopFit", "AceConsole-3.0")
+TopFit = LibStub("AceAddon-3.0"):NewAddon("TopFit")
 TopFit.locale = addon.locale
+
+function TopFit:Print(message)
+    DEFAULT_CHAT_FRAME:AddMessage('TopFit: '..(message or ""))
+end
 
 -- debug function
 function TopFit:Debug(text)
@@ -232,19 +240,16 @@ function TopFit:GenerateSetName(name)
     return (((name ~= nil) and string.sub(name.." ", 1, 12).."(TF)") or "TopFit")
 end
 
-function TopFit:ChatCommand(input)
-    if not input or input:trim() == "" then
+function TopFit.ChatCommand(input)
+    if not input or input:trim() == "" or input:trim():lower() == "options" or input:trim():lower() == "conf" or input:trim():lower() == "config" then
         InterfaceOptionsFrame_OpenToCategory("TopFit")
+    elseif input:trim():lower() == "show" then
+        --TODO: TopFit:CreateProgressFrame() is outdated
     else
-        if input:trim():lower() == "show" then
-            TopFit:CreateProgressFrame()
-        elseif input:trim():lower() == "options" then
-            InterfaceOptionsFrame_OpenToCategory("TopFit")
-        else
-            TopFit:Print(TopF<t.locale.SlashHelp)
-        end
+        TopFit:Print(TopFit.locale.SlashHelp)
     end
 end
+SlashCmdList["TopFit"] = TopFit.ChatCommand
 
 function TopFit:OnInitialize()
     -- load saved variables
@@ -411,10 +416,6 @@ function TopFit:OnInitialize()
 
     -- create options
     TopFit:createOptions()
-
-    -- register Slash command
-    self:RegisterChatCommand("topfit", "ChatCommand")
-    self:RegisterChatCommand("tf", "ChatCommand")
 
     -- cache tables
     TopFit.itemsCache = {}
