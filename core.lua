@@ -1,4 +1,4 @@
-local _, addon = ...
+local addonName, ns = ...
 
 SLASH_TopFit1 = "/topfit"
 SLASH_TopFit2 = "/tf"
@@ -21,11 +21,10 @@ local function round(input, places)
 end
 
 -- create Addon object
-TopFit = LibStub("AceAddon-3.0"):NewAddon("TopFit")
-TopFit.locale = addon.locale
+TopFit = ns
 
 function TopFit:Print(message)
-    DEFAULT_CHAT_FRAME:AddMessage('TopFit: '..(message or ""))
+    DEFAULT_CHAT_FRAME:AddMessage('TopFit: '..(message or "")) --TODO: add a pretty color!
 end
 
 -- debug function
@@ -236,7 +235,7 @@ end
 
 function TopFit:GenerateSetName(name)
     -- using substr because blizzard interface only allows 16 characters
-    -- although technically SaveEquipmentSet & co allow more ;)
+    -- although technically SaveEquipmentSet & co allow more
     return (((name ~= nil) and string.sub(name.." ", 1, 12).."(TF)") or "TopFit")
 end
 
@@ -426,13 +425,11 @@ function TopFit:OnInitialize()
     TopFit:collectEquippableItems()
     TopFit.loginDelay = 150
 
-    -- frame for eventhandling
-    TopFit.eventFrame = CreateFrame("Frame")
+    -- register needed events
     TopFit.eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
     TopFit.eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
     TopFit.eventFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     TopFit.eventFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
-    TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
     TopFit.eventFrame:SetScript("OnUpdate", TopFit.delayCalculationOnLogin)
 
     -- frame for calculation function
@@ -563,8 +560,10 @@ function TopFit:delayCalculationOnLogin()
     end
 end
 
-function TopFit:FrameOnEvent(event, ...)
-    if (event == "BAG_UPDATE_DELAYED") then
+function TopFit.FrameOnEvent(frame, event, arg1, ...)
+    if event == 'ADDON_LOADED' and arg1 == addonName then
+        TopFit:OnInitialize()
+    elseif (event == "BAG_UPDATE_DELAYED") then
         -- update item list
         if TopFit.loginDelay then return end
         --TODO: only update affected bag
@@ -663,14 +662,6 @@ function TopFit:RunAutoUpdate(skipDelay)
     end
 end
 
-function TopFit:OnEnable()
-    -- Called when the addon is enabled
-end
-
-function TopFit:OnDisable()
-    -- Called when the addon is disabled
-end
-
 function TopFit:CreateEquipmentSet(set)
     if (CanUseEquipmentSets()) then
         setName = TopFit:GenerateSetName(set)
@@ -685,3 +676,8 @@ function TopFit:CreateEquipmentSet(set)
         SaveEquipmentSet(setName, texture)
     end
 end
+
+-- frame for eventhandling
+TopFit.eventFrame = CreateFrame("Frame")
+TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
+TopFit.eventFrame:RegisterEvent("ADDON_LOADED")

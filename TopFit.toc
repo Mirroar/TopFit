@@ -3,7 +3,6 @@
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
 ## Version: 5.1v1
-## X-Embeds: AceAddon-3.0
 ## X-Category: Inventory
 ## X-Credits: ckaotik (gems & enchants), tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
