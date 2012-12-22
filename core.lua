@@ -52,7 +52,7 @@ function ns.class(baseClass)
         return classInstance
     end
 
-    classObject.isInstanceOf = function(self, compareClass)
+    classObject.IsInstanceOf = function(self, compareClass)
         local metaTable = getmetatable(self)
         while metaTable do
             if metaTable == compareClass then return true end
@@ -61,7 +61,7 @@ function ns.class(baseClass)
         return false
     end
 
-    classObject.assertArgumentType = function(argValue, argType)
+    classObject.AssertArgumentType = function(argValue, argType)
         assert(type(argValue) == argType, argType..' expected, got '..type(argValue))
     end
 
@@ -310,7 +310,7 @@ function TopFit.ChatCommand(input)
 end
 SlashCmdList["TopFit"] = TopFit.ChatCommand
 
-function TopFit:OnInitialize()
+function ns:OnInitialize()
     -- load saved variables
     local profileName = GetUnitName('player')..' - '..GetRealmName('player')
     local selectedProfile = profileName
@@ -332,7 +332,7 @@ function TopFit:OnInitialize()
             }
         }
     end
-    self.db = {profile = TopFitDB.profiles[selectedProfile]}
+    ns.db = {profile = TopFitDB.profiles[selectedProfile]}
 
     -- set callback handler
     TopFit.eventHandler = TopFit.eventHandler or LibStub("CallbackHandler-1.0"):New(TopFit)
