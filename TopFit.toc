@@ -14,6 +14,10 @@ template.xml
 locale\enUS.lua
 
 core.lua
+
+#classes
+set.class.lua
+
 inventory.lua
 modules\tooltip.lua
 modules\calculation.lua

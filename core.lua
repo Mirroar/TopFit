@@ -1,5 +1,8 @@
 local addonName, ns = ...
 
+-- create global Addon object
+TopFit = ns
+
 SLASH_TopFit1 = "/topfit"
 SLASH_TopFit2 = "/tf"
 SLASH_TopFit3 = "/fit"
@@ -20,15 +23,60 @@ local function round(input, places)
     end
 end
 
--- create Addon object
-TopFit = ns
+-- class function - enables pseudo-oop with inheritance using metatables
+function ns.class(baseClass)
+    local classObject = {}
 
-function TopFit:Print(message)
-    DEFAULT_CHAT_FRAME:AddMessage('TopFit: '..(message or "")) --TODO: add a pretty color!
+    -- create copies of the base class' methods
+    if type(baseClass) == 'table' then
+        for key, value in pairs(baseClass) do
+            classObject[key] = value
+        end
+        classObject._base = baseClass
+    end
+
+    -- expose a constructor which can be called by <classname>(<args>)
+    local metaTable = {}
+    metaTable.__call = function(self, ...)
+        local classInstance = {}
+        setmetatable(classInstance, classObject)
+        if self.construct then
+            self.construct(classInstance, ...)
+        else
+            -- at least call the base class' constructor
+            if baseClass and baseClass.construct then
+                baseClass.construct(classInstance, ...)
+            end
+        end
+
+        return classInstance
+    end
+
+    classObject.isInstanceOf = function(self, compareClass)
+        local metaTable = getmetatable(self)
+        while metaTable do
+            if metaTable == compareClass then return true end
+            metaTable = metaTable._base
+        end
+        return false
+    end
+
+    classObject.assertArgumentType = function(argValue, argType)
+        assert(type(argValue) == argType, argType..' expected, got '..type(argValue))
+    end
+
+    -- prepare metatable for lookup of our instance's functions
+    classObject.__index = classObject
+    setmetatable(classObject, metaTable)
+    return classObject
+end
+
+function ns:Print(message)
+    DEFAULT_CHAT_FRAME:AddMessage(addonName..': '..(message or "")) --TODO: add a pretty color!
 end
 
 -- debug function
-function TopFit:Debug(...)
+function ns:Debug(...)
     if self.db.profile.debugMode then
         local text = ''
         for i = 1, select('#', ...) do
@@ -42,24 +90,24 @@ function TopFit:Debug(...)
                 text = text .. type(arg)
             end
         end
-        TopFit:Print("Debug: "..text)
+        ns:Print("Debug: "..text)
     end
 end
 
 -- debug function
-function TopFit:Warning(text)
-    if not TopFit.warningsCache then
-        TopFit.warningsCache = {}
+function ns:Warning(text)
+    if not ns.warningsCache then
+        ns.warningsCache = {}
     end
 
-    if not TopFit.warningsCache[text] then
-        TopFit.warningsCache[text] = true
-        TopFit:Print("|cffff0000Warning: "..text)
+    if not ns.warningsCache[text] then
+        ns.warningsCache[text] = true
+        ns:Print("|cffff0000Warning: "..text)
     end
 end
 
 -- joins any number of tables together, one after the other. elements within the input-tables will get mixed, though
-function TopFit:JoinTables(...)
+function ns:JoinTables(...)
     local result = {}
     local tab
 
