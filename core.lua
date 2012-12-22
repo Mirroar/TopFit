@@ -28,8 +28,20 @@ function TopFit:Print(message)
 end
 
 -- debug function
-function TopFit:Debug(text)
+function TopFit:Debug(...)
     if self.db.profile.debugMode then
+        local text = ''
+        for i = 1, select('#', ...) do
+            if text ~= '' then text = text..', ' end
+            local arg = select(i, ...)
+            if type(arg) == 'boolean' then
+                text = text .. (arg and "<true>" or "<false>")
+            elseif type(arg) == 'string' or type(arg) == 'number' then
+                text = text .. arg
+            else
+                text = text .. type(arg)
+            end
+        end
         TopFit:Print("Debug: "..text)
     end
 end

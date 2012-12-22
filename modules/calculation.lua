@@ -40,20 +40,29 @@ function TopFit:CalculateSets(silent)
 
             -- do the actual work
             TopFit:collectItems()
-            TopFit:CalculateRecommendations()
+
+            -- start calculation within coroutine
+            if not TopFit.activeCoroutines then
+                TopFit.activeCoroutines = {}
+            end
+
+            TopFit:Debug("Inserting coroutine")
+            tinsert(TopFit.activeCoroutines, coroutine.create(TopFit.CalculateRecommendations))
+            TopFit.calculationsFrame:SetScript("OnUpdate", TopFit.ContinueActiveCalculations)
         end
     end
 end
 
 --start calculation for setName
 function TopFit:CalculateRecommendations()
-    local setName = self.db.profile.sets[TopFit.setCode].name
+    local setName = TopFit.db.profile.sets[TopFit.setCode].name
     TopFit.itemRecommendations = {}
     TopFit.currentItemCombination = {}
     TopFit.itemCombinations = {}
     TopFit.currentSetName = setName
 
     -- determine if the player can dualwield
+    TopFit:Debug("before DW")
     TopFit.playerCanDualWield = TopFit:PlayerCanDualWield()
     TopFit.playerCanTitansGrip = TopFit:PlayerHasTitansGrip()
 
@@ -90,6 +99,7 @@ function TopFit:PlayerHasTitansGrip()
 end
 
 function TopFit:InitSemiRecursiveCalculations()
+    TopFit:Debug("InitSemiRecursiveCalculations")
     -- save equippable items
     TopFit.itemListBySlot = TopFit:GetEquippableItems()
     TopFit:ReduceItemList()
@@ -164,9 +174,26 @@ function TopFit:InitSemiRecursiveCalculations()
         end
     end
 
-    TopFit.calculationsFrame:SetScript("OnUpdate", TopFit.SemiRecursiveCalculation)
+    TopFit:Debug("Almost there...")
 
     TopFit:ResetProgress()
+    TopFit:SemiRecursiveCalculation()
+end
+
+function TopFit.ContinueActiveCalculations(frame, elapsed)
+    TopFit:Debug("ContinueActiveCalculations")
+    if #(TopFit.activeCoroutines) < 1 then
+        TopFit.calculationsFrame:SetScript("OnUpdate", nil)
+    else
+        for i = #(TopFit.activeCoroutines), 1, -1 do
+            local func = TopFit.activeCoroutines[i]
+            if (coroutine.status(func) == 'dead') then
+                tremove(TopFit.activeCoroutines, i)
+            else
+                TopFit:Debug('coroutine.resume called', coroutine.resume(func))
+            end
+        end
+    end
 end
 
 function TopFit:ReduceItemList()
@@ -372,131 +399,139 @@ function TopFit:ReduceItemList()
 end
 
 function TopFit.SemiRecursiveCalculation(frame, elapsed)
-    TopFit.currentCalculationLength = TopFit.currentCalculationLength + elapsed
-    local operation
+    TopFit:Debug("SemiRecursiveCalculation")
+    TopFit.currentCalculationLength = TopFit.currentCalculationLength + (elapsed or 0)
+    local operation = 1
     local done = false
-    for operation = 1, TopFit.operationsPerFrame do
-        if (not done) and (not TopFit.abortCalculation) then
-            -- set counters to next combination
+    while (not done) and (not TopFit.abortCalculation) do
+        -- set counters to next combination
 
-            -- check all nil counters from the end
-            local currentSlot = 19
-            local increased = false
-            while (not increased) and (currentSlot > 0) do
-                while (TopFit.slotCounters[currentSlot] == nil or TopFit.slotCounters[currentSlot] == #(TopFit.itemListBySlot[currentSlot])) and (currentSlot > 0) do
-                    TopFit.slotCounters[currentSlot] = nil -- reset to "no item"
-                    currentSlot = currentSlot - 1
+        -- check all nil counters from the end
+        local currentSlot = 19
+        local increased = false
+        while (not increased) and (currentSlot > 0) do
+            while (TopFit.slotCounters[currentSlot] == nil or TopFit.slotCounters[currentSlot] == #(TopFit.itemListBySlot[currentSlot])) and (currentSlot > 0) do
+                TopFit.slotCounters[currentSlot] = nil -- reset to "no item"
+                currentSlot = currentSlot - 1
+            end
+
+            if (currentSlot > 0) then
+                -- increase combination, starting at currentSlot
+                TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
+                if (not TopFit:IsDuplicateItem(currentSlot)) and (TopFit:IsOffhandValid(currentSlot)) then
+                    increased = true
                 end
-
-                if (currentSlot > 0) then
-                    -- increase combination, starting at currentSlot
-                    TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
-                    if (not TopFit:IsDuplicateItem(currentSlot)) and (TopFit:IsOffhandValid(currentSlot)) then
-                        increased = true
-                    end
+            else
+                if TopFit.firstCombination then
+                    TopFit.firstCombination = false
                 else
-                    if TopFit.firstCombination then
-                        TopFit.firstCombination = false
-                    else
-                        -- we're back here, and so we're done
-                        TopFit:Print("Finished calculation after " .. math.round(TopFit.currentCalculationLength * 100) / 100 .. " seconds at " .. TopFit.operationsPerFrame .. " operations per frame")
-                        done = true
-                        TopFit.calculationsFrame:SetScript("OnUpdate", nil)
-                        operation = TopFit.operationsPerFrame
+                    -- we're back here, and so we're done
+                    TopFit:Print("Finished calculation after " .. math.round(TopFit.currentCalculationLength * 100) / 100 .. " seconds at " .. TopFit.operationsPerFrame .. " operations per frame")
+                    done = true
+                    --TopFit.calculationsFrame:SetScript("OnUpdate", nil)
+                    --operation = TopFit.operationsPerFrame
 
-                        -- save a default set of only best-in-slot items
-                        TopFit:SaveCurrentCombination()
+                    -- save a default set of only best-in-slot items
+                    TopFit:SaveCurrentCombination()
 
-                        -- find best combination that satisfies ALL caps
-                        if (TopFit.bestCombination) then
-                            TopFit:Print("Total Score: " .. math.round(TopFit.bestCombination.totalScore))
-                            -- caps are reached, save and equip best combination
-                            --local itemsAlreadyChosen = {}
-                            for slotID, locationTable in pairs(TopFit.bestCombination.items) do
-                                TopFit.itemRecommendations[slotID] = {
-                                    locationTable = locationTable,
-                                }
-                                --tinsert(itemsAlreadyChosen, itemTable)
-                            end
-
-                            TopFit:EquipRecommendedItems()
-                        else
-                            -- caps could not all be reached, calculate without caps instead
-                            if not TopFit.silentCalculation then
-                                TopFit:Print(TopFit.locale.ErrorCapNotReached)
-                            end
-                            TopFit.Utopia = {}
-                            TopFit.ignoreCapsForCalculation = true
-                            TopFit:CalculateRecommendations(TopFit.currentSetName)
-                            return
+                    -- find best combination that satisfies ALL caps
+                    if (TopFit.bestCombination) then
+                        TopFit:Print("Total Score: " .. math.round(TopFit.bestCombination.totalScore))
+                        -- caps are reached, save and equip best combination
+                        --local itemsAlreadyChosen = {}
+                        for slotID, locationTable in pairs(TopFit.bestCombination.items) do
+                            TopFit.itemRecommendations[slotID] = {
+                                locationTable = locationTable,
+                            }
+                            --tinsert(itemsAlreadyChosen, itemTable)
                         end
+
+                        TopFit:EquipRecommendedItems()
+                    else
+                        -- caps could not all be reached, calculate without caps instead
+                        if not TopFit.silentCalculation then
+                            TopFit:Print(TopFit.locale.ErrorCapNotReached)
+                        end
+                        TopFit.Utopia = {}
+                        TopFit.ignoreCapsForCalculation = true
+                        TopFit:CalculateRecommendations(TopFit.currentSetName)
+                        return
                     end
                 end
             end
+        end
 
-            if not done then
-                -- fill all further slots with first choices again - until caps are reached or unreachable
-                while (not TopFit:IsCapsReached(currentSlot) or TopFit:MoreUniquesAvailable(currentSlot)) and not TopFit:IsCapsUnreachable(currentSlot) and not TopFit:UniquenessViolated(currentSlot) and (currentSlot < 19) do
-                    currentSlot = currentSlot + 1
-                    if #(TopFit.itemListBySlot[currentSlot]) > 0 then
-                        TopFit.slotCounters[currentSlot] = 1
-                        while TopFit:IsDuplicateItem(currentSlot) or TopFit:UniquenessViolated(currentSlot) or (not TopFit:IsOffhandValid(currentSlot)) do
-                            TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
-                        end
-                        if TopFit.slotCounters[currentSlot] > #(TopFit.itemListBySlot[currentSlot]) then
-                            TopFit.slotCounters[currentSlot] = 0
-                        end
-                    else
+        if not done then
+            -- fill all further slots with first choices again - until caps are reached or unreachable
+            while (not TopFit:IsCapsReached(currentSlot) or TopFit:MoreUniquesAvailable(currentSlot)) and not TopFit:IsCapsUnreachable(currentSlot) and not TopFit:UniquenessViolated(currentSlot) and (currentSlot < 19) do
+                currentSlot = currentSlot + 1
+                if #(TopFit.itemListBySlot[currentSlot]) > 0 then
+                    TopFit.slotCounters[currentSlot] = 1
+                    while TopFit:IsDuplicateItem(currentSlot) or TopFit:UniquenessViolated(currentSlot) or (not TopFit:IsOffhandValid(currentSlot)) do
+                        TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
+                    end
+                    if TopFit.slotCounters[currentSlot] > #(TopFit.itemListBySlot[currentSlot]) then
                         TopFit.slotCounters[currentSlot] = 0
                     end
-                end
-
-                if TopFit:IsCapsReached(currentSlot) and not TopFit:UniquenessViolated(currentSlot) then
-                    -- valid combination, save
-                    TopFit:SaveCurrentCombination()
+                else
+                    TopFit.slotCounters[currentSlot] = 0
                 end
             end
-        end
-    end
 
-    -- update progress
-    if not done then
-        local progress = 0
-        local impact = 1
-        local slot
-        for slot = 1, 20 do
-            -- check if slot has items for calculation
-            if TopFit.itemListBySlot[slot] then
-                -- calculate current progress towards finish
-                local numItemsInSlot = #(TopFit.itemListBySlot[slot]) or 1
-                local selectedItem = (TopFit.slotCounters[slot] == 0) and (#(TopFit.itemListBySlot[slot]) or 1) or (TopFit.slotCounters[slot] or 1)
-                if numItemsInSlot == 0 then numItemsInSlot = 1 end
-                if selectedItem == 0 then selectedItem = 1 end
-
-                impact = impact / numItemsInSlot
-                progress = progress + impact * (selectedItem - 1)
+            if TopFit:IsCapsReached(currentSlot) and not TopFit:UniquenessViolated(currentSlot) then
+                -- valid combination, save
+                TopFit:SaveCurrentCombination()
             end
         end
 
-        TopFit:SetProgress(progress)
-    else
-        TopFit:SetProgress(1) -- done
-    end
+        operation = operation + 1
+        if operation > TopFit.operationsPerFrame or done then
+            -- update progress
+            if not done then
+                local progress = 0
+                local impact = 1
+                local slot
+                for slot = 1, 20 do
+                    -- check if slot has items for calculation
+                    if TopFit.itemListBySlot[slot] then
+                        -- calculate current progress towards finish
+                        local numItemsInSlot = #(TopFit.itemListBySlot[slot]) or 1
+                        local selectedItem = (TopFit.slotCounters[slot] == 0) and (#(TopFit.itemListBySlot[slot]) or 1) or (TopFit.slotCounters[slot] or 1)
+                        if numItemsInSlot == 0 then numItemsInSlot = 1 end
+                        if selectedItem == 0 then selectedItem = 1 end
 
-    -- update icons and statistics
-    if TopFit.bestCombination then
-        TopFit:SetCurrentCombination(TopFit.bestCombination)
-    end
+                        impact = impact / numItemsInSlot
+                        progress = progress + impact * (selectedItem - 1)
+                    end
+                end
 
-    if TopFit.abortCalculation then
-        TopFit.calculationsFrame:SetScript("OnUpdate", nil)
-        --TopFit:Print("Calculation aborted.")
-        TopFit.abortCalculation = nil
-        TopFit.isBlocked = false
-        TopFit:StoppedCalculation()
-    end
+                TopFit:SetProgress(progress)
+            else
+                TopFit:SetProgress(1) -- done
+            end
 
-    TopFit:Debug("Current combination count: "..TopFit.combinationCount)
+            -- update icons and statistics
+            if TopFit.bestCombination then
+                TopFit:SetCurrentCombination(TopFit.bestCombination)
+            end
+
+            if TopFit.abortCalculation then
+                --TopFit.calculationsFrame:SetScript("OnUpdate", nil)
+                TopFit:Print("Calculation aborted.")
+                TopFit.abortCalculation = nil
+                TopFit.isBlocked = false
+                TopFit:StoppedCalculation()
+                done = true
+            end
+
+            TopFit:Debug("Current combination count: "..TopFit.combinationCount)
+
+            if done then return end
+
+            coroutine.yield()
+            operation = 1
+        end
+    end
 end
 
 function TopFit:IsCapsReached(currentSlot)

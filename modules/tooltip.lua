@@ -186,7 +186,7 @@ function TopFit:getCompareItems(itemTable, setCode)
                 setItemLinks[slotID] = setItemLink
             end
         end
-        
+
         for _, slotID in pairs(itemTable.equipLocationsByType) do
             -- for each slot the item can be equipped in
             local setItemID = nil
@@ -196,15 +196,15 @@ function TopFit:getCompareItems(itemTable, setCode)
             local itemTable2 = nil
             local compareTable2 = nil
             local compareNotCached = false
-            
+
             if setItemIDs and setItemIDs[slotID] and setItemIDs[slotID] ~= 1 and setItemIDs[slotID] ~= 0 then
                 setItemID = setItemIDs[slotID]
                 setItemLink = setItemLinks[slotID]
-                
+
                 if setItemLink then
                     setItemTable = TopFit:GetCachedItem(setItemLink)
                 end
-                
+
                 if not setItemTable then
                     compareNotCached = true
                 end
@@ -231,7 +231,7 @@ function TopFit:getCompareItems(itemTable, setCode)
                     compLocationTable = {itemLink = "", slot = nil, bag = nil}
                 end
             end
-        
+
 
             tinsert(compareSets, {
                 setItemTable
@@ -255,12 +255,12 @@ function TopFit:getComparePercentage(itemTable, setCode)
     if not itemTable or not setCode then return 0 end
     local setTable = TopFit.db.profile.sets[setCode]
     if not setTable then return 0 end
-    
+
     local rawScore, asIsScore, rawCompareScore, asIsCompareScore = 0, 0, 0, 0
 
     rawScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, true) -- including caps, raw score
     asIsScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, false) -- including caps, enchanted score
-            
+
     if true then return 0 end
 
 
@@ -310,10 +310,10 @@ function TopFit:getComparePercentage(itemTable, setCode)
             if lTable2 then
                 itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
             end
-            
+
             -- also set compareTable to the relevant MAIN HAND! since offhand is empty, obviously
             compareTable = TopFit:GetCachedItem(setItemLinks[16])
-            
+
             if compareTable then
                 rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
                 asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
@@ -322,21 +322,21 @@ function TopFit:getComparePercentage(itemTable, setCode)
             end
         end
     end
-    
+
     if itemTable2 then
         rawScore = rawScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, true)
         asIsScore = asIsScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, false)
-        
+
         extraText = extraText..", if you also use "..itemTable2.itemLink
     end
-    
+
     if compareTable2 then
         rawCompareScore = rawCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, true)
         asIsCompareScore = asIsCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, false)
-        
+
         extraText = extraText..", "..compareTable2.itemLink
     end
-    
+
     local ratio, rawRatio, ratioString, rawRatioString = 1, 1, "", ""
     if rawCompareScore ~= 0 then
         rawRatio = rawScore / rawCompareScore
@@ -352,7 +352,7 @@ function TopFit:getComparePercentage(itemTable, setCode)
     elseif asIsScore < 0 then
         ratio = -20
     end
-    
+
     local compareItemText = ""
     if compareNotCached then
         compareItemText = "Item not in cache!|n"
@@ -361,7 +361,7 @@ function TopFit:getComparePercentage(itemTable, setCode)
     else
         compareItemText = compareTable.itemLink
     end
-    
+
     if ratio ~= rawRatio then
         tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, setTable.name)
     else
@@ -377,14 +377,14 @@ local s2Cleared = true
 
 local function TooltipAddCompareLines(tt, link)
     local itemTable = TopFit:GetCachedItem(link)
-    
-    TopFit:Debug("Adding Compare Tooltip for "..(link or "nil"))
-    
+
+    --TopFit:Debug("Adding Compare Tooltip for "..(link or "nil"))
+
     -- if the item is not yet cached, no tooltip info is added
     if not itemTable then
         return
     end
-    
+
     -- iterate all sets and compare with set's items
     tt:AddLine(" ")
     tt:AddLine("Compared with your current items for each set:")
@@ -419,7 +419,7 @@ local function TooltipAddCompareLines(tt, link)
                         itemLinks[slotID] = itemLink
                     end
                 end
-                
+
                 for _, slotID in pairs(itemTable.equipLocationsByType) do
                     -- get compare items sorted out
                     local itemID = nil
@@ -430,18 +430,18 @@ local function TooltipAddCompareLines(tt, link)
                     local itemTable2 = nil
                     local compareTable2 = nil
                     local compareNotCached = false
-                    
+
                     rawScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, true) -- including caps, raw score
                     asIsScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, false) -- including caps, enchanted score
-                    
+
                     if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 and itemIDs[slotID] ~= 0 then
                         itemID = itemIDs[slotID]
                         itemLink = itemLinks[slotID]
-                        
+
                         if itemLink then
                             compareTable = TopFit:GetCachedItem(itemLink)
                         end
-                        
+
                         if compareTable then
                             rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
                             asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
@@ -449,7 +449,7 @@ local function TooltipAddCompareLines(tt, link)
                             compareNotCached = true
                         end
                     end
-                    
+
                     -- location tables for best-in-slot requests
                     local locationTable, compLocationTable
                     if (slotID == 16 or slotID == 17) then
@@ -471,7 +471,7 @@ local function TooltipAddCompareLines(tt, link)
                             compLocationTable = {itemLink = "", slot = nil, bag = nil}
                         end
                     end
-                    
+
                     if slotID == 16 then -- main hand slot
                         if TopFit:IsOnehandedWeapon(link) then
                             -- is the weapon we compare to (if it exists) two-handed?
@@ -517,10 +517,10 @@ local function TooltipAddCompareLines(tt, link)
                             if lTable2 then
                                 itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                             end
-                            
+
                             -- also set compareTable to the relevant MAIN HAND! since offhand is empty, obviously
                             compareTable = TopFit:GetCachedItem(itemLinks[16])
-                            
+
                             if compareTable then
                                 rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
                                 asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
@@ -529,21 +529,21 @@ local function TooltipAddCompareLines(tt, link)
                             end
                         end
                     end
-                    
+
                     if itemTable2 then
                         rawScore = rawScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, true)
                         asIsScore = asIsScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, false)
-                        
+
                         extraText = extraText..", if you also use "..itemTable2.itemLink
                     end
-                    
+
                     if compareTable2 then
                         rawCompareScore = rawCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, true)
                         asIsCompareScore = asIsCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, false)
-                        
+
                         extraText = extraText..", "..compareTable2.itemLink
                     end
-                    
+
                     local ratio, rawRatio, ratioString, rawRatioString = 1, 1, "", ""
                     if rawCompareScore ~= 0 then
                         rawRatio = rawScore / rawCompareScore
@@ -559,7 +559,7 @@ local function TooltipAddCompareLines(tt, link)
                     elseif asIsScore < 0 then
                         ratio = -20
                     end
-                    
+
                     local compareItemText = ""
                     if compareNotCached then
                         compareItemText = "Item not in cache!|n"
@@ -568,7 +568,7 @@ local function TooltipAddCompareLines(tt, link)
                     else
                         compareItemText = compareTable.itemLink
                     end
-                    
+
                     if ratio ~= rawRatio then
                         tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, setTable.name)
                     else
@@ -597,9 +597,9 @@ end
 
 local function TooltipAddLines(tt, link)
     local itemTable = TopFit:GetCachedItem(link)
-    
+
     if not itemTable then return end
-    
+
     if (TopFit.db.profile.debugMode) then
         -- item stats
         tt:AddLine("Item stats as seen by TopFit:", 0.5, 0.9, 1)
@@ -619,7 +619,7 @@ local function TooltipAddLines(tt, link)
                 tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.5, 0.9, 1)
             end
         end
-        
+
         -- enchantment stats
         if (itemTable["enchantBonus"]) then
             tt:AddLine("Enchant:", 1, 0.9, 0.5)
@@ -638,7 +638,7 @@ local function TooltipAddLines(tt, link)
                 tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 1, 0.9, 0.5)
             end
         end
-        
+
         -- gems
         if (itemTable["gemBonus"]) then
             local first = true
@@ -647,7 +647,7 @@ local function TooltipAddLines(tt, link)
                     first = false
                     tt:AddLine("Gems:", 0.8, 0.2, 0)
                 end
-                
+
                 local valueString = ""
                 local first = true
                 for _, setTable in pairs(TopFit.db.profile.sets) do
@@ -662,7 +662,7 @@ local function TooltipAddLines(tt, link)
                 tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.8, 0.2, 0)
             end
         end
-        
+
         -- reforging
         if (itemTable["reforgeBonus"]) then
             local first = true
@@ -671,7 +671,7 @@ local function TooltipAddLines(tt, link)
                     first = false
                     tt:AddLine("Reforging:", 0.8, 0.8, 0)
                 end
-                
+
                 local valueString = ""
                 local first = true
                 for _, setTable in pairs(TopFit.db.profile.sets) do
@@ -687,7 +687,7 @@ local function TooltipAddLines(tt, link)
             end
         end
     end
-    
+
     if (TopFit.db.profile.showTooltip) then
         -- scores for sets
         local first = true
@@ -697,7 +697,7 @@ local function TooltipAddLines(tt, link)
                     first = false
                     tt:AddLine("Set Values:", 0.6, 1, 0.7)
                 end
-                
+
                 tt:AddLine("  "..round(TopFit:GetItemScore(itemTable.itemLink, setCode), 2).." - "..setTable.name, 0.6, 1, 0.7)
             end
         end
@@ -707,7 +707,7 @@ local function TooltipAddLines(tt, link)
 end
 
 local function OnTooltipCleared(self)
-    cleared = true   
+    cleared = true
 end
 
 local function OnTooltipSetItem(self)
@@ -730,7 +730,7 @@ local function OnTooltipSetItem(self)
 end
 
 local function OnRefTooltipCleared(self)
-    refCleared = true   
+    refCleared = true
 end
 
 local function OnRefTooltipSetItem(self)
@@ -752,7 +752,7 @@ local function OnRefTooltipSetItem(self)
 end
 
 local function OnShoppingTooltip1Cleared(self)
-    s1Cleared = true   
+    s1Cleared = true
 end
 
 local function OnShoppingTooltip1SetItem(self)
@@ -771,7 +771,7 @@ local function OnShoppingTooltip1SetItem(self)
 end
 
 local function OnShoppingTooltip2Cleared(self)
-    s2Cleared = true   
+    s2Cleared = true
 end
 
 local function OnShoppingTooltip2SetItem(self)
