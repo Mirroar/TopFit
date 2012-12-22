@@ -546,11 +546,6 @@ function TopFit:OnInitialize()
     -- container for plugin information and frames
     TopFit.plugins = {}
 
-    -- button to open frame
-    hooksecurefunc("ToggleCharacter", function (...)
-        TopFit:initializeCharacterFrameUI()
-    end)
-
     TopFit:collectItems()
 end
 

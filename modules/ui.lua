@@ -18,62 +18,15 @@ local function round(input, places)
     end
 end
 
+-- UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
 function TopFit:initializeCharacterFrameUI()
     if (TopFit.characterFrameUIcreated) then return end
     TopFit.characterFrameUIcreated = true;
     PaperDollSidebarTab3:SetPoint("BOTTOMRIGHT", PaperDollSidebarTabs, "BOTTOMRIGHT", -64, 0)
-    
+
     local pane = TopFitSidebarFrameScrollChild
-
-    TopFit:InitializeStaticPopupDialogs()
-    local setDropDown = TopFit:initializeSetDropdown(CharacterModelFrame)
-
-    local calculateButton = CreateFrame("Button", "TopFitSidebarCalculateButton", CharacterModelFrame, "UIPanelButtonTemplate")
-    calculateButton:SetPoint("BOTTOMRIGHT", CharacterModelFrame, "BOTTOMRIGHT", 15, -29)
-    calculateButton:SetHeight(22)
-    calculateButton:SetWidth(80)
-    calculateButton:SetText(TopFit.locale.Start)
-    calculateButton:SetScript("OnClick", function(...)
-        -- TODO: call a function for starting set calculation instead of this
-        if not TopFit.isBlocked then
-            if not IsShiftKeyDown() then
-                -- calculate selected set
-                if TopFit.db.profile.sets[TopFit.selectedSet] then
-                    PaperDollFrame_SetSidebar(PaperDollFrame, 4)
-                    TopFit.workSetList = { TopFit.selectedSet }
-                    TopFit:CalculateSets()
-                end
-            else
-                -- calculate all sets
-                TopFit.workSetList = {}
-                for setID, _ in pairs(TopFit.db.profile.sets) do
-                    tinsert(TopFit.workSetList, setID)
-                end
-                TopFit:CalculateSets()
-            end
-        end
-    end)
-    calculateButton.tipText = TopFit.locale.StartTooltip
-    calculateButton:SetScript("OnEnter", TopFit.ShowTooltip);
-    calculateButton:SetScript("OnLeave", TopFit.HideTooltip);
-
-    -- progress bar
-    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", CharacterModelFrame)
-    progressBar:SetPoint("TOPLEFT", setDropDown, 10, -5)
-    progressBar:SetPoint("BOTTOMRIGHT", setDropDown, -4, 9)
-    progressBar:SetStatusBarTexture(minimalist)
-    progressBar:SetMinMaxValues(0, 100)
-    progressBar:SetStatusBarColor(0, 1, 0, 1)
-    progressBar:Hide()
-
-    -- progress text
-    local progressText = progressBar:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    progressText:SetAllPoints()
-    progressText:SetText("0.00%")
-    progressBar.text = progressText
-
     TopFit:CreateOptionsStatFrame(pane)
-    
+
     local i = 1
     for statCategory, statsTable in pairs(TopFit.statList) do
         local statGroup = CreateFrame("Frame", "TopFitSidebarStatGroup"..i, pane, "TopFitStatGroupTemplate")
@@ -84,7 +37,7 @@ function TopFit:initializeCharacterFrameUI()
         end
         statGroup.NameText:SetText(statCategory)
         TopFit:UpdateStatGroup(statGroup)
-        
+
         i = i + 1
     end
 
@@ -116,14 +69,14 @@ function TopFit:InitializeStatScrollFrame()
     statScrollFrameContent:SetHeight(scrollFrameHeight)
     statScrollFrameContent:SetWidth(scrollFrameWidth)
     statScrollFrame:SetScrollChild(statScrollFrameContent)
-    
+
     -- List of Score contributing Texts and Bars
     statScrollFrameContent.statNameFontStrings = {}
     statScrollFrameContent.statValueFontStrings = {}
     statScrollFrameContent.statValueStatusBars = {}
     statScrollFrameContent.capNameFontStrings = {}
     statScrollFrameContent.capValueFontStrings = {}
-    
+
     local backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
         tile = true,
         tileSize = 32,
@@ -136,155 +89,6 @@ function TopFit:InitializeStatScrollFrame()
 
     local frame, pluginID = TopFit:RegisterPlugin(TopFit.locale.Stats, "Interface\\Icons\\Ability_Druid_BalanceofPower", TopFit.locale.StatsTooltip)
     TopFit.plugins[pluginID].frame = statScrollFrameContent
-end
-
-function TopFit:InitializeStaticPopupDialogs()
-    StaticPopupDialogs["TOPFIT_RENAMESET"] = {
-        text = "Rename set \"%s\" to:",
-        button1 = "OK",
-        button2 = "Cancel",
-        OnAccept = function(self)
-            local newName = self.editBox:GetText()
-            TopFit:RenameSet(TopFit.currentlyRenamingSetID, newName)
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = true,
-        hasEditBox = true,
-        enterClicksFirstButton = true,
-        OnShow = function(self)
-            self.editBox:SetText(TopFit.db.profile.sets[TopFit.currentlyRenamingSetID].name)
-        end,
-        preferredIndex = 3
-    }
-
-    StaticPopupDialogs["TOPFIT_DELETESET"] = {
-        text = "Do you really want to delete the set \"%s\"? The associated set in the equipment manager will also be lost.",
-        button1 = "OK",
-        button2 = "Cancel",
-        OnAccept = function(self)
-            TopFit:DeleteSet(TopFit.currentlyDeletingSetID)
-            TopFit:SetSelectedSet()
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = true,
-        preferredIndex = 3
-    }
-end
-
-function TopFit:initializeSetDropdown(pane)
-    local paneWidth = pane:GetWidth() - 70
-    
-    local setDropDown = CreateFrame("Frame", "TopFitSetDropDown", pane, "UIDropDownMenuTemplate")
-    setDropDown:SetPoint("TOP", pane, "TOP", -10, 17)
-    setDropDown:SetWidth(paneWidth)
-    _G["TopFitSetDropDownMiddle"]:SetWidth(paneWidth - 35)
-    _G["TopFitSetDropDownButton"]:SetWidth(paneWidth - 20)
-    
-    UIDropDownMenu_Initialize(setDropDown, function(self, level)
-        if level == 1 then
-            local info = UIDropDownMenu_CreateInfo()
-            info.text = TopFit.locale.SelectSetDropDown
-            info.value = 'selectsettitle'
-            info.isTitle = true
-            info.notCheckable = true
-            UIDropDownMenu_AddButton(info, level)
-
-            for k, v in pairs(TopFit.db.profile.sets) do
-                local info = UIDropDownMenu_CreateInfo()
-                info.text = v.name
-                info.value = k
-                info.hasArrow = true
-                info.func = function(self)
-                    TopFit:SetSelectedSet(self.value)
-                end
-                UIDropDownMenu_AddButton(info, level)
-                if not TopFit.selectedSet then
-                    TopFit:SetSelectedSet(k)
-                end
-            end
-
-            local info = UIDropDownMenu_CreateInfo()
-            info.text = ''
-            info.value = 'newline'
-            info.isTitle = true
-            info.notCheckable = true
-            UIDropDownMenu_AddButton(info, level)
-
-            local info = UIDropDownMenu_CreateInfo()
-            info.text = TopFit.locale.AddSetDropDown
-            info.value = 'addsettitle'
-            info.isTitle = true
-            info.notCheckable = true
-            UIDropDownMenu_AddButton(info, level)
-
-            local info = UIDropDownMenu_CreateInfo()
-            info.text = TopFit.locale.EmptySet
-            info.value = 'addemptyset'
-            info.func = function(self)
-                local setCode = TopFit:AddSet()
-                local setName = TopFit.db.profile.sets[setCode].name
-                TopFit:CreateEquipmentSet(setName)
-                TopFit:CalculateScores()
-            end
-            UIDropDownMenu_AddButton(info, level)
-            
-            local presets = TopFit:GetPresets()
-            if presets then
-                for k, v in pairs(presets) do
-                    info = UIDropDownMenu_CreateInfo()
-                    info.text = v.name
-                    info.value = 'add_'..k
-                    info.func = function(self)
-                        local setCode = TopFit:AddSet(v)
-                        local setName = TopFit.db.profile.sets[setCode].name
-                        TopFit:CreateEquipmentSet(setName)
-                        TopFit:CalculateScores()
-                    end
-                    UIDropDownMenu_AddButton(info, level)
-                end
-            end
-        elseif level == 2 then
-            local info = UIDropDownMenu_CreateInfo()
-            info.text = TopFit.locale.ModifySetSelectText
-            info.value = 'rename_'..UIDROPDOWNMENU_MENU_VALUE
-            info.notCheckable = true
-            info.func = function()
-                TopFit:SetSelectedSet(UIDROPDOWNMENU_MENU_VALUE)
-                ToggleDropDownMenu(1, nil, setDropDown)
-            end
-            UIDropDownMenu_AddButton(info, level)
-
-            local info = UIDropDownMenu_CreateInfo()
-            info.text = TopFit.locale.ModifySetRenameText
-            info.value = 'select_'..UIDROPDOWNMENU_MENU_VALUE
-            info.notCheckable = true
-            info.func = function()
-                TopFit.currentlyRenamingSetID = UIDROPDOWNMENU_MENU_VALUE
-                StaticPopup_Show("TOPFIT_RENAMESET", TopFit.db.profile.sets[UIDROPDOWNMENU_MENU_VALUE].name)
-                ToggleDropDownMenu(1, nil, setDropDown)
-            end
-            UIDropDownMenu_AddButton(info, level)
-
-            local info = UIDropDownMenu_CreateInfo()
-            info.text = TopFit.locale.ModifySetDeleteText
-            info.value = 'delete_'..UIDROPDOWNMENU_MENU_VALUE
-            info.notCheckable = true
-            info.func = function()
-                TopFit.currentlyDeletingSetID = UIDROPDOWNMENU_MENU_VALUE
-                StaticPopup_Show("TOPFIT_DELETESET", TopFit.db.profile.sets[UIDROPDOWNMENU_MENU_VALUE].name)
-                ToggleDropDownMenu(1, nil, setDropDown)
-            end
-            UIDropDownMenu_AddButton(info, level)
-
-        end
-    end)
-    
-    UIDropDownMenu_JustifyText(setDropDown, "LEFT")
-    TopFit:SetSelectedSet()
-
-    return setDropDown
 end
 
 function TopFit.StatValueEditBoxFocusLost(self)
@@ -346,7 +150,7 @@ function TopFit:CreateEditStatPane(pane)
     capValueTextBox:EnableMouse(true)
     capValueTextBox:SetFontObject("GameFontHighlightSmall")
     capValueTextBox:SetJustifyH("RIGHT")
-    
+
     -- scripts
     capValueTextBox:SetScript("OnEditFocusGained", function(...) capValueTextBox.HighlightText(...) end)
     capValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLostCap)
@@ -363,7 +167,7 @@ function TopFit:CreateEditStatPane(pane)
         TopFit:UpdateStatGroups()
         TopFit:CalculateScores()
     end)
-    
+
     local function EditBoxFocusLostAfterCap(self)
         local statCode = self:GetParent().statCode
         self:SetText(TopFit:GetAfterCapStatValue(TopFit.selectedSet, statCode))
@@ -380,7 +184,7 @@ function TopFit:CreateEditStatPane(pane)
     afterCapStatValueTextBox:EnableMouse(true)
     afterCapStatValueTextBox:SetFontObject("GameFontHighlightSmall")
     afterCapStatValueTextBox:SetJustifyH("RIGHT")
-    
+
     -- scripts
     afterCapStatValueTextBox:SetScript("OnEditFocusGained", function(...) afterCapStatValueTextBox.HighlightText(...) end)
     afterCapStatValueTextBox:SetScript("OnEditFocusLost", EditBoxFocusLostAfterCap)
@@ -422,14 +226,13 @@ function TopFit:SetSelectedSet(setID)
             end
         end
     end
-    
-    TopFit.selectedSet = setID
-    
+
     if not setID then
         if TopFitSidebarCalculateButton then
             TopFitSidebarCalculateButton:Disable()
         end
     else
+        TopFit.selectedSet = setID
         if TopFitSidebarCalculateButton then
             TopFitSidebarCalculateButton:Enable()
         end
@@ -471,7 +274,7 @@ function TopFit:SetCurrentCombinationFromEquipmentSet(setCode)
                 else
                     -- item not found
                 end
-                
+
                 if itemLink then
                     itemTable = TopFit:GetCachedItem(itemLink)
                     if itemTable then
@@ -480,7 +283,7 @@ function TopFit:SetCurrentCombinationFromEquipmentSet(setCode)
                             bag = bag,
                             slot = slot
                         }
-                        
+
                         -- add to total stats and score
                         for statName, statValue in pairs(itemTable.totalBonus) do
                             combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
@@ -491,7 +294,7 @@ function TopFit:SetCurrentCombinationFromEquipmentSet(setCode)
             end
         end
     end
-    
+
     TopFit:SetCurrentCombination(combination)
 end
 
@@ -539,7 +342,7 @@ function TopFit:CollapseStatGroup(statGroup)
     statGroup.CollapsedIcon:Show()
     statGroup.ExpandedIcon:Hide()
     local i = 1;
-    while (_G[statGroup:GetName().."Stat"..i]) do 
+    while (_G[statGroup:GetName().."Stat"..i]) do
         _G[statGroup:GetName().."Stat"..i]:Hide()
         i = i + 1;
     end
@@ -576,13 +379,13 @@ function TopFit:UpdateStatGroup(statGroup)
         for i = 1, #subStats do
             local statCode = subStats[i]
             local statFrame = _G[statGroup:GetName().."Stat"..i]
-            
+
             if not statFrame then
                 statFrame = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
                 statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
                 statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
             end
-            
+
             statFrame.statCode = statCode
             _G[statGroup:GetName().."Stat"..i.."Label"]:SetText((_G[statCode] or string.gsub(statCode, "SET: ", ""))..":")
             _G[statGroup:GetName().."Stat"..i.."StatText"]:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
@@ -591,9 +394,9 @@ function TopFit:UpdateStatGroup(statGroup)
             else
                 statFrame:Show()
             end
-            
+
             totalHeight = totalHeight + statFrame:GetHeight()
-            
+
             if (i % 2 == 0) then
                 if (not statFrame.Bg) then
                     statFrame.Bg = statFrame:CreateTexture(statFrame:GetName().."Bg", "BACKGROUND")
@@ -620,7 +423,7 @@ function TopFit:UpdateStatGroup(statGroup)
             end
 
             totalHeight = totalHeight + statFrame:GetHeight()
-            
+
             if (i % 2 == 0) then
                 if (not statFrame.Bg) then
                     statFrame.Bg = statFrame:CreateTexture(statFrame:GetName().."Bg", "BACKGROUND")
@@ -640,7 +443,7 @@ function TopFit:UpdateStatGroup(statGroup)
     if not statGroup.collapsed then
         statGroup:SetHeight(totalHeight)
     end
-    
+
     -- fix for groups with only 1 item
     if (totalHeight < 44) then
         statGroup.BgBottom:SetHeight(totalHeight - 2)
@@ -766,7 +569,7 @@ function TopFit:CreateOptionsStatFrame(parent)
     statFrame = CreateFrame("Button", statGroup:GetName().."Stat"..i, statGroup, "TopFitStatFrameTemplate")
     statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMLEFT", 0, 0)
     statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Stat"..(i - 1)], "BOTTOMRIGHT", 0, 0)
-    
+
     statFrame.statCode = statCode
     _G[statGroup:GetName().."Stat"..i.."Label"]:SetText(_G[statCode]..":")
     _G[statGroup:GetName().."Stat"..i.."StatText"]:SetText(TopFit:GetStatValue(TopFit.selectedSet, statCode))
@@ -802,7 +605,7 @@ function TopFit:SetDefaultCollapsedStates()
         local foundActiveStat = false
         for j = 1, #subStats do
             local statCode = subStats[j]
-            
+
             if (TopFit:GetStatValue(TopFit.selectedSet, statCode) > 0 or TopFit:GetCapValue(TopFit.selectedSet, statCode) > 0 or TopFit:GetAfterCapStatValue(TopFit.selectedSet, statCode) > 0) then
                 foundActiveStat = true
                 break
@@ -845,7 +648,7 @@ function TopFit:ToggleStatFrame(statFrame)
         TopFitSidebarEditStatPaneStatAfterCapValue:SetText(afterCap)
         --TopFitSidebarEditStatPaneStatValue:Raise()
     end
-    
+
     TopFit:UpdateStatGroups()
 end
 
@@ -883,14 +686,14 @@ function TopFit:SetCurrentCombination(combination)
     TopFit:UpdateVirtualItemButtons(combination);
 
     --TopFit.ProgressFrame.setScoreFontString:SetText(string.format(TopFit.locale.SetScore, round(combination.totalScore, 2)))
-    
+
     -- sort stats by score contribution
     statList = {}
     scorePerStat = {}
     for key, _ in pairs(combination.totalStats) do
         tinsert(statList, key)
     end
-    
+
     local set
     local caps
     if not TopFit.selectedSet then
@@ -900,7 +703,7 @@ function TopFit:SetCurrentCombination(combination)
         set = TopFit.db.profile.sets[TopFit.selectedSet].weights
         caps = TopFit.db.profile.sets[TopFit.selectedSet].caps
     end
-    
+
     table.sort(statList, function(a, b)
         local score1, score2 = 0, 0
         if set[a] and ((not caps) or (not caps[a]) or (not caps[a]["active"]) or (caps[a]["soft"])) then
@@ -909,13 +712,13 @@ function TopFit:SetCurrentCombination(combination)
         if set[b] and ((not caps) or (not caps[b]) or (not caps[b]["active"]) or (caps[b]["soft"])) then
             score2 = combination.totalStats[b] * set[b]
         end
-        
+
         scorePerStat[a] = score1
         scorePerStat[b] = score2
-        
+
         return score1 > score2
     end)
-    
+
     local statScrollFrameContent = TopFitStatScrollFrameContent
 
     local statTexts = statScrollFrameContent.statNameFontStrings
@@ -923,14 +726,14 @@ function TopFit:SetCurrentCombination(combination)
     local statusBars = statScrollFrameContent.statValueStatusBars
     local lastStat = 0
     local maxStatValue = statList[1] and scorePerStat[statList[1]] or 0
-    
+
     if not statScrollFrameContent.statsHeader then
         statScrollFrameContent.statsHeader = statScrollFrameContent:CreateFontString(nil, nil, "GameFontNormalLarge")
         statScrollFrameContent.statsHeader:SetPoint("TOP", TopFitStatScrollFrame:GetScrollChild(), "TOP", 0, -5)
         statScrollFrameContent.statsHeader:SetPoint("LEFT", statScrollFrameContent, "LEFT", 3, 0)
         statScrollFrameContent.statsHeader:SetText(TopFit.locale.HeadingStats)
     end
-    
+
     for i = 1, #statList do
         if (scorePerStat[statList[i]] ~= nil) and (scorePerStat[statList[i]] > 0) then
             lastStat = i
@@ -940,7 +743,7 @@ function TopFit:SetCurrentCombination(combination)
                 statusBars[i] = CreateFrame("StatusBar", "TopFitStatValueBar"..i, statScrollFrameContent)
                 statusBars[i]:SetHeight(14)
                 statusBars[i]:SetStatusBarTexture(minimalist)
-                
+
                 statTexts[i] = statusBars[i]:CreateFontString(nil, nil, "GameFontHighlight")
                 valueTexts[i] = statusBars[i]:CreateFontString(nil, nil, "NumberFontNormal")
                 valueTexts[i]:SetPoint("RIGHT", statusBars[i])
@@ -949,7 +752,7 @@ function TopFit:SetCurrentCombination(combination)
                 statTexts[i]:SetPoint("LEFT", statusBars[i])
                 statTexts[i]:SetPoint("RIGHT", valueTexts[i], "LEFT")
                 statTexts[i]:SetJustifyH("LEFT")
-                
+
                 statusBars[i]:SetPoint("TOPLEFT", statusBars[i - 1] or statScrollFrameContent.statsHeader, "BOTTOMLEFT")
                 statusBars[i]:SetPoint("RIGHT")
             end
@@ -968,18 +771,18 @@ function TopFit:SetCurrentCombination(combination)
         valueTexts[i]:Hide()
         statusBars[i]:Hide()
     end
-    
+
     -- list for caps
     local i = 0
     local capNameTexts = statScrollFrameContent.capNameFontStrings
     local capValueTexts = statScrollFrameContent.capValueFontStrings
-    
+
     if not statScrollFrameContent.capHeader then
         statScrollFrameContent.capHeader = statScrollFrameContent:CreateFontString(nil, nil, "GameFontNormalLarge")
         statScrollFrameContent.capHeader:SetText(TopFit.locale.HeadingCaps)
     end
     statScrollFrameContent.capHeader:Hide()
-    
+
     for stat, capTable in pairs(caps) do
         if capTable.active then
             i = i + 1
@@ -1012,14 +815,14 @@ function TopFit:SetCurrentCombination(combination)
     if capNameTexts[1] then
         statScrollFrameContent.capHeader:SetPoint("TOPLEFT", statTexts[lastStat], "BOTTOMLEFT", 0, -20)
     end
-    
+
     -- hide unused cap texts
     local numCaps = i
     for i = numCaps + 1, #capNameTexts do
         capNameTexts[i]:Hide()
         capValueTexts[i]:Hide()
     end
-    
+
     -- creates a 20px spacing to the bottom, so all caps are always readable!
     if not statScrollFrameContent.placeHolder then
         statScrollFrameContent.placeHolder = CreateFrame("Frame", nil, statScrollFrameContent)
@@ -1063,9 +866,9 @@ function TopFit:UpdateVirtualItemButtons(combination)
         end
 
         button.itemLink = combination.items[slotID] and combination.items[slotID].itemLink
-        
+
         -- set highlight if forced item
-        if (TopFit.selectedSet) and 
+        if (TopFit.selectedSet) and
             (TopFit.db.profile.sets[TopFit.selectedSet]) and
             #(TopFit:GetForcedItems(TopFit.selectedSet, slotID)) > 0 then
             button.overlay:SetVertexColor(1, 0, 0, 1)
@@ -1074,7 +877,7 @@ function TopFit:UpdateVirtualItemButtons(combination)
             button.overlay:SetVertexColor(1, 1, 1, 0) -- transparent
             button.isForced = false
         end
-        
+
         local itemTexture
         if button.itemLink and (button.isForced or true --[[or button.itemLink ~= button.itemButton.item]]) then -- an item was set, and there is information to show to the user
             --TODO: find a way to check if calculated and equipped item are the same, also update when equipping items
@@ -1122,13 +925,13 @@ end
 function TopFit:InsertIntoItemSetNames(statCode, setNames)
     --local setname = string.gsub(statCode, "SET: (.*)", "%1")
     local setname = statCode
-    
+
     -- check if set was added already
     local found = false
     for _, setname2 in pairs(setNames) do
         if setname == setname2 then found = true break end
     end
-    
+
     if not found then tinsert(setNames, setname) end
 end
 
