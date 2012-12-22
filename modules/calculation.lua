@@ -1,79 +1,77 @@
-function TopFit:StartCalculations()
+local addonName, ns, _ = ...
+
+function ns:StartCalculations()
     -- generate table of set codes
-    TopFit.workSetList = {}
+    ns.workSetList = {}
     for setCode, _ in pairs(self.db.profile.sets) do
-        tinsert(TopFit.workSetList, setCode)
+        tinsert(ns.workSetList, setCode)
     end
 
-    TopFit:CalculateSets()
+    ns:CalculateSets()
 end
 
-function TopFit:AbortCalculations()
-    if TopFit.isBlocked then
-        TopFit.abortCalculation = true
+function ns:AbortCalculations()
+    if ns.isBlocked then
+        ns.abortCalculation = true
     end
 end
 
-function TopFit:CalculateSets(silent)
-    if (not TopFit.isBlocked) then
-        TopFit.silentCalculation = silent
-        local setCode = tremove(TopFit.workSetList)
-        while not self.db.profile.sets[setCode] and #(TopFit.workSetList) > 0 do
-            setCode = tremove(TopFit.workSetList)
+function ns:CalculateSets(silent)
+    if (not ns.isBlocked) then
+        ns.silentCalculation = silent
+        local setCode = tremove(ns.workSetList)
+        while not ns.db.profile.sets[setCode] and #(ns.workSetList) > 0 do
+            setCode = tremove(ns.workSetList)
         end
 
-        if self.db.profile.sets[setCode] then
-            TopFit.setCode = setCode -- globally save the current set that is being calculated
-            TopFit.currentCalculationLength = 0 -- for performance testing
+        if ns.db.profile.sets[setCode] then
+            ns.setCode = setCode -- globally save the current set that is being calculated
 
-            TopFit:Debug("Calculating items for "..setCode)
+            local set = ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setCode])
+            set.currentCalculationLength = 0 -- for performance testing --TODO: don't just add to set table :(
+
+            ns:Debug("Calculating items for "..set:GetName())
 
             -- set as working to prevent any further calls from "interfering"
-            TopFit.isBlocked = true
+            ns.isBlocked = true
 
             -- copy caps
-            TopFit.Utopia = {}
-            for key, value in pairs(TopFit.db.profile.sets[setCode].caps) do
-                TopFit.Utopia[key] = value
-            end
-            TopFit.ignoreCapsForCalculation = false
+            ns.ignoreCapsForCalculation = false
 
             -- do the actual work
-            TopFit:collectItems()
+            ns:collectItems()
 
             -- start calculation within coroutine
-            if not TopFit.activeCoroutines then
-                TopFit.activeCoroutines = {}
+            if not ns.activeCoroutines then
+                ns.activeCoroutines = {}
             end
 
-            TopFit:Debug("Inserting coroutine")
-            tinsert(TopFit.activeCoroutines, coroutine.create(TopFit.CalculateRecommendations))
-            TopFit.calculationsFrame:SetScript("OnUpdate", TopFit.ContinueActiveCalculations)
+            ns:Debug("Inserting coroutine")
+            tinsert(ns.activeCoroutines, {coroutine.create(ns.CalculateRecommendations), set})
+            ns.calculationsFrame:SetScript("OnUpdate", ns.ContinueActiveCalculations)
         end
     end
 end
 
 --start calculation for setName
-function TopFit:CalculateRecommendations()
-    local setName = TopFit.db.profile.sets[TopFit.setCode].name
-    TopFit.itemRecommendations = {}
-    TopFit.currentItemCombination = {}
-    TopFit.itemCombinations = {}
-    TopFit.currentSetName = setName
+function ns.CalculateRecommendations(set)
+    ns.itemRecommendations = {}
+    ns.currentItemCombination = {}
+    ns.itemCombinations = {}
+    ns.currentSetName = set:GetName()
 
     -- determine if the player can dualwield
-    TopFit:Debug("before DW")
-    TopFit.playerCanDualWield = TopFit:PlayerCanDualWield()
-    TopFit.playerCanTitansGrip = TopFit:PlayerHasTitansGrip()
+    ns.playerCanDualWield = ns:PlayerCanDualWield()
+    ns.playerCanTitansGrip = ns:PlayerHasTitansGrip()
 
-    if (TopFit.db.profile.sets[TopFit.setCode].simulateDualWield) then
-        TopFit.playerCanDualWield = true
+    if (ns.db.profile.sets[ns.setCode].simulateDualWield) then
+        ns.playerCanDualWield = true
     end
-    if (TopFit.db.profile.sets[TopFit.setCode].simulateTitansGrip) then
-        TopFit.playerCanTitansGrip = true
+    if (ns.db.profile.sets[ns.setCode].simulateTitansGrip) then
+        ns.playerCanTitansGrip = true
     end
 
-    TopFit:InitSemiRecursiveCalculations()
+    ns.InitSemiRecursiveCalculations(set)
 end
 
 function TopFit:PlayerCanDualWield()
@@ -98,69 +96,66 @@ function TopFit:PlayerHasTitansGrip()
     end
 end
 
-function TopFit:InitSemiRecursiveCalculations()
-    TopFit:Debug("InitSemiRecursiveCalculations")
+function ns.InitSemiRecursiveCalculations(set)
+    set:SetOperationsPerFrame(500)
     -- save equippable items
-    TopFit.itemListBySlot = TopFit:GetEquippableItems()
-    TopFit:ReduceItemList(TopFit.itemListBySlot)
+    ns.itemListBySlot = ns:GetEquippableItems()
+    ns:ReduceItemList(set, ns.itemListBySlot)
 
-    TopFit.slotCounters = {}
-    TopFit.currentSlotCounter = 0
-    TopFit.operationsPerFrame = 500
-    TopFit.combinationCount = 0
-    TopFit.bestCombination = nil
-    TopFit.maxScore = nil
-    TopFit.firstCombination = true
+    ns.slotCounters = {}
+    ns.currentSlotCounter = 0
+    ns.combinationCount = 0
+    ns.bestCombination = nil
+    ns.maxScore = nil
+    ns.firstCombination = true
 
-    TopFit.capHeuristics = {}
-    TopFit.maxRestStat = {}
-    TopFit.currentCapValues = {}
+    ns.capHeuristics = {}
+    ns.maxRestStat = {}
+    ns.currentCapValues = {}
     -- create maximum values for each cap and item slot
-    for statCode, preferences in pairs(TopFit.Utopia) do
-        if preferences.active then
-            TopFit.capHeuristics[statCode] = {}
-            TopFit.maxRestStat[statCode] = {}
-            for _, slotID in pairs(TopFit.slots) do
-                if (TopFit.itemListBySlot[slotID]) then
-                    -- get maximum value contributed to cap in this slot
-                    local maxStat = nil
-                    for _, locationTable in pairs(TopFit.itemListBySlot[slotID]) do
-                        local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
-                        if itemTable then
-                            local thisStat = itemTable.totalBonus[statCode] or 0
+    for statCode, _ in pairs(set:GetHardCaps()) do
+        ns.capHeuristics[statCode] = {}
+        ns.maxRestStat[statCode] = {}
+        for _, slotID in pairs(ns.slots) do
+            if (ns.itemListBySlot[slotID]) then
+                -- get maximum value contributed to cap in this slot
+                local maxStat = 0
+                for _, locationTable in pairs(ns.itemListBySlot[slotID]) do
+                    local itemTable = ns:GetCachedItem(locationTable.itemLink)
+                    if itemTable then
+                        local thisStat = itemTable.totalBonus[statCode] or 0
 
-                            if ((thisStat > 0) and ((maxStat == nil) or (thisStat > maxStat))) then
-                                maxStat = thisStat
-                            end
+                        if thisStat > maxStat then
+                            maxStat = thisStat
                         end
                     end
-
-                    TopFit.capHeuristics[statCode][slotID] = maxStat
                 end
-            end
 
-            for i = 0, 20 do
-                TopFit.maxRestStat[statCode][i] = 0
-                if (TopFit.capHeuristics[statCode][i]) then
-                    for j = 0, i do
-                        TopFit.maxRestStat[statCode][j] = TopFit.maxRestStat[statCode][j] + TopFit.capHeuristics[statCode][i]
-                    end
+                ns.capHeuristics[statCode][slotID] = maxStat
+            end
+        end
+
+        for i = 0, 20 do
+            ns.maxRestStat[statCode][i] = 0
+            if ns.capHeuristics[statCode][i] then --TODO: get rid of this check and instead only iterate over available slots
+                for j = 0, i do
+                    ns.maxRestStat[statCode][j] = ns.maxRestStat[statCode][j] + ns.capHeuristics[statCode][i]
                 end
             end
         end
     end
 
     -- cache up to which slot unique items are available
-    TopFit.moreUniquesAvailable = {}
+    ns.moreUniquesAvailable = {}
     local uniqueFound = false
     for slotID = 20, 0, -1 do
         if uniqueFound then
-            TopFit.moreUniquesAvailable[slotID] = true
+            ns.moreUniquesAvailable[slotID] = true
         else
-            TopFit.moreUniquesAvailable[slotID] = false
-            if (TopFit.itemListBySlot[slotID]) then
-                for _, locationTable in pairs(TopFit.itemListBySlot[slotID]) do
-                    local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
+            ns.moreUniquesAvailable[slotID] = false
+            if (ns.itemListBySlot[slotID]) then
+                for _, locationTable in pairs(ns.itemListBySlot[slotID]) do
+                    local itemTable = ns:GetCachedItem(locationTable.itemLink)
                     if itemTable then
                         for statCode, _ in pairs(itemTable.totalBonus) do
                             if (string.sub(statCode, 1, 8) == "UNIQUE: ") then
@@ -174,29 +169,31 @@ function TopFit:InitSemiRecursiveCalculations()
         end
     end
 
-    TopFit:Debug("Almost there...")
+    ns:Debug("Almost there...")
 
-    TopFit:ResetProgress()
-    TopFit:SemiRecursiveCalculation()
+    ns:ResetProgress()
+    ns.SemiRecursiveCalculation(set)
 end
 
-function TopFit.ContinueActiveCalculations(frame, elapsed)
-    TopFit:Debug("ContinueActiveCalculations")
-    if #(TopFit.activeCoroutines) < 1 then
-        TopFit.calculationsFrame:SetScript("OnUpdate", nil)
+function ns.ContinueActiveCalculations(frame, elapsed)
+    ns:Debug("ContinueActiveCalculations")
+    if #(ns.activeCoroutines) < 1 then
+        ns.calculationsFrame:SetScript("OnUpdate", nil)
     else
-        for i = #(TopFit.activeCoroutines), 1, -1 do
-            local func = TopFit.activeCoroutines[i]
+        for i = #(ns.activeCoroutines), 1, -1 do
+            local func = ns.activeCoroutines[i][1]
             if (coroutine.status(func) == 'dead') then
-                tremove(TopFit.activeCoroutines, i)
+                tremove(ns.activeCoroutines, i)
             else
-                TopFit:Debug('coroutine.resume called', coroutine.resume(func))
+                local set = ns.activeCoroutines[i][2]
+                set.currentCalculationLength = set.currentCalculationLength + elapsed
+                ns:Debug('coroutine.resume called', coroutine.resume(func, set))
             end
         end
     end
 end
 
-function TopFit:ReduceItemList(itemList)
+function TopFit:ReduceItemList(set, itemList)
     -- remove all non-forced items from item list
     for slotID, _ in pairs(TopFit.slotNames) do
         local forcedItems = TopFit:GetForcedItems(TopFit.setCode, slotID)
@@ -265,13 +262,11 @@ function TopFit:ReduceItemList(itemList)
                     if #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
                         -- check caps
                         local hasCap = false
-                        for statCode, preferences in pairs(TopFit.Utopia) do
-                            if preferences.active then
-                                local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
-                                if itemTable and (itemTable.totalBonus[statCode] or -1) > 0 then
-                                    hasCap = true
-                                    break
-                                end
+                        for statCode, _ in pairs(set:GetHardCaps()) do
+                            local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
+                            if itemTable and (itemTable.totalBonus[statCode] or -1) > 0 then
+                                hasCap = true
+                                break
                             end
                         end
 
@@ -358,12 +353,10 @@ function TopFit:ReduceItemList(itemList)
 
                                 -- score is greater, see if caps are also better
                                 local allStats = true
-                                for statCode, preferences in pairs(TopFit.Utopia) do
-                                    if preferences.active then
-                                        if (itemTable.totalBonus[statCode] or 0) > (compareTable.totalBonus[statCode] or 0) then
-                                            allStats = false
-                                            break
-                                        end
+                                for statCode, _ in pairs(set:GetHardCaps()) do
+                                    if (itemTable.totalBonus[statCode] or 0) > (compareTable.totalBonus[statCode] or 0) then
+                                        allStats = false
+                                        break
                                     end
                                 end
 
@@ -398,9 +391,7 @@ function TopFit:ReduceItemList(itemList)
     end
 end
 
-function TopFit.SemiRecursiveCalculation(frame, elapsed)
-    TopFit:Debug("SemiRecursiveCalculation")
-    TopFit.currentCalculationLength = TopFit.currentCalculationLength + (elapsed or 0)
+function TopFit.SemiRecursiveCalculation(set)
     local operation = 1
     local done = false
     while (not done) and (not TopFit.abortCalculation) do
@@ -426,13 +417,13 @@ function TopFit.SemiRecursiveCalculation(frame, elapsed)
                     TopFit.firstCombination = false
                 else
                     -- we're back here, and so we're done
-                    TopFit:Print("Finished calculation after " .. math.round(TopFit.currentCalculationLength * 100) / 100 .. " seconds at " .. TopFit.operationsPerFrame .. " operations per frame")
+                    TopFit:Print("Finished calculation after " .. math.round(set.currentCalculationLength * 100) / 100 .. " seconds at " .. set:GetOperationsPerFrame() .. " operations per frame")
                     done = true
                     --TopFit.calculationsFrame:SetScript("OnUpdate", nil)
                     --operation = TopFit.operationsPerFrame
 
                     -- save a default set of only best-in-slot items
-                    TopFit:SaveCurrentCombination()
+                    TopFit:SaveCurrentCombination(set)
 
                     -- find best combination that satisfies ALL caps
                     if (TopFit.bestCombination) then
@@ -452,9 +443,11 @@ function TopFit.SemiRecursiveCalculation(frame, elapsed)
                         if not TopFit.silentCalculation then
                             TopFit:Print(TopFit.locale.ErrorCapNotReached)
                         end
-                        TopFit.Utopia = {}
+                        set:ClearAllHardCaps()
                         TopFit.ignoreCapsForCalculation = true
-                        TopFit:CalculateRecommendations(TopFit.currentSetName)
+
+                        -- start over
+                        tinsert(ns.activeCoroutines, {coroutine.create(ns.CalculateRecommendations), set})
                         return
                     end
                 end
@@ -463,11 +456,11 @@ function TopFit.SemiRecursiveCalculation(frame, elapsed)
 
         if not done then
             -- fill all further slots with first choices again - until caps are reached or unreachable
-            while (not TopFit:IsCapsReached(currentSlot) or TopFit:MoreUniquesAvailable(currentSlot)) and not TopFit:IsCapsUnreachable(currentSlot) and not TopFit:UniquenessViolated(currentSlot) and (currentSlot < 19) do
+            while (not TopFit:IsCapsReached(set, currentSlot) or TopFit:MoreUniquesAvailable(currentSlot)) and not TopFit:IsCapsUnreachable(set, currentSlot) and not TopFit:UniquenessViolated(set, currentSlot) and (currentSlot < 19) do
                 currentSlot = currentSlot + 1
                 if #(TopFit.itemListBySlot[currentSlot]) > 0 then
                     TopFit.slotCounters[currentSlot] = 1
-                    while TopFit:IsDuplicateItem(currentSlot) or TopFit:UniquenessViolated(currentSlot) or (not TopFit:IsOffhandValid(currentSlot)) do
+                    while TopFit:IsDuplicateItem(currentSlot) or TopFit:UniquenessViolated(set, currentSlot) or (not TopFit:IsOffhandValid(currentSlot)) do
                         TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
                     end
                     if TopFit.slotCounters[currentSlot] > #(TopFit.itemListBySlot[currentSlot]) then
@@ -478,14 +471,14 @@ function TopFit.SemiRecursiveCalculation(frame, elapsed)
                 end
             end
 
-            if TopFit:IsCapsReached(currentSlot) and not TopFit:UniquenessViolated(currentSlot) then
+            if TopFit:IsCapsReached(set, currentSlot) and not TopFit:UniquenessViolated(set, currentSlot) then
                 -- valid combination, save
-                TopFit:SaveCurrentCombination()
+                TopFit:SaveCurrentCombination(set)
             end
         end
 
         operation = operation + 1
-        if operation > TopFit.operationsPerFrame or done then
+        if operation > set:GetOperationsPerFrame() or done then
             -- update progress
             if not done then
                 local progress = 0
@@ -534,69 +527,63 @@ function TopFit.SemiRecursiveCalculation(frame, elapsed)
     end
 end
 
-function TopFit:IsCapsReached(currentSlot)
+function TopFit:IsCapsReached(set, currentSlot)
     local currentValues = {}
     local i
     for i = 1, currentSlot do
         if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 and TopFit.itemListBySlot[i][TopFit.slotCounters[i]] then
-            for stat, preferences in pairs(TopFit.Utopia) do
-                if preferences.active then
-                    local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
-                    if itemTable then
-                        currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
-                    end
+            for stat, _ in pairs(set:GetHardCaps()) do
+                local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
+                if itemTable then
+                    currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
                 end
             end
         end
     end
 
-    for stat, preferences in pairs(TopFit.Utopia) do
-        if preferences.active and (currentValues[stat] or 0) < preferences.value then
+    for stat, value in pairs(set:GetHardCaps()) do
+        if (currentValues[stat] or 0) < value then
             return false
         end
     end
     return true
 end
 
-function TopFit:IsCapsUnreachable(currentSlot)
+function TopFit:IsCapsUnreachable(set, currentSlot)
     local currentValues = {}
     local restValues = {}
     local i
-    for stat, preferences in pairs(TopFit.Utopia) do
-        if preferences.active then
-            for i = 1, currentSlot do
-                if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 and TopFit.itemListBySlot[i][TopFit.slotCounters[i]] then
-                    local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
-                    if itemTable then
-                        currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
-                    end
+    for stat, value in pairs(set:GetHardCaps()) do
+        for i = 1, currentSlot do
+            if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 and TopFit.itemListBySlot[i][TopFit.slotCounters[i]] then
+                local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
+                if itemTable then
+                    currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
                 end
             end
+        end
 
-            for i = currentSlot + 1, 19 do
-                restValues[stat] = (restValues[stat] or 0) + (TopFit.capHeuristics[stat][i] or 0)
-            end
+        for i = currentSlot + 1, 19 do
+            restValues[stat] = (restValues[stat] or 0) + (TopFit.capHeuristics[stat][i] or 0)
+        end
 
-            if (currentValues[stat] or 0) + (restValues[stat] or 0) < preferences.value then
-                TopFit:Debug("|cffff0000Caps unreachable - "..stat.." reached "..(currentValues[stat] or 0).." + "..(restValues[stat] or 0).." / "..preferences.value)
-                return true
-            end
+        if (currentValues[stat] or 0) + (restValues[stat] or 0) < value then
+            TopFit:Debug("|cffff0000Caps unreachable - "..stat.." reached "..(currentValues[stat] or 0).." + "..(restValues[stat] or 0).." / "..value)
+            return true
         end
     end
     return false
 end
 
-function TopFit:UniquenessViolated(currentSlot)
+function TopFit:UniquenessViolated(set, currentSlot)
     local currentValues = {}
     local i
     for i = 1, currentSlot do
         if TopFit.slotCounters[i] ~= nil and TopFit.slotCounters[i] > 0 and TopFit.itemListBySlot[i][TopFit.slotCounters[i]] then
-            for stat, preferences in pairs(TopFit.Utopia) do
-                if preferences.active then
-                    local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
-                    if itemTable then
-                        currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
-                    end
+            for stat, _ in pairs(set:GetHardCaps()) do
+                local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][TopFit.slotCounters[i]].itemLink)
+                if itemTable then
+                    currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
                 end
             end
         end
@@ -662,7 +649,7 @@ function TopFit:IsOffhandValid(currentSlot)
     return true
 end
 
-function TopFit:SaveCurrentCombination()
+function TopFit:SaveCurrentCombination(set)
     TopFit.combinationCount = TopFit.combinationCount + 1
 
     local cIC = {
@@ -791,7 +778,6 @@ function TopFit:SaveCurrentCombination()
             cIC.totalScore = cIC.totalScore + (TopFit:GetItemScore(itemTable.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) or 0)
 
             -- add total stats
-            local stat, value
             for stat, value in pairs(itemTable.totalBonus) do
                 cIC.totalStats[stat] = (cIC.totalStats[stat] or 0) + value
             end
@@ -800,8 +786,8 @@ function TopFit:SaveCurrentCombination()
 
     -- check all caps one last time and see if all are reached
     local satisfied = true
-    for stat, preferences in pairs(TopFit.Utopia) do
-        if preferences.active and ((not cIC.totalStats[stat]) or (cIC.totalStats[stat] < tonumber(preferences["value"]))) then
+    for stat, value in pairs(set:GetHardCaps()) do
+        if ((not cIC.totalStats[stat]) or (cIC.totalStats[stat] < value)) then
             satisfied = false
             break
         end
