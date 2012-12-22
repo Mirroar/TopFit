@@ -102,7 +102,7 @@ function TopFit:InitSemiRecursiveCalculations()
     TopFit:Debug("InitSemiRecursiveCalculations")
     -- save equippable items
     TopFit.itemListBySlot = TopFit:GetEquippableItems()
-    TopFit:ReduceItemList()
+    TopFit:ReduceItemList(TopFit.itemListBySlot)
 
     TopFit.slotCounters = {}
     TopFit.currentSlotCounter = 0
@@ -196,15 +196,15 @@ function TopFit.ContinueActiveCalculations(frame, elapsed)
     end
 end
 
-function TopFit:ReduceItemList()
+function TopFit:ReduceItemList(itemList)
     -- remove all non-forced items from item list
     for slotID, _ in pairs(TopFit.slotNames) do
         local forcedItems = TopFit:GetForcedItems(TopFit.setCode, slotID)
-        if TopFit.itemListBySlot[slotID] and #forcedItems > 0 then
-            for i = #(TopFit.itemListBySlot[slotID]), 1, -1 do
-                local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[slotID][i].itemLink)
+        if itemList[slotID] and #forcedItems > 0 then
+            for i = #(itemList[slotID]), 1, -1 do
+                local itemTable = TopFit:GetCachedItem(itemList[slotID][i].itemLink)
                 if not itemTable then
-                    tremove(TopFit.itemListBySlot[slotID], i)
+                    tremove(itemList[slotID], i)
                 else
                     local found = false
                     for _, forceID in pairs(forcedItems) do
@@ -215,7 +215,7 @@ function TopFit:ReduceItemList()
                     end
 
                     if not found then
-                        tremove(TopFit.itemListBySlot[slotID], i)
+                        tremove(itemList[slotID], i)
                     end
                 end
             end
@@ -224,9 +224,9 @@ function TopFit:ReduceItemList()
         if (slotID == 17 and #forcedItems > 0) then -- offhand
             --TODO: check if forced item is a weapon and remove all weapons from mainhand if player cannot dualwield
             -- always remove all 2H-weapons from mainhand
-            for i = #(TopFit.itemListBySlot[16]), 1, -1 do
-                if (not TopFit:IsOnehandedWeapon(TopFit.itemListBySlot[16][i].itemLink)) then
-                    tremove(TopFit.itemListBySlot[16], i)
+            for i = #(itemList[16]), 1, -1 do
+                if (not TopFit:IsOnehandedWeapon(itemList[16][i].itemLink)) then
+                    tremove(itemList[16], i)
                 end
             end
         end
@@ -236,20 +236,20 @@ function TopFit:ReduceItemList()
     if TopFit.db.profile.sets[TopFit.setCode].forceArmorType and TopFit.characterLevel >= 50 then
         local playerClass = select(2, UnitClass("player"))
         for slotID, _ in pairs(TopFit.armoredSlots) do
-            if TopFit.itemListBySlot[slotID] and #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
-                for i = #(TopFit.itemListBySlot[slotID]), 1, -1 do
-                    local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[slotID][i].itemLink)
+            if itemList[slotID] and #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
+                for i = #(itemList[slotID]), 1, -1 do
+                    local itemTable = TopFit:GetCachedItem(itemList[slotID][i].itemLink)
                     if playerClass == "DRUID" or playerClass == "ROGUE" or playerClass == "MONK" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_LEATHER"] then
-                            tremove(TopFit.itemListBySlot[slotID], i)
+                            tremove(itemList[slotID], i)
                         end
                     elseif playerClass == "HUNTER" or playerClass == "SHAMAN" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_MAIL"] then
-                            tremove(TopFit.itemListBySlot[slotID], i)
+                            tremove(itemList[slotID], i)
                         end
                     elseif playerClass == "WARRIOR" or playerClass == "DEATHKNIGHT" or playerClass == "PALADIN" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_PLATE"] then
-                            tremove(TopFit.itemListBySlot[slotID], i)
+                            tremove(itemList[slotID], i)
                         end
                     end
                 end
@@ -258,7 +258,7 @@ function TopFit:ReduceItemList()
     end
 
     -- remove all items with score <= 0 that are neither forced nor contribute to caps
-    for slotID, itemList in pairs(TopFit.itemListBySlot) do
+    for slotID, itemList in pairs(itemList) do
         if #itemList >= 1 then
             for i = #itemList, 1, -1 do
                 if (TopFit:GetItemScore(itemList[i].itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) <= 0) then
@@ -286,7 +286,7 @@ function TopFit:ReduceItemList()
     end
 
     -- remove BoE items
-    for slotID, itemList in pairs(TopFit.itemListBySlot) do
+    for slotID, itemList in pairs(itemList) do
         if #itemList > 0 then
             for i = #itemList, 1, -1 do
                 if itemList[i].isBoE then
@@ -300,7 +300,7 @@ function TopFit:ReduceItemList()
     -- preprocess unique items - so we are able to remove items when uniqueness doesn't matter in the next step
     -- step 1: sum up the number of unique items for each uniqueness family
     local preprocessUniqueness = {}
-    for slotID, itemList in pairs(TopFit.itemListBySlot) do
+    for slotID, itemList in pairs(itemList) do
         if #itemList > 1 then
             for i = #itemList, 1, -1 do
                 local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
@@ -326,7 +326,7 @@ function TopFit:ReduceItemList()
     end
 
     -- reduce item list: remove items with < cap and < score
-    for slotID, itemList in pairs(TopFit.itemListBySlot) do
+    for slotID, itemList in pairs(itemList) do
         if #itemList > 1 then
             for i = #itemList, 1, -1 do
                 local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
