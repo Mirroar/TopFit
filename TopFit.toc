@@ -7,6 +7,8 @@
 ## X-Credits: ckaotik (gems & enchants), tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
 
+## OptionalDeps: Blizzard_TalentUI
+
 
 embeds.xml
 template.xml

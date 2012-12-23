@@ -223,8 +223,13 @@ function ui.InitializeConfigButton()
 	button:SetNormalTexture("Interface\\Vehicles\\UI-VEHICLES-RAID-ICON") -- Interface\\CURSOR\\Interact
 	button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
-	button:SetScript("OnClick", function(...)
-		InterfaceOptionsFrame_OpenToCategory(addonName)
+	button:RegisterForClicks("AnyUp")
+	button:SetScript("OnClick", function(self, btn)
+		if btn == "RightButton" then
+			InterfaceOptionsFrame_OpenToCategory(addonName)
+		else
+			ShowUIPanel(_G["TestFrame"])
+		end
 	end)
 	return button
 end
