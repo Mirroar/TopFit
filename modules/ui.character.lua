@@ -50,7 +50,7 @@ local function DropDownAddSet(self)
 	ns:CalculateScores()
 end
 function ui.InitializeSetDropdown()
-	local dropDown = CreateFrame("Frame", "TopFitSetDropDown", CharacterFrame, "UIDropDownMenuTemplate")
+	local dropDown = CreateFrame("Frame", "TopFitSetDropDown", PaperDollItemsFrame, "UIDropDownMenuTemplate")
 		  dropDown:SetPoint("TOP", CharacterModelFrame, "TOP", 0, 17)
 		  dropDown:SetFrameStrata("HIGH")
 	_G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the while dropdown react to mouseover
@@ -163,7 +163,7 @@ function ui.InitializeSetProgressBar()
 end
 
 function ui.InitializeMultiButton()
-	local button = CreateFrame("Button", "TopFitSidebarCalculateButton", CharacterFrame)
+	local button = CreateFrame("Button", "TopFitSidebarCalculateButton", PaperDollItemsFrame)
 	button:SetPoint("LEFT", TopFitSetDropDown, "RIGHT", -16, 4)
 	button:SetFrameStrata("HIGH")
 	button:SetSize(24, 24)
@@ -213,10 +213,10 @@ function ui.InitializeMultiButton()
 end
 
 function ui.InitializeConfigButton()
-	local button = CreateFrame("Button", "TopFitConfigButton", CharacterFrame)
-	button:SetPoint("RIGHT", TopFitSetDropDown, "LEFT", 16, 4)
+	local button = CreateFrame("Button", "TopFitConfigButton", PaperDollItemsFrame)
+	button:SetPoint("RIGHT", TopFitSetDropDown, "LEFT", 16, 2)
 	button:SetFrameStrata("HIGH")
-	button:SetSize(24, 24)
+	button:SetSize(16, 16)
 	button.tipText = CHAT_CONFIGURATION
 	button:SetScript("OnEnter", ns.ShowTooltip)
 	button:SetScript("OnLeave", ns.HideTooltip)
@@ -236,7 +236,7 @@ function ui.Initialize()
 	ui.InitializeMultiButton()
 	ui.InitializeConfigButton()
 
-	TopFit:initializeCharacterFrameUI() -- [TODO] remove when done
+	ns:initializeCharacterFrameUI() -- [TODO] remove when done
 
 	ui.Initialize = nil
 end
