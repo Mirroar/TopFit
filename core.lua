@@ -548,13 +548,7 @@ function ns:OnInitialize()
     -- container for plugin information and frames
     ns.plugins = {}
 
-    -- button to open frame
-    hooksecurefunc("ToggleCharacter", function (...)
-        ns:initializeCharacterFrameUI()
-    end)
-
     ns:collectItems()
-
 end
 
 function TopFit:collectEquippableItems()
