@@ -220,7 +220,7 @@ function ui.InitializeConfigButton()
 	button.tipText = CHAT_CONFIGURATION
 	button:SetScript("OnEnter", ns.ShowTooltip)
 	button:SetScript("OnLeave", ns.HideTooltip)
-	button:SetNormalTexture("Interface\\CURSOR\\Interact") -- Interface\\Vehicles\\UI-VEHICLES-RAID-ICON
+	button:SetNormalTexture("Interface\\Vehicles\\UI-VEHICLES-RAID-ICON") -- Interface\\CURSOR\\Interact
 	button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
 	button:SetScript("OnClick", function(...)

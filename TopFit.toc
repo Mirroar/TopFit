@@ -24,6 +24,7 @@ modules\calculation.lua
 modules\trinketlogic.lua
 modules\options.lua
 modules\ui.character.lua
+modules\ui.config.lua
 modules\ui.lua
 plugin.lua
 
