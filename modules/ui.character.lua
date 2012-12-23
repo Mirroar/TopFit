@@ -1,6 +1,6 @@
 local addonName, ns, _ = ...
 local ui = {}
-ns.ui = ui
+ns.ui = ns.ui or ui
 
 -- ----------------------------------------------
 -- control elements
@@ -38,27 +38,28 @@ function ui.InitializeStaticPopupDialogs()
 	}
 end
 
-local function DropDownAddSet(self)
-	local preset
-	if self.value and self.value ~= "" then
-		preset = ns:GetPresets()[self.value]
-	end
-
-	local setCode = ns:AddSet(preset)
-	local setName = ns.db.profile.sets[setCode].name
-	ns:CreateEquipmentSet(setName)
-	ns:CalculateScores()
-end
 function ui.InitializeSetDropdown()
 	local dropDown = CreateFrame("Frame", "TopFitSetDropDown", PaperDollItemsFrame, "UIDropDownMenuTemplate")
 		  dropDown:SetPoint("TOP", CharacterModelFrame, "TOP", 0, 17)
 		  dropDown:SetFrameStrata("HIGH")
-	_G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the while dropdown react to mouseover
+	_G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
 	UIDropDownMenu_SetWidth(dropDown, CharacterModelFrame:GetWidth() - 100)
 	UIDropDownMenu_JustifyText(dropDown, "LEFT")
 
 	ns:SetSelectedSet()
 
+	local function DropDownAddSet(self)
+		local preset
+		if self.value and self.value ~= "" then
+			preset = ns:GetPresets()[self.value]
+		end
+		local setCode = ns:AddSet(preset)
+		local setName = ns.db.profile.sets[setCode].name
+		ns:CreateEquipmentSet(setName)
+
+		ToggleDropDownMenu(nil, nil, dropDown)
+		ns:CalculateScores()
+	end
 	dropDown.initialize = function(self, level)
 		local info = UIDropDownMenu_CreateInfo()
 
@@ -69,78 +70,76 @@ function ui.InitializeSetDropdown()
 			info.notCheckable = true
 			UIDropDownMenu_AddButton(info, level)
 
+
+			info.hasArrow = true
+			info.isTitle = nil
+			info.disabled = nil
+			info.notCheckable = nil
+
 			-- list all existing sets
 			for k, v in pairs(ns.db.profile.sets) do
 				info.text = v.name
 				info.value = k
-				info.isTitle = nil
-				info.disabled = nil
 				info.checked = UIDROPDOWNMENU_MENU_VALUE == k
-				info.notCheckable = nil
-				info.hasArrow = true
 				info.func = function(self) ns:SetSelectedSet(self.value) end
 				UIDropDownMenu_AddButton(info, level)
 
 				if not ns.selectedSet then ns:SetSelectedSet(k) end
 			end
 
-			info.isTitle = true
 			info.checked = nil
 			info.notCheckable = true
-			info.hasArrow = nil
+			info.colorCode = NORMAL_FONT_COLOR_CODE
 
-			info.text = ''
-			UIDropDownMenu_AddButton(info, level)
 			info.text = ns.locale.AddSetDropDown
-			info.value = 'addsettitle'
+			info.value = 'addset'
 			UIDropDownMenu_AddButton(info, level)
-
-			-- list options for creating new sets
-			info.text = ns.locale.EmptySet
-			info.value = ''
-			info.func = dropDownAddSet
-			info.isTitle = nil
-			info.disabled = nil
-			info.leftPadding = 6
-			UIDropDownMenu_AddButton(info, level)
-
-			local presets = ns:GetPresets()
-			if presets then
-				for k, v in pairs(presets) do
-					info.text = v.name
-					info.value = k
-					info.func = dropDownAddSet
-					UIDropDownMenu_AddButton(info, level)
-				end
-			end
 
 		elseif level == 2 then
-			info.value = UIDROPDOWNMENU_MENU_VALUE
 			info.checked = nil
 			info.notCheckable = true
 
-			info.text = ns.locale.ModifySetSelectText
-			info.func = function(self)
-				ns:SetSelectedSet(self.value)
-				ToggleDropDownMenu(nil, nil, dropDown)
-			end
-			UIDropDownMenu_AddButton(info, level)
+			if UIDROPDOWNMENU_MENU_VALUE == 'addset' then
+				-- list options for creating new sets
+				info.func = DropDownAddSet
 
-			info.text = ns.locale.ModifySetRenameText
-			info.func = function(self)
-				ns.currentlyRenamingSetID = self.value
-				StaticPopup_Show("TOPFIT_RENAMESET", ns.db.profile.sets[ self.value ].name)
-				ToggleDropDownMenu(nil, nil, dropDown)
-			end
-			UIDropDownMenu_AddButton(info, level)
+				info.text = ns.locale.EmptySet
+				info.value = ''
+				UIDropDownMenu_AddButton(info, level)
 
-			info.text = ns.locale.ModifySetDeleteText
-			info.func = function(self)
-				ns.currentlyDeletingSetID = self.value
-				StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ self.value ].name)
-				ToggleDropDownMenu(nil, nil, dropDown)
+				local presets = ns:GetPresets()
+				for k, v in pairs(presets or {}) do
+					info.text = v.name
+					info.value = k
+					UIDropDownMenu_AddButton(info, level)
+				end
+			else
+				-- list options for editing existing sets
+				info.value = UIDROPDOWNMENU_MENU_VALUE
+
+				info.text = ns.locale.ModifySetSelectText
+				info.func = function(self)
+					ns:SetSelectedSet(self.value)
+					ToggleDropDownMenu(nil, nil, dropDown)
+				end
+				UIDropDownMenu_AddButton(info, level)
+
+				info.text = ns.locale.ModifySetRenameText
+				info.func = function(self)
+					ns.currentlyRenamingSetID = self.value
+					StaticPopup_Show("TOPFIT_RENAMESET", ns.db.profile.sets[ self.value ].name)
+					ToggleDropDownMenu(nil, nil, dropDown)
+				end
+				UIDropDownMenu_AddButton(info, level)
+
+				info.text = ns.locale.ModifySetDeleteText
+				info.func = function(self)
+					ns.currentlyDeletingSetID = self.value
+					StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ self.value ].name)
+					ToggleDropDownMenu(nil, nil, dropDown)
+				end
+				UIDropDownMenu_AddButton(info, level)
 			end
-			UIDropDownMenu_AddButton(info, level)
 		end
 	end
 	return dropDown
