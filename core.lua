@@ -334,15 +334,17 @@ function ns:OnInitialize()
     end
     ns.db = {profile = TopFitDB.profiles[selectedProfile]}
 
+    ns.emptySet = ns.Set() --TODO: remove; used by tooltip.lua until specific set objects are used there
+
     -- set callback handler
-    TopFit.eventHandler = TopFit.eventHandler or LibStub("CallbackHandler-1.0"):New(TopFit)
+    ns.eventHandler = ns.eventHandler or LibStub("CallbackHandler-1.0"):New(ns)
 
     -- create gametooltip for scanning
-    TopFit.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
+    ns.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
 
     -- check if any set is saved already, if not, create default
-    if (not self.db.profile.sets) then
-        self.db.profile.sets = {
+    if (not ns.db.profile.sets) then
+        ns.db.profile.sets = {
             set_1 = {
                 name = "Default Set",
                 weights = {},
@@ -353,7 +355,7 @@ function ns:OnInitialize()
     end
 
     -- for savedvariable updates: check if each set has a forced table
-    for set, table in pairs(self.db.profile.sets) do
+    for set, table in pairs(ns.db.profile.sets) do
         if table.forced == nil then
             table.forced = {}
         end
@@ -368,15 +370,15 @@ function ns:OnInitialize()
     end
 
     -- list of weight categories and stats
-    TopFit.statList = {
-        [TopFit.locale.StatsCategoryBasic] = {
+    ns.statList = {
+        [ns.locale.StatsCategoryBasic] = {
             [1] = "ITEM_MOD_AGILITY_SHORT",
             [2] = "ITEM_MOD_INTELLECT_SHORT",
             [3] = "ITEM_MOD_SPIRIT_SHORT",
             [4] = "ITEM_MOD_STAMINA_SHORT",
             [5] = "ITEM_MOD_STRENGTH_SHORT",
         },
-        [TopFit.locale.StatsCategoryMelee] = {
+        [ns.locale.StatsCategoryMelee] = {
             [1] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
             [2] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
             -- [3] = "ITEM_MOD_ATTACK_POWER_SHORT",
@@ -388,24 +390,24 @@ function ns:OnInitialize()
             [8] = "TOPFIT_MELEE_WEAPON_SPEED",
             [9] = "TOPFIT_RANGED_WEAPON_SPEED",
         },
-        [TopFit.locale.StatsCategoryCaster] = {
+        [ns.locale.StatsCategoryCaster] = {
             [1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
             [2] = "ITEM_MOD_SPELL_POWER_SHORT",
         },
-        [TopFit.locale.StatsCategoryDefensive] = {
+        [ns.locale.StatsCategoryDefensive] = {
             [1] = "ITEM_MOD_BLOCK_RATING_SHORT",
             [2] = "ITEM_MOD_DODGE_RATING_SHORT",
             [3] = "ITEM_MOD_PARRY_RATING_SHORT",
             [4] = "ITEM_MOD_RESILIENCE_RATING_SHORT",
             [5] = "RESISTANCE0_NAME",                   -- armor
         },
-        [TopFit.locale.StatsCategoryHybrid] = {
+        [ns.locale.StatsCategoryHybrid] = {
             [1] = "ITEM_MOD_CRIT_RATING_SHORT",
             [2] = "ITEM_MOD_HASTE_RATING_SHORT",
             [3] = "ITEM_MOD_HIT_RATING_SHORT",
             [4] = "ITEM_MOD_MASTERY_RATING_SHORT",
         },
-        [TopFit.locale.StatsCategoryResistances] = {
+        [ns.locale.StatsCategoryResistances] = {
             [1] = "RESISTANCE1_NAME",                   -- holy
             [2] = "RESISTANCE2_NAME",                   -- fire
             [3] = "RESISTANCE3_NAME",                   -- nature
@@ -413,7 +415,7 @@ function ns:OnInitialize()
             [5] = "RESISTANCE5_NAME",                   -- shadow
             [6] = "RESISTANCE6_NAME",                   -- arcane
         },
-        --[[ [TopFit.locale.StatsCategoryArmorTypes] = {
+        --[[ [ns.locale.StatsCategoryArmorTypes] = {
             [1] = "TOPFIT_ARMORTYPE_CLOTH",
             [2] = "TOPFIT_ARMORTYPE_LEATHER",
             [3] = "TOPFIT_ARMORTYPE_MAIL",
@@ -427,7 +429,7 @@ function ns:OnInitialize()
     TOPFIT_ARMORTYPE_PLATE = select(5, GetAuctionItemSubClasses(2));
 
     -- list of inventory slot names
-    TopFit.slotList = {
+    ns.slotList = {
         --"AmmoSlot",
         "BackSlot",
         "ChestSlot",
@@ -450,7 +452,7 @@ function ns:OnInitialize()
         "WristSlot",
     }
 
-    TopFit.armoredSlots = {
+    ns.armoredSlots = {
         [1] = true,
         [3] = true,
         [5] = true,
@@ -462,38 +464,38 @@ function ns:OnInitialize()
     }
 
     -- create list of slot names with corresponding slot IDs
-    TopFit.slots = {}
-    TopFit.slotNames = {}
-    for _, slotName in pairs(TopFit.slotList) do
+    ns.slots = {}
+    ns.slotNames = {}
+    for _, slotName in pairs(ns.slotList) do
         local slotID, _, _ = GetInventorySlotInfo(slotName)
-        TopFit.slots[slotName] = slotID;
-        TopFit.slotNames[slotID] = slotName;
+        ns.slots[slotName] = slotID;
+        ns.slotNames[slotID] = slotName;
     end
 
     -- create frame for OnUpdate
-    TopFit.updateFrame = CreateFrame("Frame")
+    ns.updateFrame = CreateFrame("Frame")
 
     -- create options
-    TopFit:createOptions()
+    ns:createOptions()
 
     -- cache tables
-    TopFit.itemsCache = {}
-    TopFit.scoresCache = {}
+    ns.itemsCache = {}
+    ns.scoresCache = {}
 
     -- table for equippable item list
-    TopFit.equippableItems = {}
-    TopFit:collectEquippableItems()
-    TopFit.loginDelay = 150
+    ns.equippableItems = {}
+    ns:collectEquippableItems()
+    ns.loginDelay = 150
 
     -- register needed events
-    TopFit.eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
-    TopFit.eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
-    TopFit.eventFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    TopFit.eventFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
-    TopFit.eventFrame:SetScript("OnUpdate", TopFit.delayCalculationOnLogin)
+    ns.eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
+    ns.eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
+    ns.eventFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    ns.eventFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
+    ns.eventFrame:SetScript("OnUpdate", ns.delayCalculationOnLogin)
 
     -- frame for calculation function
-    TopFit.calculationsFrame = CreateFrame("Frame");
+    ns.calculationsFrame = CreateFrame("Frame");
 
     -- heirloom info
     local isPlateWearer, isMailWearer = false, false
@@ -506,7 +508,7 @@ function ns:OnInitialize()
 
     -- tables of itemIDs for heirlooms which change armor type
     -- 1: head, 3: shoulder, 5: chest
-    TopFit.heirloomInfo = {
+    ns.heirloomInfo = {
         plateHeirlooms = {
             [1] = {
                 [1] = 69887,
@@ -544,9 +546,9 @@ function ns:OnInitialize()
     }
 
     -- container for plugin information and frames
-    TopFit.plugins = {}
+    ns.plugins = {}
 
-    TopFit:collectItems()
+    ns:collectItems()
 end
 
 function TopFit:collectEquippableItems()

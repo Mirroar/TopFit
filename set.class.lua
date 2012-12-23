@@ -11,8 +11,15 @@ function Set:construct(setName)
     self.forced = {}
     self.ignoreCapsForCalculation = false
 
-    self:SetName(setName or '<Unknown>')
+    self.calculationData = {} -- for use by calculation functions
+
+    -- set some defaults
+    self:SetName(setName or 'Unknown')
     self:SetOperationsPerFrame(50) -- sensible default that is somewhat easy on the CPU
+
+    -- determine if the player can dualwield
+    self:EnableDualWield(ns:PlayerCanDualWield())
+    self:EnableTitansGrip(ns:PlayerHasTitansGrip())
 end
 
 -- create a new set object using data from saved variables
@@ -28,6 +35,13 @@ function Set.CreateFromSavedVariables(setTable)
                 setInstance:SetHardCap(stat, cap.value)
             end
         end
+    end
+
+    if (setTable.simulateDualWield) then
+        setInstance:EnableDualWield(true)
+    end
+    if (setTable.simulateTitansGrip) then
+        setInstance:EnableTitansGrip(true)
     end
 
     return setInstance
@@ -78,4 +92,20 @@ end
 
 function Set:ClearAllHardCaps()
     wipe(self.caps)
+end
+
+function Set:EnableDualWield(value)
+    self.canDualWield = value and true or false
+end
+
+function Set:CanDualWield()
+    return self.canDualWield
+end
+
+function Set:EnableTitansGrip(value)
+    self.canTitansGrip = value and true or false
+end
+
+function Set:CanTitansGrip()
+    return self.canTitansGrip
 end
