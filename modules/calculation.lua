@@ -68,7 +68,6 @@ function ns.CalculateRecommendations(set)
     set.calculationData.combinationCount = 0
     set.calculationData.bestCombination = nil
     set.calculationData.maxScore = nil
-    set.calculationData.firstCombination = true
 
     set.calculationData.capHeuristics = {}
     -- create maximum values for each cap and item slot
@@ -341,6 +340,7 @@ function ns.ReduceItemList(set, itemList)
 end
 
 function TopFit.SemiRecursiveCalculation(set)
+    local firstCombination = true
     local operation = 1
     local done = false
     while (not done) and (not TopFit.abortCalculation) do
@@ -362,8 +362,8 @@ function TopFit.SemiRecursiveCalculation(set)
                     increased = true
                 end
             else
-                if set.calculationData.firstCombination then
-                    set.calculationData.firstCombination = false
+                if firstCombination then
+                    firstCombination = false
                 else
                     -- we're back here, and so we're done
                     TopFit:Print("Finished calculation after " .. math.round(set.calculationData.currentCalculationLength * 100) / 100 .. " seconds at " .. set:GetOperationsPerFrame() .. " operations per frame")
