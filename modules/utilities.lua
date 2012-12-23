@@ -77,7 +77,7 @@ local GearScoreItemSlots = {
 local function GetGearScoreEnchantInfo(ItemLink, ItemEquipLoc)
     local found, _, ItemSubString = string.find(ItemLink, "^|c%x+|H(.+)|h%[.*%]");
     local ItemSubStringTable = {}
-    
+
     for v in string.gmatch(ItemSubString, "[^:]+") do
         tinsert(ItemSubStringTable, v)
     end
@@ -95,7 +95,7 @@ end
 local function GetGearScoreQuality(ItemScore)
     if ItemScore > 5999 then ItemScore = 5999 end
     if not ItemScore then return 0, 0, 0, ITEM_QUALITY0_DESC end
-    
+
     local Red, Green, Blue = 0.1, 0.1, 0.1
     for i = 0, 6 do
         local j = (i + 1) * 1000
@@ -103,7 +103,7 @@ local function GetGearScoreQuality(ItemScore)
             Red = GearScoreQuality[j].R[1] + (ItemScore - GearScoreQuality[j].R[2]) * GearScoreQuality[j].R[3] * GearScoreQuality[j].R[4]
             Green = GearScoreQuality[j].G[1] + (ItemScore - GearScoreQuality[j].G[2]) * GearScoreQuality[j].G[3] * GearScoreQuality[j].G[4]
             Blue = GearScoreQuality[j].B[1] + (ItemScore - GearScoreQuality[j].B[2]) * GearScoreQuality[j].B[3] * GearScoreQuality[j].B[4]
-            
+
             return Red, Green, Blue, GearScoreQuality[j].Description
         end
     end
@@ -114,10 +114,10 @@ function TopFit:GetItemGearScore(ItemLink)
         if not ItemLink then return 0, 0 end
         local QualityScale, PVPScale = 1, 1
         local PVPScore, GearScore = 0, 0
-        
+
         local _, ItemLink, ItemRarity, ItemLevel, _, _, _, _, ItemEquipLoc, _ = GetItemInfo(ItemLink)
         local Scale = 1.8618
-        if ItemRarity == 5 then 
+        if ItemRarity == 5 then
             QualityScale = 1.3
             ItemRarity = 4
         elseif ItemRarity == 1 then
@@ -135,7 +135,7 @@ function TopFit:GetItemGearScore(ItemLink)
         local Table
         if ItemLevel > 120 then
             Table = {nil, {73.0000, 1.0000}, {81.3750, 0.8125}, {91.4500, 0.6500}}
-        else 
+        else
             Table = {{0.0000, 2.2500}, {8.0000, 2.0000}, {0.7500, 1.8000}, {26.0000, 1.2000}}
         end
         if ItemRarity >= 2 and ItemRarity <= 4 then
@@ -157,7 +157,7 @@ function TopFit:GetItemGearScore(ItemLink)
             local percent = GetGearScoreEnchantInfo(ItemLink, ItemEquipLoc) or 1
             GearScore = floor(GearScore * percent)
             PVPScore = floor(PVPScore)
-            
+
             return GearScore, ItemLevel, GearScoreItemSlots[ItemEquipLoc].ItemSlot, Red, Green, Blue, PVPScore, ItemEquipLoc, percent
         end
     end
@@ -178,7 +178,7 @@ function TopFit:CalculateGearScore(setCode)
         end
         if not setCode then return end
     end
-    
+
     local _, PlayerEnglishClass = UnitClass("player");
     local GearScore = 0
     local ItemCount, LevelTotal = 0, 0
@@ -197,10 +197,10 @@ function TopFit:CalculateGearScore(setCode)
             TitanGrip = 0.5
         end
         TempScore, ItemLevel = TopFit:GetItemGearScore(offHand)
-        if PlayerEnglishClass == "HUNTER" then 
+        if PlayerEnglishClass == "HUNTER" then
             TempScore = TempScore * 0.3164
         end
-        
+
         GearScore = GearScore + TempScore * TitanGrip
         ItemCount = ItemCount + 1
         LevelTotal = LevelTotal + ItemLevel
@@ -229,7 +229,7 @@ function TopFit:CalculateGearScore(setCode)
     end
     if GearScore <= 0 then GearScore = 0 end
     if ItemCount == 0 then LevelTotal = 0 end
-    
+
     return floor(GearScore), floor(LevelTotal/ItemCount)
 end
 
@@ -248,15 +248,15 @@ local globalString = {  -- insert all known strings in here
     ["BlueSocket"] = nil,   -- empty blue socket
     ["MetaSocket"] = nil,   -- empty meta socket
     ["MetaSocketEffect"] = nil, -- value of "the" meta gem's effect (e.g. +3% critical heal is worth 40 points)
-    
+
     ["Dps"] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",  -- weapon damage per second
     ["Speed"] = nil,           -- weapon speed, in seconds per swing; fast weapons -> use negative score!
-    
+
     ["HitRating"] = "ITEM_MOD_HIT_RATING_SHORT",
     ["CritRating"] = "ITEM_MOD_CRIT_RATING_SHORT",
     ["HasteRating"] = "ITEM_MOD_HASTE_RATING_SHORT",
     ["MasteryRating"] = "ITEM_MOD_MASTERY_RATING_SHORT",
-    
+
     ["Ap"] = "ITEM_MOD_ATTACK_POWER_SHORT", -- basic attack power. not derived values (agility, strength, feral)
     ["Rap"] = nil,          -- ranged attack power
     ["FeralAp"] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT", -- use this -or- weapon dps for useful results
@@ -276,7 +276,7 @@ local globalString = {  -- insert all known strings in here
     ["DodgeRating"] = "ITEM_MOD_DODGE_RATING_SHORT",
     ["ParryRating"] = "ITEM_MOD_PARRY_RATING_SHORT",
     ["ResilienceRating"] = "ITEM_MOD_RESILIENCE_RATING_SHORT",
-    
+
     ["FireSpellDamage"] = nil,      -- exclusive with spell power
     ["ShadowSpellDamage"] = nil,
     ["NatureSpellDamage"] = nil,
@@ -293,7 +293,7 @@ local globalString = {  -- insert all known strings in here
     ["Hp5"] = "ITEM_MOD_HEALTH_REGENERATION_SHORT",
     ["Health"] = "ITEM_MOD_HEALTH_SHORT",
     ["Mana"] = "ITEM_MOD_MANA_SHORT",            -- mana as supplied by enchantments
-    
+
     ["IsAxe"] = nil,
     ["IsBow"] = nil,
     ["IsCrossbow"] = nil,
@@ -348,7 +348,7 @@ local function ParsePawn(importString)
     local found, _, Version, Name, ValuesString = strfind(importString, "^%s*%(%s*Pawn%s*:%s*v(%d+)%s*:%s*\"([^\"]+)\"%s*:%s*(.+)%s*%)%s*$")
     Version = tonumber(Version)
     if (not found) or (not Version) or (not Name) or (Name == "") or (not ValuesString) or (ValuesString == "") then return end
-    
+
     -- Now, parse the values string for stat names and values.
     local scaleTable = {}
     local function SplitStatValuePair(Pair)
@@ -359,7 +359,7 @@ local function ParsePawn(importString)
         end
     end
     gsub(ValuesString .. ",", "[^,]*,", SplitStatValuePair)
-    
+
     -- Looks like everything worked.
     return Name, scaleTable
 end
@@ -371,7 +371,7 @@ local function ParseTopFit(importString)
     if (not found) or (not version) or (not setName) or (setName == "") or (not weights) or (weights == "") then
         return
     end
-    
+
     -- parse simple stat values
     local scaleTable = {}
     local function ParseStats(statString)
@@ -382,14 +382,14 @@ local function ParseTopFit(importString)
         end
     end
     gsub(weights .. ",", "[^,]*,", ParseStats)
-    
+
     local capTable = {}
     local function ParseCaps(statString)
         local found, _, statName, statValue, isSoftCap = strfind(statString, "^%s*([%a%d]+)%s*=%s*(%-?[%d%.]+)%s*;%s*([SoftHard]+)%s*,$")
         statValue = tonumber(statValue)
         statName = globalString[statName]
         isSoftCap = isSoftCap == "Soft"
-        
+
         if found and statName and statName ~= "" and statValue then
             capTable[statName] = {
                 ["value"] = statValue,
@@ -399,7 +399,7 @@ local function ParseTopFit(importString)
         end
     end
     gsub(caps .. ",", "[^,]*,", ParseCaps)
-    
+
     return setName, scaleTable, capTable
 end
 
@@ -426,7 +426,7 @@ local function SanitizeScales(scaleTable)
     ------------------ Pawn specific fixes --------------------
     -- Some versions of Pawn call resilience rating Resilience and some call it ResilienceRating.
     RenameStat(scaleTable, "Resilience", "ResilienceRating")
-    
+
     -- Early versions of Pawn 0.7.x had a typo in the configuration UI so that none of the special DPS stats worked.
     RenameStat(scaleTable, "MeleeDPS", "MeleeDps")
     RenameStat(scaleTable, "RangedDPS", "RangedDps")
@@ -434,16 +434,16 @@ local function SanitizeScales(scaleTable)
     RenameStat(scaleTable, "OffHandDPS", "OffHandDps")
     RenameStat(scaleTable, "OneHandDPS", "OneHandDps")
     RenameStat(scaleTable, "TwoHandDPS", "TwoHandDps")
-    
+
     -- combine +healing and +damage into spell power
     CombineStat(scaleTable, "SpellPower", "SpellDamage")
     CombineStat(scaleTable, "SpellPower", "Healing")
-    
+
     -- Combine melee/ranged/spell hit, crit, and haste ratings into the hybrid stats that work for all.
     CombineStat(scaleTable, "HitRating", "SpellHitRating")
     CombineStat(scaleTable, "CritRating", "SpellCritRating")
     CombineStat(scaleTable, "HasteRating", "SpellHasteRating")
-    
+
     ------------------ Get things to work with TopFit --------------------
     -- turn "resist all" into "resist this and that and that and ..."
     RenameStat(scaleTable, "AllResist", "FireResist", true)
@@ -452,17 +452,17 @@ local function SanitizeScales(scaleTable)
     RenameStat(scaleTable, "AllResist", "NatureResist", true)
     RenameStat(scaleTable, "AllResist", "ArcaneResist", true)
     RenameStat(scaleTable, "AllResist", "FrostResist")
-    
+
     CombineStat(scaleTable, "Armor", "BonusArmor")
     CombineStat(scaleTable, "Armor", "BaseArmor")
-    
+
     local returnTable = {}
     for stat, score in pairs(scaleTable) do
         if globalString[stat] then
             returnTable[globalString[stat]] = score
         end
     end
-    
+
     return returnTable
 end
 
@@ -480,7 +480,7 @@ local function ImportString(importString)
         TopFit:Print(TopFit.locale.UtilitiesErrorSetExists)
         return nil
     end
-        
+
     local tempName = string.sub(tostring(GetTime()), 1, 5) or "?"
     local setCode = TopFit:AddSet({                                     -- TODO!
         name = setName or "Import"..tempName,
@@ -529,7 +529,7 @@ local function GenerateExportString(addon, version)
             end
         end
     end
-    
+
     return export .. " )"
 end
 
@@ -552,11 +552,11 @@ function TopFit:CreateUtilitiesPlugin()
         self:SetText(TopFit.locale.UtilitiesDefaultText)
         self:ClearFocus()
     end
-    
+
     local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", 16, -4)
     title:SetText(TopFit.locale.Utilities)
-    
+
     local explain = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
     explain:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -10, -8)
     explain:SetPoint("RIGHT", frame, -4, 0)
@@ -565,7 +565,7 @@ function TopFit:CreateUtilitiesPlugin()
     explain:SetJustifyH("LEFT")
     explain:SetJustifyV("TOP")
     explain:SetText(TopFit.locale.UtilitiesTooltip)     -- TODO: offer more useful text
-    
+
     local importBox = CreateFrame("EditBox", "TopFitUtilities_importBox", frame)
     importBox:SetPoint("TOPLEFT", explain, "BOTTOMLEFT", 0, -4)
     importBox:SetPoint("BOTTOMRIGHT", explain, "RIGHT", 0, -80)
@@ -585,11 +585,11 @@ function TopFit:CreateUtilitiesPlugin()
     local importBoxLabel = importBox:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     importBoxLabel:SetPoint("BOTTOMLEFT", importBox, "TOPLEFT", 16, 0)
     importBoxLabel:SetText("Import")
-    
+
     importBox:SetScript("OnEditFocusGained", FocusGained)
     importBox:SetScript("OnEnterPressed", Accept)
     importBox:SetScript("OnEscapePressed", Reset)
-    
+
     local exportBox = CreateFrame("EditBox", "TopFitUtilities_exportBox", frame)
     exportBox:SetPoint("TOPLEFT", importBox, "BOTTOMLEFT", 0, -10)
     exportBox:SetPoint("BOTTOMRIGHT", explain, "RIGHT", 0, -200)
@@ -609,7 +609,7 @@ function TopFit:CreateUtilitiesPlugin()
     local exportBoxLabel = exportBox:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     exportBoxLabel:SetPoint("BOTTOMLEFT", exportBox, "TOPLEFT", 16, 0)
     exportBoxLabel:SetText("Export")
-    
+
     exportBox:SetScript("OnEditFocusGained", FocusGained)
     exportBox:SetScript("OnEnterPressed", Accept)
     exportBox:SetScript("OnEscapePressed", Reset)
@@ -629,7 +629,7 @@ function TopFit:CreateUtilitiesPlugin()
             pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
         end
     end)
-    
+
     TopFit.RegisterCallback("TopFit_utilities", "OnSetChanged", function(event, setId)
         if (setId) then
             exportBox:SetText(GenerateExportString("TopFit", "1"))
@@ -638,4 +638,26 @@ function TopFit:CreateUtilitiesPlugin()
             -- no set selected, disable inputs
         end
     end)
+end
+
+function TopFit:PlayerCanDualWield()
+    local playerClass = select(2, UnitClass("player"))
+    local specialization = GetSpecialization()
+
+    if (playerClass == "ROGUE")
+        or (playerClass == "DEATHKNIGHT")
+        or (playerClass == "HUNTER" and UnitLevel("player") >= 20)
+        or (playerClass == "WARRIOR" and specialization == 2)
+        or (playerClass == "SHAMAN" and specialization == 2)
+        or (playerClass == "MONK" and specialization ~= 2) then
+        return true
+    end
+end
+function TopFit:PlayerHasTitansGrip()
+    local playerClass = select(2, UnitClass("player"))
+    local specialization = GetSpecialization()
+
+    if (playerClass == "WARRIOR") and (UnitLevel("player") >= 38) and (specialization == 2) then
+        return true
+    end
 end

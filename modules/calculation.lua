@@ -46,7 +46,6 @@ function ns:CalculateSets(silent)
                 ns.activeCoroutines = {}
             end
 
-            ns:Debug("Inserting coroutine")
             tinsert(ns.activeCoroutines, {coroutine.create(ns.CalculateRecommendations), set})
             ns.calculationsFrame:SetScript("OnUpdate", ns.ContinueActiveCalculations)
         end
@@ -58,49 +57,16 @@ function ns.CalculateRecommendations(set)
     ns.itemRecommendations = {}
     ns.currentItemCombination = {}
     ns.itemCombinations = {}
-    ns.currentSetName = set:GetName()
-
-    -- determine if the player can dualwield
-    ns.playerCanDualWield = ns:PlayerCanDualWield()
-    ns.playerCanTitansGrip = ns:PlayerHasTitansGrip()
-
-    if (ns.db.profile.sets[ns.setCode].simulateDualWield) then
-        ns.playerCanDualWield = true
-    end
-    if (ns.db.profile.sets[ns.setCode].simulateTitansGrip) then
-        ns.playerCanTitansGrip = true
-    end
+    ns.currentSetName = set:GetName() -- TODO: remove; currently used by core.lua:OnUpdateForEquipment
 
     ns.InitSemiRecursiveCalculations(set)
-end
-
-function TopFit:PlayerCanDualWield()
-    local playerClass = select(2, UnitClass("player"))
-    local specialization = GetSpecialization()
-
-    if (playerClass == "ROGUE")
-        or (playerClass == "DEATHKNIGHT")
-        or (playerClass == "HUNTER" and UnitLevel("player") >= 20)
-        or (playerClass == "WARRIOR" and specialization == 2)
-        or (playerClass == "SHAMAN" and specialization == 2)
-        or (playerClass == "MONK" and specialization ~= 2) then
-        return true
-    end
-end
-function TopFit:PlayerHasTitansGrip()
-    local playerClass = select(2, UnitClass("player"))
-    local specialization = GetSpecialization()
-
-    if (playerClass == "WARRIOR") and (UnitLevel("player") >= 38) and (specialization == 2) then
-        return true
-    end
 end
 
 function ns.InitSemiRecursiveCalculations(set)
     set:SetOperationsPerFrame(500)
     -- save equippable items
     ns.itemListBySlot = ns:GetEquippableItems()
-    ns:ReduceItemList(set, ns.itemListBySlot)
+    ns.ReduceItemList(set, ns.itemListBySlot)
 
     ns.slotCounters = {}
     ns.currentSlotCounter = 0
@@ -193,13 +159,13 @@ function ns.ContinueActiveCalculations(frame, elapsed)
     end
 end
 
-function TopFit:ReduceItemList(set, itemList)
+function ns.ReduceItemList(set, itemList)
     -- remove all non-forced items from item list
-    for slotID, _ in pairs(TopFit.slotNames) do
-        local forcedItems = TopFit:GetForcedItems(TopFit.setCode, slotID)
+    for slotID, _ in pairs(ns.slotNames) do
+        local forcedItems = ns:GetForcedItems(ns.setCode, slotID)
         if itemList[slotID] and #forcedItems > 0 then
             for i = #(itemList[slotID]), 1, -1 do
-                local itemTable = TopFit:GetCachedItem(itemList[slotID][i].itemLink)
+                local itemTable = ns:GetCachedItem(itemList[slotID][i].itemLink)
                 if not itemTable then
                     tremove(itemList[slotID], i)
                 else
@@ -222,7 +188,7 @@ function TopFit:ReduceItemList(set, itemList)
             --TODO: check if forced item is a weapon and remove all weapons from mainhand if player cannot dualwield
             -- always remove all 2H-weapons from mainhand
             for i = #(itemList[16]), 1, -1 do
-                if (not TopFit:IsOnehandedWeapon(itemList[16][i].itemLink)) then
+                if (not ns:IsOnehandedWeapon(set, itemList[16][i].itemLink)) then
                     tremove(itemList[16], i)
                 end
             end
@@ -230,12 +196,12 @@ function TopFit:ReduceItemList(set, itemList)
     end
 
     -- if enabled, remove armor that is not part of armor specialization
-    if TopFit.db.profile.sets[TopFit.setCode].forceArmorType and TopFit.characterLevel >= 50 then
+    if ns.db.profile.sets[ns.setCode].forceArmorType and ns.characterLevel >= 50 then
         local playerClass = select(2, UnitClass("player"))
-        for slotID, _ in pairs(TopFit.armoredSlots) do
-            if itemList[slotID] and #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
+        for slotID, _ in pairs(ns.armoredSlots) do
+            if itemList[slotID] and #(ns:GetForcedItems(ns.setCode, slotID)) == 0 then
                 for i = #(itemList[slotID]), 1, -1 do
-                    local itemTable = TopFit:GetCachedItem(itemList[slotID][i].itemLink)
+                    local itemTable = ns:GetCachedItem(itemList[slotID][i].itemLink)
                     if playerClass == "DRUID" or playerClass == "ROGUE" or playerClass == "MONK" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_LEATHER"] then
                             tremove(itemList[slotID], i)
@@ -258,12 +224,12 @@ function TopFit:ReduceItemList(set, itemList)
     for slotID, itemList in pairs(itemList) do
         if #itemList >= 1 then
             for i = #itemList, 1, -1 do
-                if (TopFit:GetItemScore(itemList[i].itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) <= 0) then
-                    if #(TopFit:GetForcedItems(TopFit.setCode, slotID)) == 0 then
+                if (ns:GetItemScore(itemList[i].itemLink, ns.setCode, ns.ignoreCapsForCalculation) <= 0) then
+                    if #(ns:GetForcedItems(ns.setCode, slotID)) == 0 then
                         -- check caps
                         local hasCap = false
                         for statCode, _ in pairs(set:GetHardCaps()) do
-                            local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
+                            local itemTable = ns:GetCachedItem(itemList[i].itemLink)
                             if itemTable and (itemTable.totalBonus[statCode] or -1) > 0 then
                                 hasCap = true
                                 break
@@ -324,7 +290,7 @@ function TopFit:ReduceItemList(set, itemList)
     for slotID, itemList in pairs(itemList) do
         if #itemList > 1 then
             for i = #itemList, 1, -1 do
-                local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
+                local itemTable = ns:GetCachedItem(itemList[i].itemLink)
                 if not itemTable then
                     tremove(itemList, i)
                 else
@@ -343,9 +309,9 @@ function TopFit:ReduceItemList(set, itemList)
 
                     for j = 1, #itemList do
                         if i ~= j then
-                            local compareTable = TopFit:GetCachedItem(itemList[j].itemLink)
+                            local compareTable = ns:GetCachedItem(itemList[j].itemLink)
                             if compareTable and
-                                (TopFit:GetItemScore(itemTable.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) < TopFit:GetItemScore(compareTable.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation)) and
+                                (ns:GetItemScore(itemTable.itemLink, ns.setCode, ns.ignoreCapsForCalculation) < ns:GetItemScore(compareTable.itemLink, ns.setCode, ns.ignoreCapsForCalculation)) and
                                 (itemTable.itemEquipLoc == compareTable.itemEquipLoc) then -- especially important for weapons, we do not want to compare 2h and 1h weapons
 
                                 --TopFit:Debug("score: "..TopFit:GetItemScore(itemTable.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation).."; compareScore: "..TopFit:GetItemScore(compareTable.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation)..
@@ -409,7 +375,7 @@ function TopFit.SemiRecursiveCalculation(set)
             if (currentSlot > 0) then
                 -- increase combination, starting at currentSlot
                 TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
-                if (not TopFit:IsDuplicateItem(currentSlot)) and (TopFit:IsOffhandValid(currentSlot)) then
+                if (not TopFit:IsDuplicateItem(currentSlot)) and (TopFit:IsOffhandValid(set, currentSlot)) then
                     increased = true
                 end
             else
@@ -460,7 +426,7 @@ function TopFit.SemiRecursiveCalculation(set)
                 currentSlot = currentSlot + 1
                 if #(TopFit.itemListBySlot[currentSlot]) > 0 then
                     TopFit.slotCounters[currentSlot] = 1
-                    while TopFit:IsDuplicateItem(currentSlot) or TopFit:UniquenessViolated(set, currentSlot) or (not TopFit:IsOffhandValid(currentSlot)) do
+                    while TopFit:IsDuplicateItem(currentSlot) or TopFit:UniquenessViolated(set, currentSlot) or (not TopFit:IsOffhandValid(set, currentSlot)) do
                         TopFit.slotCounters[currentSlot] = TopFit.slotCounters[currentSlot] + 1
                     end
                     if TopFit.slotCounters[currentSlot] > #(TopFit.itemListBySlot[currentSlot]) then
@@ -620,22 +586,22 @@ function TopFit:IsDuplicateItem(currentSlot)
     return false
 end
 
-function TopFit:IsOffhandValid(currentSlot)
+function TopFit:IsOffhandValid(set, currentSlot)
     if currentSlot == 17 then -- offhand slot
         if (TopFit.slotCounters[17] ~= nil) and (TopFit.slotCounters[17] > 0) and (TopFit.slotCounters[17] <= #(TopFit.itemListBySlot[17])) then -- offhand is set to something
             if (TopFit.slotCounters[16] == nil or TopFit.slotCounters[16] == 0) or -- no Mainhand is forced
-                (TopFit:IsOnehandedWeapon(TopFit.itemListBySlot[16][TopFit.slotCounters[16]].itemLink)) then -- Mainhand is not a Two-Handed Weapon
+                (TopFit:IsOnehandedWeapon(set, TopFit.itemListBySlot[16][TopFit.slotCounters[16]].itemLink)) then -- Mainhand is not a Two-Handed Weapon
 
                 local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[17][TopFit.slotCounters[17]].itemLink)
                 if not itemTable then return false end
 
-                if (not TopFit.playerCanDualWield) then
+                if (not set:CanDualWield()) then
                     if (string.find(itemTable.itemEquipLoc, "WEAPON")) then
                         -- no weapon in offhand if you cannot dualwield
                         return false
                     end
                 else -- player can dualwield
-                    if (not TopFit:IsOnehandedWeapon(itemTable.itemID)) then
+                    if (not TopFit:IsOnehandedWeapon(set, itemTable.itemID)) then
                         -- no 2h-weapon in offhand
                         return false
                     end
@@ -681,23 +647,23 @@ function TopFit:SaveCurrentCombination(set)
                     -- check if offhand is forced
                     if TopFit.slotCounters[17] then
                         -- use 1H-weapon in Mainhand (or a titan's grip 2H, if applicable)
-                        locationTable = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                        locationTable = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(set, locationTable.itemLink) end)
                         if locationTable then
                             itemTable = TopFit:GetCachedItem(locationTable.itemLink)
                         end
                     else
                         -- choose best main- and offhand combo
-                        if not TopFit:IsOnehandedWeapon(itemTable.itemID) then
+                        if not TopFit:IsOnehandedWeapon(set, itemTable.itemID) then
                             -- see if a combination of main and offhand would have a better score
                             local bestMainScore, bestOffScore = 0, 0
                             local bestOff = nil
-                            local bestMain = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                            local bestMain = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(set, locationTable.itemLink) end)
                             if bestMain ~= nil then
                                 bestMainScore = (TopFit:GetItemScore(bestMain.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) or 0)
                             end
-                            if (TopFit.playerCanDualWield) then
+                            if (set:CanDualWield()) then
                                 -- any non-two-handed offhand is fine
-                                bestOff = TopFit:CalculateBestInSlot(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), false, i + 1, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                                bestOff = TopFit:CalculateBestInSlot(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), false, i + 1, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(set, locationTable.itemLink) end)
                             else
                                 -- offhand may not be a weapon (only shield, other offhand...)
                                 bestOff = TopFit:CalculateBestInSlot(TopFit:JoinTables(itemsAlreadyChosen, {bestMain}), false, i + 1, TopFit.setCode, function(locationTable) local itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
@@ -710,9 +676,9 @@ function TopFit:SaveCurrentCombination(set)
                             local bestMainScore2, bestOffScore2 = 0, 0
                             local bestMain2 = nil
                             local bestOff2 = nil
-                            if (TopFit.playerCanDualWield) then
+                            if (set:CanDualWield()) then
                                 -- any non-two-handed offhand is fine
-                                bestOff2 = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i + 1, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                                bestOff2 = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i + 1, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(set, locationTable.itemLink) end)
                             else
                                 -- offhand may not be a weapon (only shield, other offhand...)
                                 bestOff2 = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i + 1, TopFit.setCode, function(locationTable) local itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
@@ -721,7 +687,7 @@ function TopFit:SaveCurrentCombination(set)
                                 bestOffScore2 = (TopFit:GetItemScore(bestOff2.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) or 0)
                             end
 
-                            bestMain2 = TopFit:CalculateBestInSlot(TopFit:JoinTables(itemsAlreadyChosen, {bestOff2}), false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                            bestMain2 = TopFit:CalculateBestInSlot(TopFit:JoinTables(itemsAlreadyChosen, {bestOff2}), false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(set, locationTable.itemLink) end)
                             if bestMain2 ~= nil then
                                 bestMainScore2 = (TopFit:GetItemScore(bestMain2.itemLink, TopFit.setCode, TopFit.ignoreCapsForCalculation) or 0)
                             end
@@ -748,11 +714,11 @@ function TopFit:SaveCurrentCombination(set)
                     end
                 elseif (i == 17) then
                     -- check if mainhand is empty or one-handed
-                    if (not cIC.items[i - 1]) or (TopFit:IsOnehandedWeapon(cIC.items[i - 1].itemLink)) then
+                    if (not cIC.items[i - 1]) or (TopFit:IsOnehandedWeapon(set, cIC.items[i - 1].itemLink)) then
                         -- check if player can dual wield
-                        if TopFit.playerCanDualWield then
+                        if set:CanDualWield() then
                             -- only use 1H-weapons in Offhand
-                            locationTable = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(locationTable.itemLink) end)
+                            locationTable = TopFit:CalculateBestInSlot(itemsAlreadyChosen, false, i, TopFit.setCode, function(locationTable) return TopFit:IsOnehandedWeapon(set, locationTable.itemLink) end)
                             if locationTable then
                                 itemTable = TopFit:GetCachedItem(locationTable.itemLink)
                             end
@@ -879,10 +845,10 @@ function TopFit:CalculateBestInSlot(itemsAlreadyChosen, insert, sID, setCode, as
     end
 end
 
-function TopFit:IsOnehandedWeapon(itemID)
+function TopFit:IsOnehandedWeapon(set, itemID)
     _, _, _, _, _, class, subclass, _, equipSlot, _, _ = GetItemInfo(itemID)
     if equipSlot and string.find(equipSlot, "2HWEAPON") then
-        if (TopFit.playerCanTitansGrip) then
+        if (set:CanTitansGrip()) then
             local polearms = select(7, GetAuctionItemSubClasses(1))
             local staves = select(10, GetAuctionItemSubClasses(1))
             local fishingPoles = select(17, GetAuctionItemSubClasses(1))
