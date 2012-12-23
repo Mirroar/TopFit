@@ -11,6 +11,8 @@ function Set:construct(setName)
     self.forced = {}
     self.ignoreCapsForCalculation = false
 
+    self.calculationData = {} -- for use by calculation functions
+
     -- set some defaults
     self:SetName(setName or 'Unknown')
     self:SetOperationsPerFrame(50) -- sensible default that is somewhat easy on the CPU

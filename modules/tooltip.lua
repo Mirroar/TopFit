@@ -273,13 +273,13 @@ function TopFit:getComparePercentage(itemTable, setCode)
                 -- try to find a fitting offhand for better comparison
                 if TopFit.playerCanDualwield then
                     -- find best offhand regardless of type
-                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
+                    local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
                     if lTable2 then
                         itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                     end
                 else
                     -- find best offhand that is not a weapon
-                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+                    local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 17, setCode, function(locationTable) itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
                     if lTable2 then
                         itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                     end
@@ -307,7 +307,7 @@ function TopFit:getComparePercentage(itemTable, setCode)
     elseif slotID == 17 then -- offhand slot
         -- find a valid mainhand to use in comparisons (only when comparing to a 2h)
         if setItemIDs and setItemIDs[16] and setItemIDs[16] ~= 1 and not TopFit:IsOnehandedWeapon(ns.emptySet, setItemIDs[16]) then
-            local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 16, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
+            local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 16, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
             if lTable2 then
                 itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
             end
@@ -480,13 +480,13 @@ local function TooltipAddCompareLines(tt, link)
                                 -- try to find a fitting offhand for better comparison
                                 if TopFit.playerCanDualwield then
                                     -- find best offhand regardless of type
-                                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
+                                    local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
                                     if lTable2 then
                                         itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                                     end
                                 else
                                     -- find best offhand that is not a weapon
-                                    local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 17, setCode, function(locationTable) itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+                                    local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 17, setCode, function(locationTable) itemTable = TopFit:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
                                     if lTable2 then
                                         itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                                     end
@@ -514,7 +514,7 @@ local function TooltipAddCompareLines(tt, link)
                     elseif slotID == 17 then -- offhand slot
                         -- find a valid mainhand to use in comparisons (only when comparing to a 2h)
                         if itemIDs and itemIDs[16] and itemIDs[16] ~= 1 and not TopFit:IsOnehandedWeapon(ns.emptySet, itemIDs[16]) then
-                            local lTable2 = TopFit:CalculateBestInSlot({locationTable, compLocationTable}, false, 16, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
+                            local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 16, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
                             if lTable2 then
                                 itemTable2 = TopFit:GetCachedItem(lTable2.itemLink)
                             end
