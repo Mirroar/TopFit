@@ -10,6 +10,8 @@ UIPanelWindows["TestFrame"] = { area = "left", pushable = 1, whileDead = 1, widt
 table.insert(UISpecialFrames, f:GetName())
 ShowUIPanel(f) --]]
 
+-- http://wow.go-hero.net/framexml/16309/Blizzard_TalentUI/Blizzard_TalentUI.xml#400
+-- http://wow.go-hero.net/framexml/16309/Blizzard_TalentUI/Blizzard_TalentUI.xml#515
 
 local fName = "TestFrame"
 local f = _G[fName]
