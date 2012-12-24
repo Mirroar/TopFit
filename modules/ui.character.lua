@@ -7,7 +7,8 @@ ns.ui = ns.ui or ui
 -- ----------------------------------------------
 function ui.InitializeStaticPopupDialogs()
 	StaticPopupDialogs["TOPFIT_RENAMESET"] = {
-		text = "Rename set \"%s\" to:",
+		text = GEARSETS_POPUP_TEXT,
+		-- "Rename set \"%s\" to:",
 		button1 = OKAY,
 		button2 = CANCEL,
 		OnAccept = function(self)
@@ -24,7 +25,8 @@ function ui.InitializeStaticPopupDialogs()
 		preferredIndex = 3
 	}
 	StaticPopupDialogs["TOPFIT_DELETESET"] = {
-		text = "Do you really want to delete the set \"%s\"? The associated set in the equipment manager will also be lost.",
+		text = CONFIRM_DELETE_EQUIPMENT_SET,
+		-- "Do you really want to delete the set \"%s\"? The associated set in the equipment manager will also be lost.",
 		button1 = OKAY,
 		button2 = CANCEL,
 		OnAccept = function(self)
@@ -159,6 +161,8 @@ function ui.InitializeSetProgressBar()
     progressText:SetAllPoints()
     progressText:SetText("0.00%")
     progressBar.text = progressText
+
+    return progressBar
 end
 
 function ui.InitializeMultiButton()
