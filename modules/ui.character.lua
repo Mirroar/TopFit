@@ -1,6 +1,7 @@
 local addonName, ns, _ = ...
-local ui = {}
-ns.ui = ns.ui or ui
+ns.ui = ns.ui or {}
+local ui = ns.ui
+
 
 -- ----------------------------------------------
 -- control elements
@@ -231,7 +232,7 @@ function ui.InitializeConfigButton()
 		if btn == "RightButton" then
 			InterfaceOptionsFrame_OpenToCategory(addonName)
 		else
-			ShowUIPanel(_G["TestFrame"])
+			ShowUIPanel(_G["TestFrame"]) -- [TODO] use proper frame/name/hook
 		end
 	end)
 	return button

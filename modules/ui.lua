@@ -18,7 +18,6 @@ local function round(input, places)
     end
 end
 
--- UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED UNUSED
 function TopFit:initializeCharacterFrameUI()
     if (TopFit.characterFrameUIcreated) then return end
     TopFit.characterFrameUIcreated = true;
