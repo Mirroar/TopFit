@@ -2,14 +2,42 @@ local addonName, ns, _ = ...
 ns.ui = ns.ui or {}
 local ui = ns.ui
 
--- GLOBALS: NORMAL_FONT_COLOR, _G, UIParent, GameTooltip
+-- GLOBALS: NORMAL_FONT_COLOR, _G, UIParent, GameTooltip, assert
 -- GLOBALS: PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic
 
-local function ButtonOnClick(self) -- [TODO]
+local function ButtonOnClick(self)
+	GameTooltip:Hide()
 	PlaySound("igMainMenuOptionCheckBoxOn")
 	ui.SetSidebarButtonState(self, not self.selected)
-	-- self:GetParent().spellsScroll.ScrollBar:SetValue(0)
-	GameTooltip:Hide()
+
+	local scrollFrame = self:GetParent().spellsScroll
+	scrollFrame.ScrollBar:SetValue(0)
+
+	local scrollChild = scrollFrame.child
+	scrollChild.specName:SetText("Panel for "..self.specName:GetText())
+	SetPortraitToTexture(scrollChild.specIcon, "Interface\\Icons\\Achievement_BG_trueAVshutout")
+	scrollChild.roleIcon:SetTexCoord(GetTexCoordsForRole("DAMAGER"))
+	scrollChild.roleName:SetText("Settings for important things.")
+	scrollChild.description:SetText("This is a panel to configure your own settings. It is very important and you should always check here first! Don't worry if it's a whole lot of text, it really isn't.")
+
+	scrollChild.abilityButton1:Hide()
+
+	local text = _G[scrollChild:GetName() .. "CustomText"]
+	if not text then
+		text = scrollChild:CreateFontString("$parentCustomText", "BACKGROUND", "GameFontNormal")
+		text:SetPoint("TOPLEFT", 20, -185)
+		text:SetJustifyH("LEFT")
+		text:SetJustifyV("TOP")
+		text:SetWordWrap(true)
+	end
+
+	text:SetText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n")
+
+	local hasScrollBar = scrollFrame:GetVerticalScrollRange() > 0
+	scrollFrame:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
+	text:SetWidth( scrollChild:GetWidth() - 20 - 10 )
+
+	-- /spew TopFitConfigFrameSpecialization.spellsScroll.child
 end
 local function ButtonOnEnter(self)
 	if not self.selected then
@@ -30,9 +58,13 @@ function ui.GetSidebarButton(index)
 	button:SetID(index)
 	button:Show()
 
+	if not frame["specButton"..index] then
+		frame["specButton"..index] = button
+	end
+
 	button:ClearAllPoints()
 	if index == 1 then
-		button:SetPoint("TOPLEFT", 6, -56)
+		button:SetPoint("TOPLEFT", 6, -65) -- -56
 	else
 		button:SetPoint("TOP", "$parentSpecButton"..(index-1), "BOTTOM", 0, -10)
 	end
@@ -73,7 +105,12 @@ function ui.SetSidebarButtonHeight(button, height)
 	button.ring:SetPoint("LEFT", "$parent", "LEFT", 4, 0)
 end
 function ui.SetSidebarButtonData(button, texture, name, tooltip, role)
-	SetPortraitToTexture(button.specIcon, texture)
+	if texture then
+		SetPortraitToTexture(button.specIcon, texture)
+		button.ring:Show()
+	else
+		button.ring:Hide()
+	end
 	button.specName:SetText(name)
 	button.tooltip = tooltip
 	if role then
@@ -96,6 +133,7 @@ function ui.ToggleTopFitConfigFrame()
 	local frame = _G["TopFitConfigFrame"]
 	if not frame then
 		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate")
+		frame:EnableMouse()
 		frame:SetSize(646, 468)
 
 		frame:SetAttribute("UIPanelLayout-defined", true)
@@ -125,10 +163,28 @@ function ui.ToggleTopFitConfigFrame()
 		frameContent.MainHelpButton:Hide()
 		frameContent.learnButton:Hide()
 
+		-- reanchor textures so they don't scroll later on
+		local scrollChild = _G[frameContent:GetName().."SpellScrollFrameScrollChild"]
+		scrollChild:SetPoint("BOTTOMRIGHT") -- for smooth resizing
+		scrollChild.scrollwork_topleft:SetParent(frameContent)
+		scrollChild.scrollwork_topleft:ClearAllPoints()
+		scrollChild.scrollwork_topleft:SetPoint("TOPLEFT", 217, 0)
+		scrollChild.scrollwork_topright:SetParent(frameContent)
+		scrollChild.scrollwork_topright:ClearAllPoints()
+		scrollChild.scrollwork_topright:SetPoint("TOPRIGHT", 0, 0)
+		scrollChild.scrollwork_bottomleft:SetParent(frameContent)
+		scrollChild.scrollwork_bottomleft:ClearAllPoints()
+		scrollChild.scrollwork_bottomleft:SetPoint("BOTTOMLEFT", 217, 8)
+		scrollChild.scrollwork_bottomright:SetParent(frameContent)
+		scrollChild.scrollwork_bottomright:ClearAllPoints()
+		scrollChild.scrollwork_bottomright:SetPoint("BOTTOMRIGHT", 0, 8)
+		scrollChild.gradient:SetParent(frameContent)
+		scrollChild.gradient:SetPoint("TOPLEFT", 217-9, 0)
+
 		-- example code
 		for i = 1, 6 do
 			local btn = ui.GetSidebarButton(i)
-			ui.SetSidebarButtonData(btn, "Interface\\Icons\\Achievement_BG_trueAVshutout", "SpecButton"..i, "TestButton"..i) -- "DAMAGER")
+			ui.SetSidebarButtonData(btn, i%2==0 and "Interface\\Icons\\Achievement_BG_trueAVshutout" or nil, "SpecButton"..i, "TestButton"..i) -- "DAMAGER")
 			ui.SetSidebarButtonHeight(btn, 40)
 			ui.SetSidebarButtonState(btn, i==1)
 		end
