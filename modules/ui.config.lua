@@ -2,6 +2,9 @@ local addonName, ns, _ = ...
 ns.ui = ns.ui or {}
 local ui = ns.ui
 
+-- GLOBALS: NORMAL_FONT_COLOR, _G, UIParent, GameTooltip
+-- GLOBALS: PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic
+
 local function ButtonOnClick(self) -- [TODO]
 	PlaySound("igMainMenuOptionCheckBoxOn")
 	ui.SetSidebarButtonState(self, not self.selected)
@@ -18,9 +21,12 @@ end
 local function ButtonOnLeave(self)
 	GameTooltip:Hide()
 end
-function ui.GetSidebarButton(index, z)
-	-- [TODO] define z
-	local button = _G[z:GetName() .. "SpecButton" .. index] or CreateFrame("Button", "$parentSpecButton"..index, z, "PlayerSpecButtonTemplate")
+function ui.GetSidebarButton(index)
+	local frame = _G["TopFitConfigFrameSpecialization"]
+	assert(frame, "TopFitConfigFrame has not been initialized properly.")
+
+	local button = _G[frame:GetName() .. "SpecButton" .. index]
+		or CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
 	button:SetID(index)
 	button:Show()
 
@@ -64,7 +70,7 @@ function ui.SetSidebarButtonHeight(button, height)
 	button.specIcon:SetSize(ringSize*4/5, ringSize*4/5) -- 2/3
 	button.ring:SetSize(ringSize, ringSize)
 	button.ring:ClearAllPoints()
-	button.ring:SetPoint("LEFT", "$parent", "LEFT", 4, -1)
+	button.ring:SetPoint("LEFT", "$parent", "LEFT", 4, 0)
 end
 function ui.SetSidebarButtonData(button, texture, name, tooltip, role)
 	SetPortraitToTexture(button.specIcon, texture)
@@ -86,41 +92,53 @@ function ui.SetSidebarButtonData(button, texture, name, tooltip, role)
 		button.specName:SetPoint("LEFT", "$parentRing", "RIGHT", 0, 0)
 	end
 end
+function ui.ToggleTopFitConfigFrame()
+	local frame = _G["TopFitConfigFrame"]
+	if not frame then
+		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate")
+		frame:SetSize(646, 468)
 
-local fName = "TopFitConfigFrame"
-local f = _G[fName]
-if not f then
-	f = CreateFrame("Frame", fName, UIParent, "ButtonFrameTemplate")
-	ButtonFrameTemplate_HideAttic(f)
-	f:SetSize(646, 468)
+		frame:SetAttribute("UIPanelLayout-defined", true)
+		frame:SetAttribute("UIPanelLayout-enabled", true)
+		frame:SetAttribute("UIPanelLayout-whileDead", true)
+		frame:SetAttribute("UIPanelLayout-area", "left")
+		frame:SetAttribute("UIPanelLayout-pushable", 5) 	-- when competing for space, lower numbers get closed first
+		frame:SetAttribute("UIPanelLayout-width", 666) 		-- width + 20
+		frame:SetAttribute("UIPanelLayout-height", 488) 	-- height + 20
 
-	-- when changing panel size, also adjust:
-	-- 		f:SetSize(550, 468)
-	-- 		TestFrameInsetSpecialization.bg:SetWidth(646-217)
-	-- 		TestFrameInsetSpecializationSpellScrollFrame:SetPoint("BOTTOMRIGHT", "$parent", "BOTTOMRIGHT", 0, 0)
-	-- 		TestFrameInsetSpecializationSpellScrollFrameScrollChild:SetAllPoints()
+		-- when changing panel size, also adjust:
+		-- 		frame:SetSize(550, 468)
+		-- 		TestFrameInsetSpecialization.bg:SetWidth(646-217)
+		-- 		TestFrameInsetSpecializationSpellScrollFrame:SetPoint("BOTTOMRIGHT", "$parent", "BOTTOMRIGHT", 0, 0)
+		-- 		TestFrameInsetSpecializationSpellScrollFrameScrollChild:SetAllPoints()
 
-	SetPortraitToTexture(f:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
-	f.TitleText:SetText("TopFit")
+		ButtonFrameTemplate_HideAttic(frame)
+		SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
+		frame.TitleText:SetText("TopFit")
 
-	UIPanelWindows[fName] = { area = "left", pushable = 3, whileDead = 1, width = 666, height = 488 }
-	table.insert(UISpecialFrames, f:GetName())
+		local frameContent = CreateFrame("Frame", frame:GetName().."Specialization", frame.Inset, "SpecializationFrameTemplate")
+		frameContent:ClearAllPoints()
+		frameContent:SetAllPoints()
+		frameContent:SetFrameLevel(0) -- put below parent
+		frameContent:SetFrameLevel(1) -- and then raise again!
 
-	local z = CreateFrame("Frame", f:GetName().."Specialization", f.Inset, "SpecializationFrameTemplate")
-	z:ClearAllPoints()
-	z:SetAllPoints()
-	z:SetFrameLevel(0) -- put below parent
-	z:SetFrameLevel(1) -- and then raise again!
+		frameContent.MainHelpButton:Hide()
+		frameContent.learnButton:Hide()
 
-	z.MainHelpButton:Hide()
-	z.learnButton:Hide()
-	z.MainHelpButton = nil
-	z.learnButton = nil
+		-- example code
+		for i = 1, 6 do
+			local btn = ui.GetSidebarButton(i)
+			ui.SetSidebarButtonData(btn, "Interface\\Icons\\Achievement_BG_trueAVshutout", "SpecButton"..i, "TestButton"..i) -- "DAMAGER")
+			ui.SetSidebarButtonHeight(btn, 40)
+			ui.SetSidebarButtonState(btn, i==1)
+		end
 
-	for i = 1, 6 do
-		local btn = ui.GetSidebarButton(i, z)
-		ui.SetSidebarButtonData(btn, "Interface\\Icons\\Achievement_BG_trueAVshutout", "SpecButton"..i, "TestButton"..i) -- "DAMAGER")
-		ui.SetSidebarButtonHeight(btn, 40)
-		ui.SetSidebarButtonState(btn, i==1)
+		frame:Hide()
+	end
+
+	if frame:IsShown() then
+		HideUIPanel(frame)
+	else
+		ShowUIPanel(frame)
 	end
 end

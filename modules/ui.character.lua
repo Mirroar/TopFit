@@ -232,7 +232,7 @@ function ui.InitializeConfigButton()
 		if btn == "RightButton" then
 			InterfaceOptionsFrame_OpenToCategory(addonName)
 		else
-			ShowUIPanel(_G["TestFrame"]) -- [TODO] use proper frame/name/hook
+			ui.ToggleTopFitConfigFrame()
 		end
 	end)
 	return button
