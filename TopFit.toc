@@ -19,6 +19,8 @@ core.lua
 
 #classes
 set.class.lua
+calculation.class.lua
+defaultcalculation.class.lua
 
 inventory.lua
 modules\tooltip.lua
