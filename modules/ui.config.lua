@@ -14,6 +14,7 @@ local function ButtonOnClick(self)
 	scrollFrame.ScrollBar:SetValue(0)
 
 	local scrollChild = scrollFrame.child
+	-- example code
 	scrollChild.specName:SetText("Panel for "..self.specName:GetText())
 	SetPortraitToTexture(scrollChild.specIcon, "Interface\\Icons\\Achievement_BG_trueAVshutout")
 	scrollChild.roleIcon:SetTexCoord(GetTexCoordsForRole("DAMAGER"))
@@ -53,30 +54,41 @@ function ui.GetSidebarButton(index)
 	local frame = _G["TopFitConfigFrameSpecialization"]
 	assert(frame, "TopFitConfigFrame has not been initialized properly.")
 
+	-- allow calling this func w/o knowing the next id
+	if not index then
+		index = 1
+		while _G[frame:GetName() .. "SpecButton" .. index] do
+			index = index + 1
+		end
+	end
+
 	local button = _G[frame:GetName() .. "SpecButton" .. index]
-		or CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
-	button:SetID(index)
+	if not button then
+		button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
+		button:SetID(index)
+
+		button:SetScript("OnClick", ButtonOnClick)
+		button:SetScript("OnEnter", ButtonOnEnter)
+		button:SetScript("OnLeave", ButtonOnLeave)
+
+		button:ClearAllPoints()
+		if index == 1 then
+			button:SetPoint("TOPLEFT", 6, -65) -- -56
+		else
+			button:SetPoint("TOP", "$parentSpecButton"..(index-1), "BOTTOM", 0, -10)
+		end
+
+		button.roleIcon:Hide()
+		button.roleName:Hide()
+		button.ring:SetTexture("Interface\\TalentFrame\\spec-filagree") 			-- Interface\\TalentFrame\\talent-main
+		button.ring:SetTexCoord(0.00390625, 0.27734375, 0.48437500, 0.75781250) 	-- 0.50000000, 0.91796875, 0.00195313, 0.21093750
+		button.specIcon:SetSize(100-14, 100-14) 									-- 100/66 (filagree is 70/56)
+	end
 	button:Show()
 
 	if not frame["specButton"..index] then
 		frame["specButton"..index] = button
 	end
-
-	button:ClearAllPoints()
-	if index == 1 then
-		button:SetPoint("TOPLEFT", 6, -65) -- -56
-	else
-		button:SetPoint("TOP", "$parentSpecButton"..(index-1), "BOTTOM", 0, -10)
-	end
-
-	button:SetScript("OnClick", ButtonOnClick)
-	button:SetScript("OnEnter", ButtonOnEnter)
-	button:SetScript("OnLeave", ButtonOnLeave)
-	button.roleIcon:Hide()
-	button.roleName:Hide()
-	button.ring:SetTexture("Interface\\TalentFrame\\spec-filagree") 			-- Interface\\TalentFrame\\talent-main
-	button.ring:SetTexCoord(0.00390625, 0.27734375, 0.48437500, 0.75781250) 	-- 0.50000000, 0.91796875, 0.00195313, 0.21093750
-	button.specIcon:SetSize(100-14, 100-14) 									-- 100/66 (filagree is 70/56)
 
 	return button
 end
