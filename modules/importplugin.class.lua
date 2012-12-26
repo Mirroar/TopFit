@@ -13,7 +13,6 @@ end
 
 -- initializes this plugin's UI elements
 function ImportPlugin:InitializeUI()
-    TopFit:Print("Initialize impor tplugin UI")
     local frame = self:GetConfigPanel()
 
     local function FocusGained(self)
