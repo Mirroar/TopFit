@@ -71,6 +71,8 @@ function Set:GetOperationsPerFrame()
     return self.operationsPerFrame
 end
 
+-- set a hard cap for any stat
+-- use value = nil to unset a cap
 function Set:SetHardCap(stat, value)
     self.AssertArgumentType(stat, 'string')
     if type(value) ~= 'nil' then
@@ -80,32 +82,39 @@ function Set:SetHardCap(stat, value)
     self.caps[stat] = value
 end
 
+-- get the defined hard cap for any stat
 function Set:GetHardCap(stat)
     self.AssertArgumentType(stat, 'string')
 
     return self.caps[stat]
 end
 
+-- get a list of all configured hard caps and their values, keyed by stat
 function Set:GetHardCaps()
     return self.caps
 end
 
+-- remove all hard caps from this set
 function Set:ClearAllHardCaps()
     wipe(self.caps)
 end
 
+-- allow dual wielding for this set
 function Set:EnableDualWield(value)
     self.canDualWield = value and true or false
 end
 
+-- get the current setting for dual wielding for this set
 function Set:CanDualWield()
     return self.canDualWield
 end
 
+-- allow titan's grip for this set
 function Set:EnableTitansGrip(value)
     self.canTitansGrip = value and true or false
 end
 
+-- get the current setting for titan's grip for this set
 function Set:CanTitansGrip()
     return self.canTitansGrip
 end

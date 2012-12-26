@@ -16,8 +16,16 @@ core.lua
 
 #classes
 set.class.lua
+calculation.class.lua
+defaultcalculation.class.lua
+plugin.class.lua
+
+# plugins
+modules\importplugin.class.lua
 
 inventory.lua
+
+#modules
 modules\tooltip.lua
 modules\calculation.lua
 modules\trinketlogic.lua
