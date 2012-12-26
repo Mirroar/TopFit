@@ -6,13 +6,20 @@ local ui = ns.ui
 -- GLOBALS: PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic
 
 function ui.CreateConfigPanel(isFull)
-	-- default: including header
-	local panel = CreateFrame("Frame", nil, _G["TopFitConfigFrameSpecialization"])
-		  panel.displayHeader = not isFull
-		  panel:Hide()
 	local button = ui.GetSidebarButton()
-		  button.panel = panel
-		  panel.button = button
+	local panel = CreateFrame("Frame", "TopFitConfigFramePlugin"..button:GetID(), _G["TopFitConfigFrameSpecializationSpellScrollFrameScrollChild"])
+	panel:Hide()
+	if not isFull then
+		panel:SetHeight(180) -- default height
+		panel.displayHeader = true
+	end
+
+	button.panel = panel
+	panel.button = button
+
+	-- /spew TopFit.currentPlugins[1].configPanel:SetParent("TopFitConfigFrameSpecializationSpellScrollFrameScrollChild")
+	-- /spew TopFit.currentPlugins[1].configPanel:SetSize(200, 100)
+	-- /spew TopFit.currentPlugins[1].configPanel:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background", tile = false, edgeFile = "Interface\\Addons\\Viewda\\Media\\glow", edgeSize = 2, insets = {6, 6, 6, 6}})
 
 	return button, panel
 end
@@ -36,13 +43,13 @@ end
 local function DisplayScrollFramePanel(scrollFrame, panel)
 	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
 	local buttonID = 1
-	local button = _G[panel:GetParent():GetName().."SpecButton"..buttonID]
+	local button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
 	while button do
 		ui.SetSidebarButtonState(button, button:GetID() == panel.button:GetID())
 		button.selected = button:GetID() == panel.button:GetID()
 
 		buttonID = buttonID + 1
-		button = _G[panel:GetParent():GetName().."SpecButton"..buttonID]
+		button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
 	end
 
 	if panel.displayHeader then
@@ -59,13 +66,15 @@ local function DisplayScrollFramePanel(scrollFrame, panel)
 		end
 		scrollChild.panel = panel
 		scrollChild.panel:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 20, -185)
-		scrollChild.panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -10, -185)
+		scrollChild.panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -20, -185)
 		scrollChild.panel:Show()
 	else
 		scrollFrame:GetScrollChild():Hide()
 		scrollFrame:SetScrollChild(panel)
 		scrollFrame:GetScrollChild():Show()
 	end
+	scrollFrame:UpdateScrollChildRect()
+	scrollFrame:SetVerticalScroll(0)
 end
 local function ButtonOnClick(self)
 	GameTooltip:Hide()
@@ -262,6 +271,9 @@ function ui.ShowPanel(panel)
 	DisplayScrollFramePanel(_G["TopFitConfigFrameSpecializationSpellScrollFrame"], panel)
 end
 
+function ui.IsConfigFrameInitialized()
+	return _G["TopFitConfigFrame"] and true or false
+end
 function ui.ToggleTopFitConfigFrame()
 	local frame = _G["TopFitConfigFrame"]
 	if not frame then
@@ -270,20 +282,22 @@ function ui.ToggleTopFitConfigFrame()
 		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate")
 		frame:EnableMouse()
 		frame:SetSize(646, 468)
+		frame:Hide()
 
 		frame:SetAttribute("UIPanelLayout-defined", true)
 		frame:SetAttribute("UIPanelLayout-enabled", true)
 		frame:SetAttribute("UIPanelLayout-whileDead", true)
 		frame:SetAttribute("UIPanelLayout-area", "left")
 		frame:SetAttribute("UIPanelLayout-pushable", 5) 	-- when competing for space, lower numbers get closed first
-		frame:SetAttribute("UIPanelLayout-width", 666) 		-- width + 20
-		frame:SetAttribute("UIPanelLayout-height", 488) 	-- height + 20
+		frame:SetAttribute("UIPanelLayout-width", 646) 		-- width + 20
+		frame:SetAttribute("UIPanelLayout-height", 468) 	-- height + 20
 
 		-- when changing panel size, also adjust:
 		-- 		frame:SetSize(550, 468)
-		-- 		TestFrameInsetSpecialization.bg:SetWidth(646-217)
-		-- 		TestFrameInsetSpecializationSpellScrollFrame:SetPoint("BOTTOMRIGHT", "$parent", "BOTTOMRIGHT", 0, 0)
-		-- 		TestFrameInsetSpecializationSpellScrollFrameScrollChild:SetAllPoints()
+		-- 		TopFitConfigFrameSpecialization.bg:SetWidth(646-217)
+		-- 		TopFitConfigFrameSpecializationSpellScrollFrame:SetPoint("BOTTOMRIGHT", "$parent", "BOTTOMRIGHT", 0, 0)
+		-- 		TopFitConfigFrameSpecializationSpellScrollFrameScrollChild.gradient:SetWidth(646-314)
+		-- 		TopFitConfigFrameSpecializationSpellScrollFrameScrollChild:SetAllPoints()
 
 		ButtonFrameTemplate_HideAttic(frame)
 		SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
@@ -324,21 +338,24 @@ function ui.ToggleTopFitConfigFrame()
 
 		hooksecurefunc(scrollChild:GetParent(), "SetVerticalScroll", function(self, scroll)
 			local hasScrollBar = self:GetVerticalScrollRange() > 0
+			if hasScrollBar then
+				self.ScrollBar:Show()
+			else
+				self.ScrollBar:Hide()
+			end
 			self:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
 		end)
 
 		-- example code
-		for i = 1, 2 do
-			local btn, panel = ui.CreateConfigPanel()
-			ui.SetSidebarButtonData(btn, "SpecButton"..i, "TestButton"..i, i%2==0 and "Interface\\Icons\\Achievement_BG_trueAVshutout" or nil)
-			-- ui.SetSidebarButtonHeight(btn, 40)
-			-- ui.SetSidebarButtonState(btn, i==1)
-			panel.title = "Lorem Ipsum"
-			panel.subTitle = "Dolor sit amet"
-			panel.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
-			panel.icon = "Interface\\Icons\\Achievement_BG_trueAVshutout"
-		end
-		frame:Hide()
+		local btn, panel = ui.CreateConfigPanel()
+		ui.SetSidebarButtonData(btn, "ExampleButton", "This button is only an example. It shows nothing.", "Interface\\Icons\\Achievement_BG_trueAVshutout")
+		-- ui.SetSidebarButtonHeight(btn, 40)
+		-- ui.SetSidebarButtonState(btn, i==1)
+		panel.title = "Lorem Ipsum"
+		panel.subTitle = "Dolor sit amet"
+		panel.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
+		panel.icon = "Interface\\Icons\\Achievement_BG_trueAVshutout"
+		-- end: example code
 
 		-- initialize plugin config panels
 		for _, plugin in pairs(ns.currentPlugins) do
@@ -351,8 +368,4 @@ function ui.ToggleTopFitConfigFrame()
 	else
 		ShowUIPanel(frame)
 	end
-end
-
-function ui.IsConfigFrameInitialized()
-	return _G["TopFitConfigFrame"] and true or false
 end
