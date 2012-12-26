@@ -25,6 +25,7 @@ local function SetHeaderData(scrollChild, panel)
 		scrollChild.specIcon:Hide()
 	end
 	scrollChild.specName:SetText( panel.title or "" )
+	scrollChild.description:SetText( panel.description or "" )
 	scrollChild.roleName:SetText( panel.subTitle or "" )
 	scrollChild.roleIcon:SetTexture( panel.subIcon or "" )
 	if panel.subIconCoords and #(panel.subIconCoords) >= 4 then
@@ -33,6 +34,7 @@ local function SetHeaderData(scrollChild, panel)
 end
 
 local function DisplayScrollFramePanel(scrollFrame, panel)
+	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
 	local buttonID = 1
 	local button = _G[panel:GetParent():GetName().."SpecButton"..buttonID]
 	while button do
@@ -107,6 +109,7 @@ end
 local function ButtonOnLeave(self)
 	GameTooltip:Hide()
 end
+
 function ui.GetSidebarButton(index)
 	local frame = _G["TopFitConfigFrameSpecialization"]
 	assert(frame, "TopFitConfigFrame has not been initialized properly.")
@@ -114,15 +117,17 @@ function ui.GetSidebarButton(index)
 	-- allow calling this func w/o knowing the next id
 	if not index then
 		index = 1
-		while _G[frame:GetName() .. "SpecButton" .. index] do
+		while _G[frame:GetName() .. "SpecButton" .. index] and not frame["specButton"..index] do
 			index = index + 1
 		end
 	end
 
 	local button = _G[frame:GetName() .. "SpecButton" .. index]
-	if not button then
-		button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
-		button:SetID(index)
+	if not button or frame["specButton"..index] then
+		if not button then
+			button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
+			button:SetID(index)
+		end
 
 		button:SetScript("OnClick", ButtonOnClick)
 		button:SetScript("OnEnter", ButtonOnEnter)
@@ -140,12 +145,12 @@ function ui.GetSidebarButton(index)
 		button.ring:SetTexture("Interface\\TalentFrame\\spec-filagree") 			-- Interface\\TalentFrame\\talent-main
 		button.ring:SetTexCoord(0.00390625, 0.27734375, 0.48437500, 0.75781250) 	-- 0.50000000, 0.91796875, 0.00195313, 0.21093750
 		button.specIcon:SetSize(100-14, 100-14) 									-- 100/66 (filagree is 70/56)
+
+		if frame["specButton"..index] then
+			frame["specButton"..index] = nil
+		end
 	end
 	button:Show()
-
-	if not frame["specButton"..index] then
-		frame["specButton"..index] = button
-	end
 
 	return button
 end
@@ -202,7 +207,7 @@ end
 function ui.SetHeaderTitle(panel, title)
 	panel.title = title or ""
 	if panel:IsShown() then
-		panel:GetParent().spellsScroll:GetScrollChild().specName:SetText(title)
+		panel:GetParent().spellsScroll:GetScrollChild().specName:SetText(title or "")
 	end
 end
 function ui.SetHeaderIcon(panel, texture)
@@ -235,6 +240,12 @@ function ui.SetHeaderSubTitleIcon(panel, texture, ...)
 			scrollChild.roleIcon:SetTexCoord( ... )
 		end
 
+	end
+end
+function ui.SetHeaderDescription(panel, text)
+	panel.description = text or ""
+	if panel:IsShown() then
+		panel:GetParent().spellsScroll:GetScrollChild().description:SetText( text or "" )
 	end
 end
 function ui.SetPanelDisplayHeader(panel, displayHeader)
@@ -306,13 +317,16 @@ function ui.ToggleTopFitConfigFrame()
 		end)
 
 		-- example code
-		for i = 1, 6 do
-			local btn = ui.GetSidebarButton(i)
-			ui.SetSidebarButtonData(btn, "SpecButton"..i, "TestButton"..i, i%2==0 and "Interface\\Icons\\Achievement_BG_trueAVshutout" or nil) -- "DAMAGER")
+		for i = 1, 2 do
+			local btn, panel = ui.CreateConfigPanel()
+			ui.SetSidebarButtonData(btn, "SpecButton"..i, "TestButton"..i, i%2==0 and "Interface\\Icons\\Achievement_BG_trueAVshutout" or nil)
 			ui.SetSidebarButtonHeight(btn, 40)
-			ui.SetSidebarButtonState(btn, i==1)
+			-- ui.SetSidebarButtonState(btn, i==1)
+			panel.title = "Lorem Ipsum"
+			panel.subTitle = "Dolor sit amet"
+			panel.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
+			panel.icon = "Interface\\Icons\\Achievement_BG_trueAVshutout"
 		end
-
 		frame:Hide()
 	end
 
