@@ -127,7 +127,7 @@ function ui.GetSidebarButton(index)
 		if not button then
 			button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
 			button:SetID(index)
-			ui.SetSidebarButtonHeight(button, 40)
+
 		end
 
 		button:SetScript("OnClick", ButtonOnClick)
@@ -147,6 +147,7 @@ function ui.GetSidebarButton(index)
 		button.ring:SetTexCoord(0.00390625, 0.27734375, 0.48437500, 0.75781250) 	-- 0.50000000, 0.91796875, 0.00195313, 0.21093750
 		button.specIcon:SetSize(100-14, 100-14) 									-- 100/66 (filagree is 70/56)
 
+		ui.SetSidebarButtonHeight(button, 40)
 		if frame["specButton"..index] then
 			frame["specButton"..index] = nil
 		end
@@ -250,9 +251,10 @@ function ui.SetHeaderDescription(panel, text)
 	end
 end
 function ui.SetPanelDisplayHeader(panel, displayHeader)
+	local oldState = panel.displayHeader
 	panel.displayHeader = displayHeader
-	if panel:IsShown() then
-
+	if panel:IsShown() and oldState ~= displayHeader then
+		ui.ShowPanel(panel)
 	end
 end
 
