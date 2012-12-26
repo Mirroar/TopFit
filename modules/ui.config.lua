@@ -17,10 +17,6 @@ function ui.CreateConfigPanel(isFull)
 	button.panel = panel
 	panel.button = button
 
-	-- /spew TopFit.currentPlugins[1].configPanel:SetParent("TopFitConfigFrameSpecializationSpellScrollFrameScrollChild")
-	-- /spew TopFit.currentPlugins[1].configPanel:SetSize(200, 100)
-	-- /spew TopFit.currentPlugins[1].configPanel:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background", tile = false, edgeFile = "Interface\\Addons\\Viewda\\Media\\glow", edgeSize = 2, insets = {6, 6, 6, 6}})
-
 	return button, panel
 end
 
@@ -41,6 +37,7 @@ local function SetHeaderData(scrollChild, panel)
 end
 
 local function DisplayScrollFramePanel(scrollFrame, panel)
+	-- [TODO] set parents depending on display mode
 	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
 	local buttonID = 1
 	local button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
@@ -84,28 +81,6 @@ local function ButtonOnClick(self)
 	scrollFrame.ScrollBar:SetValue(0)
 
 	DisplayScrollFramePanel(scrollFrame, self.panel)
-
---[[ -- example code
-	scrollChild.specName:SetText("Panel for "..self.specName:GetText())
-	SetPortraitToTexture(scrollChild.specIcon, "Interface\\Icons\\Achievement_BG_trueAVshutout")
-	scrollChild.roleIcon:SetTexCoord(GetTexCoordsForRole("DAMAGER"))
-	scrollChild.roleName:SetText("Settings for important things.")
-	scrollChild.description:SetText("This is a panel to configure your own settings. It is very important and you should always check here first! Don't worry if it's a whole lot of text, it really isn't.")
-
-	local text = _G[scrollChild:GetName() .. "CustomText"]
-	if not text then
-		text = scrollChild:CreateFontString("$parentCustomText", "BACKGROUND", "GameFontNormal")
-		text:SetPoint("TOPLEFT", 20, -185)
-		text:SetJustifyH("LEFT")
-		text:SetJustifyV("TOP")
-		text:SetWordWrap(true)
-	end
-
-	text:SetText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n")
-
-	text:SetWidth( scrollChild:GetWidth() - 20 - 10 )
---]]
-	-- /spew TopFitConfigFrameSpecialization.spellsScroll.child
 end
 local function ButtonOnEnter(self)
 	-- if not self.selected then
@@ -345,17 +320,6 @@ function ui.ToggleTopFitConfigFrame()
 			end
 			self:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
 		end)
-
-		-- example code
-		local btn, panel = ui.CreateConfigPanel()
-		ui.SetSidebarButtonData(btn, "ExampleButton", "This button is only an example. It shows nothing.", "Interface\\Icons\\Achievement_BG_trueAVshutout")
-		-- ui.SetSidebarButtonHeight(btn, 40)
-		-- ui.SetSidebarButtonState(btn, i==1)
-		panel.title = "Lorem Ipsum"
-		panel.subTitle = "Dolor sit amet"
-		panel.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
-		panel.icon = "Interface\\Icons\\Achievement_BG_trueAVshutout"
-		-- end: example code
 
 		-- initialize plugin config panels
 		for _, plugin in pairs(ns.currentPlugins) do
