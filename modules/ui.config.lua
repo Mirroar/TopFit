@@ -337,6 +337,11 @@ function ui.ToggleTopFitConfigFrame()
 			panel.icon = "Interface\\Icons\\Achievement_BG_trueAVshutout"
 		end
 		frame:Hide()
+
+		-- initialize plugin config panels
+		for _, plugin in pairs(ns.currentPlugins) do
+			plugin:CreateConfigPanel()
+		end
 	end
 
 	if frame:IsShown() then
@@ -344,4 +349,8 @@ function ui.ToggleTopFitConfigFrame()
 	else
 		ShowUIPanel(frame)
 	end
+end
+
+function ui.IsConfigFrameInitialized()
+	return _G["TopFitConfigFrame"] and true or false
 end

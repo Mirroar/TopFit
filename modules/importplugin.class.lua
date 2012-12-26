@@ -1,6 +1,6 @@
 local addonName, ns, _ = ...
 
-local ImportPlugin = ns.class(Plugin)
+local ImportPlugin = ns.class(ns.Plugin)
 ns.ImportPlugin = ImportPlugin
 
 -- creates a new ImportPlugin object
