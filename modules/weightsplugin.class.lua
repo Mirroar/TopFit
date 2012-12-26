@@ -3,130 +3,139 @@ local addonName, ns, _ = ...
 local WeightsPlugin = ns.class(ns.Plugin)
 ns.WeightsPlugin = WeightsPlugin
 
+-- GLOBALS: _G, TopFit
+-- GLOBALS: CreateFrame, GetEquipmentSetInfoByName
+-- GLOBALS: table, wipe, pairs, ipairs
+
 -- creates a new WeightsPlugin object
 function WeightsPlugin:Initialize()
-    self:SetName(TopFit.locale.Utilities)
-    self:SetTooltipText(TopFit.locale.UtilitiesTooltip)
-    self:SetButtonTexture("Interface\\Icons\\INV_Pet_RatCage")
-    self:RegisterConfigPanel()
+	self:SetName(TopFit.locale.StatsPanelLabel)
+	self:SetTooltipText(TopFit.locale.StatsTooltip)
+	self:SetButtonTexture("Interface\\Icons\\Ability_Druid_BalanceofPower")
+	self:RegisterConfigPanel()
+end
+
+function WeightsPlugin:SetStatLine(i, stat, value, capValue)
+	local frame = self:GetConfigPanel()
+	local statLine = _G[frame:GetName().."StatLine"..i]
+	if not statLine then
+		statLine = CreateFrame("Frame", "$parentStatLine"..i, frame)
+		statLine:SetHeight(13)
+		if i == 1 then
+			statLine:SetPoint("TOPLEFT")
+			statLine:SetPoint("TOPRIGHT")
+		else
+			statLine:SetPoint("TOPLEFT", "$parentStatLine"..(i-1), "BOTTOMLEFT", 0, -2)
+			statLine:SetPoint("TOPRIGHT", "$parentStatLine"..(i-1), "BOTTOMRIGHT", 0, -2)
+		end
+
+		if i%2 ~= 0 then
+			statLine:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"})
+		end
+
+		statLine.name = statLine:CreateFontString("$parentName", "ARTWORK", "GameFontNormal")
+		statLine.name:SetPoint("TOPLEFT")
+		statLine.value = statLine:CreateFontString("$parentValue", "ARTWORK", "GameFontNormal")
+		statLine.value:SetPoint("TOPRIGHT")
+		statLine.capValue = statLine:CreateFontString("$parentCapValue", "ARTWORK", "GameFontDisable")
+		statLine.capValue:SetPoint("TOPRIGHT", -80, 0)
+	end
+
+	statLine.name:SetText(_G[stat])
+	statLine.value:SetText(value)
+	statLine.capValue:SetText(capValue or "")
+end
+
+local function AddStatDropDownFunc(self)
+	print("click", self.value)
+end
+local function InitializeAddStatDropDown(self, level)
+	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
+
+	local info = UIDropDownMenu_CreateInfo()
+	if level == 1 then
+		-- stat groups (melee, ranged, hybrid etc)
+		info.hasArrow = true
+		info.notCheckable = true
+		info.keepShownOnClick = true
+		info.colorCode = NORMAL_FONT_COLOR_CODE
+		for group, stats in pairs(TopFit.statList) do
+			info.text = group
+			info.value = group
+			UIDropDownMenu_AddButton(info, level)
+		end
+	else
+		-- actual stats (intellect, stamina etc)
+		info.func = AddStatDropDownFunc
+		for i, stat in ipairs( TopFit.statList[UIDROPDOWNMENU_MENU_VALUE] ) do
+			if not set.weights[stat] then
+				info.text = _G[stat]
+				info.value = stat
+				UIDropDownMenu_AddButton(info, level)
+			end
+		end
+	end
 end
 
 -- initializes this plugin's UI elements
 function WeightsPlugin:InitializeUI()
-    local frame = self:GetConfigPanel()
+	local frame = self:GetConfigPanel()
+	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
+	ns.ui.SetHeaderSubTitle(frame, set.name)
 
-    local function FocusGained(self)
-        self:HighlightText()
-    end
-    local function Reset(self)
-        self:SetText(TopFit.locale.UtilitiesDefaultText)
-        self:ClearFocus()
-    end
-    local function Accept(self)
-        local text = self:GetText()
-        if text and text ~= "" and text ~= TopFit.locale.UtilitiesDefaultText then
-            -- try importing this string
-            ImportString(text)
-        end
-        self:SetText(TopFit.locale.UtilitiesDefaultText)
-        self:ClearFocus()
-    end
+	local setName = TopFit:GenerateSetName(set.name)
+	local texture = "Interface\\Icons\\" .. (GetEquipmentSetInfoByName(setName) or "Spell_Holy_EmpowerChampion")
+	ns.ui.SetHeaderSubTitleIcon(frame, texture, 0, 1, 0, 1)
 
-    local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    title:SetPoint("TOPLEFT", 16, -4)
-    title:SetText(TopFit.locale.Utilities)
+	frame.stats = frame.stats or {}
+	wipe(frame.stats)
 
-    local explain = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-    explain:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -10, -8)
-    explain:SetPoint("RIGHT", frame, -4, 0)
-    explain:SetHeight(55)
-    explain:SetNonSpaceWrap(true)
-    explain:SetJustifyH("LEFT")
-    explain:SetJustifyV("TOP")
-    explain:SetText(TopFit.locale.UtilitiesTooltip)     -- TODO: offer more useful text
+	for stat, weight in pairs(set.weights) do
+		table.insert(frame.stats, stat)
+	end
+	table.sort(frame.stats, function(a, b)
+		local cappedA, cappedB = set.caps[a] and set.caps[a].value or 0, set.caps[b] and set.caps[b].value or 0
+		local weightA, weightB = set.weights[a], set.weights[b]
 
-    local importBox = CreateFrame("EditBox", "TopFitUtilities_importBox", frame)
-    importBox:SetPoint("TOPLEFT", explain, "BOTTOMLEFT", 0, -4)
-    importBox:SetPoint("BOTTOMRIGHT", explain, "RIGHT", 0, -80)
-    importBox:SetFontObject(GameFontNormalSmall)
-    importBox:SetTextInsets(8, 8, 8, 8)
-    importBox:SetMultiLine(true)
-    importBox:SetAutoFocus(false)
-    importBox:SetText(TopFit.locale.UtilitiesDefaultText)
-    importBox:SetBackdrop({
-        bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        edgeSize = 16,
-        insets = {left = 4, right = 4, top = 4, bottom = 4}
-    })
-    importBox:SetBackdropColor(.1, .1, .1, .8)
-    importBox:SetBackdropBorderColor(.5, .5, .5)
-    local importBoxLabel = importBox:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    importBoxLabel:SetPoint("BOTTOMLEFT", importBox, "TOPLEFT", 16, 0)
-    importBoxLabel:SetText("Import")
+		if weightA ~= weightB then
+			return weightA > weightB
+		elseif cappedA ~= cappedB then
+			return cappedA > cappedB
+		else
+			return a < b
+		end
+	end)
 
-    importBox:SetScript("OnEditFocusGained", FocusGained)
-    importBox:SetScript("OnEnterPressed", Accept)
-    importBox:SetScript("OnEscapePressed", Reset)
+	for i, stat in ipairs(frame.stats) do
+		self:SetStatLine(i, stat, set.weights[stat], set.caps[stat] and set.caps[stat].value or nil)
+	end
 
-    local exportBox = CreateFrame("EditBox", "TopFitUtilities_exportBox", frame)
-    self.exportBox = exportBox
-    exportBox:SetPoint("TOPLEFT", importBox, "BOTTOMLEFT", 0, -10)
-    exportBox:SetPoint("BOTTOMRIGHT", explain, "RIGHT", 0, -200)
-    exportBox:SetFontObject(GameFontNormalSmall)
-    exportBox:SetTextInsets(8, 8, 8, 8)
-    exportBox:SetMultiLine(true)
-    exportBox:SetAutoFocus(false)
-    exportBox:SetText(TopFit.locale.UtilitiesDefaultText)
-    exportBox:SetBackdrop({
-        bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        edgeSize = 16,
-        insets = {left = 4, right = 4, top = 4, bottom = 4}
-    })
-    exportBox:SetBackdropColor(.1, .1, .1, .8)
-    exportBox:SetBackdropBorderColor(.5, .5, .5)
-    local exportBoxLabel = exportBox:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    exportBoxLabel:SetPoint("BOTTOMLEFT", exportBox, "TOPLEFT", 16, 0)
-    exportBoxLabel:SetText("Export")
+	-- add new stats
+	local newStat = CreateFrame("Button", frame:GetName().."AddStat", frame)
+	newStat:SetPoint("TOPLEFT", "$parentStatLine"..#(frame.stats), "BOTTOMLEFT", 0, -10)
 
-    exportBox:SetScript("OnEditFocusGained", FocusGained)
-    exportBox:SetScript("OnEnterPressed", Accept)
-    exportBox:SetScript("OnEscapePressed", Reset)
+	local dropDown = CreateFrame("Frame", "$parentDropDown", newStat, "UIDropDownMenuTemplate")
+		  dropDown:SetAllPoints()
+		  dropDown:Hide()
+		  dropDown.displayMode = "MENU"
+		  dropDown.initialize = InitializeAddStatDropDown
 
-    local pwned = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-    self.pwned = pwned
-    pwned:SetPoint("TOPLEFT", exportBox, "BOTTOMLEFT", 0, -10)
-    pwned:SetPoint("RIGHT", frame, -4, 0)
-    pwned:SetHeight(55)
-    pwned:SetNonSpaceWrap(true)
-    pwned:SetJustifyH("LEFT")
-    pwned:SetJustifyV("TOP")
-
-    -- register events
-    TopFit.RegisterCallback("TopFit_utilities", "OnShow", function(event, id)
-        if (id == pluginId) then
-        end
-    end)
-
-    TopFit.RegisterCallback("TopFit_utilities", "OnSetChanged", function(event, setId)
-        if (setId) then
-            exportBox:SetText(GenerateExportString("TopFit", "1"))
-            pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
-        else
-            -- no set selected, disable inputs
-        end
-    end)
+	newStat:SetScript("OnClick", function(self, btn)
+		ToggleDropDownMenu(nil, nil, dropDown)
+	end)
+	local newStatText = newStat:CreateFontString("$parentText", "ARTWORK", "GameFontNormal")
+		  newStatText:SetPoint("TOPLEFT")
+		  newStatText:SetTextColor(GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b)
+		  newStatText:SetText("|TInterface\\PaperDollInfoFrame\\Character-Plus:0|t Add Stat")
+	newStat:SetSize( newStatText:GetWidth(), newStatText:GetHeight() )
 end
 
 function WeightsPlugin:OnShow()
-    self.exportBox:SetText(GenerateExportString("TopFit", "1"))
-    self.pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
+	-- self.pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
 end
 
 function WeightsPlugin:OnSetChanged()
-    self.exportBox:SetText(GenerateExportString("TopFit", "1"))
-    self.pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
+	-- self.pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
 end
 
 -- create plugin and register with TopFit

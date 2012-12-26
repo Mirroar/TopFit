@@ -325,6 +325,10 @@ function ui.ToggleTopFitConfigFrame()
 		for _, plugin in pairs(ns.currentPlugins) do
 			plugin:CreateConfigPanel()
 		end
+
+		if _G[frameContent:GetName().."SpecButton1"] then
+			_G[frameContent:GetName().."SpecButton1"]:Click()
+		end
 	end
 
 	if frame:IsShown() then
