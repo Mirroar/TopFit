@@ -32,10 +32,18 @@ end
 
 -- register a tab in TopFit's config frame for use by this plugin
 function Plugin:RegisterConfigPanel()
-    self.configButton, self.configPanel = ns.ui.CreateConfigPanel()
-    if self.configButton then
-        self.hasConfigPanel = true
-        self:UpdateConfigButton()
+    self.hasConfigPanel = true
+    if ns.ui.IsConfigFrameInitialized() then
+        self:CreateConfigPanel()
+    end
+end
+
+function Plugin:CreateConfigPanel()
+    if self.hasConfigPanel then
+        self.configButton, self.configPanel = ns.ui.CreateConfigPanel()
+        if self.configButton then
+            self:UpdateConfigButton()
+        end
     end
 end
 
