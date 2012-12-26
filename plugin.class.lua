@@ -13,6 +13,9 @@ function Plugin:construct(name)
     self.tooltipText = nil
     self.buttonTexture = nil
     self.roleIdentifier = nil
+    self.panelHeaderText = nil
+    self.panelIconTexture = nil
+    self.panelDescription = nil
 
     if not ns.currentPlugins then
         ns.currentPlugins = {}
@@ -43,14 +46,26 @@ function Plugin:CreateConfigPanel()
         self.configButton, self.configPanel = ns.ui.CreateConfigPanel()
         if self.configButton then
             self:UpdateConfigButton()
+            self:UpdateConfigPanel()
+
+            self:InitializeUI()
         end
     end
 end
 
 -- refreshes data on this plugin's config button
 function Plugin:UpdateConfigButton()
-    if self.hasConfigPanel then
+    if self.configButton then
         ns.ui.SetSidebarButtonData(self.configButton, self.name, self.tooltipText, self.buttonTexture, self.roleIdentifier)
+    end
+end
+
+-- refreshes data on this plugin's config panel
+function Plugin:UpdateConfigPanel()
+    if self.configPanel then
+        ns.ui.SetHeaderTitle(self.configPanel, self.panelHeaderText or self.name)
+        ns.ui.SetHeaderIcon(self.configPanel, self.panelIconTexture or self.buttonTexture)
+        ns.ui.SetHeaderDescription(self.configPanel, self.panelDescription or self.tooltipText)
     end
 end
 
