@@ -8,89 +8,92 @@ local ui = ns.ui
 function ui.CreateConfigPanel(isFull)
 	-- default: including header
 	local panel = CreateFrame("Frame", nil, _G["TopFitConfigFrameSpecialization"])
+		  panel.displayHeader = not isFull
 		  panel:Hide()
 	local button = ui.GetSidebarButton()
-		  button.displayHeader = not isFull
 		  button.panel = panel
+		  panel.button = button
 
 	return button, panel
 end
 
-local function SetHeaderData(scrollChild, button)
-	if button.panel.icon then
-		SetPortraitToTexture(scrollChild.specIcon, button.panel.icon or "")
+local function SetHeaderData(scrollChild, panel)
+	if panel.icon then
+		SetPortraitToTexture(scrollChild.specIcon, panel.icon or "")
 		scrollChild.specIcon:Show()
 	else
 		scrollChild.specIcon:Hide()
 	end
-	scrollChild.specName:SetText( button.panel.title or "" )
-	scrollChild.roleName:SetText( button.panel.subTitle or "" )
-	scrollChild.roleIcon:SetTexture( button.panel.subIcon or "" )
-	if button.panel.subIconCoords and #(button.panel.subIconCoords) >= 4 then
-		scrollChild.roleIcon:SetTexCoord( unpack(button.panel.subIconCoords) )
+	scrollChild.specName:SetText( panel.title or "" )
+	scrollChild.roleName:SetText( panel.subTitle or "" )
+	scrollChild.roleIcon:SetTexture( panel.subIcon or "" )
+	if panel.subIconCoords and #(panel.subIconCoords) >= 4 then
+		scrollChild.roleIcon:SetTexCoord( unpack(panel.subIconCoords) )
 	end
 end
 
-local function ButtonOnClick(self)
-	GameTooltip:Hide()
-	PlaySound("igMainMenuOptionCheckBoxOn")
-
+local function DisplayScrollFramePanel(scrollFrame, panel)
 	local buttonID = 1
-	local button = _G[self:GetParent():GetName().."SpecButton"..buttonID]
+	local button = _G[panel:GetParent():GetName().."SpecButton"..buttonID]
 	while button do
-		ui.SetSidebarButtonState(button, button:GetID() == self:GetID())
-		button.selected = button:GetID() == self:GetID()
+		ui.SetSidebarButtonState(button, button:GetID() == panel.button:GetID())
+		button.selected = button:GetID() == panel.button:GetID()
 
 		buttonID = buttonID + 1
-		button = _G[self:GetParent():GetName().."SpecButton"..buttonID]
+		button = _G[panel:GetParent():GetName().."SpecButton"..buttonID]
 	end
 
-	local scrollFrame = self:GetParent().spellsScroll
-	scrollFrame.ScrollBar:SetValue(0)
-
-	if button.displayHeader then
+	if panel.displayHeader then
 		scrollFrame:GetScrollChild():Hide()
 		scrollFrame:SetScrollChild( _G[scrollFrame:GetName().."ScrollChild"] )
 		local scrollChild = scrollFrame:GetScrollChild()
 		scrollChild.abilityButton1:Hide()
 		scrollChild:Show()
 
-		SetHeaderData(scrollChild, button)
+		SetHeaderData(scrollChild, panel)
 
 		if scrollChild.panel then
 			scrollChild.panel:Hide()
 		end
-		scrollChild.panel = button.panel
+		scrollChild.panel = panel
 		scrollChild.panel:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 20, -185)
 		scrollChild.panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -10, -185)
 		scrollChild.panel:Show()
-
-	--[[ -- example code
-		scrollChild.specName:SetText("Panel for "..self.specName:GetText())
-		SetPortraitToTexture(scrollChild.specIcon, "Interface\\Icons\\Achievement_BG_trueAVshutout")
-		scrollChild.roleIcon:SetTexCoord(GetTexCoordsForRole("DAMAGER"))
-		scrollChild.roleName:SetText("Settings for important things.")
-		scrollChild.description:SetText("This is a panel to configure your own settings. It is very important and you should always check here first! Don't worry if it's a whole lot of text, it really isn't.")
-
-		local text = _G[scrollChild:GetName() .. "CustomText"]
-		if not text then
-			text = scrollChild:CreateFontString("$parentCustomText", "BACKGROUND", "GameFontNormal")
-			text:SetPoint("TOPLEFT", 20, -185)
-			text:SetJustifyH("LEFT")
-			text:SetJustifyV("TOP")
-			text:SetWordWrap(true)
-		end
-
-		text:SetText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n")
-
-		text:SetWidth( scrollChild:GetWidth() - 20 - 10 )
-	--]]
 	else
 		scrollFrame:GetScrollChild():Hide()
-		scrollFrame:SetScrollChild(button.panel)
+		scrollFrame:SetScrollChild(panel)
 		scrollFrame:GetScrollChild():Show()
 	end
+end
+local function ButtonOnClick(self)
+	GameTooltip:Hide()
+	PlaySound("igMainMenuOptionCheckBoxOn")
 
+	local scrollFrame = self:GetParent().spellsScroll
+	scrollFrame.ScrollBar:SetValue(0)
+
+	DisplayScrollFramePanel(scrollFrame, self.panel)
+
+--[[ -- example code
+	scrollChild.specName:SetText("Panel for "..self.specName:GetText())
+	SetPortraitToTexture(scrollChild.specIcon, "Interface\\Icons\\Achievement_BG_trueAVshutout")
+	scrollChild.roleIcon:SetTexCoord(GetTexCoordsForRole("DAMAGER"))
+	scrollChild.roleName:SetText("Settings for important things.")
+	scrollChild.description:SetText("This is a panel to configure your own settings. It is very important and you should always check here first! Don't worry if it's a whole lot of text, it really isn't.")
+
+	local text = _G[scrollChild:GetName() .. "CustomText"]
+	if not text then
+		text = scrollChild:CreateFontString("$parentCustomText", "BACKGROUND", "GameFontNormal")
+		text:SetPoint("TOPLEFT", 20, -185)
+		text:SetJustifyH("LEFT")
+		text:SetJustifyV("TOP")
+		text:SetWordWrap(true)
+	end
+
+	text:SetText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n")
+
+	text:SetWidth( scrollChild:GetWidth() - 20 - 10 )
+--]]
 	-- /spew TopFitConfigFrameSpecialization.spellsScroll.child
 end
 local function ButtonOnEnter(self)
@@ -233,6 +236,16 @@ function ui.SetHeaderSubTitleIcon(panel, texture, ...)
 		end
 
 	end
+end
+function ui.SetPanelDisplayHeader(panel, displayHeader)
+	panel.displayHeader = displayHeader
+	if panel:IsShown() then
+
+	end
+end
+
+function ui.ShowPanel(panel)
+	DisplayScrollFramePanel(_G["TopFitConfigFrameSpecializationSpellScrollFrame"], panel)
 end
 
 function ui.ToggleTopFitConfigFrame()
