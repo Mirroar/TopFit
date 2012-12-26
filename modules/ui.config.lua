@@ -2,46 +2,100 @@ local addonName, ns, _ = ...
 ns.ui = ns.ui or {}
 local ui = ns.ui
 
--- GLOBALS: NORMAL_FONT_COLOR, _G, UIParent, GameTooltip, assert
+-- GLOBALS: NORMAL_FONT_COLOR, _G, UIParent, GameTooltip, assert, hooksecurefunc, unpack, select
 -- GLOBALS: PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic
+
+function ui.CreateConfigPanel(isFull)
+	-- default: including header
+	local panel = CreateFrame("Frame", nil, _G["TopFitConfigFrameSpecialization"])
+		  panel:Hide()
+	local button = ui.GetSidebarButton()
+		  button.displayHeader = not isFull
+		  button.panel = panel
+
+	return button, panel
+end
+
+local function SetHeaderData(scrollChild, button)
+	if button.panel.icon then
+		SetPortraitToTexture(scrollChild.specIcon, button.panel.icon or "")
+		scrollChild.specIcon:Show()
+	else
+		scrollChild.specIcon:Hide()
+	end
+	scrollChild.specName:SetText( button.panel.title or "" )
+	scrollChild.roleName:SetText( button.panel.subTitle or "" )
+	scrollChild.roleIcon:SetTexture( button.panel.subIcon or "" )
+	if button.panel.subIconCoords and #(button.panel.subIconCoords) >= 4 then
+		scrollChild.roleIcon:SetTexCoord( unpack(button.panel.subIconCoords) )
+	end
+end
 
 local function ButtonOnClick(self)
 	GameTooltip:Hide()
 	PlaySound("igMainMenuOptionCheckBoxOn")
-	ui.SetSidebarButtonState(self, not self.selected)
+
+	local buttonID = 1
+	local button = _G[self:GetParent():GetName().."SpecButton"..buttonID]
+	while button do
+		ui.SetSidebarButtonState(button, button:GetID() == self:GetID())
+		button.selected = button:GetID() == self:GetID()
+
+		buttonID = buttonID + 1
+		button = _G[self:GetParent():GetName().."SpecButton"..buttonID]
+	end
 
 	local scrollFrame = self:GetParent().spellsScroll
 	scrollFrame.ScrollBar:SetValue(0)
 
-	local scrollChild = scrollFrame.child
-	-- example code
-	scrollChild.specName:SetText("Panel for "..self.specName:GetText())
-	SetPortraitToTexture(scrollChild.specIcon, "Interface\\Icons\\Achievement_BG_trueAVshutout")
-	scrollChild.roleIcon:SetTexCoord(GetTexCoordsForRole("DAMAGER"))
-	scrollChild.roleName:SetText("Settings for important things.")
-	scrollChild.description:SetText("This is a panel to configure your own settings. It is very important and you should always check here first! Don't worry if it's a whole lot of text, it really isn't.")
+	if button.displayHeader then
+		scrollFrame:GetScrollChild():Hide()
+		scrollFrame:SetScrollChild( _G[scrollFrame:GetName().."ScrollChild"] )
+		local scrollChild = scrollFrame:GetScrollChild()
+		scrollChild.abilityButton1:Hide()
+		scrollChild:Show()
 
-	scrollChild.abilityButton1:Hide()
+		SetHeaderData(scrollChild, button)
 
-	local text = _G[scrollChild:GetName() .. "CustomText"]
-	if not text then
-		text = scrollChild:CreateFontString("$parentCustomText", "BACKGROUND", "GameFontNormal")
-		text:SetPoint("TOPLEFT", 20, -185)
-		text:SetJustifyH("LEFT")
-		text:SetJustifyV("TOP")
-		text:SetWordWrap(true)
+		if scrollChild.panel then
+			scrollChild.panel:Hide()
+		end
+		scrollChild.panel = button.panel
+		scrollChild.panel:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 20, -185)
+		scrollChild.panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -10, -185)
+		scrollChild.panel:Show()
+
+	--[[ -- example code
+		scrollChild.specName:SetText("Panel for "..self.specName:GetText())
+		SetPortraitToTexture(scrollChild.specIcon, "Interface\\Icons\\Achievement_BG_trueAVshutout")
+		scrollChild.roleIcon:SetTexCoord(GetTexCoordsForRole("DAMAGER"))
+		scrollChild.roleName:SetText("Settings for important things.")
+		scrollChild.description:SetText("This is a panel to configure your own settings. It is very important and you should always check here first! Don't worry if it's a whole lot of text, it really isn't.")
+
+		local text = _G[scrollChild:GetName() .. "CustomText"]
+		if not text then
+			text = scrollChild:CreateFontString("$parentCustomText", "BACKGROUND", "GameFontNormal")
+			text:SetPoint("TOPLEFT", 20, -185)
+			text:SetJustifyH("LEFT")
+			text:SetJustifyV("TOP")
+			text:SetWordWrap(true)
+		end
+
+		text:SetText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n")
+
+		text:SetWidth( scrollChild:GetWidth() - 20 - 10 )
+	--]]
+	else
+		scrollFrame:GetScrollChild():Hide()
+		scrollFrame:SetScrollChild(button.panel)
+		scrollFrame:GetScrollChild():Show()
 	end
-
-	text:SetText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n")
-
-	local hasScrollBar = scrollFrame:GetVerticalScrollRange() > 0
-	scrollFrame:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
-	text:SetWidth( scrollChild:GetWidth() - 20 - 10 )
 
 	-- /spew TopFitConfigFrameSpecialization.spellsScroll.child
 end
 local function ButtonOnEnter(self)
-	if not self.selected then
+	-- if not self.selected then
+	if self.tooltip and self.tooltip ~= "" then
 		GameTooltip:SetOwner(self, "ANCHOR_TOP")
 		GameTooltip:AddLine(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
 		GameTooltip:Show()
@@ -116,7 +170,7 @@ function ui.SetSidebarButtonHeight(button, height)
 	button.ring:ClearAllPoints()
 	button.ring:SetPoint("LEFT", "$parent", "LEFT", 4, 0)
 end
-function ui.SetSidebarButtonData(button, texture, name, tooltip, role)
+function ui.SetSidebarButtonData(button, name, tooltip, texture, role)
 	if texture then
 		SetPortraitToTexture(button.specIcon, texture)
 		button.ring:Show()
@@ -141,6 +195,46 @@ function ui.SetSidebarButtonData(button, texture, name, tooltip, role)
 		button.specName:SetPoint("LEFT", "$parentRing", "RIGHT", 0, 0)
 	end
 end
+
+function ui.SetHeaderTitle(panel, title)
+	panel.title = title or ""
+	if panel:IsShown() then
+		panel:GetParent().spellsScroll:GetScrollChild().specName:SetText(title)
+	end
+end
+function ui.SetHeaderIcon(panel, texture)
+	panel.icon = texture
+	if panel:IsShown() then
+		local scrollChild = panel:GetParent().spellsScroll:GetScrollChild()
+		if texture and texture ~= "" then
+			SetPortraitToTexture(scrollChild.specIcon, texture)
+			scrollChild.specIcon:Show()
+		else
+			scrollChild.specIcon:Hide()
+		end
+	end
+end
+function ui.SetHeaderSubTitle(panel, subTitle)
+	panel.subTitle = subTitle or ""
+	if panel:IsShown() then
+		panel:GetParent().spellsScroll:GetScrollChild().roleName:SetText(subTitle)
+	end
+end
+function ui.SetHeaderSubTitleIcon(panel, texture, ...)
+	panel.subIcon = texture
+	if select('#', ...) >= 4 then
+		panel.subIconCoords = { ... }
+	end
+	if panel:IsShown() then
+		local scrollChild = panel:GetParent().spellsScroll:GetScrollChild()
+		scrollChild.roleIcon:SetTexture(texture)
+		if select('#', ...) >= 4 then
+			scrollChild.roleIcon:SetTexCoord( ... )
+		end
+
+	end
+end
+
 function ui.ToggleTopFitConfigFrame()
 	local frame = _G["TopFitConfigFrame"]
 	if not frame then
@@ -193,10 +287,15 @@ function ui.ToggleTopFitConfigFrame()
 		scrollChild.gradient:SetParent(frameContent)
 		scrollChild.gradient:SetPoint("TOPLEFT", 217-9, 0)
 
+		hooksecurefunc(scrollChild:GetParent(), "SetVerticalScroll", function(self, scroll)
+			local hasScrollBar = self:GetVerticalScrollRange() > 0
+			self:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
+		end)
+
 		-- example code
 		for i = 1, 6 do
 			local btn = ui.GetSidebarButton(i)
-			ui.SetSidebarButtonData(btn, i%2==0 and "Interface\\Icons\\Achievement_BG_trueAVshutout" or nil, "SpecButton"..i, "TestButton"..i) -- "DAMAGER")
+			ui.SetSidebarButtonData(btn, "SpecButton"..i, "TestButton"..i, i%2==0 and "Interface\\Icons\\Achievement_BG_trueAVshutout" or nil) -- "DAMAGER")
 			ui.SetSidebarButtonHeight(btn, 40)
 			ui.SetSidebarButtonState(btn, i==1)
 		end
