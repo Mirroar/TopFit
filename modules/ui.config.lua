@@ -127,6 +127,7 @@ function ui.GetSidebarButton(index)
 		if not button then
 			button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
 			button:SetID(index)
+			ui.SetSidebarButtonHeight(button, 40)
 		end
 
 		button:SetScript("OnClick", ButtonOnClick)
@@ -328,7 +329,7 @@ function ui.ToggleTopFitConfigFrame()
 		for i = 1, 2 do
 			local btn, panel = ui.CreateConfigPanel()
 			ui.SetSidebarButtonData(btn, "SpecButton"..i, "TestButton"..i, i%2==0 and "Interface\\Icons\\Achievement_BG_trueAVshutout" or nil)
-			ui.SetSidebarButtonHeight(btn, 40)
+			-- ui.SetSidebarButtonHeight(btn, 40)
 			-- ui.SetSidebarButtonState(btn, i==1)
 			panel.title = "Lorem Ipsum"
 			panel.subTitle = "Dolor sit amet"
