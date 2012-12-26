@@ -7,6 +7,8 @@ SLASH_TopFit1 = "/topfit"
 SLASH_TopFit2 = "/tf"
 SLASH_TopFit3 = "/fit"
 
+ns.initialized = false
+
 -- utility for rounding
 local function round(input, places)
     if not places then
@@ -549,6 +551,19 @@ function ns:OnInitialize()
     ns.plugins = {}
 
     ns:collectItems()
+
+    -- we're done initializing
+    ns.initialized = true
+
+    -- initialize all registered plugins
+    if not ns.currentPlugins then ns.currentPlugins = {} end
+    for _, plugin in pairs(ns.currentPlugins) do
+        plugin:Initialize()
+    end
+end
+
+function ns.IsInitialized()
+    return ns.initialized
 end
 
 function TopFit:collectEquippableItems()

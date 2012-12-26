@@ -5,7 +5,7 @@ ns.Calculation = Calculation
 
 -- create a new, empty calculation object
 -- not advised, this class is meant to be inherited from by different calculation methods
-function Calculation:init(set)
+function Calculation:construct(set)
     self.running = false
     self.started = false
 end
