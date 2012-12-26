@@ -262,6 +262,8 @@ end
 function ui.ToggleTopFitConfigFrame()
 	local frame = _G["TopFitConfigFrame"]
 	if not frame then
+		LoadAddOn("Blizzard_TalentUI") -- won't double init anyways
+
 		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate")
 		frame:EnableMouse()
 		frame:SetSize(646, 468)
@@ -310,6 +312,12 @@ function ui.ToggleTopFitConfigFrame()
 		scrollChild.scrollwork_bottomright:SetPoint("BOTTOMRIGHT", 0, 8)
 		scrollChild.gradient:SetParent(frameContent)
 		scrollChild.gradient:SetPoint("TOPLEFT", 217-9, 0)
+
+		local index = 1
+		while frameContent["specButton"..index] do
+			frameContent["specButton"..index]:Hide()
+			index = index + 1
+		end
 
 		hooksecurefunc(scrollChild:GetParent(), "SetVerticalScroll", function(self, scroll)
 			local hasScrollBar = self:GetVerticalScrollRange() > 0
