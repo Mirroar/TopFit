@@ -21,6 +21,7 @@ defaultcalculation.class.lua
 plugin.class.lua
 
 # plugins
+modules\weightsplugin.class.lua
 modules\importplugin.class.lua
 
 inventory.lua
