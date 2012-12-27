@@ -37,6 +37,13 @@ function Set.CreateFromSavedVariables(setTable)
         end
     end
 
+    if setTable.weights then
+        -- initialize caps
+        for stat, value in pairs(setTable.weights) do
+            setInstance:SetStatWeight(stat, value)
+        end
+    end
+
     if (setTable.simulateDualWield) then
         setInstance:EnableDualWield(true)
     end
@@ -57,6 +64,11 @@ end
 -- get the set's name
 function Set:GetName()
     return self.name
+end
+
+-- get the set's name
+function Set:GetIconTexture()
+    return '' --TODO
 end
 
 -- set the number of combinations to check each frame
@@ -91,7 +103,30 @@ end
 
 -- get a list of all configured hard caps and their values, keyed by stat
 function Set:GetHardCaps()
-    return self.caps
+    return self.caps --TODO: copy table
+end
+
+-- set a hard cap for any stat
+-- use value = nil to unset a cap
+function Set:SetStatWeight(stat, value)
+    self.AssertArgumentType(stat, 'string')
+    if type(value) ~= 'nil' then
+        self.AssertArgumentType(value, 'number')
+    end
+
+    self.weights[stat] = value
+end
+
+-- get the defined hard cap for any stat
+function Set:GetStatWeight(stat)
+    self.AssertArgumentType(stat, 'string')
+
+    return self.weights[stat]
+end
+
+-- get a list of all configured hard caps and their values, keyed by stat
+function Set:GetStatWeights()
+    return self.weights --TODO: copy table
 end
 
 -- remove all hard caps from this set
