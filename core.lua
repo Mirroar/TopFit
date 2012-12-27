@@ -373,14 +373,15 @@ function ns:OnInitialize()
 
     -- list of weight categories and stats
     ns.statList = {
-        [ns.locale.StatsCategoryBasic] = {
+        -- STAT_CATEGORY_RANGED
+        [STAT_CATEGORY_ATTRIBUTES] = {
             [1] = "ITEM_MOD_AGILITY_SHORT",
             [2] = "ITEM_MOD_INTELLECT_SHORT",
             [3] = "ITEM_MOD_SPIRIT_SHORT",
             [4] = "ITEM_MOD_STAMINA_SHORT",
             [5] = "ITEM_MOD_STRENGTH_SHORT",
         },
-        [ns.locale.StatsCategoryMelee] = {
+        [STAT_CATEGORY_MELEE] = {
             [1] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
             [2] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
             -- [3] = "ITEM_MOD_ATTACK_POWER_SHORT",
@@ -392,24 +393,24 @@ function ns:OnInitialize()
             [8] = "TOPFIT_MELEE_WEAPON_SPEED",
             [9] = "TOPFIT_RANGED_WEAPON_SPEED",
         },
-        [ns.locale.StatsCategoryCaster] = {
+        [STAT_CATEGORY_SPELL] = {
             [1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
             [2] = "ITEM_MOD_SPELL_POWER_SHORT",
         },
-        [ns.locale.StatsCategoryDefensive] = {
+        [STAT_CATEGORY_DEFENSE] = {
             [1] = "ITEM_MOD_BLOCK_RATING_SHORT",
             [2] = "ITEM_MOD_DODGE_RATING_SHORT",
             [3] = "ITEM_MOD_PARRY_RATING_SHORT",
             [4] = "ITEM_MOD_RESILIENCE_RATING_SHORT",
             [5] = "RESISTANCE0_NAME",                   -- armor
         },
-        [ns.locale.StatsCategoryHybrid] = {
+        [STAT_CATEGORY_GENERAL] = {
             [1] = "ITEM_MOD_CRIT_RATING_SHORT",
             [2] = "ITEM_MOD_HASTE_RATING_SHORT",
             [3] = "ITEM_MOD_HIT_RATING_SHORT",
             [4] = "ITEM_MOD_MASTERY_RATING_SHORT",
         },
-        [ns.locale.StatsCategoryResistances] = {
+        [STAT_CATEGORY_RESISTANCE] = {
             [1] = "RESISTANCE1_NAME",                   -- holy
             [2] = "RESISTANCE2_NAME",                   -- fire
             [3] = "RESISTANCE3_NAME",                   -- nature

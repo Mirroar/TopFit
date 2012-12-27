@@ -8,7 +8,8 @@ local ui = ns.ui
 function ui.CreateConfigPanel(isFull)
 	local button = ui.GetSidebarButton()
 	local panel = CreateFrame("Frame", "TopFitConfigFramePlugin"..button:GetID(), _G["TopFitConfigFrameSpecializationSpellScrollFrameScrollChild"])
-	panel:Hide()
+		  panel:SetID( button:GetID() )
+		  panel:Hide()
 	if not isFull then
 		panel:SetHeight(180) -- default height
 		panel.displayHeader = true
@@ -80,6 +81,9 @@ local function ButtonOnClick(self)
 	local scrollFrame = self:GetParent().spellsScroll
 	scrollFrame.ScrollBar:SetValue(0)
 
+	if self.panel.OnUpdate then
+		self.panel:OnUpdate()
+	end
 	DisplayScrollFramePanel(scrollFrame, self.panel)
 end
 local function ButtonOnEnter(self)
@@ -190,6 +194,21 @@ function ui.SetSidebarButtonData(button, name, tooltip, texture, role)
 	end
 end
 
+function ui.SetActivePanel(mixed) -- button, panel, id
+	if type(mixed) == "table" then
+		mixed = mixed:GetID()
+	end
+
+	local button = _G["TopFitConfigFrameSpecializationSpecButton"..mixed]
+	assert(button, "Button/panel with id "..mixed.." does not exist.")
+
+	_G["TopFitConfigFrame"].activePanel = button.panel
+	button:Click()
+end
+function ui.GetActivePanel()
+	return _G["TopFitConfigFrame"].activePanel
+end
+
 function ui.SetHeaderTitle(panel, title)
 	panel.title = title or ""
 	if panel:IsShown() then
@@ -244,6 +263,50 @@ end
 
 function ui.ShowPanel(panel)
 	DisplayScrollFramePanel(_G["TopFitConfigFrameSpecializationSpellScrollFrame"], panel)
+end
+
+
+function ui.UpdateSetTabs()
+	local tab
+	local setNum = 0
+	for setID, setTable in pairs(TopFit.db.profile.sets) do
+		setNum = setNum + 1
+
+		tab = _G["TopFitConfigFrameTab"..setNum]
+		if not tab then
+			tab = CreateFrame("CheckButton", "TopFitConfigFrameTab"..setNum, _G["TopFitConfigFrame"], "PlayerSpecTabTemplate")
+			tab:SetID(setNum)
+			tab:SetScript("OnEnter", ButtonOnEnter)
+			tab:SetScript("OnLeave", ButtonOnLeave)
+			tab:SetScript("OnClick", function(self, btn)
+				PlaySound("igCharacterInfoTab")
+				ui.UpdateSetTabs()
+
+				local panel = ui.GetActivePanel()
+				if panel.OnUpdate then
+					panel:OnUpdate()
+				end
+			end)
+
+			if setNum == 1 then
+				tab:SetPoint("TOPLEFT", "$parent", "TOPRIGHT", 0, -50)
+			else
+				tab:SetPoint("TOPLEFT", "$parentTab"..(setNum-1), "BOTTOMLEFT", 0, -22)
+			end
+		end
+
+		local texture = GetEquipmentSetInfoByName( TopFit:GenerateSetName(setTable.name) ) or "Spell_Holy_EmpowerChampion"
+		tab:GetNormalTexture():SetTexture("Interface\\Icons\\"..texture)
+		tab:SetChecked( setID == TopFit.selectedSet )
+		tab.tooltip = setTable.name
+		tab:Show()
+	end
+
+	setNum = setNum + 1
+	while _G["TopFitConfigFrameTab"..setNum] do
+		_G["TopFitConfigFrameTab"..setNum]:Hide()
+		setNum = setNum + 1
+	end
 end
 
 function ui.IsConfigFrameInitialized()
@@ -321,14 +384,15 @@ function ui.ToggleTopFitConfigFrame()
 			self:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
 		end)
 
+		-- initialize set tabs
+		ui.UpdateSetTabs()
+
 		-- initialize plugin config panels
 		for _, plugin in pairs(ns.currentPlugins) do
 			plugin:CreateConfigPanel()
 		end
 
-		if _G[frameContent:GetName().."SpecButton1"] then
-			_G[frameContent:GetName().."SpecButton1"]:Click()
-		end
+		ui.SetActivePanel(1)
 	end
 
 	if frame:IsShown() then

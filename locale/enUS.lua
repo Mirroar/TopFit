@@ -39,16 +39,16 @@ do
     TopFit.locale.FlyoutTooltip = "Force Items\n|cffffffffClick items in this flyout menu and TopFit will only use those items for calculation in that slot. Click them again to remove their selection."
     TopFit.locale.missingForcedItemTooltip = "Forced Item missing\n|cffffffffThis item is still forced for this slot, but could not be found in your inventory."
     TopFit.locale.capActiveTooltip = "When checked, TopFit will try everything it can to reach this cap. Otherwise, this value just specifies the point at which the alternate value kicks in."
-    
+
     TopFit.locale.SlashHelp = "Available Options:\n  show - shows the calculations frame\n  options - shows TopFit's options"
-    
+
     TopFit.locale.ErrorCapNotReached = "Caps could not be reached, calculating again without caps."
     TopFit.locale.ErrorItemNotFound = "%s could not be found in your inventory for equipping! Did you remove it during calculation?"
     TopFit.locale.ErrorEquipFailure = "  %1$s into Slot %2$d (%3$s)"    -- itemLink, slotID, slotName
     TopFit.locale.NoticeVirtualItemsUsed = "No items will be equipped because virtual items were included in the set calculation."
     TopFit.locale.NoticeEquipFailure = "Oh. I am sorry, but I must have made a mistake. I cannot equip all the items I chose:"
     TopFit.locale.WelcomeText = "Welcome back, my master!\nIn order to present your equipment as fitting as possible, please select which set I shall look at:"
-    
+
     -- ------------------------------------------------------------
     --  Options
     -- ------------------------------------------------------------
@@ -64,7 +64,7 @@ do
     TopFit.locale.AutoUpdateOnRespecTooltip = "|cffffffffThis will automatically calculate your selected auto-update set when you change specializations. Effectively, this will provide you with your correct gear whenever you respec."
     TopFit.locale.Debug = "Debug mode"
     TopFit.locale.DebugTooltip = "|cffffffffCheck to enable debug messages.\n\n|cffffff00Caution: |cffffffffThis will spam your chatframe, a lot!"
-    
+
     -- ------------------------------------------------------------
     --  Plugins
     -- ------------------------------------------------------------
@@ -85,7 +85,7 @@ do
     TopFit.locale.StatsHeaderName = "Name"
     TopFit.locale.StatsHeaderValue = "Value"
     TopFit.locale.StatsHeaderCap = "Cap"
-    TopFit.locale.StatsPanelLabel = "Stat weights and caps"
+    TopFit.locale.StatsPanelLabel = "Weights and Caps"
     TopFit.locale.StatsAdd = "Add stat ..."
     TopFit.locale.StatsSet = "Set: "
     TopFit.locale.StatsCapSoft = "Soft"
@@ -98,7 +98,7 @@ do
     TopFit.locale.StatsCategoryMisc = "Misc"
     TopFit.locale.StatsCategoryResistances = "Resistances"
     TopFit.locale.StatsCategoryArmorTypes = "Armor Types"
-    
+
     -- virtual items
     TopFit.locale.VirtualItems = "Virtual Items"
     TopFit.locale.VirtualItemsTooltip = "Virtual Items are used to calculate your optimal gear with items you do not currently have in your inventory."
@@ -110,9 +110,9 @@ do
     TopFit.locale.VIItemNotFound = "Item not found."
     TopFit.locale.VIErrorNotEquippable = "%s could not be added as it seems to be no equippable item."
     TopFit.locale.VIErrorNoSet = "Please select or create a set before adding virtual items to it."
-    
+
     -- utilities
-    TopFit.locale.Utilities = "Import/Export"
+    TopFit.locale.Utilities = "Import / Export"
     TopFit.locale.UtilitiesTooltip = "Click here to import or export your TopFit or Pawn gear sets."
     TopFit.locale.UtilitiesDefaultText = "Insert your import string here."
     TopFit.locale.UtilitiesErrorStringParse = "Error! String could not be parsed."
