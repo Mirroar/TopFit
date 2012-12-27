@@ -44,6 +44,13 @@ end
 function Plugin:CreateConfigPanel()
     if self.hasConfigPanel then
         self.configButton, self.configPanel = ns.ui.CreateConfigPanel()
+
+        self.configPanel.OnUpdate = function(frame)
+            if self.OnShow then
+                self:OnShow()
+            end
+        end
+
         if self.configButton then
             self:UpdateConfigButton()
             self:UpdateConfigPanel()

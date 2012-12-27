@@ -760,7 +760,11 @@ ns.eventFrame = CreateFrame("Frame")
 ns.eventFrame:SetScript("OnEvent", ns.FrameOnEvent)
 ns.eventFrame:RegisterEvent("ADDON_LOADED")
 
+-----------------------------------------------------
 -- database access functions
+-----------------------------------------------------
+
+-- get a list of all set IDs in the database
 function ns.GetSetList(useTable)
     local setList = useTable and wipe(useTable) or {}
     for setName, _ in pairs(ns.db.profile.sets) do
@@ -768,6 +772,7 @@ function ns.GetSetList(useTable)
     end
 end
 
+-- get a set object from the database
 function ns.GetSetByID(setID)
     assert(type(ns.db.profile.sets[setID]) ~= nil, "GetSetByID: invalid set ID given")
     return ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID])

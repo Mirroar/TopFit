@@ -68,7 +68,11 @@ end
 
 -- get the set's name
 function Set:GetIconTexture()
-    return '' --TODO
+    return "Interface\\Icons\\" .. (GetEquipmentSetInfoByName(self:GetEquipmentSetName()) or "Spell_Holy_EmpowerChampion")
+end
+
+function Set:GetEquipmentSetName()
+    return ns:GenerateSetName(self:GetName()) -- TODO: move code here and maybe get rid of global function
 end
 
 -- set the number of combinations to check each frame
