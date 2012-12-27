@@ -3,7 +3,7 @@ local addonName, ns, _ = ...
 local WeightsPlugin = ns.class(ns.Plugin)
 ns.WeightsPlugin = WeightsPlugin
 
--- GLOBALS: _G, TopFit, GREEN_FONT_COLOR, NORMAL_FONT_COLOR_CODE
+-- GLOBALS: _G, TopFit, GREEN_FONT_COLOR, NORMAL_FONT_COLOR_CODE, ADD_ANOTHER, STAT_CATEGORY_ATTRIBUTES, PVP_RATING
 -- GLOBALS: CreateFrame, GetEquipmentSetInfoByName, UIDROPDOWNMENU_MENU_VALUE, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton, ToggleDropDownMenu
 -- GLOBALS: table, string, wipe, pairs, ipairs, print
 
@@ -16,11 +16,12 @@ function WeightsPlugin:Initialize()
 end
 
 function WeightsPlugin:SetStatLine(i, stat, value, capValue)
+	-- [TODO] line hover effect
+	-- [TODO] set stats / caps
 	local frame = self:GetConfigPanel()
 	local statLine = _G[frame:GetName().."StatLine"..i]
 	if not statLine then
 		statLine = CreateFrame("Frame", "$parentStatLine"..i, frame)
-		-- [TODO] add line highlights!
 		if i == 0 then -- header
 			statLine:SetPoint("TOPLEFT", 0, 15)
 			statLine:SetPoint("TOPRIGHT", 0, 15)
@@ -45,6 +46,7 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 	statLine.name:SetText(_G[stat] or stat)
 	statLine.value:SetText(value)
 	statLine.capValue:SetText(capValue or "")
+	statLine:Show()
 end
 
 local function AddStatDropDownFunc(self)
@@ -92,44 +94,9 @@ end
 -- initializes this plugin's UI elements
 function WeightsPlugin:InitializeUI()
 	local frame = self:GetConfigPanel()
-	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
-	ns.ui.SetHeaderSubTitle(frame, set.name)
 
-	local setName = TopFit:GenerateSetName(set.name)
-	local texture = "Interface\\Icons\\" .. (GetEquipmentSetInfoByName(setName) or "Spell_Holy_EmpowerChampion")
-	ns.ui.SetHeaderSubTitleIcon(frame, texture, 0, 1, 0, 1)
-
-	frame.stats = frame.stats or {}
-	wipe(frame.stats)
-
-	-- [TODO] handle "SET: foo" etc
-	for stat, weight in pairs(set.weights) do
-		table.insert(frame.stats, stat)
-	end
-	table.sort(frame.stats, function(a, b)
-		local cappedA, cappedB = set.caps[a] and set.caps[a].value or 0, set.caps[b] and set.caps[b].value or 0
-		local weightA, weightB = set.weights[a], set.weights[b]
-
-		if (_G[a] and 1 or 0) ~= (_G[b] and 1 or 0) then
-			return (_G[a] and true or false)
-		elseif weightA ~= weightB then
-			return weightA > weightB
-		elseif cappedA ~= cappedB then
-			return cappedA > cappedB
-		else
-			return a < b
-		end
-	end)
-
-	self:SetStatLine(0, STAT_CATEGORY_ATTRIBUTES, string.gsub(PVP_RATING, ":", ""), "Cap")
-	for i, stat in ipairs(frame.stats) do
-		self:SetStatLine(i, stat, set.weights[stat], set.caps[stat] and set.caps[stat].value or nil)
-	end
-
-	-- add new stats
+	-- add new stats button
 	local newStat = CreateFrame("Button", frame:GetName().."AddStat", frame)
-	newStat:SetPoint("TOPLEFT", "$parentStatLine"..#(frame.stats), "BOTTOMLEFT", 0, -10)
-
 	local dropDown = CreateFrame("Frame", "$parentDropDown", newStat, "UIDropDownMenuTemplate")
 		  dropDown:SetAllPoints()
 		  dropDown:Hide()
@@ -146,13 +113,51 @@ function WeightsPlugin:InitializeUI()
 	newStat:SetSize( newStatText:GetWidth(), newStatText:GetHeight() )
 end
 
-function WeightsPlugin:OnShow()
-	print("show weights")
-	-- self.pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
-end
+local function SortStats(a, b)
+	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
+	local cappedA, cappedB = set.caps[a] and set.caps[a].value or 0, set.caps[b] and set.caps[b].value or 0
+	local weightA, weightB = set.weights[a], set.weights[b]
 
-function WeightsPlugin:OnSetChanged()
-	-- self.pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
+	if (_G[a] and 1 or 0) ~= (_G[b] and 1 or 0) then
+		return (_G[a] and true or false)
+	elseif weightA ~= weightB then
+		return weightA > weightB
+	elseif cappedA ~= cappedB then
+		return cappedA > cappedB
+	else
+		return a < b
+	end
+end
+function WeightsPlugin:OnShow()
+	local frame = self:GetConfigPanel()
+	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
+	ns.ui.SetHeaderSubTitle(frame, set.name)
+
+	local setName = TopFit:GenerateSetName(set.name)
+	local texture = "Interface\\Icons\\" .. (GetEquipmentSetInfoByName(setName) or "Spell_Holy_EmpowerChampion")
+	ns.ui.SetHeaderSubTitleIcon(frame, texture, 0, 1, 0, 1)
+
+	frame.stats = frame.stats or {}
+	wipe(frame.stats)
+
+	-- [TODO] handle "SET: foo" etc
+	for stat, weight in pairs(set.weights) do
+		table.insert(frame.stats, stat)
+	end
+	table.sort(frame.stats, SortStats)
+
+	self:SetStatLine(0, STAT_CATEGORY_ATTRIBUTES, string.gsub(PVP_RATING, ":", ""), "Cap")
+	for i, stat in ipairs(frame.stats) do
+		self:SetStatLine(i, stat, set.weights[stat], set.caps[stat] and set.caps[stat].value or nil)
+	end
+	local i = #(frame.stats) + 1
+	while _G[frame:GetName().."StatLine"..i] do
+		_G[frame:GetName().."StatLine"..i]:Hide()
+		i = i + 1
+	end
+
+	-- position add button at the end
+	_G[frame:GetName().."AddStat"]:SetPoint("TOPLEFT", "$parentStatLine"..#(frame.stats), "BOTTOMLEFT", 0, -10)
 end
 
 -- create plugin and register with TopFit

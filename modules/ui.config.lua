@@ -212,13 +212,13 @@ end
 function ui.SetHeaderTitle(panel, title)
 	panel.title = title or ""
 	if panel:IsShown() then
-		panel:GetParent().spellsScroll:GetScrollChild().specName:SetText(title or "")
+		panel:GetParent().specName:SetText(title or "")
 	end
 end
 function ui.SetHeaderIcon(panel, texture)
 	panel.icon = texture
 	if panel:IsShown() then
-		local scrollChild = panel:GetParent().spellsScroll:GetScrollChild()
+		local scrollChild = panel:GetParent()
 		if texture and texture ~= "" then
 			SetPortraitToTexture(scrollChild.specIcon, texture)
 			scrollChild.specIcon:Show()
@@ -230,7 +230,8 @@ end
 function ui.SetHeaderSubTitle(panel, subTitle)
 	panel.subTitle = subTitle or ""
 	if panel:IsShown() then
-		panel:GetParent().spellsScroll:GetScrollChild().roleName:SetText(subTitle)
+		FOO = panel
+		panel:GetParent().roleName:SetText(subTitle)
 	end
 end
 function ui.SetHeaderSubTitleIcon(panel, texture, ...)
@@ -239,7 +240,7 @@ function ui.SetHeaderSubTitleIcon(panel, texture, ...)
 		panel.subIconCoords = { ... }
 	end
 	if panel:IsShown() then
-		local scrollChild = panel:GetParent().spellsScroll:GetScrollChild()
+		local scrollChild = panel:GetParent()
 		scrollChild.roleIcon:SetTexture(texture)
 		if select('#', ...) >= 4 then
 			scrollChild.roleIcon:SetTexCoord( ... )
@@ -250,7 +251,7 @@ end
 function ui.SetHeaderDescription(panel, text)
 	panel.description = text or ""
 	if panel:IsShown() then
-		panel:GetParent().spellsScroll:GetScrollChild().description:SetText( text or "" )
+		panel:GetParent().description:SetText( text or "" )
 	end
 end
 function ui.SetPanelDisplayHeader(panel, displayHeader)
@@ -297,7 +298,6 @@ function ui.UpdateSetTabs()
 			end
 		end
 
-		print("checking", setID, TopFit.selectedSet)
 		tab.tooltip = setTable.name
 		tab.setID = setID
 
