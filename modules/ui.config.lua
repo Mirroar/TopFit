@@ -303,7 +303,7 @@ function ui.UpdateSetTabs()
 
 		local texture = GetEquipmentSetInfoByName( TopFit:GenerateSetName(setTable.name) ) or "Spell_Holy_EmpowerChampion"
 		tab:GetNormalTexture():SetTexture("Interface\\Icons\\"..texture)
-		tab:SetChecked( setID == TopFit.selectedSet )
+		tab:SetChecked( setID == ns.selectedSet )
 		tab:Show()
 	end
 

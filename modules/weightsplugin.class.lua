@@ -128,27 +128,27 @@ local function SortStats(a, b)
 		return a < b
 	end
 end
+
+local setStats = {}
 function WeightsPlugin:OnShow()
 	local frame = self:GetConfigPanel()
-	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
-	ns.ui.SetHeaderSubTitle(frame, set.name)
+	local set = ns.GetSetByID( ns.selectedSet )
 
-	local setName = TopFit:GenerateSetName(set.name)
-	local texture = "Interface\\Icons\\" .. (GetEquipmentSetInfoByName(setName) or "Spell_Holy_EmpowerChampion")
-	ns.ui.SetHeaderSubTitleIcon(frame, texture, 0, 1, 0, 1)
+	ns.ui.SetHeaderSubTitle(frame, set:GetName())
+	ns.ui.SetHeaderSubTitleIcon(frame, set:GetIconTexture(), 0, 1, 0, 1)
 
 	frame.stats = frame.stats or {}
 	wipe(frame.stats)
 
 	-- [TODO] handle "SET: foo" etc
-	for stat, weight in pairs(set.weights) do
+	for stat, weight in pairs(set:GetStatWeights(setStats)) do
 		table.insert(frame.stats, stat)
 	end
 	table.sort(frame.stats, SortStats)
 
 	self:SetStatLine(0, STAT_CATEGORY_ATTRIBUTES, string.gsub(PVP_RATING, ":", ""), "Cap")
 	for i, stat in ipairs(frame.stats) do
-		self:SetStatLine(i, stat, set.weights[stat], set.caps[stat] and set.caps[stat].value or nil)
+		self:SetStatLine(i, stat, set:GetStatWeight(stat), set:GetHardCap(stat))
 	end
 	local i = #(frame.stats) + 1
 	while _G[frame:GetName().."StatLine"..i] do
