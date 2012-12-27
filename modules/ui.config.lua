@@ -280,6 +280,8 @@ function ui.UpdateSetTabs()
 			tab:SetScript("OnLeave", ButtonOnLeave)
 			tab:SetScript("OnClick", function(self, btn)
 				PlaySound("igCharacterInfoTab")
+
+				ns:SetSelectedSet(self.setID)
 				ui.UpdateSetTabs()
 
 				local panel = ui.GetActivePanel()
@@ -295,10 +297,13 @@ function ui.UpdateSetTabs()
 			end
 		end
 
+		print("checking", setID, TopFit.selectedSet)
+		tab.tooltip = setTable.name
+		tab.setID = setID
+
 		local texture = GetEquipmentSetInfoByName( TopFit:GenerateSetName(setTable.name) ) or "Spell_Holy_EmpowerChampion"
 		tab:GetNormalTexture():SetTexture("Interface\\Icons\\"..texture)
 		tab:SetChecked( setID == TopFit.selectedSet )
-		tab.tooltip = setTable.name
 		tab:Show()
 	end
 
