@@ -1,9 +1,9 @@
 local addonName, ns, _ = ...
 
-local DefaultCalculation = ns.class(Calculation)
+local DefaultCalculation = ns.class(ns.Calculation)
 ns.DefaultCalculation = DefaultCalculation
 
 -- create a new calculation object
 function DefaultCalculation:construct(...)
-    Calculation.init(self, ...)
+    ns.Calculation.construct(self, ...)
 end

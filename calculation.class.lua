@@ -6,8 +6,11 @@ ns.Calculation = Calculation
 -- create a new, empty calculation object
 -- not advised, this class is meant to be inherited from by different calculation methods
 function Calculation:construct(set)
+    self.AssertArgumentType(set, ns.Set)
+
     self.running = false
     self.started = false
+    self.set = set
 end
 
 -- add an item to be available for the current calculation

@@ -27,6 +27,8 @@ function ns:CalculateSets(silent)
             ns.setCode = setCode -- globally save the current set that is being calculated
 
             local set = ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setCode])
+            local calculation = ns.DefaultCalculation(set)
+
             set.calculationData.currentCalculationLength = 0 -- for performance testing
 
             ns:Debug("Calculating items for "..set:GetName())

@@ -64,7 +64,13 @@ function ns.class(baseClass)
     end
 
     classObject.AssertArgumentType = function(argValue, argType)
-        assert(type(argValue) == argType, argType..' expected, got '..type(argValue))
+        if (type(argType) == 'table') and type(argType.IsInstanceOf) == 'function' then
+            assert((type(argValue) == 'table') and type(argValue.IsInstanceOf) == 'function' and argValue:IsInstanceOf(argType), 'argument is not an instance of the expected class')
+        elseif type(argType) == 'string' then
+            assert(type(argValue) == argType, argType..' expected, got '..type(argValue))
+        else
+            error("AssertArgumentType: argType is expected to be a string or class object")
+        end
     end
 
     -- prepare metatable for lookup of our instance's functions
@@ -735,9 +741,9 @@ function TopFit:RunAutoUpdate(skipDelay)
     end
 end
 
-function TopFit:CreateEquipmentSet(set)
+function ns:CreateEquipmentSet(set)
     if (CanUseEquipmentSets()) then
-        setName = TopFit:GenerateSetName(set)
+        setName = ns:GenerateSetName(set)
         -- check if a set with this name exists
         if (GetEquipmentSetInfoByName(setName)) then
             texture = GetEquipmentSetInfoByName(setName)
@@ -745,12 +751,30 @@ function TopFit:CreateEquipmentSet(set)
             texture = "Spell_Holy_EmpowerChampion"
         end
 
-        TopFit:Debug("Trying to create set: "..setName..", "..(texture or "nil"))
+        ns:Debug("Trying to create set: "..setName..", "..(texture or "nil"))
         SaveEquipmentSet(setName, texture)
     end
 end
 
 -- frame for eventhandling
-TopFit.eventFrame = CreateFrame("Frame")
-TopFit.eventFrame:SetScript("OnEvent", TopFit.FrameOnEvent)
-TopFit.eventFrame:RegisterEvent("ADDON_LOADED")
+ns.eventFrame = CreateFrame("Frame")
+ns.eventFrame:SetScript("OnEvent", ns.FrameOnEvent)
+ns.eventFrame:RegisterEvent("ADDON_LOADED")
+
+-----------------------------------------------------
+-- database access functions
+-----------------------------------------------------
+
+-- get a list of all set IDs in the database
+function ns.GetSetList(useTable)
+    local setList = useTable and wipe(useTable) or {}
+    for setName, _ in pairs(ns.db.profile.sets) do
+        tinsert(setList, setName)
+    end
+end
+
+-- get a set object from the database
+function ns.GetSetByID(setID)
+    assert(type(ns.db.profile.sets[setID]) ~= nil, "GetSetByID: invalid set ID given")
+    return ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
+end
