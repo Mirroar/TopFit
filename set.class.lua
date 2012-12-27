@@ -15,7 +15,6 @@ function Set:construct(setName)
 
     -- set some defaults
     self:SetName(setName or 'Unknown')
-    self:SetOperationsPerFrame(50) -- sensible default that is somewhat easy on the CPU
 
     -- determine if the player can dualwield
     self:EnableDualWield(ns:PlayerCanDualWield())
@@ -66,25 +65,13 @@ function Set:GetName()
     return self.name
 end
 
--- get the set's name
+-- get the set's icon texture used for its equipment set
 function Set:GetIconTexture()
     return "Interface\\Icons\\" .. (GetEquipmentSetInfoByName(self:GetEquipmentSetName()) or "Spell_Holy_EmpowerChampion")
 end
 
 function Set:GetEquipmentSetName()
     return ns:GenerateSetName(self:GetName()) -- TODO: move code here and maybe get rid of global function
-end
-
--- set the number of combinations to check each frame
-function Set:SetOperationsPerFrame(ops)
-    self.AssertArgumentType(ops, 'number')
-
-    self.operationsPerFrame = ops
-end
-
--- get the number of combinations being checked each frame
-function Set:GetOperationsPerFrame()
-    return self.operationsPerFrame
 end
 
 -- set a hard cap for any stat
@@ -106,8 +93,12 @@ function Set:GetHardCap(stat)
 end
 
 -- get a list of all configured hard caps and their values, keyed by stat
-function Set:GetHardCaps()
-    return self.caps --TODO: copy table
+function Set:GetHardCaps(useTable)
+    local caps = useTable and wipe(useTable) or {}
+    for stat, value in pairs(self.caps) do
+        caps[stat] = value
+    end
+    return caps
 end
 
 -- set a hard cap for any stat
@@ -130,7 +121,11 @@ end
 
 -- get a list of all configured hard caps and their values, keyed by stat
 function Set:GetStatWeights()
-    return self.weights --TODO: copy table
+    local weights = useTable and wipe(useTable) or {}
+    for stat, value in pairs(self.weights) do
+        weights[stat] = value
+    end
+    return weights
 end
 
 -- remove all hard caps from this set
