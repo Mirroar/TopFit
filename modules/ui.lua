@@ -1,3 +1,4 @@
+local _, ns = ...
 local minimalist = [=[Interface\AddOns\TopFit\media\minimalist]=]
 
 TopFit.characterFrameUIcreated = false;
@@ -240,6 +241,10 @@ function TopFit:SetSelectedSet(setID)
         UIDropDownMenu_SetText(TopFitSetDropDown, TopFit.db.profile.sets[TopFit.selectedSet].name)
         TopFit:UpdateStatGroups()
         TopFit:SetDefaultCollapsedStates()
+    end
+
+    if _G["TopFitConfigFrame"] then
+        ns.ui.UpdateSetTabs()
     end
 end
 
