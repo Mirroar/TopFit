@@ -238,7 +238,9 @@ function ui.InitializeConfigButton()
 	return button
 end
 
+local initialized
 function ui.Initialize()
+	if initialized then return end
 	ui.InitializeStaticPopupDialogs()
 	ui.InitializeSetDropdown()
 	ui.InitializeSetProgressBar()
@@ -246,8 +248,7 @@ function ui.Initialize()
 	ui.InitializeConfigButton()
 
 	ns:initializeCharacterFrameUI() -- [TODO] remove when done
-
-	ui.Initialize = nil
+	initialized = true
 end
 hooksecurefunc("ToggleCharacter", ui.Initialize)
 
