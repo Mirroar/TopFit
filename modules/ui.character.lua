@@ -2,14 +2,12 @@ local addonName, ns, _ = ...
 ns.ui = ns.ui or {}
 local ui = ns.ui
 
-
 -- ----------------------------------------------
 -- control elements
 -- ----------------------------------------------
 function ui.InitializeStaticPopupDialogs()
 	StaticPopupDialogs["TOPFIT_RENAMESET"] = {
 		text = GEARSETS_POPUP_TEXT,
-		-- "Rename set \"%s\" to:",
 		button1 = OKAY,
 		button2 = CANCEL,
 		OnAccept = function(self)
@@ -27,7 +25,6 @@ function ui.InitializeStaticPopupDialogs()
 	}
 	StaticPopupDialogs["TOPFIT_DELETESET"] = {
 		text = CONFIRM_DELETE_EQUIPMENT_SET,
-		-- "Do you really want to delete the set \"%s\"? The associated set in the equipment manager will also be lost.",
 		button1 = OKAY,
 		button2 = CANCEL,
 		OnAccept = function(self)
@@ -44,7 +41,7 @@ end
 function ui.InitializeSetDropdown()
 	local dropDown = CreateFrame("Frame", "TopFitSetDropDown", PaperDollItemsFrame, "UIDropDownMenuTemplate")
 		  dropDown:SetPoint("TOP", CharacterModelFrame, "TOP", 0, 17)
-		  dropDown:SetFrameStrata("HIGH")
+		  dropDown:SetFrameStrata( CharacterModelFrame:GetFrameStrata() )
 	_G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
 	UIDropDownMenu_SetWidth(dropDown, CharacterModelFrame:GetWidth() - 100)
 	UIDropDownMenu_JustifyText(dropDown, "LEFT")
@@ -169,7 +166,7 @@ end
 function ui.InitializeMultiButton()
 	local button = CreateFrame("Button", "TopFitSidebarCalculateButton", PaperDollItemsFrame)
 	button:SetPoint("LEFT", TopFitSetDropDown, "RIGHT", -16, 4)
-	button:SetFrameStrata("HIGH")
+	button:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
 	button:SetSize(24, 24)
 	button:SetScript("OnEnter", ns.ShowTooltip)
 	button:SetScript("OnLeave", ns.HideTooltip)
@@ -219,7 +216,7 @@ end
 function ui.InitializeConfigButton()
 	local button = CreateFrame("Button", "TopFitConfigButton", PaperDollItemsFrame)
 	button:SetPoint("RIGHT", TopFitSetDropDown, "LEFT", 16, 2)
-	button:SetFrameStrata("HIGH")
+	button:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
 	button:SetSize(16, 16)
 	button.tipText = CHAT_CONFIGURATION
 	button:SetScript("OnEnter", ns.ShowTooltip)

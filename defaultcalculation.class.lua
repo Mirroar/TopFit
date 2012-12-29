@@ -71,7 +71,7 @@ function DefaultCalculation:Finalize()
 
     -- find best combination that satisfies ALL caps
     if (set.calculationData.bestCombination) then
-        TopFit:Print("Total Score: " .. math.round(set.calculationData.bestCombination.totalScore))
+        TopFit:Print("Total Score: " .. math.ceil(set.calculationData.bestCombination.totalScore))
         -- caps are reached, save and equip best combination
         for slotID, locationTable in pairs(set.calculationData.bestCombination.items) do
             TopFit.itemRecommendations[slotID] = {
