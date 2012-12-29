@@ -124,7 +124,7 @@ end
 
 -- returns a value between 0 and 1 indicating how far along the calculation is
 function DefaultCalculation:GetCurrentProgress()
-    if not calculation.done then --TODO: variable has been removed, replace with new way of checking whether calculation has finished
+    if not self.done then --TODO: variable has been removed, replace with new way of checking whether calculation has finished
         local progress = 0
         local impact = 1
         for slot = 1, 20 do

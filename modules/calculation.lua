@@ -47,7 +47,7 @@ function ns:CalculateSets(silent)
 
             -- save equippable items
             ns.itemListBySlot = ns:GetEquippableItems() --TODO: replace with Calculation:AddItem(item, slot) mechanic
-            ns.ReduceItemList(self.set, ns.itemListBySlot) --TODO: should not happen in calculation but before it
+            ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before it
 
             ns:ResetProgress()
 
@@ -81,10 +81,10 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
     local set = calculation.set
 
     -- find best combination that satisfies ALL caps
-    if (self.bestCombination) then
-        ns:Print("Total Score: " .. math.round(self.bestCombination.totalScore))
+    if (calculation.bestCombination) then
+        ns:Print("Total Score: " .. math.round(calculation.bestCombination.totalScore))
         -- caps are reached, save and equip best combination
-        for slotID, locationTable in pairs(self.bestCombination.items) do
+        for slotID, locationTable in pairs(calculation.bestCombination.items) do
             ns.itemRecommendations[slotID] = {
                 locationTable = locationTable,
             }
