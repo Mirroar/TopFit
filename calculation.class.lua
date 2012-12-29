@@ -99,62 +99,33 @@ function Calculation:Finalize()
     -- empty and intended to be overridden
 end
 
+-- mark the current calculation as finished
 function Calculation:Done()
     self.running = false
     self.started = false
     self:Finalize()
 
-    --TODO: fire callbacks with result or error
+    if type(self.OnComplete == 'function') then
+        self:OnComplete()
+    end
 end
 
 -- run steps consecutively
 function Calculation:RunSteps()
-    ns:Debug("Running steps")
     local operation = 0
-    while self:IsRunning() and operation < self:GetOperationsPerFrame() do
+    while self.running and operation < self.operationsPerFrame do
         self:Step()
         operation = operation + 1
     end
 
-    -- update progress
-    local set = self.set
-    if not self.done then
-        local progress = 0
-        local impact = 1
-        local slot
-        for slot = 1, 20 do
-            -- check if slot has items for calculation
-            if TopFit.itemListBySlot[slot] then
-                -- calculate current progress towards finish
-                local numItemsInSlot = #(TopFit.itemListBySlot[slot]) or 1
-                local selectedItem = (set.calculationData.slotCounters[slot] == 0) and (#(TopFit.itemListBySlot[slot]) or 1) or (set.calculationData.slotCounters[slot] or 1)
-                if numItemsInSlot == 0 then numItemsInSlot = 1 end
-                if selectedItem == 0 then selectedItem = 1 end
-
-                impact = impact / numItemsInSlot
-                progress = progress + impact * (selectedItem - 1)
-            end
-        end
-
-        TopFit:SetProgress(progress)
-    else
-        TopFit:SetProgress(1) -- done
+    if type(self.OnUpdate == 'function') then
+        self:OnUpdate() --TODO: we should also provide the current combination and/or progress (configurable?)
     end
+end
 
-    -- update icons and statistics
-    if set.calculationData.bestCombination then
-        TopFit:SetCurrentCombination(set.calculationData.bestCombination)
-    end
-
-    if TopFit.abortCalculation then
-        TopFit:Print("Calculation aborted.")
-        TopFit.abortCalculation = nil
-        TopFit.isBlocked = false
-        TopFit:StoppedCalculation()
-        done = true
-    end
-
-    TopFit:Debug("Current combination count: "..set.calculationData.combinationCount)
+-- returns a value between 0 and 1 indicating how far along the calculation is
+function Calculation:GetCurrentProgress()
+    return 0 -- this should be overridden
 end
 
 function Calculation._RunCalculation(calculation)
