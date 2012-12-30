@@ -1,3 +1,5 @@
+local addonName, ns, _ = ...
+
 --[[ inventory management and caching
 
 interesting variables:
@@ -100,7 +102,7 @@ end
 function TopFit:UpdateCache(item)
     if item and (not TopFit.itemsCache[item]) then
         -- check if it's equipment
-        if IsEquippableItem(item) then
+        --if IsEquippableItem(item) then --TODO: check if removing this breaks anything; it causes problems with gems
             local itemTable = TopFit:GetItemInfoTable(item)
 
             if itemTable then
@@ -110,7 +112,7 @@ function TopFit:UpdateCache(item)
                 -- calculate set scores
                 TopFit:CalculateItemScore(item)
             end
-        end
+        --end
     end
 end
 
@@ -131,6 +133,11 @@ function TopFit:GetItemInfoTable(item)
 
     -- item stats
     local itemBonus = GetItemStats(itemLink)
+
+    -- item stats for gems from our database
+    if ns.gemIDs[itemID] then
+        itemBonus = ns.gemIDs[itemID].stats
+    end
 
     -- gems
     local gemBonus = {}

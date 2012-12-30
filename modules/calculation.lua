@@ -265,10 +265,10 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
     end
 end
 
-function ns.ReduceItemList(set, itemList)
-    -- remove all non-forced items from item list
+-- remove all other items in slots that have forced items in them
+function ns.RemoveNonForcedItemsFromItemList(set, itemList)
     for slotID, _ in pairs(ns.slotNames) do
-        local forcedItems = ns:GetForcedItems(ns.setCode, slotID)
+        local forcedItems = ns:GetForcedItems(ns.setCode, slotID) --TODO: ask the set for its forced items
         if itemList[slotID] and #forcedItems > 0 then
             for i = #(itemList[slotID]), 1, -1 do
                 local itemTable = ns:GetCachedItem(itemList[slotID][i].itemLink)
@@ -300,8 +300,10 @@ function ns.ReduceItemList(set, itemList)
             end
         end
     end
+end
 
-    -- if enabled, remove armor that is not part of armor specialization
+-- if enabled, remove armor that is not part of armor specialization
+function ns.RemoveWrongArmorTypesFromItemList(set, itemList)
     if ns.db.profile.sets[ns.setCode].forceArmorType and ns.characterLevel >= 50 then
         local playerClass = select(2, UnitClass("player"))
         for slotID, _ in pairs(ns.armoredSlots) do
@@ -325,34 +327,10 @@ function ns.ReduceItemList(set, itemList)
             end
         end
     end
+end
 
-    -- remove all items with score <= 0 that are neither forced nor contribute to caps
-    for slotID, itemList in pairs(itemList) do
-        if #itemList >= 1 then
-            for i = #itemList, 1, -1 do
-                if (ns:GetItemScore(itemList[i].itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation) <= 0) then
-                    if #(ns:GetForcedItems(ns.setCode, slotID)) == 0 then
-                        -- check caps
-                        local hasCap = false
-                        for statCode, _ in pairs(set:GetHardCaps()) do
-                            local itemTable = ns:GetCachedItem(itemList[i].itemLink)
-                            if itemTable and (itemTable.totalBonus[statCode] or -1) > 0 then
-                                hasCap = true
-                                break
-                            end
-                        end
-
-                        if not hasCap then
-                            tremove(itemList, i)
-                            --itemList[i].reason = itemList[i].reason.."score <= 0, no cap contribution and not forced; "
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    -- remove BoE items
+--remove items that are marked as bind on equip
+function ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
     for slotID, itemList in pairs(itemList) do
         if #itemList > 0 then
             for i = #itemList, 1, -1 do
@@ -361,6 +339,127 @@ function ns.ReduceItemList(set, itemList)
                     --itemList[i].reason = itemList[i].reason.."BoE item; "
                 end
             end
+        end
+    end
+end
+
+function ns.RemoveItemsBelowThresholdFromItemList(set, subList)
+    if #subList >= 1 then
+        for i = #subList, 1, -1 do
+            if (ns:GetItemScore(subList[i].itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation) <= 0) then --TODO: get score from set
+                -- check caps
+                local hasCap = false
+
+                local itemStats = nil
+                if subList[i].stats then
+                    itemStats = subList[i].stats
+                elseif subList[i].itemLink then
+                    local itemTable = ns:GetCachedItem(subList[i].itemLink)
+                    itemStats = itemTable and itemTable.totalBonus
+                end
+
+                for statCode, _ in pairs(set:GetHardCaps()) do
+                    if itemStats and (itemStats[statCode] or -1) > 0 then
+                        hasCap = true
+                        break
+                    end
+                end
+
+                if not hasCap then
+                    tremove(subList, i)
+                    --itemList[i].reason = itemList[i].reason.."score <= 0, no cap contribution and not forced; "
+                end
+            end
+        end
+    end
+end
+
+function ns.RemoveLowScoreItemsFromItemList(set, subList, numBetterItemsNeeded, problematicUniqueness)
+    if #subList > 1 then
+        for i = #subList, 1, -1 do
+            local itemStats, itemTable
+            if subList[i].stats then
+                itemStats = subList[i].stats
+            elseif subList[i].itemLink then
+                itemTable = ns:GetCachedItem(subList[i].itemLink)
+                itemStats = itemTable and itemTable.totalBonus
+            end
+            if not itemTable then
+                tremove(subList, i)
+            else
+                -- try to see if an item exists which is definitely better
+                local betterItemExists = 0
+                for j = 1, #subList do
+                    if i ~= j then
+                        local compareStats, compareTable
+                        if subList[j].stats then
+                            compareStats = subList[i].stats
+                        elseif subList[j].itemLink then
+                            compareTable = ns:GetCachedItem(subList[j].itemLink)
+                            compareStats = compareTable and compareTable.totalBonus
+                        end
+                        if compareTable and
+                            (ns:GetItemScore(itemTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation) <= ns:GetItemScore(compareTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation)) and
+                            (itemTable.itemEquipLoc == compareTable.itemEquipLoc) then -- especially important for weapons, we do not want to compare 2h and 1h weapons
+
+                            --ns:Debug("score: "..ns:GetItemScore(itemTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation).."; compareScore: "..ns:GetItemScore(compareTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation)..
+                            --    " when comparing "..itemTable.itemLink.." with "..compareTable.itemLink)
+
+                            -- score is greater, see if caps are also better
+                            local allStats = true
+                            for statCode, _ in pairs(set:GetHardCaps()) do
+                                if (itemTable.totalBonus[statCode] or 0) > (compareTable.totalBonus[statCode] or 0) then
+                                    allStats = false
+                                    break
+                                end
+                            end
+
+                            if allStats then
+                                -- items with a problematic uniqueness are special and don't count as a better item
+                                for stat, _ in pairs(itemTable.totalBonus) do
+                                    if (string.sub(stat, 1, 8) == "UNIQUE: ") and problematicUniqueness and problematicUniqueness[stat] then
+                                        allStats = false
+                                    end
+                                end
+
+                                if allStats then
+                                    betterItemExists = betterItemExists + 1
+                                    if (betterItemExists >= numBetterItemsNeeded) then
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+
+                if betterItemExists >= numBetterItemsNeeded then
+                    -- remove this item
+                    --ns:Debug(itemTable.itemLink.." removed because "..betterItemExists.." better items found.")
+                    tremove(subList, i)
+                    --subList[i].reason = subList[i].reason..betterItemExists.." better items found (setCode: "..(ns.setCode or "nil").."; relevantScore: "..(set.calculationData.ignoreCapsForCalculation or "nil").."); "
+                end
+            end
+        end
+    end
+end
+
+function ns.ReduceGemList(set, gemList)
+    for _, subList in pairs(gemList) do
+        ns.RemoveItemsBelowThresholdFromItemList(set, subList)
+        ns.RemoveLowScoreItemsFromItemList(set, subList, 1)
+    end
+end
+
+function ns.ReduceItemList(set, itemList)
+    ns.RemoveNonForcedItemsFromItemList(set, itemList)
+    ns.RemoveWrongArmorTypesFromItemList(set, itemList)
+    ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
+
+    -- remove all items with score <= 0 that are neither forced nor contribute to caps
+    for slotID, subList in pairs(itemList) do
+        if #(ns:GetForcedItems(ns.setCode, slotID)) == 0 then --TODO: Get forced items from set
+            ns.RemoveItemsBelowThresholdFromItemList(set, subList)
         end
     end
 
@@ -393,72 +492,18 @@ function ns.ReduceItemList(set, itemList)
     end
 
     -- reduce item list: remove items with < cap and < score
-    for slotID, itemList in pairs(itemList) do
-        if #itemList > 1 then
-            for i = #itemList, 1, -1 do
-                local itemTable = ns:GetCachedItem(itemList[i].itemLink)
-                if not itemTable then
-                    tremove(itemList, i)
-                else
-                    -- try to see if an item exists which is definitely better
-                    local betterItemExists = 0
-                    local numBetterItemsNeeded = 1
+    for slotID, subList in pairs(itemList) do
+        local numBetterItemsNeeded = 1
 
-                    -- For items that can be used in 2 slots, we also need at least 2 better items to declare an item useless
-                    if (slotID == 17) -- offhand
-                        or (slotID == 12) -- ring 2
-                        or (slotID == 14) -- trinket 2
-                        then
+        -- For items that can be used in 2 slots, we also need at least 2 better items to declare an item useless
+        if (slotID == 17) -- offhand
+            or (slotID == 12) -- ring 2
+            or (slotID == 14) -- trinket 2
+            then
 
-                        numBetterItemsNeeded = 2
-                    end
-
-                    for j = 1, #itemList do
-                        if i ~= j then
-                            local compareTable = ns:GetCachedItem(itemList[j].itemLink)
-                            if compareTable and
-                                (ns:GetItemScore(itemTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation) < ns:GetItemScore(compareTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation)) and
-                                (itemTable.itemEquipLoc == compareTable.itemEquipLoc) then -- especially important for weapons, we do not want to compare 2h and 1h weapons
-
-                                --ns:Debug("score: "..ns:GetItemScore(itemTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation).."; compareScore: "..ns:GetItemScore(compareTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation)..
-                                --    " when comparing "..itemTable.itemLink.." with "..compareTable.itemLink)
-
-                                -- score is greater, see if caps are also better
-                                local allStats = true
-                                for statCode, _ in pairs(set:GetHardCaps()) do
-                                    if (itemTable.totalBonus[statCode] or 0) > (compareTable.totalBonus[statCode] or 0) then
-                                        allStats = false
-                                        break
-                                    end
-                                end
-
-                                if allStats then
-                                    -- items with a problematic uniqueness are special and don't count as a better item
-                                    for stat, _ in pairs(itemTable.totalBonus) do
-                                        if (string.sub(stat, 1, 8) == "UNIQUE: ") and problematicUniqueness[stat] then
-                                            allStats = false
-                                        end
-                                    end
-
-                                    if allStats then
-                                        betterItemExists = betterItemExists + 1
-                                        if (betterItemExists >= numBetterItemsNeeded) then
-                                            break
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                    end
-
-                    if betterItemExists >= numBetterItemsNeeded then
-                        -- remove this item
-                        --ns:Debug(itemTable.itemLink.." removed because "..betterItemExists.." better items found.")
-                        tremove(itemList, i)
-                        --itemList[i].reason = itemList[i].reason..betterItemExists.." better items found (setCode: "..(ns.setCode or "nil").."; relevantScore: "..(set.calculationData.ignoreCapsForCalculation or "nil").."); "
-                    end
-                end
-            end
+            numBetterItemsNeeded = 2
         end
+
+        ns.RemoveLowScoreItemsFromItemList(set, subList, numBetterItemsNeeded, problematicUniqueness)
     end
 end
