@@ -268,17 +268,21 @@ end
 local function CreateSideTab(index)
 	local tab = CreateFrame("CheckButton", "TopFitConfigFrameTab"..index, _G["TopFitConfigFrame"], "PlayerSpecTabTemplate")
 	tab:SetID(index)
+	tab:RegisterForClicks("AnyUp")
 	tab:SetScript("OnEnter", ButtonOnEnter)
 	tab:SetScript("OnLeave", ButtonOnLeave)
 	tab:SetScript("OnClick", function(self, btn)
 		if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then return end
-		-- [TODO] add right-click capabilities: delete, rename
 		PlaySound("igCharacterInfoTab")
 
 		if self.setID then
 			ns:SetSelectedSet(self.setID)
 		else -- new set tab
-			ns:AddSet()
+			if btn == "RightButton" then
+				ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameSpecializationAddFromPreset"], "cursor")
+			else
+				ns:AddSet()
+			end
 		end
 		ui.UpdateSetTabs()
 
@@ -313,7 +317,7 @@ function ui.UpdateSetTabs()
 		tab:Show()
 	end
 
-	-- add another set button
+	-- "add another set" button
 	local numSets = #(gearSets) + 1
 	tab = _G["TopFitConfigFrameTab"..numSets] or CreateSideTab(numSets)
 	tab.setID = nil
@@ -412,6 +416,35 @@ function ui.ToggleTopFitConfigFrame()
 		end)
 
 		-- initialize set tabs
+		local dropDown = CreateFrame("Frame", "$parentAddFromPreset", frameContent, "UIDropDownMenuTemplate")
+			  dropDown:Hide()
+			  dropDown.displayMode = "MENU"
+		local function DropDownAddSet(self)
+			local preset = (self.value and self.value ~= "") and ns:GetPresets()[self.value] or nil
+			local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
+			ns:CreateEquipmentSet(ns.db.profile.sets[setCode].name)
+			ToggleDropDownMenu(nil, nil, dropDown)
+			ns:CalculateScores()
+
+			local panel = ui.GetActivePanel() -- [TODO] currently not working as expected?
+			if panel.OnUpdate then
+				panel:OnUpdate()
+			end
+		end
+		dropDown.initialize = function()
+			local info = UIDropDownMenu_CreateInfo()
+			info.func = DropDownAddSet
+			info.text = ns.locale.EmptySet
+			info.value = ''
+			UIDropDownMenu_AddButton(info, level)
+
+			local presets = ns:GetPresets()
+			for k, v in pairs(presets or {}) do
+				info.text = v.name
+				info.value = k
+				UIDropDownMenu_AddButton(info, level)
+			end
+		end
 		ui.UpdateSetTabs()
 
 		-- initialize plugin config panels

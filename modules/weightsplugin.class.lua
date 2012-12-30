@@ -4,8 +4,8 @@ local WeightsPlugin = ns.Plugin()
 ns.WeightsPlugin = WeightsPlugin
 
 -- GLOBALS: _G, TopFit, GREEN_FONT_COLOR, NORMAL_FONT_COLOR_CODE, ADD_ANOTHER, PAPERDOLL_SIDEBAR_STATS, PVP_RATING, SLASH_EQUIP_SET1
--- GLOBALS: PlaySound, CreateFrame, GetEquipmentSetInfoByName, UIDROPDOWNMENU_MENU_VALUE, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton, ToggleDropDownMenu, UnitClass, EditBox_ClearFocus, EditBox_HighlightText, EditBox_ClearHighlight
--- GLOBALS: table, string, wipe, pairs, ipairs, print, type, tonumber
+-- GLOBALS: PlaySound, CreateFrame, GetEquipmentSetInfoByName, UIDROPDOWNMENU_MENU_VALUE, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton, ToggleDropDownMenu, UnitClass, EditBox_ClearFocus, EditBox_HighlightText, EditBox_ClearHighlight, StaticPopup_Show
+-- GLOBALS: table, string, wipe, pairs, ipairs, print, type, tonumber, tContains
 
 local tekCheck = LibStub("tekKonfig-Checkbox")
 local lineHeight = 15
@@ -23,7 +23,7 @@ function WeightsPlugin.InitializeSettingsArea()
 	local _, playerClass = UnitClass("player")
 
 	local showInTooltip, showInTooltipLabel = tekCheck.new(frame, nil, ns.locale.StatsShowTooltip,
-		"TOPLEFT", frame:GetParent():GetName().."Description", "TOPLEFT", 0, 2)
+		"TOPLEFT", frame:GetParent():GetName().."Description", "TOPLEFT", 0, 6)
 	showInTooltip.tiptext = ns.locale.StatsShowTooltipTooltip
 	showInTooltip.setting = "excludeFromTooltip"
 	showInTooltip:SetScript("OnClick", function(self)
@@ -39,7 +39,7 @@ function WeightsPlugin.InitializeSettingsArea()
 	end
 
 	local forceArmorType, forceArmorTypeLabel = tekCheck.new(frame, nil, ns.locale.StatsForceArmorType,
-		"TOPLEFT", showInTooltip, "BOTTOMLEFT", 0, 2)
+		"TOPLEFT", showInTooltip, "BOTTOMLEFT", 0, 4)
 	forceArmorType.tiptext = ns.locale.StatsForceArmorTypeTooltip
 	forceArmorType:SetScript("OnClick", function(self)
 		PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
@@ -50,7 +50,7 @@ function WeightsPlugin.InitializeSettingsArea()
 
 	if playerClass == "SHAMAN" or playerClass == "WARRIOR" or playerClass == "MONK" then
 		local dualWield, dualWieldLabel = tekCheck.new(frame, nil, ns.locale.StatsEnableDualWield,
-			"TOPLEFT", showInTooltip, "TOPLEFT", 175, 0)
+			"TOPLEFT", showInTooltip, "TOPLEFT", 190, 0)
 		dualWield.tiptext = TopFit.locale.StatsEnableDualWieldTooltip
 		dualWield:SetScript("OnClick", function(self)
 			PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
@@ -65,7 +65,7 @@ function WeightsPlugin.InitializeSettingsArea()
 		end
 
 		local titansGrip, titansGripLabel = tekCheck.new(frame, nil, ns.locale.StatsEnableTitansGrip,
-			"TOPLEFT", dualWield, "BOTTOMLEFT", 0, 2)
+			"TOPLEFT", dualWield, "BOTTOMLEFT", 0, 4)
 		titansGrip.tiptext = TopFit.locale.StatsEnableTitansGripTooltip
 		titansGrip:SetScript("OnClick", function(self)
 			PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
@@ -74,6 +74,34 @@ function WeightsPlugin.InitializeSettingsArea()
 		end)
 		frame.titansGrip = titansGrip
 	end
+end
+
+function WeightsPlugin.InitializeHeaderActions()
+	local frame = WeightsPlugin:GetConfigPanel()
+	local parent = frame:GetParent()
+
+	-- rename a set
+	local changeName = CreateFrame("Button", nil, parent)
+		  changeName:SetPoint("TOPLEFT", parent.roleName, "TOPLEFT", 0, 2)
+		  changeName:SetPoint("BOTTOMRIGHT", parent.roleName, "BOTTOMRIGHT", 10, -2) -- some padding in case of short names
+		  changeName:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+	changeName:SetScript("OnClick", function(self, btn)
+		ns.currentlyRenamingSetID = ns.selectedSet
+		StaticPopup_Show("TOPFIT_RENAMESET", ns.db.profile.sets[ ns.selectedSet ].name)
+	end)
+
+	-- delete a set
+	local delete = CreateFrame("Button", nil, parent)
+		  delete:SetSize(16, 16)
+		  delete:SetPoint("LEFT", changeName, "RIGHT", 6, 0)
+		  delete:SetNormalTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
+		  delete:SetAlpha(.5)
+	delete:SetScript("OnEnter", function(self) self:SetAlpha(1) end) -- [TODO] tooltip?
+	delete:SetScript("OnLeave", function(self) self:SetAlpha(.5) end)
+	delete:SetScript("OnClick", function(self, btn)
+		ns.currentlyDeletingSetID = ns.selectedSet
+		StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
+	end)
 end
 
 function WeightsPlugin.ShowEditLine(statLine, btn)
@@ -110,8 +138,8 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 		statLine:SetID(i)
 
 		if i == 0 then -- header
-			statLine:SetPoint("TOPLEFT", 0, lineHeight)
-			statLine:SetPoint("TOPRIGHT", 0, lineHeight)
+			statLine:SetPoint("TOPLEFT")
+			statLine:SetPoint("TOPRIGHT")
 		else
 			statLine:SetPoint("TOPLEFT", "$parentStatLine"..(i-1), "BOTTOMLEFT", 0, -2)
 			statLine:SetPoint("TOPRIGHT", "$parentStatLine"..(i-1), "BOTTOMRIGHT", 0, -2)
@@ -148,7 +176,6 @@ end
 local function AddStatDropDownFunc(self)
 	local currentSet = ns.GetSetByID(ns.selectedSet, true)
 	currentSet:SetStatWeight(self.value, 0)
-
 	-- update display
 	WeightsPlugin:OnShow()
 end
@@ -214,6 +241,8 @@ function WeightsPlugin:InitializeUI()
 	ns.ui.SetHeaderDescription(frame, nil) -- we need that space!
 	self.InitializeSettingsArea()
 
+	self.InitializeHeaderActions()
+
 	-- edit stat weights
 	local editLine = CreateFrame("Frame", "$parentEditStat", frame)
 		  editLine:SetHeight(lineHeight)
@@ -249,7 +278,7 @@ function WeightsPlugin:InitializeUI()
 			local set = ns.GetSetByID( ns.selectedSet )
 
 			print(type(value), value, self.stat) -- [TODO]
-			-- set:SetStatWeight(stat, value)
+			-- set:SetStatWeight(stat, value ~= 0 and value or nil)
 			EditBox_ClearFocus(self)
 			WeightsPlugin:OnShow()
 		end)

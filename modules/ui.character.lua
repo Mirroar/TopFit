@@ -53,7 +53,7 @@ function ui.InitializeSetDropdown()
 		if self.value and self.value ~= "" then
 			preset = ns:GetPresets()[self.value]
 		end
-		local setCode = ns:AddSet(preset)
+		local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
 		local setName = ns.db.profile.sets[setCode].name
 		ns:CreateEquipmentSet(setName)
 
