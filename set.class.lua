@@ -176,3 +176,17 @@ end
 function Set:CanTitansGrip()
     return self.canTitansGrip
 end
+
+function Set:SetDisplayInTooltip(enable) -- [TODO]
+    self.displayInTooltip = enable and true or false
+end
+function Set:GetDisplayInTooltip() -- [TODO]
+    return self.displayInTooltip
+end
+
+function Set:SetForceArmorType(enable) -- [TODO]
+    self.forceArmorType = enable and true or false
+end
+function Set:GetForceArmorType() -- [TODO]
+    return self.forceArmorType
+end
