@@ -771,6 +771,7 @@ function ns.GetSetList(useTable)
     for setName, _ in pairs(ns.db.profile.sets) do
         tinsert(setList, setName)
     end
+    return setList
 end
 
 -- get a set object from the database
