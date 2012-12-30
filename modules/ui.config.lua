@@ -2,8 +2,8 @@ local addonName, ns, _ = ...
 ns.ui = ns.ui or {}
 local ui = ns.ui
 
--- GLOBALS: NORMAL_FONT_COLOR, _G, UIParent, GameTooltip, assert, hooksecurefunc, unpack, select
--- GLOBALS: PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic
+-- GLOBALS: NORMAL_FONT_COLOR, GREEN_FONT_COLOR_CODE, RED_FONT_COLOR_CODE, MAX_EQUIPMENT_SETS_PER_PLAYER, EQUIPMENT_SETS_TOO_MANY, ADD_ANOTHER, _G, UIParent, GameTooltip, assert, hooksecurefunc, unpack, select, type, pairs, ipairs
+-- GLOBALS: LoadAddOn, PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic, GetNumEquipmentSets
 
 function ui.CreateConfigPanel(isFull)
 	local button = ui.GetSidebarButton()
@@ -87,7 +87,7 @@ local function ButtonOnClick(self)
 	DisplayScrollFramePanel(scrollFrame, self.panel)
 end
 local function ButtonOnEnter(self)
-	-- if not self.selected then
+	if self.selected then return end
 	if self.tooltip and self.tooltip ~= "" then
 		GameTooltip:SetOwner(self, "ANCHOR_TOP")
 		GameTooltip:AddLine(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
@@ -230,7 +230,6 @@ end
 function ui.SetHeaderSubTitle(panel, subTitle)
 	panel.subTitle = subTitle or ""
 	if panel:IsShown() then
-		FOO = panel
 		panel:GetParent().roleName:SetText(subTitle)
 	end
 end
@@ -266,51 +265,74 @@ function ui.ShowPanel(panel)
 	DisplayScrollFramePanel(_G["TopFitConfigFrameSpecializationSpellScrollFrame"], panel)
 end
 
+local function CreateSideTab(index)
+	local tab = CreateFrame("CheckButton", "TopFitConfigFrameTab"..index, _G["TopFitConfigFrame"], "PlayerSpecTabTemplate")
+	tab:SetID(index)
+	tab:SetScript("OnEnter", ButtonOnEnter)
+	tab:SetScript("OnLeave", ButtonOnLeave)
+	tab:SetScript("OnClick", function(self, btn)
+		if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then return end
+		-- [TODO] add right-click capabilities: delete, rename
+		PlaySound("igCharacterInfoTab")
 
-function ui.UpdateSetTabs()
-	local tab
-	local setNum = 0
-	for setID, setTable in pairs(TopFit.db.profile.sets) do
-		setNum = setNum + 1
-
-		tab = _G["TopFitConfigFrameTab"..setNum]
-		if not tab then
-			tab = CreateFrame("CheckButton", "TopFitConfigFrameTab"..setNum, _G["TopFitConfigFrame"], "PlayerSpecTabTemplate")
-			tab:SetID(setNum)
-			tab:SetScript("OnEnter", ButtonOnEnter)
-			tab:SetScript("OnLeave", ButtonOnLeave)
-			tab:SetScript("OnClick", function(self, btn)
-				PlaySound("igCharacterInfoTab")
-
-				ns:SetSelectedSet(self.setID)
-				ui.UpdateSetTabs()
-
-				local panel = ui.GetActivePanel()
-				if panel.OnUpdate then
-					panel:OnUpdate()
-				end
-			end)
-
-			if setNum == 1 then
-				tab:SetPoint("TOPLEFT", "$parent", "TOPRIGHT", 0, -50)
-			else
-				tab:SetPoint("TOPLEFT", "$parentTab"..(setNum-1), "BOTTOMLEFT", 0, -22)
-			end
+		if self.setID then
+			ns:SetSelectedSet(self.setID)
+		else -- new set tab
+			ns:AddSet()
 		end
+		ui.UpdateSetTabs()
 
-		tab.tooltip = setTable.name
+		local panel = ui.GetActivePanel()
+		if panel.OnUpdate then
+			panel:OnUpdate()
+		end
+	end)
+
+	if index == 1 then
+		tab:SetPoint("TOPLEFT", "$parent", "TOPRIGHT", 0, -50)
+	else
+		tab:SetPoint("TOPLEFT", "$parentTab"..(index-1), "BOTTOMLEFT", 0, -22)
+	end
+
+	return tab
+end
+
+local gearSets = {}
+function ui.UpdateSetTabs()
+	local tab, set
+	local gearSets = ns.GetSetList(gearSets)
+	for index, setID in ipairs(gearSets) do
+		set = ns.GetSetByID(setID)
+
+		tab = _G["TopFitConfigFrameTab"..index] or CreateSideTab(index)
+		tab.tooltip = set:GetName()
 		tab.setID = setID
 
-		local texture = GetEquipmentSetInfoByName( TopFit:GenerateSetName(setTable.name) ) or "Spell_Holy_EmpowerChampion"
-		tab:GetNormalTexture():SetTexture("Interface\\Icons\\"..texture)
+		tab:GetNormalTexture():SetTexture( set:GetIconTexture() )
 		tab:SetChecked( setID == ns.selectedSet )
 		tab:Show()
 	end
 
-	setNum = setNum + 1
-	while _G["TopFitConfigFrameTab"..setNum] do
-		_G["TopFitConfigFrameTab"..setNum]:Hide()
-		setNum = setNum + 1
+	-- add another set button
+	local numSets = #(gearSets) + 1
+	tab = _G["TopFitConfigFrameTab"..numSets] or CreateSideTab(numSets)
+	tab.setID = nil
+	tab:GetNormalTexture():SetTexture("Interface\\GuildBankFrame\\UI-GuildBankFrame-NewTab") -- "Interface\\PaperDollInfoFrame\\Character-Plus"
+	if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then
+		tab:GetNormalTexture():SetDesaturated(true)
+		tab.tooltip = RED_FONT_COLOR_CODE..EQUIPMENT_SETS_TOO_MANY
+	else
+		tab:GetNormalTexture():SetDesaturated(false)
+		tab.tooltip = GREEN_FONT_COLOR_CODE..ADD_ANOTHER
+	end
+	tab:SetChecked(nil)
+	tab:Show()
+
+	-- hide unused
+	numSets = numSets + 1
+	while _G["TopFitConfigFrameTab"..numSets] do
+		_G["TopFitConfigFrameTab"..numSets]:Hide()
+		numSets = numSets + 1
 	end
 end
 
@@ -320,7 +342,7 @@ end
 function ui.ToggleTopFitConfigFrame()
 	local frame = _G["TopFitConfigFrame"]
 	if not frame then
-		LoadAddOn("Blizzard_TalentUI") -- won't double init anyways
+		LoadAddOn("Blizzard_TalentUI") -- won't double init
 
 		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate")
 		frame:EnableMouse()
