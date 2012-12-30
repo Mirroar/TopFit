@@ -53,11 +53,22 @@ function Set.CreateFromSavedVariables(setTable)
     return setInstance
 end
 
+function Set.CreateWritableFromSavedVariables(setID)
+    if not setID or not ns.db.profile.sets[setID] then return nil end
+    local setInstance = Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
+    setInstance.setID = setID
+
+    return setInstance
+end
+
 -- set the set's name
 function Set:SetName(setName)
     self.AssertArgumentType(setName, 'string')
 
-    self.name = type(setName) == 'string' and setName or 'Unnamed'
+    self.name = setName
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].name = setName
+    end
 end
 
 -- get the set's name
@@ -80,6 +91,16 @@ function Set:SetHardCap(stat, value)
     self.AssertArgumentType(stat, 'string')
     if type(value) ~= 'nil' then
         self.AssertArgumentType(value, 'number')
+        if self.setID and ns.db.profile.sets[self.setID] then
+            ns.db.profile.sets[self.setID].caps[stat] = {
+                active = 1,
+                value = value
+            }
+        end
+    else
+        if self.setID and ns.db.profile.sets[self.setID] then
+            ns.db.profile.sets[self.setID].caps[stat] = nil
+        end
     end
 
     self.caps[stat] = value
@@ -110,6 +131,9 @@ function Set:SetStatWeight(stat, value)
     end
 
     self.weights[stat] = value
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].weights[stat] = value
+    end
 end
 
 -- get the defined hard cap for any stat
@@ -134,7 +158,7 @@ function Set:ClearAllHardCaps()
 end
 
 -- allow dual wielding for this set
-function Set:EnableDualWield(value)
+function Set:EnableDualWield(value) --TODO: figure out how this should interact with saved variables
     self.canDualWield = value and true or false
 end
 
@@ -144,7 +168,7 @@ function Set:CanDualWield()
 end
 
 -- allow titan's grip for this set
-function Set:EnableTitansGrip(value)
+function Set:EnableTitansGrip(value) --TODO: figure out how this should interact with saved variables
     self.canTitansGrip = value and true or false
 end
 

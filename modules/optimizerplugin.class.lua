@@ -34,7 +34,7 @@ function OptimizerPlugin:HideItemButtonsAfter(index)
 end
 
 function OptimizerPlugin:OnShow()
-    local set = ns.GetSetByID(ns.selectedSet)
+    local set = ns.GetSetByID(ns.selectedSet, true)
 
     -- collect the "best" gems for this set
     local bestGems = {}

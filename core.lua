@@ -618,7 +618,19 @@ function ns.GetSetList(useTable)
 end
 
 -- get a set object from the database
-function ns.GetSetByID(setID)
+function ns.GetSetByID(setID, useGlobalInstance)
     assert(type(ns.db.profile.sets[setID]) ~= nil, "GetSetByID: invalid set ID given")
-    return ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
+
+    if not useGlobalInstance then
+        return ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
+    else
+        if not ns.setObjectCache then
+            ns.setObjectCache = {}
+        end
+        if not ns.setObjectCache[setID] then
+            ns.setObjectCache[setID] = ns.Set.CreateWritableFromSavedVariables(setID)
+        end
+
+        return ns.setObjectCache[setID]
+    end
 end
