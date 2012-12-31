@@ -74,6 +74,8 @@ function WeightsPlugin.InitializeSettingsArea()
 		end)
 		frame.titansGrip = titansGrip
 	end
+
+	-- [TODO] spirit/hit conversion: Druid#33596, Monk#115070 (50% hit, 50% expertise), Paladin#112859 (flat 15% hit), Priest#122098 (flat 15% hit), Shaman#30674, Shaman#112858 (flat 15% hit)
 end
 
 function WeightsPlugin.InitializeHeaderActions()
