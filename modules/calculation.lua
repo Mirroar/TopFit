@@ -82,7 +82,7 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
 
     -- find best combination that satisfies ALL caps
     if (calculation.bestCombination) then
-        ns:Print("Total Score: " .. math.round(calculation.bestCombination.totalScore))
+        ns:Print("Total Score: " .. math.ceil(calculation.bestCombination.totalScore))
         -- caps are reached, save and equip best combination
         for slotID, locationTable in pairs(calculation.bestCombination.items) do
             ns.itemRecommendations[slotID] = {
