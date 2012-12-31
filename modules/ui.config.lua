@@ -413,6 +413,8 @@ function ui.ToggleTopFitConfigFrame()
 				self.ScrollBar:Hide()
 			end
 			self:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
+			-- self.scrollChild:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
+			self.child:SetPoint("BOTTOMRIGHT") -- for smooth resizing
 		end)
 
 		-- initialize set tabs

@@ -81,7 +81,7 @@ function WeightsPlugin.InitializeHeaderActions()
 	local parent = frame:GetParent()
 
 	-- rename a set
-	local changeName = CreateFrame("Button", nil, parent)
+	local changeName = CreateFrame("Button", nil, frame)
 		  changeName:SetPoint("TOPLEFT", parent.roleName, "TOPLEFT", 0, 2)
 		  changeName:SetPoint("BOTTOMRIGHT", parent.roleName, "BOTTOMRIGHT", 10, -2) -- some padding in case of short names
 		  changeName:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
@@ -91,7 +91,7 @@ function WeightsPlugin.InitializeHeaderActions()
 	end)
 
 	-- delete a set
-	local delete = CreateFrame("Button", nil, parent)
+	local delete = CreateFrame("Button", nil, frame)
 		  delete:SetSize(16, 16)
 		  delete:SetPoint("LEFT", changeName, "RIGHT", 6, 0)
 		  delete:SetNormalTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
