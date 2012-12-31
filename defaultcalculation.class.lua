@@ -377,7 +377,7 @@ function DefaultCalculation:SaveCurrentCombination()
                             end
                         else
                             -- player cannot dualwield, only use offhands which are not weapons
-                            locationTable = ns:CalculateBestInSlot(set, itemsAlreadyChosen, false, i, ns.setCode, function(locationTable) local itemTable = ns:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
+                            locationTable = ns:CalculateBestInSlot(self.set, itemsAlreadyChosen, false, i, ns.setCode, function(locationTable) local itemTable = ns:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
                             if locationTable then
                                 itemTable = ns:GetCachedItem(locationTable.itemLink)
                             end
