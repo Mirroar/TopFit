@@ -9,11 +9,11 @@ function OptimizerPlugin:Initialize()
     self:SetTooltipText("Helps you select the best gems, enchants and reforge options.")
     self:SetButtonTexture("Interface\\Icons\\INV_Glove_Mail_PVPHunter_D_01")
     self:RegisterConfigPanel()
+
+    self.itemButtons = {}
 end
 
 function OptimizerPlugin:GetItemButton(i)
-    if not self.itemButtons then self.itemButtons = {} end
-
     while #(self.itemButtons) < i do
         local panel = self:GetConfigPanel()
         local itemButton = CreateFrame("Button", "$parentItemButton"..i, panel, "ItemButtonTemplate")
