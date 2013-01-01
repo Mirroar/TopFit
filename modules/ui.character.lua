@@ -147,8 +147,9 @@ end
 
 function ui.InitializeSetProgressBar()
 	-- progress bar
-    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", TopFitSetDropDown)
-    progressBar:SetAllPoints()
+    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", PaperDollItemsFrame)
+    progressBar:SetAllPoints(TopFitSetDropDown)
+	progressBar:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
     progressBar:SetStatusBarTexture(minimalist)
     progressBar:SetMinMaxValues(0, 100)
     progressBar:SetStatusBarColor(0, 1, 0, 1)

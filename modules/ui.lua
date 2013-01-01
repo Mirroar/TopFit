@@ -305,7 +305,7 @@ end
 function TopFit:ResetProgress()
     TopFit.progress = nil
     if not TopFitSidebarCalculateButton then return end
-    TopFitSidebarCalculateButton:Hide()
+    TopFitSidebarCalculateButton.state = 'busy'
     TopFitSetDropDown:Hide()
 
     TopFitProgressBar:Show()
@@ -313,7 +313,7 @@ end
 
 function TopFit:StoppedCalculation()
     if not TopFitSidebarCalculateButton then return end
-    TopFitSidebarCalculateButton:Show()
+    TopFitSidebarCalculateButton.state = 'idle'
     TopFitSetDropDown:Show()
 
     TopFitProgressBar:Hide()
