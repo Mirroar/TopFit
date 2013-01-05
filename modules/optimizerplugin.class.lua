@@ -46,6 +46,7 @@ function OptimizerPlugin:OnShow()
         end
     end
 
+    --TODO: all uniquenesses are problematic for gems
     ns.ReduceGemList(set, bestGems)
 
     ns.debugGems = bestGems
