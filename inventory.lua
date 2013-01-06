@@ -169,7 +169,10 @@ function TopFit:GetItemInfoTable(item)
             local newItemLevel = itemLevel + itemLevelModifiers[upgradeModifier]
             local statMultiplier = (itemScaleExponent ^ newItemLevel) / (itemScaleExponent ^ itemLevel)
             for stat, value in pairs(itemBonus) do
-                itemBonus[stat] = math.floor(value * statMultiplier + 0.5)
+                -- some stats don't get adjusted, like armor
+                if not stat:find("RESISTANCE") and not stat:find("_SOCKET_") and not stat:find("TOPFIT") then
+                    itemBonus[stat] = math.floor(value * statMultiplier + 0.5)
+                end
             end
 
             itemLevel = newItemLevel

@@ -101,12 +101,19 @@ function WeightsPlugin.InitializeHeaderActions()
 end
 
 function WeightsPlugin.ShowEditLine(statLine, btn)
+	local isCap = false
+	if statLine.isCap then
+		statLine = statLine:GetParent()
+		isCap = true
+	end
 	local editLine = _G[statLine:GetParent():GetName() .. "EditStat"]
 	local _, oldStatLine = editLine:GetPoint()
 
 	if oldStatLine then
 		oldStatLine:SetHeight(lineHeight)
-		if oldStatLine == statLine then
+		oldStatLine.value:Show()
+		oldStatLine.capValue:Show()
+		if oldStatLine == statLine and editLine:IsShown() then
 			editLine:ClearAllPoints()
 			editLine:Hide()
 			return
@@ -116,19 +123,37 @@ function WeightsPlugin.ShowEditLine(statLine, btn)
 	--[[ statLine:SetHeight(lineHeight*2 + 2)
 	editLine:SetPoint("TOPLEFT", statLine, "LEFT")
 	editLine:SetPoint("TOPRIGHT", statLine, "RIGHT") --]]
-	statLine.value:Hide()
-
-	editLine.value:SetText( tonumber(statLine.value:GetText()) ) -- %.3f
-	editLine.value:SetFocus()
-	editLine.value:Show()
-
 	editLine.stat = statLine.stat
 	editLine:SetAllPoints(statLine)
 	editLine:Show()
+	if not isCap then
+		statLine.value:Hide()
+
+		editLine.value:SetText( tonumber(statLine.value:GetText()) ) -- %.3f
+		editLine.value:Show()
+		editLine.value:SetFocus()
+	else
+		statLine.capValue:Hide()
+
+		local set = ns.GetSetByID(ns.selectedSet, true)
+		local capValue = set:GetHardCap(statLine.stat)
+
+		if capValue then
+			editLine.capValue:SetText( tonumber(statLine.capValue:GetText()) ) -- %.3f
+		else
+			editLine.capValue:SetText(0)
+		end
+		editLine.capValue:Show()
+		editLine.capValue:SetFocus()
+	end
 end
 
 function WeightsPlugin.ShowDummyCap(statLine)
-	local set = ns.GetSetByID(ns.selectedSet)
+	if statLine.isCap then
+		statLine = statLine:GetParent()
+		statLine:LockHighlight()
+	end
+	local set = ns.GetSetByID(ns.selectedSet, true)
 	local capValue = set:GetHardCap(statLine.stat)
 
 	if not capValue or capValue == 0 then
@@ -138,6 +163,10 @@ function WeightsPlugin.ShowDummyCap(statLine)
 	end
 end
 function WeightsPlugin.HideDummyCap(statLine)
+	if statLine.isCap then
+		statLine = statLine:GetParent()
+		statLine:UnlockHighlight()
+	end
 	local set = ns.GetSetByID(ns.selectedSet)
 	statLine.capValue:SetText(set:GetHardCap(statLine.stat) or "")
 end
@@ -161,6 +190,14 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 			statLine:SetScript("OnLeave", WeightsPlugin.HideDummyCap)
 			statLine:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
 			-- blue-ish: "Interface\\Buttons\\UI-Common-MouseHilight"
+
+			statLine.capButton = CreateFrame("Button", "$parentStatLine"..i.."CapButton", statLine)
+			statLine.capButton.isCap = true
+			statLine.capButton:SetScript("OnClick", WeightsPlugin.ShowEditLine)
+			statLine.capButton:SetScript("OnEnter", WeightsPlugin.ShowDummyCap)
+			statLine.capButton:SetScript("OnLeave", WeightsPlugin.HideDummyCap)
+			statLine.capButton:SetPoint("TOPRIGHT", -80, 0)
+			statLine.capButton:SetPoint("BOTTOMLEFT", statLine, "BOTTOMRIGHT", -180, 0)
 		end
 
 		if i%2 ~= 0 then
@@ -182,6 +219,7 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 		-- statLine.capValue = CreateFrame("Button", "$parentCapValue", statLine)
 		-- statLine.capValue:SetSize(60, lineHeight-4)
 		statLine.capValue:SetPoint("TOPRIGHT", -80, -2)
+
 	end
 
 	statLine.stat = stat
@@ -298,12 +336,13 @@ function WeightsPlugin:InitializeUI()
 		end)
 		value:SetScript("OnEnterPressed", function(self)
 			local value = tonumber( self:GetText() )
-			local set = ns.GetSetByID( ns.selectedSet )
+			local set = ns.GetSetByID(ns.selectedSet, true)
 			set:SetStatWeight(self:GetParent().stat, value ~= 0 and value or nil)
 
 			EditBox_ClearFocus(self)
 			WeightsPlugin:OnShow()
 		end)
+		value:Hide()
 	editLine.value = value
 
 	local capValue = CreateFrame("EditBox", "$parentCapValue", editLine)
@@ -324,12 +363,13 @@ function WeightsPlugin:InitializeUI()
 		end)
 		capValue:SetScript("OnEnterPressed", function(self)
 			local value = tonumber( self:GetText() )
-			local set = ns.GetSetByID( ns.selectedSet )
+			local set = ns.GetSetByID(ns.selectedSet, true)
 			set:SetHardCap(self:GetParent().stat, value ~= 0 and value or nil)
 
 			EditBox_ClearFocus(self)
 			WeightsPlugin:OnShow()
 		end)
+		capValue:Hide()
 	editLine.capValue = capValue
 
 	-- add new stats button
