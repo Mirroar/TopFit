@@ -790,8 +790,9 @@ function TopFit:GetCachedItem(itemLink)
     return TopFit.itemsCache[itemLink]
 end
 
+-- check whether a weapon can be equipped in one hand (takes titan's grip into account)
 function TopFit:IsOnehandedWeapon(set, itemID)
-    _, _, _, _, _, class, subclass, _, equipSlot, _, _ = GetItemInfo(itemID)
+    local _, _, _, _, _, _, subclass, _, equipSlot, _, _ = GetItemInfo(itemID)
     if equipSlot and string.find(equipSlot, "2HWEAPON") then
         if (set:CanTitansGrip()) then
             local polearms = select(7, GetAuctionItemSubClasses(1))

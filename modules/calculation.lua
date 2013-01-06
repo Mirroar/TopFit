@@ -416,8 +416,8 @@ function ns.RemoveLowScoreItemsFromItemList(set, subList, numBetterItemsNeeded, 
 
                             if allStats then
                                 -- items with a problematic uniqueness are special and don't count as a better item
-                                for stat, _ in pairs(itemTable.totalBonus) do
-                                    if (string.sub(stat, 1, 8) == "UNIQUE: ") and problematicUniqueness and problematicUniqueness[stat] then
+                                for stat, _ in pairs(compareTable.totalBonus) do
+                                    if (string.sub(stat, 1, 8) == "UNIQUE: ") and problematicUniqueness and problematicUniqueness == "all" or problematicUniqueness[stat] then
                                         allStats = false
                                     end
                                 end
@@ -447,7 +447,7 @@ end
 function ns.ReduceGemList(set, gemList)
     for _, subList in pairs(gemList) do
         ns.RemoveItemsBelowThresholdFromItemList(set, subList)
-        ns.RemoveLowScoreItemsFromItemList(set, subList, 1)
+        ns.RemoveLowScoreItemsFromItemList(set, subList, 1, "all")
     end
 end
 

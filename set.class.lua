@@ -190,3 +190,10 @@ end
 function Set:GetForceArmorType() -- [TODO]
     return self.forceArmorType
 end
+
+function Set:SetHitConversion(enable) -- [TODO]
+    self.hitConversion = enable and true or false
+end
+function Set:GetHitConversion() -- [TODO]
+    return self.hitConversion
+end

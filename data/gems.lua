@@ -1,9106 +1,8276 @@
 TopFit.gemIDs = {
-[41495] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-	},
-},
-[71865] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
-	},
-},
-[30546] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[30594] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[76533] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
-		["ITEM_MOD_STRENGTH_SHORT"] = 60,
-	},
-},
-[52141] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
-	},
-},
-[76661] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-	},
-},
-[52205] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-	},
-},
-[52237] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-	},
-},
-[52269] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 67,
-	},
-},
-[40025] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[40057] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 8,
-	},
-},
-[40089] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[40121] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 20,
-	},
-},
-[40153] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-	},
-},
-[34143] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-		"RED", -- [3]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 4,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[76534] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
-	},
-},
-[41400] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-	},
-},
-[41432] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 14,
-	},
-},
-[41464] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-	},
-},
-[41496] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[25895] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[71867] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 25,
-	},
-},
-[32193] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-	},
-},
-[76535] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
-	},
-},
-[32225] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 5,
-	},
-},
-[76663] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
-	},
-},
-[52206] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 40,
-	},
-},
-[52238] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[32833] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		["ITEM_MOD_SPIRIT_SHORT"] = 3,
-	},
-},
-[40026] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[40058] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 8,
-	},
-},
-[40090] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[40122] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 20,
-	},
-},
-[40154] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-	},
-},
-[76536] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
-	},
-},
-[41401] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 21,
-	},
-},
-[41433] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 14,
-	},
-},
-[41465] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-	},
-},
-[41497] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-	},
-},
-[71869] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[35487] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[30563] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[32641] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[22459] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-		"RED", -- [3]
-	},
-	["stats"] = {
-		["RESISTANCE5_NAME"] = 5,
-		["RESISTANCE2_NAME"] = 5,
-		["RESISTANCE4_NAME"] = 5,
-		["RESISTANCE6_NAME"] = 5,
-		["RESISTANCE3_NAME"] = 5,
-		["RESISTANCE1_NAME"] = 5,
-	},
-},
-[36766] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 34,
-	},
-},
-[52143] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
-		["ITEM_MOD_STRENGTH_SHORT"] = 18,
-	},
-},
-[76665] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-	},
-},
-[52207] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 40,
-	},
-},
-[52239] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-	},
-},
-[44087] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
-	},
-},
-[40027] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[40059] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 8,
-	},
-},
-[40091] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[40123] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-	},
-},
-[40155] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[76538] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-	},
-},
-[41434] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 14,
-	},
-},
-[41466] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-	},
-},
-[41498] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 7,
-	},
-},
-[25896] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 18,
-	},
-},
-[71871] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[35488] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-	},
-},
-[76539] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
-	},
-},
-[52144] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 18,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
-	},
-},
-[76667] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-	},
-},
-[52208] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
-	},
-},
-[52240] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-	},
-},
-[39996] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 16,
-	},
-},
-[40028] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 8,
-	},
-},
-[71872] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[40092] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[40124] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-	},
-},
-[40156] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[32210] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-	},
-},
-[41307] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-	},
-},
-[41339] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
-	},
-},
-[68356] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-	},
-},
-[76895] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 324,
-	},
-},
-[41435] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 14,
-	},
-},
-[41467] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-	},
-},
-[41499] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[27679] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-	},
-},
-[30548] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[71873] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[35489] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-	},
-},
-[30547] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[76542] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-		["ITEM_MOD_STRENGTH_SHORT"] = 60,
-	},
-},
-[32212] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[32211] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 7,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[45879] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[32215] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 7,
-	},
-},
-[52081] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 30,
-	},
-},
-[76541] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
-	},
-},
-[52145] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
-		["ITEM_MOD_AGILITY_SHORT"] = 18,
-	},
-},
-[76669] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-	},
-},
-[52209] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[52241] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 40,
-	},
-},
-[39997] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 16,
-	},
-},
-[68741] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 20,
-	},
-},
-[71874] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 50,
-	},
-},
-[31861] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-	},
-},
-[40125] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-	},
-},
-[40157] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[76699] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 320,
-	},
-},
-[76666] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-	},
-},
-[76697] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 320,
-	},
-},
-[40056] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 8,
-	},
-},
-[40024] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[68358] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-	},
-},
-[52268] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 67,
-	},
-},
-[41436] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 14,
-	},
-},
-[41468] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-	},
-},
-[41500] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 7,
-	},
-},
-[25897] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[52236] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-		["ITEM_MOD_SPIRIT_SHORT"] = 20,
-	},
-},
-[71875] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 50,
-	},
-},
-[24058] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 4,
-	},
-},
-[24056] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[76662] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-	},
-},
-[32208] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-	},
-},
-[24036] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 8,
-	},
-},
-[45880] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[63696] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[32195] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-	},
-},
-[28119] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[52146] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
-		["ITEM_MOD_STRENGTH_SHORT"] = 18,
-	},
-},
-[76671] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
-	},
-},
-[52210] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[52242] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 60,
-	},
-},
-[39998] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 16,
-	},
-},
-[40030] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[71876] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 50,
-	},
-},
-[40094] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[40126] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-	},
-},
-[40158] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[63697] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[27777] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-	},
-},
-[24032] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-	},
-},
-[52250] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		["ITEM_MOD_SPIRIT_SHORT"] = 20,
-	},
-},
-[40104] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[76544] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
-	},
-},
-[40105] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[41437] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 14,
-	},
-},
-[41469] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-	},
-},
-[41501] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[40033] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[40100] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[71877] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 50,
-	},
-},
-[30549] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[30565] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[30581] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
-	},
-},
-[71868] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_SPIRIT_SHORT"] = 25,
-	},
-},
-[76690] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[45881] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 20,
-	},
-},
-[83141] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 320,
-	},
-},
-[52083] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 30,
-	},
-},
-[76545] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-	},
-},
-[52147] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 18,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
-	},
-},
-[76673] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
-	},
-},
-[52211] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
-	},
-},
-[52243] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[39999] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 16,
-	},
-},
-[40031] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[71878] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 50,
-	},
-},
-[40095] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[40127] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-	},
-},
-[40159] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[40098] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 8,
-	},
-},
-[71866] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_STRENGTH_SHORT"] = 25,
-	},
-},
-[40103] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[40102] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[32639] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-	},
-},
-[76546] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
-	},
-},
-[39910] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 12,
-	},
-},
-[76674] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-	},
-},
-[41470] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[41502] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-	},
-},
-[25898] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-	},
-},
-[24030] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-	},
-},
-[71879] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 50,
-	},
-},
-[52222] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-	},
-},
-[23116] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-	},
-},
-[23120] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 8,
-	},
-},
-[24035] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[40055] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[45882] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-	},
-},
-[40023] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[32196] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-	},
-},
-[76547] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-		["ITEM_MOD_STRENGTH_SHORT"] = 60,
-	},
-},
-[52148] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
-		["ITEM_MOD_AGILITY_SHORT"] = 18,
-	},
-},
-[76675] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-	},
-},
-[52212] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 40,
-	},
-},
-[52244] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 40,
-	},
-},
-[40000] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 16,
-	},
-},
-[40032] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[71880] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 50,
-	},
-},
-[42142] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 34,
-	},
-},
-[40128] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
-	},
-},
-[40160] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-	},
-},
-[52267] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 67,
-	},
-},
-[52235] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 40,
-	},
-},
-[52203] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
-	},
-},
-[52171] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 53,
-	},
-},
-[28360] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[76548] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-	},
-},
-[32735] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[76676] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
-	},
-},
-[41471] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[52107] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
-	},
-},
-[52123] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[71817] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 50,
-	},
-},
-[71881] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 50,
-	},
-},
-[30550] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_SPELL_POWER_SHORT"] = 4,
-	},
-},
-[30566] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
-	},
-},
-[30582] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[30598] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[76684] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-	},
-},
-[45883] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-	},
-},
-[40038] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-	},
-},
-[52085] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 30,
-	},
-},
-[76549] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
-	},
-},
-[52149] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
-		["ITEM_MOD_STRENGTH_SHORT"] = 18,
-	},
-},
-[76677] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-	},
-},
-[52213] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-	},
-},
-[52245] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[40001] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 16,
-	},
-},
-[71818] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 50,
-	},
-},
-[71882] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 50,
-	},
-},
-[42143] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 34,
-	},
-},
-[40129] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40161] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-	},
-},
-[27785] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 3,
-	},
-},
-[24027] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-	},
-},
-[39911] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[40034] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[32637] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[76550] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-	},
-},
-[40029] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[41440] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 14,
-	},
-},
-[41472] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 7,
-	},
-},
-[32636] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[25899] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-	},
-},
-[71819] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 50,
-	},
-},
-[71883] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 50,
-	},
-},
-[32634] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[32635] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[39905] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 12,
-	},
-},
-[76682] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-	},
-},
-[41429] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[41439] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 14,
-	},
-},
-[32836] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[32197] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[32213] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[52150] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 17,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
-	},
-},
-[24061] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[52214] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
-	},
-},
-[52246] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 40,
-	},
-},
-[40002] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 16,
-	},
-},
-[71820] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 75,
-	},
-},
-[23118] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[42144] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 34,
-	},
-},
-[40130] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40162] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 10,
-	},
-},
-[24057] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[59491] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 208,
-	},
-},
-[59480] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 208,
-	},
-},
-[59489] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 208,
-	},
-},
-[28361] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[41377] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 32,
-	},
-},
-[76681] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
-	},
-},
-[41441] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 21,
-	},
-},
-[41473] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[76553] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 120,
-	},
-},
-[40040] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-	},
-},
-[71826] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 25,
-	},
-},
-[40054] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[30551] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[40022] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[52266] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 67,
-	},
-},
-[52234] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
-	},
-},
-[59493] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 208,
-	},
-},
-[24055] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[24039] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 10,
-	},
-},
-[52087] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 30,
-	},
-},
-[52119] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[52151] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 17,
-		["ITEM_MOD_AGILITY_SHORT"] = 18,
-	},
-},
-[39907] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-	},
-},
-[52215] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
-	},
-},
-[52247] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 40,
-	},
-},
-[40003] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 16,
-	},
-},
-[71822] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_SPIRIT_SHORT"] = 25,
-	},
-},
-[32207] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[42145] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 34,
-	},
-},
-[40131] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[40163] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 10,
-	},
-},
-[27786] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 3,
-	},
-},
-[59478] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 208,
-	},
-},
-[59496] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 208,
-	},
-},
-[59477] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 208,
-	},
-},
-[52292] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 54,
-	},
-},
-[41378] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 21,
-	},
-},
-[52291] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
-	},
-},
-[41442] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 14,
-	},
-},
-[41474] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 9,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-	},
-},
-[52298] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
-	},
-},
-[52300] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
-	},
-},
-[71823] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-	},
-},
-[52293] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 81,
-	},
-},
-[52289] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 54,
-	},
-},
-[77130] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-	},
-},
-[52302] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 54,
-	},
-},
-[24065] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[40010] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 16,
-	},
-},
-[59479] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 208,
-	},
-},
-[31867] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 4,
-	},
-},
-[32198] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-	},
-},
-[32214] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[52152] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
-	},
-},
-[24062] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[52216] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 40,
-	},
-},
-[52248] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[41385] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 21,
-	},
-},
-[23103] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 4,
-	},
-},
-[23119] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[42146] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 34,
-	},
-},
-[40132] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40164] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40106] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 8,
-	},
-},
-[44089] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 17,
-	},
-},
-[44088] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-	},
-},
-[33131] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 12,
-	},
-},
-[42702] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-		"RED", -- [3]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[41379] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
-	},
-},
-[35760] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 5,
-	},
-},
-[41443] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 18,
-	},
-},
-[41475] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[39963] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[31866] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-	},
-},
-[71825] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-	},
-},
-[83142] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 480,
-	},
-},
-[23108] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-	},
-},
-[23111] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 3,
-	},
-},
-[30584] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[30600] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[40053] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[31864] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 3,
-	},
-},
-[52265] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 67,
-	},
-},
-[52089] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 30,
-	},
-},
-[52121] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[401111] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-	},
-},
-[39909] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[52217] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-	},
-},
-[52249] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
-	},
-},
-[52233] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[40037] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-	},
-},
-[83143] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 480,
-	},
-},
-[40101] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 10,
-	},
-},
-[40133] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[40165] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[44078] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 17,
-	},
-},
-[52169] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 44,
-	},
-},
-[23109] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		["ITEM_MOD_SPIRIT_SHORT"] = 3,
-	},
-},
-[33132] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 12,
-	},
-},
-[52105] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
-	},
-},
-[41380] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 32,
-	},
-},
-[44081] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
-	},
-},
-[76686] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_SPIRIT_SHORT"] = 160,
-	},
-},
-[41476] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-	},
-},
-[35501] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-	},
-},
-[25901] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[71827] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		["ITEM_MOD_SPIRIT_SHORT"] = 25,
-	},
-},
-[83144] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 480,
-	},
-},
-[34220] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[39936] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[30592] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[52301] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
-	},
-},
-[39935] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[39937] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[40099] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[52090] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 30,
-	},
-},
-[28123] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-	},
-},
-[24047] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-	},
-},
-[76687] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[52218] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
-	},
-},
-[44066] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-	},
-},
-[76879] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 216,
-	},
-},
-[71828] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-	},
-},
-[83145] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 480,
-	},
-},
-[42148] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 34,
-	},
-},
-[40134] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[40166] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-	},
-},
-[28556] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[24066] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 5,
-	},
-},
-[41285] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
-	},
-},
-[33133] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[28363] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[76560] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 120,
-	},
-},
-[40012] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 16,
-	},
-},
-[76688] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[41477] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[40044] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[52168] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 35,
-	},
-},
-[71829] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 25,
-	},
-},
-[83146] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 480,
-	},
-},
-[30553] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[39979] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[30585] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[30601] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[31868] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[52170] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 35,
-	},
-},
-[44076] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
-	},
-},
-[52091] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 30,
-	},
-},
-[76561] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 240,
-	},
-},
-[52155] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-		["ITEM_MOD_AGILITY_SHORT"] = 18,
-	},
-},
-[76689] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[52219] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 40,
-	},
-},
-[39975] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
-	},
-},
-[52086] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 45,
-	},
-},
-[71830] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		["ITEM_MOD_SPIRIT_SHORT"] = 25,
-	},
-},
-[83147] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 480,
-	},
-},
-[42149] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 34,
-	},
-},
-[40135] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 10,
-	},
-},
-[40167] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[52088] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 30,
-	},
-},
-[40180] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 10,
-	},
-},
-[27820] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 3,
-	},
-},
-[33134] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[39961] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[76562] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 120,
-	},
-},
-[39944] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[41446] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 14,
-	},
-},
-[41478] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 7,
-	},
-},
-[33915] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 12,
-	},
-},
-[40052] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[71831] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 25,
-	},
-},
-[83148] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 480,
-	},
-},
-[52296] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 54,
-	},
-},
-[52264] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 67,
-	},
-},
-[52232] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 40,
-	},
-},
-[76557] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[24054] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 4,
-	},
-},
-[32222] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[32184] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[32200] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[32216] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 5,
-	},
-},
-[24048] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-	},
-},
-[76691] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[52220] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[39976] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[40008] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 24,
-	},
-},
-[71832] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 25,
-	},
-},
-[23121] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[42150] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 34,
-	},
-},
-[40136] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[40168] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[32206] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-	},
-},
-[39920] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 12,
-	},
-},
-[39932] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 12,
-	},
-},
-[33135] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 18,
-	},
-},
-[31860] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-	},
-},
-[76564] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 120,
-	},
-},
-[52176] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 35,
-	},
-},
-[41447] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 14,
-	},
-},
-[41479] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-	},
-},
-[52174] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 35,
-	},
-},
-[76884] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 216,
-	},
-},
-[71833] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-		["ITEM_MOD_SPIRIT_SHORT"] = 25,
-	},
-},
-[83150] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 320,
-	},
-},
-[30554] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
-	},
-},
-[77140] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 63,
-	},
-},
-[30586] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[30602] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[52172] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 35,
-	},
-},
-[52084] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 30,
-	},
-},
-[52082] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 30,
-	},
-},
-[52093] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 30,
-	},
-},
-[76565] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 240,
-	},
-},
-[52157] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 18,
-		["ITEM_MOD_SPIRIT_SHORT"] = 17,
-	},
-},
-[76693] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 320,
-	},
-},
-[52221] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[39977] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[76885] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 216,
-	},
-},
-[71834] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[83151] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 320,
-	},
-},
-[42151] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 34,
-	},
-},
-[40137] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[40169] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[39900] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 12,
-	},
-},
-[39906] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 12,
-	},
-},
-[39908] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 12,
-	},
-},
-[39938] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[76502] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 240,
-	},
-},
-[76566] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 240,
-	},
-},
-[52104] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-	},
-},
-[76694] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 160,
-	},
-},
-[41480] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[76680] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-	},
-},
-[76886] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 216,
-	},
-},
-[71835] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[83152] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 480,
-	},
-},
-[23113] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-	},
-},
-[68357] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[24029] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-	},
-},
-[52164] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 35,
-	},
-},
-[52166] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 35,
-	},
-},
-[89674] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 160,
-	},
-},
-[52094] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 30,
-	},
-},
-[32201] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[76567] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 240,
-	},
-},
-[52158] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
-	},
-},
-[76695] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 320,
-	},
-},
-[34831] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[39978] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[76887] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 432,
-	},
-},
-[71836] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[24051] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-	},
-},
-[42152] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 34,
-	},
-},
-[40138] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40170] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[39964] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 6,
-	},
-},
-[32409] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 12,
-	},
-},
-[89675] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 60,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 120,
-	},
-},
-[33137] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 12,
-	},
-},
-[76504] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 240,
-	},
-},
-[76568] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 240,
-	},
-},
-[34256] = {
-	["colors"] = {
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[76696] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 160,
-	},
-},
-[41481] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
-	},
-},
-[40046] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[76888] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 432,
-	},
-},
-[71837] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-	},
-},
-[52092] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 30,
-	},
-},
-[35503] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[30571] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-	},
-},
-[30587] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[30603] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[40051] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[76563] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 240,
-	},
-},
-[76664] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
-	},
-},
-[76505] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 240,
-	},
-},
-[76569] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 240,
-	},
-},
-[52159] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 18,
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-	},
-},
-[39915] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 12,
-	},
-},
-[52223] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[52255] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 67,
-	},
-},
-[40011] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 16,
-	},
-},
-[71838] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[52231] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[42153] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 34,
-	},
-},
-[40139] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40171] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[39918] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 12,
-	},
-},
-[52167] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 35,
-	},
-},
-[52154] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
-	},
-},
-[33138] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 12,
-	},
-},
-[76506] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 180,
-	},
-},
-[52103] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-	},
-},
-[41451] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 7,
-	},
-},
-[76698] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 320,
-	},
-},
-[41482] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 7,
-	},
-},
-[52161] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-		["ITEM_MOD_AGILITY_SHORT"] = 18,
-	},
-},
-[76890] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 432,
-	},
-},
-[71839] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[52132] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 18,
-	},
-},
-[23099] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 3,
-	},
-},
-[23101] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
-		["ITEM_MOD_INTELLECT_SHORT"] = 3,
-	},
-},
-[23098] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
-		["ITEM_MOD_STRENGTH_SHORT"] = 3,
-	},
-},
-[76552] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_STRENGTH_SHORT"] = 60,
-	},
-},
-[45862] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-	},
-},
-[89678] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 120,
-	},
-},
-[39965] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 6,
-	},
-},
-[76507] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_SPIRIT_SHORT"] = 120,
-	},
-},
-[32218] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-	},
-},
-[24050] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-	},
-},
-[39916] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-	},
-},
-[52224] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
-	},
-},
-[39980] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[76891] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 324,
-	},
-},
-[71840] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_AGILITY_SHORT"] = 25,
-	},
-},
-[44082] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
-	},
-},
-[42154] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 34,
-	},
-},
-[40140] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40172] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[39914] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[32410] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-	},
-},
-[76679] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-		["ITEM_MOD_STRENGTH_SHORT"] = 80,
-	},
-},
-[33139] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[76508] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-	},
-},
-[40015] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 16,
-	},
-},
-[76636] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 320,
-	},
-},
-[76700] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 320,
-	},
-},
-[41483] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DEFENSE_SKILL_RATING_SHORT"] = 7,
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[40047] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[76892] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 432,
-	},
-},
-[71841] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
-	},
-},
-[52130] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
-		["ITEM_MOD_SPIRIT_SHORT"] = 17,
-	},
-},
-[30556] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[30572] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[30588] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-	},
-},
-[30604] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[52124] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
-	},
-},
-[89680] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 160,
-	},
-},
-[52125] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
-	},
-},
-[76509] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
-	},
-},
-[35761] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[76637] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 320,
-	},
-},
-[76701] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 320,
-	},
-},
-[52225] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
-	},
-},
-[52257] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 67,
-	},
-},
-[76893] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 432,
-	},
-},
-[71842] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-	},
-},
-[52120] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-	},
-},
-[42155] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 43,
-	},
-},
-[40141] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 15,
-	},
-},
-[40173] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[52122] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-	},
-},
-[52126] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[52128] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-	},
-},
-[33140] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[76510] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-	},
-},
-[39966] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 6,
-	},
-},
-[76638] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 320,
-	},
-},
-[41452] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-	},
-},
-[41484] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[39962] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[76894] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 216,
-	},
-},
-[71843] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_STRENGTH_SHORT"] = 25,
-	},
-},
-[35316] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[41456] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-	},
-},
-[40050] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-	},
-},
-[52294] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 81,
-	},
-},
-[31116] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[52262] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 67,
-	},
-},
-[52230] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 40,
-	},
-},
-[68778] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 54,
-	},
-},
-[76511] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 120,
-	},
-},
-[32219] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 5,
-	},
-},
-[76639] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 240,
-	},
-},
-[24067] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[52226] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 40,
-	},
-},
-[52258] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 67,
-	},
-},
-[40014] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 16,
-	},
-},
-[71844] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-		["ITEM_MOD_AGILITY_SHORT"] = 25,
-	},
-},
-[24053] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-	},
-},
-[42156] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 34,
-	},
-},
-[40142] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-	},
-},
-[40174] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[24037] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[32205] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[31862] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 3,
-	},
-},
-[33141] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 12,
-	},
-},
-[76512] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-		["ITEM_MOD_SPIRIT_SHORT"] = 120,
-	},
-},
-[41389] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
-	},
-},
-[76640] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_SPIRIT_SHORT"] = 160,
-	},
-},
-[41453] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 7,
-	},
-},
-[41485] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[39983] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[76896] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 432,
-	},
-},
-[71845] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
-	},
-},
-[39974] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[31865] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[30573] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 5,
-	},
-},
-[30589] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-	},
-},
-[30605] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 5,
-	},
-},
-[39933] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[39951] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[39981] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[76513] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-	},
-},
-[52131] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-	},
-},
-[76641] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-	},
-},
-[39919] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 18,
-	},
-},
-[52227] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-	},
-},
-[52259] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 67,
-	},
-},
-[76897] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 324,
-	},
-},
-[71846] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
-	},
-},
-[52260] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 67,
-	},
-},
-[40111] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 20,
-	},
-},
-[40143] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-	},
-},
-[40175] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[39985] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[41445] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 14,
-	},
-},
-[41438] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 14,
-	},
-},
-[33142] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 12,
-	},
-},
-[76514] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 120,
-	},
-},
-[40112] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[76642] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-	},
-},
-[41454] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[41486] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
-	},
-},
-[25890] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 14,
-	},
-},
-[41381] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
-	},
-},
-[71847] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-		["ITEM_MOD_STRENGTH_SHORT"] = 25,
-	},
-},
-[39992] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 6,
-	},
-},
-[39982] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[42701] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-		"RED", -- [3]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 4,
-		["ITEM_MOD_SPIRIT_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[39939] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[24028] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[23104] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-	},
-},
-[39968] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[23105] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 3,
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-	},
-},
-[76515] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-		["ITEM_MOD_SPIRIT_SHORT"] = 120,
-	},
-},
-[32220] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[76643] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-	},
-},
-[33782] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[39952] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[39984] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[40016] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 16,
-	},
-},
-[71848] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 25,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-	},
-},
-[40177] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[42158] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 34,
-	},
-},
-[40144] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-	},
-},
-[40176] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[52118] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
-	},
-},
-[52108] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_STRENGTH_SHORT"] = 15,
-	},
-},
-[52142] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
-		["ITEM_MOD_AGILITY_SHORT"] = 18,
-	},
-},
-[33143] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[40049] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-	},
-},
-[52116] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-	},
-},
-[76644] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 160,
-	},
-},
-[41455] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 9,
-	},
-},
-[41487] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[52111] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 15,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
-	},
-},
-[52229] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[71849] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-	},
-},
-[38546] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[30558] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
-	},
-},
-[30574] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[30590] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-	},
-},
-[30606] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[24031] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[52165] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
-	},
-},
-[52101] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_STRENGTH_SHORT"] = 15,
-	},
-},
-[76517] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 120,
-	},
-},
-[52133] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 18,
-	},
-},
-[76645] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-		["ITEM_MOD_SPIRIT_SHORT"] = 160,
-	},
-},
-[52112] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 15,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
-	},
-},
-[39953] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[52261] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 101,
-	},
-},
-[40017] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 16,
-	},
-},
-[71850] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-	},
-},
-[68780] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 54,
-	},
-},
-[40113] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 20,
-	},
-},
-[40145] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-	},
-},
-[31869] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
-		["ITEM_MOD_AGILITY_SHORT"] = 3,
-	},
-},
-[52113] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
-	},
-},
-[27809] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STAMINA_SHORT"] = 3,
-	},
-},
-[52114] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-		["ITEM_MOD_STRENGTH_SHORT"] = 15,
-	},
-},
-[33144] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-	},
-},
-[76518] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 120,
-	},
-},
-[52129] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-	},
-},
-[76646] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-	},
-},
-[35318] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[41488] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[52106] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
-		["ITEM_MOD_AGILITY_SHORT"] = 15,
-	},
-},
-[40048] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-	},
-},
-[71851] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 25,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-	},
-},
-[38547] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[52228] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-	},
-},
-[24052] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-	},
-},
-[32204] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-	},
-},
-[31118] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[39948] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-	},
-},
-[39949] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-	},
-},
-[37503] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_SPIRIT_SHORT"] = 5,
-	},
-},
-[76519] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
-		["ITEM_MOD_SPIRIT_SHORT"] = 120,
-	},
-},
-[52134] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 18,
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-	},
-},
-[76647] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 160,
-	},
-},
-[52153] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 18,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-	},
-},
-[39954] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[39986] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[23094] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-	},
-},
-[71852] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		["ITEM_MOD_AGILITY_SHORT"] = 25,
-	},
-},
-[39947] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-	},
-},
-[40114] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[40146] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[40178] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[76685] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 160,
-	},
-},
-[39946] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[39967] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 6,
-	},
-},
-[42157] = {
-	["colors"] = {
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 34,
-	},
-},
-[76520] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[39950] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-	},
-},
-[76648] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-		["ITEM_MOD_SPIRIT_SHORT"] = 160,
-	},
-},
-[41457] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[41489] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[52163] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 35,
-	},
-},
-[52099] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[71853] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
-	},
-},
-[38548] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-	},
-},
-[30559] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[30575] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 4,
-	},
-},
-[30591] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 5,
-	},
-},
-[30607] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
-	},
-},
-[52160] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
-	},
-},
-[52156] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-		["ITEM_MOD_STRENGTH_SHORT"] = 18,
-	},
-},
-[35315] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[76521] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[52135] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 18,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-	},
-},
-[76649] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 160,
-	},
-},
-[52162] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-		["ITEM_MOD_STRENGTH_SHORT"] = 18,
-	},
-},
-[39955] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[52263] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PVP_POWER_SHORT"] = 67,
-	},
-},
-[52295] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 81,
-	},
-},
-[71854] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-	},
-},
-[52102] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_AGILITY_SHORT"] = 15,
-	},
-},
-[40115] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-	},
-},
-[40147] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[40179] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[32203] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 13,
-	},
-},
-[52100] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		["ITEM_MOD_SPIRIT_SHORT"] = 15,
-	},
-},
-[23114] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-	},
-},
-[52096] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[76522] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[52098] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[76650] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 160,
-	},
-},
-[41458] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-	},
-},
-[41490] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 7,
-	},
-},
-[28557] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-	},
-},
-[24033] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[71855] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
-	},
-},
-[32640] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[40096] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_SPIRIT_SHORT"] = 8,
-	},
-},
-[68779] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 54,
-	},
-},
-[31863] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 4,
-	},
-},
-[52110] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-	},
-},
-[40045] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[40013] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 16,
-	},
-},
-[39917] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 12,
-	},
-},
-[76523] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[52136] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 18,
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-	},
-},
-[76651] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-		["ITEM_MOD_SPIRIT_SHORT"] = 160,
-	},
-},
-[52097] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[39956] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-	},
-},
-[39988] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[23095] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-	},
-},
-[71856] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		["ITEM_MOD_STRENGTH_SHORT"] = 25,
-	},
-},
-[39942] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[40116] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
-	},
-},
-[40148] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[28290] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-	},
-},
-[39940] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[39945] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 6,
-	},
-},
-[39941] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[39943] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-	},
-},
-[76524] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[41395] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 21,
-	},
-},
-[76652] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[41459] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[41491] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[68660] = {
-	["colors"] = {
-		"COGWHEEL", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 208,
-	},
-},
-[32202] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[71857] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		["ITEM_MOD_AGILITY_SHORT"] = 25,
-	},
-},
-[38550] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[30560] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_SPELL_POWER_SHORT"] = 4,
-	},
-},
-[39934] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 6,
-		["ITEM_MOD_STAMINA_SHORT"] = 9,
-	},
-},
-[32638] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[30608] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 5,
-	},
-},
-[41450] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[23100] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-		["ITEM_MOD_AGILITY_SHORT"] = 3,
-	},
-},
-[23106] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		["ITEM_MOD_SPIRIT_SHORT"] = 3,
-	},
-},
-[76525] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[52137] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 18,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 17,
-	},
-},
-[76653] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[23110] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 4,
-		["ITEM_MOD_AGILITY_SHORT"] = 3,
-	},
-},
-[39957] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 6,
-	},
-},
-[39989] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[52297] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 54,
-	},
-},
-[71858] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
-	},
-},
-[40085] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[40117] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-	},
-},
-[40149] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[40181] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 13,
-	},
-},
-[40043] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_AGILITY_SHORT"] = 8,
-	},
-},
-[52127] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-		["ITEM_MOD_SPIRIT_SHORT"] = 15,
-	},
-},
-[52095] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 15,
-		["ITEM_MOD_STAMINA_SHORT"] = 23,
-	},
-},
-[41449] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 14,
-	},
-},
-[76526] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-	},
-},
-[41396] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 21,
-	},
-},
-[76654] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[41460] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[41492] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[25893] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-	},
-},
-[32217] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-		["ITEM_MOD_STRENGTH_SHORT"] = 5,
-	},
-},
-[71859] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-	},
-},
-[41448] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 14,
-	},
-},
-[40041] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
-	},
-},
-[40009] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 16,
-	},
-},
-[76678] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
-	},
-},
-[41444] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 14,
-	},
-},
-[45987] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-	},
-},
-[71824] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-	},
-},
-[76551] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
-	},
-},
-[76527] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
-	},
-},
-[52138] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 18,
-		["ITEM_MOD_STAMINA_SHORT"] = 26,
-	},
-},
-[76655] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[24060] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[39958] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
-	},
-},
-[39990] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 6,
-	},
-},
-[23096] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-	},
-},
-[71860] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
-	},
-},
-[40086] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_STAMINA_SHORT"] = 12,
-	},
-},
-[40118] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
-	},
-},
-[40150] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-	},
-},
-[40182] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 10,
-	},
-},
-[39912] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 12,
-	},
-},
-[76554] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_SPIRIT_SHORT"] = 120,
-	},
-},
-[41375] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 21,
-	},
-},
-[41333] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 21,
-	},
-},
-[76528] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-	},
-},
-[41397] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 32,
-	},
-},
-[76656] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[41461] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-		["ITEM_MOD_STRENGTH_SHORT"] = 7,
-	},
-},
-[41493] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[41382] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 21,
-	},
-},
-[23115] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
-	},
-},
-[71861] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		["ITEM_MOD_STRENGTH_SHORT"] = 25,
-	},
-},
-[76555] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[76683] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
-	},
-},
-[40039] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		["ITEM_MOD_STRENGTH_SHORT"] = 8,
-	},
-},
-[30593] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-	},
-},
-[41376] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 22,
-	},
-},
-[76556] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[28595] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[35707] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
-	},
-},
-[76529] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
-		["ITEM_MOD_STRENGTH_SHORT"] = 60,
-	},
-},
-[52139] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
-	},
-},
-[76657] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
-		["ITEM_MOD_STAMINA_SHORT"] = 120,
-	},
-},
-[39927] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 12,
-	},
-},
-[39959] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 6,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
-	},
-},
-[39991] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_PVP_POWER_SHORT"] = 6,
-	},
-},
-[52299] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 81,
-	},
-},
-[71862] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_AGILITY_SHORT"] = 25,
-	},
-},
-[76558] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[40119] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 30,
-	},
-},
-[40151] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-	},
-},
-[52117] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-	},
-},
-[76559] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_STRENGTH_SHORT"] = 60,
-		["ITEM_MOD_STAMINA_SHORT"] = 90,
-	},
-},
-[27812] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-	},
-},
-[52109] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-		["ITEM_MOD_AGILITY_SHORT"] = 15,
-	},
-},
-[52173] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 35,
-	},
-},
-[76530] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-	},
-},
-[41398] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 21,
-	},
-},
-[76658] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-	},
-},
-[41462] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 7,
-		["ITEM_MOD_AGILITY_SHORT"] = 7,
-	},
-},
-[41494] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[25894] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-	},
-},
-[49110] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-		"RED", -- [3]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_STRENGTH_SHORT"] = 10,
-		["ITEM_MOD_SPIRIT_SHORT"] = 10,
-		["ITEM_MOD_STAMINA_SHORT"] = 10,
-		["ITEM_MOD_AGILITY_SHORT"] = 10,
-	},
-},
-[71863] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
-	},
-},
-[28120] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[36767] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_STAMINA_SHORT"] = 51,
-	},
-},
-[76670] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-		["ITEM_MOD_AGILITY_SHORT"] = 80,
-	},
-},
-[52175] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 35,
-	},
-},
-[76543] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
-		["ITEM_MOD_AGILITY_SHORT"] = 60,
-	},
-},
-[76692] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 160,
-	},
-},
-[71870] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
-		["ITEM_MOD_STAMINA_SHORT"] = 37,
-	},
-},
-[32209] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
-	},
-},
-[76531] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
-	},
-},
-[52140] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 18,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
-	},
-},
-[76659] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-		["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
-	},
-},
-[52204] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		["ITEM_MOD_AGILITY_SHORT"] = 20,
-	},
-},
-[39960] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[44084] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 17,
-	},
-},
-[23097] = {
-	["colors"] = {
-		"RED", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_AGILITY_SHORT"] = 6,
-	},
-},
-[71864] = {
-	["colors"] = {
-		"RED", -- [1]
-		"BLUE", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 25,
-		["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-	},
-},
-[40088] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-	},
-},
-[40120] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 20,
-	},
-},
-[40152] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-	},
-},
-[83149] = {
-	["colors"] = {
-		"BLUE", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_SPIRIT_SHORT"] = 480,
-	},
-},
-[76540] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 60,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
-	},
-},
-[76668] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
-	},
-},
-[52115] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
-		["ITEM_MOD_AGILITY_SHORT"] = 15,
-	},
-},
-[41335] = {
-	["colors"] = {
-		"META", -- [1]
-	},
-	["stats"] = {
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
-	},
-},
-[76532] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
-		["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
-	},
-},
-[24059] = {
-	["colors"] = {
-		"YELLOW", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 4,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
-	},
-},
-[76660] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
-	},
-},
-[41463] = {
-	["colors"] = {
-		"BLUE", -- [1]
-		"RED", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		["ITEM_MOD_SPIRIT_SHORT"] = 7,
-	},
-},
-[76672] = {
-	["colors"] = {
-		"RED", -- [1]
-		"YELLOW", -- [2]
-	},
-	["stats"] = {
-		["ITEM_MOD_INTELLECT_SHORT"] = 80,
-		["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
-	},
-},
--- Cogwheels - crafted
+[28469] = {         -- Smooth Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28470] = {         -- Subtle Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28468] = {         -- Rigid Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28463] = {         -- Solid Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[28464] = {         -- Sparkling Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28458] = {         -- Bold Tourmaline
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28465] = {         -- Sparkling Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28460] = {         -- Brilliant Tourmaline
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28466] = {         -- Brilliant Tourmaline
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28459] = {         -- Delicate Tourmaline
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28467] = {         -- Smooth Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28461] = {         -- Brilliant Tourmaline
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28462] = {         -- Delicate Tourmaline
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[23095] = {         -- Bold Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23096] = {         -- Brilliant Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[23099] = {         -- Reckless Flame Spessarite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 3,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[23100] = {         -- Glinting Shadow Draenite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 3,
+["ITEM_MOD_AGILITY_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[23109] = {         -- Purified Shadow Draenite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 3,
+["ITEM_MOD_SPIRIT_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[31869] = {         -- Deadly Flame Spessarite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
+["ITEM_MOD_AGILITY_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[23113] = {         -- Brilliant Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23115] = {         -- Subtle Golden Draenite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23094] = {         -- Brilliant Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23103] = {         -- Radiant Deep Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
+["ITEM_MOD_PVP_POWER_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[28595] = {         -- Delicate Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23097] = {         -- Delicate Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23104] = {         -- Jagged Deep Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
+["ITEM_MOD_STAMINA_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[28290] = {         -- Smooth Golden Draenite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23111] = {         -- Sovereign Shadow Draenite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 4,
+["ITEM_MOD_STRENGTH_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[23108] = {         -- Timeless Shadow Draenite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 3,
+["ITEM_MOD_STAMINA_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[23101] = {         -- Potent Flame Spessarite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
+["ITEM_MOD_INTELLECT_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[23116] = {         -- Rigid Azure Moonstone
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23119] = {         -- Sparkling Azure Moonstone
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23121] = {         -- Sparkling Azure Moonstone
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23098] = {         -- Inscribed Flame Spessarite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 3,
+["ITEM_MOD_STRENGTH_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[23114] = {         -- Smooth Golden Draenite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23118] = {         -- Solid Azure Moonstone
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+}
+-- required item level: 0
+},
+[23110] = {         -- Shifting Shadow Draenite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[23120] = {         -- Stormy Azure Moonstone
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[23105] = {         -- Regal Deep Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 3,
+["ITEM_MOD_STAMINA_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[32833] = {         -- Purified Jaggal Pearl
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 3,
+["ITEM_MOD_SPIRIT_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[31866] = {         -- Veiled Shadow Draenite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 3,
+["ITEM_MOD_HIT_RATING_SHORT"] = 3,
+}
+-- required item level: 0
+},
+[27812] = {         -- Brilliant Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[27777] = {         -- Brilliant Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[28360] = {         -- Delicate Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 7,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[27809] = {         -- Jagged Deep Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 3,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[28361] = {         -- Delicate Blood Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 7,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30598] = {         -- Don Amancio's Heart
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[27820] = {         -- Jagged Deep Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 3,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32836] = {         -- Purified Shadow Pearl
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[27785] = {         -- Jagged Deep Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 3,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30571] = {         -- Don Rodrigo's Heart
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[27786] = {         -- Jagged Deep Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 3,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[27679] = {         -- Mystic Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[38547] = {         -- Deadly Ornate Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[38550] = {         -- Smooth Ornate Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+-- bop: true
+},
+[28120] = {         -- Smooth Ornate Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[28119] = {         -- Smooth Ornate Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[28363] = {         -- Deadly Ornate Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[38548] = {         -- Potent Ornate Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[38546] = {         -- Smooth Ornate Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+-- bop: true
+},
+[28123] = {         -- Potent Ornate Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[38549] = {         -- Brilliant Ornate Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+}
+-- required item level: 0
+-- bop: true
+},
+[28118] = {         -- Brilliant Ornate Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[38545] = {         -- Delicate Ornate Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+-- bop: true
+},
+[28362] = {         -- Delicate Ornate Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[39940] = {         -- Guardian's Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39945] = {         -- Mysterious Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+["ITEM_MOD_PVP_POWER_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41451] = {         -- Perfect Defender's Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41453] = {         -- Perfect Guardian's Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41484] = {         -- Perfect Deadly Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
+["ITEM_MOD_AGILITY_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39939] = {         -- Defender's Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39948] = {         -- Etched Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39982] = {         -- Turbid Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
+["ITEM_MOD_SPIRIT_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41482] = {         -- Perfect Accurate Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 7,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41462] = {         -- Perfect Glinting Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 7,
+["ITEM_MOD_AGILITY_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41473] = {         -- Perfect Purified Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+["ITEM_MOD_SPIRIT_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39955] = {         -- Deft Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39947] = {         -- Inscribed Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39912] = {         -- Brilliant Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[41493] = {         -- Perfect Lucent Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
+["ITEM_MOD_AGILITY_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39980] = {         -- Misty Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+["ITEM_MOD_SPIRIT_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41470] = {         -- Perfect Misty Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
+["ITEM_MOD_SPIRIT_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41478] = {         -- Perfect Radiant Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
+["ITEM_MOD_PVP_POWER_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41486] = {         -- Perfect Willful Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41450] = {         -- Perfect Shifting Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+["ITEM_MOD_AGILITY_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39933] = {         -- Jagged Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+}
+-- required item level: 0
+},
+[41436] = {         -- Perfect Smooth Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[41480] = {         -- Perfect Turbid Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
+["ITEM_MOD_SPIRIT_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41461] = {         -- Perfect Sovereign Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+["ITEM_MOD_STRENGTH_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41435] = {         -- Perfect Flashing Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[41495] = {         -- Perfect Potent Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39981] = {         -- Lightning Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 6,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39918] = {         -- Quick Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[41464] = {         -- Perfect Regal Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[39949] = {         -- Champion's Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41452] = {         -- Perfect Timeless Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[41502] = {         -- Perfect Veiled Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+["ITEM_MOD_HIT_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39979] = {         -- Purified Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+["ITEM_MOD_SPIRIT_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41446] = {         -- Perfect Quick Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[41432] = {         -- Perfect Bold Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[39968] = {         -- Timeless Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+}
+-- required item level: 0
+},
+[41481] = {         -- Perfect Nimble Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 7,
+["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41447] = {         -- Perfect Rigid Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[41485] = {         -- Perfect Deft Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
+["ITEM_MOD_AGILITY_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41467] = {         -- Perfect Energized Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 7,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41475] = {         -- Perfect Lightning Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 7,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41497] = {         -- Perfect Reckless Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39966] = {         -- Accurate Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 6,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41466] = {         -- Perfect Forceful Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41474] = {         -- Perfect Shattered Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 7,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41499] = {         -- Perfect Resplendent Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
+["ITEM_MOD_STRENGTH_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39991] = {         -- Radiant Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+["ITEM_MOD_PVP_POWER_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39917] = {         -- Mystic Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39976] = {         -- Regal Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+}
+-- required item level: 0
+},
+[39956] = {         -- Potent Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39932] = {         -- Stormy Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39992] = {         -- Shattered Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 6,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39977] = {         -- Steady Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+}
+-- required item level: 0
+},
+[39942] = {         -- Glinting Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41488] = {         -- Perfect Etched Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 7,
+["ITEM_MOD_STRENGTH_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39905] = {         -- Delicate Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[41434] = {         -- Perfect Delicate Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[39935] = {         -- Shifting Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+["ITEM_MOD_AGILITY_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41437] = {         -- Perfect Precise Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[39978] = {         -- Forceful Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41455] = {         -- Perfect Mysterious Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 7,
+["ITEM_MOD_PVP_POWER_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39934] = {         -- Sovereign Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 9,
+["ITEM_MOD_STRENGTH_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41468] = {         -- Perfect Jagged Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[39957] = {         -- Veiled Shadow Crystal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+["ITEM_MOD_HIT_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39952] = {         -- Deadly Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41483] = {         -- Perfect Champion's Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
+["ITEM_MOD_STRENGTH_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41498] = {         -- Perfect Resolute Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41490] = {         -- Perfect Stalwart Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 7,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41476] = {         -- Perfect Steady Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 7,
+["ITEM_MOD_STAMINA_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[39950] = {         -- Resplendent Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41445] = {         -- Perfect Mystic Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[39916] = {         -- Subtle Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39951] = {         -- Fierce Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39907] = {         -- Subtle Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[41443] = {         -- Perfect Stormy Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[39909] = {         -- Smooth Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39927] = {         -- Sparkling Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39954] = {         -- Lucent Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41439] = {         -- Perfect Subtle Sun Crystal
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[41489] = {         -- Perfect Fierce Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 7,
+["ITEM_MOD_STRENGTH_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[41492] = {         -- Perfect Inscribed Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 7,
+["ITEM_MOD_STRENGTH_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[39915] = {         -- Rigid Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39959] = {         -- Reckless Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39967] = {         -- Resolute Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39900] = {         -- Bold Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39919] = {         -- Solid Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 18,
+}
+-- required item level: 0
+},
+[39983] = {         -- Energized Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 6,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39965] = {         -- Stalwart Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41441] = {         -- Perfect Solid Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 21,
+}
+-- required item level: 0
+},
+[39958] = {         -- Willful Huge Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 6,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[41440] = {         -- Perfect Sparkling Chalcedony
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[39908] = {         -- Flashing Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[41444] = {         -- Perfect Brilliant Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 14,
+}
+-- required item level: 0
+},
+[39975] = {         -- Nimble Dark Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 6,
+["ITEM_MOD_DODGE_RATING_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[39910] = {         -- Precise Bloodstone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[25897] = {         -- Bracing Earthstorm Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+-- 2% Reduced Threat
+-- metaG: Red Blue
+},
+[35318] = {         -- Forceful Talasite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[34220] = {         -- Chaotic Skyfire Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[25890] = {         -- Destructive Skyfire Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 14,
+}
+-- required item level: 0
+-- 1% Spell Reflect
+-- metaCountG: 2 Red; 2 Blue; 2 Yellow
+},
+[35503] = {         -- Ember Skyfire Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+-- +2% Maximum Mana
+-- metaCountG: 3 Red
+},
+[25895] = {         -- Enigmatic Skyfire Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Reduces Snare/Root Duration by 10%
+-- metaG: Red Yellow
+},
+[35501] = {         -- Eternal Earthstorm Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- +1% Shield Block Value
+-- metaCountG: 2 Blue; 1 Yellow
+},
+[32641] = {         -- Imbued Unstable Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+-- 5% Stun Resistance
+-- bop: true
+-- metaCountG: 3 Yellow
+},
+[25901] = {         -- Insightful Earthstorm Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+-- Chance to restore mana on spellcast
+-- metaCountG: 2 Red; 2 Yellow; 2 Blue
+},
+[25896] = {         -- Powerful Earthstorm Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 18,
+}
+-- required item level: 0
+-- Stun Duration Reduced by 10%
+-- metaCountG: 3 Blue
+},
+[28557] = {         -- Quickened Starfire Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+}
+-- required item level: 0
+-- Minor Run Speed Increase
+-- bop: true
+-- metaCountG: 2 Yellow; 1 Red
+},
+[24053] = {         -- Mystic Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[32409] = {         -- Relentless Earthstorm Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 12,
+}
+-- required item level: 0
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[25894] = {         -- Swift Skyfire Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Minor Run Speed Increase
+-- metaCountG: 2 Yellow; 1 Red
+},
+[35707] = {         -- Regal Talasite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[28556] = {         -- Swift Windfire Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+-- Minor Run Speed Increase
+-- bop: true
+-- metaCountG: 2 Yellow; 1 Red
+},
+[25898] = {         -- Tenacious Earthstorm Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Chance to Restore Health on Hit
+-- metaCountG: 5 Blue
+},
+[32635] = {         -- Timeless Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32640] = {         -- Tense Unstable Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- 5% Stun Resistance
+-- bop: true
+-- metaG: Blue Yellow
+},
+[24055] = {         -- Shifting Nightseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[24056] = {         -- Timeless Nightseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[24067] = {         -- Jagged Talasite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[33782] = {         -- Steady Talasite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+},
+[24030] = {         -- Brilliant Living Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[32639] = {         -- Jagged Mossjewel
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STAMINA_SHORT"] = 4,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32634] = {         -- Shifting Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[24066] = {         -- Radiant Talasite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_PVP_POWER_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[24028] = {         -- Delicate Living Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[24032] = {         -- Subtle Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[24036] = {         -- Flashing Living Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[34831] = {         -- Eye of the Sea
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+}
+-- required item level: 0
+-- Unique-Equipped
+},
+[24061] = {         -- Glinting Nightseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[32636] = {         -- Purified Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[24065] = {         -- Purified Nightseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[24054] = {         -- Sovereign Nightseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[31868] = {         -- Deadly Noble Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[32638] = {         -- Reckless Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[35315] = {         -- Quick Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[24051] = {         -- Rigid Star of Elune
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[24033] = {         -- Solid Star of Elune
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[24048] = {         -- Smooth Dawnstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[24035] = {         -- Sparkling Star of Elune
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[32637] = {         -- Deadly Citrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[24039] = {         -- Stormy Star of Elune
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[24058] = {         -- Inscribed Noble Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STRENGTH_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[24059] = {         -- Potent Noble Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[24060] = {         -- Reckless Noble Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[24027] = {         -- Bold Living Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[31867] = {         -- Veiled Nightseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 4,
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+},
+[34256] = {         -- Charmed Amani Jewel
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30582] = {         -- Deadly Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[32217] = {         -- Inscribed Pyrestone
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30593] = {         -- Potent Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[35760] = {         -- Reckless Pyrestone
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[32226] = {         -- Jagged Seaspray Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[33142] = {         -- Rigid Bladestone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30566] = {         -- Defender's Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30605] = {         -- Nimble Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 5,
+["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30563] = {         -- Regal Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[32223] = {         -- Regal Seaspray Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[35487] = {         -- Delicate Crimson Spinel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+-- bop: true
+},
+[32222] = {         -- Deadly Pyrestone
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[33134] = {         -- Kailee's Rose
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32224] = {         -- Radiant Seaspray Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_PVP_POWER_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30604] = {         -- Resplendent Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[33140] = {         -- Blood of Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[33144] = {         -- Facet of Eternity
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32735] = {         -- Delicate Spencerite
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30601] = {         -- Steady Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[32201] = {         -- Sparkling Empyrean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[32203] = {         -- Stormy Empyrean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[32218] = {         -- Potent Pyrestone
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30553] = {         -- Glinting Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[33138] = {         -- Mystic Bladestone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30558] = {         -- Stalwart Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30573] = {         -- Mysterious Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_PVP_POWER_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[32225] = {         -- Purified Shadowsong Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30586] = {         -- Purified Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30572] = {         -- Purified Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30549] = {         -- Shifting Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[31118] = {         -- Sovereign Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[32211] = {         -- Sovereign Shadowsong Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 7,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30546] = {         -- Sovereign Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[31116] = {         -- Timeless Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30583] = {         -- Timeless Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30565] = {         -- Jagged Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30589] = {         -- Purified Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30594] = {         -- Regal Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30587] = {         -- Champion's Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[32212] = {         -- Shifting Shadowsong Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 7,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30590] = {         -- Regal Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30591] = {         -- Lucent Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30574] = {         -- Shifting Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30575] = {         -- Nimble Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30603] = {         -- Purified Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30548] = {         -- Jagged Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[32221] = {         -- Veiled Shadowsong Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_HIT_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30560] = {         -- Misty Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30564] = {         -- Veiled Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[32193] = {         -- Bold Crimson Spinel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[32209] = {         -- Mystic Lionseye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[35761] = {         -- Quick Lionseye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[30584] = {         -- Inscribed Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30551] = {         -- Reckless Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30592] = {         -- Steady Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30547] = {         -- Reckless Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30607] = {         -- Splendid Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30554] = {         -- Stalwart Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 4,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[32199] = {         -- Flashing Crimson Spinel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[30581] = {         -- Willful Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[32205] = {         -- Smooth Lionseye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[35759] = {         -- Forceful Seaspray Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 7,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[30550] = {         -- Misty Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[33133] = {         -- Don Julio's Heart
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30559] = {         -- Etched Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+["ITEM_MOD_STRENGTH_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[30608] = {         -- Radiant Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_PVP_POWER_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[33139] = {         -- Brilliant Bladestone
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32196] = {         -- Brilliant Crimson Spinel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[35758] = {         -- Steady Seaspray Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[30585] = {         -- Polished Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
+["ITEM_MOD_AGILITY_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[32220] = {         -- Glinting Shadowsong Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 5,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+},
+[35488] = {         -- Brilliant Crimson Spinel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+}
+-- required item level: 0
+-- bop: true
+},
+[33135] = {         -- Falling Star
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 18,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[33131] = {         -- Crimson Sun
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[33141] = {         -- Rigid Bladestone
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32206] = {         -- Rigid Empyrean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[32200] = {         -- Solid Empyrean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+}
+-- required item level: 0
+},
+[33137] = {         -- Sparkling Falling Star
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30556] = {         -- Glinting Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 4,
+["ITEM_MOD_AGILITY_SHORT"] = 5,
+}
+-- required item level: 0
+-- bop: true
+},
+[32194] = {         -- Delicate Crimson Spinel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[32198] = {         -- Subtle Lionseye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[30588] = {         -- Potent Fire Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[33132] = {         -- Delicate Fire Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[30606] = {         -- Lightning Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 5,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[30600] = {         -- Purified Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_SPIRIT_SHORT"] = 4,
+}
+-- required item level: 0
+-- bop: true
+},
+[33143] = {         -- Stone of Blades
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- bop: true
+},
+[32215] = {         -- Timeless Shadowsong Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 7,
+}
+-- required item level: 0
+},
+[30602] = {         -- Jagged Chrysoprase
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30552] = {         -- Timeless Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[30555] = {         -- Timeless Tanzanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[31117] = {         -- Tireless Soothing Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 5,
+["ITEM_MOD_STAMINA_SHORT"] = 6,
+}
+-- required item level: 0
+-- bop: true
+},
+[40039] = {         -- Champion's Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40098] = {         -- Radiant Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
+["ITEM_MOD_PVP_POWER_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40044] = {         -- Glinting Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 8,
+["ITEM_MOD_AGILITY_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40052] = {         -- Deadly Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
+["ITEM_MOD_AGILITY_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40016] = {         -- Mystic Autumn's Glow
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40028] = {         -- Mysterious Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+["ITEM_MOD_PVP_POWER_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[41380] = {         -- Austere Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 32,
+}
+-- required item level: 0
+-- 2% Increased Armor Value from Items
+-- metaCountG: 2 Blue; 1 Red
+},
+[40106] = {         -- Shattered Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 8,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40090] = {         -- Steady Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39997] = {         -- Delicate Scarlet Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[41389] = {         -- Beaming Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- +2% Mana
+-- metaCountG: 2 Red; 1 Yellow
+},
+[41395] = {         -- Bracing Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 21,
+}
+-- required item level: 0
+-- 2% Reduced Threat
+-- metaCountG: 2 Red; 1 Blue
+},
+[44081] = {         -- Enigmatic Starflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+}
+-- required item level: 0
+-- Reduces Snare/Root Duration by 10%
+-- metaCountG: 2 Red; 1 Blue
+},
+[40045] = {         -- Lucent Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
+["ITEM_MOD_AGILITY_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[41333] = {         -- Ember Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 21,
+}
+-- required item level: 0
+-- +2% Maximum Mana
+-- metaCountG: 3 Red
+},
+[44084] = {         -- Forlorn Starflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 17,
+}
+-- required item level: 0
+-- Silence Duration Reduced by 10%
+-- metaCountG: 2 Yellow; 1 Blue
+},
+[44082] = {         -- Impassive Starflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+}
+-- required item level: 0
+-- Fear Duration Reduced by 10%
+-- metaCountG: 2 Blue; 1 Red
+},
+[41385] = {         -- Invigorating Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- Sometimes Heal on Your Crits
+-- metaCountG: 2 Blue; 1 Red
+},
+[41381] = {         -- Persistent Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- Stun Duration Reduced by 10%
+-- metaCountG: 2 Yellow; 1 Blue
+},
+[44088] = {         -- Powerful Earthshatter Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+}
+-- required item level: 0
+-- Stun Duration Reduced by 10%
+-- metaCountG: 2 Blue; 1 Yellow
+},
+[41398] = {         -- Relentless Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 21,
+}
+-- required item level: 0
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[40001] = {         -- Flashing Scarlet Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[41285] = {         -- Chaotic Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[41307] = {         -- Destructive Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+}
+-- required item level: 0
+-- 1% Spell Reflect
+-- metaCountG: 1 Red; 1 Yellow; 1 Blue
+},
+[41335] = {         -- Enigmatic Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- Reduces Snare/Root Duration by 10%
+-- metaCountG: 2 Red; 1 Yellow
+},
+[41396] = {         -- Eternal Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- +1% Shield Block Value
+-- metaCountG: 2 Red; 1 Blue
+},
+[40055] = {         -- Deft Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+["ITEM_MOD_AGILITY_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[41378] = {         -- Forlorn Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 21,
+}
+-- required item level: 0
+-- Silence Duration Reduced by 10%
+-- metaCountG: 2 Yellow; 1 Blue
+},
+[41379] = {         -- Impassive Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- Fear Duration Reduced by 10%
+-- metaCountG: 2 Red; 1 Blue
+},
+[41401] = {         -- Insightful Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 21,
+}
+-- required item level: 0
+-- Chance to restore mana on spellcast
+-- metaCountG: 1 Red; 1 Yellow; 1 Blue
+},
+[44087] = {         -- Persistent Earthshatter Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+}
+-- required item level: 0
+-- Reduces Snare/Root Duration by 10%
+-- metaCountG: 3 Blue
+},
+[41397] = {         -- Powerful Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 32,
+}
+-- required item level: 0
+-- Stun Duration Reduced by 10%
+-- metaCountG: 3 Blue
+},
+[41376] = {         -- Revitalizing Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 22,
+}
+-- required item level: 0
+-- 3% Increased Critical Effect
+-- metaCountG: 2 Red
+},
+[41377] = {         -- Shielded Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 32,
+}
+-- required item level: 0
+-- Reduce Spell Damage Taken by 2%
+-- metaCountG: 2 Blue; 1 Red
+},
+[41339] = {         -- Swift Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 21,
+}
+-- required item level: 0
+-- Minor Run Speed Increase
+-- metaCountG: 2 Yellow; 1 Red
+},
+[40041] = {         -- Fierce Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[44076] = {         -- Swift Starflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+}
+-- required item level: 0
+-- Minor Run Speed Increase
+-- metaCountG: 2 Yellow; 1 Red
+},
+[39998] = {         -- Brilliant Scarlet Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40037] = {         -- Inscribed Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[41375] = {         -- Tireless Skyflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 21,
+}
+-- required item level: 0
+-- Minor Run Speed Increase
+-- metaCountG: 1 Red; 1 Blue; 1 Yellow
+},
+[44078] = {         -- Tireless Starflare Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 17,
+}
+-- required item level: 0
+-- Minor Run Speed Increase
+-- metaCountG: 1 Red; 1 Blue; 1 Yellow
+},
+[44089] = {         -- Trenchant Earthshatter Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 17,
+}
+-- required item level: 0
+-- Stun Duration Reduced by 10%
+-- metaCountG: 1 Red; 1 Yellow; 1 Blue
+},
+[41382] = {         -- Trenchant Earthsiege Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 21,
+}
+-- required item level: 0
+-- Stun Duration Reduced by 10%
+-- metaCountG: 1 Red; 1 Yellow; 1 Blue
+},
+[40048] = {         -- Potent Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40000] = {         -- Subtle Autumn's Glow
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40051] = {         -- Reckless Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40017] = {         -- Quick Autumn's Glow
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40086] = {         -- Jagged Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[40003] = {         -- Precise Scarlet Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40102] = {         -- Turbid Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
+["ITEM_MOD_SPIRIT_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40059] = {         -- Resolute Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40014] = {         -- Rigid Sky Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40034] = {         -- Guardian's Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40010] = {         -- Sparkling Sky Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40040] = {         -- Resplendent Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40058] = {         -- Accurate Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 8,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40026] = {         -- Purified Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+["ITEM_MOD_SPIRIT_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40011] = {         -- Stormy Sky Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40013] = {         -- Smooth Autumn's Glow
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40023] = {         -- Shifting Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+["ITEM_MOD_AGILITY_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40057] = {         -- Stalwart Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40091] = {         -- Forceful Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40038] = {         -- Etched Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 8,
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40050] = {         -- Willful Monarch Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40032] = {         -- Defender's Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40105] = {         -- Energized Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 8,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40089] = {         -- Regal Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[39996] = {         -- Bold Scarlet Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 16,
+}
+-- required item level: 0
+},
+[40100] = {         -- Lightning Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 8,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40022] = {         -- Sovereign Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+["ITEM_MOD_STRENGTH_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40025] = {         -- Timeless Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+["ITEM_MOD_STAMINA_SHORT"] = 12,
+}
+-- required item level: 0
+},
+[40049] = {         -- Veiled Twilight Opal
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 8,
+["ITEM_MOD_HIT_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40095] = {         -- Misty Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 8,
+["ITEM_MOD_SPIRIT_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[40008] = {         -- Solid Sky Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 24,
+}
+-- required item level: 0
+},
+[40088] = {         -- Nimble Forest Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 8,
+["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
+}
+-- required item level: 0
+},
+[44066] = {         -- Kharmaa's Grace
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+-- Unique-Equipped
+},
+[40164] = {         -- Timeless Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+}
+-- required item level: 0
+},
+[42158] = {         -- Mystic Dragon's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40139] = {         -- Defender's Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40147] = {         -- Deadly Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40163] = {         -- Resolute Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40112] = {         -- Delicate Cardinal Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40116] = {         -- Flashing Cardinal Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40118] = {         -- Precise Cardinal Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40162] = {         -- Accurate Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 10,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40155] = {         -- Reckless Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40129] = {         -- Sovereign Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+["ITEM_MOD_STRENGTH_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40153] = {         -- Veiled Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+["ITEM_MOD_HIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40127] = {         -- Mystic King's Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[42143] = {         -- Delicate Dragon's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[42156] = {         -- Rigid Dragon's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40144] = {         -- Champion's Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
+["ITEM_MOD_STRENGTH_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[42150] = {         -- Quick Dragon's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40119] = {         -- Solid Majestic Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+}
+-- required item level: 0
+},
+[40120] = {         -- Sparkling Majestic Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[45881] = {         -- Sparkling Stormjewel
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40128] = {         -- Quick King's Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40122] = {         -- Stormy Majestic Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40111] = {         -- Bold Cardinal Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40159] = {         -- Deft Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[45862] = {         -- Bold Stormjewel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[42145] = {         -- Sparkling Dragon's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[42155] = {         -- Stormy Dragon's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[45879] = {         -- Delicate Stormjewel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40150] = {         -- Deft Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[42149] = {         -- Smooth Dragon's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40130] = {         -- Shifting Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[45882] = {         -- Brilliant Stormjewel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40125] = {         -- Rigid Majestic Zircon
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[45987] = {         -- Rigid Stormjewel
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[45880] = {         -- Solid Stormjewel
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+}
+-- required item level: 0
+},
+[42142] = {         -- Bold Dragon's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40146] = {         -- Fierce Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+["ITEM_MOD_STRENGTH_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40142] = {         -- Inscribed Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+["ITEM_MOD_STRENGTH_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40152] = {         -- Potent Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40113] = {         -- Brilliant Cardinal Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40160] = {         -- Stalwart Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[36767] = {         -- Solid Dragon's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 51,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[42154] = {         -- Precise Dragon's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40149] = {         -- Lucent Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40145] = {         -- Resplendent Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
+["ITEM_MOD_STRENGTH_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40154] = {         -- Willful Ametrine
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40179] = {         -- Energized Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 10,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40143] = {         -- Etched Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 10,
+["ITEM_MOD_STRENGTH_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40124] = {         -- Smooth King's Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40135] = {         -- Mysterious Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+["ITEM_MOD_PVP_POWER_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40167] = {         -- Regal Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+}
+-- required item level: 0
+},
+[40168] = {         -- Steady Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+}
+-- required item level: 0
+},
+[40157] = {         -- Glinting Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 10,
+["ITEM_MOD_AGILITY_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40141] = {         -- Guardian's Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[42144] = {         -- Brilliant Dragon's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[42151] = {         -- Subtle Dragon's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40165] = {         -- Jagged Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+}
+-- required item level: 0
+},
+[40133] = {         -- Purified Dreadstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 10,
+["ITEM_MOD_SPIRIT_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40115] = {         -- Subtle King's Amber
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40180] = {         -- Radiant Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+["ITEM_MOD_PVP_POWER_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40182] = {         -- Shattered Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 10,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[45883] = {         -- Brilliant Stormjewel
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+}
+-- required item level: 0
+},
+[40173] = {         -- Turbid Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,
+["ITEM_MOD_SPIRIT_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[42152] = {         -- Flashing Dragon's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 34,
+}
+-- required item level: 0
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 350
+},
+[40169] = {         -- Forceful Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 15,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40177] = {         -- Lightning Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 10,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40171] = {         -- Misty Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
+["ITEM_MOD_SPIRIT_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[40166] = {         -- Nimble Eye of Zul
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 10,
+["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
+}
+-- required item level: 0
+},
+[52118] = {         -- Keen Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52101] = {         -- Etched Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+["ITEM_MOD_STRENGTH_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52102] = {         -- Glinting Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+["ITEM_MOD_AGILITY_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52106] = {         -- Polished Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
+["ITEM_MOD_AGILITY_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52087] = {         -- Sparkling Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52110] = {         -- Potent Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 15,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52119] = {         -- Regal Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+}
+-- required item level: 285
+},
+[52105] = {         -- Accurate Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52113] = {         -- Reckless Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 15,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52120] = {         -- Nimble Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52127] = {         -- Zen Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+["ITEM_MOD_SPIRIT_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52107] = {         -- Resolute Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52081] = {         -- Bold Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52122] = {         -- Piercing Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52117] = {         -- Artful Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 15,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52123] = {         -- Steady Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+}
+-- required item level: 285
+},
+[52112] = {         -- Deft Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+["ITEM_MOD_AGILITY_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52114] = {         -- Skillful Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+["ITEM_MOD_STRENGTH_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52082] = {         -- Delicate Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52083] = {         -- Flashing Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52128] = {         -- Sensei's Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52089] = {         -- Rigid Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52115] = {         -- Adept Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+["ITEM_MOD_AGILITY_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52088] = {         -- Stormy Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52084] = {         -- Brilliant Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52085] = {         -- Precise Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52093] = {         -- Quick Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52111] = {         -- Fierce Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+["ITEM_MOD_STRENGTH_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52091] = {         -- Smooth Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52086] = {         -- Solid Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 45,
+}
+-- required item level: 285
+},
+[52121] = {         -- Jagged Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+}
+-- required item level: 285
+},
+[52097] = {         -- Defender's Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52099] = {         -- Guardian's Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52116] = {         -- Fine Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52092] = {         -- Mystic Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52108] = {         -- Inscribed Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
+["ITEM_MOD_STRENGTH_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52100] = {         -- Purified Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 15,
+["ITEM_MOD_SPIRIT_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52125] = {         -- Lightning Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52103] = {         -- Retaliating Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52124] = {         -- Forceful Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52096] = {         -- Shifting Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+["ITEM_MOD_AGILITY_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52094] = {         -- Fractured Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52095] = {         -- Sovereign Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+["ITEM_MOD_STRENGTH_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52098] = {         -- Timeless Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 15,
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+}
+-- required item level: 285
+},
+[52090] = {         -- Subtle Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52109] = {         -- Deadly Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
+["ITEM_MOD_AGILITY_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52126] = {         -- Puissant Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+}
+-- required item level: 285
+},
+[52104] = {         -- Veiled Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 15,
+["ITEM_MOD_HIT_RATING_SHORT"] = 15,
+}
+-- required item level: 285
+},
+[52142] = {         -- Perfect Adept Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+["ITEM_MOD_AGILITY_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52148] = {         -- Perfect Deadly Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+["ITEM_MOD_AGILITY_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52168] = {         -- Perfect Rigid Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52164] = {         -- Perfect Quick Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52137] = {         -- Perfect Nimble Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 18,
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52146] = {         -- Perfect Fierce Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
+["ITEM_MOD_STRENGTH_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52158] = {         -- Perfect Guardian's Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52144] = {         -- Perfect Reckless Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 18,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52131] = {         -- Perfect Puissant Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+}
+-- required item level: 285
+},
+[52151] = {         -- Perfect Polished Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 17,
+["ITEM_MOD_AGILITY_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52150] = {         -- Perfect Resolute Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 17,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52171] = {         -- Perfect Solid Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 53,
+}
+-- required item level: 285
+},
+[52133] = {         -- Perfect Forceful Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52132] = {         -- Perfect Lightning Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52173] = {         -- Perfect Brilliant Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52138] = {         -- Perfect Regal Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 18,
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+}
+-- required item level: 285
+},
+[52130] = {         -- Perfect Zen Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
+["ITEM_MOD_SPIRIT_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52169] = {         -- Perfect Stormy Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52140] = {         -- Perfect Artful Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 18,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52156] = {         -- Perfect Etched Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+["ITEM_MOD_STRENGTH_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52145] = {         -- Perfect Deft Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 17,
+["ITEM_MOD_AGILITY_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52141] = {         -- Perfect Fine Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52149] = {         -- Perfect Inscribed Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+["ITEM_MOD_STRENGTH_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52139] = {         -- Perfect Keen Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52153] = {         -- Perfect Veiled Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 18,
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52147] = {         -- Perfect Potent Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 18,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52129] = {         -- Perfect Sensei's Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52175] = {         -- Perfect Delicate Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52172] = {         -- Perfect Precise Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52167] = {         -- Perfect Subtle Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52143] = {         -- Perfect Skillful Hessonite
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 17,
+["ITEM_MOD_STRENGTH_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52152] = {         -- Perfect Accurate Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52170] = {         -- Perfect Sparkling Zephyrite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52160] = {         -- Perfect Defender's Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52155] = {         -- Perfect Glinting Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+["ITEM_MOD_AGILITY_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52157] = {         -- Perfect Purified Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 18,
+["ITEM_MOD_SPIRIT_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52162] = {         -- Perfect Sovereign Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+["ITEM_MOD_STRENGTH_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52165] = {         -- Perfect Mystic Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52159] = {         -- Perfect Timeless Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 18,
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+}
+-- required item level: 285
+},
+[52136] = {         -- Perfect Jagged Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 18,
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+}
+-- required item level: 285
+},
+[52135] = {         -- Perfect Piercing Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 18,
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+}
+-- required item level: 285
+},
+[52176] = {         -- Perfect Bold Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52134] = {         -- Perfect Steady Jasper
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 18,
+["ITEM_MOD_STAMINA_SHORT"] = 26,
+}
+-- required item level: 285
+},
+[52154] = {         -- Perfect Retaliating Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 17,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52174] = {         -- Perfect Flashing Carnelian
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52163] = {         -- Perfect Fractured Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[52161] = {         -- Perfect Shifting Nightstone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 23,
+["ITEM_MOD_AGILITY_SHORT"] = 18,
+}
+-- required item level: 285
+},
+[52166] = {         -- Perfect Smooth Alicite
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 35,
+}
+-- required item level: 285
+},
+[68778] = {         -- Agile Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 54,
+}
+-- required item level: 285
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[52294] = {         -- Austere Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 81,
+}
+-- required item level: 285
+-- 2% Increased Armor Value from Items
+-- metaCountG: 2 Yellow
+},
+[52292] = {         -- Bracing Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 54,
+}
+-- required item level: 285
+-- 2% Reduced Threat
+-- metaCountG: 1 Blue; 1 Yellow
+},
+[68780] = {         -- Burning Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 54,
+}
+-- required item level: 285
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[52291] = {         -- Chaotic Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
+}
+-- required item level: 285
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[52249] = {         -- Resolute Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52210] = {         -- Defender's Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52217] = {         -- Veiled Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52216] = {         -- Flashing Inferno Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52234] = {         -- Retaliating Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52230] = {         -- Precise Inferno Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52298] = {         -- Destructive Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
+}
+-- required item level: 285
+-- 1% Spell Reflect
+-- metaCountG: 2 Red
+},
+[52213] = {         -- Etched Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52220] = {         -- Glinting Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52221] = {         -- Guardian's Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52236] = {         -- Purified Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+["ITEM_MOD_SPIRIT_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52289] = {         -- Fleet Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 54,
+}
+-- required item level: 285
+-- Minor Run Speed Increase
+-- metaCountG: 2 Yellow
+},
+[52238] = {         -- Shifting Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52248] = {         -- Timeless Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52302] = {         -- Forlorn Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 54,
+}
+-- required item level: 285
+-- Silence Duration Reduced by 10%
+-- metaCountG: 1 Blue; 1 Red
+},
+[52301] = {         -- Impassive Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
+}
+-- required item level: 285
+-- Fear Duration Reduced by 10%
+-- metaCountG: 1 Blue; 1 Yellow
+},
+[68779] = {         -- Reverberating Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 54,
+}
+-- required item level: 285
+-- 3% Increased Critical Effect
+-- metaCountG: 3 Red
+},
+[52209] = {         -- Deadly Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52207] = {         -- Brilliant Inferno Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52203] = {         -- Accurate Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52295] = {         -- Effulgent Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 81,
+}
+-- required item level: 285
+-- Reduce Spell Damage Taken by 2%
+-- metaCountG: 1 Red; 1 Yellow
+},
+[52296] = {         -- Ember Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 54,
+}
+-- required item level: 285
+-- +2% Maximum Mana
+-- metaCountG: 2 Yellow
+},
+[52300] = {         -- Enigmatic Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 54,
+}
+-- required item level: 285
+-- Reduces Snare/Root Duration by 10%
+-- metaCountG: 1 Blue; 1 Yellow
+},
+[52293] = {         -- Eternal Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 81,
+}
+-- required item level: 285
+-- +1% Shield Block Value
+-- metaCountG: 3 Blue
+},
+[52243] = {         -- Sovereign Demonseye
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52299] = {         -- Powerful Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 81,
+}
+-- required item level: 285
+-- Stun Duration Reduced by 10%
+-- metaCountG: 2 Blue
+},
+[52212] = {         -- Delicate Inferno Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52297] = {         -- Revitalizing Shadowspirit Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 54,
+}
+-- required item level: 285
+-- 3% Increased Critical Effect
+-- metaCountG: 1 Blue; 1 Yellow
+},
+[59479] = {         -- Quick Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[52247] = {         -- Subtle Amberjewel
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52235] = {         -- Rigid Ocean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52242] = {         -- Solid Ocean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 60,
+}
+-- required item level: 285
+},
+[52204] = {         -- Adept Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52205] = {         -- Artful Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52211] = {         -- Deft Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52214] = {         -- Fierce Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52215] = {         -- Fine Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52222] = {         -- Inscribed Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[68357] = {         -- Lucent Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52208] = {         -- Reckless Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[68358] = {         -- Resplendent Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52218] = {         -- Forceful Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52206] = {         -- Bold Inferno Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[68356] = {         -- Willful Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52223] = {         -- Jagged Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52244] = {         -- Sparkling Ocean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[59491] = {         -- Flashing Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[52239] = {         -- Potent Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 20,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[59480] = {         -- Fractured Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[68660] = {         -- Mystic Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[59489] = {         -- Precise Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[59478] = {         -- Smooth Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[59477] = {         -- Subtle Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[52232] = {         -- Quick Amberjewel
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[59493] = {         -- Rigid Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[59496] = {         -- Sparkling Cogwheel
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 208,
+}
+-- required item level: 0
+-- Unique-Equipped
+-- Cogwheel
+-- skill: Engineering 525
+},
+[52246] = {         -- Stormy Ocean Sapphire
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52229] = {         -- Polished Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
+["ITEM_MOD_AGILITY_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52225] = {         -- Lightning Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52219] = {         -- Fractured Amberjewel
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52224] = {         -- Keen Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52240] = {         -- Skillful Ember Topaz
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+["ITEM_MOD_STRENGTH_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52226] = {         -- Mystic Amberjewel
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52227] = {         -- Nimble Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52241] = {         -- Smooth Amberjewel
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 40,
+}
+-- required item level: 285
+},
+[52228] = {         -- Piercing Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52231] = {         -- Puissant Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52233] = {         -- Regal Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[52237] = {         -- Sensei's Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+["ITEM_MOD_HIT_RATING_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52245] = {         -- Steady Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+["ITEM_MOD_STAMINA_SHORT"] = 30,
+}
+-- required item level: 285
+},
+[68741] = {         -- Vivid Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
+["ITEM_MOD_PVP_POWER_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[52250] = {         -- Zen Dream Emerald
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
+["ITEM_MOD_SPIRIT_SHORT"] = 20,
+}
+-- required item level: 285
+},
+[71817] = {         -- Rigid Deepholm Iolite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[52261] = {         -- Solid Chimera's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 101,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[52262] = {         -- Sparkling Chimera's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71841] = {         -- Crafty Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71868] = {         -- Purified Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_SPIRIT_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71874] = {         -- Smooth Lightstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[71857] = {         -- Lucent Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71877] = {         -- Fractured Lightstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[71870] = {         -- Guardian's Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71820] = {         -- Solid Deepholm Iolite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 75,
+}
+-- required item level: 300
+},
+[71867] = {         -- Mysterious Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71873] = {         -- Sovereign Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71876] = {         -- Quick Lightstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[71865] = {         -- Retaliating Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71856] = {         -- Skillful Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[52264] = {         -- Rigid Chimera's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[77130] = {         -- Balanced Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71828] = {         -- Balanced Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71824] = {         -- Lightning Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71837] = {         -- Nimble Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71825] = {         -- Sensei's Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[77137] = {         -- Shattered Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71871] = {         -- Timeless Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+}
+-- required item level: 300
+},
+[71833] = {         -- Energized Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 25,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71836] = {         -- Forceful Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71826] = {         -- Infused Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[77154] = {         -- Radiant Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71882] = {         -- Flashing Queen's Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[77131] = {         -- Infused Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71834] = {         -- Jagged Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+}
+-- required item level: 300
+},
+[71822] = {         -- Misty Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_SPIRIT_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71823] = {         -- Piercing Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71838] = {         -- Puissant Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+}
+-- required item level: 300
+},
+[77133] = {         -- Mysterious Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71831] = {         -- Radiant Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71835] = {         -- Regal Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+}
+-- required item level: 300
+},
+[52260] = {         -- Precise Chimera's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71832] = {         -- Shattered Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71839] = {         -- Steady Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+}
+-- required item level: 300
+},
+[77139] = {         -- Steady Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+}
+-- required item level: 300
+-- bop: true
+},
+[77134] = {         -- Mystic Lightstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+-- bop: true
+},
+[77142] = {         -- Turbid Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_SPIRIT_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71819] = {         -- Sparkling Deepholm Iolite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[52268] = {         -- Quick Chimera's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71869] = {         -- Shifting Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71830] = {         -- Turbid Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_SPIRIT_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71878] = {         -- Mystic Lightstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[71829] = {         -- Vivid Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[77140] = {         -- Stormy Deepholm Iolite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 50,
+}
+-- required item level: 300
+-- bop: true
+},
+[77143] = {         -- Vivid Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_PVP_POWER_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71827] = {         -- Zen Elven Peridot
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_SPIRIT_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71863] = {         -- Accurate Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71854] = {         -- Artful Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71840] = {         -- Deadly Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[52267] = {         -- Mystic Chimera's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71862] = {         -- Glinting Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[52255] = {         -- Bold Chimera's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71851] = {         -- Fierce Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[52263] = {         -- Stormy Chimera's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[52265] = {         -- Subtle Chimera's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[77132] = {         -- Lucent Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71842] = {         -- Potent Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[77136] = {         -- Resplendent Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71883] = {         -- Bold Queen's Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[52269] = {         -- Fractured Chimera's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71818] = {         -- Stormy Deepholm Iolite
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[71850] = {         -- Reckless Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71860] = {         -- Splendid Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[77141] = {         -- Tenuous Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[52257] = {         -- Brilliant Chimera's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71849] = {         -- Wicked Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71859] = {         -- Willful Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[77144] = {         -- Willful Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71881] = {         -- Brilliant Queen's Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[52258] = {         -- Delicate Chimera's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71852] = {         -- Adept Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71875] = {         -- Subtle Lightstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[71866] = {         -- Etched Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71847] = {         -- Champion's Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71848] = {         -- Deft Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71872] = {         -- Defender's Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 37,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71855] = {         -- Fine Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[52266] = {         -- Smooth Chimera's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71843] = {         -- Inscribed Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71853] = {         -- Keen Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71844] = {         -- Polished Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
+["ITEM_MOD_AGILITY_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71879] = {         -- Delicate Queen's Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[71864] = {         -- Veiled Shadow Spinel
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 25,
+["ITEM_MOD_HIT_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71845] = {         -- Resolute Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[77138] = {         -- Splendid Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+-- bop: true
+},
+[71846] = {         -- Stalwart Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71858] = {         -- Tenuous Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[52259] = {         -- Flashing Chimera's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 67,
+}
+-- required item level: 285
+-- unique: Jeweler's Gems 3
+-- bop: true
+-- skill: Jewelcrafting 500
+},
+[71861] = {         -- Resplendent Lava Coral
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
+["ITEM_MOD_STRENGTH_SHORT"] = 25,
+}
+-- required item level: 300
+},
+[71880] = {         -- Precise Queen's Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 50,
+}
+-- required item level: 300
+},
+[76526] = {         -- Deadly Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76541] = {         -- Fine Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76539] = {         -- Keen Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76542] = {         -- Skillful Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76549] = {         -- Accurate Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76535] = {         -- Wicked Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76569] = {         -- Mystic Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76567] = {         -- Quick Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76513] = {         -- Balanced Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76511] = {         -- Effulgent Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+["ITEM_MOD_PVP_POWER_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76522] = {         -- Forceful Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76520] = {         -- Jagged Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+}
+-- required item level: 417
+},
+[76509] = {         -- Lightning Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76543] = {         -- Lucent Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76559] = {         -- Sovereign Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76519] = {         -- Energized Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 120,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[89675] = {         -- Tense Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76507] = {         -- Misty Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+["ITEM_MOD_SPIRIT_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76523] = {         -- Nimble Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+}
+-- required item level: 417
+},
+[76508] = {         -- Piercing Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76557] = {         -- Timeless Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+}
+-- required item level: 417
+},
+[76524] = {         -- Puissant Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+}
+-- required item level: 417
+},
+[76521] = {         -- Regal Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+}
+-- required item level: 417
+},
+[76518] = {         -- Shattered Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 120,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[89678] = {         -- Assassin's Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76517] = {         -- Radiant Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+["ITEM_MOD_PVP_POWER_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76558] = {         -- Defender's Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76510] = {         -- Sensei's Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76525] = {         -- Steady Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+}
+-- required item level: 417
+},
+[76538] = {         -- Adept Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76527] = {         -- Crafty Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76534] = {         -- Deft Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76537] = {         -- Fierce Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76529] = {         -- Inscribed Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76530] = {         -- Polished Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76528] = {         -- Potent Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76536] = {         -- Reckless Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76502] = {         -- Rigid Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76531] = {         -- Resolute Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76568] = {         -- Fractured Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76564] = {         -- Bold Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76514] = {         -- Vivid Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+["ITEM_MOD_PVP_POWER_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76566] = {         -- Subtle Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76547] = {         -- Resplendent Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76560] = {         -- Delicate Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76563] = {         -- Flashing Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76554] = {         -- Purified Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_SPIRIT_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76506] = {         -- Solid Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 180,
+}
+-- required item level: 417
+},
+[76550] = {         -- Veiled Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76546] = {         -- Splendid Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76532] = {         -- Stalwart Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76561] = {         -- Precise Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76544] = {         -- Tenuous Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76505] = {         -- Sparkling Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76545] = {         -- Willful Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76504] = {         -- Stormy Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76540] = {         -- Artful Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76533] = {         -- Champion's Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76548] = {         -- Glinting Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76553] = {         -- Mysterious Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 60,
+["ITEM_MOD_PVP_POWER_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76555] = {         -- Shifting Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+["ITEM_MOD_AGILITY_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76565] = {         -- Smooth Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76515] = {         -- Turbid Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 120,
+["ITEM_MOD_SPIRIT_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76552] = {         -- Etched Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 60,
+}
+-- required item level: 417
+},
+[76556] = {         -- Guardian's Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 90,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76551] = {         -- Retaliating Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 120,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76562] = {         -- Brilliant Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76512] = {         -- Zen Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 120,
+["ITEM_MOD_SPIRIT_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[89679] = {         -- Perfect Assassin's Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76630] = {         -- Perfect Bold Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76580] = {         -- Perfect Balanced Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76620] = {         -- Perfect Purified Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76626] = {         -- Perfect Delicate Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76588] = {         -- Perfect Forceful Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76570] = {         -- Perfect Rigid Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76578] = {         -- Perfect Effulgent Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76585] = {         -- Perfect Energized Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76586] = {         -- Perfect Jagged Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76572] = {         -- Perfect Sparkling Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76576] = {         -- Perfect Lightning Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76574] = {         -- Perfect Misty Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76575] = {         -- Perfect Piercing Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76590] = {         -- Perfect Puissant Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76628] = {         -- Perfect Brilliant Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76573] = {         -- Perfect Solid Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76625] = {         -- Perfect Sovereign Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76589] = {         -- Perfect Nimble Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76571] = {         -- Perfect Stormy Lapis Lazuli
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76629] = {         -- Perfect Flashing Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76583] = {         -- Perfect Radiant Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76587] = {         -- Perfect Regal Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76604] = {         -- Perfect Adept Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76599] = {         -- Perfect Champion's Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76600] = {         -- Perfect Deft Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76577] = {         -- Perfect Sensei's Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76627] = {         -- Perfect Precise Pandarian Garnet
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76593] = {         -- Perfect Crafty Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76603] = {         -- Perfect Fierce Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76607] = {         -- Perfect Fine Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76595] = {         -- Perfect Inscribed Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76609] = {         -- Perfect Lucent Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76596] = {         -- Perfect Polished Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76594] = {         -- Perfect Potent Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76602] = {         -- Perfect Reckless Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76597] = {         -- Perfect Resolute Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76613] = {         -- Perfect Resplendent Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76608] = {         -- Perfect Skillful Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76612] = {         -- Perfect Splendid Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76598] = {         -- Perfect Stalwart Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76610] = {         -- Perfect Tenuous Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76601] = {         -- Perfect Wicked Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76591] = {         -- Perfect Steady Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76611] = {         -- Perfect Willful Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76615] = {         -- Perfect Accurate Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76592] = {         -- Perfect Deadly Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76582] = {         -- Perfect Turbid Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76581] = {         -- Perfect Vivid Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76635] = {         -- Perfect Mystic Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76605] = {         -- Perfect Keen Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76634] = {         -- Perfect Fractured Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76579] = {         -- Perfect Zen Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76631] = {         -- Perfect Smooth Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76632] = {         -- Perfect Subtle Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76624] = {         -- Perfect Defender's Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76633] = {         -- Perfect Quick Sunstone
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76606] = {         -- Perfect Artful Tiger Opal
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76618] = {         -- Perfect Etched Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76614] = {         -- Perfect Glinting Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76622] = {         -- Perfect Guardian's Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76584] = {         -- Perfect Shattered Alexandrite
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76619] = {         -- Perfect Mysterious Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76617] = {         -- Perfect Retaliating Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76621] = {         -- Perfect Shifting Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[89676] = {         -- Perfect Tense Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76623] = {         -- Perfect Timeless Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76616] = {         -- Perfect Veiled Roguestone
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
 [77544] = {         -- Flashing Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_PARRY_RATING_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
 },
 [77547] = {         -- Fractured Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_MASTERY_RATING_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
+},
+[76699] = {         -- Quick Sun's Radiance
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
 },
 [77543] = {         -- Precise Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
 },
-[77542] = {         -- Quick Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_HASTE_RATING_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+[76700] = {         -- Fractured Sun's Radiance
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 320,
+}
+-- required item level: 417
 },
-[77545] = {         -- Rigid Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_HIT_RATING_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+[76701] = {         -- Mystic Sun's Radiance
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76697] = {         -- Smooth Sun's Radiance
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 320,
+}
+-- required item level: 417
 },
 [77541] = {         -- Smooth Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_CRIT_RATING_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
+},
+[76698] = {         -- Subtle Sun's Radiance
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[77542] = {         -- Quick Tinker's Gear
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
+},
+[77545] = {         -- Rigid Tinker's Gear
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
+},
+[76695] = {         -- Flashing Primordial Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 320,
+}
+-- required item level: 417
 },
 [77546] = {         -- Sparkling Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_SPIRIT_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
+},
+[76696] = {         -- Bold Primordial Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76646] = {         -- Balanced Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76644] = {         -- Effulgent Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76651] = {         -- Energized Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76652] = {         -- Jagged Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76640] = {         -- Misty Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76655] = {         -- Nimble Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76641] = {         -- Piercing Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76676] = {         -- Tenuous Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76656] = {         -- Puissant Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76649] = {         -- Radiant Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76884] = {         -- Agile Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 216,
+}
+-- required item level: 417
+-- 3% Increased Critical Effect
+},
+[76885] = {         -- Burning Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 216,
+}
+-- required item level: 417
+-- 3% Increased Critical Effect
+},
+[76659] = {         -- Crafty Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76879] = {         -- Ember Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 216,
+}
+-- required item level: 417
+-- +2% Maximum Mana
+},
+[76658] = {         -- Deadly Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76642] = {         -- Lightning Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76660] = {         -- Potent Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76674] = {         -- Skillful Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76677] = {         -- Willful Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76895] = {         -- Austere Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 324,
+}
+-- required item level: 417
+-- 2% Increased Armor Value from Items
+},
+[76890] = {         -- Destructive Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 432,
+}
+-- required item level: 417
+-- 1% Spell Reflect
+},
+[76897] = {         -- Effulgent Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 324,
+}
+-- required item level: 417
+-- Reduce Spell Damage Taken by 2%
+},
+[76892] = {         -- Enigmatic Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 432,
+}
+-- required item level: 417
+-- Reduces Snare/Root Duration by 10%
+},
+[76654] = {         -- Forceful Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76653] = {         -- Regal Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76657] = {         -- Steady Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[76636] = {         -- Rigid River's Heart
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76647] = {         -- Vivid Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
 },
 [77540] = {         -- Subtle Tinker's Gear
-    ["colors"] = {
-        "COGWHEEL", -- [1]
-    },
-    ["stats"] = {
-        ["ITEM_MOD_DODGE_RATING_SHORT"] = 600,
-    },
-    -- Unique-Equipped
-    -- required item level: 417
+colors = {"COGWHEEL"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 600,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- Cogwheel
+},
+[76694] = {         -- Brilliant Primordial Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76686] = {         -- Purified Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76662] = {         -- Polished Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76692] = {         -- Delicate Primordial Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76668] = {         -- Reckless Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76693] = {         -- Precise Primordial Ruby
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76645] = {         -- Zen Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76643] = {         -- Sensei's Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76650] = {         -- Shattered Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76648] = {         -- Turbid Wild Jade
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_SPIRIT_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76639] = {         -- Solid River's Heart
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 240,
+}
+-- required item level: 417
+},
+[76638] = {         -- Sparkling River's Heart
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76637] = {         -- Stormy River's Heart
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 320,
+}
+-- required item level: 417
+},
+[76661] = {         -- Inscribed Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76896] = {         -- Eternal Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 432,
+}
+-- required item level: 417
+-- +1% Shield Block Value
+},
+[76670] = {         -- Adept Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[89680] = {         -- Assassin's Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76894] = {         -- Forlorn Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 216,
+}
+-- required item level: 417
+-- Silence Duration Reduced by 10%
+},
+[76682] = {         -- Veiled Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76672] = {         -- Artful Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76665] = {         -- Champion's Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76666] = {         -- Deft Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76669] = {         -- Fierce Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76673] = {         -- Fine Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76671] = {         -- Keen Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76675] = {         -- Lucent Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76887] = {         -- Fleet Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 432,
+}
+-- required item level: 417
+-- Minor Run Speed Increase
+},
+[76893] = {         -- Impassive Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 432,
+}
+-- required item level: 417
+-- Fear Duration Reduced by 10%
+},
+[76891] = {         -- Powerful Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 324,
+}
+-- required item level: 417
+-- Stun Duration Reduced by 10%
+},
+[76663] = {         -- Resolute Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76679] = {         -- Resplendent Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76886] = {         -- Reverberating Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 216,
+}
+-- required item level: 417
+-- 3% Increased Critical Effect
+},
+[76678] = {         -- Splendid Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76681] = {         -- Accurate Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76684] = {         -- Etched Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76680] = {         -- Glinting Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76688] = {         -- Guardian's Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76888] = {         -- Revitalizing Primal Diamond
+colors = {"META"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 432,
+}
+-- required item level: 417
+-- 3% Increased Critical Effect
+},
+[76664] = {         -- Stalwart Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76667] = {         -- Wicked Vermilion Onyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 160,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76690] = {         -- Defender's Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76685] = {         -- Mysterious Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76683] = {         -- Retaliating Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 160,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 160,
+}
+-- required item level: 417
+},
+[76687] = {         -- Shifting Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_AGILITY_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76691] = {         -- Sovereign Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[89674] = {         -- Tense Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 160,
+["ITEM_MOD_STRENGTH_SHORT"] = 80,
+}
+-- required item level: 417
+},
+[76689] = {         -- Timeless Imperial Amethyst
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 80,
+["ITEM_MOD_STAMINA_SHORT"] = 120,
+}
+-- required item level: 417
+},
+[88912] = {         -- Effulgent Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+["ITEM_MOD_PVP_POWER_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88913] = {         -- Energized Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 200,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88914] = {         -- Forceful Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88915] = {         -- Jagged Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88916] = {         -- Lightning Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88917] = {         -- Misty Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+["ITEM_MOD_SPIRIT_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88918] = {         -- Nimble Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88937] = {         -- Fine Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88911] = {         -- Balanced Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83141] = {         -- Bold Serpent's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 320,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88919] = {         -- Piercing Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83150] = {         -- Brilliant Serpent's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 320,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[83151] = {         -- Delicate Serpent's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 320,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[83143] = {         -- Fractured Serpent's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[76714] = {         -- Perfect Rigid River's Heart
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 24,
+}
+-- required item level: 417
+},
+[88920] = {         -- Puissant Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88952] = {         -- Accurate Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88921] = {         -- Radiant Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+["ITEM_MOD_PVP_POWER_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83149] = {         -- Sparkling Serpent's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_SPIRIT_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88922] = {         -- Regal Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 200,
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83144] = {         -- Rigid Serpent's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88924] = {         -- Shattered Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 200,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83148] = {         -- Solid Serpent's Eye
+colors = {"BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88923] = {         -- Sensei's Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[89681] = {         -- Assassin's Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 200,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88930] = {         -- Adept Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88931] = {         -- Artful Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88953] = {         -- Defender's Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88954] = {         -- Etched Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88955] = {         -- Glinting Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88956] = {         -- Guardian's Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88932] = {         -- Champion's Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 200,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88987] = {         -- Mysterious Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_PVP_POWER_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88959] = {         -- Retaliating Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88960] = {         -- Shifting Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83152] = {         -- Flashing Serpent's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_PARRY_RATING_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88935] = {         -- Deft Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[89677] = {         -- Tense Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_PVP_POWER_SHORT"] = 200,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88933] = {         -- Crafty Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88934] = {         -- Deadly Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88936] = {         -- Fierce Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88958] = {         -- Purified Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_SPIRIT_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88941] = {         -- Polished Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 200,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83145] = {         -- Subtle Serpent's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88942] = {         -- Potent Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88961] = {         -- Sovereign Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88962] = {         -- Timeless Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83142] = {         -- Quick Serpent's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88938] = {         -- Inscribed Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 200,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88939] = {         -- Keen Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88940] = {         -- Lucent Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+["ITEM_MOD_AGILITY_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88963] = {         -- Veiled Zyanite
+colors = {"RED", "BLUE"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_HIT_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88943] = {         -- Reckless Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88945] = {         -- Resplendent Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88927] = {         -- Vivid Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+["ITEM_MOD_PVP_POWER_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88928] = {         -- Zen Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+["ITEM_MOD_SPIRIT_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88946] = {         -- Skillful Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_MASTERY_RATING_SHORT"] = 200,
+["ITEM_MOD_STRENGTH_SHORT"] = 100,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83146] = {         -- Smooth Serpent's Eye
+colors = {"YELLOW"},
+stats = {
+["ITEM_MOD_CRIT_RATING_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88951] = {         -- Willful Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 100,
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88926] = {         -- Turbid Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+["ITEM_MOD_SPIRIT_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[83147] = {         -- Precise Serpent's Eye
+colors = {"RED"},
+stats = {
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 480,
+}
+-- required item level: 417
+-- unique: Jeweler's Facet 2
+-- bop: true
+-- skill: Jewelcrafting 550
+},
+[88944] = {         -- Resolute Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 200,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88947] = {         -- Splendid Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88948] = {         -- Stalwart Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_DODGE_RATING_SHORT"] = 200,
+["ITEM_MOD_PARRY_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88949] = {         -- Tenuous Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88925] = {         -- Steady Adventurine
+colors = {"BLUE", "YELLOW"},
+stats = {
+["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
+["ITEM_MOD_STAMINA_SHORT"] = 150,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[88950] = {         -- Wicked Sardonyx
+colors = {"RED", "YELLOW"},
+stats = {
+["ITEM_MOD_HASTE_RATING_SHORT"] = 200,
+["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
+}
+-- required item level: 417
+-- Unique-Equipped
+-- bop: true
+},
+[89873] = {         -- Crystallized Dread
+colors = {"HYDRAULIC"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 500,
+}
+-- required item level: 0
+-- Crystal of Fear
+-- unique: Crystal of Fear 1
+-- bop: true
+},
+[89882] = {         -- Crystallized Horror
+colors = {"HYDRAULIC"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 500,
+}
+-- required item level: 0
+-- Crystal of Fear
+-- unique: Crystal of Fear 1
+-- bop: true
+},
+[89881] = {         -- Crystallized Terror
+colors = {"HYDRAULIC"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 500,
+}
+-- required item level: 0
+-- Crystal of Fear
+-- unique: Crystal of Fear 1
+-- bop: true
+},
+[93364] = {         -- Refined Crystallized Dread
+colors = {"HYDRAULIC"},
+stats = {
+["ITEM_MOD_AGILITY_SHORT"] = 550,
+}
+-- required item level: 0
+-- Crystal of Fear
+-- unique: Crystal of Fear 1
+-- bop: true
+},
+[93366] = {         -- Refined Crystallized Horror
+colors = {"HYDRAULIC"},
+stats = {
+["ITEM_MOD_INTELLECT_SHORT"] = 550,
+}
+-- required item level: 0
+-- Crystal of Fear
+-- unique: Crystal of Fear 1
+-- bop: true
+},
+[93365] = {         -- Refined Crystallized Terror
+colors = {"HYDRAULIC"},
+stats = {
+["ITEM_MOD_STRENGTH_SHORT"] = 550,
+}
+-- required item level: 0
+-- Crystal of Fear
+-- unique: Crystal of Fear 1
+-- bop: true
 },
 }
