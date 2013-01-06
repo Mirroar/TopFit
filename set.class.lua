@@ -9,6 +9,7 @@ function Set:construct(setName)
     self.weights = {}
     self.caps = {}
     self.forced = {}
+    self.itemScoreCache = {}
     self.ignoreCapsForCalculation = false
 
     self.calculationData = {} -- for use by calculation functions
@@ -103,6 +104,7 @@ function Set:SetHardCap(stat, value)
         end
     end
 
+    wipe(self.itemScoreCache)
     self.caps[stat] = value
 end
 
@@ -130,6 +132,7 @@ function Set:SetStatWeight(stat, value)
         self.AssertArgumentType(value, 'number')
     end
 
+    wipe(self.itemScoreCache)
     self.weights[stat] = value
     if self.setID and ns.db.profile.sets[self.setID] then
         ns.db.profile.sets[self.setID].weights[stat] = value
@@ -154,6 +157,7 @@ end
 
 -- remove all hard caps from this set
 function Set:ClearAllHardCaps()
+    wipe(self.itemScoreCache)
     wipe(self.caps)
 end
 
@@ -196,4 +200,59 @@ function Set:SetHitConversion(enable) -- [TODO]
 end
 function Set:GetHitConversion() -- [TODO]
     return self.hitConversion
+end
+
+function Set:GetItemScore(item, useRaw)
+    assert(item and (type(item) == "string" or type(item) == "number"), "Usage: setObject:GetItemScore(itemLink or itemID[, useRaw])")
+
+    if not self.itemScoreCache[item] then
+        local itemTable = TopFit:GetCachedItem(item)
+        if not itemTable then return end
+
+        --local set = setTable.weights
+        --local caps = setTable.caps
+
+        -- calculate item score
+        local itemScore = 0
+        local capsModifier = 0
+        -- iterate given weights
+        for stat, statValue in pairs(self.weights) do
+            if itemTable.totalBonus[stat] then
+                -- check for hard cap on this stat
+                if not self.caps[stat] then
+                    itemScore = itemScore + statValue * itemTable.totalBonus[stat]
+                end
+            end
+        end
+
+        -- also calculate raw item score
+        local rawScore = 0
+        local rawModifier = 0
+        -- iterate given weights
+        for stat, statValue in pairs(set) do
+            if itemTable.itemBonus[stat] then
+                -- check for hard cap on this stat
+                if not self.caps[stat] then
+                    rawScore = rawScore + statValue * itemTable.itemBonus[stat]
+                end
+            end
+            if itemTable.procBonus[stat] then
+                -- check for hard cap on this stat
+                if not self.caps[stat] then
+                    rawScore = itemScore + statValue * itemTable.procBonus[stat]
+                end
+            end
+        end
+
+        self.itemScoreCache[item] = {
+            itemScore = itemScore,
+            rawScore = rawScore,
+        }
+    end
+
+    if useRaw then
+        return self.itemScoreCache[item].rawScore
+    else
+        return self.itemScoreCache[item].itemScore
+    end
 end

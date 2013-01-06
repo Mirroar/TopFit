@@ -348,31 +348,8 @@ function TopFit:GetItemInfoTable(item)
         reforgeBonus[plus] = statValue
     end
 
-    -- calculate total values
-    local totalBonus = {}
-    for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus, reforgeBonus}) do
-        for stat, value in pairs(bonusTable) do
-            totalBonus[stat] = (totalBonus[stat] or 0) + value
-        end
-    end
-
-    -- add hit for spirit for caster classes with the respective talent
-    local hitForSpirit = 0;
-    local specialization = GetSpecialization()
-    if (select(2, UnitClass("player")) == "PRIEST" and specialization == 3)
-        or (select(2, UnitClass("player")) == "DRUID" and specialization == 1)
-        or (select(2, UnitClass("player")) == "SHAMAN" and specialization == 1) then
-        if UnitLevel("player") >= 20 then
-            hitForSpirit = 1;
-        end
-    end
-
-    if (hitForSpirit > 0) then
-        totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
-        itemBonus["ITEM_MOD_HIT_RATING_SHORT"] = (itemBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (itemBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
-    end
-
     -- also check proc / on-use effects for score calculation
+    -- TODO: clean up this mess!
     if not TopFit.allStatsInATable then
         TopFit.allStatsInATable = {}
         for _, statsTable in pairs(TopFit.statList) do
@@ -390,6 +367,32 @@ function TopFit:GetItemInfoTable(item)
         procBonus[searchStat] = procUptime * amount * duration / cooldown
     end
 
+    -- calculate total values
+    local totalBonus = {}
+    for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus, reforgeBonus, procBonus}) do
+        for stat, value in pairs(bonusTable) do
+            totalBonus[stat] = (totalBonus[stat] or 0) + value
+        end
+    end
+
+    -- add hit for spirit for caster classes with the respective talent
+    -- TODO: rethink and move setting into set
+    local hitForSpirit = 0;
+    local specialization = GetSpecialization()
+    if (select(2, UnitClass("player")) == "PRIEST" and specialization == 3)
+        or (select(2, UnitClass("player")) == "DRUID" and specialization == 1)
+        or (select(2, UnitClass("player")) == "SHAMAN" and specialization == 1) then
+        if UnitLevel("player") >= 20 then
+            hitForSpirit = 1;
+        end
+    end
+
+    if (hitForSpirit > 0) then
+        totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
+        itemBonus["ITEM_MOD_HIT_RATING_SHORT"] = (itemBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (itemBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
+    end
+
+    -- generate result
     local result = {
         itemLink = itemLink,
         itemID = itemID,
@@ -430,15 +433,6 @@ function TopFit:CalculateItemScore(itemLink)
                 else
                     -- part of hard cap, score calculated extra
                     capsModifier = capsModifier + statValue * itemTable.totalBonus[stat]
-                end
-            end
-            if itemTable.procBonus[stat] then
-                -- check for hard cap on this stat
-                if ((not caps) or (not caps[stat]) or (not caps[stat]["active"]) or (caps[stat]["soft"])) then
-                    itemScore = itemScore + statValue * itemTable.procBonus[stat]
-                else
-                    -- part of hard cap, score calculated extra
-                    capsModifier = capsModifier + statValue * itemTable.procBonus[stat]
                 end
             end
         end
@@ -764,7 +758,7 @@ function TopFit:GetEquippableItems(requestedSlotID)
     end
 end
 
-function TopFit:GetItemScore(itemLink, setCode, dontUseCaps, useRawItem)
+function TopFit:GetItemScore(itemLink, setCode, dontUseCaps, useRawItem) --TODO: deprecated
     if not TopFit.scoresCache[itemLink] or not TopFit.scoresCache[itemLink][setCode] then return 0 end
 
     if dontUseCaps then
