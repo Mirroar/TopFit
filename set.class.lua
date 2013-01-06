@@ -20,7 +20,7 @@ function Set:construct(setName)
     -- determine if the player can dualwield
     self:ForceDualWield(false)
     self:ForceTitansGrip(false)
-    self:EnableDualWield(ns:PlayerCanDualWield()) -- TODO: instead of initializing once, get capability from namespaced variable
+    self:EnableDualWield(ns:PlayerCanDualWield()) -- TODO: instead of initializing once, get capability from namespaced variable (which should be updated on spec change)
     self:EnableTitansGrip(ns:PlayerHasTitansGrip())
 end
 
