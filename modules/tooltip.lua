@@ -67,8 +67,14 @@ end
 
 function TopFit:replaceTokensInString(text, item)
     local findOffset = 1
-    local setIDs = TopFit:getSetIDs(true)
-    local setNames = TopFit:getSetNames(true)
+    local setIDs = ns.GetSetList(true)
+
+    -- only keep sets that should be shown in tooltip
+    for i = #setIDs, 1, -1 do
+        if not ns.GetSetByID(setIDs[i], true):GetDisplayInTooltip() then
+            tremove(setIDs, i)
+        end
+    end
 
     repeat
         local findStart, findEnd, findString = string.find(text, "%[(.-)%]", findOffset)
@@ -81,8 +87,8 @@ function TopFit:replaceTokensInString(text, item)
 
             if token == "setlist" then
                 local namesString = ''
-                for i = 1, #setNames do
-                    local setName = setNames[i];
+                for i = 1, #setIDs do
+                    local setName = ns.GetSetByID(setIDs[i], true):GetName();
                     if namesString ~= '' then
                         namesString = namesString..', '
                     end
@@ -124,32 +130,6 @@ function TopFit:getTokenAndArguments(token)
     local parts = {string.split(':', token)}
 
     return parts
-end
-
-function TopFit:getSetNames(forTooltip)
-    local output = {}
-
-    for i = 1, 100 do
-        local setTable = TopFit.db.profile.sets['set_'..i];
-        if setTable and not (forTooltip and setTable.excludeFromTooltip) then
-            tinsert(output, setTable.name)
-        end
-    end
-
-    return output
-end
-
-function TopFit:getSetIDs(forTooltip)
-    local output = {}
-
-    for i = 1, 100 do
-        setTable = TopFit.db.profile.sets['set_'..i];
-        if setTable and (not forTooltip or not setTable.excludeFromTooltip) then
-            tinsert(output, 'set_'..i)
-        end
-    end
-
-    return output
 end
 
 -- calculates the items that the given item should be compared to in a tooltip

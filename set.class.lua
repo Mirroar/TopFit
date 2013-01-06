@@ -18,7 +18,9 @@ function Set:construct(setName)
     self:SetName(setName or 'Unknown')
 
     -- determine if the player can dualwield
-    self:EnableDualWield(ns:PlayerCanDualWield())
+    self:ForceDualWield(false)
+    self:ForceTitansGrip(false)
+    self:EnableDualWield(ns:PlayerCanDualWield()) -- TODO: instead of initializing once, get capability from namespaced variable
     self:EnableTitansGrip(ns:PlayerHasTitansGrip())
 end
 
@@ -44,11 +46,14 @@ function Set.CreateFromSavedVariables(setTable)
         end
     end
 
-    if (setTable.simulateDualWield) then
-        setInstance:EnableDualWield(true)
+    if setTable.simulateDualWield then
+        setInstance:ForceDualWield(true)
     end
-    if (setTable.simulateTitansGrip) then
-        setInstance:EnableTitansGrip(true)
+    if setTable.simulateTitansGrip then
+        setInstance:ForceTitansGrip(true)
+    end
+    if not setTable.excludeFromTooltip then
+        setInstance:SetDisplayInTooltip(true)
     end
 
     return setInstance
@@ -162,27 +167,52 @@ function Set:ClearAllHardCaps()
 end
 
 -- allow dual wielding for this set
-function Set:EnableDualWield(value) --TODO: figure out how this should interact with saved variables
+function Set:EnableDualWield(value)
     self.canDualWield = value and true or false
 end
 
 -- get the current setting for dual wielding for this set
 function Set:CanDualWield()
-    return self.canDualWield
+    return self.canDualWield or self.forceDualWield
+end
+
+function Set:ForceDualWield(force)
+    self.forceDualWield = force and true or false
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].simulateDualWield = force and true or false
+    end
+end
+
+function Set:IsDualWieldForced()
+    return self.forceDualWield
 end
 
 -- allow titan's grip for this set
-function Set:EnableTitansGrip(value) --TODO: figure out how this should interact with saved variables
+function Set:EnableTitansGrip(value)
     self.canTitansGrip = value and true or false
 end
 
 -- get the current setting for titan's grip for this set
 function Set:CanTitansGrip()
-    return self.canTitansGrip
+    return self.canTitansGrip or self.forceTitansGrip
+end
+
+function Set:ForceTitansGrip(force)
+    self.forceTitansGrip = force and true or false
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].simulateTitansGrip = force and true or false
+    end
+end
+
+function Set:IsTitansGripForced()
+    return self.forceTitansGrip
 end
 
 function Set:SetDisplayInTooltip(enable) -- [TODO]
     self.displayInTooltip = enable and true or false
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].excludeFromTooltip = (not enable) and true or false
+    end
 end
 function Set:GetDisplayInTooltip() -- [TODO]
     return self.displayInTooltip
@@ -229,7 +259,7 @@ function Set:GetItemScore(item, useRaw)
         local rawScore = 0
         local rawModifier = 0
         -- iterate given weights
-        for stat, statValue in pairs(set) do
+        for stat, statValue in pairs(self.weights) do
             if itemTable.itemBonus[stat] then
                 -- check for hard cap on this stat
                 if not self.caps[stat] then

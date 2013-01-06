@@ -70,7 +70,7 @@ function OptimizerPlugin:OnShow()
     -- sort gems by score, descending
     for _, subTable in pairs(bestGems) do
         table.sort(subTable, function(a, b)
-            local scoreA, scoreB = ns:GetItemScore(a.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation), ns:GetItemScore(b.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation)
+            local scoreA, scoreB = set:GetItemScore(a.itemLink), set:GetItemScore(b.itemLink)
             return scoreB < scoreA
         end)
     end

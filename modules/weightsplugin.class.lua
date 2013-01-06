@@ -27,10 +27,10 @@ local exposedSettings = {
 	{"Enable hit conversion", "Check to enable spirit to hit conversion, even if it does not apply to your current spec", "GetHitConversion", "SetHitConversion", function(playerClass)
 		return playerClass == "DRUID" or playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "PRIEST" or playerClass == "SHAMAN"
 	end},
-	{ns.locale.StatsEnableDualWield, ns.locale.StatsEnableDualWieldTooltip, "CanDualWield", "EnableDualWield", function(playerClass)
+	{ns.locale.StatsEnableDualWield, ns.locale.StatsEnableDualWieldTooltip, "IsDualWieldForced", "ForceDualWield", function(playerClass)
 		return playerClass == "SHAMAN" or playerClass == "WARRIOR" or playerClass == "MONK"
 	end},
-	{ns.locale.StatsEnableTitansGrip, ns.locale.StatsEnableTitansGripTooltip, "CanTitansGrip", "EnableTitansGrip", function(playerClass)
+	{ns.locale.StatsEnableTitansGrip, ns.locale.StatsEnableTitansGripTooltip, "IsTitansGripForced", "ForceTitansGrip", function(playerClass)
 		return playerClass == "WARRIOR"
 	end},
 }
