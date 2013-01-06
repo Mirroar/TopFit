@@ -18,64 +18,57 @@ function WeightsPlugin:Initialize()
 	self:RegisterConfigPanel()
 end
 
-function WeightsPlugin.InitializeSettingsArea()
+local exposedSettings = {
+	-- label, tooltip, set:get_handler, set:set_handler, shown_func
+	{ns.locale.StatsShowTooltip, ns.locale.StatsShowTooltipTooltip, "GetDisplayInTooltip", "SetDisplayInTooltip"},
+	{ns.locale.StatsForceArmorType, ns.locale.StatsForceArmorTypeTooltip, "GetForceArmorType", "SetForceArmorType", function(playerClass)
+		return playerClass ~= "PRIEST" and playerClass ~= "WARLOCK" and playerClass ~= "MAGE"
+	end},
+	{"Enable hit conversion", "Check to enable spirit to hit conversion, even if it does not apply to your current spec", "GetHitConversion", "SetHitConversion", function(playerClass)
+		return playerClass == "DRUID" or playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "PRIEST" or playerClass == "SHAMAN"
+	end},
+	{ns.locale.StatsEnableDualWield, ns.locale.StatsEnableDualWieldTooltip, "CanDualWield", "EnableDualWield", function(playerClass)
+		return playerClass == "SHAMAN" or playerClass == "WARRIOR" or playerClass == "MONK"
+	end},
+	{ns.locale.StatsEnableTitansGrip, ns.locale.StatsEnableTitansGripTooltip, "CanTitansGrip", "EnableTitansGrip", function(playerClass)
+		return playerClass == "WARRIOR"
+	end},
+}
+-- [TODO] spirit/hit conversion: Druid#33596, Monk#115070 (50% hit, 50% expertise), Paladin#112859 (flat 15% hit), Priest#122098 (flat 15% hit), Shaman#30674, Shaman#112858 (flat 15% hit)
+
+function WeightsPlugin.InitializeExposedSettings()
 	local frame = WeightsPlugin:GetConfigPanel()
 	local _, playerClass = UnitClass("player")
 
-	local showInTooltip, showInTooltipLabel = tekCheck.new(frame, nil, ns.locale.StatsShowTooltip,
-		"TOPLEFT", frame:GetParent():GetName().."Description", "TOPLEFT", 0, 6)
-	showInTooltip.tiptext = ns.locale.StatsShowTooltipTooltip
-	showInTooltip.setting = "excludeFromTooltip"
-	showInTooltip:SetScript("OnClick", function(self)
-		PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-		local set = ns.GetSetByID(ns.selectedSet, true)
-		set:SetDisplayInTooltip( self:GetChecked() )
-	end)
-	frame.showInTooltip = showInTooltip
+	local label, tooltip, getFunc, setFunc, showFunc
+	local button, buttonLabel, anchor, positionIndex, clickSound
+	for i, setting in ipairs(exposedSettings) do
+		label, tooltip, getFunc, setFunc, showFunc = setting[1], setting[2], setting[3], setting[4], setting[5]
+		if not showFunc or showFunc(playerClass) then
+			button, buttonLabel = tekCheck.new(frame, nil, label or "") -- nil = use default size
+			button.tiptext = tooltip
 
-	if playerClass == "PRIEST" or playerClass == "WARLOCK" or playerClass == "MAGE" then
-		-- we're done
-		return
-	end
+			positionIndex = (positionIndex or 0) + 1
+			frame["exposedSetting"..positionIndex] = button
 
-	local forceArmorType, forceArmorTypeLabel = tekCheck.new(frame, nil, ns.locale.StatsForceArmorType,
-		"TOPLEFT", showInTooltip, "BOTTOMLEFT", 0, 4)
-	forceArmorType.tiptext = ns.locale.StatsForceArmorTypeTooltip
-	forceArmorType:SetScript("OnClick", function(self)
-		PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-		local set = ns.GetSetByID(ns.selectedSet, true)
-		set:SetForceArmorType( self:GetChecked() )
-	end)
-	frame.forceArmorType = forceArmorType
+			if positionIndex == 1 then
+				button:SetPoint("TOPLEFT", _G[frame:GetParent():GetName().."Description"], 0, 6)
+			elseif positionIndex == 3 then
+				-- first box in second column
+				button:SetPoint("TOPLEFT", frame["exposedSetting1"], 190, 0)
+			else
+				button:SetPoint("TOPLEFT", frame["exposedSetting"..(positionIndex - 1)], "BOTTOMLEFT", 0, 4)
+			end
 
-	if playerClass == "SHAMAN" or playerClass == "WARRIOR" or playerClass == "MONK" then
-		local dualWield, dualWieldLabel = tekCheck.new(frame, nil, ns.locale.StatsEnableDualWield,
-			"TOPLEFT", showInTooltip, "TOPLEFT", 190, 0)
-		dualWield.tiptext = TopFit.locale.StatsEnableDualWieldTooltip
-		dualWield:SetScript("OnClick", function(self)
-			PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-			local set = ns.GetSetByID(ns.selectedSet, true)
-			set:EnableDualWield( self:GetChecked() )
-		end)
-		frame.dualWield = dualWield
-
-		if playerClass ~= "WARRIOR" then
-			-- we're done
-			return
+			clickSound = clickSound or button:GetScript("OnClick")
+			button.updateHandler = getFunc
+			button:SetScript("OnClick", function(self)
+				clickSound()
+				local set = ns.GetSetByID(ns.selectedSet, true)
+				set[setFunc](set, self:GetChecked())
+			end)
 		end
-
-		local titansGrip, titansGripLabel = tekCheck.new(frame, nil, ns.locale.StatsEnableTitansGrip,
-			"TOPLEFT", dualWield, "BOTTOMLEFT", 0, 4)
-		titansGrip.tiptext = TopFit.locale.StatsEnableTitansGripTooltip
-		titansGrip:SetScript("OnClick", function(self)
-			PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-			local set = ns.GetSetByID(ns.selectedSet, true)
-			set:EnableTitansGrip( self:GetChecked() )
-		end)
-		frame.titansGrip = titansGrip
 	end
-
-	-- [TODO] spirit/hit conversion: Druid#33596, Monk#115070 (50% hit, 50% expertise), Paladin#112859 (flat 15% hit), Priest#122098 (flat 15% hit), Shaman#30674, Shaman#112858 (flat 15% hit)
 end
 
 function WeightsPlugin.InitializeHeaderActions()
@@ -98,8 +91,9 @@ function WeightsPlugin.InitializeHeaderActions()
 		  delete:SetPoint("LEFT", changeName, "RIGHT", 6, 0)
 		  delete:SetNormalTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
 		  delete:SetAlpha(.5)
-	delete:SetScript("OnEnter", function(self) self:SetAlpha(1) end) -- [TODO] tooltip?
-	delete:SetScript("OnLeave", function(self) self:SetAlpha(.5) end)
+		  delete.tipText = ns.locale.DeleteSetTooltip
+	delete:SetScript("OnEnter", function(self) self:SetAlpha(1); ns.ShowTooltip(self) end)
+	delete:SetScript("OnLeave", function(self) self:SetAlpha(.5); ns.HideTooltip() end)
 	delete:SetScript("OnClick", function(self, btn)
 		ns.currentlyDeletingSetID = ns.selectedSet
 		StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
@@ -124,12 +118,28 @@ function WeightsPlugin.ShowEditLine(statLine, btn)
 	editLine:SetPoint("TOPRIGHT", statLine, "RIGHT") --]]
 	statLine.value:Hide()
 
-	editLine:SetAllPoints(statLine)
-	editLine.value.stat = statLine.stat
-	editLine.value:SetText(string.format("%s", tonumber(statLine.value:GetText()))) -- %.3f
+	editLine.value:SetText( tonumber(statLine.value:GetText()) ) -- %.3f
 	editLine.value:SetFocus()
 	editLine.value:Show()
+
+	editLine.stat = statLine.stat
+	editLine:SetAllPoints(statLine)
 	editLine:Show()
+end
+
+function WeightsPlugin.ShowDummyCap(statLine)
+	local set = ns.GetSetByID(ns.selectedSet)
+	local capValue = set:GetHardCap(statLine.stat)
+
+	if not capValue or capValue == 0 then
+		statLine.capValue:SetText("|TInterface\\PaperDollInfoFrame\\Character-Plus:0|t")
+	else
+		statLine.capValue:SetText(set:GetHardCap(statLine.stat))
+	end
+end
+function WeightsPlugin.HideDummyCap(statLine)
+	local set = ns.GetSetByID(ns.selectedSet)
+	statLine.capValue:SetText(set:GetHardCap(statLine.stat) or "")
 end
 
 function WeightsPlugin:SetStatLine(i, stat, value, capValue)
@@ -143,16 +153,23 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 			statLine:SetPoint("TOPLEFT")
 			statLine:SetPoint("TOPRIGHT")
 		else
-			statLine:SetPoint("TOPLEFT", "$parentStatLine"..(i-1), "BOTTOMLEFT", 0, -2)
-			statLine:SetPoint("TOPRIGHT", "$parentStatLine"..(i-1), "BOTTOMRIGHT", 0, -2)
+			statLine:SetPoint("TOPLEFT", "$parentStatLine"..(i-1), "BOTTOMLEFT")
+			statLine:SetPoint("TOPRIGHT", "$parentStatLine"..(i-1), "BOTTOMRIGHT")
 
 			statLine:SetScript("OnClick", WeightsPlugin.ShowEditLine)
+			statLine:SetScript("OnEnter", WeightsPlugin.ShowDummyCap)
+			statLine:SetScript("OnLeave", WeightsPlugin.HideDummyCap)
 			statLine:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
 			-- blue-ish: "Interface\\Buttons\\UI-Common-MouseHilight"
 		end
 
 		if i%2 ~= 0 then
-			statLine:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"})
+			-- statLine:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"})
+			local bgTex = statLine:CreateTexture(nil, "BACKGROUND")
+				  bgTex:SetTexture(1, 1, 1, 0.15)
+				  bgTex:SetHorizTile(true)
+				  bgTex:SetVertTile(true)
+				  bgTex:SetAllPoints()
 		end
 
 		statLine:SetHeight(lineHeight) -- GameTooltipHeaderText, GameFontHighlightMedium, GameFontDisable
@@ -161,6 +178,9 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 		statLine.value = statLine:CreateFontString("$parentValue", "ARTWORK", i==0 and "GameFontHighlight" or "GameFontNormal")
 		statLine.value:SetPoint("TOPRIGHT", -2, -2)
 		statLine.capValue = statLine:CreateFontString("$parentCapValue", "ARTWORK", i==0 and "GameFontHighlight" or "GameFontHighlight")
+		-- [TODO] T.T
+		-- statLine.capValue = CreateFrame("Button", "$parentCapValue", statLine)
+		-- statLine.capValue:SetSize(60, lineHeight-4)
 		statLine.capValue:SetPoint("TOPRIGHT", -80, -2)
 	end
 
@@ -241,24 +261,25 @@ function WeightsPlugin:InitializeUI()
 
 	-- set up basic set settings
 	ns.ui.SetHeaderDescription(frame, nil) -- we need that space!
-	self.InitializeSettingsArea()
+	self.InitializeExposedSettings()
 
 	self.InitializeHeaderActions()
 
 	-- edit stat weights
 	local editLine = CreateFrame("Frame", "$parentEditStat", frame)
+		  -- editLine:SetFrameStrata("HIGH")
 		  editLine:SetHeight(lineHeight)
 		--   editLine:EnableMouse(true)
 		  editLine:Hide()
---[[
-	local text = editLine:CreateFontString("$parentText", "ARTWORK", "GameFontNormal")
-	text:Raise()
-	text:SetFormattedText("Reach at least %1$s points, worth %2$s each.", "|T:120:0|t", "|T:120:0|t")
-	text:SetJustifyH("LEFT")
-	text:SetPoint("TOPLEFT", 2, -2)
-	text:SetPoint("TOPRIGHT", -2, -2)
-	editLine.text = text
---]]
+	--[[
+		local text = editLine:CreateFontString("$parentText", "ARTWORK", "GameFontNormal")
+		text:Raise()
+		text:SetFormattedText("Reach at least %1$s points, worth %2$s each.", "|T:120:0|t", "|T:120:0|t")
+		text:SetJustifyH("LEFT")
+		text:SetPoint("TOPLEFT", 2, -2)
+		text:SetPoint("TOPRIGHT", -2, -2)
+		editLine.text = text
+	--]]
 	local value = CreateFrame("EditBox", "$parentValue", editLine) -- , "InputBoxTemplate")
 		value:SetFontObject("ChatFontNormal")
 		value:SetJustifyH("RIGHT")
@@ -278,13 +299,38 @@ function WeightsPlugin:InitializeUI()
 		value:SetScript("OnEnterPressed", function(self)
 			local value = tonumber( self:GetText() )
 			local set = ns.GetSetByID( ns.selectedSet )
+			set:SetStatWeight(self:GetParent().stat, value ~= 0 and value or nil)
 
-			print(type(value), value, self.stat) -- [TODO]
-			-- set:SetStatWeight(stat, value ~= 0 and value or nil)
 			EditBox_ClearFocus(self)
 			WeightsPlugin:OnShow()
 		end)
 	editLine.value = value
+
+	local capValue = CreateFrame("EditBox", "$parentCapValue", editLine)
+		capValue:SetFontObject("ChatFontNormal")
+		capValue:SetJustifyH("RIGHT")
+		capValue:SetAutoFocus(false)
+		capValue:SetSize(60, lineHeight-4)
+		capValue:SetPoint("TOPRIGHT", -2 - 80, -2)
+
+		capValue:SetScript("OnEditFocusGained", EditBox_HighlightText)
+		capValue:SetScript("OnEditFocusLost", function(self)
+			EditBox_ClearHighlight(self)
+			self:Hide()
+		end)
+		capValue:SetScript("OnEscapePressed", function(self)
+			EditBox_ClearFocus(self)
+			WeightsPlugin:OnShow()
+		end)
+		capValue:SetScript("OnEnterPressed", function(self)
+			local value = tonumber( self:GetText() )
+			local set = ns.GetSetByID( ns.selectedSet )
+			set:SetHardCap(self:GetParent().stat, value ~= 0 and value or nil)
+
+			EditBox_ClearFocus(self)
+			WeightsPlugin:OnShow()
+		end)
+	editLine.capValue = capValue
 
 	-- add new stats button
 	local newStat = CreateFrame("Button", "$parentAddStat", frame)
@@ -302,12 +348,16 @@ function WeightsPlugin:InitializeUI()
 		  newStatText:SetTextColor(GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b)
 		  newStatText:SetText("|TInterface\\PaperDollInfoFrame\\Character-Plus:0|t "..ADD_ANOTHER)
 	newStat:SetSize( newStatText:GetWidth(), newStatText:GetHeight() )
+
+	local padding = CreateFrame("Frame")
+		  padding:SetPoint("TOPLEFT", newStat, "BOTTOMLEFT")
+		  padding:SetSize(1, 25)
 end
 
 local function SortStats(a, b)
 	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
 	local cappedA, cappedB = set.caps[a] and set.caps[a].value or 0, set.caps[b] and set.caps[b].value or 0
-	local weightA, weightB = set.weights[a], set.weights[b]
+	local weightA, weightB = set.weights[a] or 0, set.weights[b] or 0
 
 	if (_G[a] and 1 or 0) ~= (_G[b] and 1 or 0) then
 		-- put sets and other pseude-stats at the end
@@ -329,10 +379,14 @@ function WeightsPlugin:OnShow()
 	ns.ui.SetHeaderSubTitle(frame, set:GetName())
 	ns.ui.SetHeaderSubTitleIcon(frame, set:GetIconTexture(), 0, 1, 0, 1)
 
-	if frame.showInTooltip then frame.showInTooltip:SetChecked( set:GetDisplayInTooltip() ) end
-	if frame.forceArmorType then frame.forceArmorType:SetChecked( set:GetForceArmorType() ) end
-	if frame.dualWield then frame.dualWield:SetChecked( set:CanDualWield() ) end
-	if frame.titansGrip then frame.titansGrip:SetChecked( set:CanTitansGrip() ) end
+	local index, func = 1, nil
+	while frame["exposedSetting"..index] do
+		func = frame["exposedSetting"..index].updateHandler
+		if func and set[func] then
+			frame["exposedSetting"..index]:SetChecked( set[func](set) )
+		end
+		index = index + 1
+	end
 
 	frame.stats = frame.stats or {}
 	wipe(frame.stats)
