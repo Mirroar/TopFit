@@ -63,7 +63,7 @@ function WeightsPlugin.InitializeExposedSettings()
 			clickSound = clickSound or button:GetScript("OnClick")
 			button.updateHandler = getFunc
 			button:SetScript("OnClick", function(self)
-				clickSound()
+				clickSound(self)
 				local set = ns.GetSetByID(ns.selectedSet, true)
 				set[setFunc](set, self:GetChecked())
 			end)
