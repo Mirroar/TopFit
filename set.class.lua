@@ -166,7 +166,10 @@ function Set:ClearAllHardCaps()
     wipe(self.caps)
 end
 
-function Set:Force(slotID, itemID) -- [TODO]
+function Set:ForceItem(slotID, itemID) -- [TODO]
+    local setCode = self.setID
+    if not setCode or not slotID or not itemID then return nil end
+
     if not TopFit.db.profile.sets[setCode].forced then
         TopFit.db.profile.sets[setCode].forced = {}
     end
@@ -177,7 +180,10 @@ function Set:Force(slotID, itemID) -- [TODO]
     end
 end
 
-function Set:Unforce(slotID, itemID) -- [TODO]
+function Set:UnforceItem(slotID, itemID) -- [TODO]
+    local setCode = self.setID
+    if not setCode or not slotID or not itemID then return nil end
+
     if TopFit.db.profile.sets[setCode].forced then
         if TopFit.db.profile.sets[setCode].forced[slotID] then
             for i, forcedItem in ipairs(TopFit.db.profile.sets[setCode].forced[slotID]) do
@@ -185,6 +191,20 @@ function Set:Unforce(slotID, itemID) -- [TODO]
                     tremove(TopFit.db.profile.sets[setCode].forced[slotID], i)
                     break
                 end
+            end
+        end
+    end
+end
+
+function Set:IsForcedItem(slotID, itemID) --[TODO]
+    local setCode = self.setID
+    if not setCode or not slotID or not itemID then return nil
+    elseif not TopFit.db.profile.sets[setCode].forced or not TopFit.db.profile.sets[setCode].forced[slotID] then
+        return nil
+    else
+        for _, forcedItemID in ipairs(TopFit.db.profile.sets[setCode].forced[slotID]) do
+            if forcedItemID == itemID then
+                return true
             end
         end
     end

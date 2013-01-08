@@ -267,27 +267,19 @@ local function CreateFlyoutCheckBox(parent)
 	local clickSound = button:GetScript("OnClick")
 	button:SetScript("OnClick", function(self, btn)
 		clickSound(self)
-
 		local flyoutButton = self:GetParent()
-		local item = EquipmentManager_GetItemInfoByLocation(flyoutButton.location)
-		if item then
-			item = ns:GetCachedItem(item)
-			item = item.itemID
-		else
-			item = flyoutButton.TopFitItemID
-		end
-
-		local set = ns.GetSetByID(ns.selectedSet)
+		local set = ns.GetSetByID(ns.selectedSet, true)
 		if self:GetChecked() then
-			set:Force(flyoutButton.id, item)
+			set:ForceItem(flyoutButton.id, flyoutButton.TopFitItemID)
 		else
-			set:Unforce(flyoutButton.id, item)
+			set:UnforceItem(flyoutButton.id, flyoutButton.TopFitItemID)
 		end
 	end)
 
 	parent.TopFitCheckBox = button
 	return button
 end
+-- [TODO] also enable forcing of currently equipped item
 local function UpdateFlyoutCheckBox(button, paperDollItemSlot)
 	local checkbox = button.TopFitCheckBox
 	if not button.location or (button.location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION and button.location <= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10) then
@@ -297,8 +289,13 @@ local function UpdateFlyoutCheckBox(button, paperDollItemSlot)
 		return
 	end
 
-	-- local id, name, textureName, count, durability, maxDurability, invType, locked, start, duration, enable, setTooltip = EquipmentManager_GetItemInfoByLocation(location)
+	local set = ns.GetSetByID(ns.selectedSet, true)
+	local itemID = EquipmentManager_GetItemInfoByLocation(button.location) or button.location - EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION - 10
+	button.TopFitItemID = itemID
+
+	local isForced = set:IsForcedItem(button.id or paperDollItemSlot:GetID(), itemID)
 	local checkbox = checkbox or CreateFlyoutCheckBox(button)
+		  checkbox:SetChecked(isForced)
 		  checkbox:Show()
 end
 hooksecurefunc("EquipmentFlyout_DisplayButton", UpdateFlyoutCheckBox)
@@ -309,14 +306,13 @@ local function PostGetItemsFunc(itemButton, itemDisplayTable, numItems) -- [TODO
 		numItems = _PostGetItemsFunc(itemButton, itemDisplayTable, numItems)
 	end
 
-	local set = ns.GetSetByID(ns.selectedSet)
+	local set = ns.GetSetByID(ns.selectedSet, true)
 	local forcedItems = set:GetForcedItems( itemButton.id or itemButton:GetID() )
 	local index = 0
     for _, itemID in pairs(forcedItems) do
         if GetItemCount(itemID) == 0 then -- add <, true> to also check bank
         	index = index + 1
             table.insert(itemDisplayTable, EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10 + itemID) -- 10 > 3 special buttons Blizz uses
-            print("added missing forced item", itemID)
         end
     end
 
@@ -329,7 +325,8 @@ local function UpdateSpecialFlyoutButton(button, paperDollItemSlot)
 	local itemID = button.location - (EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10)
 	button.TopFitItemID = itemID
 
-	SetItemButtonTexture(button, "Interface\\Icons\\INV_Misc_QuestionMark")
+	local texture = select(10, GetItemInfo(itemID)) or "Interface\\Icons\\INV_Misc_QuestionMark"
+	SetItemButtonTexture(button, texture)
     SetItemButtonCount(button, nil)
     button.UpdateTooltip = function ()
 		GameTooltip:SetOwner(EquipmentFlyoutFrame.buttonFrame, "ANCHOR_RIGHT", 6, -EquipmentFlyoutFrame.buttonFrame:GetHeight() - 6)
