@@ -254,3 +254,89 @@ hooksecurefunc("ToggleCharacter", ui.Initialize)
 -- mini slot icons
 -- ----------------------------------------------
 -- [TODO]
+
+-- ----------------------------------------------
+-- item flyout forcing
+-- ----------------------------------------------
+local tekCheck = LibStub("tekKonfig-Checkbox")
+local function CreateFlyoutCheckBox(parent)
+	local button = tekCheck.new(parent, 20, "", "BOTTOMLEFT", -4, -4)
+	button:SetHitRectInsets(0, 0, 0, 0)
+	button.tiptext = ns.locale.FlyoutTooltip
+
+	local clickSound = button:GetScript("OnClick")
+	button:SetScript("OnClick", function(self, btn)
+		clickSound(self)
+
+		local flyoutButton = self:GetParent()
+		local item = EquipmentManager_GetItemInfoByLocation(flyoutButton.location)
+		if item then
+			item = ns:GetCachedItem(item)
+			item = item.itemID
+		else
+			item = flyoutButton.TopFitItemID
+		end
+
+		local set = ns.GetSetByID(ns.selectedSet)
+		if self:GetChecked() then
+			set:Force(flyoutButton.id, item)
+		else
+			set:Unforce(flyoutButton.id, item)
+		end
+	end)
+
+	parent.TopFitCheckBox = button
+	return button
+end
+local function UpdateFlyoutCheckBox(button, paperDollItemSlot)
+	local checkbox = button.TopFitCheckBox
+	if not button.location or (button.location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION and button.location <= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10) then
+		if checkbox then
+			checkbox:Hide()
+		end
+		return
+	end
+
+	-- local id, name, textureName, count, durability, maxDurability, invType, locked, start, duration, enable, setTooltip = EquipmentManager_GetItemInfoByLocation(location)
+	local checkbox = checkbox or CreateFlyoutCheckBox(button)
+		  checkbox:Show()
+end
+hooksecurefunc("EquipmentFlyout_DisplayButton", UpdateFlyoutCheckBox)
+
+local _PostGetItemsFunc = PaperDollItemsFrame.flyoutSettings.postGetItemsFunc -- PaperDollFrameItemFlyout_PostGetItems
+local function PostGetItemsFunc(itemButton, itemDisplayTable, numItems) -- [TODO] GetForcedItems is writable!
+	if _PostGetItemsFunc then
+		numItems = _PostGetItemsFunc(itemButton, itemDisplayTable, numItems)
+	end
+
+	local set = ns.GetSetByID(ns.selectedSet)
+	local forcedItems = set:GetForcedItems( itemButton.id or itemButton:GetID() )
+	local index = 0
+    for _, itemID in pairs(forcedItems) do
+        if GetItemCount(itemID) == 0 then -- add <, true> to also check bank
+        	index = index + 1
+            table.insert(itemDisplayTable, EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10 + itemID) -- 10 > 3 special buttons Blizz uses
+            print("added missing forced item", itemID)
+        end
+    end
+
+    return numItems + index
+end
+PaperDollItemsFrame.flyoutSettings.postGetItemsFunc = PostGetItemsFunc
+
+local function UpdateSpecialFlyoutButton(button, paperDollItemSlot)
+	if button.location <= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10 then return end
+	local itemID = button.location - (EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10)
+	button.TopFitItemID = itemID
+
+	SetItemButtonTexture(button, "Interface\\Icons\\INV_Misc_QuestionMark")
+    SetItemButtonCount(button, nil)
+    button.UpdateTooltip = function ()
+		GameTooltip:SetOwner(EquipmentFlyoutFrame.buttonFrame, "ANCHOR_RIGHT", 6, -EquipmentFlyoutFrame.buttonFrame:GetHeight() - 6)
+		GameTooltip:SetText(ns.locale.missingForcedItemTooltip, 1.0, 1.0, 1.0)
+		GameTooltip:Show()
+    end
+    SetItemButtonTextureVertexColor(button, 1, 0, 0)
+    SetItemButtonNormalTextureVertexColor(button, 1, 1, 1)
+end
+hooksecurefunc("EquipmentFlyout_DisplaySpecialButton", UpdateSpecialFlyoutButton)
