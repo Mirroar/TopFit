@@ -166,6 +166,47 @@ function Set:ClearAllHardCaps()
     wipe(self.caps)
 end
 
+function Set:Force(slotID, itemID) -- [TODO]
+    if not TopFit.db.profile.sets[setCode].forced then
+        TopFit.db.profile.sets[setCode].forced = {}
+    end
+    if not TopFit.db.profile.sets[setCode].forced[slotID] then
+        TopFit.db.profile.sets[setCode].forced[slotID] = {itemID}
+    else
+        tinsert(TopFit.db.profile.sets[setCode].forced[slotID], itemID)
+    end
+end
+
+function Set:Unforce(slotID, itemID) -- [TODO]
+    if TopFit.db.profile.sets[setCode].forced then
+        if TopFit.db.profile.sets[setCode].forced[slotID] then
+            for i, forcedItem in ipairs(TopFit.db.profile.sets[setCode].forced[slotID]) do
+                if forcedItem == itemID then
+                    tremove(TopFit.db.profile.sets[setCode].forced[slotID], i)
+                    break
+                end
+            end
+        end
+    end
+end
+
+function Set:GetForcedItems(slotID) -- [TODO]
+    local setCode = self.setID
+    if not setCode then return {} end
+
+    if slotID then
+        -- return for this slot {item1, item2}
+        if not TopFit.db.profile.sets[setCode].forced or not TopFit.db.profile.sets[setCode].forced[slotID] then
+            return {}
+        elseif type(TopFit.db.profile.sets[setCode].forced[slotID]) ~= "table" then
+            TopFit.db.profile.sets[setCode].forced[slotID] = {TopFit.db.profile.sets[setCode].forced[slotID]}
+        end
+        return TopFit.db.profile.sets[setCode].forced[slotID]
+    else
+        -- return for all slots, { slotID = {item1, item2}, ...}
+    end
+end
+
 -- allow dual wielding for this set
 function Set:EnableDualWield(value)
     self.canDualWield = value and true or false
