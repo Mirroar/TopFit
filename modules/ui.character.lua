@@ -259,10 +259,10 @@ hooksecurefunc("ToggleCharacter", ui.Initialize)
 -- item flyout forcing
 -- ----------------------------------------------
 local tekCheck = LibStub("tekKonfig-Checkbox")
-local function CreateFlyoutCheckBox(parent)
-	local button = tekCheck.new(parent, 20, "", "BOTTOMLEFT", -4, -4)
+local function CreateFlyoutCheckBox(itemButton)
+	local button = tekCheck.new(itemButton, 20, "", "BOTTOMLEFT", -4, -4)
 	button:SetHitRectInsets(0, 0, 0, 0)
-	button.tiptext = ns.locale.FlyoutTooltip
+	button.tiptext = ns.locale.FlyoutTooltip -- [TODO] inform user when checkbox displayed for current item?
 
 	local clickSound = button:GetScript("OnClick")
 	button:SetScript("OnClick", function(self, btn)
@@ -276,24 +276,27 @@ local function CreateFlyoutCheckBox(parent)
 		end
 	end)
 
-	parent.TopFitCheckBox = button
+	itemButton.TopFitCheckBox = button
 	return button
 end
--- [TODO] also enable forcing of currently equipped item
 local function UpdateFlyoutCheckBox(button, paperDollItemSlot)
-	local checkbox = button.TopFitCheckBox
-	if not button.location or (button.location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION and button.location <= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10) then
-		if checkbox then
-			checkbox:Hide()
-		end
+	local itemID
+	local checkbox, slotID = button.TopFitCheckBox, button.id or paperDollItemSlot:GetID()
+	if button.location and button.location == EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 2 then
+		-- "put into bag" button, used for current equip
+		itemID = GetInventoryItemLink("player", slotID)
+	elseif not button.location or (button.location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION and button.location <= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10) then
+		-- special buttons that we don't care about
+		if checkbox then checkbox:Hide() end
 		return
+	else
+		-- regular item button
+		itemID = EquipmentManager_GetItemInfoByLocation(button.location) or button.location - EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION - 10
 	end
-
-	local set = ns.GetSetByID(ns.selectedSet, true)
-	local itemID = EquipmentManager_GetItemInfoByLocation(button.location) or button.location - EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION - 10
 	button.TopFitItemID = itemID
 
-	local isForced = set:IsForcedItem(button.id or paperDollItemSlot:GetID(), itemID)
+	local set = ns.GetSetByID(ns.selectedSet, true)
+	local isForced = set:IsForcedItem(slotID, itemID)
 	local checkbox = checkbox or CreateFlyoutCheckBox(button)
 		  checkbox:SetChecked(isForced)
 		  checkbox:Show()
