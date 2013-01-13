@@ -426,7 +426,6 @@ function ui.ToggleTopFitConfigFrame()
 			local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
 			ns:CreateEquipmentSet(ns.db.profile.sets[setCode].name)
 			ToggleDropDownMenu(nil, nil, dropDown)
-			ns:CalculateScores()
 
 			local panel = ui.GetActivePanel() -- [TODO] currently not working as expected?
 			if panel.OnUpdate then

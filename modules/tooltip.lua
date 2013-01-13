@@ -234,13 +234,13 @@ end
 
 function TopFit:getComparePercentage(itemTable, setCode)
     if not itemTable or not setCode then return 0 end
-    local setTable = TopFit.db.profile.sets[setCode]
-    if not setTable then return 0 end
+    local set = ns.GetSetByID(setCode)
+    if not set then return 0 end
 
     local rawScore, asIsScore, rawCompareScore, asIsCompareScore = 0, 0, 0, 0
 
-    rawScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, true) -- including caps, raw score
-    asIsScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, false) -- including caps, enchanted score
+    rawScore = set:GetItemScore(itemTable.itemLink, true) -- including caps, raw score
+    asIsScore = set:GetItemScore(itemTable.itemLink, false) -- including caps, enchanted score
 
     if true then return 0 end
 
@@ -296,8 +296,8 @@ function TopFit:getComparePercentage(itemTable, setCode)
             compareTable = TopFit:GetCachedItem(setItemLinks[16])
 
             if compareTable then
-                rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
-                asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
+                rawCompareScore = set:GetItemScore(compareTable.itemLink, true)
+                asIsCompareScore = set:GetItemScore(compareTable.itemLink, false)
             else
                 compareNotCached = true
             end
@@ -305,15 +305,15 @@ function TopFit:getComparePercentage(itemTable, setCode)
     end
 
     if itemTable2 then
-        rawScore = rawScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, true)
-        asIsScore = asIsScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, false)
+        rawScore = rawScore + set:GetItemScore(itemTable2.itemLink, true)
+        asIsScore = asIsScore + set:GetItemScore(itemTable2.itemLink, false)
 
         extraText = extraText..", if you also use "..itemTable2.itemLink
     end
 
     if compareTable2 then
-        rawCompareScore = rawCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, true)
-        asIsCompareScore = asIsCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, false)
+        rawCompareScore = rawCompareScore + set:GetItemScore(compareTable2.itemLink, true)
+        asIsCompareScore = asIsCompareScore + set:GetItemScore(compareTable2.itemLink, false)
 
         extraText = extraText..", "..compareTable2.itemLink
     end
@@ -344,9 +344,9 @@ function TopFit:getComparePercentage(itemTable, setCode)
     end
 
     if ratio ~= rawRatio then
-        tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, setTable.name)
+        tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, set:GetName())
     else
-        tt:AddDoubleLine("["..percentilize(rawRatio).."] - "..compareItemText..extraText, setTable.name)
+        tt:AddDoubleLine("["..percentilize(rawRatio).."] - "..compareItemText..extraText, set:GetName())
     end
 end
 
@@ -369,11 +369,13 @@ local function TooltipAddCompareLines(tt, link)
     -- iterate all sets and compare with set's items
     tt:AddLine(" ")
     tt:AddLine("Compared with your current items for each set:")
-    for setCode, setTable in pairs(TopFit.db.profile.sets) do
+    local sets = ns.GetSetList()
+    for _, setCode in ipairs(sets) do
+        local set = ns.GetSetByID(setCode, true)
         if not TopFit.db.profile.sets[setCode].excludeFromTooltip then
             -- find current item(s) from set
-            local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(setTable.name))
-            local itemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(setTable.name))
+            local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(set:GetName()))
+            local itemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(set:GetName()))
             local itemLinks = {}
             if itemPositions then
                 for slotID, itemLocation in pairs(itemPositions) do
@@ -412,8 +414,8 @@ local function TooltipAddCompareLines(tt, link)
                     local compareTable2 = nil
                     local compareNotCached = false
 
-                    rawScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, true) -- including caps, raw score
-                    asIsScore = TopFit:GetItemScore(itemTable.itemLink, setCode, false, false) -- including caps, enchanted score
+                    rawScore = set:GetItemScore(itemTable.itemLink, true) -- including caps, raw score
+                    asIsScore = set:GetItemScore(itemTable.itemLink, false) -- including caps, enchanted score
 
                     if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 and itemIDs[slotID] ~= 0 then
                         itemID = itemIDs[slotID]
@@ -424,8 +426,8 @@ local function TooltipAddCompareLines(tt, link)
                         end
 
                         if compareTable then
-                            rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
-                            asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
+                            rawCompareScore = set:GetItemScore(compareTable.itemLink, true)
+                            asIsCompareScore = set:GetItemScore(compareTable.itemLink, false)
                         else
                             compareNotCached = true
                         end
@@ -503,8 +505,8 @@ local function TooltipAddCompareLines(tt, link)
                             compareTable = TopFit:GetCachedItem(itemLinks[16])
 
                             if compareTable then
-                                rawCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, true)
-                                asIsCompareScore = TopFit:GetItemScore(compareTable.itemLink, setCode, false, false)
+                                rawCompareScore = set:GetItemScore(compareTable.itemLink, true)
+                                asIsCompareScore = set:GetItemScore(compareTable.itemLink, false)
                             else
                                 compareNotCached = true
                             end
@@ -512,15 +514,15 @@ local function TooltipAddCompareLines(tt, link)
                     end
 
                     if itemTable2 then
-                        rawScore = rawScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, true)
-                        asIsScore = asIsScore + TopFit:GetItemScore(itemTable2.itemLink, setCode, false, false)
+                        rawScore = rawScore + set:GetItemScore(itemTable2.itemLink, true)
+                        asIsScore = asIsScore + set:GetItemScore(itemTable2.itemLink, false)
 
                         extraText = extraText..", if you also use "..itemTable2.itemLink
                     end
 
                     if compareTable2 then
-                        rawCompareScore = rawCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, true)
-                        asIsCompareScore = asIsCompareScore + TopFit:GetItemScore(compareTable2.itemLink, setCode, false, false)
+                        rawCompareScore = rawCompareScore + set:GetItemScore(compareTable2.itemLink, true)
+                        asIsCompareScore = asIsCompareScore + set:GetItemScore(compareTable2.itemLink, false)
 
                         extraText = extraText..", "..compareTable2.itemLink
                     end
@@ -551,9 +553,9 @@ local function TooltipAddCompareLines(tt, link)
                     end
 
                     if ratio ~= rawRatio then
-                        tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, setTable.name)
+                        tt:AddDoubleLine("["..percentilize(rawRatio).."/"..percentilize(ratio).."] - "..compareItemText..extraText, set:GetName())
                     else
-                        tt:AddDoubleLine("["..percentilize(rawRatio).."] - "..compareItemText..extraText, setTable.name)
+                        tt:AddDoubleLine("["..percentilize(rawRatio).."] - "..compareItemText..extraText, set:GetName())
                     end
                 end
             end
@@ -672,14 +674,16 @@ local function TooltipAddLines(tt, link)
     if (TopFit.db.profile.showTooltip) then
         -- scores for sets
         local first = true
-        for setCode, setTable in pairs(TopFit.db.profile.sets) do
-            if not TopFit.db.profile.sets[setCode].excludeFromTooltip then
+        local sets = ns.GetSetList()
+        for _, setCode in pairs(sets) do
+            local set = ns.GetSetByID(setCode)
+            if set:GetDisplayInTooltip() then
                 if first then
                     first = false
                     tt:AddLine("Set Values:", 0.6, 1, 0.7)
                 end
 
-                tt:AddLine("  "..round(TopFit:GetItemScore(itemTable.itemLink, setCode), 2).." - "..setTable.name, 0.6, 1, 0.7)
+                tt:AddLine("  "..round(set:GetItemScore(itemTable.itemLink), 2).." - "..set:GetName(), 0.6, 1, 0.7)
             end
         end
     end

@@ -504,7 +504,8 @@ function TopFit.FrameOnEvent(frame, event, arg1, ...)
                 if not newItem.bag or not TopFit:IsItemBoE(newItem.bag, newItem.slot) then
                     TopFit:Debug("New Item: "..newItem.itemLink)
                     local itemTable = TopFit:GetCachedItem(newItem.itemLink)
-                    local setCode = GetActiveSpecGroup() == 1 and TopFit.db.profile.defaultUpdateSet or TopFit.db.profile.defaultUpdateSet2
+                    local setCode = (GetActiveSpecGroup() == 1) and TopFit.db.profile.defaultUpdateSet or TopFit.db.profile.defaultUpdateSet2
+                    local set = ns.GetSetByID(setCode, true)
 
                     for _, slotID in pairs(itemTable.equipLocationsByType) do
                         -- try to get the currently used item from the player's equipment set
@@ -512,7 +513,7 @@ function TopFit.FrameOnEvent(frame, event, arg1, ...)
                         local setItemTable = TopFit:GetCachedItem(setItem)
                         if setItem and setItemTable then
                             -- if either score or any cap is higher than currently equipped, calculate
-                            if TopFit:GetItemScore(newItem.itemLink, setCode) > TopFit:GetItemScore(setItem, setCode) then
+                            if set:GetItemScore(newItem.itemLink) > set:GetItemScore(setItem) then
                                 TopFit:Debug('Higher Score!')
                                 TopFit:RunAutoUpdate(true)
                                 return

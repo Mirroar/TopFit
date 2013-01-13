@@ -312,7 +312,7 @@ function DefaultCalculation:SaveCurrentCombination()
                             local bestOff = nil
                             local bestMain = ns:CalculateBestInSlot(self.set, itemsAlreadyChosen, false, i, ns.setCode, function(locationTable) return ns:IsOnehandedWeapon(self.set, locationTable.itemLink) end)
                             if bestMain ~= nil then
-                                bestMainScore = (ns:GetItemScore(bestMain.itemLink, ns.setCode, self.set.calculationData.ignoreCapsForCalculation) or 0)
+                                bestMainScore = (self.set:GetItemScore(bestMain.itemLink) or 0)
                             end
                             if (self.set:CanDualWield()) then
                                 -- any non-two-handed offhand is fine
@@ -322,7 +322,7 @@ function DefaultCalculation:SaveCurrentCombination()
                                 bestOff = ns:CalculateBestInSlot(self.set, ns:JoinTables(itemsAlreadyChosen, {bestMain}), false, i + 1, ns.setCode, function(locationTable) local itemTable = ns:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
                             end
                             if bestOff ~= nil then
-                                bestOffScore = (ns:GetItemScore(bestOff.itemLink, ns.setCode, self.set.calculationData.ignoreCapsForCalculation) or 0)
+                                bestOffScore = (self.set:GetItemScore(bestOff.itemLink) or 0)
                             end
 
                             -- alternatively, calculate offhand first, then mainhand
@@ -337,15 +337,15 @@ function DefaultCalculation:SaveCurrentCombination()
                                 bestOff2 = ns:CalculateBestInSlot(self.set, itemsAlreadyChosen, false, i + 1, ns.setCode, function(locationTable) local itemTable = ns:GetCachedItem(locationTable.itemLink); if not itemTable or string.find(itemTable.itemEquipLoc, "WEAPON") then return false else return true end end)
                             end
                             if bestOff2 ~= nil then
-                                bestOffScore2 = (ns:GetItemScore(bestOff2.itemLink, ns.setCode, self.set.calculationData.ignoreCapsForCalculation) or 0)
+                                bestOffScore2 = (self.set:GetItemScore(bestOff2.itemLink) or 0)
                             end
 
                             bestMain2 = ns:CalculateBestInSlot(self.set, ns:JoinTables(itemsAlreadyChosen, {bestOff2}), false, i, ns.setCode, function(locationTable) return ns:IsOnehandedWeapon(self.set, locationTable.itemLink) end)
                             if bestMain2 ~= nil then
-                                bestMainScore2 = (ns:GetItemScore(bestMain2.itemLink, ns.setCode, self.set.calculationData.ignoreCapsForCalculation) or 0)
+                                bestMainScore2 = (self.set:GetItemScore(bestMain2.itemLink) or 0)
                             end
 
-                            local maxScore = (ns:GetItemScore(itemTable.itemLink, ns.setCode, self.set.calculationData.ignoreCapsForCalculation) or 0)
+                            local maxScore = (self.set:GetItemScore(itemTable.itemLink) or 0)
                             if (maxScore < (bestMainScore + bestOffScore)) then
                                 -- main- + offhand is better, use the one-handed mainhand
                                 locationTable = bestMain
@@ -394,7 +394,7 @@ function DefaultCalculation:SaveCurrentCombination()
         if locationTable and itemTable then -- slot will be filled
             tinsert(itemsAlreadyChosen, locationTable)
             cIC.items[i] = locationTable
-            cIC.totalScore = cIC.totalScore + (ns:GetItemScore(itemTable.itemLink, ns.setCode, self.set.calculationData.ignoreCapsForCalculation) or 0)
+            cIC.totalScore = cIC.totalScore + (self.set:GetItemScore(itemTable.itemLink) or 0)
 
             -- add total stats
             for stat, value in pairs(itemTable.totalBonus) do
@@ -449,7 +449,7 @@ function ns:CalculateBestInSlot(set, itemsAlreadyChosen, insert, sID, setCode, a
             for _, locationTable in pairs(itemsTable) do
                 local itemTable = ns:GetCachedItem(locationTable.itemLink)
 
-                if (itemTable and ((maxScore == nil) or (maxScore < ns:GetItemScore(itemTable.itemLink, setCode, set.calculationData.ignoreCapsForCalculation))) -- score
+                if (itemTable and ((maxScore == nil) or (maxScore < set:GetItemScore(itemTable.itemLink))) -- score
                     and (itemTable.itemMinLevel <= ns.characterLevel or locationTable.isVirtual)) -- character level
                     and (not assertion or assertion(locationTable)) then -- optional assertion is true
                     -- also check if item has been chosen already (so we don't get the same ring / trinket twice)
@@ -464,7 +464,7 @@ function ns:CalculateBestInSlot(set, itemsAlreadyChosen, insert, sID, setCode, a
 
                     if not found then
                         bis[slotID].locationTable = locationTable
-                        maxScore = ns:GetItemScore(itemTable.itemLink, setCode, set.calculationData.ignoreCapsForCalculation)
+                        maxScore = set:GetItemScore(itemTable.itemLink)
                     end
                 end
             end

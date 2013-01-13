@@ -218,8 +218,21 @@ function Set:UnforceItem(slotID, itemID)
 end
 
 -- determine whether the given item is part of this set's forced items
-function Set:IsForcedItem(slotID, itemID) -- TODO: explicitly get the given item's item ID for comparison so this funciton works with both item links and item IDs
-    if not slotID or not itemID then return false end
+function Set:IsForcedItem(item, slotID)
+    if not item then return false end
+
+    local itemTable = ns:GetCachedItem(item)
+    if not itemTable or not itemTable.itemID then return false end
+
+    local itemID = itemTable.itemID
+
+    if not slotID then
+        for slotID, _ in pairs(ns.slotNames) do
+            if self:IsForcedItem(itemID, slotID) then return true end
+        end
+
+        return false
+    end
     if not self.forced[slotID] then
         return false
     else

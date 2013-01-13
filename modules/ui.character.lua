@@ -58,7 +58,6 @@ function ui.InitializeSetDropdown()
         ns:CreateEquipmentSet(setName)
 
         ToggleDropDownMenu(nil, nil, dropDown)
-        ns:CalculateScores()
     end
     dropDown.initialize = function(self, level)
         local info = UIDropDownMenu_CreateInfo()
@@ -298,7 +297,7 @@ local function UpdateFlyoutCheckBox(button, paperDollItemSlot)
     button.TopFitItemID = itemID
 
     local set = ns.GetSetByID(ns.selectedSet, true)
-    local isForced = set:IsForcedItem(slotID, itemID)
+    local isForced = set:IsForcedItem(itemID, slotID)
     local checkbox = checkbox or CreateFlyoutCheckBox(button)
           checkbox:SetChecked(isForced)
           checkbox:Show()

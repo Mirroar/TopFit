@@ -130,9 +130,6 @@ function TopFit:UpdateCache(item)
             if itemTable then
                 -- save in cache
                 TopFit.itemsCache[item] = itemTable
-
-                -- calculate set scores
-                TopFit:CalculateItemScore(item)
             end
         --end
     end
@@ -453,78 +450,6 @@ function TopFit:GetItemInfoTable(item)
     return result
 end
 
--- calculate an item's score relative to a given set
-function TopFit:CalculateItemScore(itemLink)
-    local itemTable = TopFit:GetCachedItem(itemLink)
-    if not itemTable then return end
-
-    for setCode, setTable in pairs(TopFit.db.profile.sets) do
-        local set = setTable.weights
-        local caps = setTable.caps
-
-        -- calculate item score
-        local itemScore = 0
-        local capsModifier = 0
-        -- iterate given weights
-        for stat, statValue in pairs(set) do
-            if itemTable.totalBonus[stat] then
-                -- check for hard cap on this stat
-                if ((not caps) or (not caps[stat]) or (not caps[stat]["active"]) or (caps[stat]["soft"])) then
-                    itemScore = itemScore + statValue * itemTable.totalBonus[stat]
-                else
-                    -- part of hard cap, score calculated extra
-                    capsModifier = capsModifier + statValue * itemTable.totalBonus[stat]
-                end
-            end
-        end
-
-        -- also calculate raw item score
-        local rawScore = 0
-        local rawModifier = 0
-        -- iterate given weights
-        for stat, statValue in pairs(set) do
-            if itemTable.itemBonus[stat] then
-                -- check for hard cap on this stat
-                if ((not caps) or (not caps[stat]) or (not caps[stat]["active"]) or (caps[stat]["soft"])) then
-                    rawScore = rawScore + statValue * itemTable.itemBonus[stat]
-                else
-                    -- part of hard cap, score calculated extra
-                    rawModifier = rawModifier + statValue * itemTable.totalBonus[stat]
-                end
-            end
-            if itemTable.procBonus[stat] then
-                -- check for hard cap on this stat
-                if ((not caps) or (not caps[stat]) or (not caps[stat]["active"]) or (caps[stat]["soft"])) then
-                    rawScore = itemScore + statValue * itemTable.procBonus[stat]
-                else
-                    -- part of hard cap, score calculated extra
-                    rawModifier = capsModifier + statValue * itemTable.procBonus[stat]
-                end
-            end
-        end
-
-        if not TopFit.scoresCache[itemLink] then
-            TopFit.scoresCache[itemLink] = {}
-        end
-
-        --TODO: could be rewritten slightly to save some tables
-        TopFit.scoresCache[itemLink][setCode] = {
-            itemScore = itemScore,
-            itemScoreWithoutCaps = itemScore + capsModifier,
-            rawScore = rawScore,
-            rawScoreWithoutCaps = rawScore + rawModifier,
-        }
-    end
-end
-
--- calculate item scores
-function TopFit:CalculateScores()
-    -- iterate all cached items and recalculate their scores
-    for itemLink, _ in pairs(TopFit.itemsCache) do
-        TopFit:CalculateItemScore(itemLink)
-    end
-end
-
 -- used by tooltip to decide which item slots to compare to
 function TopFit:GetEquipLocationsByInvType(itemEquipLoc)
     if itemEquipLoc == "INVTYPE_2HWEAPON" then
@@ -606,17 +531,16 @@ function TopFit:IsInterestingItem(itemID, setID)
         return false, "item is not interesting for any set"
     end
 
+    local set = ns.GetSetByID(setID, true)
+
     -- get items available from the same slot(s)
     for _, slotID in pairs(item.equipLocationsByType) do
-        if self.db.profile.sets[setID].forced then
-            for sID, forceID in pairs(self.db.profile.sets[setID].forced) do
-                if (sID == slotID and forceID == item.itemID) then
-                    return true, "item is forced in a set"
-                end
-            end
+        if set:IsForcedItem(itemID) then
+            return true, "item is forced in a set"
         end
 
         -- try to see if an item exists which is definitely better
+        -- TODO: this is similar to what happens in ReduceItemList and should be reused
         local betterItemExists = 0
         local numBetterItemsNeeded = 1
 
@@ -633,7 +557,7 @@ function TopFit:IsInterestingItem(itemID, setID)
         for _, otherItem in pairs(otherItems) do
             local compareTable = TopFit:GetCachedItem(otherItem.itemLink)
             if compareTable and (item.itemID ~= compareTable.itemID) and
-                (TopFit:GetItemScore(item.itemLink, setID, false) < TopFit:GetItemScore(compareTable.itemLink, setID, false)) and
+                (set:GetItemScore(item.itemLink) < set:GetItemScore(compareTable.itemLink)) and
                 (item.itemEquipLoc == compareTable.itemEquipLoc) then -- especially important for weapons, we do not want to compare 2h and 1h weapons
 
                 -- score is greater, see if caps are also better
@@ -796,24 +720,6 @@ function TopFit:GetEquippableItems(requestedSlotID)
         return itemListBySlot[requestedSlotID]
     else
         return itemListBySlot
-    end
-end
-
-function TopFit:GetItemScore(itemLink, setCode, dontUseCaps, useRawItem) --TODO: deprecated
-    if not TopFit.scoresCache[itemLink] or not TopFit.scoresCache[itemLink][setCode] then return 0 end
-
-    if dontUseCaps then
-        if useRawItem then
-            return TopFit.scoresCache[itemLink][setCode].rawScoreWithoutCaps
-        else
-            return TopFit.scoresCache[itemLink][setCode].itemScoreWithoutCaps
-        end
-    else
-        if useRawItem then
-            return TopFit.scoresCache[itemLink][setCode].rawScore
-        else
-            return TopFit.scoresCache[itemLink][setCode].itemScore
-        end
     end
 end
 
