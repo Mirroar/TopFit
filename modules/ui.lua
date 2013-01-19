@@ -112,7 +112,6 @@ function TopFit:CreateEditStatPane(pane)
         local value = self:GetChecked()
         TopFit:SetCapActive(TopFit.selectedSet, stat, value)
         TopFit:UpdateStatGroups()
-        TopFit:CalculateScores()
     end)
     editStatPane.capActive = capActive
 
@@ -165,7 +164,6 @@ function TopFit:CreateEditStatPane(pane)
         end
         EditBoxFocusLostCap(self)
         TopFit:UpdateStatGroups()
-        TopFit:CalculateScores()
     end)
 
     local function EditBoxFocusLostAfterCap(self)
@@ -200,7 +198,6 @@ function TopFit:CreateEditStatPane(pane)
         end
         EditBoxFocusLostAfterCap(self)
         TopFit:UpdateStatGroups()
-        TopFit:CalculateScores()
     end)
 end
 
@@ -249,6 +246,7 @@ function TopFit:SetSelectedSet(setID)
 end
 
 function TopFit:SetCurrentCombinationFromEquipmentSet(setCode)
+    local set = ns.GetSetByID(setCode, true)
     -- generate pseudo equipment set to display when selecting a set
     local combination = {
         items = {},
@@ -292,7 +290,7 @@ function TopFit:SetCurrentCombinationFromEquipmentSet(setCode)
                         for statName, statValue in pairs(itemTable.totalBonus) do
                             combination.totalStats[statName] = (combination.totalStats[statName] or 0) + statValue
                         end
-                        combination.totalScore = combination.totalScore + TopFit:GetItemScore(itemTable.itemLink, setCode)
+                        combination.totalScore = combination.totalScore + set:GetItemScore(itemTable.itemLink)
                     end
                 end
             end

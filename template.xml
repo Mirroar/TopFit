@@ -2,7 +2,7 @@
 
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-    
+
     <Button name="TopFit_HeaderTemplate" virtual="true">
         <Layers>
             <Layer level="BACKGROUND">
@@ -77,8 +77,8 @@
             </Anchors>
         </HighlightTexture>
     </Button>
-    
-    
+
+
     <Button name="TopFitStatFrameTemplate" virtual="true">
         <Size x="104" y="13"/>
         <Layers>
@@ -130,7 +130,6 @@
                     end
                     TopFit.StatValueEditBoxFocusLost(self)
                     TopFit:UpdateStatGroups()
-                    TopFit:CalculateScores()
                 end)
             </OnLoad>
             <OnEnter>
@@ -143,12 +142,12 @@
                     self.Highlight:SetTexture(1, 0, 0)
                     self.Highlight:SetAlpha(0.2)
                 end
-                
+
                 self.Highlight:Show()
             </OnEnter>
             <OnLeave>
                 GameTooltip:Hide();
-                
+
                 self.Highlight:Hide()
             </OnLeave>
             <OnClick>
@@ -156,7 +155,7 @@
             </OnClick>
         </Scripts>
     </Button>
-    
+
     <Frame name="TopFitStatGroupTemplate" virtual="true">
         <Size x="169" y="100"/>
         <Layers>
@@ -228,9 +227,9 @@
             </Button>
         </Frames>
     </Frame>
-    
-    
-    
+
+
+
     <ScrollFrame parent="PaperDollSidebarTabs" name="TopFitSidebarFrame" inherits="UIPanelScrollFrameTemplate2" hidden="true">
         <Anchors>
             <Anchor point="TOPLEFT" relativeTo="CharacterFrameInsetRight" x="4" y="-4"/>
@@ -259,7 +258,7 @@
                             <Anchor point="TOPLEFT" />
                         </Anchors>
                         <Frames>
-                            
+
                         </Frames>
                     </Frame>
                 </Frames>
@@ -279,7 +278,7 @@
             </Frame>
         </ScrollChild>
     </ScrollFrame>
-    
+
     <Button parent="PaperDollSidebarTabs" name="PaperDollSidebarTab4" inherits="PaperDollSidebarTabTemplate" id="4">
         <Anchors>
             <Anchor point="LEFT" relativeTo="PaperDollSidebarTab3" relativePoint="RIGHT" x="4"/>
@@ -301,7 +300,7 @@
             </OnLoad>
         </Scripts>
     </Button>
-    
+
 
     <Button name="TopFitItemPopoutButtonTemplate" virtual="true">
         <Size>
@@ -352,7 +351,7 @@
                                 </Anchor>
                             </Anchors>
                         </Texture>
-                    </Layer>                    
+                    </Layer>
                 </Layers>
                 <Scripts>
                     <OnLoad>

@@ -40,9 +40,18 @@ function Set.CreateFromSavedVariables(setTable)
     end
 
     if setTable.weights then
-        -- initialize caps
+        -- initialize weights
         for stat, value in pairs(setTable.weights) do
             setInstance:SetStatWeight(stat, value)
+        end
+    end
+
+    if setTable.forced then
+        -- initialize forced items
+        for slotID, forced in pairs(setTable.forced) do
+            for _, forcedItemID in ipairs(forced) do
+                setInstance:ForceItem(slotID, forcedItemID)
+            end
         end
     end
 
@@ -166,43 +175,68 @@ function Set:ClearAllHardCaps()
     wipe(self.caps)
 end
 
-function Set:ForceItem(slotID, itemID) -- [TODO]
-    local setCode = self.setID
-    if not setCode or not slotID or not itemID then return nil end
+-- add an item to this set's forced items
+function Set:ForceItem(slotID, itemID)
+    if not slotID or not itemID then return end
 
-    if not TopFit.db.profile.sets[setCode].forced then
-        TopFit.db.profile.sets[setCode].forced = {}
+    if not self.forced[slotID] then
+        self.forced[slotID] = {}
     end
-    if not TopFit.db.profile.sets[setCode].forced[slotID] then
-        TopFit.db.profile.sets[setCode].forced[slotID] = {itemID}
-    else
-        tinsert(TopFit.db.profile.sets[setCode].forced[slotID], itemID)
+    tinsert(self.forced[slotID], itemID)
+
+    if self.setID and ns.db.profile.sets[self.setID] then
+        if not ns.db.profile.sets[self.setID].forced then
+            ns.db.profile.sets[self.setID].forced = {}
+        end
+        if not ns.db.profile.sets[self.setID].forced[slotID] then
+            ns.db.profile.sets[self.setID].forced[slotID] = {}
+        end
+        tinsert(ns.db.profile.sets[self.setID].forced[slotID], itemID)
     end
 end
 
-function Set:UnforceItem(slotID, itemID) -- [TODO]
-    local setCode = self.setID
-    if not setCode or not slotID or not itemID then return nil end
+-- remove an item from this set's forced items
+function Set:UnforceItem(slotID, itemID)
+    if not slotID or not itemID then return end
 
-    if TopFit.db.profile.sets[setCode].forced then
-        if TopFit.db.profile.sets[setCode].forced[slotID] then
-            for i, forcedItem in ipairs(TopFit.db.profile.sets[setCode].forced[slotID]) do
-                if forcedItem == itemID then
-                    tremove(TopFit.db.profile.sets[setCode].forced[slotID], i)
-                    break
-                end
+    if not self.forced[slotID] then return end
+    for i = #(self.forced[slotID]), 1, -1 do
+        local forcedItemID = self.forced[slotID][i]
+        if forcedItemID == itemID then
+            tremove(self.forced[slotID], i)
+        end
+    end
+
+    if self.setID and ns.db.profile.sets[self.setID] and ns.db.profile.sets[self.setID].forced and ns.db.profile.sets[self.setID].forced[slotID] then
+        for i = #(ns.db.profile.sets[self.setID].forced[slotID]), 1, -1 do
+            local forcedItemID = ns.db.profile.sets[self.setID].forced[slotID][i]
+            if forcedItemID == itemID then
+                tremove(ns.db.profile.sets[self.setID].forced[slotID], i)
             end
         end
     end
 end
 
-function Set:IsForcedItem(slotID, itemID) --[TODO]
-    local setCode = self.setID
-    if not setCode or not slotID or not itemID then return nil
-    elseif not TopFit.db.profile.sets[setCode].forced or not TopFit.db.profile.sets[setCode].forced[slotID] then
-        return nil
+-- determine whether the given item is part of this set's forced items
+function Set:IsForcedItem(item, slotID)
+    if not item then return false end
+
+    local itemTable = ns:GetCachedItem(item)
+    if not itemTable or not itemTable.itemID then return false end
+
+    local itemID = itemTable.itemID
+
+    if not slotID then
+        for slotID, _ in pairs(ns.slotNames) do
+            if self:IsForcedItem(itemID, slotID) then return true end
+        end
+
+        return false
+    end
+    if not self.forced[slotID] then
+        return false
     else
-        for _, forcedItemID in ipairs(TopFit.db.profile.sets[setCode].forced[slotID]) do
+        for _, forcedItemID in ipairs(self.forced[slotID]) do
             if forcedItemID == itemID then
                 return true
             end
@@ -210,21 +244,25 @@ function Set:IsForcedItem(slotID, itemID) --[TODO]
     end
 end
 
-function Set:GetForcedItems(slotID) -- [TODO]
-    local setCode = self.setID
-    if not setCode then return {} end
-
+-- get a list of all of this set's forced items for the given slot
+function Set:GetForcedItems(slotID)
+    local forced = {}
     if slotID then
-        -- return for this slot {item1, item2}
-        if not TopFit.db.profile.sets[setCode].forced or not TopFit.db.profile.sets[setCode].forced[slotID] then
-            return {}
-        elseif type(TopFit.db.profile.sets[setCode].forced[slotID]) ~= "table" then
-            TopFit.db.profile.sets[setCode].forced[slotID] = {TopFit.db.profile.sets[setCode].forced[slotID]}
+        if self.forced[slotID] then
+            for _, forcedItemID in ipairs(self.forced[slotID]) do
+                tinsert(forced, forcedItemID)
+            end
         end
-        return TopFit.db.profile.sets[setCode].forced[slotID]
     else
-        -- return for all slots, { slotID = {item1, item2}, ...}
+        -- collect results for all slots
+        for slotID, _ in pairs(ns.slotNames) do
+            local subForced = self:GetForcedItems(slotID)
+            if #subForced > 0 then
+                forced[slotID] = subForced
+            end
+        end
     end
+    return forced
 end
 
 -- allow dual wielding for this set

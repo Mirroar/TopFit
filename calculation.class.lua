@@ -12,6 +12,10 @@ function Calculation:construct(set)
     self.started = false
     self.set = set
     self.elapsed = 0
+    self.availableItems = {}
+    for slotID, _ in pairs(ns.slotNames) do
+        self.availableItems[slotID] = {}
+    end
     self:SetOperationsPerFrame(50) -- sensible default that is somewhat easy on the CPU
 end
 
@@ -25,8 +29,43 @@ function Calculation:GetUsedSet()
     return self.set
 end
 
--- add an item to be available for the current calculation
-function Calculation:AddItem()
+-- add an item to be available for the current calculation in the given slot (or all applicable slots if none is provided)
+function Calculation:AddItem(item, slotID)
+    -- accepts item IDs, links and tables
+    assert(item, "Usage: calculation:AddItem(itemLink or itemID or itemTable[, slotID])")
+    if type(item) == 'table' then
+        if item.itemLink then item = item.itemLink
+        elseif item.itemID then item = item.itemID
+        else error("Usage: calculation:AddItem(itemLink or itemID or itemTable[, slotID])") end
+    end
+    local itemTable = ns:GetCachedItem(item)
+
+    if slotID then
+        assert(self.availableItems[slotID], "calculation:AddItem() - invalid slotID given: "..(slotID or "nil"))
+
+        tinsert(self.availableItems[slotID], itemTable)
+    else
+        for _, slotID in pairs(itemTable.equipLocationsByType) do
+            tinsert(self.availableItems[slotID], itemTable)
+        end
+    end
+end
+
+-- removes all currently available items from this calculation
+function Calculation:ClearItems()
+    for _, slotTable in pairs(self.availableItems) do
+        wipe(slotTable)
+    end
+end
+
+-- get available items for a slot
+function Calculation:GetItems(slotID)
+    if not slotID then
+        return availableItems --TODO: copy tables or use provided table
+    else availableItems[slotID] then
+        assert(self.availableItems[slotID], "calculation:GetItems() - invalid slotID given: "..(slotID or "nil"))
+        return availableItems[slotID] --TODO: copy tables or use provided table
+    end
 end
 
 -- check whether the calculation is currently running

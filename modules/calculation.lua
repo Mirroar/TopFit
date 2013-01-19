@@ -131,7 +131,7 @@ function TopFit.EquipRecommendedItems(set)
 end
 
 function TopFit.onUpdateForEquipment(frame, elapsed)
-    local set = frame.currentlyEquippingSet
+    local set = frame.currentlyEquippingSet --TODO: maybe find a better way than using this variable
 
     -- don't try equipping in combat or while dead
     if UnitAffectingCombat("player") or UnitIsDeadOrGhost("player") then
@@ -141,7 +141,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
     -- see if all items already fit
     allDone = true
     for slotID, recTable in pairs(TopFit.itemRecommendations) do
-        if (TopFit:GetItemScore(recTable.locationTable.itemLink, TopFit.setCode, set.calculationData.ignoreCapsForCalculation) > 0) then
+        if (set:GetItemScore(recTable.locationTable.itemLink) > 0) then
             slotItemLink = GetInventoryItemLink("player", slotID)
             if (slotItemLink ~= recTable.locationTable.itemLink) then
                 allDone = false
@@ -346,7 +346,7 @@ end
 function ns.RemoveItemsBelowThresholdFromItemList(set, subList)
     if #subList >= 1 then
         for i = #subList, 1, -1 do
-            if (ns:GetItemScore(subList[i].itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation) <= 0) then --TODO: get score from set
+            if (set:GetItemScore(subList[i].itemLink) <= 0) then --TODO: get score from set
                 -- check caps
                 local hasCap = false
 
@@ -399,11 +399,8 @@ function ns.RemoveLowScoreItemsFromItemList(set, subList, numBetterItemsNeeded, 
                             compareStats = compareTable and compareTable.totalBonus
                         end
                         if compareTable and
-                            (ns:GetItemScore(itemTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation) <= ns:GetItemScore(compareTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation)) and
+                            (set:GetItemScore(itemTable.itemLink) <= set:GetItemScore(compareTable.itemLink)) and
                             (itemTable.itemEquipLoc == compareTable.itemEquipLoc) then -- especially important for weapons, we do not want to compare 2h and 1h weapons
-
-                            --ns:Debug("score: "..ns:GetItemScore(itemTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation).."; compareScore: "..ns:GetItemScore(compareTable.itemLink, ns.setCode, set.calculationData.ignoreCapsForCalculation)..
-                            --    " when comparing "..itemTable.itemLink.." with "..compareTable.itemLink)
 
                             -- score is greater, see if caps are also better
                             local allStats = true
