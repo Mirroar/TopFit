@@ -376,9 +376,6 @@ function ui.ToggleTopFitConfigFrame()
 
 		frameContent.MainHelpButton:Hide()
 		frameContent.learnButton:Hide()
-		-- .bg size: 550x488
-		-- frameContent.bg:SetPoint("BOTTOMRIGHT", 108, -68)
-		-- /spew TopFitConfigFrameSpecialization.bg:SetPoint("BOTTOMLEFT", 108, -68)
 		frameContent.bg:SetPoint("BOTTOMRIGHT")
 		frameContent.bg:SetTexCoord(0, 0.75, 0, 0.86)
 		local sidebarBg = frameContent:GetRegions()
@@ -388,17 +385,6 @@ function ui.ToggleTopFitConfigFrame()
 		sidebarSeperator:SetHeight(400)
 		sidebarBL:SetPoint("BOTTOMLEFT", 3, 0)
 		sidebarBR:SetPoint("BOTTOMLEFT", 147, 0)
-
-		-- custom sizing
-		-- when changing panel size, also adjust:
-		-- 		frame:SetSize(563, 428)
-		--		frame.Inset:SetSize(217, 496)
-		--		frame.Inset:SetPoint("TOPLEFT", 4, -24)
-		--		frame.Inset:SetPoint("BOTTOMLEFT", 4, 4)
-		-- 		frameContent.bg:SetSize(563-118, 468)
-		-- 		frameContent.spellsScroll:SetPoint("BOTTOMRIGHT", "$parent", "BOTTOMRIGHT", 0, 0)
-		-- 		frameContent.spellsScroll.child:SetAllPoints()
-		-- 		frameContent.spellsScroll.child.gradient:SetWidth(646-314)
 
 		-- reanchor textures so they don't scroll later on
 		local scrollChild = _G[frameContent:GetName().."SpellScrollFrameScrollChild"]
