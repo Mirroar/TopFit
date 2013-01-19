@@ -348,9 +348,11 @@ function ui.ToggleTopFitConfigFrame()
 	if not frame then
 		LoadAddOn("Blizzard_TalentUI") -- won't double init
 
-		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate")
+		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate") -- PortraitFrameTemplate
 		frame:EnableMouse()
-		frame:SetSize(646, 468)
+		-- TalentFrame size: 646, 468
+		-- PVEFrame width: 563, 424
+		frame:SetWidth(646)
 		frame:Hide()
 
 		frame:SetAttribute("UIPanelLayout-defined", true)
@@ -361,14 +363,8 @@ function ui.ToggleTopFitConfigFrame()
 		frame:SetAttribute("UIPanelLayout-width", 646) 		-- width + 20
 		frame:SetAttribute("UIPanelLayout-height", 468) 	-- height + 20
 
-		-- when changing panel size, also adjust:
-		-- 		frame:SetSize(550, 468)
-		-- 		TopFitConfigFrameSpecialization.bg:SetWidth(646-217)
-		-- 		TopFitConfigFrameSpecializationSpellScrollFrame:SetPoint("BOTTOMRIGHT", "$parent", "BOTTOMRIGHT", 0, 0)
-		-- 		TopFitConfigFrameSpecializationSpellScrollFrameScrollChild.gradient:SetWidth(646-314)
-		-- 		TopFitConfigFrameSpecializationSpellScrollFrameScrollChild:SetAllPoints()
-
 		ButtonFrameTemplate_HideAttic(frame)
+		ButtonFrameTemplate_HideButtonBar(frame)
 		SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
 		frame.TitleText:SetText("TopFit")
 
@@ -380,6 +376,29 @@ function ui.ToggleTopFitConfigFrame()
 
 		frameContent.MainHelpButton:Hide()
 		frameContent.learnButton:Hide()
+		-- .bg size: 550x488
+		-- frameContent.bg:SetPoint("BOTTOMRIGHT", 108, -68)
+		-- /spew TopFitConfigFrameSpecialization.bg:SetPoint("BOTTOMLEFT", 108, -68)
+		frameContent.bg:SetPoint("BOTTOMRIGHT")
+		frameContent.bg:SetTexCoord(0, 0.75, 0, 0.86)
+		local sidebarBg = frameContent:GetRegions()
+		sidebarBg:SetHeight(400)
+		local sidebarFrame = select(7, frameContent:GetChildren())
+		local _, sidebarBR, sidebarBL, sidebarSeperator, sidebarLineL, sidebarLineR, sidebarLineB = sidebarFrame:GetRegions()
+		sidebarSeperator:SetHeight(400)
+		sidebarBL:SetPoint("BOTTOMLEFT", 3, 0)
+		sidebarBR:SetPoint("BOTTOMLEFT", 147, 0)
+
+		-- custom sizing
+		-- when changing panel size, also adjust:
+		-- 		frame:SetSize(563, 428)
+		--		frame.Inset:SetSize(217, 496)
+		--		frame.Inset:SetPoint("TOPLEFT", 4, -24)
+		--		frame.Inset:SetPoint("BOTTOMLEFT", 4, 4)
+		-- 		frameContent.bg:SetSize(563-118, 468)
+		-- 		frameContent.spellsScroll:SetPoint("BOTTOMRIGHT", "$parent", "BOTTOMRIGHT", 0, 0)
+		-- 		frameContent.spellsScroll.child:SetAllPoints()
+		-- 		frameContent.spellsScroll.child.gradient:SetWidth(646-314)
 
 		-- reanchor textures so they don't scroll later on
 		local scrollChild = _G[frameContent:GetName().."SpellScrollFrameScrollChild"]
@@ -398,6 +417,7 @@ function ui.ToggleTopFitConfigFrame()
 		scrollChild.scrollwork_bottomright:SetPoint("BOTTOMRIGHT", 0, 8)
 		scrollChild.gradient:SetParent(frameContent)
 		scrollChild.gradient:SetPoint("TOPLEFT", 217-9, 0)
+		scrollChild.gradient:SetPoint("BOTTOMRIGHT", "$parent", "TOPRIGHT", 0, -200)
 
 		local index = 1
 		while frameContent["specButton"..index] do
@@ -433,7 +453,7 @@ function ui.ToggleTopFitConfigFrame()
 				panel:OnUpdate()
 			end
 		end
-		dropDown.initialize = function()
+		dropDown.initialize = function(self, level)
 			local info = UIDropDownMenu_CreateInfo()
 			info.func = DropDownAddSet
 			info.text = ns.locale.EmptySet
