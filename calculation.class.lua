@@ -61,10 +61,10 @@ end
 -- get available items for a slot
 function Calculation:GetItems(slotID)
     if not slotID then
-        return availableItems --TODO: copy tables or use provided table
-    else availableItems[slotID] then
+        return self.availableItems --TODO: copy tables or use provided table
+    elseif self.availableItems[slotID] then
         assert(self.availableItems[slotID], "calculation:GetItems() - invalid slotID given: "..(slotID or "nil"))
-        return availableItems[slotID] --TODO: copy tables or use provided table
+        return self.availableItems[slotID] --TODO: copy tables or use provided table
     end
 end
 
