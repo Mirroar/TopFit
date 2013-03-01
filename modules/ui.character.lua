@@ -146,8 +146,10 @@ end
 
 function ui.InitializeSetProgressBar()
     -- progress bar
-    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", PaperDollItemsFrame)
-    progressBar:SetAllPoints(TopFitSetDropDown)
+    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", TopFitSetDropDown) -- PaperDollItemsFrame)
+    -- progressBar:SetAllPoints(TopFitSetDropDown)
+    progressBar:SetPoint("TOPLEFT", 22, -6)
+    progressBar:SetPoint("BOTTOMRIGHT", -20, 10)
     progressBar:SetStatusBarTexture("Interface\\AddOns\\TopFit\\media\\minimalist")
     progressBar:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
     progressBar:SetMinMaxValues(0, 100)
@@ -161,6 +163,20 @@ function ui.InitializeSetProgressBar()
     progressBar.text = progressText
 
     return progressBar
+end
+
+function ui.ShowProgress()
+    TopFitSetDropDown:Hide()
+    TopFitProgressBar:Show()
+end
+function ui.HideProgress()
+    TopFitSetDropDown:Show()
+    TopFitProgressBar:Hide()
+end
+function ui.SetProgress(progress)
+    progress = progress or 0
+    TopFitProgressBar.text:SetFormattedText("%.2f%%", progress * 100)
+    TopFitProgressBar:SetValue(progress * 100)
 end
 
 function ui.InitializeMultiButton()

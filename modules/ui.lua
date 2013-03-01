@@ -3,22 +3,6 @@ local minimalist = [=[Interface\AddOns\TopFit\media\minimalist]=]
 
 TopFit.characterFrameUIcreated = false;
 
--- utility for rounding
-local function round(input, places)
-    if not places then
-        places = 0
-    end
-    if type(input) == "number" and type(places) == "number" then
-        local pow = 1
-        for i = 1, ceil(places) do
-            pow = pow * 10
-        end
-        return floor(input * pow + 0.5) / pow
-    else
-        return input
-    end
-end
-
 function TopFit:initializeCharacterFrameUI()
     if (TopFit.characterFrameUIcreated) then return end
     TopFit.characterFrameUIcreated = true;
@@ -304,25 +288,20 @@ function TopFit:ResetProgress()
     TopFit.progress = nil
     if not TopFitSidebarCalculateButton then return end
     TopFitSidebarCalculateButton.state = 'busy'
-    TopFitSetDropDown:Hide()
-
-    TopFitProgressBar:Show()
+    ns.ui.ShowProgress()
 end
 
 function TopFit:StoppedCalculation()
     if not TopFitSidebarCalculateButton then return end
     TopFitSidebarCalculateButton.state = 'idle'
-    TopFitSetDropDown:Show()
-
-    TopFitProgressBar:Hide()
+    ns.ui.HideProgress()
 end
 
 function TopFit:SetProgress(progress)
     if (TopFit.progress == nil) or (TopFit.progress < progress) then
         TopFit.progress = progress
         if not TopFitSidebarCalculateButton then return end
-        TopFitProgressBar.text:SetText(round(progress * 100, 2).."%")
-        TopFitProgressBar:SetValue(progress * 100)
+        ns.ui.SetProgress(progress)
     end
 end
 
@@ -687,7 +666,7 @@ function TopFit:SetCurrentCombination(combination)
 
     TopFit:UpdateVirtualItemButtons(combination);
 
-    --TopFit.ProgressFrame.setScoreFontString:SetText(string.format(TopFit.locale.SetScore, round(combination.totalScore, 2)))
+    -- TopFit.ProgressFrame.setScoreFontString:SetFormattedText(TopFit.locale.SetScore, combination.totalScore)
 
     -- sort stats by score contribution
     statList = {}
@@ -762,7 +741,7 @@ function TopFit:SetCurrentCombination(combination)
             valueTexts[i]:Show()
             statusBars[i]:Show()
             statTexts[i]:SetText(_G[statList[i]])
-            valueTexts[i]:SetText(round(combination.totalStats[statList[i]], 1))
+            valueTexts[i]:SetFormattedText("%.1f", combination.totalStats[statList[i]])
             statusBars[i]:SetMinMaxValues(0, maxStatValue)
             statusBars[i]:SetValue(scorePerStat[statList[i]])
             statusBars[i]:SetStatusBarColor(0.3, 1, 0.5, 0.5)

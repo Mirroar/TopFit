@@ -34,7 +34,7 @@ do
     TopFit.locale.SetName = "Set Name"
     TopFit.locale.HeadingStats = "Statistics"
     TopFit.locale.HeadingCaps = "Caps"
-    TopFit.locale.SetScore = "Total Score: %s"
+    TopFit.locale.SetScore = "Total Score: %.2f"
     TopFit.locale.SetHeader = "Item Sets"
     TopFit.locale.FlyoutTooltip = "Force Items\n|cffffffffClick items in this flyout menu and TopFit will only use those items for calculation in that slot. Click them again to remove their selection."
     TopFit.locale.missingForcedItemTooltip = "Forced Item missing\n|cffffffffThis item is still forced for this slot, but could not be found in your inventory."

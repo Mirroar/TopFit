@@ -1,34 +1,21 @@
 local addonName, ns, _ = ...
 
--- utility for rounding
-local function round(input, places)
-    if not places then
-        places = 0
-    end
-    if type(input) == "number" and type(places) == "number" then
-        local pow = 1
-        for i = 1, ceil(places) do
-            pow = pow * 10
-        end
-        return floor(input * pow + 0.5) / pow
-    else
-        return input
-    end
-end
-
 local function percentilize(ratio, noColor)
-    local ratioString
-    if ratio > 11 then
-        ratioString = (noColor and '' or "|cff00ff00").."> 1000%"..(noColor and '' or "|r")
-    elseif ratio > 1.1 then
-        ratioString = (noColor and '' or "|cff00ff00")..round((ratio - 1) * 100, 2).."%"..(noColor and '' or "|r")
-    elseif ratio >= 1 then
-        ratioString = (noColor and '' or "|cffffff00")..round((ratio - 1) * 100, 2).."%"..(noColor and '' or "|r")
-    elseif ratio < -9 then
-        ratioString = (noColor and '' or "|cffff0000").."< -1000%"..(noColor and '' or "|r")
-    else -- ratio < 1
-        ratioString = (noColor and '' or "|cffff0000")..round((ratio - 1) * 100, 2).."%"..(noColor and '' or "|r")
+    local ratioString = string.format("%.2f%%", (ratio - 1) * 100)
+    if ratio > 11 then ratioString = "> 1000%"
+    elseif ratio < -11 then ratioString = "< 1000%"
     end
+
+    if not noColor then
+        local color = "ffff00"
+        if ratio >= 1.1 then
+            color = "00ff00"
+        elseif ratio < 1 then
+            color = "ff0000"
+        end
+        ratioString = string.format("|cff%s%s|r", color, ratioString)
+    end
+
     return ratioString
 end
 
@@ -683,7 +670,7 @@ local function TooltipAddLines(tt, link)
                     tt:AddLine("Set Values:", 0.6, 1, 0.7)
                 end
 
-                tt:AddLine("  "..round(set:GetItemScore(itemTable.itemLink), 2).." - "..set:GetName(), 0.6, 1, 0.7)
+                tt:AddLine(string.format("  %.2f - %s", set:GetItemScore(itemTable.itemLink), set:GetName()), 0.6, 1, 0.7)
             end
         end
     end
