@@ -348,9 +348,9 @@ function Set:GetItemScore(item, useRaw)
         for stat, statValue in pairs(self.weights) do
             if itemTable.totalBonus[stat] then
                 -- check for hard cap on this stat
-                if not self.caps[stat] then
+                -- if not self.caps[stat] then -- [TODO] capped stats are still valuable! don't ignore their weights
                     itemScore = itemScore + statValue * itemTable.totalBonus[stat]
-                end
+                -- end
             end
         end
 
