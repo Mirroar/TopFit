@@ -343,6 +343,49 @@ function ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
     end
 end
 
+local professionSkills = {}
+local function RemoveUnusableSkillItems(set, subList)
+    local prof1, prof2, arch, fish, cook, firstAid = GetProfessions()
+    local profession, skill
+
+    wipe(professionSkills)
+    _, _, skill, _, _, _, profession = GetProfessionInfo(prof1)
+    professionSkills[profession] = skill
+    _, _, skill, _, _, _, profession = GetProfessionInfo(prof2)
+    professionSkills[profession] = skill
+    _, _, skill, _, _, _, profession = GetProfessionInfo(arch)
+    professionSkills[profession] = skill
+    _, _, skill, _, _, _, profession = GetProfessionInfo(fish)
+    professionSkills[profession] = skill
+    _, _, skill, _, _, _, profession = GetProfessionInfo(cook)
+    professionSkills[profession] = skill
+    _, _, skill, _, _, _, profession = GetProfessionInfo(firstAid)
+    professionSkills[profession] = skill
+
+    for i = #subList, 1, -1 do
+        local itemStats, itemTable
+        if subList[i].stats then
+            itemStats = subList[i].stats
+        elseif subList[i].itemLink then
+            itemTable = ns:GetCachedItem(subList[i].itemLink)
+            itemStats = itemTable and itemTable.totalBonus
+        end
+        if not itemTable then
+            tremove(subList, i)
+        else
+            for statCode, statValue in pairs(itemStats) do
+                profession = tonumber(string.match(statCode, "^SKILL: (.+)") or "")
+                if profession and (not professionSkills[profession] or professionSkills[profession] < statValue) then
+                    tremove(subList, i)
+                end
+            end
+        end
+    end
+end
+function ns.RemoveUnusableItemsFromItemList(set, subList)
+    RemoveUnusableSkillItems(set, subList)
+end
+
 function ns.RemoveItemsBelowThresholdFromItemList(set, subList)
     if #subList >= 1 then
         for i = #subList, 1, -1 do
@@ -443,6 +486,7 @@ end
 
 function ns.ReduceGemList(set, gemList)
     for _, subList in pairs(gemList) do
+        ns.RemoveUnusableItemsFromItemList(set, subList)
         ns.RemoveItemsBelowThresholdFromItemList(set, subList)
         ns.RemoveLowScoreItemsFromItemList(set, subList, 1, "all")
     end

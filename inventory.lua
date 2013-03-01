@@ -156,6 +156,12 @@ function TopFit:GetItemInfoTable(item)
     -- item stats for gems from our database
     if ns.gemIDs[itemID] then
         itemBonus = ns.gemIDs[itemID].stats
+
+        local skillReq = ns.gemIDs[itemID].skill
+        if skillReq then
+            local skill, req = string.split("-", skillReq)
+            itemBonus["SKILL: " .. skill] = req
+        end
     end
 
     -- scale stats by item level if the item was upgraded
@@ -192,7 +198,7 @@ function TopFit:GetItemInfoTable(item)
     -- gems
     local gemBonus = {}
     local gems = {}
-    for i = 1, 3 do
+    for i = 1, MAX_NUM_SOCKETS do
         local _, gem = GetItemGem(item, i) -- name, itemlink
         if gem then
             gems[i] = gem
@@ -216,9 +222,14 @@ function TopFit:GetItemInfoTable(item)
 
             if (TopFit.gemIDs[gemID]) then
                 -- collect stats
-
                 for stat, value in pairs(TopFit.gemIDs[gemID].stats) do
                     gemBonus[stat] = (gemBonus[stat] or 0) + value
+                end
+
+                local skillReq = TopFit.gemIDs[gemID].skill
+                if skillReq then
+                    local skill, req = string.split("-", skillReq)
+                    gemBonus["SKILL: " .. skill] = req
                 end
             else
                 -- unknown gem, tell the user

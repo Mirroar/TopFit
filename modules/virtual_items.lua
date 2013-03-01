@@ -14,7 +14,7 @@ end
 function TopFit:CreateVirtualItemsPlugin()
     local frame, pluginId = TopFit:RegisterPlugin(TopFit.locale.VirtualItems, "Interface\\Icons\\Achievement_Arena_3v3_7", TopFit.locale.VirtualItemsTooltip)
     frame.initialized = false
-    
+
     -- register events
     TopFit.RegisterCallback("TopFit_vitualItems", "OnShow", function(event, id)
         if (id == pluginId) then
@@ -23,7 +23,7 @@ function TopFit:CreateVirtualItemsPlugin()
                 local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
                 title:SetPoint("TOPLEFT", 16, -4)
                 title:SetText(TopFit.locale.VirtualItems)
-                
+
                 local explain = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
                 explain:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -10, -8)
                 explain:SetPoint("RIGHT", frame, -4, 0)
@@ -32,7 +32,7 @@ function TopFit:CreateVirtualItemsPlugin()
                 explain:SetJustifyH("LEFT")
                 explain:SetJustifyV("TOP")
                 explain:SetText(TopFit.locale.VIExplanation)
-                
+
                 -- option for disabling virtual items calculation
                 local enable = LibStub("tekKonfig-Checkbox").new(frame, nil, TopFit.locale.IncludeVI, "TOPLEFT", explain, "BOTTOMLEFT", 10, -4)
                 enable.tiptext = TopFit.locale.IncludeVITooltip
@@ -47,7 +47,7 @@ function TopFit:CreateVirtualItemsPlugin()
                     end
                 end)
                 frame.includeVirtualItemsCheckButton = enable
-                
+
                 -- label for item text box
                 frame.addItemLabel = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
                 frame.addItemLabel:SetNonSpaceWrap(true)
@@ -56,7 +56,7 @@ function TopFit:CreateVirtualItemsPlugin()
                 frame.addItemLabel:SetPoint("RIGHT", frame, -4, 2)
                 frame.addItemLabel:SetHeight(33)
                 frame.addItemLabel:SetText(TopFit.locale.VIUsage)
-                
+
                 -- create text box for items
                 frame.addItemTextBox = CreateFrame("EditBox", "$parent_AddItemTextBox", frame)
                 frame.addItemTextBox:SetFontObject("GameFontNormalSmall")
@@ -75,7 +75,7 @@ function TopFit:CreateVirtualItemsPlugin()
 				})
                 frame.addItemTextBox:SetBackdropColor(.1, .1, .1, .8)
 				frame.addItemTextBox:SetBackdropBorderColor(.5, .5, .5)
-                
+
                 -- scripts
                 frame.addItemTextBox:SetScript("OnEditFocusGained", frame.addItemTextBox.HighlightText)
                 frame.addItemTextBox:SetScript("OnEscapePressed", function (self)
@@ -92,7 +92,7 @@ function TopFit:CreateVirtualItemsPlugin()
                     local link = select(2, GetItemInfo(text))
                     frame.addItemTextBox:ClearFocus()
                     frame.addItemTextBox:SetText(TopFit.locale.VIAddItem)
-                    
+
                     if not link then
                         TopFit:Print(TopFit.locale.VIItemNotFound)
                     else
@@ -105,11 +105,11 @@ function TopFit:CreateVirtualItemsPlugin()
                         frame.addItemTextBox:Insert(text)
                     end
                 end)
-                
+
                 frame.panel = LibStub("tekKonfig-Group").new(frame, "Your virtual items")
                 frame.panel:SetPoint("TOPLEFT", frame.addItemTextBox, "BOTTOMLEFT", 0, -14)
                 frame.panel:SetPoint("BOTTOMRIGHT", frame, -2, 2)
-                
+
                 frame.itemsFrame = CreateFrame("ScrollFrame", "TopFit_VirtualItemsScrollFrame", frame.panel, "UIPanelScrollFrameTemplate")
                 frame.itemsFrame:SetPoint("TOPLEFT", 6, -6)
                 frame.itemsFrame:SetPoint("RIGHT", -27, 4)
@@ -119,14 +119,13 @@ function TopFit:CreateVirtualItemsPlugin()
                 frame.itemsFrame.content:SetWidth(280)
                 frame.itemsFrame.content:SetAllPoints()
                 frame.itemsFrame:SetScrollChild(frame.itemsFrame.content)
-                
+
                 frame.itemsFrame.buttons = {}
                 function frame.itemsFrame:AddItem(link)
                     local invSlot = select(9, GetItemInfo(link))
-                    if TopFit.selectedSet and invSlot and 
-                        string.find(invSlot, "INVTYPE") and not string.find(invSlot, "BAG") then
-                        
-                        if not TopFit.db.profile.sets[TopFit.selectedSet].virtualItems then 
+                    if TopFit.selectedSet and invSlot and _G[invSlot] <= INVSLOT_LAST_EQUIPPED then
+
+                        if not TopFit.db.profile.sets[TopFit.selectedSet].virtualItems then
                             TopFit.db.profile.sets[TopFit.selectedSet].virtualItems = {}
                         end
                         tinsertonce(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, link)
@@ -139,7 +138,7 @@ function TopFit:CreateVirtualItemsPlugin()
                     end
                     frame.itemsFrame:RefreshItems()
                 end
-                
+
                 function frame.itemsFrame:RefreshItems()
                     local lastLine, totalWidth = 1, 0
                     local numUsedButtons = 9
@@ -149,7 +148,7 @@ function TopFit:CreateVirtualItemsPlugin()
                                 numUsedButtons = numUsedButtons + 1
                                 if not frame.itemsFrame.buttons[i] then
                                     local button = CreateFrame("Button", "$parent_ItemButton"..i, frame.itemsFrame.content, "ItemButtonTemplate")
-                                    
+
                                     button:RegisterForClicks("RightButtonUp")
                                     button:SetScript("OnEnter", TopFit.ShowTooltip)
                                     button:SetScript("OnLeave", TopFit.HideTooltip)
@@ -163,7 +162,7 @@ function TopFit:CreateVirtualItemsPlugin()
                                                     tremove(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, i)
                                                 end
                                             end
-                                            
+
                                             frame.itemsFrame:RefreshItems()
                                         end
                                     end)
@@ -171,12 +170,12 @@ function TopFit:CreateVirtualItemsPlugin()
                                 end
                                 local button = frame.itemsFrame.buttons[i]
                                 button.itemLink = TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]
-                                
+
                                 local texture = select(10, GetItemInfo(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]))
                                 if not texture then texture = "Interface\\Icons\\Inv_Misc_Questionmark" end
                                 SetItemButtonTexture(button, texture)
                                 button:Show()
-                                
+
                                 if i == 1 then
                                     -- anchor to top left of frame
                                     button:SetPoint("TOPLEFT", frame.itemsFrame.content, "TOPLEFT", 2, -2)
@@ -195,7 +194,7 @@ function TopFit:CreateVirtualItemsPlugin()
                             end
                         end
                     end
-                    
+
                     -- hide unused buttons
                     for i = numUsedButtons + 1, #(frame.itemsFrame.buttons) do
                         frame.itemsFrame.buttons[i]:Hide()
@@ -203,12 +202,12 @@ function TopFit:CreateVirtualItemsPlugin()
                 end
                 frame.initialized = true
             end
-            
-            
+
+
             frame.itemsFrame:RefreshItems()
         end
     end)
-    
+
     TopFit.RegisterCallback("TopFit_vitualItems", "OnSetChanged", function(event, setId)
         if (setId) then
             -- enable inputs
