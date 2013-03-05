@@ -4,7 +4,7 @@
 ## Notes: Gear Optimization made easy
 ## Version: 5.1v1
 ## X-Category: Inventory
-## X-Credits: ckaotik (gems & enchants), tekkub, trefane (SmartFitter), vger(Pawn)
+## X-Credits: ckaotik, tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
 
 embeds.xml
@@ -24,6 +24,7 @@ plugin.class.lua
 modules\weightsplugin.class.lua
 modules\importplugin.class.lua
 modules\optimizerplugin.class.lua
+modules\shoppinglist.lua
 
 inventory.lua
 
