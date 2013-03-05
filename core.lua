@@ -181,13 +181,25 @@ function ns:OnInitialize()
     -- check if any set is saved already, if not, create default
     if (not ns.db.profile.sets) then
         ns.db.profile.sets = {
-            set_1 = {
+            ["set_1"] = {
                 name = "Default Set",
                 weights = {},
                 caps = {},
                 forced = {},
             },
         }
+    end
+
+    -- select current auto-update set by default
+    if TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1 then
+        ns.selectedSet = TopFit.db.profile.defaultUpdateSet
+    elseif TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2 then
+        ns.selectedSet = TopFit.db.profile.defaultUpdateSet2
+    else
+        for setID, setTable in pairs(ns.db.profile.sets) do
+            ns.selectedSet = setID
+            break
+        end
     end
 
     -- for savedvariable updates: check if each set has a forced table
