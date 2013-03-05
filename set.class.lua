@@ -245,8 +245,8 @@ function Set:IsForcedItem(item, slotID)
 end
 
 -- get a list of all of this set's forced items for the given slot
-function Set:GetForcedItems(slotID)
-    local forced = {}
+function Set:GetForcedItems(slotID, useTable)
+    local forced = useTable or {}
     if slotID then
         if self.forced[slotID] then
             for _, forcedItemID in ipairs(self.forced[slotID]) do
