@@ -1,5 +1,4 @@
 local _, ns = ...
-local minimalist = [=[Interface\AddOns\TopFit\media\minimalist]=]
 
 TopFit.characterFrameUIcreated = false;
 
@@ -35,8 +34,8 @@ function TopFit:initializeCharacterFrameUI()
     TopFit:SetDefaultCollapsedStates()
     TopFit:InitializeStatScrollFrame()
 
-    TopFit:CreateVirtualItemsPlugin()
-    TopFit:CreateUtilitiesPlugin()
+    -- TopFit:CreateVirtualItemsPlugin()
+    -- TopFit:CreateUtilitiesPlugin()
 
     TopFit:SetSelectedSet()
 end
@@ -723,7 +722,7 @@ function TopFit:SetCurrentCombination(combination)
                 -- fontsting for stat name
                 statusBars[i] = CreateFrame("StatusBar", "TopFitStatValueBar"..i, statScrollFrameContent)
                 statusBars[i]:SetHeight(14)
-                statusBars[i]:SetStatusBarTexture(minimalist)
+                statusBars[i]:SetStatusBarTexture("Interface\\RAIDFRAME\\Raid-Bar-Hp-Fill")
 
                 statTexts[i] = statusBars[i]:CreateFontString(nil, nil, "GameFontHighlight")
                 valueTexts[i] = statusBars[i]:CreateFontString(nil, nil, "NumberFontNormal")
