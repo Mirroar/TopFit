@@ -146,14 +146,13 @@ end
 
 function ui.InitializeSetProgressBar()
     -- progress bar
-    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", TopFitSetDropDown) -- PaperDollItemsFrame)
-    -- progressBar:SetAllPoints(TopFitSetDropDown)
-    progressBar:SetPoint("TOPLEFT", 22, -6)
-    progressBar:SetPoint("BOTTOMRIGHT", -20, 10)
-    progressBar:SetStatusBarTexture("Interface\\AddOns\\TopFit\\media\\minimalist")
+    local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", PaperDollItemsFrame)
+    progressBar:SetPoint("TOPLEFT", TopFitSetDropDown, "TOPLEFT", 22, -6)
+    progressBar:SetPoint("BOTTOMRIGHT", TopFitSetDropDown, "BOTTOMRIGHT", -20, 10)
     progressBar:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
-    progressBar:SetMinMaxValues(0, 100)
+    progressBar:SetStatusBarTexture("Interface\\RAIDFRAME\\Raid-Bar-Hp-Fill")
     progressBar:SetStatusBarColor(0, 1, 0, 1)
+    progressBar:SetMinMaxValues(0, 100)
     progressBar:Hide()
 
     -- progress text
@@ -271,6 +270,40 @@ hooksecurefunc("ToggleCharacter", ui.Initialize)
 -- [TODO]
 
 -- ----------------------------------------------
+-- slot has forced items indicator
+-- ----------------------------------------------
+local forcedItemsInSlot = {}
+local function UpdateForcedSlotIndicator(slotButton)
+    local slotID = slotButton:GetID()
+    if not slotButton or not slotID then return end
+    wipe(forcedItemsInSlot)
+
+    local set = ns.GetSetByID(ns.selectedSet, true)
+    set:GetForcedItems(slotID, forcedItemsInSlot)
+
+    local indicator = _G["TopFitForcedItemIndicator"..slotID]
+    if #forcedItemsInSlot > 0 then
+        if not indicator then
+            indicator = CreateFrame("Frame", "TopFitForcedItemIndicator"..slotID, slotButton)
+            indicator:SetPoint("BOTTOMLEFT", -6, 0)
+            indicator:SetSize(14, 14)
+            local tex = indicator:CreateTexture()
+            tex:SetDrawLayer("OVERLAY")
+            tex:SetTexture("Interface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon")
+            tex:SetAllPoints()
+        end
+        indicator:Show()
+    elseif indicator then
+        indicator:Hide()
+    end
+end
+hooksecurefunc("PaperDollItemSlotButton_OnShow", function(self, isBag)
+    if not isBag then
+        UpdateForcedSlotIndicator(self)
+    end
+end)
+
+-- ----------------------------------------------
 -- item flyout forcing
 -- ----------------------------------------------
 local tekCheck = LibStub("tekKonfig-Checkbox")
@@ -301,7 +334,7 @@ local function UpdateFlyoutCheckBox(button, paperDollItemSlot)
         -- "put into bag" button, used for current equip
         local itemLink = GetInventoryItemLink("player", slotID)
         local itemTable = ns:GetCachedItem(itemLink)
-        itemID = itemTable.itemID
+        itemID = itemTable and itemTable.itemID
     elseif not button.location or (button.location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION and button.location <= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10) then
         -- special buttons that we don't care about
         if checkbox then checkbox:Hide() end
