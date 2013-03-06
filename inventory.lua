@@ -458,6 +458,9 @@ function TopFit:GetItemInfoTable(item)
         procBonus = procBonus
     }
 
+    -- allow plugins to modify result
+    ns.InvokeAll('OnGetItemStats', result)
+
     return result
 end
 

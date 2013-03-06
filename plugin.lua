@@ -5,18 +5,18 @@ function TopFit:RegisterPlugin(pluginName, icon, tooltipText)
         tooltipText = tooltipText,
         icon = icon,
     }
-    
+
     tinsert(TopFit.plugins, pluginInfo)
     pluginInfo.id = #(TopFit.plugins)
-    
+
     -- return frame for plugin UI
     pluginInfo.frame = CreateFrame("Frame", "TopFit_ProgressFrame_PluginFrame_"..(pluginInfo.id), nil)
     if pluginInfo.id > 1 then
         pluginInfo.frame:Hide()
     end
-    
+
     TopFit:UpdatePlugins()
-    
+
     return pluginInfo.frame, pluginInfo.id
 end
 
@@ -33,7 +33,7 @@ function TopFit:UpdatePlugins()
             -- update parents and anchors for plugin frames
             pluginInfo.frame:SetParent(TopFitStatScrollFrame)
             pluginInfo.frame:SetAllPoints()
-            
+
             -- create tabs if necessary
             if not pluginInfo.tabButton then
                 pluginInfo.tabButton = CreateSideTab(pluginInfo.icon, "TopFitPluginButton"..pluginID, TopFitStatScrollFrame)
@@ -45,7 +45,7 @@ function TopFit:UpdatePlugins()
                     pluginInfo.tabButton:SetPoint("TOPLEFT", TopFit.plugins[pluginID - 1].tabButton, "BOTTOMLEFT", 0, -16)
                 end
                 pluginInfo.tabButton:Show()
-                
+
                 -- set event handlers
                 pluginInfo.tabButton:SetScript("OnClick", function(self)
                     local id = self:GetID()
@@ -70,16 +70,3 @@ function TopFit:UpdatePlugins()
         end
     end
 end
-
---[[function TopFit:SelectPluginTab(self)
-    local id = self:GetID()
-    for i = 1, #(TopFit.plugins) do
-        if i == id then
-            TopFit.plugins[i].frame:Show()
-            TopFit.eventHandler:Fire("OnShow", id)
-        else
-            TopFit.plugins[i].tabButton:SetChecked(false)
-            TopFit.plugins[i].frame:Hide()
-        end
-    end
-end]]

@@ -632,3 +632,19 @@ function ns.GetSetByID(setID, useGlobalInstance)
         return ns.setObjectCache[setID]
     end
 end
+
+-----------------------------------------------------
+-- hook system
+-----------------------------------------------------
+
+-- invoke a hook for all currently registered plugins
+function ns.InvokeAll(hookName, ...)
+    local results = {}
+    for _, plugin in pairs(ns.currentPlugins) do
+        if plugin[hookName] and type(plugin[hookName] == 'function') then
+            local result = {plugin[hookName](...)} -- call function, pack results into a table and save for returning
+            tinsert(results, result)
+        end
+    end
+    return results
+end

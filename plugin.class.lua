@@ -9,13 +9,14 @@ function Plugin:construct(name)
     self.hasConfigPanel = false
     self.configButton = nil
     self.configPanel = nil
-    self:SetName(name or 'Unnamed Plugin')
     self.tooltipText = nil
     self.buttonTexture = nil
     self.roleIdentifier = nil
     self.panelHeaderText = nil
     self.panelIconTexture = nil
     self.panelDescription = nil
+
+    self:SetName(name or 'Unnamed Plugin')
 
     if not ns.currentPlugins then
         ns.currentPlugins = {}
