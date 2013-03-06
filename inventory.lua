@@ -528,7 +528,7 @@ function TopFit:IsInterestingItem(itemID, setID)
         -- check if item is part of any current equipment set
         for i = 1, GetNumEquipmentSets() do
             local name, _, _ = GetEquipmentSetInfo(i)
-            itemIDs = GetEquipmentSetItemIDs(name)
+            local itemIDs = GetEquipmentSetItemIDs(name)
 
             for _, iID in pairs(itemIDs) do
                 if iID == item.itemID then return true, "part of current set" end
