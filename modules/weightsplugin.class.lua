@@ -20,19 +20,34 @@ end
 
 local exposedSettings = {
 	-- label, tooltip, set:get_handler, set:set_handler, shown_func
-	{ns.locale.StatsShowTooltip, ns.locale.StatsShowTooltipTooltip, "GetDisplayInTooltip", "SetDisplayInTooltip"},
-	{ns.locale.StatsForceArmorType, ns.locale.StatsForceArmorTypeTooltip, "GetForceArmorType", "SetForceArmorType", function(playerClass)
-		return playerClass ~= "PRIEST" and playerClass ~= "WARLOCK" and playerClass ~= "MAGE"
-	end},
-	{"Enable hit conversion", "Check to enable spirit to hit conversion, even if it does not apply to your current spec", "GetHitConversion", "SetHitConversion", function(playerClass)
-		return playerClass == "DRUID" or playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "PRIEST" or playerClass == "SHAMAN"
-	end},
-	{ns.locale.StatsEnableDualWield, ns.locale.StatsEnableDualWieldTooltip, "IsDualWieldForced", "ForceDualWield", function(playerClass)
-		return playerClass == "SHAMAN" or playerClass == "WARRIOR" or playerClass == "MONK"
-	end},
-	{ns.locale.StatsEnableTitansGrip, ns.locale.StatsEnableTitansGripTooltip, "IsTitansGripForced", "ForceTitansGrip", function(playerClass)
-		return playerClass == "WARRIOR"
-	end},
+	{
+		ns.locale.StatsShowTooltip, ns.locale.StatsShowTooltipTooltip,
+		"GetDisplayInTooltip", "SetDisplayInTooltip"
+	},
+	{
+		ns.locale.StatsForceArmorType, ns.locale.StatsForceArmorTypeTooltip,
+		"GetForceArmorType", "SetForceArmorType", function(playerClass)
+			return playerClass ~= "PRIEST" and playerClass ~= "WARLOCK" and playerClass ~= "MAGE"
+		end
+	},
+	{
+		"Enable hit conversion", "Check to enable spirit to hit conversion, even if it does not apply to your current spec",
+		"GetHitConversion", "SetHitConversion", function(playerClass)
+			return playerClass == "DRUID" or playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "PRIEST" or playerClass == "SHAMAN"
+		end
+	},
+	{
+		ns.locale.StatsEnableDualWield, ns.locale.StatsEnableDualWieldTooltip,
+		"IsDualWieldForced", "ForceDualWield", function(playerClass)
+			return playerClass == "SHAMAN" or playerClass == "WARRIOR" or playerClass == "MONK"
+		end
+	},
+	{
+		ns.locale.StatsEnableTitansGrip, ns.locale.StatsEnableTitansGripTooltip,
+		"IsTitansGripForced", "ForceTitansGrip", function(playerClass)
+			return playerClass == "WARRIOR"
+		end
+	},
 }
 -- [TODO] spirit/hit conversion: Druid#33596, Monk#115070 (50% hit, 50% expertise), Paladin#112859 (flat 15% hit), Priest#122098 (flat 15% hit), Shaman#30674, Shaman#112858 (flat 15% hit)
 

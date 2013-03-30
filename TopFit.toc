@@ -1,8 +1,8 @@
-## Interface: 50100
+## Interface: 50200
 ## Author: Mirroar
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
-## Version: 5.1v1
+## Version: 5.2v0
 ## X-Category: Inventory
 ## X-Credits: ckaotik, tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB

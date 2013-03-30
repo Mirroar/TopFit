@@ -281,15 +281,15 @@ local function UpdateForcedSlotIndicator(slotButton)
     local set = ns.GetSetByID(ns.selectedSet, true)
     set:GetForcedItems(slotID, forcedItemsInSlot)
 
-    local indicator = _G["TopFitForcedItemIndicator"..slotID]
+    local indicator = _G[slotButton:GetName() .. "ForcedItemIndicator"]
     if #forcedItemsInSlot > 0 then
         if not indicator then
-            indicator = CreateFrame("Frame", "TopFitForcedItemIndicator"..slotID, slotButton)
-            indicator:SetPoint("BOTTOMLEFT", -6, 0)
+            indicator = CreateFrame("Frame", "$parentForcedItemIndicator", slotButton)
+            indicator:SetPoint("BOTTOMLEFT", -2, 0)
             indicator:SetSize(14, 14)
             local tex = indicator:CreateTexture()
             tex:SetDrawLayer("OVERLAY")
-            tex:SetTexture("Interface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon")
+            tex:SetTexture("Interface\\PetBattles\\PetBattle-LockIcon") -- "Interface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon"
             tex:SetAllPoints()
         end
         indicator:Show()
