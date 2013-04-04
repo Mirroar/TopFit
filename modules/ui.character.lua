@@ -322,6 +322,9 @@ local function CreateFlyoutCheckBox(itemButton)
         else
             set:UnforceItem(flyoutButton.id, flyoutButton.TopFitItemID)
         end
+
+        local _, paperDollItemSlot = flyoutButton:GetParent():GetParent():GetPoint()
+        UpdateForcedSlotIndicator(paperDollItemSlot)
     end)
 
     itemButton.TopFitCheckBox = button
