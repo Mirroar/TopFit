@@ -543,42 +543,59 @@ function TopFit.FrameOnEvent(frame, event, arg1, ...)
     elseif (event == "ACTIVE_TALENT_GROUP_CHANGED") then
         TopFit:ClearCache()
         if not TopFit.db.profile.preventAutoUpdateOnRespec then
-            TopFit:RunAutoUpdate()
+            --TopFit:RunAutoUpdate()
+            TopFit:AutoEquipSet()
         end
     end
 end
 
-function TopFit:RunAutoUpdate(skipDelay)
-    if not TopFit.workSetList then
-        TopFit.workSetList = {}
+function ns:RunAutoUpdate(skipDelay)
+    if not ns.workSetList then
+        ns.workSetList = {}
     end
     local runUpdate = false;
-    if (TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
-        tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet)
+    if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
+        tinsert(ns.workSetList, ns.db.profile.defaultUpdateSet)
         runUpdate = true;
     end
-    if (TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
-        tinsert(TopFit.workSetList, TopFit.db.profile.defaultUpdateSet2)
+    if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
+        tinsert(ns.workSetList, ns.db.profile.defaultUpdateSet2)
         runUpdate = true;
     end
     if runUpdate then
-        if not TopFit.autoUpdateTimerFrame then
-            TopFit.autoUpdateTimerFrame = CreateFrame("Frame")
+        if not ns.autoUpdateTimerFrame then
+            ns.autoUpdateTimerFrame = CreateFrame("Frame")
         end
         -- because right on level up there seem to be problems finding the items for equipping, delay the actual update
         if not skipDelay then
-            TopFit.delayCalculation = 0.5 -- delay in seconds until update
+            ns.delayCalculation = 0.5 -- delay in seconds until update
         else
-            TopFit.delayCalculation = 0
+            ns.delayCalculation = 0
         end
-        TopFit.autoUpdateTimerFrame:SetScript("OnUpdate", function(self, delay)
-            if (TopFit.delayCalculation > 0) then
-                TopFit.delayCalculation = TopFit.delayCalculation - delay
+        ns.autoUpdateTimerFrame:SetScript("OnUpdate", function(self, delay)
+            if (ns.delayCalculation > 0) then
+                ns.delayCalculation = ns.delayCalculation - delay
             else
-                TopFit.autoUpdateTimerFrame:SetScript("OnUpdate", nil)
-                TopFit:CalculateSets(true) -- calculate silently
+                ns.autoUpdateTimerFrame:SetScript("OnUpdate", nil)
+                ns:CalculateSets(true) -- calculate silently
             end
         end)
+    end
+end
+
+function ns:AutoEquipSet()
+    local setName = nil;
+    if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
+        setName = ns.db.profile.defaultUpdateSet
+    end
+    if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
+        setName = ns.db.profile.defaultUpdateSet2
+    end
+
+    if setName then
+        local set = ns.GetSetByID(setName, true)
+        local equipSet = set:GetEquipmentSetName()
+        UseEquipmentSet(equipSet)
     end
 end
 
