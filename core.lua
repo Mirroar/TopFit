@@ -544,6 +544,7 @@ function TopFit.FrameOnEvent(frame, event, arg1, ...)
         TopFit:ClearCache()
         if not TopFit.db.profile.preventAutoUpdateOnRespec then
             --TopFit:RunAutoUpdate()
+            TopFit:SetSelectedSet()
             TopFit:AutoEquipSet()
         end
     end
