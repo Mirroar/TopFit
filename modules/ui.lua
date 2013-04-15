@@ -217,8 +217,10 @@ function TopFit:SetSelectedSet(setID)
             TopFitSidebarCalculateButton:Enable()
         end
         TopFit:SetCurrentCombinationFromEquipmentSet(setID)
-        UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, TopFit.selectedSet)
-        UIDropDownMenu_SetText(TopFitSetDropDown, TopFit.db.profile.sets[TopFit.selectedSet].name)
+        if TopFitSetDropDown then
+            UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, TopFit.selectedSet)
+            UIDropDownMenu_SetText(TopFitSetDropDown, TopFit.db.profile.sets[TopFit.selectedSet].name)
+        end
         TopFit:UpdateStatGroups()
         TopFit:SetDefaultCollapsedStates()
     end

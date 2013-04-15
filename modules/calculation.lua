@@ -2,7 +2,7 @@ local addonName, ns, _ = ...
 
 function ns:StartCalculations()
     -- generate table of set codes
-    ns.workSetList = {}
+    ns.workSetList = ns.workSetList and wipe(ns.workSetList) or {}
     for setCode, _ in pairs(self.db.profile.sets) do
         tinsert(ns.workSetList, setCode)
     end
@@ -68,6 +68,7 @@ function ns.UpdateUIWithCalculationProgress(calculation) --TODO: don't interact 
     end
 
     if ns.abortCalculation then
+        -- TODO: this does nothing
         ns:Print("Calculation aborted.")
         ns.abortCalculation = nil
         ns.isBlocked = false
