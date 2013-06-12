@@ -41,11 +41,24 @@ function ShoppingList:GetHeaderText(i)
     return self.headerTexts[i]
 end
 
+local function ScanCharacterEquipment(self, btn)
+    -- local gem1, gem2, gem3 = GetInventoryItemGems(slotID)
+    -- local itemLink = GetInventoryItemLink('player', slotID)
+
+    -- Enchanting: Encha Ring1, Ench Ring2
+    -- Blacksmithing: Socket Bracers, Socket Gloves
+    -- Sha-Touched / iLvl >= ToT: Socket Weapon
+    -- Socket Belt
+    -- Unenchantable: Head, Ring, Trinket
+end
 function ShoppingList:OnShow()
     local set = ns.GetSetByID(ns.selectedSet, true)
     local panel = self:GetConfigPanel()
 
-
+    local scanButton = CreateFrame("Button", "$parentScanButton", panel, "UIPanelButtonTemplate");
+    scanButton:SetText("Scan this character")
+    scanButton:SetPoint("TOPLEFT", panel:GetParent():GetName().."Description", "TOPLEFT", 0, 0)
+    scanButton:SetScript("OnClick", ScanCharacterEquipment)
 end
 
 ShoppingList()
