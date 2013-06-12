@@ -1,5 +1,9 @@
 local addonName, ns, _ = ...
 
+-- GLOBALS: TopFit
+-- GLOBALS: SaveEquipmentSet, GetProfessions, GetProfessionInfo, UnitClass, ClearCursor, EquipCursorItem, CanUseEquipmentSets, GetEquipmentSetInfoByName, EquipmentManagerClearIgnoredSlotsForSave, EquipmentManagerIgnoreSlotForSave, InCombatLockdown, UnitIsDeadOrGhost, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, PickupContainerItem, PickupInventoryItem
+-- GLOBALS: tremove, tinsert, select, wipe, pairs, math, string, strsplit, tonumber
+
 function ns:StartCalculations()
     -- generate table of set codes
     ns.workSetList = ns.workSetList and wipe(ns.workSetList) or {}
@@ -135,12 +139,13 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
     local set = frame.currentlyEquippingSet --TODO: maybe find a better way than using this variable
 
     -- don't try equipping in combat or while dead
-    if UnitAffectingCombat("player") or UnitIsDeadOrGhost("player") then
+    if InCombatLockdown() or UnitIsDeadOrGhost("player") then
         return
     end
 
     -- see if all items already fit
-    allDone = true
+    local slotItemLink
+    local allDone = true
     for slotID, recTable in pairs(TopFit.itemRecommendations) do
         if (set:GetItemScore(recTable.locationTable.itemLink) > 0) then
             slotItemLink = GetInventoryItemLink("player", slotID)
@@ -241,7 +246,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
         -- save equipment set
         if (CanUseEquipmentSets()) then
             local texture
-            setName = TopFit:GenerateSetName(TopFit.currentSetName)
+            local setName = TopFit:GenerateSetName(TopFit.currentSetName)
             -- check if a set with this name exists
             if (GetEquipmentSetInfoByName(setName)) then
                 texture = GetEquipmentSetInfoByName(setName)

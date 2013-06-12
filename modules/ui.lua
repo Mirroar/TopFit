@@ -243,7 +243,7 @@ function TopFit:SetCurrentCombinationFromEquipmentSet(setCode)
         for slotID, itemLocation in pairs(itemPositions) do
             if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
                 local itemLink = nil
-                local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
+                local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
                 if player then
                     if bank then
                         -- item is banked, use itemID
@@ -670,8 +670,8 @@ function TopFit:SetCurrentCombination(combination)
     -- TopFit.ProgressFrame.setScoreFontString:SetFormattedText(TopFit.locale.SetScore, combination.totalScore)
 
     -- sort stats by score contribution
-    statList = {}
-    scorePerStat = {}
+    local statList = {}
+    local scorePerStat = {}
     for key, _ in pairs(combination.totalStats) do
         tinsert(statList, key)
     end
