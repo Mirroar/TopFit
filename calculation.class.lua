@@ -68,6 +68,13 @@ function Calculation:GetItems(slotID)
     end
 end
 
+function Calculation:SetCallback(callback)
+    if callback then
+        self.AssertArgumentType(callback, "function")
+    end
+    self.callback = callback
+end
+
 -- check whether the calculation is currently running
 -- even if it is not running, it might be in progress but paused - check Calculation:IsStarted() for that
 function Calculation:IsRunning()
@@ -131,6 +138,7 @@ end
 -- run single step of this calculation
 function Calculation:Step()
     -- empty and intended to be overridden
+    self:Done()
 end
 
 -- run final operation of this calculation and get ready to return a result
@@ -144,8 +152,11 @@ function Calculation:Done()
     self.started = false
     self:Finalize()
 
-    if type(self.OnComplete == 'function') then
+    if type(self.OnComplete) == 'function' then
         self:OnComplete()
+    end
+    if type(self.callback) == 'function' then
+        self.callback() --TODO: also send results
     end
 end
 
@@ -157,7 +168,7 @@ function Calculation:RunSteps()
         operation = operation + 1
     end
 
-    if type(self.OnUpdate == 'function') then
+    if type(self.OnUpdate) == 'function' then
         self:OnUpdate() --TODO: we should also provide the current combination and/or progress (configurable?)
     end
 end

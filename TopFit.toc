@@ -1,8 +1,8 @@
-## Interface: 50200
+## Interface: 50300
 ## Author: Mirroar
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
-## Version: 5.2v0
+## Version: 5.3v0
 ## X-Category: Inventory
 ## X-Credits: ckaotik, tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
@@ -18,6 +18,7 @@ core.lua
 set.class.lua
 calculation.class.lua
 defaultcalculation.class.lua
+smartcalculation.class.lua
 plugin.class.lua
 
 # plugins

@@ -133,7 +133,7 @@ function TopFit:getCompareItems(itemTable, setCode)
         for slotID, setItemLocation in pairs(setItemPositions) do
             if setItemLocation and setItemLocation ~= 1 and setItemLocation ~= 0 then -- 0: no item; 1: slot is ignored
                 local setItemLink = nil
-                local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(setItemLocation)
+                local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(setItemLocation)
                 if player then
                     if bank then
                         -- item is banked, use itemID
@@ -183,7 +183,7 @@ function TopFit:getCompareItems(itemTable, setCode)
             if (slotID == 16 or slotID == 17) then
                 locationTable = {itemLink = itemTable.itemLink, slot = nil, bag = nil}
                 if setItemTable then
-                    local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(setItemPositions[slotID])
+                    local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(setItemPositions[slotID])
                     if player then
                         if bags then
                             compLocationTable = {itemLink = setItemTable.itemLink, slot = slot, bag = bag}
@@ -368,7 +368,7 @@ local function TooltipAddCompareLines(tt, link)
                 for slotID, itemLocation in pairs(itemPositions) do
                     if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then -- 0: set to no item; 1: slot is ignored
                         local itemLink = nil
-                        local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
+                        local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
                         if player then
                             if bank then
                                 -- item is banked, use itemID
@@ -425,7 +425,7 @@ local function TooltipAddCompareLines(tt, link)
                     if (slotID == 16 or slotID == 17) then
                         locationTable = {itemLink = itemTable.itemLink, slot = nil, bag = nil}
                         if compareTable then
-                            local player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(itemPositions[slotID])
+                            local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(itemPositions[slotID])
                             if player then
                                 if bags then
                                     compLocationTable = {itemLink = compareTable.itemLink, slot = slot, bag = bag}

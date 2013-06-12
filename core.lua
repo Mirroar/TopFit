@@ -334,7 +334,7 @@ function ns:OnInitialize()
     -- table for equippable item list
     ns.equippableItems = {}
     ns:collectEquippableItems()
-    ns.loginDelay = 150
+    ns.loginDelay = 50
 
     -- register needed events
     ns.eventFrame:RegisterEvent("BAG_UPDATE_DELAYED")
@@ -473,6 +473,7 @@ function TopFit:delayCalculationOnLogin()
         TopFit.loginDelay = TopFit.loginDelay - 1
         if TopFit.loginDelay <= 0 then
             TopFit.loginDelay = nil
+            --if wowUnit then wowUnit:StartTests(TopFit) end
             TopFit.eventFrame:SetScript("OnUpdate", nil)
             TopFit:collectEquippableItems()
         end
