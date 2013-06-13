@@ -26,6 +26,7 @@ modules\weightsplugin.class.lua
 modules\importplugin.class.lua
 modules\optimizerplugin.class.lua
 modules\shoppinglist.lua
+modules\virtual_items.lua
 
 inventory.lua
 
@@ -39,7 +40,6 @@ modules\ui.config.lua
 modules\ui.lua
 plugin.lua
 
-modules\virtual_items.lua
 modules\utilities.lua
 
 data\gems.lua

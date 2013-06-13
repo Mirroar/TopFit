@@ -4,7 +4,7 @@ local addonName, ns, _ = ...
 -- GLOBALS: CreateFrame, GetItemInfo, SetItemButtonTexture
 -- GLOBALS: string, pairs, tinsert, select, tremove, hooksecurefunc
 
-local VirtualItems = ns.class(ns.Plugin)
+local VirtualItems = ns.Plugin()
 ns.VirtualItems = VirtualItems
 
 local function tinsertonce(table, data)
@@ -220,7 +220,5 @@ function VirtualItems:InitializeUI()
 end
 
 function VirtualItems:OnShow()
-    RefreshItems( self:GetConfigPanel() )
+    RefreshItems()
 end
-
-VirtualItems()

@@ -80,6 +80,7 @@ local function ButtonOnClick(self)
 
 	local scrollFrame = self:GetParent().spellsScroll
 	scrollFrame.ScrollBar:SetValue(0)
+	_G["TopFitConfigFrame"].activePanel = self.panel
 
 	if self.panel.OnUpdate then
 		self.panel:OnUpdate()
@@ -115,7 +116,6 @@ function ui.GetSidebarButton(index)
 		if not button then
 			button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
 			button:SetID(index)
-
 		end
 
 		button:SetScript("OnClick", ButtonOnClick)
@@ -272,12 +272,12 @@ local function CreateSideTab(index)
 	tab:SetScript("OnEnter", ButtonOnEnter)
 	tab:SetScript("OnLeave", ButtonOnLeave)
 	tab:SetScript("OnClick", function(self, btn)
-		if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then return end
 		PlaySound("igCharacterInfoTab")
 
 		if self.setID then
 			ns:SetSelectedSet(self.setID)
 		else -- new set tab
+			if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then return end
 			if btn == "RightButton" then
 				ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameSpecializationAddFromPreset"], "cursor")
 			else
@@ -433,7 +433,7 @@ function ui.ToggleTopFitConfigFrame()
 			ns:CreateEquipmentSet(ns.db.profile.sets[setCode].name)
 			ToggleDropDownMenu(nil, nil, dropDown)
 
-			local panel = ui.GetActivePanel() -- [TODO] currently not working as expected?
+			local panel = ui.GetActivePanel()
 			if panel.OnUpdate then
 				panel:OnUpdate()
 			end
