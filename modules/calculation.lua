@@ -273,9 +273,10 @@ end
 
 -- remove all other items in slots that have forced items in them
 function ns.RemoveNonForcedItemsFromItemList(set, itemList)
+    local setForcedItems = set:GetForcedItems()
     for slotID, _ in pairs(ns.slotNames) do
-        local forcedItems = ns:GetForcedItems(ns.setCode, slotID) --TODO: ask the set for its forced items
-        if itemList[slotID] and #forcedItems > 0 then
+        local forcedItems = setForcedItems[slotID]
+        if itemList[slotID] and forcedItems and #forcedItems > 0 then
             for i = #(itemList[slotID]), 1, -1 do
                 local itemTable = ns:GetCachedItem(itemList[slotID][i].itemLink)
                 if not itemTable then
@@ -310,10 +311,11 @@ end
 
 -- if enabled, remove armor that is not part of armor specialization
 function ns.RemoveWrongArmorTypesFromItemList(set, itemList)
-    if ns.db.profile.sets[ns.setCode].forceArmorType and ns.characterLevel >= 50 then
+    if set:GetForceArmorType() and ns.characterLevel >= 50 then
         local playerClass = select(2, UnitClass("player"))
+        local setForcedItems = set:GetForcedItems()
         for slotID, _ in pairs(ns.armoredSlots) do
-            if itemList[slotID] and #(ns:GetForcedItems(ns.setCode, slotID)) == 0 then
+            if itemList[slotID] and (not setForcedItems[slotID] or #(setForcedItems[slotID]) == 0) then
                 for i = #(itemList[slotID]), 1, -1 do
                     local itemTable = ns:GetCachedItem(itemList[slotID][i].itemLink)
                     if playerClass == "DRUID" or playerClass == "ROGUE" or playerClass == "MONK" then

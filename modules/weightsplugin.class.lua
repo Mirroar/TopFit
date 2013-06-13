@@ -55,10 +55,9 @@ function WeightsPlugin.InitializeExposedSettings()
 	local frame = WeightsPlugin:GetConfigPanel()
 	local _, playerClass = UnitClass("player")
 
-	local label, tooltip, getFunc, setFunc, showFunc
-	local button, buttonLabel, anchor, positionIndex, clickSound
+	local button, buttonLabel, positionIndex, clickSound
 	for i, setting in ipairs(exposedSettings) do
-		label, tooltip, getFunc, setFunc, showFunc = setting[1], setting[2], setting[3], setting[4], setting[5]
+		local label, tooltip, getFunc, setFunc, showFunc = setting[1], setting[2], setting[3], setting[4], setting[5]
 		if not showFunc or showFunc(playerClass) then
 			button, buttonLabel = tekCheck.new(frame, nil, label or "") -- nil = use default size
 			button.tiptext = tooltip
@@ -182,7 +181,7 @@ function WeightsPlugin.HideDummyCap(statLine)
 		statLine = statLine:GetParent()
 		statLine:UnlockHighlight()
 	end
-	local set = ns.GetSetByID(ns.selectedSet)
+	local set = ns.GetSetByID(ns.selectedSet, true)
 	statLine.capValue:SetText(set:GetHardCap(statLine.stat) or "")
 end
 
@@ -429,7 +428,7 @@ end
 local setStats = {}
 function WeightsPlugin:OnShow()
 	local frame = self:GetConfigPanel()
-	local set = ns.GetSetByID( ns.selectedSet )
+	local set = ns.GetSetByID(ns.selectedSet, true)
 
 	ns.ui.SetHeaderSubTitle(frame, set:GetName())
 	ns.ui.SetHeaderSubTitleIcon(frame, set:GetIconTexture(), 0, 1, 0, 1)

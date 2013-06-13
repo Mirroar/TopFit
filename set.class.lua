@@ -64,6 +64,9 @@ function Set.CreateFromSavedVariables(setTable)
     if not setTable.excludeFromTooltip then
         setInstance:SetDisplayInTooltip(true)
     end
+    if setTable.forceArmorType then
+        setInstance:SetForceArmorType(true)
+    end
 
     return setInstance
 end
@@ -307,20 +310,23 @@ function Set:IsTitansGripForced()
     return self.forceTitansGrip
 end
 
-function Set:SetDisplayInTooltip(enable) -- [TODO]
+function Set:SetDisplayInTooltip(enable)
     self.displayInTooltip = enable and true or false
     if self.setID and ns.db.profile.sets[self.setID] then
         ns.db.profile.sets[self.setID].excludeFromTooltip = (not enable) and true or false
     end
 end
-function Set:GetDisplayInTooltip() -- [TODO]
+function Set:GetDisplayInTooltip()
     return self.displayInTooltip
 end
 
-function Set:SetForceArmorType(enable) -- [TODO]
+function Set:SetForceArmorType(enable)
     self.forceArmorType = enable and true or false
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].forceArmorType = enable and true or false
+    end
 end
-function Set:GetForceArmorType() -- [TODO]
+function Set:GetForceArmorType()
     return self.forceArmorType
 end
 
