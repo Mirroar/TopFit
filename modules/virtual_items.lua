@@ -24,7 +24,7 @@ end
 local configPanel
 local function RefreshItems()
     local frame = VirtualItems:GetConfigPanel() or configPanel
-    local set = ns.GetSetByID( ns.selectedSet )
+    local set = ns.GetSetByID(ns.selectedSet, true)
 
     local lastLine, totalWidth = 1, 0
     local numUsedButtons = 0
@@ -115,7 +115,7 @@ end
 
 function VirtualItems:InitializeUI()
     local frame = self:GetConfigPanel()
-    local set = ns.GetSetByID( ns.selectedSet )
+    local set = ns.GetSetByID(ns.selectedSet, true)
 
     local info = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
     info:SetJustifyH("LEFT")
@@ -200,18 +200,18 @@ function VirtualItems:InitializeUI()
 
     frame.panel = LibStub("tekKonfig-Group").new(frame, "Your virtual items")
     frame.panel:SetPoint("TOPLEFT", frame.addItemTextBox, "BOTTOMLEFT", 0, -14)
-    frame.panel:SetPoint("RIGHT", frame, -2, 2) -- TODO: give this an actual size
-    frame.panel:SetHeight(300)
+    frame.panel:SetPoint("RIGHT", frame, -2, 2)
+    frame.panel:SetHeight(150)
 
     local itemScrollFrame = CreateFrame("ScrollFrame", "$parentItemsScrollFrame", frame.panel, "UIPanelScrollFrameTemplate")
     itemScrollFrame:SetPoint("TOPLEFT", frame.panel, "TOPLEFT", 6, -6)
-    itemScrollFrame:SetPoint("RIGHT", frame.panel, "RIGHT", -27, 4)
-    itemScrollFrame:SetHeight(150)
+    itemScrollFrame:SetPoint("BOTTOMRIGHT", frame.panel, "BOTTOMRIGHT", -27, 4)
+    --itemScrollFrame:SetHeight(150)
 
     itemScrollFrame.content = CreateFrame("Frame", "$parentContent", itemScrollFrame)
     itemScrollFrame.content:SetHeight(100)
     itemScrollFrame.content:SetWidth(300)
-    --itemScrollFrame.content:SetAllPoints()
+    itemScrollFrame.content:SetAllPoints()
     itemScrollFrame:SetScrollChild(itemScrollFrame.content)
     frame.itemsFrame = itemScrollFrame
 

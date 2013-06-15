@@ -82,10 +82,10 @@ local function ButtonOnClick(self)
 	scrollFrame.ScrollBar:SetValue(0)
 	_G["TopFitConfigFrame"].activePanel = self.panel
 
+	DisplayScrollFramePanel(scrollFrame, self.panel)
 	if self.panel.OnUpdate then
 		self.panel:OnUpdate()
 	end
-	DisplayScrollFramePanel(scrollFrame, self.panel)
 end
 local function ButtonOnEnter(self)
 	if self.selected then return end
