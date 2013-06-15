@@ -297,7 +297,7 @@ function ns.RemoveNonForcedItemsFromItemList(set, itemList)
             end
         end
 
-        if (slotID == 17 and #forcedItems > 0) then -- offhand
+        if (slotID == 17 and forcedItems and #forcedItems > 0) then -- offhand
             --TODO: check if forced item is a weapon and remove all weapons from mainhand if player cannot dualwield
             -- always remove all 2H-weapons from mainhand
             for i = #(itemList[16]), 1, -1 do

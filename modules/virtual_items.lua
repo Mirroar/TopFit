@@ -27,7 +27,7 @@ local function RefreshItems()
     local set = ns.GetSetByID( ns.selectedSet )
 
     local lastLine, totalWidth = 1, 0
-    local numUsedButtons = 9
+    local numUsedButtons = 0
     if (TopFit.selectedSet) then
         if (TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
             for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
@@ -200,17 +200,18 @@ function VirtualItems:InitializeUI()
 
     frame.panel = LibStub("tekKonfig-Group").new(frame, "Your virtual items")
     frame.panel:SetPoint("TOPLEFT", frame.addItemTextBox, "BOTTOMLEFT", 0, -14)
-    frame.panel:SetPoint("BOTTOMRIGHT", frame, -2, 2)
+    frame.panel:SetPoint("RIGHT", frame, -2, 2) -- TODO: give this an actual size
+    frame.panel:SetHeight(300)
 
-    local itemScrollFrame = CreateFrame("ScrollFrame", "$parentItemsScrollFrame", frame, "UIPanelScrollFrameTemplate")
+    local itemScrollFrame = CreateFrame("ScrollFrame", "$parentItemsScrollFrame", frame.panel, "UIPanelScrollFrameTemplate")
     itemScrollFrame:SetPoint("TOPLEFT", frame.panel, "TOPLEFT", 6, -6)
     itemScrollFrame:SetPoint("RIGHT", frame.panel, "RIGHT", -27, 4)
     itemScrollFrame:SetHeight(150)
 
-    itemScrollFrame.content = CreateFrame("Frame", nil, itemScrollFrame)
+    itemScrollFrame.content = CreateFrame("Frame", "$parentContent", itemScrollFrame)
     itemScrollFrame.content:SetHeight(100)
     itemScrollFrame.content:SetWidth(300)
-    itemScrollFrame.content:SetAllPoints()
+    --itemScrollFrame.content:SetAllPoints()
     itemScrollFrame:SetScrollChild(itemScrollFrame.content)
     frame.itemsFrame = itemScrollFrame
 
