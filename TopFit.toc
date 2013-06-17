@@ -42,11 +42,15 @@ modules\options.lua
 modules\ui.character.lua
 modules\ui.config.lua
 modules\ui.lua
-modules\utilities.lua # this file needs some more work
+
+# this file needs some more work
+modules\utilities.lua
 
 data\gems.lua
-#data\gems_build.lua # used during WoW version updates
 data\enchants.lua
 data\presets.lua
+
+# used during WoW version updates
+#data\gems_build.lua
 
 tests.lua
