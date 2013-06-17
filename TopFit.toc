@@ -7,14 +7,18 @@
 ## X-Credits: ckaotik, tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
 
-embeds.xml
-template.xml
+# libraries
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\tekKonfig\tekKonfig.xml
+Libs\LibReforgingInfo-1.0\LibReforgingInfo-1.0.xml
 
+# locales
 locale\enUS.lua
 
 core.lua
 
-#classes
+# classes
 set.class.lua
 calculation.class.lua
 defaultcalculation.class.lua
@@ -30,7 +34,7 @@ modules\virtual_items.lua
 
 inventory.lua
 
-#modules
+# modules
 modules\tooltip.lua
 modules\calculation.lua
 modules\trinketlogic.lua
@@ -38,12 +42,10 @@ modules\options.lua
 modules\ui.character.lua
 modules\ui.config.lua
 modules\ui.lua
-plugin.lua
-
-modules\utilities.lua
+modules\utilities.lua # this file needs some more work
 
 data\gems.lua
-#data\gems_build.lua #used during WoW version updates
+#data\gems_build.lua # used during WoW version updates
 data\enchants.lua
 data\presets.lua
 

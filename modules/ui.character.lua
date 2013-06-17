@@ -218,7 +218,6 @@ function ui.InitializeMultiButton()
             else
                 -- calculate selected set
                 if ns.db.profile.sets[ns.selectedSet] then
-                    PaperDollFrame_SetSidebar(PaperDollFrame, 4)
                     ns.workSetList = { ns.selectedSet }
                     ns:CalculateSets()
                 end
@@ -268,7 +267,6 @@ function ui.Initialize()
     ui.InitializeMultiButton()
     ui.InitializeConfigButton()
 
-    ns:initializeCharacterFrameUI() -- [TODO] remove when done
     initialized = true
 end
 hooksecurefunc("ToggleCharacter", ui.Initialize)
