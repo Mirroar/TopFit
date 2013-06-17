@@ -230,14 +230,23 @@ end
 
 function ui.InitializeConfigButton()
     local button = CreateFrame("Button", "TopFitConfigButton", PaperDollItemsFrame)
-    button:SetPoint("RIGHT", TopFitSetDropDown, "LEFT", 16, 2)
+    button:SetPoint("RIGHT", TopFitSetDropDown, "LEFT", 14, 2)
     button:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
     button:SetSize(16, 16)
     button.tipText = CHAT_CONFIGURATION
     button:SetScript("OnEnter", ns.ShowTooltip)
     button:SetScript("OnLeave", ns.HideTooltip)
-    button:SetNormalTexture("Interface\\Vehicles\\UI-VEHICLES-RAID-ICON") -- Interface\\CURSOR\\Interact
-    button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
+    -- button:SetNormalTexture("Interface\\Vehicles\\UI-VEHICLES-RAID-ICON") -- Interface\\CURSOR\\Interact
+    local confTexture = button:CreateTexture('$parentConfigTexture')
+          confTexture:SetTexture("Interface\\MINIMAP\\ObjectIcons")
+          confTexture:SetTexCoord(1/8, 2/8, 4/8, 5/8)
+          confTexture:SetAllPoints()
+    button:SetNormalTexture(confTexture)
+    local confHilightTexture = button:CreateTexture('$parentConfigHighlight')
+          confHilightTexture:SetTexture("Interface\\Buttons\\UI-Common-MouseHilight")
+          confHilightTexture:SetPoint('TOPLEFT', -4, 4)
+          confHilightTexture:SetPoint('BOTTOMRIGHT', 4, -4)
+    button:SetHighlightTexture(confHilightTexture)
 
     button:RegisterForClicks("AnyUp")
     button:SetScript("OnClick", function(self, btn)
