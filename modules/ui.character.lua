@@ -331,6 +331,13 @@ local function CreateFlyoutCheckBox(itemButton)
     return button
 end
 local function UpdateFlyoutCheckBox(button, paperDollItemSlot)
+    if paperDollItemSlot:GetParent():GetName() ~= "PaperDollItemsFrame" then
+        if button.TopFitCheckBox then
+            button.TopFitCheckBox:Hide()
+        end
+        return
+    end
+
     local itemID
     local checkbox, slotID = button.TopFitCheckBox, button.id or paperDollItemSlot:GetID()
     if button.location and button.location == EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 2 then
