@@ -6,46 +6,6 @@ ns.WeightsPlugin = WeightsPlugin
 -- TODO: keep old cap values but let the user deactivate a cap
 -- TODO: statistics display, somewhere, somehow
 
-local function InitializeIconSelector()
-	RefreshEquipmentSetIconInfo()
-	-- texture = GetEquipmentSetIconInfo(index)
-	-- FauxScrollFrame_OnVerticalScroll(GearManagerDialogPopupScrollFrame, 0, GEARSET_ICON_ROW_HEIGHT, nil)
-	-- NUM_GEARSET_ICONS_PER_ROW, NUM_GEARSET_ICON_ROWS
-	-- ModifyEquipmentSet(popup.origName, popup.name, iconTexture)
-
-	local buttons = {}
-	local frame = UIParent
-
-	local button = CreateFrame("CheckButton", "$parentIconButton1", frame, "GearSetPopupButtonTemplate")
-	button:SetPoint("TOPLEFT", 24, -85)
-	button:SetID(1)
-	tinsert(buttons, button)
-
-	local lastPos
-	for i = 2, NUM_GEARSET_ICONS_SHOWN do
-		button = CreateFrame("CheckButton", "$parentIconButton" .. i, frame, "GearSetPopupButtonTemplate")
-		button:SetID(i)
-
-		lastPos = (i - 1) / NUM_GEARSET_ICONS_PER_ROW
-		if lastPos == math.floor(lastPos) then
-			button:SetPoint("TOPLEFT", buttons[i-NUM_GEARSET_ICONS_PER_ROW], "BOTTOMLEFT", 0, -8)
-		else
-			button:SetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", 10, 0)
-		end
-		tinsert(buttons, button)
-	end
-
-	local SetSelection = function(self, fTexture, Value)
-		if fTexture then
-			self.selectedTexture = Value
-			self.selectedIcon = nil
-		else
-			self.selectedTexture = nil
-			self.selectedIcon = Value
-		end
-	end
-end
-
 -- GLOBALS: _G, TopFit, GREEN_FONT_COLOR, NORMAL_FONT_COLOR_CODE, ADD_ANOTHER, PAPERDOLL_SIDEBAR_STATS, PVP_RATING, SLASH_EQUIP_SET1
 -- GLOBALS: PlaySound, CreateFrame, GetEquipmentSetInfoByName, UIDROPDOWNMENU_MENU_VALUE, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton, ToggleDropDownMenu, UnitClass, EditBox_ClearFocus, EditBox_HighlightText, EditBox_ClearHighlight, StaticPopup_Show
 -- GLOBALS: table, string, wipe, pairs, ipairs, print, type, tonumber, tContains
@@ -139,32 +99,46 @@ function WeightsPlugin.InitializeHeaderActions()
 		  changeName:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
 
 	changeName:SetScript("OnClick", function(self, btn)
-		local set = ns.GetSetByID(ns.selectedSet, true)
 		local popup = GearManagerDialogPopup
-		popup.setID = ns.selectedSet
-		if GetEquipmentSetInfoByName(set:GetName()) then
-			popup.origName = set:GetName()
-			popup.isEdit = true
-		end
-
-		RecalculateGearManagerDialogPopup(set:GetName(), set:GetIconTexture());
 		popup:SetParent(UIParent)
 		popup:SetFrameStrata("DIALOG")
 		popup:Show()
+
+		local set = ns.GetSetByID(ns.selectedSet, true)
+		popup.setID = ns.selectedSet
+
+		local name = set:GetName()
+		local tfSetName = set:GetEquipmentSetName()
+		local icon = GetEquipmentSetInfoByName(tfSetName)
+		if icon then
+			-- set exists, we're editing not creating
+			popup.isEdit = true
+			popup.origName = name
+		end
+
+		RecalculateGearManagerDialogPopup(name, icon)
+	end)
+
+	GearManagerDialogPopup:HookScript("OnShow", function(self)
+		self.setID = nil
 	end)
 
 	hooksecurefunc("GearManagerDialogPopupOkay_OnClick", function(self, button, pushed)
 		local popup = GearManagerDialogPopup
 		if popup.setID then
 			local set = ns.GetSetByID(popup.setID, true)
+			local tfSetName = set:GetName()
 			local newName = PaperDollEquipmentManagerPane.selectedSetName
+
 			if not newName then
 				-- new equipment set was created
 				newName = GetEquipmentSetInfo( GetNumEquipmentSets() )
+			elseif newName ~= setName then
+				-- append (TF) or whatever we need to do
+				tfSetName = set:GetEquipmentSetName()
 			end
 			set:SetName(newName)
 
-			local tfSetName = set:GetEquipmentSetName()
 			ModifyEquipmentSet(newName, tfSetName)
 			ns.ui.Update()
 		end
