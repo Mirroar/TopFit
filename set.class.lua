@@ -9,6 +9,7 @@ function Set:construct(setName)
     self.weights = {}
     self.caps = {}
     self.forced = {}
+    self.virtualItems = {}
     self.itemScoreCache = {}
     self.ignoreCapsForCalculation = false
 
@@ -52,6 +53,12 @@ function Set.CreateFromSavedVariables(setTable)
             for _, forcedItemID in ipairs(forced) do
                 setInstance:ForceItem(slotID, forcedItemID)
             end
+        end
+    end
+
+    if setTable.virtualItems then
+        for _, item in pairs(setTable.virtualItems) do
+            tinsert(self.virtualItems, item)
         end
     end
 
@@ -249,11 +256,11 @@ end
 
 -- get a list of all of this set's forced items for the given slot
 function Set:GetForcedItems(slotID, useTable)
-    local forced = useTable or {}
+    local items = useTable or {}
     if slotID then
         if self.forced[slotID] then
             for _, forcedItemID in ipairs(self.forced[slotID]) do
-                tinsert(forced, forcedItemID)
+                tinsert(items, forcedItemID)
             end
         end
     else
@@ -261,11 +268,30 @@ function Set:GetForcedItems(slotID, useTable)
         for slotID, _ in pairs(ns.slotNames) do
             local subForced = self:GetForcedItems(slotID)
             if #subForced > 0 then
-                forced[slotID] = subForced
+                items[slotID] = subForced
             end
         end
     end
-    return forced
+    return items
+end
+
+function Set:AddVirtualItem(item)
+
+end
+
+function Set:RemoveVirtualItem(item)
+
+end
+
+-- get a list of all of this set's virtual items
+function Set:GetVirtualItems(useTable)
+    local items = useTable or {}
+
+    for _, item in self.virtualItems do
+        tinsert(items, item)
+    end
+
+    return items
 end
 
 -- allow dual wielding for this set

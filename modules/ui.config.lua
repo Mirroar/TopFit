@@ -103,7 +103,7 @@ function ui.GetSidebarButton(index)
 	local frame = _G["TopFitConfigFrameSpecialization"]
 	assert(frame, "TopFitConfigFrame has not been initialized properly.")
 
-	-- allow calling this func w/o knowing the next id
+	-- allow calling this function without knowing the next id to create a new button every time
 	if not index then
 		index = 1
 		while _G[frame:GetName() .. "SpecButton" .. index] and not frame["specButton"..index] do
