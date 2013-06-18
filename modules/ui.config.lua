@@ -265,6 +265,16 @@ function ui.ShowPanel(panel)
 	DisplayScrollFramePanel(_G["TopFitConfigFrameSpecializationSpellScrollFrame"], panel)
 end
 
+function ui.Update()
+	if not _G["TopFitConfigFrame"] then return end
+	ui.UpdateSetTabs()
+
+	local panel = ui.GetActivePanel()
+	if panel.OnUpdate then
+		panel:OnUpdate()
+	end
+end
+
 local function CreateSideTab(index)
 	local tab = CreateFrame("CheckButton", "TopFitConfigFrameTab"..index, _G["TopFitConfigFrame"], "PlayerSpecTabTemplate")
 	tab:SetID(index)
@@ -284,12 +294,7 @@ local function CreateSideTab(index)
 				ns:AddSet()
 			end
 		end
-		ui.UpdateSetTabs()
-
-		local panel = ui.GetActivePanel()
-		if panel.OnUpdate then
-			panel:OnUpdate()
-		end
+		ui.Update()
 	end)
 
 	if index == 1 then

@@ -172,9 +172,10 @@ function TopFit:AddSet(preset)
         forced = {}
     }
 
-    if TopFit.ProgressFrame then
+    --[[ if TopFit.ProgressFrame then
         TopFit.ProgressFrame:SetSelectedSet("set_"..i)
-    end
+    end --]]
+    TopFit:SetSelectedSet("set_"..i)
 
     return "set_"..i
 end
@@ -207,11 +208,11 @@ function TopFit:DeleteSet(setCode)
         self.db.profile.defaultUpdateSet2 = nil
     end
 
-    if (TopFit.ProgressFrame) then
-        TopFit.ProgressFrame:SetSelectedSet()
-        TopFit.ProgressFrame:SetCurrentCombination()
-        TopFit.ProgressFrame:SetSetName(TopFit.locale.SetName)
+    if self.setObjectCache then
+        self.setObjectCache[setCode] = nil
     end
+
+    TopFit:SetSelectedSet()
 end
 
 function TopFit:RenameSet(setCode, newName)

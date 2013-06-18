@@ -41,9 +41,7 @@ function TopFit:SetSelectedSet(setID)
         end
     end
 
-    if _G["TopFitConfigFrame"] then
-        ns.ui.UpdateSetTabs()
-    end
+    TopFit.ui.Update()
 end
 
 function TopFit:ResetProgress()

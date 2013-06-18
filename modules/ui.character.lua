@@ -6,23 +6,6 @@ local ui = ns.ui
 -- control elements
 -- ----------------------------------------------
 function ui.InitializeStaticPopupDialogs()
-    StaticPopupDialogs["TOPFIT_RENAMESET"] = {
-        text = GEARSETS_POPUP_TEXT,
-        button1 = OKAY,
-        button2 = CANCEL,
-        OnAccept = function(self)
-            local newName = self.editBox:GetText()
-            ns:RenameSet(ns.currentlyRenamingSetID, newName)
-        end,
-        OnShow = function(self)
-            self.editBox:SetText(ns.db.profile.sets[ ns.currentlyRenamingSetID ].name)
-        end,
-        whileDead = true,
-        hasEditBox = true,
-        enterClicksFirstButton = true,
-        hideOnEscape = true,
-        preferredIndex = 3
-    }
     StaticPopupDialogs["TOPFIT_DELETESET"] = {
         text = CONFIRM_DELETE_EQUIPMENT_SET,
         button1 = OKAY,
@@ -235,7 +218,6 @@ function ui.InitializeConfigButton()
     button.tipText = CHAT_CONFIGURATION
     button:SetScript("OnEnter", ns.ShowTooltip)
     button:SetScript("OnLeave", ns.HideTooltip)
-    -- button:SetNormalTexture("Interface\\Vehicles\\UI-VEHICLES-RAID-ICON") -- Interface\\CURSOR\\Interact
     local confTexture = button:CreateTexture('$parentConfigTexture')
           confTexture:SetTexture("Interface\\MINIMAP\\ObjectIcons")
           confTexture:SetTexCoord(1/8, 2/8, 4/8, 5/8)
@@ -246,6 +228,9 @@ function ui.InitializeConfigButton()
           confHilightTexture:SetPoint('TOPLEFT', -4, 4)
           confHilightTexture:SetPoint('BOTTOMRIGHT', 4, -4)
     button:SetHighlightTexture(confHilightTexture)
+
+    -- button:SetNormalTexture('Interface\\WorldMap\\GEAR_64GREY')
+    -- button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
     button:RegisterForClicks("AnyUp")
     button:SetScript("OnClick", function(self, btn)
