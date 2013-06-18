@@ -20,15 +20,15 @@ local function tinsertonce(table, data)
     end
 end
 
--- [TODO]
+-- [TODO] cleanup
 local configPanel
-local function RefreshItems()
-    local frame = VirtualItems:GetConfigPanel() or configPanel
+function VirtualItems:RefreshItems()
+    local frame = self:GetConfigPanel() or configPanel
     local set = ns.GetSetByID(ns.selectedSet, true)
 
     local lastLine, totalWidth = 1, 0
     local numUsedButtons = 0
-    if (TopFit.selectedSet) then
+    if set then
         if (TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
             for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
                 numUsedButtons = numUsedButtons + 1
@@ -49,7 +49,7 @@ local function RefreshItems()
                                 end
                             end
 
-                            RefreshItems()
+                            self:RefreshItems()
                         end
                     end)
                     frame.itemsFrame.buttons[i] = button
@@ -87,7 +87,7 @@ local function RefreshItems()
     end
 end
 
-local function AddItem(link)
+function VirtualItems:AddItem(link)
     local invSlot = select(9, GetItemInfo(link))
     if TopFit.selectedSet and invSlot and invSlot:find("INVTYPE_") and not invSlot:find("INVTYPE_BAG") then
 
@@ -102,7 +102,7 @@ local function AddItem(link)
             TopFit:Print(TopFit.locale.VIErrorNoSet)
         end
     end
-    RefreshItems()
+    self:RefreshItems()
 end
 
 function VirtualItems:Initialize()
@@ -187,7 +187,7 @@ function VirtualItems:InitializeUI()
             TopFit:Print(TopFit.locale.VIItemNotFound)
         else
             TopFit:Debug("Adding "..link.." to virtual items")
-            AddItem(link)
+            self:AddItem(link)
         end
     end)
     frame.addItemTextBox = addItemTextBox
@@ -221,5 +221,5 @@ function VirtualItems:InitializeUI()
 end
 
 function VirtualItems:OnShow()
-    RefreshItems()
+    self:RefreshItems()
 end
