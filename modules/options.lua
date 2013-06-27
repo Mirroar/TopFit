@@ -35,7 +35,7 @@ function TopFit:createOptions()
         end
         autoUpdateSet.tiptext = TopFit.locale.AutoUpdateSetTooltip
 
-        UIDropDownMenu_Initialize(autoUpdateSet, function()
+        local function InitializeAutoUpdateDropdown()
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.None
             info.notCheckable = true
@@ -59,7 +59,8 @@ function TopFit:createOptions()
                 end
                 UIDropDownMenu_AddButton(info)
             end
-        end)
+        end
+        autoUpdateSet.initialize = InitializeAutoUpdateDropdown
 
         -- Auto Update Set 2 Dropdown
         local autoUpdateSet2, autoUpdateSetText2, autoUpdateSetContainer2 = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, TopFit.locale.AutoUpdateSet.." 2", "TOPLEFT", autoUpdateSetContainer, "BOTTOMLEFT", 0, 0)
@@ -70,7 +71,7 @@ function TopFit:createOptions()
         end
         autoUpdateSet2.tiptext = TopFit.locale.AutoUpdateSetTooltip
 
-        UIDropDownMenu_Initialize(autoUpdateSet2, function()
+        local function InitializeAutoUpdateDropdown2()
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.None
             info.value = "none"
@@ -94,7 +95,8 @@ function TopFit:createOptions()
                 end
                 UIDropDownMenu_AddButton(info)
             end
-        end)
+        end
+        autoUpdateSet2.initialize = InitializeAutoUpdateDropdown2
 
         -- Autoupdate on Spec switch Checkbox
         local autoUpdateOnRespec = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.AutoUpdateOnRespec, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -110)

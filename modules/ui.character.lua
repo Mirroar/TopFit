@@ -214,6 +214,7 @@ function ui.InitializeConfigButton()
     local button = CreateFrame("Button", "TopFitConfigButton", PaperDollItemsFrame)
     button:SetPoint("RIGHT", TopFitSetDropDown, "LEFT", 14, 2)
     button:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
+    button:SetAlpha(0.8)
     button:SetSize(16, 16)
     button.tipText = CHAT_CONFIGURATION
     button:SetScript("OnEnter", ns.ShowTooltip)
