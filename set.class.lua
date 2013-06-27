@@ -58,7 +58,8 @@ function Set.CreateFromSavedVariables(setTable)
 
     if setTable.virtualItems then
         for _, item in pairs(setTable.virtualItems) do
-            tinsert(self.virtualItems, item)
+            -- TODO: use function
+            tinsert(setInstance.virtualItems, item)
         end
     end
 
