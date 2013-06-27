@@ -40,6 +40,12 @@ local itemLevelModifiers = { -- see http://www.wowinterface.com/forums/showthrea
     [460] =  8, -- 2/4
     [461] = 12, -- 3/4
     [462] = 16, -- 4/4
+    [466] =  4, -- 1/2
+    [467] =  8, -- 2/2
+    [469] =  4, -- 1/4
+    [470] =  8, -- 2/4
+    [471] = 12, -- 3/4
+    [472] = 16, -- 4/4
 }
 local itemScaleExponent = 1.00936754973658
 
