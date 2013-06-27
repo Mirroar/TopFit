@@ -5,6 +5,26 @@ local ui = ns.ui
 -- ----------------------------------------------
 -- control elements
 -- ----------------------------------------------
+function ui.ShowRenameDialog()
+    local popup = GearManagerDialogPopup
+    popup:SetParent(UIParent)
+    popup:SetFrameStrata("DIALOG")
+    popup:Show()
+
+    local set = ns.GetSetByID(ns.selectedSet, true)
+    popup.setID = ns.selectedSet
+
+    local name = set:GetName()
+    local tfSetName = set:GetEquipmentSetName()
+    local icon = GetEquipmentSetInfoByName(tfSetName)
+    if icon then
+        -- set exists, we're editing not creating
+        popup.isEdit = true
+        popup.origName = name
+    end
+
+    RecalculateGearManagerDialogPopup(name, icon)
+end
 function ui.InitializeStaticPopupDialogs()
     StaticPopupDialogs["TOPFIT_DELETESET"] = {
         text = CONFIRM_DELETE_EQUIPMENT_SET,
@@ -19,6 +39,36 @@ function ui.InitializeStaticPopupDialogs()
         hideOnEscape = true,
         preferredIndex = 3
     }
+
+    GearManagerDialogPopup:HookScript("OnShow", function(self)
+        self.setID = nil
+    end)
+
+    hooksecurefunc("GearSetPopupButton_OnClick", function(self, button)
+        local popup = GearManagerDialogPopup
+        local texture = self:GetNormalTexture():GetTexture()
+        popup.setIconTexture = string.sub(texture or "", 17)
+    end)
+
+    hooksecurefunc("GearManagerDialogPopupOkay_OnClick", function(self, button, pushed)
+        local popup = GearManagerDialogPopup
+        if not popup.setID then return end
+
+        local set = ns.GetSetByID(popup.setID, true)
+        local tfSetName, eqSetName = set:GetName(), set:GetEquipmentSetName()
+        local newName = PaperDollEquipmentManagerPane.selectedSetName
+
+        if not newName then
+            -- new eq set was created
+            newName = GetEquipmentSetInfo( GetNumEquipmentSets() )
+            eqSetName = newName
+        end
+
+        set:SetName(newName)
+        ModifyEquipmentSet(eqSetName, set:GetEquipmentSetName(), popup.setIconTexture)
+
+        ui.Update()
+    end)
 end
 
 function ui.InitializeSetDropdown()
@@ -109,7 +159,7 @@ function ui.InitializeSetDropdown()
                 info.text = ns.locale.ModifySetRenameText
                 info.func = function(self)
                     ns.currentlyRenamingSetID = self.value
-                    StaticPopup_Show("TOPFIT_RENAMESET", ns.db.profile.sets[ self.value ].name)
+                    ui.ShowRenameDialog()
                     ToggleDropDownMenu(nil, nil, dropDown)
                 end
                 UIDropDownMenu_AddButton(info, level)

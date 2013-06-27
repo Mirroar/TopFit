@@ -98,51 +98,7 @@ function WeightsPlugin.InitializeHeaderActions()
 		  changeName:SetPoint("BOTTOMRIGHT", parent.roleName, "BOTTOMRIGHT", 10, -2) -- some padding in case of short names
 		  changeName:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
 
-	changeName:SetScript("OnClick", function(self, btn)
-		local popup = GearManagerDialogPopup
-		popup:SetParent(UIParent)
-		popup:SetFrameStrata("DIALOG")
-		popup:Show()
-
-		local set = ns.GetSetByID(ns.selectedSet, true)
-		popup.setID = ns.selectedSet
-
-		local name = set:GetName()
-		local tfSetName = set:GetEquipmentSetName()
-		local icon = GetEquipmentSetInfoByName(tfSetName)
-		if icon then
-			-- set exists, we're editing not creating
-			popup.isEdit = true
-			popup.origName = name
-		end
-
-		RecalculateGearManagerDialogPopup(name, icon)
-	end)
-
-	GearManagerDialogPopup:HookScript("OnShow", function(self)
-		self.setID = nil
-	end)
-
-	hooksecurefunc("GearManagerDialogPopupOkay_OnClick", function(self, button, pushed)
-		local popup = GearManagerDialogPopup
-		if popup.setID then
-			local set = ns.GetSetByID(popup.setID, true)
-			local tfSetName = set:GetName()
-			local newName = PaperDollEquipmentManagerPane.selectedSetName
-
-			if not newName then
-				-- new equipment set was created
-				newName = GetEquipmentSetInfo( GetNumEquipmentSets() )
-			elseif newName ~= setName then
-				-- append (TF) or whatever we need to do
-				tfSetName = set:GetEquipmentSetName()
-			end
-			set:SetName(newName)
-
-			ModifyEquipmentSet(newName, tfSetName)
-			ns.ui.Update()
-		end
-	end)
+	changeName:SetScript("OnClick", ns.ui.ShowRenameDialog)
 
 	-- delete a set
 	local delete = CreateFrame("Button", nil, frame)
