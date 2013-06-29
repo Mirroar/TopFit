@@ -277,11 +277,36 @@ function Set:GetForcedItems(slotID, useTable)
 end
 
 function Set:AddVirtualItem(item)
+    if not item then return end
 
+    tinsert(self.virtualItems, item)
+
+    if self.setID and ns.db.profile.sets[self.setID] then
+        if not ns.db.profile.sets[self.setID].virtualItems then
+            ns.db.profile.sets[self.setID].virtualItems = {}
+        end
+        tinsert(ns.db.profile.sets[self.setID].virtualItems, item)
+    end
 end
 
 function Set:RemoveVirtualItem(item)
+    if not item then return end
 
+    for i = #(self.virtualItems), 1, -1 do
+        local virtualItem = self.virtualItems[i]
+        if virtualItem == item then
+            tremove(self.virtualItems, i)
+        end
+    end
+
+    if self.setID and ns.db.profile.sets[self.setID] and ns.db.profile.sets[self.setID].virtualItems then
+        for i = #(ns.db.profile.sets[self.setID].virtualItems), 1, -1 do
+            local virtualItem = ns.db.profile.sets[self.setID].virtualItems[i]
+            if virtualItem == item then
+                tremove(ns.db.profile.sets[self.setID].virtualItems, i)
+            end
+        end
+    end
 end
 
 -- get a list of all of this set's virtual items

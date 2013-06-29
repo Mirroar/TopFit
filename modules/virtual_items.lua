@@ -20,10 +20,37 @@ local function tinsertonce(table, data)
     end
 end
 
+function VirtualItems:GetItemButton(i)
+    local frame = self:GetConfigPanel()
+
+    if not frame.itemsFrame.buttons[i] then
+        local button = CreateFrame("Button", "$parentItemButton"..i, frame.itemsFrame.content, "ItemButtonTemplate")
+
+        button:RegisterForClicks("RightButtonUp")
+        button:SetScript("OnEnter", TopFit.ShowTooltip)
+        button:SetScript("OnLeave", TopFit.HideTooltip)
+        button:SetScript("OnClick", function(self)
+            -- remove item from list
+            if (TopFit.selectedSet and TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
+                -- find item and remove it
+                local i
+                for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
+                    if (self.itemLink == TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]) then
+                        tremove(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, i)
+                    end
+                end
+
+                self:RefreshItems()
+            end
+        end)
+        frame.itemsFrame.buttons[i] = button
+    end
+    local button = frame.itemsFrame.buttons[i]
+end
+
 -- [TODO] cleanup
-local configPanel
 function VirtualItems:RefreshItems()
-    local frame = self:GetConfigPanel() or configPanel
+    local frame = self:GetConfigPanel()
     local set = ns.GetSetByID(ns.selectedSet, true)
 
     local lastLine, totalWidth = 1, 0
@@ -32,29 +59,9 @@ function VirtualItems:RefreshItems()
         if (TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
             for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
                 numUsedButtons = numUsedButtons + 1
-                if not frame.itemsFrame.buttons[i] then
-                    local button = CreateFrame("Button", "$parentItemButton"..i, frame.itemsFrame.content, "ItemButtonTemplate")
+                local button = self:GetItemButton(i)
 
-                    button:RegisterForClicks("RightButtonUp")
-                    button:SetScript("OnEnter", TopFit.ShowTooltip)
-                    button:SetScript("OnLeave", TopFit.HideTooltip)
-                    button:SetScript("OnClick", function(self)
-                        -- remove item from list
-                        if (TopFit.selectedSet and TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
-                            -- find item and remove it
-                            local i
-                            for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
-                                if (self.itemLink == TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]) then
-                                    tremove(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, i)
-                                end
-                            end
 
-                            self:RefreshItems()
-                        end
-                    end)
-                    frame.itemsFrame.buttons[i] = button
-                end
-                local button = frame.itemsFrame.buttons[i]
                 button.itemLink = TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]
 
                 local texture = select(10, GetItemInfo(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]))
@@ -216,8 +223,6 @@ function VirtualItems:InitializeUI()
     frame.itemsFrame = itemScrollFrame
 
     frame.itemsFrame.buttons = {}
-
-    configPanel = frame
 end
 
 function VirtualItems:OnShow()
