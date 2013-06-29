@@ -234,7 +234,11 @@ function ui.InitializeMultiButton()
             button.tipText = CANCEL
         end
     end
-    button:setState()
+    if TopFit.isBlocked then
+        button:setState('busy')
+    else
+        button:setState()
+    end
 
     button:SetScript("OnClick", function(...)
         -- TODO: call a function for starting set calculation instead of this

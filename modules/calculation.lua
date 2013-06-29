@@ -64,7 +64,9 @@ function ns:CalculateSets(silent)
             calculation:Start()
             ns.runningCalculation = calculation
 
-            TopFitSidebarCalculateButton:setState('busy')
+            if TopFitSidebarCalculateButton then
+                TopFitSidebarCalculateButton:setState('busy')
+            end
         end
     end
 end
@@ -98,7 +100,9 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
 
         ns.EquipRecommendedItems(set)
         ns.runningCalculation = nil
-        TopFitSidebarCalculateButton:setState()
+        if TopFitSidebarCalculateButton then
+            TopFitSidebarCalculateButton:setState()
+        end
     else
         -- caps could not all be reached, calculate without caps instead
         if not set.calculationData.silentCalculation then
