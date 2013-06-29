@@ -7,96 +7,77 @@ local addonName, ns, _ = ...
 local VirtualItems = ns.Plugin()
 ns.VirtualItems = VirtualItems
 
-local function tinsertonce(table, data)
-    local found = false
-    for _, v in pairs(table) do
-        if v == data then
-            found = true
-            break
-        end
+function VirtualItems:GetItemButton(i)
+    local frame = self:GetConfigPanel()
+
+    if not frame.itemsFrame.buttons[i] then
+        local button = CreateFrame("Button", "$parentItemButton"..i, frame.itemsFrame.content, "ItemButtonTemplate")
+
+        button:RegisterForClicks("RightButtonUp") -- removing is only triggered on right click
+        button:SetScript("OnEnter", TopFit.ShowTooltip)
+        button:SetScript("OnLeave", TopFit.HideTooltip)
+        button:SetScript("OnClick", function(clickedButton)
+            local set = ns.GetSetByID(ns.selectedSet, true)
+            set:RemoveVirtualItem(clickedButton.itemLink)
+            self:RefreshItems()
+        end)
+        frame.itemsFrame.buttons[i] = button
     end
-    if not found then
-        tinsert(table, data)
-    end
+    local button = frame.itemsFrame.buttons[i]
+
+    return button
 end
 
--- [TODO] cleanup
-local configPanel
 function VirtualItems:RefreshItems()
-    local frame = self:GetConfigPanel() or configPanel
+    local frame = self:GetConfigPanel()
     local set = ns.GetSetByID(ns.selectedSet, true)
+    local virtualItems = set:GetVirtualItems()
 
-    local lastLine, totalWidth = 1, 0
-    local numUsedButtons = 0
-    if set then
-        if (TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
-            for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
-                numUsedButtons = numUsedButtons + 1
-                if not frame.itemsFrame.buttons[i] then
-                    local button = CreateFrame("Button", "$parentItemButton"..i, frame.itemsFrame.content, "ItemButtonTemplate")
+    local rowFirstButtonID, totalWidth = 1, 0
+    if set and virtualItems then
+        for i, item in ipairs(virtualItems) do
+            local button = self:GetItemButton(i)
 
-                    button:RegisterForClicks("RightButtonUp")
-                    button:SetScript("OnEnter", TopFit.ShowTooltip)
-                    button:SetScript("OnLeave", TopFit.HideTooltip)
-                    button:SetScript("OnClick", function(self)
-                        -- remove item from list
-                        if (TopFit.selectedSet and TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
-                            -- find item and remove it
-                            local i
-                            for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
-                                if (self.itemLink == TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]) then
-                                    tremove(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, i)
-                                end
-                            end
+            button.itemLink = item
 
-                            self:RefreshItems()
-                        end
-                    end)
-                    frame.itemsFrame.buttons[i] = button
-                end
-                local button = frame.itemsFrame.buttons[i]
-                button.itemLink = TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]
+            local texture = select(10, GetItemInfo(item))
+            if not texture then texture = "Interface\\Icons\\Inv_Misc_Questionmark" end
+            SetItemButtonTexture(button, texture)
 
-                local texture = select(10, GetItemInfo(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]))
-                if not texture then texture = "Interface\\Icons\\Inv_Misc_Questionmark" end
-                SetItemButtonTexture(button, texture)
-                button:Show()
+            button:Show()
 
-                if i == 1 then
-                    -- anchor to top left of frame
-                    button:SetPoint("TOPLEFT", frame.itemsFrame.content, "TOPLEFT", 2, -2)
-                    totalWidth = totalWidth + button:GetWidth() + 2*4    -- padding needs to be added
+            if i == 1 then
+                -- anchor to top left of frame
+                button:SetPoint("TOPLEFT", frame.itemsFrame.content, "TOPLEFT", 2, -2)
+                totalWidth = totalWidth + button:GetWidth() + 2 * 4    -- padding needs to be added
+            else
+                -- anchor to previous item, or beginning of next line
+                if (totalWidth + button:GetWidth()) <= frame.itemsFrame:GetWidth() then
+                    button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[i - 1], "TOPRIGHT", 2, 0)
+                    totalWidth = totalWidth + button:GetWidth() + 2
                 else
-                    -- anchor to previous item, or beginning of next line
-                    if (totalWidth + button:GetWidth()) <= frame.itemsFrame:GetWidth() then
-                        button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[i - 1], "TOPRIGHT", 2, 0)
-                        totalWidth = totalWidth + button:GetWidth() + 2
-                    else
-                        button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[lastLine], "BOTTOMLEFT", 0, -2)
-                        totalWidth = button:GetWidth() + 2*4
-                        lastLine = i
-                    end
+                    button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[rowFirstButtonID], "BOTTOMLEFT", 0, -2)
+                    totalWidth = button:GetWidth() + 2 * 4
+                    rowFirstButtonID = i
                 end
             end
         end
     end
 
     -- hide unused buttons
-    for i = numUsedButtons + 1, #(frame.itemsFrame.buttons) do
+    for i = #virtualItems + 1, #(frame.itemsFrame.buttons) do
         frame.itemsFrame.buttons[i]:Hide()
     end
 end
 
 function VirtualItems:AddItem(link)
+    local set = ns.GetSetByID(ns.selectedSet, true)
     local invSlot = select(9, GetItemInfo(link))
-    if TopFit.selectedSet and invSlot and invSlot:find("INVTYPE_") and not invSlot:find("INVTYPE_BAG") then
-
-        if not TopFit.db.profile.sets[TopFit.selectedSet].virtualItems then
-            TopFit.db.profile.sets[TopFit.selectedSet].virtualItems = {}
-        end
-        tinsertonce(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, link)
+    if set and invSlot and invSlot:find("INVTYPE_") and not invSlot:find("INVTYPE_BAG") then
+        set:AddVirtualItem(item)
     else
-        if TopFit.selectedSet then
+        -- show an error message
+        if ns.selectedSet then
             TopFit:Print(string.format(TopFit.locale.VIErrorNotEquippable, link))
         else
             TopFit:Print(TopFit.locale.VIErrorNoSet)
@@ -126,17 +107,16 @@ function VirtualItems:InitializeUI()
 
     -- option for disabling virtual items calculation
     local enable = LibStub("tekKonfig-Checkbox").new(frame, nil, TopFit.locale.IncludeVI, "TOPLEFT", info, "BOTTOMLEFT", 10, -4)
-          enable.tiptext = TopFit.locale.IncludeVITooltip
-
-    -- [TODO]
+        enable.tiptext = TopFit.locale.IncludeVITooltip
     if set then
-        enable:SetChecked(not TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems)
+        enable:SetChecked(set:GetUseVirtualItems())
     end
     local checksound = enable:GetScript("OnClick")
     enable:SetScript("OnClick", function(self)
+        local set = ns.GetSetByID(ns.selectedSet, true)
         checksound(self)
-        if (TopFit.selectedSet) then
-            TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems = not TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems
+        if set then
+            set:SetUseVirtualItems(not set:GetUseVirtualItems())
         end
     end)
     frame.includeVirtualItemsCheckButton = enable
@@ -216,8 +196,6 @@ function VirtualItems:InitializeUI()
     frame.itemsFrame = itemScrollFrame
 
     frame.itemsFrame.buttons = {}
-
-    configPanel = frame
 end
 
 function VirtualItems:OnShow()

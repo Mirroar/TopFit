@@ -25,7 +25,7 @@ do
     TopFit.locale.ModifySetRenameText = "Rename"
     TopFit.locale.ModifySetDeleteText = "Delete"
     TopFit.locale.AddSetTooltip = "Add a new equipment set\n|cffffffffAftewards, you can adjust this set's weights and caps in the right frame, or force items by clicking on any equipment slots below."
-    TopFit.locale.DeleteSetTooltip = "Delete the selected set\n|cffffffffYou will have to click this button a second time to confirm the deletion.\n\n|cffff0000WARNING|cffffffff: The associated set in the equipment manager will also be deleted! If you want to keep it, create a copy in Blizzard's equipment manager first!"
+    TopFit.locale.DeleteSetTooltip = "Delete the selected set\n\n|cffff0000WARNING|cffffffff: The associated set in the equipment manager will also be deleted! If you want to keep it, create a copy in Blizzard's equipment manager first!"
     TopFit.locale.Options = "Options"
     TopFit.locale.OpenOptionsTooltip = "Open TopFit's options"
     TopFit.locale.ForceItem = "Force Item for %s:"

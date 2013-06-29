@@ -12,6 +12,7 @@ function Set:construct(setName)
     self.virtualItems = {}
     self.itemScoreCache = {}
     self.ignoreCapsForCalculation = false
+    self.useVirtualItems = true
 
     self.calculationData = {} -- for use by calculation functions
 
@@ -74,6 +75,9 @@ function Set.CreateFromSavedVariables(setTable)
     end
     if setTable.forceArmorType then
         setInstance:SetForceArmorType(true)
+    end
+    if setTable.skipVirtualItems then
+        setInstance:SetUseVirtualItems(false)
     end
 
     return setInstance
@@ -276,19 +280,46 @@ function Set:GetForcedItems(slotID, useTable)
     return items
 end
 
+-- add a virtual item to be included in this set's calculations
 function Set:AddVirtualItem(item)
+    if not item then return end
 
+    tinsert(self.virtualItems, item)
+
+    if self.setID and ns.db.profile.sets[self.setID] then
+        if not ns.db.profile.sets[self.setID].virtualItems then
+            ns.db.profile.sets[self.setID].virtualItems = {}
+        end
+        tinsert(ns.db.profile.sets[self.setID].virtualItems, item)
+    end
 end
 
+-- remove a virtual item from this set's calculations
 function Set:RemoveVirtualItem(item)
+    if not item then return end
 
+    for i = #(self.virtualItems), 1, -1 do
+        local virtualItem = self.virtualItems[i]
+        if virtualItem == item then
+            tremove(self.virtualItems, i)
+        end
+    end
+
+    if self.setID and ns.db.profile.sets[self.setID] and ns.db.profile.sets[self.setID].virtualItems then
+        for i = #(ns.db.profile.sets[self.setID].virtualItems), 1, -1 do
+            local virtualItem = ns.db.profile.sets[self.setID].virtualItems[i]
+            if virtualItem == item then
+                tremove(ns.db.profile.sets[self.setID].virtualItems, i)
+            end
+        end
+    end
 end
 
 -- get a list of all of this set's virtual items
 function Set:GetVirtualItems(useTable)
     local items = useTable or {}
 
-    for _, item in self.virtualItems do
+    for _, item in ipairs(self.virtualItems) do
         tinsert(items, item)
     end
 
@@ -332,7 +363,6 @@ function Set:ForceTitansGrip(force)
         ns.db.profile.sets[self.setID].simulateTitansGrip = force and true or false
     end
 end
-
 function Set:IsTitansGripForced()
     return self.forceTitansGrip
 end
@@ -357,12 +387,22 @@ function Set:GetForceArmorType()
     return self.forceArmorType
 end
 
-function Set:SetHitConversion(enable) -- [TODO]
+function Set:SetUseVirtualItems(enable)
+    self.useVirtualItems = enable and true or false
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].skipVirtualItems = (not enable) and true or false
+    end
+end
+function Set:GetUseVirtualItems()
+    return self.useVirtualItems
+end
+
+--[[function Set:SetHitConversion(enable) -- [TODO]
     self.hitConversion = enable and true or false
 end
 function Set:GetHitConversion() -- [TODO]
     return self.hitConversion
-end
+end--]]
 
 function Set:GetItemScore(item, useRaw)
     assert(item and (type(item) == "string" or type(item) == "number"), "Usage: setObject:GetItemScore(itemLink or itemID[, useRaw])")

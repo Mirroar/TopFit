@@ -33,12 +33,12 @@ local exposedSettings = {
 			return playerClass ~= "PRIEST" and playerClass ~= "WARLOCK" and playerClass ~= "MAGE"
 		end
 	},
-	{
+	--[[{
 		"Enable hit conversion", "Check to enable spirit to hit conversion, even if it does not apply to your current spec",
 		"GetHitConversion", "SetHitConversion", function(playerClass)
 			return playerClass == "DRUID" or playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "PRIEST" or playerClass == "SHAMAN"
 		end
-	},
+	},--]]
 	{
 		ns.locale.StatsEnableDualWield, ns.locale.StatsEnableDualWieldTooltip,
 		"IsDualWieldForced", "ForceDualWield", function(playerClass)

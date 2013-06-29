@@ -338,11 +338,6 @@ function TopFit:getComparePercentage(itemTable, setCode)
 end
 
 -- Tooltip functions
-local cleared = true
-local refCleared = true
-local s1Cleared = true
-local s2Cleared = true
-
 local function TooltipAddCompareLines(tt, link)
     local itemTable = TopFit:GetCachedItem(link)
 
@@ -674,98 +669,36 @@ local function TooltipAddLines(tt, link)
             end
         end
     end
-
-    TooltipAddNewLines(tt, link)
 end
 
-local function OnTooltipCleared(self)
-    cleared = true
+local clearedSemaphores = {}
+local function OnTooltipCleared(self, semaphore)
+    clearedSemaphores[semaphore] = nil
 end
 
-local function OnTooltipSetItem(self)
-    if cleared then
+local function OnTooltipSetItem(self, semaphore, skipCompareLines)
+    if not clearedSemaphores[semaphore] then
         local name, link = self:GetItem()
         if (name) then
-            local equippable = IsEquippableItem(link)
-            if (not equippable) then
-                -- Do nothing
-            else
+            if IsEquippableItem(link) and not ns.Unfit:IsItemUnusable(link) then
                 TooltipAddLines(self, link)
-                if (TopFit.db.profile.showComparisonTooltip and not TopFit.isBlocked) then
+                if (TopFit.db.profile.showComparisonTooltip and not TopFit.isBlocked and not skipCompareLines) then
                     TooltipAddCompareLines(self, link)
                 end
                 TooltipAddNewLines(self, link)
             end
-            cleared = false
+            clearedSemaphores[semaphore] = true
         end
     end
 end
 
-local function OnRefTooltipCleared(self)
-    refCleared = true
-end
-
-local function OnRefTooltipSetItem(self)
-    if refCleared then
-        local name, link = self:GetItem()
-        if (name) then
-            local equippable = IsEquippableItem(link)
-            if (not equippable) then
-                -- Do nothing
-            else
-                TooltipAddLines(self, link)
-                if (TopFit.db.profile.showComparisonTooltip and not TopFit.isBlocked) then
-                    TooltipAddCompareLines(self, link)
-                end
-            end
-            refCleared = false
-        end
-    end
-end
-
-local function OnShoppingTooltip1Cleared(self)
-    s1Cleared = true
-end
-
-local function OnShoppingTooltip1SetItem(self)
-    if s1Cleared then
-        local name, link = self:GetItem()
-        if (name) then
-            local equippable = IsEquippableItem(link)
-            if (not equippable) then
-                -- Do nothing
-            else
-                TooltipAddLines(self, link)
-            end
-            s1Cleared = false
-        end
-    end
-end
-
-local function OnShoppingTooltip2Cleared(self)
-    s2Cleared = true
-end
-
-local function OnShoppingTooltip2SetItem(self)
-    if s2Cleared then
-        local name, link = self:GetItem()
-        if (name) then
-            local equippable = IsEquippableItem(link)
-            if (not equippable) then
-                -- Do nothing
-            else
-                TooltipAddLines(self, link)
-            end
-            s2Cleared = false
-        end
-    end
-end
-
-GameTooltip:HookScript("OnTooltipCleared", OnTooltipCleared)
-GameTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
-ItemRefTooltip:HookScript("OnTooltipCleared", OnRefTooltipCleared)
-ItemRefTooltip:HookScript("OnTooltipSetItem", OnRefTooltipSetItem)
-ShoppingTooltip1:HookScript("OnTooltipCleared", OnShoppingTooltip1Cleared)
-ShoppingTooltip1:HookScript("OnTooltipSetItem", OnShoppingTooltip1SetItem)
-ShoppingTooltip2:HookScript("OnTooltipCleared", OnShoppingTooltip2Cleared)
-ShoppingTooltip2:HookScript("OnTooltipSetItem", OnShoppingTooltip2SetItem)
+-- hook all tooltips that interest us
+GameTooltip:HookScript("OnTooltipCleared", function(self) OnTooltipCleared(self, "item") end)
+GameTooltip:HookScript("OnTooltipSetItem", function(self) OnTooltipSetItem(self, "item") end)
+ItemRefTooltip:HookScript("OnTooltipCleared", function(self) OnTooltipCleared(self, "ref") end)
+ItemRefTooltip:HookScript("OnTooltipSetItem", function(self) OnTooltipSetItem(self, "ref") end)
+-- shopping tooltips are set to skip compare lines because usually the equipped items are identical to our set's items anyways
+ShoppingTooltip1:HookScript("OnTooltipCleared", function(self) OnTooltipCleared(self, "shopping1") end)
+ShoppingTooltip1:HookScript("OnTooltipSetItem", function(self) OnTooltipSetItem(self, "shopping1", true) end)
+ShoppingTooltip2:HookScript("OnTooltipCleared", function(self) OnTooltipCleared(self, "shopping2") end)
+ShoppingTooltip2:HookScript("OnTooltipSetItem", function(self) OnTooltipSetItem(self, "shopping2", true) end)

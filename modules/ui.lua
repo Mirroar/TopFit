@@ -2,26 +2,22 @@ local _, ns = ...
 
 -- TODO: integrate this code into appropriate files
 
-function TopFit:SetSelectedSet(setID)
-    local i
-
+function ns:SetSelectedSet(setID)
     -- select current auto-update set by default
     if not setID then
-        if (TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
-            setID = TopFit.db.profile.defaultUpdateSet
+        if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
+            setID = ns.db.profile.defaultUpdateSet
         end
-        if (TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
-            setID = TopFit.db.profile.defaultUpdateSet2
+        if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
+            setID = ns.db.profile.defaultUpdateSet2
         end
     end
 
-    -- if still no set is selected, select first available set instead
     if not setID then
-        for i = 1, 500 do
-            if (TopFit.db.profile.sets["set_"..i]) then
-                setID = "set_"..i
-                break
-            end
+        -- if still no set is selected, select first available set instead
+        for id, _ in pairs(ns.db.profile.sets) do
+            setID = id
+            break
         end
     end
 
@@ -30,18 +26,18 @@ function TopFit:SetSelectedSet(setID)
             TopFitSidebarCalculateButton:Disable()
         end
     else
-        TopFit.selectedSet = setID
+        ns.selectedSet = setID
         if TopFitSidebarCalculateButton then
             TopFitSidebarCalculateButton:Enable()
         end
-        -- TopFit:SetCurrentCombinationFromEquipmentSet(setID)
+        -- ns:SetCurrentCombinationFromEquipmentSet(setID)
         if TopFitSetDropDown then
-            UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, TopFit.selectedSet)
-            UIDropDownMenu_SetText(TopFitSetDropDown, TopFit.db.profile.sets[TopFit.selectedSet].name)
+            UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, ns.selectedSet)
+            UIDropDownMenu_SetText(TopFitSetDropDown, ns.db.profile.sets[ns.selectedSet].name)
         end
     end
 
-    TopFit.ui.Update()
+    ns.ui.Update()
 end
 
 function TopFit:ResetProgress()
