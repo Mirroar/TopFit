@@ -220,21 +220,21 @@ function ui.InitializeMultiButton()
     button:SetScript("OnLeave", ns.HideTooltip)
     button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
-    if not button.state then
-        button.state = 'idle'
+    button.setState = function(button, state)
+        if not state then
+            state = 'idle'
+        end
+        button.state = state
+
+        if button.state == 'idle' then
+            button:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
+            button.tipText = ns.locale.StartTooltip
+        else
+            button:SetNormalTexture("Interface\\TimeManager\\PauseButton")
+            button.tipText = CANCEL
+        end
     end
-    if button.state == 'idle' then
-        button:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-        button.tipText = ns.locale.StartTooltip
-    elseif button.state == 'busy' then
-        button:SetNormalTexture("Interface\\TimeManager\\PauseButton")
-        button.tipText = CANCEL
-    else
-        -- Interface\\BUTTONS\\UI-Panel-HideButton-Up
-        -- Interface\\BUTTONS\\CancelButton-Up
-        button:SetNormalTexture("Interface\\TimeManager\\ResetButton")
-        button.tipText = HIDE
-    end
+    button:setState()
 
     button:SetScript("OnClick", function(...)
         -- TODO: call a function for starting set calculation instead of this
