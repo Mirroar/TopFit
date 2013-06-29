@@ -84,15 +84,13 @@ function VirtualItems:RefreshItems()
 end
 
 function VirtualItems:AddItem(link)
+    local set = ns.GetSetByID(ns.selectedSet, true)
     local invSlot = select(9, GetItemInfo(link))
-    if TopFit.selectedSet and invSlot and invSlot:find("INVTYPE_") and not invSlot:find("INVTYPE_BAG") then
-
-        if not TopFit.db.profile.sets[TopFit.selectedSet].virtualItems then
-            TopFit.db.profile.sets[TopFit.selectedSet].virtualItems = {}
-        end
-        tinsertonce(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, link)
+    if set and invSlot and invSlot:find("INVTYPE_") and not invSlot:find("INVTYPE_BAG") then
+        set:AddVirtualItem(item)
     else
-        if TopFit.selectedSet then
+        -- show an error message
+        if ns.selectedSet then
             TopFit:Print(string.format(TopFit.locale.VIErrorNotEquippable, link))
         else
             TopFit:Print(TopFit.locale.VIErrorNoSet)
@@ -122,17 +120,16 @@ function VirtualItems:InitializeUI()
 
     -- option for disabling virtual items calculation
     local enable = LibStub("tekKonfig-Checkbox").new(frame, nil, TopFit.locale.IncludeVI, "TOPLEFT", info, "BOTTOMLEFT", 10, -4)
-          enable.tiptext = TopFit.locale.IncludeVITooltip
-
-    -- [TODO]
+        enable.tiptext = TopFit.locale.IncludeVITooltip
     if set then
-        enable:SetChecked(not TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems)
+        enable:SetChecked(set:GetUseVirtualItems())
     end
     local checksound = enable:GetScript("OnClick")
     enable:SetScript("OnClick", function(self)
+        local set = ns.GetSetByID(ns.selectedSet, true)
         checksound(self)
-        if (TopFit.selectedSet) then
-            TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems = not TopFit.db.profile.sets[TopFit.selectedSet].skipVirtualItems
+        if set then
+            set:SetUseVirtualItems(not set:GetUseVirtualItems())
         end
     end)
     frame.includeVirtualItemsCheckButton = enable

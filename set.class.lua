@@ -12,6 +12,7 @@ function Set:construct(setName)
     self.virtualItems = {}
     self.itemScoreCache = {}
     self.ignoreCapsForCalculation = false
+    self.useVirtualItems = true
 
     self.calculationData = {} -- for use by calculation functions
 
@@ -74,6 +75,9 @@ function Set.CreateFromSavedVariables(setTable)
     end
     if setTable.forceArmorType then
         setInstance:SetForceArmorType(true)
+    end
+    if setTable.skipVirtualItems then
+        setInstance:UseVirtualItems(false)
     end
 
     return setInstance
@@ -359,7 +363,6 @@ function Set:ForceTitansGrip(force)
         ns.db.profile.sets[self.setID].simulateTitansGrip = force and true or false
     end
 end
-
 function Set:IsTitansGripForced()
     return self.forceTitansGrip
 end
@@ -382,6 +385,16 @@ function Set:SetForceArmorType(enable)
 end
 function Set:GetForceArmorType()
     return self.forceArmorType
+end
+
+function Set:SetUseVirtualItems(enable)
+    self.useVirtualItems = enable and true or false
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].skipVirtualItems = (not enable) and true or false
+    end
+end
+function Set:GetUseVirtualItems()
+    return self.useVirtualItems
 end
 
 function Set:SetHitConversion(enable) -- [TODO]
