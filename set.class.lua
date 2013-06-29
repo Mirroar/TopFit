@@ -77,7 +77,7 @@ function Set.CreateFromSavedVariables(setTable)
         setInstance:SetForceArmorType(true)
     end
     if setTable.skipVirtualItems then
-        setInstance:UseVirtualItems(false)
+        setInstance:SetUseVirtualItems(false)
     end
 
     return setInstance

@@ -15,8 +15,8 @@ function ns:StartCalculations()
 end
 
 function ns:AbortCalculations()
-    if ns.isBlocked then
-        ns.abortCalculation = true
+    if ns.isBlocked and ns.runningCalculation then
+        ns.runningCalculation:Abort();
     end
 end
 
@@ -56,6 +56,7 @@ function ns:CalculateSets(silent)
             ns:ResetProgress()
 
             calculation:Start()
+            ns.runningCalculation = calculation
         end
     end
 end
@@ -84,6 +85,7 @@ end
 
 function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly with calculation internals
     local set = calculation.set
+    ns.runningCalculation = nil
 
     -- find best combination that satisfies ALL caps
     if (calculation.bestCombination) then
