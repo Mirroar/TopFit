@@ -175,6 +175,9 @@ function ns:OnInitialize()
     -- set callback handler
     ns.eventHandler = ns.eventHandler or LibStub("CallbackHandler-1.0"):New(ns)
 
+    -- load Unfit-1.0
+    ns.Unfit = LibStub("Unfit-1.0")
+
     -- create gametooltip for scanning
     ns.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
 

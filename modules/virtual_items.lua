@@ -7,19 +7,6 @@ local addonName, ns, _ = ...
 local VirtualItems = ns.Plugin()
 ns.VirtualItems = VirtualItems
 
-local function tinsertonce(table, data)
-    local found = false
-    for _, v in pairs(table) do
-        if v == data then
-            found = true
-            break
-        end
-    end
-    if not found then
-        tinsert(table, data)
-    end
-end
-
 function VirtualItems:GetItemButton(i)
     local frame = self:GetConfigPanel()
 

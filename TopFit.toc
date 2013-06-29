@@ -12,6 +12,7 @@ Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\tekKonfig\tekKonfig.xml
 Libs\LibReforgingInfo-1.0\LibReforgingInfo-1.0.xml
+Libs\Unfit-1.0\Unfit-1.0.lua
 
 # locales
 locale\enUS.lua
