@@ -26,70 +26,59 @@ function VirtualItems:GetItemButton(i)
     if not frame.itemsFrame.buttons[i] then
         local button = CreateFrame("Button", "$parentItemButton"..i, frame.itemsFrame.content, "ItemButtonTemplate")
 
-        button:RegisterForClicks("RightButtonUp")
+        button:RegisterForClicks("RightButtonUp") -- removing is only triggered on right click
         button:SetScript("OnEnter", TopFit.ShowTooltip)
         button:SetScript("OnLeave", TopFit.HideTooltip)
-        button:SetScript("OnClick", function(self)
-            -- remove item from list
-            if (TopFit.selectedSet and TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
-                -- find item and remove it
-                local i
-                for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
-                    if (self.itemLink == TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]) then
-                        tremove(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems, i)
-                    end
-                end
-
-                self:RefreshItems()
-            end
+        button:SetScript("OnClick", function(clickedButton)
+            local set = ns.GetSetByID(ns.selectedSet, true)
+            set:RemoveVirtualItem(clickedButton.itemLink)
+            self:RefreshItems()
         end)
         frame.itemsFrame.buttons[i] = button
     end
     local button = frame.itemsFrame.buttons[i]
+
+    return button
 end
 
--- [TODO] cleanup
 function VirtualItems:RefreshItems()
     local frame = self:GetConfigPanel()
     local set = ns.GetSetByID(ns.selectedSet, true)
+    local virtualItems = set:GetVirtualItems()
 
-    local lastLine, totalWidth = 1, 0
-    local numUsedButtons = 0
-    if set then
-        if (TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) then
-            for i = 1, #(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems) do
-                numUsedButtons = numUsedButtons + 1
-                local button = self:GetItemButton(i)
+    local rowFirstButtonID, totalWidth = 1, 0
+    if set and virtualItems then
+        for i, item in ipairs(virtualItems) do
+            local button = self:GetItemButton(i)
 
+            button.itemLink = item
 
-                button.itemLink = TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]
+            local texture = select(10, GetItemInfo(item))
+            if not texture then texture = "Interface\\Icons\\Inv_Misc_Questionmark" end
+            SetItemButtonTexture(button, texture)
 
-                local texture = select(10, GetItemInfo(TopFit.db.profile.sets[TopFit.selectedSet].virtualItems[i]))
-                if not texture then texture = "Interface\\Icons\\Inv_Misc_Questionmark" end
-                SetItemButtonTexture(button, texture)
-                button:Show()
+            button:Show()
 
-                if i == 1 then
-                    -- anchor to top left of frame
-                    button:SetPoint("TOPLEFT", frame.itemsFrame.content, "TOPLEFT", 2, -2)
-                    totalWidth = totalWidth + button:GetWidth() + 2*4    -- padding needs to be added
+            if i == 1 then
+                -- anchor to top left of frame
+                button:SetPoint("TOPLEFT", frame.itemsFrame.content, "TOPLEFT", 2, -2)
+                totalWidth = totalWidth + button:GetWidth() + 2 * 4    -- padding needs to be added
+            else
+                -- anchor to previous item, or beginning of next line
+                if (totalWidth + button:GetWidth()) <= frame.itemsFrame:GetWidth() then
+                    button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[i - 1], "TOPRIGHT", 2, 0)
+                    totalWidth = totalWidth + button:GetWidth() + 2
                 else
-                    -- anchor to previous item, or beginning of next line
-                    if (totalWidth + button:GetWidth()) <= frame.itemsFrame:GetWidth() then
-                        button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[i - 1], "TOPRIGHT", 2, 0)
-                        totalWidth = totalWidth + button:GetWidth() + 2
-                    else
-                        button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[lastLine], "BOTTOMLEFT", 0, -2)
-                        totalWidth = button:GetWidth() + 2*4
-                        lastLine = i
-                    end
+                    button:SetPoint("TOPLEFT", frame.itemsFrame.buttons[rowFirstButtonID], "BOTTOMLEFT", 0, -2)
+                    totalWidth = button:GetWidth() + 2 * 4
+                    rowFirstButtonID = i
                 end
             end
         end
     end
 
     -- hide unused buttons
-    for i = numUsedButtons + 1, #(frame.itemsFrame.buttons) do
+    for i = #virtualItems + 1, #(frame.itemsFrame.buttons) do
         frame.itemsFrame.buttons[i]:Hide()
     end
 end

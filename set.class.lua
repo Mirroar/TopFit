@@ -276,6 +276,7 @@ function Set:GetForcedItems(slotID, useTable)
     return items
 end
 
+-- add a virtual item to be included in this set's calculations
 function Set:AddVirtualItem(item)
     if not item then return end
 
@@ -289,6 +290,7 @@ function Set:AddVirtualItem(item)
     end
 end
 
+-- remove a virtual item from this set's calculations
 function Set:RemoveVirtualItem(item)
     if not item then return end
 
@@ -313,7 +315,7 @@ end
 function Set:GetVirtualItems(useTable)
     local items = useTable or {}
 
-    for _, item in self.virtualItems do
+    for _, item in ipairs(self.virtualItems) do
         tinsert(items, item)
     end
 
