@@ -194,16 +194,7 @@ function ns:OnInitialize()
     end
 
     -- select current auto-update set by default
-    if TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1 then
-        ns.selectedSet = TopFit.db.profile.defaultUpdateSet
-    elseif TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2 then
-        ns.selectedSet = TopFit.db.profile.defaultUpdateSet2
-    else
-        for setID, setTable in pairs(ns.db.profile.sets) do
-            ns.selectedSet = setID
-            break
-        end
-    end
+    ns:SetSelectedSet()
 
     -- for savedvariable updates: check if each set has a forced table
     for set, table in pairs(ns.db.profile.sets) do

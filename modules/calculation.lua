@@ -356,22 +356,13 @@ end
 
 local professionSkills = {}
 local function RemoveUnusableSkillItems(set, subList)
-    local prof1, prof2, arch, fish, cook, firstAid = GetProfessions()
-    local profession, skill
+    local professions = {GetProfessions()}
 
     wipe(professionSkills)
-    _, _, skill, _, _, _, profession = GetProfessionInfo(prof1)
-    professionSkills[profession] = skill
-    _, _, skill, _, _, _, profession = GetProfessionInfo(prof2)
-    professionSkills[profession] = skill
-    _, _, skill, _, _, _, profession = GetProfessionInfo(arch)
-    professionSkills[profession] = skill
-    _, _, skill, _, _, _, profession = GetProfessionInfo(fish)
-    professionSkills[profession] = skill
-    _, _, skill, _, _, _, profession = GetProfessionInfo(cook)
-    professionSkills[profession] = skill
-    _, _, skill, _, _, _, profession = GetProfessionInfo(firstAid)
-    professionSkills[profession] = skill
+    for _, prof in pairs(professions) do
+        local _, _, skill, _, _, _, profession = GetProfessionInfo(prof)
+        professionSkills[profession] = skill
+    end
 
     for i = #subList, 1, -1 do
         local itemStats, itemTable
@@ -385,7 +376,7 @@ local function RemoveUnusableSkillItems(set, subList)
             tremove(subList, i)
         else
             for statCode, statValue in pairs(itemStats) do
-                profession = tonumber(string.match(statCode, "^SKILL: (.+)") or "")
+                local profession = tonumber(string.match(statCode, "^SKILL: (.+)") or "")
                 if profession and (not professionSkills[profession] or professionSkills[profession] < statValue) then
                     tremove(subList, i)
                 end
