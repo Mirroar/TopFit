@@ -17,11 +17,8 @@ function TopFit:SetSelectedSet(setID)
 
     -- if still no set is selected, select first available set instead
     if not setID then
-        for i = 1, 500 do
-            if (TopFit.db.profile.sets["set_"..i]) then
-                setID = "set_"..i
-                break
-            end
+        for setID, _ in pairs(TopFit.db.profile.sets) do
+            break
         end
     end
 
