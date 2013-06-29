@@ -501,7 +501,9 @@ function TopFit.FrameOnEvent(frame, event, arg1, ...)
             -- new equippable item in inventory, check if it is actually better than anything currently available
             for _, newItem in pairs(newEquip) do
                 -- skip BoE items
-                if not newItem.bag or not TopFit:IsItemBoE(newItem.bag, newItem.slot) then
+                if (not newItem.bag or not TopFit:IsItemBoE(newItem.bag, newItem.slot)) and
+                    IsEquippableItem(newItem.itemLink) and not ns.Unfit:IsItemUnusable(newItem.itemLink)
+                then
                     TopFit:Debug("New Item: "..newItem.itemLink)
                     local itemTable = TopFit:GetCachedItem(newItem.itemLink)
                     local setCode = (GetActiveSpecGroup() == 1) and TopFit.db.profile.defaultUpdateSet or TopFit.db.profile.defaultUpdateSet2
@@ -527,6 +529,11 @@ function TopFit.FrameOnEvent(frame, event, arg1, ...)
                                     end
                                 end
                             end
+                        else
+                            -- no item found in set, good reason to upgrade!
+                            TopFit:Debug('No Item in base set found!')
+                            TopFit:RunAutoUpdate(true)
+                            return
                         end
                     end
                 end
