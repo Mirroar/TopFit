@@ -16,12 +16,15 @@ end
 
 function ns:AbortCalculations()
     if ns.isBlocked and ns.runningCalculation then
-        ns.runningCalculation:Abort();
+        ns.runningCalculation:Abort()
+        ns.isBlocked = false
+        ns:StoppedCalculation()
+        ns.runningCalculation = nil
     end
 end
 
 function ns:CalculateSets(silent)
-    if (not ns.isBlocked) then
+    if not ns.isBlocked then
         local setCode = tremove(ns.workSetList)
         while not ns.db.profile.sets[setCode] and #(ns.workSetList) > 0 do
             setCode = tremove(ns.workSetList)
@@ -29,8 +32,9 @@ function ns:CalculateSets(silent)
 
         if ns.db.profile.sets[setCode] then
             ns.setCode = setCode -- globally save the current set that is being calculated
+            --TODO: probably not necessary anymore?
 
-            local set = ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setCode])
+            local set = ns.GetSetByID(setCode)
             local calculation = ns.DefaultCalculation(set)
             calculation:SetOperationsPerFrame(500)
 
@@ -72,20 +76,11 @@ function ns.UpdateUIWithCalculationProgress(calculation) --TODO: don't interact 
         ns:SetCurrentCombination(calculation.bestCombination)
     end
 
-    if ns.abortCalculation then
-        -- TODO: this does nothing
-        ns:Print("Calculation aborted.")
-        ns.abortCalculation = nil
-        ns.isBlocked = false
-        ns:StoppedCalculation()
-    end
-
     ns:Debug("Current combination count: "..calculation.combinationCount)
 end
 
 function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly with calculation internals
     local set = calculation.set
-    ns.runningCalculation = nil
 
     -- find best combination that satisfies ALL caps
     if (calculation.bestCombination) then
@@ -98,6 +93,7 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
         end
 
         ns.EquipRecommendedItems(set)
+        ns.runningCalculation = nil
     else
         -- caps could not all be reached, calculate without caps instead
         if not set.calculationData.silentCalculation then

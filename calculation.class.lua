@@ -97,6 +97,7 @@ function Calculation:Start()
         end
         Calculation._RunCalculation(self)
         self.running = true
+        self.started = true
     end
 end
 Calculation.Resume = Calculation.Start

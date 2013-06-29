@@ -8,7 +8,6 @@ function DefaultCalculation:Initialize()
     ns.itemRecommendations = {}
     ns.currentSetName = self.set:GetName() -- TODO: remove; currently used by calculation.lua:OnUpdateForEquipment
 
-    self.firstCombination = true
     self.combinationCount = 0
     self.slotCounters = {}
     self.bestCombination = nil
@@ -61,6 +60,8 @@ function DefaultCalculation:Initialize()
             end
         end
     end
+
+    self:InitializeSlots(0)
 end
 
 -- run single step of this calculation
@@ -83,17 +84,17 @@ function DefaultCalculation:Step()
                 increased = true
             end
         else
-            if self.firstCombination then
-                self.firstCombination = false --TODO: find a better way to skip this step the first time
-            else
-                -- we're back here, and so we're done
-                TopFit:Print("Finished calculation after " .. math.ceil(self.elapsed * 100) / 100 .. " seconds at " .. self:GetOperationsPerFrame() .. " operations per frame")
-                self:Done()
-                return
-            end
+            -- we're back here, and so we're done
+            TopFit:Print("Finished calculation after " .. math.ceil(self.elapsed * 100) / 100 .. " seconds at " .. self:GetOperationsPerFrame() .. " operations per frame")
+            self:Done()
+            return
         end
     end
 
+    currentSlot = self:InitializeSlots(currentSlot)
+end
+
+function DefaultCalculation:InitializeSlots(currentSlot)
     -- fill all further slots with first choices again - until caps are reached or unreachable
     while (not self:IsCapsReached(currentSlot) or self.moreUniquesAvailable[currentSlot]) and not self:IsCapsUnreachable(currentSlot) and not self:UniquenessViolated(currentSlot) and (currentSlot < 19) do
         currentSlot = currentSlot + 1
@@ -113,7 +114,11 @@ function DefaultCalculation:Step()
     if self:IsCapsReached(currentSlot) and not self:UniquenessViolated(currentSlot) then
         -- valid combination, save
         self:SaveCurrentCombination()
+    else
+        TopFit:Debug("Invalid combination - " ..currentSlot .. ': ' .. (self:IsCapsReached(currentSlot) and "true" or "nil") .. ", " .. (self:UniquenessViolated(currentSlot) and "true" or "nil") .. ", " .. (self.moreUniquesAvailable[currentSlot] and "true" or "nil") .. ", " .. (self:IsCapsUnreachable(currentSlot) and "true" or "nil"))
     end
+
+    return currentSlot
 end
 
 -- run final operation of this calculation and get ready to return a result

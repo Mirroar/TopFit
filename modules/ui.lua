@@ -15,8 +15,8 @@ function TopFit:SetSelectedSet(setID)
         end
     end
 
-    -- if still no set is selected, select first available set instead
     if not setID then
+        -- if still no set is selected, select first available set instead
         for setID, _ in pairs(TopFit.db.profile.sets) do
             break
         end
