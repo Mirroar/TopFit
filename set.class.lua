@@ -397,12 +397,12 @@ function Set:GetUseVirtualItems()
     return self.useVirtualItems
 end
 
-function Set:SetHitConversion(enable) -- [TODO]
+--[[function Set:SetHitConversion(enable) -- [TODO]
     self.hitConversion = enable and true or false
 end
 function Set:GetHitConversion() -- [TODO]
     return self.hitConversion
-end
+end--]]
 
 function Set:GetItemScore(item, useRaw)
     assert(item and (type(item) == "string" or type(item) == "number"), "Usage: setObject:GetItemScore(itemLink or itemID[, useRaw])")
