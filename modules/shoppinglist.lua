@@ -25,7 +25,7 @@ local notEnchantable = {
 function ShoppingList:Initialize()
 	self:SetName("Shopping List")
 	self:SetTooltipText("Helps you remember your characters' needs")
-	self:SetButtonTexture("Interface\\Icons\\INV_Glove_Mail_PVPHunter_D_01")
+	self:SetButtonTexture("Interface\\Icons\\INV_Enchant_FormulaSuperior_01") -- Achievement_Reputation_03, Achievement_General_100kquests
 	self:RegisterConfigPanel()
 
 	if not TopFitDB.ShoppingList then
@@ -134,7 +134,7 @@ local function ScanCharacterEquipment(self, btn)
 
 			-- extra sockets
 			local beltBuckle = playerLevel >= 70 and slotID == INVSLOT_WAIST
-			local blackPrince = princeReputation >= 7
+			local blackPrince = princeReputation >= 7 and (IsQuestFlaggedCompleted(32390) or IsQuestFlaggedCompleted(32432))
 				and (slotID == INVSLOT_MAINHAND or (slotID == INVSLOT_OFFHAND and OffhandHasWeapon()))
 				and (statTable["EMPTY_SOCKET_HYDRAULIC"] or (itemLevel >= 502 and itemLevel <= 541))
 			local blacksmithing = smithingSkill >= 400 and (slotID == INVSLOT_WRIST or slotID == INVSLOT_HAND)

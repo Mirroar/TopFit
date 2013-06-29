@@ -38,13 +38,13 @@ end
 function Plugin:RegisterConfigPanel()
     self.hasConfigPanel = true
     if ns.ui.IsConfigFrameInitialized() then
-        self:CreateConfigPanel()
+        self:CreateConfigPanel(self.fullPanel)
     end
 end
 
 function Plugin:CreateConfigPanel()
     if self.hasConfigPanel then
-        self.configButton, self.configPanel = ns.ui.CreateConfigPanel()
+        self.configButton, self.configPanel = ns.ui.CreateConfigPanel(self.fullPanel)
 
         self.configPanel.OnUpdate = function(frame)
             if self.OnShow then

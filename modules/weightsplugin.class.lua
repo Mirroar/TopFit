@@ -94,8 +94,9 @@ function WeightsPlugin.InitializeHeaderActions()
 
 	-- rename a set
 	local changeName = CreateFrame("Button", nil, frame)
-		  changeName:SetPoint("TOPLEFT", parent.roleName, "TOPLEFT", 0, 2)
-		  changeName:SetPoint("BOTTOMRIGHT", parent.roleName, "BOTTOMRIGHT", 10, -2) -- some padding in case of short names
+		  changeName:SetPoint("TOPLEFT", parent.roleIcon, "TOPLEFT", -2, 2)
+		  changeName:SetPoint("BOTTOMLEFT", parent.roleIcon, "BOTTOMLEFT", -2, -2)
+		  changeName:SetPoint("RIGHT", parent.roleName, "RIGHT", 10, 0)
 		  changeName:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
 
 	changeName:SetScript("OnClick", ns.ui.ShowRenameDialog)
@@ -403,10 +404,6 @@ function WeightsPlugin:InitializeUI()
 		  newStatText:SetTextColor(GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b)
 		  newStatText:SetText("|TInterface\\PaperDollInfoFrame\\Character-Plus:0|t "..ADD_ANOTHER)
 	newStat:SetSize( newStatText:GetWidth(), newStatText:GetHeight() )
-
-	local padding = CreateFrame("Frame")
-		  padding:SetPoint("TOPLEFT", newStat, "BOTTOMLEFT")
-		  padding:SetSize(1, 25)
 end
 
 local function SortStats(a, b)
@@ -428,44 +425,46 @@ end
 
 local setStats = {}
 function WeightsPlugin:OnShow()
-	local frame = self:GetConfigPanel()
+	local panel = self:GetConfigPanel()
 	local set = ns.GetSetByID(ns.selectedSet, true)
 
-	ns.ui.SetHeaderSubTitle(frame, set:GetName())
-	ns.ui.SetHeaderSubTitleIcon(frame, set:GetIconTexture(), 0, 1, 0, 1)
+	ns.ui.SetHeaderSubTitle(panel, set:GetName())
+	ns.ui.SetHeaderSubTitleIcon(panel, set:GetIconTexture(), 0, 1, 0, 1)
 
 	local index, func = 1, nil
-	while frame["exposedSetting"..index] do
-		func = frame["exposedSetting"..index].updateHandler
+	while panel["exposedSetting"..index] do
+		func = panel["exposedSetting"..index].updateHandler
 		if func and set[func] then
-			frame["exposedSetting"..index]:SetChecked( set[func](set) )
+			panel["exposedSetting"..index]:SetChecked( set[func](set) )
 		end
 		index = index + 1
 	end
 
-	frame.stats = frame.stats or {}
-	wipe(frame.stats)
+	panel.stats = panel.stats or {}
+	wipe(panel.stats)
 
 	for stat, _ in pairs(set:GetStatWeights(setStats)) do
-		table.insert(frame.stats, stat)
+		table.insert(panel.stats, stat)
 	end
 	for stat, _ in pairs(set:GetHardCaps(setStats)) do
-		if not tContains(frame.stats, stat) then
-			table.insert(frame.stats, stat)
+		if not tContains(panel.stats, stat) then
+			table.insert(panel.stats, stat)
 		end
 	end
-	table.sort(frame.stats, SortStats)
+	table.sort(panel.stats, SortStats)
 
 	self:SetStatLine(0, PAPERDOLL_SIDEBAR_STATS, string.gsub(PVP_RATING, ":", ""), "Cap")
-	for i, stat in ipairs(frame.stats) do
+	for i, stat in ipairs(panel.stats) do
 		self:SetStatLine(i, stat, set:GetStatWeight(stat), set:GetHardCap(stat))
 	end
-	local i = #(frame.stats) + 1
-	while _G[frame:GetName().."StatLine"..i] do
-		_G[frame:GetName().."StatLine"..i]:Hide()
+	local i = #(panel.stats) + 1
+	while _G[panel:GetName().."StatLine"..i] do
+		_G[panel:GetName().."StatLine"..i]:Hide()
 		i = i + 1
 	end
 
 	-- position add button at the end
-	_G[frame:GetName().."AddStat"]:SetPoint("TOPLEFT", "$parentStatLine"..#(frame.stats), "BOTTOMLEFT", 0, -10)
+	local newStat = _G[panel:GetName().."AddStat"]
+	newStat:SetPoint("TOPLEFT", "$parentStatLine"..#(panel.stats), "BOTTOMLEFT", 0, -10)
+	newStat:SetBackdropColor(1, 0, 0)
 end

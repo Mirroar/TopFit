@@ -2,18 +2,16 @@ local addonName, ns, _ = ...
 ns.ui = ns.ui or {}
 local ui = ns.ui
 
--- GLOBALS: NORMAL_FONT_COLOR, GREEN_FONT_COLOR_CODE, RED_FONT_COLOR_CODE, MAX_EQUIPMENT_SETS_PER_PLAYER, EQUIPMENT_SETS_TOO_MANY, ADD_ANOTHER, _G, UIParent, GameTooltip, assert, hooksecurefunc, unpack, select, type, pairs, ipairs
--- GLOBALS: LoadAddOn, PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic, GetNumEquipmentSets
+-- GLOBALS: NORMAL_FONT_COLOR, GREEN_FONT_COLOR_CODE, RED_FONT_COLOR_CODE, MAX_EQUIPMENT_SETS_PER_PLAYER, EQUIPMENT_SETS_TOO_MANY, ADD_ANOTHER, _G, PANEL_INSET_LEFT_OFFSET, PANEL_INSET_TOP_OFFSET, PANEL_INSET_RIGHT_OFFSET, PANEL_INSET_BOTTOM_OFFSET, UIParent, GameTooltip, assert, hooksecurefunc, unpack, select, type, pairs, ipairs
+-- GLOBALS: LoadAddOn, PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic, GetNumEquipmentSets, ToggleDropDownMenu, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton
 
 function ui.CreateConfigPanel(isFull)
 	local button = ui.GetSidebarButton()
-	local panel = CreateFrame("Frame", "TopFitConfigFramePlugin"..button:GetID(), _G["TopFitConfigFrameSpecializationSpellScrollFrameScrollChild"])
-		  panel:SetID( button:GetID() )
+	local id = button:GetID()
+	local panel = CreateFrame("Frame", "TopFitConfigFramePlugin"..button:GetID(), _G["TopFitConfigFrameInset"].spellsScroll.child)
 		  panel:Hide()
-	if not isFull then
-		panel:SetHeight(180) -- default height
-		panel.displayHeader = true
-	end
+
+	panel.displayHeader = not isFull
 
 	button.panel = panel
 	panel.button = button
@@ -38,7 +36,6 @@ local function SetHeaderData(scrollChild, panel)
 end
 
 local function DisplayScrollFramePanel(scrollFrame, panel)
-	-- [TODO] set parents depending on display mode
 	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
 	local buttonID = 1
 	local button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
@@ -50,42 +47,54 @@ local function DisplayScrollFramePanel(scrollFrame, panel)
 		button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
 	end
 
+	local currentChild = scrollFrame:GetScrollChild(scrollFrame)
+	if currentChild.panel then
+		-- hide old panel content
+		currentChild.panel:SetParent(nil)
+		currentChild.panel:ClearAllPoints()
+		currentChild.panel:Hide()
+	else
+		-- very first init
+		currentChild.abilityButton1:Hide()
+	end
+
+	local scrollChild = _G[scrollFrame:GetName().."ScrollChild"]
 	if panel.displayHeader then
-		scrollFrame:GetScrollChild():Hide()
-		scrollFrame:SetScrollChild( _G[scrollFrame:GetName().."ScrollChild"] )
-		local scrollChild = scrollFrame:GetScrollChild()
-		scrollChild.abilityButton1:Hide()
-		scrollChild:Show()
+		if currentChild ~= scrollChild then
+			-- changing fromm full mode to header mode
+			currentChild:Hide()
+			scrollFrame:SetScrollChild(scrollChild)
+			scrollChild:Show()
+		end
 
 		SetHeaderData(scrollChild, panel)
 
-		if scrollChild.panel then
-			scrollChild.panel:Hide()
-		end
+		panel:SetParent(scrollChild)
+		panel:ClearAllPoints()
+		panel:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 24, -185)
+		panel:SetPoint("BOTTOMRIGHT", scrollChild, "BOTTOMRIGHT", -24, 10)
+		-- panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -24, -185)
+		panel:Show()
+
 		scrollChild.panel = panel
-		scrollChild.panel:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 20, -185)
-		scrollChild.panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -20, -185)
-		scrollChild.panel:Show()
 	else
-		scrollFrame:GetScrollChild():Hide()
+		-- changing from header mode to full mode
+		if currentChild == scrollChild then currentChild:Hide() end
+
 		scrollFrame:SetScrollChild(panel)
-		scrollFrame:GetScrollChild():Show()
+		panel:SetSize(400, 400) -- totally random
+		panel:SetParent(scrollFrame)
+		panel:ClearAllPoints()
+		panel:SetPoint("TOPLEFT")
+		panel:SetPoint("BOTTOMRIGHT")
+		panel:Show()
 	end
-	scrollFrame:UpdateScrollChildRect()
-	scrollFrame:SetVerticalScroll(0)
+	ui.Update()
 end
 local function ButtonOnClick(self)
 	GameTooltip:Hide()
 	PlaySound("igMainMenuOptionCheckBoxOn")
-
-	local scrollFrame = self:GetParent().spellsScroll
-	scrollFrame.ScrollBar:SetValue(0)
-	_G["TopFitConfigFrame"].activePanel = self.panel
-
-	DisplayScrollFramePanel(scrollFrame, self.panel)
-	if self.panel.OnUpdate then
-		self.panel:OnUpdate()
-	end
+	ui.ShowPanel(self.panel)
 end
 local function ButtonOnEnter(self)
 	if self.selected then return end
@@ -100,7 +109,7 @@ local function ButtonOnLeave(self)
 end
 
 function ui.GetSidebarButton(index)
-	local frame = _G["TopFitConfigFrameSpecialization"]
+	local frame = _G["TopFitConfigFrameInset"]
 	assert(frame, "TopFitConfigFrame has not been initialized properly.")
 
 	-- allow calling this function without knowing the next id to create a new button every time
@@ -114,8 +123,7 @@ function ui.GetSidebarButton(index)
 	local button = _G[frame:GetName() .. "SpecButton" .. index]
 	if not button or frame["specButton"..index] then
 		if not button then
-			button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate")
-			button:SetID(index)
+			button = CreateFrame("Button", "$parentSpecButton"..index, frame, "PlayerSpecButtonTemplate", index)
 		end
 
 		button:SetScript("OnClick", ButtonOnClick)
@@ -195,15 +203,11 @@ function ui.SetSidebarButtonData(button, name, tooltip, texture, role)
 end
 
 function ui.SetActivePanel(mixed) -- button, panel, id
-	if type(mixed) == "table" then
-		mixed = mixed:GetID()
-	end
-
-	local button = _G["TopFitConfigFrameSpecializationSpecButton"..mixed]
+	if type(mixed) == "table" then mixed = mixed:GetID() end
+	local button = _G["TopFitConfigFrameInsetSpecButton"..mixed]
 	assert(button, "Button/panel with id "..mixed.." does not exist.")
 
-	_G["TopFitConfigFrame"].activePanel = button.panel
-	button:Click()
+	ui.ShowPanel(button.panel)
 end
 function ui.GetActivePanel()
 	return _G["TopFitConfigFrame"].activePanel
@@ -262,21 +266,27 @@ function ui.SetPanelDisplayHeader(panel, displayHeader)
 end
 
 function ui.ShowPanel(panel)
-	DisplayScrollFramePanel(_G["TopFitConfigFrameSpecializationSpellScrollFrame"], panel)
+	_G["TopFitConfigFrame"].activePanel = panel
+	DisplayScrollFramePanel(_G["TopFitConfigFrameInsetSpellScrollFrame"], panel)
 end
 
 function ui.Update()
-	if not _G["TopFitConfigFrame"] then return end
+	local frame = _G["TopFitConfigFrameInsetSpellScrollFrame"]
+	if not frame then return end
+
 	ui.UpdateSetTabs()
 
+	-- ScrollFrame_OnScrollRangeChanged(frame, 0, 0)
+	frame:SetVerticalScroll(0)
+
 	local panel = ui.GetActivePanel()
-	if panel.OnUpdate then
+	if panel and panel.OnUpdate then
 		panel:OnUpdate()
 	end
 end
 
 local function CreateSideTab(index)
-	local tab = CreateFrame("CheckButton", "TopFitConfigFrameTab"..index, _G["TopFitConfigFrame"], "PlayerSpecTabTemplate")
+	local tab = CreateFrame("CheckButton", "$parentTab"..index, _G["TopFitConfigFrame"], "PlayerSpecTabTemplate")
 	tab:SetID(index)
 	tab:RegisterForClicks("AnyUp")
 	tab:SetScript("OnEnter", ButtonOnEnter)
@@ -289,12 +299,12 @@ local function CreateSideTab(index)
 		else -- new set tab
 			if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then return end
 			if btn == "RightButton" then
-				ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameSpecializationAddFromPreset"], "cursor")
+				ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameInsetAddFromPreset"], "cursor")
 			else
 				ns:AddSet()
 			end
+			ui.Update()
 		end
-		ui.Update()
 	end)
 
 	if index == 1 then
@@ -353,7 +363,7 @@ function ui.ToggleTopFitConfigFrame()
 	if not frame then
 		LoadAddOn("Blizzard_TalentUI") -- won't double init
 
-		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "ButtonFrameTemplate") -- PortraitFrameTemplate
+		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
 		frame:EnableMouse()
 		-- TalentFrame size: 646, 468
 		-- PVEFrame width: 563, 424
@@ -368,16 +378,16 @@ function ui.ToggleTopFitConfigFrame()
 		frame:SetAttribute("UIPanelLayout-width", 646) 		-- width + 20
 		frame:SetAttribute("UIPanelLayout-height", 468) 	-- height + 20
 
-		ButtonFrameTemplate_HideAttic(frame)
-		ButtonFrameTemplate_HideButtonBar(frame)
 		SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
 		frame.TitleText:SetText("TopFit")
 
-		local frameContent = CreateFrame("Frame", frame:GetName().."Specialization", frame.Inset, "SpecializationFrameTemplate")
-		frameContent:ClearAllPoints()
-		frameContent:SetAllPoints()
+		local frameContent = CreateFrame("Frame", "$parentInset", frame, "SpecializationFrameTemplate")
+		frame.Inset = frameContent
+		frameContent:SetPoint("TOPLEFT", PANEL_INSET_LEFT_OFFSET, PANEL_INSET_TOP_OFFSET)
+		frameContent:SetPoint("BOTTOMRIGHT", PANEL_INSET_RIGHT_OFFSET, PANEL_INSET_BOTTOM_OFFSET)
+		-- fix portrait icon being overlaid by Inset
 		frameContent:SetFrameLevel(0) -- put below parent
-		frameContent:SetFrameLevel(1) -- and then raise again!
+		frameContent:SetFrameLevel(1) -- and then raise again
 
 		frameContent.MainHelpButton:Hide()
 		frameContent.learnButton:Hide()
@@ -391,9 +401,16 @@ function ui.ToggleTopFitConfigFrame()
 		sidebarBL:SetPoint("BOTTOMLEFT", 3, 0)
 		sidebarBR:SetPoint("BOTTOMLEFT", 147, 0)
 
+		local scrollFrame = frameContent.spellsScroll
+		scrollFrame:SetHeight(410-18) -- Blizzard_TalentUI is taller than we are
+		scrollFrame.scrollBarHideable = true
+		-- alternative offsets: -15, -14 / -15, 10
+		scrollFrame.ScrollBar:SetPoint("TOPLEFT", "$parent", "TOPRIGHT", -18, -16)
+		scrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", "$parent", "BOTTOMRIGHT", -18, 16)
+
 		-- reanchor textures so they don't scroll later on
-		local scrollChild = _G[frameContent:GetName().."SpellScrollFrameScrollChild"]
-		scrollChild:SetPoint("BOTTOMRIGHT") -- for smooth resizing
+		local scrollChild = scrollFrame.child
+		scrollChild:SetAllPoints(scrollFrame)
 		scrollChild.scrollwork_topleft:SetParent(frameContent)
 		scrollChild.scrollwork_topleft:ClearAllPoints()
 		scrollChild.scrollwork_topleft:SetPoint("TOPLEFT", 217, 0)
@@ -416,18 +433,6 @@ function ui.ToggleTopFitConfigFrame()
 			index = index + 1
 		end
 
-		hooksecurefunc(scrollChild:GetParent(), "SetVerticalScroll", function(self, scroll)
-			local hasScrollBar = self:GetVerticalScrollRange() > 0
-			if hasScrollBar then
-				self.ScrollBar:Show()
-			else
-				self.ScrollBar:Hide()
-			end
-			self:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
-			-- self.scrollChild:SetPoint("BOTTOMRIGHT", hasScrollBar and -24 or 0, 4)
-			self.child:SetPoint("BOTTOMRIGHT") -- for smooth resizing
-		end)
-
 		-- initialize set tabs
 		local dropDown = CreateFrame("Frame", "$parentAddFromPreset", frameContent, "UIDropDownMenuTemplate")
 			  dropDown:Hide()
@@ -437,11 +442,7 @@ function ui.ToggleTopFitConfigFrame()
 			local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
 			ns:CreateEquipmentSet(ns.db.profile.sets[setCode].name)
 			ToggleDropDownMenu(nil, nil, dropDown)
-
-			local panel = ui.GetActivePanel()
-			if panel.OnUpdate then
-				panel:OnUpdate()
-			end
+			ui.Update()
 		end
 		dropDown.initialize = function(self, level)
 			local info = UIDropDownMenu_CreateInfo()
@@ -461,7 +462,7 @@ function ui.ToggleTopFitConfigFrame()
 
 		-- initialize plugin config panels
 		for _, plugin in pairs(ns.currentPlugins) do
-			plugin:CreateConfigPanel()
+			plugin:CreateConfigPanel(plugin.fullPanel)
 		end
 
 		ui.SetActivePanel(1)
