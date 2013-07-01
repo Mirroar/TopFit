@@ -1,8 +1,16 @@
 Changelog for TopFit
 ====================
 
-5.1v2 -
+5.3v1 - 2013
   - fixed +80 Stats enchant
+  - removed Ace and other Libraries we were hardly using
+  - rewrote set handling and calculation to use classes for a cleaner API
+  - new configuration UI accessed through a button in the character panel
+  - updated gem data
+  - added handling for upgraded items
+  - forced items are now managed in the character frame by holding down the Alt-key while hovering an equipment slot and using the checkboxes in the resulting flyout-box
+  - when switching talent specializations, the respective auto-update set is no longer calculated, just equipped (which is usually what you want and much faster)
+  - added Lib-Unfit-1.0 to limit showing tooltips and auto-updating to items you can actually wear
 
 5.1v1 - 2012/11/28
   - updated toc for 5.1
