@@ -26,10 +26,10 @@ How to level an alt without worrying about equipment:
 
 How to create your own sets:
 1. Decide on a good scale or get one from WoWHead.com, ElitistJerks.com or a similar site.
-2. In WoW, open your Equipment window and click the glowing sword icon in the upper righthand corner.
-3. In the calculations frame that you just opened, rename the default set to something fitting for your new set by clicking the big name, or just create a new set by clicking the blue plus sign next to the set dropdown.
-4. Set weights for stats you're interested in. To do that, expand the frame by clicking the button labeled ">>", add any stat by clicking "Add Stat...", and click it in the list to set its value.
-5. If you need to set a cap, click the check box next to the respective stat value. A new line will appear where you can set your cap value. By clicking the text next to the value, you can decide wether it should be a hard or soft cap.
+2. In WoW, open your Character Panel and click the Gear-Icon above your character.
+3. In the settings frame that you just opened, rename the default set to something fitting for your new set by clicking the big name, or just create a new set by clicking the blue plus sign to the right of the main window.
+4. Set weights for stats you're interested in. To do that, add any stat by clicking "Add another...", select a stat you are interested in and then click it in the list to set its value.
+5. If you need to set a cap, click the little plus-sign that shows when hovering over an existing stat.
 6. Click "Start".
 7. Marvel at your new set. You're done!
 
