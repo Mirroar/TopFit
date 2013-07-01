@@ -54,7 +54,7 @@ end
 
 function TopFit:replaceTokensInString(text, item)
     local findOffset = 1
-    local setIDs = ns.GetSetList(true)
+    local setIDs = ns.GetSetList()
 
     -- only keep sets that should be shown in tooltip
     for i = #setIDs, 1, -1 do
