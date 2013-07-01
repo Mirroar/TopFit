@@ -3,9 +3,9 @@ function TopFit:createOptions()
         TopFit.InterfaceOptionsFrame = CreateFrame("Frame", "TopFit_InterfaceOptionsFrame", InterfaceOptionsFramePanelContainer)
         TopFit.InterfaceOptionsFrame.name = "TopFit"
         TopFit.InterfaceOptionsFrame:Hide()
-        
+
         local title, subtitle = LibStub("tekKonfig-Heading").new(TopFit.InterfaceOptionsFrame, "TopFit", TopFit.locale.SubTitle)
-        
+
         -- Show Tooltip Checkbox
         local showTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowTooltipScores, "TOPLEFT", subtitle, "BOTTOMLEFT", -2, 0)
         showTooltip.tiptext = TopFit.locale.ShowTooltipScoresTooltip
@@ -15,7 +15,7 @@ function TopFit:createOptions()
             checksound(self)
             TopFit.db.profile.showTooltip = not TopFit.db.profile.showTooltip
         end)
-        
+
         -- Show Comparison Tooltip Checkbox
         local showComparisonTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowTooltipComparison, "TOPLEFT", showTooltip, "BOTTOMLEFT", 0, 0)
         showComparisonTooltip.tiptext = TopFit.locale.ShowTooltipComparisonTooltip
@@ -25,7 +25,7 @@ function TopFit:createOptions()
             checksound(self)
             TopFit.db.profile.showComparisonTooltip = not TopFit.db.profile.showComparisonTooltip
         end)
-        
+
         -- Auto Update Set Dropdown
         local autoUpdateSet, autoUpdateSetText, autoUpdateSetContainer = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, TopFit.locale.AutoUpdateSet, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, 0)
         if (TopFit.db.profile.defaultUpdateSet) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet]) then
@@ -34,8 +34,8 @@ function TopFit:createOptions()
             autoUpdateSetText:SetText(TopFit.locale.None)
         end
         autoUpdateSet.tiptext = TopFit.locale.AutoUpdateSetTooltip
-        
-        UIDropDownMenu_Initialize(autoUpdateSet, function()
+
+        local function InitializeAutoUpdateDropdown()
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.None
             info.notCheckable = true
@@ -46,7 +46,7 @@ function TopFit:createOptions()
                 TopFit.db.profile.defaultUpdateSet = nil
             end
             UIDropDownMenu_AddButton(info)
-            
+
             for setCode, setTable in pairs(TopFit.db.profile.sets or {}) do
                 local info = UIDropDownMenu_CreateInfo()
                 info.text = setTable.name
@@ -59,8 +59,9 @@ function TopFit:createOptions()
                 end
                 UIDropDownMenu_AddButton(info)
             end
-        end)
-        
+        end
+        autoUpdateSet.initialize = InitializeAutoUpdateDropdown
+
         -- Auto Update Set 2 Dropdown
         local autoUpdateSet2, autoUpdateSetText2, autoUpdateSetContainer2 = LibStub("tekKonfig-Dropdown").new(TopFit.InterfaceOptionsFrame, TopFit.locale.AutoUpdateSet.." 2", "TOPLEFT", autoUpdateSetContainer, "BOTTOMLEFT", 0, 0)
         if (TopFit.db.profile.defaultUpdateSet2) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet2]) then
@@ -69,8 +70,8 @@ function TopFit:createOptions()
             autoUpdateSetText2:SetText(TopFit.locale.None)
         end
         autoUpdateSet2.tiptext = TopFit.locale.AutoUpdateSetTooltip
-        
-        UIDropDownMenu_Initialize(autoUpdateSet2, function()
+
+        local function InitializeAutoUpdateDropdown2()
             local info = UIDropDownMenu_CreateInfo()
             info.text = TopFit.locale.None
             info.value = "none"
@@ -81,7 +82,7 @@ function TopFit:createOptions()
                 TopFit.db.profile.defaultUpdateSet2 = nil
             end
             UIDropDownMenu_AddButton(info)
-            
+
             for setCode, setTable in pairs(TopFit.db.profile.sets or {}) do
                 local info = UIDropDownMenu_CreateInfo()
                 info.text = setTable.name
@@ -94,8 +95,9 @@ function TopFit:createOptions()
                 end
                 UIDropDownMenu_AddButton(info)
             end
-        end)
-        
+        end
+        autoUpdateSet2.initialize = InitializeAutoUpdateDropdown2
+
         -- Autoupdate on Spec switch Checkbox
         local autoUpdateOnRespec = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.AutoUpdateOnRespec, "TOPLEFT", showComparisonTooltip, "BOTTOMLEFT", 0, -110)
         autoUpdateOnRespec.tiptext = TopFit.locale.AutoUpdateOnRespecTooltip
@@ -105,7 +107,7 @@ function TopFit:createOptions()
             checksound(self)
             TopFit.db.profile.preventAutoUpdateOnRespec = not TopFit.db.profile.preventAutoUpdateOnRespec
         end)
-        
+
         -- Debug Mode Checkbox
         local debugMode = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.Debug, "TOPLEFT", autoUpdateOnRespec, "BOTTOMLEFT", 0, -30)
         debugMode.tiptext = TopFit.locale.DebugTooltip
@@ -115,10 +117,10 @@ function TopFit:createOptions()
             checksound(self)
             TopFit.db.profile.debugMode = not TopFit.db.profile.debugMode
         end)
-        
+
         InterfaceOptions_AddCategory(TopFit.InterfaceOptionsFrame)
         LibStub("tekKonfig-AboutPanel").new("TopFit", "TopFit")
-        
+
         TopFit.InterfaceOptionsFrame:SetScript("OnShow", function()
             showTooltip:SetChecked(TopFit.db.profile.showTooltip)
             if (TopFit.db.profile.defaultUpdateSet) and (TopFit.db.profile.sets[TopFit.db.profile.defaultUpdateSet]) then
@@ -134,7 +136,7 @@ end
 function TopFit:AddSet(preset)
     local i = 1
     while  TopFit.db.profile.sets["set_"..i] do i = i + 1 end
-    
+
     local setName
     local weights = {}
     local caps = {}
@@ -153,7 +155,7 @@ function TopFit:AddSet(preset)
     else
         setName = "Set "..i
     end
-    
+
     -- check if set name is already taken, generate a unique one in that case
     if (TopFit:HasSet(setName)) then
         local newSetName = "2-"..setName
@@ -164,21 +166,19 @@ function TopFit:AddSet(preset)
         end
         setName = newSetName
     end
-    
+
     TopFit.db.profile.sets["set_"..i] = {
         name = setName,
         weights = weights,
         caps = caps,
         forced = {}
     }
-    
-    if TopFit.ProgressFrame then
+
+    --[[ if TopFit.ProgressFrame then
         TopFit.ProgressFrame:SetSelectedSet("set_"..i)
-    end
-    
-    -- precalculate item scores for this set
-    TopFit:CalculateScores()
-    
+    end --]]
+    TopFit:SetSelectedSet("set_"..i)
+
     return "set_"..i
 end
 
@@ -193,15 +193,15 @@ end
 
 function TopFit:DeleteSet(setCode)
     local setName = TopFit:GenerateSetName(self.db.profile.sets[setCode].name)
-    
+
     -- remove from equipment manager
     if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(setName)) then
         DeleteEquipmentSet(setName)
     end
-    
+
     -- remove from saved variables
     self.db.profile.sets[setCode] = nil
-    
+
     -- remove automatic update set if necessary
     if self.db.profile.defaultUpdateSet == setCode then
         self.db.profile.defaultUpdateSet = nil
@@ -209,17 +209,17 @@ function TopFit:DeleteSet(setCode)
     if self.db.profile.defaultUpdateSet2 == setCode then
         self.db.profile.defaultUpdateSet2 = nil
     end
-    
-    if (TopFit.ProgressFrame) then
-        TopFit.ProgressFrame:SetSelectedSet()
-        TopFit.ProgressFrame:SetCurrentCombination()
-        TopFit.ProgressFrame:SetSetName(TopFit.locale.SetName)
+
+    if self.setObjectCache then
+        self.setObjectCache[setCode] = nil
     end
+
+    TopFit:SetSelectedSet()
 end
 
 function TopFit:RenameSet(setCode, newName)
     oldSetName = TopFit:GenerateSetName(self.db.profile.sets[setCode].name)
-    
+
     -- check if set name is already taken, generate a unique one in that case
     if (TopFit:HasSet(newName) and not newName == TopFit.db.profile.sets[setCode].name) then
         local newSetName = "2-"..newName
@@ -230,17 +230,17 @@ function TopFit:RenameSet(setCode, newName)
         end
         newName = newSetName
     end
-    
+
     newSetName = TopFit:GenerateSetName(newName)
 
     -- rename in saved variables
     self.db.profile.sets[setCode].name = newName
-    
+
     -- rename equipment set if it exists
     if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(oldSetName)) then
         ModifyEquipmentSet(oldSetName, newSetName)
     end
-    
+
     TopFit:SetSelectedSet(TopFit.selectedSet)
 
     --TODO: remove when progress frame is removed

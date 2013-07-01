@@ -1,34 +1,57 @@
-## Interface: 50100
+## Interface: 50300
 ## Author: Mirroar
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
-## Version: 5.1v1
-## X-Embeds: AceAddon-3.0, AceConsole-3.0, AceGUI-3.0, AceConfig-3.0, AceDB-3.0, AceDBOptions-3.0, AceLocale-3.0
+## Version: 5.3v0
 ## X-Category: Inventory
-## X-Credits: ckaotik (gems & enchants), tekkub, trefane (SmartFitter), vger(Pawn)
+## X-Credits: ckaotik, tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
 
+# libraries
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\tekKonfig\tekKonfig.xml
+Libs\LibReforgingInfo-1.0\LibReforgingInfo-1.0.xml
+Libs\Unfit-1.0\Unfit-1.0.lua
 
-embeds.xml
-template.xml
-
+# locales
 locale\enUS.lua
 
 core.lua
+
+# classes
+set.class.lua
+calculation.class.lua
+defaultcalculation.class.lua
+smartcalculation.class.lua
+plugin.class.lua
+
+# plugins: things displayed in config panel
+modules\weightsplugin.class.lua
+modules\importplugin.class.lua
+modules\optimizerplugin.class.lua
+modules\shoppinglist.lua
+modules\virtual_items.lua
+
 inventory.lua
-tooltip.lua
-calculation.lua
-trinketlogic.lua
-options.lua
-ui.lua
-plugin.lua
 
-plugins\virtual_items.lua
-plugins\utilities.lua
+# modules
+modules\tooltip.lua
+modules\calculation.lua
+modules\trinketlogic.lua
+modules\options.lua
+modules\ui.character.lua
+modules\ui.config.lua
+modules\ui.lua
 
-data_gems.lua
-#data_gems_build.lua #used during WoW version updates
-data_enchants.lua
-data_presets.lua
+# this file needs some more work
+modules\utilities.lua
+
+data\gems.lua
+data\enchants.lua
+data\presets.lua
+
+# used during WoW version updates
+#data\gems_build.lua
 
 tests.lua
