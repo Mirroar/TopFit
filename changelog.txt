@@ -1,7 +1,7 @@
 Changelog for TopFit
 ====================
 
-5.3v1 - 2013
+5.3v1 - 2013/07/03
   - fixed +80 Stats enchant
   - removed Ace and other Libraries we were hardly using
   - rewrote set handling and calculation to use classes for a cleaner API
