@@ -40,24 +40,25 @@ function ns:SetSelectedSet(setID)
     ns.ui.Update()
 end
 
-function TopFit:ResetProgress()
-    TopFit.progress = nil
-    if not TopFitSidebarCalculateButton then return end
-    TopFitSidebarCalculateButton.state = 'busy'
-    ns.ui.ShowProgress()
-end
-
 function TopFit:StoppedCalculation()
-    if not TopFitSidebarCalculateButton then return end
-    TopFitSidebarCalculateButton.state = 'idle'
     ns.ui.HideProgress()
+    if TopFitSidebarCalculateButton then
+        TopFitSidebarCalculateButton.state = 'idle'
+    end
 end
 
 function TopFit:SetProgress(progress)
     if (TopFit.progress == nil) or (TopFit.progress < progress) then
         TopFit.progress = progress
-        if not TopFitSidebarCalculateButton then return end
         ns.ui.SetProgress(progress)
+    end
+end
+
+function TopFit:ResetProgress()
+    TopFit.progress = nil
+    ns.ui.ShowProgress()
+    if TopFitSidebarCalculateButton then
+        TopFitSidebarCalculateButton.state = 'busy'
     end
 end
 

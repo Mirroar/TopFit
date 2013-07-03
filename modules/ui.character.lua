@@ -198,17 +198,69 @@ function ui.InitializeSetProgressBar()
 end
 
 function ui.ShowProgress()
-    TopFitSetDropDown:Hide()
-    TopFitProgressBar:Show()
+    if TopFitSetDropDown then
+        TopFitSetDropDown:Hide()
+    end
+    if TopFitProgressBar then
+        TopFitProgressBar:Show()
+    end
+
+    if TopFitConfigFrameCalculationProgressBar then
+        TopFitConfigFrameCalculationProgressBar:Show()
+        TopFitConfigFrameCalculationProgressBarFrame:Show()
+    end
 end
 function ui.HideProgress()
-    TopFitSetDropDown:Show()
-    TopFitProgressBar:Hide()
+    if TopFitSetDropDown then
+        TopFitSetDropDown:Show()
+    end
+    if TopFitProgressBar then
+        TopFitProgressBar:Hide()
+    end
+
+    if TopFitConfigFrameCalculationProgressBar then
+        TopFitConfigFrameCalculationProgressBar:Hide()
+        TopFitConfigFrameCalculationProgressBarFrame:Hide()
+    end
 end
 function ui.SetProgress(progress)
     progress = progress or 0
-    TopFitProgressBar.text:SetFormattedText("%.2f%%", progress * 100)
-    TopFitProgressBar:SetValue(progress * 100)
+    if TopFitProgressBar then
+        TopFitProgressBar.text:SetFormattedText("%.2f%%", progress * 100)
+        TopFitProgressBar:SetValue(progress * 100)
+    end
+
+    if TopFitConfigFrameCalculationProgressBar then
+        TopFitConfigFrameCalculationProgressBar:SetValue(progress * 100)
+    end
+end
+
+function ui.SetButtonState(state)
+    if not state then
+        state = 'idle'
+    end
+
+    if TopFitConfigFrameCalculateButton then
+        if state == 'idle' then
+            TopFitConfigFrameCalculateButton:Show()
+        else
+            TopFitConfigFrameCalculateButton:Hide()
+        end
+    end
+
+    if TopFitSidebarCalculateButton then
+        local button = TopFitSidebarCalculateButton
+
+        button.state = state
+
+        if button.state == 'idle' then
+            button:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
+            button.tipText = ns.locale.StartTooltip
+        else
+            button:SetNormalTexture("Interface\\TimeManager\\PauseButton")
+            button.tipText = CANCEL
+        end
+    end
 end
 
 function ui.InitializeMultiButton()
@@ -220,24 +272,10 @@ function ui.InitializeMultiButton()
     button:SetScript("OnLeave", ns.HideTooltip)
     button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
-    button.setState = function(button, state)
-        if not state then
-            state = 'idle'
-        end
-        button.state = state
-
-        if button.state == 'idle' then
-            button:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-            button.tipText = ns.locale.StartTooltip
-        else
-            button:SetNormalTexture("Interface\\TimeManager\\PauseButton")
-            button.tipText = CANCEL
-        end
-    end
     if TopFit.isBlocked then
-        button:setState('busy')
+        ui.SetButtonState('busy')
     else
-        button:setState()
+        ui.SetButtonState()
     end
 
     button:SetScript("OnClick", function(...)
@@ -246,18 +284,9 @@ function ui.InitializeMultiButton()
             ns:AbortCalculations()
         else
             if IsShiftKeyDown() then
-                -- calculate all sets
-                ns.workSetList = {}
-                for setID, _ in pairs(ns.db.profile.sets) do
-                    tinsert(ns.workSetList, setID)
-                end
-                ns:CalculateSets()
+                ns:CalculateAllSets()
             else
-                -- calculate selected set
-                if ns.db.profile.sets[ns.selectedSet] then
-                    ns.workSetList = { ns.selectedSet }
-                    ns:CalculateSets()
-                end
+                ns:CalculateSelectedSet()
             end
         end
     end)
