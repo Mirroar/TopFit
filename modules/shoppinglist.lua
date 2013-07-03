@@ -4,7 +4,7 @@ local addonName, ns, _ = ...
 -- GLOBALS: CreateFrame, UnitLevel, GetProfessions, GetProfessionInfo, GetFactionInfo, GetInventoryItemLink, GetItemStats, OffhandHasWeapon, UnitName, GetRealmName, GetItemInfo, GetNumFactions, SetItemButtonTexture
 -- GLOBALS: pairs, ipairs, wipe, table.insert, string.find, print
 
-local ShoppingList = ns.class(ns.Plugin)
+local ShoppingList = ns.Plugin()
    ns.ShoppingList = ShoppingList
 local currentCharacter, db
 
@@ -228,5 +228,3 @@ function ShoppingList:OnShow()
 		characterCounter = characterCounter + 1
 	end
 end
-
-ShoppingList()
