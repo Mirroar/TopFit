@@ -1,6 +1,6 @@
 local addonName, ns, _ = ...
 
-local OptimizerPlugin = ns.Plugin()
+local OptimizerPlugin = {}--ns.Plugin()
 ns.OptimizerPlugin = OptimizerPlugin
 
 local colorOrder = {"META", "RED", "YELLOW", "BLUE", "PRISMATIC", "COGWHEEL", "HYDRAULIC"}
