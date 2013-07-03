@@ -232,6 +232,7 @@ function ui.SetProgress(progress)
 
     if TopFitConfigFrameCalculationProgressBar then
         TopFitConfigFrameCalculationProgressBar:SetValue(progress * 100)
+        TopFitConfigFrameCalculationProgressBar.text:SetFormattedText("%.2f%%", progress * 100)
     end
 end
 

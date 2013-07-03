@@ -506,6 +506,12 @@ function ui.ToggleTopFitConfigFrame()
 		progressBar:SetSize(barScale, barScale / 4)
 		progressBar:SetMinMaxValues(-18, 118) -- compensates for texture borders so values from 0 to 100 look correct
 		progressBar:Hide()
+
+		-- progress text
+		local progressText = progressBar:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		progressText:SetAllPoints()
+		progressText:SetText("0.00%")
+		progressBar.text = progressText
 	end
 
 	if frame:IsShown() then
