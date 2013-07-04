@@ -4,21 +4,6 @@ local addonName, ns, _ = ...
 -- GLOBALS: SaveEquipmentSet, GetProfessions, GetProfessionInfo, UnitClass, ClearCursor, EquipCursorItem, CanUseEquipmentSets, GetEquipmentSetInfoByName, EquipmentManagerClearIgnoredSlotsForSave, EquipmentManagerIgnoreSlotForSave, InCombatLockdown, UnitIsDeadOrGhost, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, PickupContainerItem, PickupInventoryItem
 -- GLOBALS: tremove, tinsert, select, wipe, pairs, math, string, strsplit, tonumber
 
-function ns:CalculateAllSets()
-    ns.workSetList = {}
-    for setID, _ in pairs(ns.db.profile.sets) do
-        tinsert(ns.workSetList, setID)
-    end
-    ns:CalculateSets()
-end
-
-function ns:CalculateSelectedSet()
-    if ns.db.profile.sets[ns.selectedSet] then
-        ns.workSetList = { ns.selectedSet }
-        ns:CalculateSets()
-    end
-end
-
 function ns:StartCalculations()
     -- generate table of set codes
     ns.workSetList = ns.workSetList and wipe(ns.workSetList) or {}
@@ -36,7 +21,7 @@ function ns:AbortCalculations()
         ns:StoppedCalculation()
         ns.runningCalculation = nil
 
-        ns.ui.SetButtonState()
+        TopFitSidebarCalculateButton:setState()
     end
 end
 
@@ -80,7 +65,7 @@ function ns:CalculateSets(silent)
             ns.runningCalculation = calculation
 
             if TopFitSidebarCalculateButton then
-                ns.ui.SetButtonState('busy')
+                TopFitSidebarCalculateButton:setState('busy')
             end
         end
     end
@@ -116,7 +101,7 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
         ns.EquipRecommendedItems(set)
         ns.runningCalculation = nil
         if TopFitSidebarCalculateButton then
-            ns.ui.SetButtonState()
+            TopFitSidebarCalculateButton:setState()
         end
     else
         -- caps could not all be reached, calculate without caps instead

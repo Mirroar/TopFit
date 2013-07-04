@@ -466,46 +466,6 @@ function ui.ToggleTopFitConfigFrame()
 		end
 
 		ui.SetActivePanel(1)
-
-		-- initialize calculate button
-		local button = CreateFrame('Button', '$parentCalculateButton', frame, 'UIPanelButtonTemplate')
-		button:SetText('Calculate')
-		button:SetPoint('BOTTOM', sidebarFrame, 'BOTTOMLEFT', 108, 20)
-		button:Show()
-		button:SetWidth(100)
-
-		button:SetScript('OnClick', function(button)
-			-- start calculation
-			if IsShiftKeyDown() then
-				ns:CalculateAllSets()
-			else
-				ns:CalculateSelectedSet()
-			end
-		end)
-
-		local barScale = 180
-		local progressBarBorder = CreateFrame('StatusBar', '$parentCalculationProgressBarFrame', frame)
-		progressBarBorder:SetBackdrop({
-			bgFile = 'Interface\\UnitPowerBarAlt\\MetalEternium_Horizontal_Frame',
-			tile = false,
-			insets = {
-				left = 0,
-				right = 0,
-				top = 0,
-				bottom = 0,
-			},
-		})
-		progressBarBorder:SetSize(barScale, barScale / 4)
-		progressBarBorder:SetPoint('BOTTOM', sidebarFrame, 'BOTTOMLEFT', 108, 10)
-		progressBarBorder:Hide()
-		local progressBar = CreateFrame('StatusBar', '$parentCalculationProgressBar', frame)
-		progressBar:SetStatusBarTexture('Interface\\UnitPowerBarAlt\\Generic1_Horizontal_Fill')
-		progressBar:SetStatusBarColor(0, 1, 0, 1)
-		progressBar:SetMinMaxValues(0, 100)
-		progressBar:SetPoint('CENTER', progressBarBorder, 'CENTER')
-		progressBar:SetSize(barScale, barScale / 4)
-		progressBar:SetMinMaxValues(-18, 118) -- compensates for texture borders so values from 0 to 100 look correct
-		progressBar:Hide()
 	end
 
 	if frame:IsShown() then

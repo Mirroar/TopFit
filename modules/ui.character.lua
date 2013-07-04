@@ -198,69 +198,17 @@ function ui.InitializeSetProgressBar()
 end
 
 function ui.ShowProgress()
-    if TopFitSetDropDown then
-        TopFitSetDropDown:Hide()
-    end
-    if TopFitProgressBar then
-        TopFitProgressBar:Show()
-    end
-
-    if TopFitConfigFrameCalculationProgressBar then
-        TopFitConfigFrameCalculationProgressBar:Show()
-        TopFitConfigFrameCalculationProgressBarFrame:Show()
-    end
+    TopFitSetDropDown:Hide()
+    TopFitProgressBar:Show()
 end
 function ui.HideProgress()
-    if TopFitSetDropDown then
-        TopFitSetDropDown:Show()
-    end
-    if TopFitProgressBar then
-        TopFitProgressBar:Hide()
-    end
-
-    if TopFitConfigFrameCalculationProgressBar then
-        TopFitConfigFrameCalculationProgressBar:Hide()
-        TopFitConfigFrameCalculationProgressBarFrame:Hide()
-    end
+    TopFitSetDropDown:Show()
+    TopFitProgressBar:Hide()
 end
 function ui.SetProgress(progress)
     progress = progress or 0
-    if TopFitProgressBar then
-        TopFitProgressBar.text:SetFormattedText("%.2f%%", progress * 100)
-        TopFitProgressBar:SetValue(progress * 100)
-    end
-
-    if TopFitConfigFrameCalculationProgressBar then
-        TopFitConfigFrameCalculationProgressBar:SetValue(progress * 100)
-    end
-end
-
-function ui.SetButtonState(state)
-    if not state then
-        state = 'idle'
-    end
-
-    if TopFitConfigFrameCalculateButton then
-        if state == 'idle' then
-            TopFitConfigFrameCalculateButton:Show()
-        else
-            TopFitConfigFrameCalculateButton:Hide()
-        end
-    end
-
-    if TopFitSidebarCalculateButton then
-        local button = TopFitSidebarCalculateButton
-
-        button.state = state
-
-        if button.state == 'idle' then
-            button:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-            button.tipText = ns.locale.StartTooltip
-        else
-            button:SetNormalTexture("Interface\\TimeManager\\PauseButton")
-            button.tipText = CANCEL
-        end
-    end
+    TopFitProgressBar.text:SetFormattedText("%.2f%%", progress * 100)
+    TopFitProgressBar:SetValue(progress * 100)
 end
 
 function ui.InitializeMultiButton()
@@ -272,10 +220,24 @@ function ui.InitializeMultiButton()
     button:SetScript("OnLeave", ns.HideTooltip)
     button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
+    button.setState = function(button, state)
+        if not state then
+            state = 'idle'
+        end
+        button.state = state
+
+        if button.state == 'idle' then
+            button:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
+            button.tipText = ns.locale.StartTooltip
+        else
+            button:SetNormalTexture("Interface\\TimeManager\\PauseButton")
+            button.tipText = CANCEL
+        end
+    end
     if TopFit.isBlocked then
-        ui.SetButtonState('busy')
+        button:setState('busy')
     else
-        ui.SetButtonState()
+        button:setState()
     end
 
     button:SetScript("OnClick", function(...)
@@ -284,9 +246,18 @@ function ui.InitializeMultiButton()
             ns:AbortCalculations()
         else
             if IsShiftKeyDown() then
-                ns:CalculateAllSets()
+                -- calculate all sets
+                ns.workSetList = {}
+                for setID, _ in pairs(ns.db.profile.sets) do
+                    tinsert(ns.workSetList, setID)
+                end
+                ns:CalculateSets()
             else
-                ns:CalculateSelectedSet()
+                -- calculate selected set
+                if ns.db.profile.sets[ns.selectedSet] then
+                    ns.workSetList = { ns.selectedSet }
+                    ns:CalculateSets()
+                end
             end
         end
     end)
