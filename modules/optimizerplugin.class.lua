@@ -1,6 +1,6 @@
 local addonName, ns, _ = ...
 
-local OptimizerPlugin = ns.class(ns.Plugin)
+local OptimizerPlugin = {}--ns.Plugin()
 ns.OptimizerPlugin = OptimizerPlugin
 
 local colorOrder = {"META", "RED", "YELLOW", "BLUE", "PRISMATIC", "COGWHEEL", "HYDRAULIC"}
@@ -128,5 +128,3 @@ function OptimizerPlugin:OnShow()
     end
     self:HideItemButtonsAfter(i)
 end
-
-OptimizerPlugin()

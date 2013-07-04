@@ -4,7 +4,7 @@ local addonName, ns, _ = ...
 -- GLOBALS: CreateFrame, UnitLevel, GetProfessions, GetProfessionInfo, GetFactionInfo, GetInventoryItemLink, GetItemStats, OffhandHasWeapon, UnitName, GetRealmName, GetItemInfo, GetNumFactions, SetItemButtonTexture
 -- GLOBALS: pairs, ipairs, wipe, table.insert, string.find, print
 
-local ShoppingList = ns.class(ns.Plugin)
+local ShoppingList = {}--ns.Plugin()
    ns.ShoppingList = ShoppingList
 local currentCharacter, db
 
@@ -14,9 +14,9 @@ local notEnchantable = {
 	[INVSLOT_NECK] = true,
 	[INVSLOT_BODY] = true,
 	[INVSLOT_TABARD] = true,
-	[INVSLOT_WAIST] = true,		-- buckles
-	[INVSLOT_FINGER1] = true,	-- enchanters
-	[INVSLOT_FINGER2] = true,	-- enchanters
+	[INVSLOT_WAIST] = true,     -- buckles
+	[INVSLOT_FINGER1] = true,   -- enchanters
+	[INVSLOT_FINGER2] = true,   -- enchanters
 	[INVSLOT_TRINKET1] = true,
 	[INVSLOT_TRINKET2] = true,
 }
@@ -228,5 +228,3 @@ function ShoppingList:OnShow()
 		characterCounter = characterCounter + 1
 	end
 end
-
-ShoppingList()
