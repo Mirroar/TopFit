@@ -64,6 +64,7 @@ function TopFit:replaceTokensInString(text, item)
     end
 
     repeat
+        -- /run for k in (('this [foo] is [bar]'):gmatch('%b[]')) do print(k) end => '[foo]', '[bar]'
         local findStart, findEnd, findString = string.find(text, "%[(.-)%]", findOffset)
 
         if findStart then
@@ -238,7 +239,7 @@ function TopFit:getComparePercentage(itemTable, setCode)
             -- is the weapon we compare to (if it exists) two-handed?
             if setItemIDs and setItemIDs[slotID] and setItemIDs[slotID] ~= 1 and setItemIDs[slotID] ~= 0 and not TopFit:IsOnehandedWeapon(ns.emptySet, setItemIDs[slotID]) then
                 -- try to find a fitting offhand for better comparison
-                if TopFit.playerCanDualwield then
+                if set:CanDualWield() then
                     -- find best offhand regardless of type
                     local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
                     if lTable2 then
@@ -442,7 +443,7 @@ local function TooltipAddCompareLines(tt, link)
                             -- is the weapon we compare to (if it exists) two-handed?
                             if itemIDs and itemIDs[slotID] and itemIDs[slotID] ~= 1 and itemIDs[slotID] ~= 0 and not TopFit:IsOnehandedWeapon(ns.emptySet, itemIDs[slotID]) then
                                 -- try to find a fitting offhand for better comparison
-                                if TopFit.playerCanDualwield then
+                                if set:CanDualWield() then
                                     -- find best offhand regardless of type
                                     local lTable2 = TopFit:CalculateBestInSlot(ns.emptySet, {locationTable, compLocationTable}, false, 17, setCode, function(locationTable) return TopFit:IsOnehandedWeapon(ns.emptySet, locationTable.itemLink) end)
                                     if lTable2 then
