@@ -120,7 +120,7 @@ function WeightsPlugin.InitializeHeaderActions()
           dropDown:SetPoint("RIGHT", frame, "RIGHT", 0, 0)
           dropDown:SetPoint("TOP", changeName, "TOP", 0, 0)
     _G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
-    UIDropDownMenu_SetWidth(dropDown, 50)
+    UIDropDownMenu_SetWidth(dropDown, 60)
     UIDropDownMenu_JustifyText(dropDown, "LEFT")
 
     local function assignSpec(button)
