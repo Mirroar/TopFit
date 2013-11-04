@@ -281,12 +281,17 @@ function ns:OnInitialize()
             [3] = "TOPFIT_ARMORTYPE_MAIL",
             [4] = "TOPFIT_ARMORTYPE_PLATE",
         }]]
+        -- TODO: empty sockets
+        -- TODO: mainhand / offhand dps + speed
     }
 
-    TOPFIT_ARMORTYPE_CLOTH = select(2, GetAuctionItemSubClasses(2));
+    TOPFIT_ARMORTYPE_CLOTH   = select(2, GetAuctionItemSubClasses(2));
     TOPFIT_ARMORTYPE_LEATHER = select(3, GetAuctionItemSubClasses(2));
-    TOPFIT_ARMORTYPE_MAIL = select(4, GetAuctionItemSubClasses(2));
-    TOPFIT_ARMORTYPE_PLATE = select(5, GetAuctionItemSubClasses(2));
+    TOPFIT_ARMORTYPE_MAIL    = select(4, GetAuctionItemSubClasses(2));
+    TOPFIT_ARMORTYPE_PLATE   = select(5, GetAuctionItemSubClasses(2));
+
+    TOPFIT_ITEM_MOD_MAINHAND = INVTYPE_WEAPONMAINHAND
+    TOPFIT_ITEM_MOD_OFFHAND  = INVTYPE_WEAPONOFFHAND
 
     -- list of inventory slot names
     ns.slotList = {

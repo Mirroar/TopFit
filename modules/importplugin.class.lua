@@ -384,5 +384,4 @@ end
 
 function ImportPlugin:OnShow()
     self.exportBox:SetText(GenerateExportString("TopFit", "1"))
-    -- self.pwned:SetText(string.format(TopFit.locale.GearScore, TopFit:CalculateGearScore() or "?"))
 end

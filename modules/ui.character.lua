@@ -14,7 +14,7 @@ function ui.ShowRenameDialog()
     local set = ns.GetSetByID(ns.selectedSet, true)
     popup.setID = ns.selectedSet
 
-    local name = set:GetName()
+    local name = set:GetName():sub(1, 12)
     local tfSetName = set:GetEquipmentSetName()
     local icon = GetEquipmentSetInfoByName(tfSetName)
     if icon then
