@@ -74,7 +74,7 @@ function VirtualItems:AddItem(link)
     local set = ns.GetSetByID(ns.selectedSet, true)
     local invSlot = select(9, GetItemInfo(link))
     if set and invSlot and invSlot:find("INVTYPE_") and not invSlot:find("INVTYPE_BAG") then
-        set:AddVirtualItem(item)
+        set:AddVirtualItem(link)
     else
         -- show an error message
         if ns.selectedSet then
@@ -151,17 +151,17 @@ function VirtualItems:InitializeUI()
 
     -- scripts
     addItemTextBox:SetScript("OnEditFocusGained", addItemTextBox.HighlightText)
-    addItemTextBox:SetScript("OnEscapePressed", function (self)
-        self:SetText(TopFit.locale.VIAddItem)
-        self:ClearFocus()
+    addItemTextBox:SetScript("OnEscapePressed", function (text)
+        text:SetText(TopFit.locale.VIAddItem)
+        text:ClearFocus()
     end)
-    addItemTextBox:SetScript("OnEnterPressed", function (self)
+    addItemTextBox:SetScript("OnEnterPressed", function (frame)
         -- check if input is itemLink or itemID
-        local text = self:GetText()
+        local text = frame:GetText()
         local link = (text ~= TopFit.locale.VIAddItem) and select(2, GetItemInfo(text))
 
-        self:ClearFocus()
-        self:SetText(TopFit.locale.VIAddItem)
+        frame:ClearFocus()
+        frame:SetText(TopFit.locale.VIAddItem)
 
         if not link then
             TopFit:Print(TopFit.locale.VIItemNotFound)

@@ -10,6 +10,7 @@ do
     TOPFIT_RANGED_WEAPON_SPEED = RANGED.." "..WEAPON_SPEED
     TOPFIT_MELEE_DPS = MELEE.." "..ITEM_MOD_DAMAGE_PER_SECOND_SHORT
     TOPFIT_RANGED_DPS = RANGED.." "..ITEM_MOD_DAMAGE_PER_SECOND_SHORT
+    TOPFIT_SECONDARY_PERCENT = "Percent bonus to secondary stats"
 
     -- ------------------------------------------------------------
     --  Basic Addon
@@ -99,6 +100,9 @@ do
     TopFit.locale.StatsCategoryResistances = "Resistances"
     TopFit.locale.StatsCategoryArmorTypes = "Armor Types"
 
+    TopFit.locale.SelectSpecHeader = "Assign Specialization"
+    TopFit.locale.NoSpecSelected = "No Specialization"
+
     -- virtual items
     TopFit.locale.VirtualItems = "Virtual Items"
     TopFit.locale.VirtualItemsTooltip = "Virtual Items are used to calculate your optimal gear with items you do not currently have in your inventory."
@@ -119,4 +123,7 @@ do
     TopFit.locale.UtilitiesErrorSetExists = "Error! A set with this name already exists."
     TopFit.locale.UtilitiesNoticeImported = "Import of %s succeeded."
     TopFit.locale.GearScore = "You rock! Your GearScore is %s!"
+
+    TopFit.locale.ItemScan = {}
+    TopFit.locale.ItemScan.PercentBonusTrigger = "Equip: Amplifies your Critical Strike damage and healing, Haste, Mastery, and Spirit by "
 end

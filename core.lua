@@ -115,7 +115,7 @@ function ns:JoinTables(...)
     return result
 end
 
-function TopFit.ShowTooltip(self)
+function ns.ShowTooltip(self)
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     if self.tipText then
         GameTooltip:SetText(self.tipText, nil, nil, nil, nil, true)
@@ -125,11 +125,11 @@ function TopFit.ShowTooltip(self)
     GameTooltip:Show()
 end
 
-function TopFit.HideTooltip()
+function ns.HideTooltip()
     GameTooltip:Hide()
 end
 
-function TopFit:GenerateSetName(name)
+function ns:GenerateSetName(name)
     -- using substr because blizzard interface only allows 16 characters
     -- although technically SaveEquipmentSet & co allow more
     return (((name ~= nil) and string.sub(name.." ", 1, 12).."(TF)") or "TopFit")
@@ -191,6 +191,23 @@ function ns:OnInitialize()
                 forced = {},
             },
         }
+    end
+
+    -- collect spec info
+    ns.specInfo = {}
+    local specID = 1
+    while GetSpecializationInfo(specID) do
+        local globalID, name, description, icon, background, role = GetSpecializationInfo(specID)
+        tinsert(ns.specInfo, {
+            globalID = globalID,
+            name = name,
+            description = description,
+            icon = icon,
+            background = background,
+            role = role,
+        })
+
+        specID = specID + 1
     end
 
     -- select current auto-update set by default

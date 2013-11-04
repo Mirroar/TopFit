@@ -97,15 +97,15 @@ function TopFit:GetSetItemFromSlot(slotID, setCode)
 end
 
 -- gather all items from inventory and bags, save their info to cache
-function TopFit:collectItems(bag)
-    TopFit.characterLevel = UnitLevel("player")
+function ns:collectItems(bag)
+    ns.characterLevel = UnitLevel("player")
 
     if bag and bag >= 0 and bag <= 4 then
         -- only check a specific bag (used on BAG_UPDATE)
         for slot = 1, GetContainerNumSlots(bag) do
             local item = GetContainerItemLink(bag, slot)
 
-            TopFit:UpdateCache(item)
+            ns:UpdateCache(item)
         end
     else
         -- check bags
@@ -113,29 +113,29 @@ function TopFit:collectItems(bag)
             for slot = 1, GetContainerNumSlots(bag) do
                 local item = GetContainerItemLink(bag, slot)
 
-                TopFit:UpdateCache(item)
+                ns:UpdateCache(item)
             end
         end
 
         -- check equipped items
-        for _, invSlot in pairs(TopFit.slots) do
+        for _, invSlot in pairs(ns.slots) do
             local item = GetInventoryItemLink("player", invSlot)
 
-            TopFit:UpdateCache(item)
+            ns:UpdateCache(item)
         end
     end
 end
 
 -- collect item information if necessary
-function TopFit:UpdateCache(item)
-    if item and (not TopFit.itemsCache[item]) then
+function ns:UpdateCache(item)
+    if item and (not ns.itemsCache[item]) then
         -- check if it's equipment
         --if IsEquippableItem(item) then --TODO: check if removing this breaks anything; it causes problems with gems
-            local itemTable = TopFit:GetItemInfoTable(item)
+            local itemTable = ns:GetItemInfoTable(item)
 
             if itemTable then
                 -- save in cache
-                TopFit.itemsCache[item] = itemTable
+                ns.itemsCache[item] = itemTable
             end
         --end
     end
@@ -244,12 +244,12 @@ function TopFit:GetItemInfoTable(item)
         end
     end
 
+    -- try to find socket bonus and some other info by scanning item tooltip (though I hoped to avoid that entirely)
+    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+    TopFit.scanTooltip:SetHyperlink(itemLink)
+    local numLines = TopFit.scanTooltip:NumLines()
     if #gems > 0 then
-        -- try to find socket bonus by scanning item tooltip (though I hoped to avoid that entirely)
         --TODO: this will have to be rewritten to be calculated on the fly at some point. meta gem requirements will not always work this way
-        TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-        TopFit.scanTooltip:SetHyperlink(itemLink)
-        local numLines = TopFit.scanTooltip:NumLines()
 
         local socketBonusString = _G["ITEM_SOCKET_BONUS"] -- "Socket Bonus: %s" in enUS client, for example
         socketBonusString = string.gsub(socketBonusString, "%%s", "(.*)")
@@ -286,9 +286,25 @@ function TopFit:GetItemInfoTable(item)
                 end
             end
         end
-
-        TopFit.scanTooltip:Hide()
     end
+
+    -- scan for siege of Orgrimmar %-based Trinkets
+    if (itemEquipLoc == 'INVTYPE_TRINKET') then
+        for i = 1, numLines do
+            local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+            local leftLineText = leftLine:GetText()
+            if string.find(leftLineText, TopFit.locale.ItemScan.PercentBonusTrigger) then
+                -- SOO Percent bonus, figure out percentage
+                percentBonus = string.gsub(leftLineText, "^.*(%d+)%%.*$", "%1")
+                if percentBonus then
+                    itemBonus['TOPFIT_SECONDARY_PERCENT'] = tonumber(percentBonus)
+                    break
+                end
+            end
+        end
+    end
+
+    TopFit.scanTooltip:Hide()
 
     -- enchantment
     local enchantBonus = {}

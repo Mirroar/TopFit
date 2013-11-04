@@ -32,7 +32,7 @@ function TopFit:getComparisonTooltipLines(item)
     local tooltipFormat = {
         {" "},
         {"##############TopFit Tooltip!################"},
-        {"Comparing with your items for [setlist]"},
+        {"Comparing with your items for {{[setlist]||, }}:"},
         {"[setpercentages:nocolor]"},
     }
 

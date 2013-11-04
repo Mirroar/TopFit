@@ -152,6 +152,24 @@ function DefaultCalculation:GetCurrentProgress()
     end
 end
 
+local secondaryStats = {'ITEM_MOD_SPIRIT_SHORT', 'ITEM_MOD_CRIT_RATING_SHORT', 'ITEM_MOD_HASTE_RATING_SHORT', --[['ITEM_MOD_HIT_RATING_SHORT', ]]'ITEM_MOD_MASTERY_RATING_SHORT'}
+function DefaultCalculation:ApplySecondaryPercentBonus(stat, value)
+    for j = 1, #secondaryStats do
+        if secondaryStats[j] == stat then
+            -- check if percent bonus is active until now
+            for i = 13, math.min(currentSlot, 14) do -- only need to check trinket slots
+                if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 and TopFit.itemListBySlot[i][self.slotCounters[i]] then
+                    local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][self.slotCounters[i]].itemLink)
+                    if itemTable then
+                        value = value * (1 + (itemTable.totalBonus['TOPFIT_SECONDARY_PERCENT'] or 0) / 100)
+                    end
+                end
+            end
+        end
+    end
+    return value
+end
+
 -- check whether the selected items up to currentSlot already fulfill all hard cap requirements
 function DefaultCalculation:IsCapsReached(currentSlot)
     local currentValues = {}
@@ -168,7 +186,7 @@ function DefaultCalculation:IsCapsReached(currentSlot)
     end
 
     for stat, value in pairs(self.set:GetHardCaps()) do
-        if (currentValues[stat] or 0) < value then
+        if (ApplySecondaryPercentBonus(stat, currentValues[stat] or 0)) < value then
             return false
         end
     end
