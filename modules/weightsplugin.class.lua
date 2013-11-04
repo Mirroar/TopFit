@@ -127,12 +127,16 @@ function WeightsPlugin.InitializeHeaderActions()
         ns:Debug(button.value)
         UIDropDownMenu_SetSelectedValue(dropDown, button.value)
 
+        local set = ns.GetSetByID(ns.selectedSet, true)
         if button.value ~= 'none' then
+            set:SetAssociatedSpec(button.value)
             ns:Debug(GetSpecializationInfoByID(button.value))
             local _, _, _, icon = GetSpecializationInfoByID(button.value)
             if icon then
-                UIDropDownMenu_SetText(dropDown, '|T'..icon..':0|t')
+                --UIDropDownMenu_SetText(dropDown, '|T'..icon..':0|t')
             end
+        else
+            set:SetAssociatedSpec(nil)
         end
     end
 
@@ -172,6 +176,8 @@ function WeightsPlugin.InitializeHeaderActions()
             end
         end
     end
+
+    UIDropDownMenu_Initialize(dropDown, dropDown.initialize)
 end
 
 function WeightsPlugin.ShowEditLine(statLine, btn)
@@ -525,4 +531,12 @@ function WeightsPlugin:OnShow()
     local newStat = _G[panel:GetName().."AddStat"]
     newStat:SetPoint("TOPLEFT", "$parentStatLine"..#(panel.stats), "BOTTOMLEFT", 0, -10)
     newStat:SetBackdropColor(1, 0, 0)
+
+    -- update selected specialization
+    local spec = set:GetAssociatedSpec()
+    if spec then
+        UIDropDownMenu_SetSelectedValue(TopFitWeightsPluginSpecDropdown, spec)
+    else
+        UIDropDownMenu_SetSelectedValue(TopFitWeightsPluginSpecDropdown, 'none')
+    end
 end

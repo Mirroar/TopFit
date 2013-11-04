@@ -13,6 +13,7 @@ function Set:construct(setName)
     self.itemScoreCache = {}
     self.ignoreCapsForCalculation = false
     self.useVirtualItems = true
+    self.associatedSpec = nil
 
     self.calculationData = {} -- for use by calculation functions
 
@@ -62,6 +63,10 @@ function Set.CreateFromSavedVariables(setTable)
             -- TODO: use function
             tinsert(setInstance.virtualItems, item)
         end
+    end
+
+    if setTable.associatedSpec then
+        setInstance:SetAssociatedSpec(setTable.associatedSpec)
     end
 
     if setTable.simulateDualWield then
@@ -395,6 +400,16 @@ function Set:SetUseVirtualItems(enable)
 end
 function Set:GetUseVirtualItems()
     return self.useVirtualItems
+end
+
+function Set:SetAssociatedSpec(spec)
+    self.associatedSpec = spec
+    if self.setID and ns.db.profile.sets[self.setID] then
+        ns.db.profile.sets[self.setID].associatedSpec = spec
+    end
+end
+function Set:GetAssociatedSpec()
+    return self.associatedSpec
 end
 
 --[[function Set:SetHitConversion(enable) -- [TODO]
