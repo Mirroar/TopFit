@@ -186,7 +186,7 @@ function DefaultCalculation:IsCapsReached(currentSlot)
     end
 
     for stat, value in pairs(self.set:GetHardCaps()) do
-        if (ApplySecondaryPercentBonus(stat, currentValues[stat] or 0)) < value then
+        if (self:ApplySecondaryPercentBonus(stat, currentValues[stat] or 0)) < value then
             return false
         end
     end
