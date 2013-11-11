@@ -157,7 +157,7 @@ function DefaultCalculation:ApplySecondaryPercentBonus(stat, value)
     for j = 1, #secondaryStats do
         if secondaryStats[j] == stat then
             -- check if percent bonus is active until now
-            for i = 13, math.min(currentSlot, 14) do -- only need to check trinket slots
+            for i = 13, 14 do -- only need to check trinket slots
                 if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 and TopFit.itemListBySlot[i][self.slotCounters[i]] then
                     local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][self.slotCounters[i]].itemLink)
                     if itemTable then
