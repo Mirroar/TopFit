@@ -4,26 +4,17 @@ local addonName, ns, _ = ...
 -- GLOBALS: SaveEquipmentSet, GetProfessions, GetProfessionInfo, UnitClass, ClearCursor, EquipCursorItem, CanUseEquipmentSets, GetEquipmentSetInfoByName, EquipmentManagerClearIgnoredSlotsForSave, EquipmentManagerIgnoreSlotForSave, InCombatLockdown, UnitIsDeadOrGhost, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, PickupContainerItem, PickupInventoryItem
 -- GLOBALS: tremove, tinsert, select, wipe, pairs, math, string, strsplit, tonumber
 
-function ns:CalculateAllSets()
-    ns.workSetList = {}
-    for setID, _ in pairs(ns.db.profile.sets) do
-        tinsert(ns.workSetList, setID)
-    end
-    ns:CalculateSets()
-end
-
-function ns:CalculateSelectedSet()
-    if ns.db.profile.sets[ns.selectedSet] then
-        ns.workSetList = { ns.selectedSet }
-        ns:CalculateSets()
-    end
-end
-
-function ns:StartCalculations()
+function ns:StartCalculations(setCode)
     -- generate table of set codes
-    ns.workSetList = ns.workSetList and wipe(ns.workSetList) or {}
-    for setCode, _ in pairs(self.db.profile.sets) do
+    ns.workSetList = ns.workSetList or {}
+    wipe(ns.workSetList)
+
+    if setCode then
         tinsert(ns.workSetList, setCode)
+    else
+        for setCode, _ in pairs(self.db.profile.sets) do
+            tinsert(ns.workSetList, setCode)
+        end
     end
 
     ns:CalculateSets()
@@ -78,10 +69,7 @@ function ns:CalculateSets(silent)
 
             calculation:Start()
             ns.runningCalculation = calculation
-
-            if TopFitSidebarCalculateButton then
-                ns.ui.SetButtonState('busy')
-            end
+            ns.ui.SetButtonState('busy')
         end
     end
 end
@@ -115,9 +103,7 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
 
         ns.EquipRecommendedItems(set)
         ns.runningCalculation = nil
-        if TopFitSidebarCalculateButton then
-            ns.ui.SetButtonState()
-        end
+        ns.ui.SetButtonState()
     else
         -- caps could not all be reached, calculate without caps instead
         if not set.calculationData.silentCalculation then

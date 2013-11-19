@@ -474,12 +474,11 @@ function ui.ToggleTopFitConfigFrame()
 		button:Show()
 		button:SetWidth(100)
 
-		button:SetScript('OnClick', function(button)
-			-- start calculation
-			if IsShiftKeyDown() then
-				ns:CalculateAllSets()
+		button:SetScript('OnClick', function()
+			if ns.isBlocked then
+				ns:AbortCalculations()
 			else
-				ns:CalculateSelectedSet()
+				ns:StartCalculations(not IsShiftKeyDown() and ns.selectedSet or nil)
 			end
 		end)
 

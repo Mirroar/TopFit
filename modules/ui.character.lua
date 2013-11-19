@@ -2,11 +2,15 @@ local addonName, ns, _ = ...
 ns.ui = ns.ui or {}
 local ui = ns.ui
 
+-- GLOBALS: UIParent, StaticPopupDialogs, GameTooltip, _G, OKAY, CANCEL, CONFIRM_DELETE_EQUIPMENT_SET, EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION, NORMAL_FONT_COLOR_CODE
+-- GLOBALS: hooksecurefunc, InterfaceOptionsFrame_OpenToCategory, IsShiftKeyDown, CreateFrame, GetInventoryItemLink, GetItemInfo, GetItemCount, GetEquipmentSetInfo, GetNumEquipmentSets, ModifyEquipmentSet, GetEquipmentSetInfoByName, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton, UIDropDownMenu_JustifyText, UIDropDownMenu_SetWidth, UIDropDownMenu_GetSelectedValue, SetItemButtonTexture, SetItemButtonCount
+-- GLOBALS: string, table, select, pairs, wipe
+
 -- ----------------------------------------------
 -- control elements
 -- ----------------------------------------------
 function ui.ShowRenameDialog()
-    local popup = GearManagerDialogPopup
+    local popup = _G["GearManagerDialogPopup"]
     popup:SetParent(UIParent)
     popup:SetFrameStrata("DIALOG")
     popup:Show()
@@ -40,18 +44,18 @@ function ui.InitializeStaticPopupDialogs()
         preferredIndex = 3
     }
 
-    GearManagerDialogPopup:HookScript("OnShow", function(self)
+    _G["GearManagerDialogPopup"]:HookScript("OnShow", function(self)
         self.setID = nil
     end)
 
     hooksecurefunc("GearSetPopupButton_OnClick", function(self, button)
-        local popup = GearManagerDialogPopup
+        local popup = self:GetParent()
         local texture = self:GetNormalTexture():GetTexture()
         popup.setIconTexture = string.sub(texture or "", 17)
     end)
 
     hooksecurefunc("GearManagerDialogPopupOkay_OnClick", function(self, button, pushed)
-        local popup = GearManagerDialogPopup
+        local popup = self:GetParent()
         if not popup.setID then return end
 
         local set = ns.GetSetByID(popup.setID, true)
@@ -72,11 +76,12 @@ function ui.InitializeStaticPopupDialogs()
 end
 
 function ui.InitializeSetDropdown()
+    local anchorFrame = _G["CharacterModelFrame"]
     local dropDown = CreateFrame("Frame", "TopFitSetDropDown", PaperDollItemsFrame, "UIDropDownMenuTemplate")
-          dropDown:SetPoint("TOP", CharacterModelFrame, "TOP", 0, 17)
-          dropDown:SetFrameStrata( CharacterModelFrame:GetFrameStrata() )
+          dropDown:SetPoint("TOP", anchorFrame, "TOP", 0, 17)
+          dropDown:SetFrameStrata( anchorFrame:GetFrameStrata() )
     _G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
-    UIDropDownMenu_SetWidth(dropDown, CharacterModelFrame:GetWidth() - 100)
+    UIDropDownMenu_SetWidth(dropDown, anchorFrame:GetWidth() - 100)
     UIDropDownMenu_JustifyText(dropDown, "LEFT")
 
     ns:SetSelectedSet()
@@ -89,54 +94,63 @@ function ui.InitializeSetDropdown()
         local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
         local setName = ns.db.profile.sets[setCode].name
         ns:CreateEquipmentSet(setName)
-
-        ToggleDropDownMenu(nil, nil, dropDown)
     end
-    dropDown.initialize = function(self, level)
+    local function DropDownRenameSet(self)
+        ns.currentlyRenamingSetID = self.value
+        ui.ShowRenameDialog()
+    end
+    local function DropDownDeleteSet(self)
+        ns.currentlyDeletingSetID = self.value
+        StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ self.value ].name)
+    end
+    local function DropDownSelectSet(self)
+        ns:SetSelectedSet(self.value)
+    end
+    dropDown.initialize = function(self, level, menuList)
         local info = UIDropDownMenu_CreateInfo()
 
         if level == 1 then
-            info.text = ns.locale.SelectSetDropDown
-            info.value = 'selectsettitle'
-            info.isTitle = true
+            local selected = UIDropDownMenu_GetSelectedValue(self)
+
+            info.text         = ns.locale.SelectSetDropDown
+            info.value        = 'selectsettitle'
+            info.isTitle      = true
             info.notCheckable = true
             UIDropDownMenu_AddButton(info, level)
 
-
-            info.hasArrow = true
-            info.isTitle = nil
-            info.disabled = nil
+            info.hasArrow     = true
+            info.isTitle      = nil
+            info.disabled     = nil
             info.notCheckable = nil
 
             -- list all existing sets
+            info.func = DropDownSelectSet
             for k, v in pairs(ns.db.profile.sets) do
-                info.text = v.name
-                info.value = k
-                info.checked = UIDROPDOWNMENU_MENU_VALUE == k
-                info.func = function(self) ns:SetSelectedSet(self.value) end
+                info.text     = v.name
+                info.value    = k
+                info.menuList = k
+                info.checked  = k == selected
                 UIDropDownMenu_AddButton(info, level)
-
-                if not ns.selectedSet then ns:SetSelectedSet(k) end
             end
 
-            info.checked = nil
+            info.checked      = nil
             info.notCheckable = true
-            info.colorCode = NORMAL_FONT_COLOR_CODE
+            info.colorCode    = NORMAL_FONT_COLOR_CODE
 
-            info.text = ns.locale.AddSetDropDown
-            info.value = 'addset'
+            info.text         = ns.locale.AddSetDropDown
+            info.value        = 'addset'
+            info.menuList     = 'addset'
+            info.func         = nil
             UIDropDownMenu_AddButton(info, level)
-
         elseif level == 2 then
             info.checked = nil
             info.notCheckable = true
 
-            if UIDROPDOWNMENU_MENU_VALUE == 'addset' then
+            if menuList == 'addset' then
                 -- list options for creating new sets
-                info.func = DropDownAddSet
-
-                info.text = ns.locale.EmptySet
+                info.text  = ns.locale.EmptySet
                 info.value = ''
+                info.func  = DropDownAddSet
                 UIDropDownMenu_AddButton(info, level)
 
                 local presets = ns:GetPresets()
@@ -147,29 +161,18 @@ function ui.InitializeSetDropdown()
                 end
             else
                 -- list options for editing existing sets
-                info.value = UIDROPDOWNMENU_MENU_VALUE
+                info.value = menuList
 
                 info.text = ns.locale.ModifySetSelectText
-                info.func = function(self)
-                    ns:SetSelectedSet(self.value)
-                    ToggleDropDownMenu(nil, nil, dropDown)
-                end
+                info.func = DropDownSelectSet
                 UIDropDownMenu_AddButton(info, level)
 
                 info.text = ns.locale.ModifySetRenameText
-                info.func = function(self)
-                    ns.currentlyRenamingSetID = self.value
-                    ui.ShowRenameDialog()
-                    ToggleDropDownMenu(nil, nil, dropDown)
-                end
+                info.func = DropDownRenameSet
                 UIDropDownMenu_AddButton(info, level)
 
                 info.text = ns.locale.ModifySetDeleteText
-                info.func = function(self)
-                    ns.currentlyDeletingSetID = self.value
-                    StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ self.value ].name)
-                    ToggleDropDownMenu(nil, nil, dropDown)
-                end
+                info.func = DropDownDeleteSet
                 UIDropDownMenu_AddButton(info, level)
             end
         end
@@ -178,17 +181,14 @@ function ui.InitializeSetDropdown()
 end
 
 function ui.InitializeSetProgressBar()
-    -- progress bar
     local progressBar = CreateFrame("StatusBar", "TopFitProgressBar", PaperDollItemsFrame)
-    progressBar:SetPoint("TOPLEFT", TopFitSetDropDown, "TOPLEFT", 22, -6)
-    progressBar:SetPoint("BOTTOMRIGHT", TopFitSetDropDown, "BOTTOMRIGHT", -20, 10)
-    progressBar:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
+    progressBar:SetPoint("TOPLEFT", "TopFitSetDropDown", "TOPLEFT", 22, -6)
+    progressBar:SetPoint("BOTTOMRIGHT", "TopFitSetDropDown", "BOTTOMRIGHT", -20, 10)
     progressBar:SetStatusBarTexture("Interface\\RAIDFRAME\\Raid-Bar-Hp-Fill")
     progressBar:SetStatusBarColor(0, 1, 0, 1)
     progressBar:SetMinMaxValues(0, 100)
     progressBar:Hide()
 
-    -- progress text
     local progressText = progressBar:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     progressText:SetAllPoints()
     progressText:SetText("0.00%")
@@ -198,11 +198,11 @@ function ui.InitializeSetProgressBar()
 end
 
 function ui.ShowProgress()
-    if TopFitSetDropDown then
-        TopFitSetDropDown:Hide()
+    if _G["TopFitSetDropDown"] then
+        _G["TopFitSetDropDown"]:Hide()
     end
-    if TopFitProgressBar then
-        TopFitProgressBar:Show()
+    if _G["TopFitProgressBar"] then
+        _G["TopFitProgressBar"]:Show()
     end
 
     if TopFitConfigFrameCalculationProgressBar then
@@ -211,11 +211,11 @@ function ui.ShowProgress()
     end
 end
 function ui.HideProgress()
-    if TopFitSetDropDown then
-        TopFitSetDropDown:Show()
+    if _G["TopFitSetDropDown"] then
+        _G["TopFitSetDropDown"]:Show()
     end
-    if TopFitProgressBar then
-        TopFitProgressBar:Hide()
+    if _G["TopFitProgressBar"] then
+        _G["TopFitProgressBar"]:Hide()
     end
 
     if TopFitConfigFrameCalculationProgressBar then
@@ -266,29 +266,23 @@ end
 
 function ui.InitializeMultiButton()
     local button = CreateFrame("Button", "TopFitSidebarCalculateButton", PaperDollItemsFrame)
-    button:SetPoint("LEFT", TopFitSetDropDown, "RIGHT", -16, 4)
-    button:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
+    button:SetPoint("LEFT", "TopFitSetDropDown", "RIGHT", -16, 4)
     button:SetSize(24, 24)
     button:SetScript("OnEnter", ns.ShowTooltip)
     button:SetScript("OnLeave", ns.HideTooltip)
     button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
-    if TopFit.isBlocked then
+    if ns.isBlocked then
         ui.SetButtonState('busy')
     else
         ui.SetButtonState()
     end
 
-    button:SetScript("OnClick", function(...)
-        -- TODO: call a function for starting set calculation instead of this
+    button:SetScript("OnClick", function()
         if ns.isBlocked then
             ns:AbortCalculations()
         else
-            if IsShiftKeyDown() then
-                ns:CalculateAllSets()
-            else
-                ns:CalculateSelectedSet()
-            end
+            ns:StartCalculations(not IsShiftKeyDown() and ns.selectedSet or nil)
         end
     end)
     return button
@@ -296,11 +290,10 @@ end
 
 function ui.InitializeConfigButton()
     local button = CreateFrame("Button", "TopFitConfigButton", PaperDollItemsFrame)
-    button:SetPoint("RIGHT", TopFitSetDropDown, "LEFT", 14, 2)
-    button:SetFrameStrata( TopFitSetDropDown:GetFrameStrata() )
+    button:SetPoint("RIGHT", "TopFitSetDropDown", "LEFT", 14, 2)
     button:SetAlpha(0.8)
     button:SetSize(16, 16)
-    button.tipText = CHAT_CONFIGURATION
+    button.tipText = _G.CHAT_CONFIGURATION
     button:SetScript("OnEnter", ns.ShowTooltip)
     button:SetScript("OnLeave", ns.HideTooltip)
     local confTexture = button:CreateTexture('$parentConfigTexture')
@@ -313,9 +306,6 @@ function ui.InitializeConfigButton()
           confHilightTexture:SetPoint('TOPLEFT', -4, 4)
           confHilightTexture:SetPoint('BOTTOMRIGHT', 4, -4)
     button:SetHighlightTexture(confHilightTexture)
-
-    -- button:SetNormalTexture('Interface\\WorldMap\\GEAR_64GREY')
-    -- button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 
     button:RegisterForClicks("AnyUp")
     button:SetScript("OnClick", function(self, btn)
@@ -464,12 +454,13 @@ local function UpdateSpecialFlyoutButton(button, paperDollItemSlot)
     if button.location <= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10 then return end
     local itemID = button.location - (EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION + 10)
     button.TopFitItemID = itemID
+    local flyoutFrame = EquipmentFlyoutFrame.buttonFrame
 
     local texture = select(10, GetItemInfo(itemID)) or "Interface\\Icons\\INV_Misc_QuestionMark"
     SetItemButtonTexture(button, texture)
     SetItemButtonCount(button, nil)
     button.UpdateTooltip = function ()
-        GameTooltip:SetOwner(EquipmentFlyoutFrame.buttonFrame, "ANCHOR_RIGHT", 6, -EquipmentFlyoutFrame.buttonFrame:GetHeight() - 6)
+        GameTooltip:SetOwner(flyoutFrame, "ANCHOR_RIGHT", 6, - flyoutFrame:GetHeight() - 6)
         GameTooltip:SetText(ns.locale.missingForcedItemTooltip, 1.0, 1.0, 1.0)
         GameTooltip:Show()
     end
