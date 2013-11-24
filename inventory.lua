@@ -8,8 +8,10 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 
 ]]--
 
-local ReforgingInfo = LibStub("LibReforgingInfo-1.0") -- used for detecting reforged stats on items
+local LibItemUpgrade = LibStub("LibItemUpgradeInfo-1.0")
+local itemScaleExponent = 1.00936754973658
 
+local ReforgingInfo  = LibStub("LibReforgingInfo-1.0") -- used for detecting reforged stats on items
 local ReforgingStats = {
     "ITEM_MOD_SPIRIT_SHORT",
     "ITEM_MOD_DODGE_RATING_SHORT",
@@ -20,34 +22,6 @@ local ReforgingStats = {
     "ITEM_MOD_EXPERTISE_RATING_SHORT",
     "ITEM_MOD_MASTERY_RATING_SHORT"
 }
-
-local itemLevelModifiers = { -- see http://www.wowinterface.com/forums/showthread.php?t=45388
-    [1]   =  8, -- 1/1
-    [373] =  4, -- 1/2
-    [374] =  8, -- 2/2
-    [375] =  4, -- 1/3
-    [376] =  4, -- 2/3
-    [377] =  4, -- 3/3
-    [379] =  4, -- 1/2
-    [380] =  4, -- 2/2
-    [446] =  4, -- 1/2
-    [447] =  8, -- 2/2
-    [452] =  8, -- 1/1
-    [454] =  4, -- 1/2
-    [455] =  8, -- 2/2
-    [457] =  8, -- 1/1
-    [459] =  4, -- 1/4
-    [460] =  8, -- 2/4
-    [461] = 12, -- 3/4
-    [462] = 16, -- 4/4
-    [466] =  4, -- 1/2
-    [467] =  8, -- 2/2
-    [469] =  4, -- 1/4
-    [470] =  8, -- 2/4
-    [471] = 12, -- 3/4
-    [472] = 16, -- 4/4
-}
-local itemScaleExponent = 1.00936754973658
 
 local function tinsertonce(table, data)
     local found = false
@@ -171,21 +145,17 @@ function TopFit:GetItemInfoTable(item)
     end
 
     -- scale stats by item level if the item was upgraded
-    local upgradeModifier = itemLink:match("item:%d+:%d+:%d+:%d+:%d+:%d+:%-?%d+:%-?%d+:%d+:%d+:(%d+)")
-    if upgradeModifier then
-        upgradeModifier = tonumber(upgradeModifier)
-        if itemLevelModifiers[upgradeModifier] then
-            local newItemLevel = itemLevel + itemLevelModifiers[upgradeModifier]
-            local statMultiplier = (itemScaleExponent ^ newItemLevel) / (itemScaleExponent ^ itemLevel)
-            for stat, value in pairs(itemBonus) do
-                -- some stats don't get adjusted, like armor
-                if not stat:find("RESISTANCE") and not stat:find("_SOCKET_") and not stat:find("TOPFIT") then
-                    itemBonus[stat] = math.floor(value * statMultiplier + 0.5)
-                end
+    local _, _, levelModifier = LibItemUpgrade:GetItemUpgradeInfo(itemLink)
+    if levelModifier and levelModifier > 0 then
+        local newItemLevel = itemLevel + levelModifier
+        local statMultiplier = (itemScaleExponent ^ newItemLevel) / (itemScaleExponent ^ itemLevel)
+        for stat, value in pairs(itemBonus) do
+            -- some stats don't get adjusted, like armor
+            if not stat:find("RESISTANCE") and not stat:find("_SOCKET_") and not stat:find("TOPFIT") then
+                itemBonus[stat] = math.floor(value * statMultiplier + 0.5)
             end
-
-            itemLevel = newItemLevel
         end
+        itemLevel = newItemLevel
     end
 
     -- add reforged stats to base item stats if applicable
