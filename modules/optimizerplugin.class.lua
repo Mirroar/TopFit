@@ -20,7 +20,6 @@ function OptimizerPlugin:GetItemButton(i)
     while #(self.itemButtons) < i do
         local panel = self:GetConfigPanel()
         local itemButton = CreateFrame("Button", "$parentItemButton"..i, panel, "ItemButtonTemplate")
-        --itemButton:SetSize(20, 20)
         itemButton:SetScript("OnEnter", ns.ShowTooltip)
         itemButton:SetScript("OnLeave", ns.HideTooltip)
 

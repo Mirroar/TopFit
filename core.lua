@@ -115,12 +115,12 @@ function ns:JoinTables(...)
     return result
 end
 
-function ns.ShowTooltip(self)
-    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    if self.tipText then
-        GameTooltip:SetText(self.tipText, nil, nil, nil, nil, true)
-    elseif self.itemLink then
-        GameTooltip:SetHyperlink(self.itemLink)
+function ns.ShowTooltip(frame)
+    GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
+    if frame.tipText then
+        GameTooltip:SetText(frame.tipText, nil, nil, nil, nil, true)
+    elseif frame.itemLink then
+        GameTooltip:SetHyperlink(frame.itemLink)
     end
     GameTooltip:Show()
 end

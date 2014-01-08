@@ -31,6 +31,7 @@ plugin.class.lua
 modules\weightsplugin.class.lua
 modules\importplugin.class.lua
 modules\optimizerplugin.class.lua
+modules\itemstatsplugin.class.lua
 modules\shoppinglist.lua
 modules\virtual_items.lua
 
