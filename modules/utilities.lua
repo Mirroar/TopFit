@@ -9,3 +9,12 @@ end
 function ns:PlayerHasTitansGrip()
     return IsSpellKnown(46917)
 end
+
+function ns:GetLinkID(link)
+	if not link or type(link) ~= "string" then return end
+	local linkType, id = link:match("\124H([^:]+):([^:\124]+)")
+	if not linkType then
+		linkType, id = link:match("([^:\124]+):([^:\124]+)")
+	end
+	return tonumber(id), linkType
+end

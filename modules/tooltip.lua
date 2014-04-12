@@ -368,7 +368,7 @@ local function TooltipAddCompareLines(tt, link)
                         if player then
                             if bank then
                                 -- item is banked, use itemID
-                                local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
+                                local itemID = itemIDs[slotID]
                                 if itemID and itemID ~= 1 then
                                     _, itemLink = GetItemInfo(itemID)
                                 end
