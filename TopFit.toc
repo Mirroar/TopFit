@@ -18,7 +18,7 @@ Libs\Unfit-1.0\Unfit-1.0.lua
 # locales
 locale\enUS.lua
 
-core.lua
+TopFit.lua
 
 # classes
 set.class.lua
