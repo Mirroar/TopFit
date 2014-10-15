@@ -65,9 +65,64 @@ function ItemStatsPlugin:SetActiveItem(itemLink)
     self.currentItem = item
 
     -- display item's stats
+    local panel = self:GetConfigPanel()
     local statCategories = {'itemBonus', 'procBonus', 'reforgeBonus', 'gemBonus', 'enchantBonus', 'totalBonus'}
-    for _, category in ipairs(statCategories) do
+    if not self.statFrames then self.statFrames = {} end
+    for frameNum, category in ipairs(statCategories) do
+        -- get a container for stats of this category
+        if not self.statFrames[category] then
+            local frame = CreateFrame("Frame", "$parent"..category.."StatFrame", panel)
+            self.statFrames[category] = frame
 
+            frame.statNames = {}
+            frame.statValues = {}
+
+            if frameNum == 1 then
+                -- anchor to panel
+                frame:SetPoint("TOPLEFT", panel, "TOPLEFT")
+                frame:SetPoint("TOPRIGHT", panel, "TOPRIGHT")
+            else
+                -- anchor to previous frame
+                frame:SetPoint("TOPLEFT", self.statFrames[statCategories[frameNum - 1]], "BOTTOMLEFT")
+                frame:SetPoint("TOPRIGHT", self.statFrames[statCategories[frameNum - 1]], "BOTTOMRIGHT")
+            end
+        end
+        local frame = self.statFrames[category]
+
+        -- collect and display current stats
+        local statCount = 0
+        local lineHeight = 20
+        if item[category] then
+            for stat, value in pairs(item[category]) do
+                statCount = statCount + 1
+
+                -- get the controls for this stat
+                if #frame.statNames < statCount then
+                    local nameText = panel:CreateFontString("$parentNameText"..statCount, "ARTWORK", "GameFontNormal")
+                    tinsert(frame.statNames, nameText)
+                    nameText:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, lineHeight * (statCount - 1) * -1)
+
+                    local valueText = panel:CreateFontString("$parentNameText"..statCount, "ARTWORK", "GameFontNormal")
+                    tinsert(frame.statValues, valueText)
+                    valueText:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, lineHeight * (statCount - 1) * -1)
+                end
+                local nameText = frame.statNames[statCount]
+                local valueText = frame.statValues[statCount]
+                nameText:Show()
+                nameText:SetText(_G[stat] or stat)
+                valueText:Show()
+                valueText:SetText(value)
+            end
+
+            -- hide unused elements
+            for i = statCount + 1, #frame.statNames do
+                frame.statNames[i]:Hide()
+                frame.statValues[i]:Hide()
+            end
+        end
+
+        frame:Show()
+        frame:SetHeight(0.01 + statCount * lineHeight)
     end
 end
 

@@ -11,18 +11,6 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 local LibItemUpgrade = LibStub("LibItemUpgradeInfo-1.0")
 local itemScaleExponent = 1.00936754973658
 
-local ReforgingInfo  = LibStub("LibReforgingInfo-1.0") -- used for detecting reforged stats on items
-local ReforgingStats = {
-    "ITEM_MOD_SPIRIT_SHORT",
-    "ITEM_MOD_DODGE_RATING_SHORT",
-    "ITEM_MOD_PARRY_RATING_SHORT",
-    "ITEM_MOD_HIT_RATING_SHORT",
-    "ITEM_MOD_CRIT_RATING_SHORT",
-    "ITEM_MOD_HASTE_RATING_SHORT",
-    "ITEM_MOD_EXPERTISE_RATING_SHORT",
-    "ITEM_MOD_MASTERY_RATING_SHORT"
-}
-
 local function tinsertonce(table, data)
     local found = false
     for _, v in pairs(table) do
@@ -156,19 +144,6 @@ function TopFit:GetItemInfoTable(item)
             end
         end
         itemLevel = newItemLevel
-    end
-
-    -- add reforged stats to base item stats if applicable
-    local reforgeBonus = {}
-    if (ReforgingInfo:IsItemReforged(itemLink)) then
-        local reforgeID = ReforgingInfo:GetReforgeID(itemLink)
-        local minus, plus = ReforgingInfo:GetReforgedStatIDs(reforgeID)
-        -- replace IDs with their global string (the library only returns IDs or localized Strings)
-        minus = ReforgingStats[minus]
-        plus = ReforgingStats[plus]
-        local statValue = math.floor((itemBonus[minus] or 0) * 0.4)
-        reforgeBonus[minus] = -statValue
-        reforgeBonus[plus] = statValue
     end
 
     -- gems
@@ -409,7 +384,7 @@ function TopFit:GetItemInfoTable(item)
 
     -- calculate total values
     local totalBonus = {}
-    for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus, reforgeBonus, procBonus}) do
+    for _, bonusTable in pairs({itemBonus, gemBonus, enchantBonus, procBonus}) do
         for stat, value in pairs(bonusTable) do
             totalBonus[stat] = (totalBonus[stat] or 0) + value
         end
@@ -445,7 +420,6 @@ function TopFit:GetItemInfoTable(item)
         itemBonus = itemBonus,
         enchantBonus = enchantBonus,
         gemBonus = gemBonus,
-        reforgeBonus = reforgeBonus,
         totalBonus = totalBonus,
         procBonus = procBonus
     }
