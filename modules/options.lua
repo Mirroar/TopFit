@@ -141,15 +141,18 @@ function TopFit:AddSet(preset)
     local weights = {}
     local caps = {}
     if preset then
-        TopFit.debug = preset
         setName = preset.name
-        for key, value in pairs(preset.weights) do
-            weights[key] = value
+        if preset.weights then
+            for key, value in pairs(preset.weights) do
+                weights[key] = value
+            end
         end
-        for key, value in pairs(preset.caps) do
-            caps[key] = {}
-            for key2, value2 in pairs(value) do
-                caps[key][key2] = value2
+        if preset.caps then
+            for key, value in pairs(preset.caps) do
+                caps[key] = {}
+                for key2, value2 in pairs(value) do
+                    caps[key][key2] = value2
+                end
             end
         end
     else
