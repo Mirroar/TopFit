@@ -8,9 +8,6 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 
 ]]--
 
-local LibItemUpgrade = LibStub("LibItemUpgradeInfo-1.0")
-local itemScaleExponent = 1.00936754973658
-
 local function tinsertonce(table, data)
     local found = false
     for _, v in pairs(table) do
@@ -130,20 +127,6 @@ function TopFit:GetItemInfoTable(item)
             local skill, req = string.split("-", skillReq)
             itemBonus["SKILL: " .. skill] = req
         end
-    end
-
-    -- scale stats by item level if the item was upgraded
-    local _, _, levelModifier = LibItemUpgrade:GetItemUpgradeInfo(itemLink)
-    if levelModifier and levelModifier > 0 then
-        local newItemLevel = itemLevel + levelModifier
-        local statMultiplier = (itemScaleExponent ^ newItemLevel) / (itemScaleExponent ^ itemLevel)
-        for stat, value in pairs(itemBonus) do
-            -- some stats don't get adjusted, like armor
-            if not stat:find("RESISTANCE") and not stat:find("_SOCKET_") and not stat:find("TOPFIT") then
-                itemBonus[stat] = math.floor(value * statMultiplier + 0.5)
-            end
-        end
-        itemLevel = newItemLevel
     end
 
     -- gems
