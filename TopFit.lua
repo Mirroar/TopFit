@@ -232,54 +232,55 @@ function ns:OnInitialize()
     ns.statList = {
         -- STAT_CATEGORY_RANGED
         [STAT_CATEGORY_ATTRIBUTES] = {
-            [1] = "ITEM_MOD_AGILITY_SHORT",
-            [2] = "ITEM_MOD_INTELLECT_SHORT",
-            [3] = "ITEM_MOD_SPIRIT_SHORT",
-            [4] = "ITEM_MOD_STAMINA_SHORT",
-            [5] = "ITEM_MOD_STRENGTH_SHORT",
+            "ITEM_MOD_AGILITY_SHORT",
+            "ITEM_MOD_INTELLECT_SHORT",
+            "ITEM_MOD_SPIRIT_SHORT",
+            "ITEM_MOD_STAMINA_SHORT",
+            "ITEM_MOD_STRENGTH_SHORT",
         },
         [STAT_CATEGORY_MELEE] = {
-            [1] = "ITEM_MOD_EXPERTISE_RATING_SHORT",
-            [2] = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
-            -- [3] = "ITEM_MOD_ATTACK_POWER_SHORT",
-            [3] = "ITEM_MOD_MELEE_ATTACK_POWER_SHORT",
-            [4] = "ITEM_MOD_RANGED_ATTACK_POWER_SHORT",
-            [5] = "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
-            [6] = "TOPFIT_MELEE_DPS",
-            [7] = "TOPFIT_RANGED_DPS",
-            [8] = "TOPFIT_MELEE_WEAPON_SPEED",
-            [9] = "TOPFIT_RANGED_WEAPON_SPEED",
+            -- "ITEM_MOD_EXPERTISE_RATING_SHORT",
+            "ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
+            -- "ITEM_MOD_ATTACK_POWER_SHORT",
+            "ITEM_MOD_MELEE_ATTACK_POWER_SHORT",
+            "ITEM_MOD_RANGED_ATTACK_POWER_SHORT",
+            "ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
+            "TOPFIT_MELEE_DPS",
+            "TOPFIT_RANGED_DPS",
+            "TOPFIT_MELEE_WEAPON_SPEED",
+            "TOPFIT_RANGED_WEAPON_SPEED",
         },
         [STAT_CATEGORY_SPELL] = {
-            [1] = "ITEM_MOD_SPELL_PENETRATION_SHORT",
-            [2] = "ITEM_MOD_SPELL_POWER_SHORT",
+            "ITEM_MOD_SPELL_PENETRATION_SHORT",
+            "ITEM_MOD_SPELL_POWER_SHORT",
         },
         [STAT_CATEGORY_DEFENSE] = {
-            [1] = "ITEM_MOD_BLOCK_RATING_SHORT",
-            [2] = "ITEM_MOD_DODGE_RATING_SHORT",
-            [3] = "ITEM_MOD_PARRY_RATING_SHORT",
-            [4] = "ITEM_MOD_RESILIENCE_RATING_SHORT",
-            [5] = "RESISTANCE0_NAME",                   -- armor
+            "ITEM_MOD_BLOCK_RATING_SHORT",
+            "ITEM_MOD_DODGE_RATING_SHORT",
+            "ITEM_MOD_PARRY_RATING_SHORT",
+            "RESISTANCE0_NAME",                   -- armor
         },
         [STAT_CATEGORY_GENERAL] = {
-            [1] = "ITEM_MOD_CRIT_RATING_SHORT",
-            [2] = "ITEM_MOD_HASTE_RATING_SHORT",
-            [3] = "ITEM_MOD_HIT_RATING_SHORT",
-            [4] = "ITEM_MOD_MASTERY_RATING_SHORT",
+            "ITEM_MOD_CRIT_RATING_SHORT",
+            "ITEM_MOD_HASTE_RATING_SHORT",
+            --"ITEM_MOD_HIT_RATING_SHORT",
+            "ITEM_MOD_MASTERY_RATING_SHORT",
+            "ITEM_MOD_PVP_POWER_SHORT",
+            "ITEM_MOD_RESILIENCE_RATING_SHORT",
         },
         [STAT_CATEGORY_RESISTANCE] = {
-            [1] = "RESISTANCE1_NAME",                   -- holy
-            [2] = "RESISTANCE2_NAME",                   -- fire
-            [3] = "RESISTANCE3_NAME",                   -- nature
-            [4] = "RESISTANCE4_NAME",                   -- frost
-            [5] = "RESISTANCE5_NAME",                   -- shadow
-            [6] = "RESISTANCE6_NAME",                   -- arcane
+            "RESISTANCE1_NAME",                   -- holy
+            "RESISTANCE2_NAME",                   -- fire
+            "RESISTANCE3_NAME",                   -- nature
+            "RESISTANCE4_NAME",                   -- frost
+            "RESISTANCE5_NAME",                   -- shadow
+            "RESISTANCE6_NAME",                   -- arcane
         },
         --[[ [ns.locale.StatsCategoryArmorTypes] = {
-            [1] = "TOPFIT_ARMORTYPE_CLOTH",
-            [2] = "TOPFIT_ARMORTYPE_LEATHER",
-            [3] = "TOPFIT_ARMORTYPE_MAIL",
-            [4] = "TOPFIT_ARMORTYPE_PLATE",
+            "TOPFIT_ARMORTYPE_CLOTH",
+            "TOPFIT_ARMORTYPE_LEATHER",
+            "TOPFIT_ARMORTYPE_MAIL",
+            "TOPFIT_ARMORTYPE_PLATE",
         }]]
         -- TODO: empty sockets
         -- TODO: mainhand / offhand dps + speed

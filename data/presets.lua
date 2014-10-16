@@ -5,2766 +5,379 @@ function ns:GetPresets(class)
 	return ns.presets[class]
 end
 
+-- TODO: handle armorbonus
+
 ns.presets = {
-	["DEATHKNIGHT"] = {
+	WARRIOR = {
 		{
-			desc = "Hit(7.5%)=Exp > Mastery > Haste > Crit > Hit(26.5%)",
-			name = "FrostDWPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Arms",
 			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.41,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.33,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2.64,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.83,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.55,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.83,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.6,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.75,
-			},
+				ITEM_MOD_HASTE_RATING_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.8,
+				ITEM_MOD_STRENGTH_SHORT = 6.1,
+				ITEM_MOD_MASTERY_RATING_SHORT = 5.8
+			}
 		},
 		{
-			desc = "Hit(7.5%)=Exp > Mastery > Haste > Crit > Hit(26.5%)",
-			name = "FrostDWPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Fury",
 			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.41,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.33,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2.64,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.83,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.55,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.83,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.6,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.28,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.27,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.75,
-			},
+				ITEM_MOD_MASTERY_RATING_SHORT = 10.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 9.2,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.0,
+				ITEM_MOD_STRENGTH_SHORT = 8.4
+			}
 		},
 		{
-			desc = "Mastery > Stam > Str > Parry=Dodge > Exp/Hit",
-			name = "Blood2HPvE: Mastery Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Protection",
 			weights = {
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.2,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.3,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 1,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.5,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.2,
-				["RESISTANCE0_NAME"] = 0.8,
-			},
-		},
-		{
-			desc = "Str > Parry=Dodge > Stam > Mastery > Exp/Hit",
-			name = "Blood2HPvE: Avoidance Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.15,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.15,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.38,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 1,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.9,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.2,
-				["RESISTANCE0_NAME"] = 0.8,
-			},
-		},
-		{
-			desc = "Hit/Exp > Mastery > Stam > Str > Parry=Dodge",
-			name = "Blood2HPvE: Hit/Exp Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.3,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 1,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.6,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.2,
-				["RESISTANCE0_NAME"] = 0.8,
-			},
-		},
-		{
-			desc = "Strength > Hit > Exp > PvP Power > Resil > Crit > Mastery",
-			name = "Blood2HPvP: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 10,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.26,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.26,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.3,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 2,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 1.9,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.8,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.5,
-			},
-		},
-		{
-			desc = "Hit=Exp > Haste > Crit > Mastery",
-			name = "Frost2HPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.16,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.38,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 9.1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.93,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.7,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.06,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.17,
-			},
-		},
-		{
-			desc = "Hit=Exp > Haste > Crit > Mastery",
-			name = "Frost2HPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.16,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.38,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 9.1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.93,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.7,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.06,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 2.77,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 2.76,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.17,
-			},
-		},
-		{
-			desc = "Str > Hit=Exp > Haste > Crit > Mastery",
-			name = "Unholy2HPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.35,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.48,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 4.61,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.66,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.18,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.36,
-			},
-		},
-		{
-			desc = "Str > Hit=Exp > Haste > Crit > Mastery",
-			name = "Unholy2HPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.35,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.48,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 4.61,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.66,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.18,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 2.94,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 2.93,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.36,
-			},
-		},
+				ITEM_MOD_STRENGTH_SHORT = 10.0,
+				armorbonus = 9.0,
+				ITEM_MOD_STAMINA_SHORT = 7.1,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 5.1
+			}
+		}
 	},
-	["DRUID"] = {
+	PALADIN = {
 		{
-			desc = "Agi > Crit > Exp=Hit > Stam > Mastery > Dodge > Haste",
-			name = "FeralBearPvE: Rage Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 11,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Holy",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.4,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.05,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.1,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.06,
-				["RESISTANCE0_NAME"] = 0.5,
-			},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 8.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 7.5,
+				ITEM_MOD_SPIRIT_SHORT = 7.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 5.5,
+				ITEM_MOD_MASTERY_RATING_SHORT = 5.0
+			}
 		},
 		{
-			desc = "Agi > Mastery > Dodge > Stam > Crit > Hit=Exp > Haste",
-			name = "FeralBearPvE: Mitigation Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 11,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Protection",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.65,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.05,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.32,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.06,
-				["RESISTANCE0_NAME"] = 0.6,
-			},
+				ITEM_MOD_MASTERY_RATING_SHORT = 10.0,
+				ITEM_MOD_STAMINA_SHORT = 9.6,
+				armorbonus = 9.5,
+				ITEM_MOD_HASTE_RATING_SHORT = 7.4,
+				ITEM_MOD_CRIT_RATING_SHORT = 7.1,
+				RESISTANCE0_NAME = 5.9,
+				ITEM_MOD_STRENGTH_SHORT = 4.9,
+				ITEM_MOD_ATTACK_POWER_SHORT = 3.6
+			}
 		},
 		{
-			desc = "Agi > Hit > Exp > PvP Power > Resil > Mastery",
-			name = "FeralBearPvP: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 11,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Retribution",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 3.78,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.38,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.25,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6.6,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.23,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.27,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 1.9,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 1.8,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.8,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.45,
-			},
-		},
-		{
-			desc = "Int > Spirit > Haste to 12.5% > Mastery > Crit",
-			name = "RestorationPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.3,
-					soft = true,
-					value = 5320,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.85,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
-		},
-		{
-			desc = "Int > Spirit to Cap > Haste to 21.43% > Mastery > Crit",
-			name = "RestorationPvE: T14+",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.3,
-					soft = true,
-					value = 9109,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.85,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
-		},
-		{
-			desc = "Int > Spirit > Haste to 12.5% > Mastery > Crit",
-			name = "RestorationPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.3,
-					soft = true,
-					value = 5320,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 0.88,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 0.87,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.85,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
-		},
-		{
-			desc = "Hit > Haste (35.73%) > Crit > Haste > Mastery",
-			name = "MoonkinPvE: Default Build",
-			caps = {
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 1.82,
-					soft = true,
-					value = 5273,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.91,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.31,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.66,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.03,
-			},
-		},
-		{
-			desc = "Hit > Haste (31.28%) > Crit > Haste > Mastery",
-			name = "MoonkinPvE: Tier 14 - 4 Piece",
-			caps = {
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 1.82,
-					soft = true,
-					value = 3706,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.91,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.31,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.66,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.03,
-			},
-		},
-		{
-			desc = "Hit > Haste (35.73%) > Crit > Haste > Mastery",
-			name = "MoonkinPvP: Default",
-			caps = {
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 1.82,
-					soft = true,
-					value = 5273,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.91,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.31,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.66,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.2,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.03,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp > Mastery > Crit > Haste",
-			name = "FeralCatPvE: Favor Hit/Expertise",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 5.7,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 2.2,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5.25,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 1.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.8,
-				["ITEM_MOD_STRENGTH_SHORT"] = 2.3,
-			},
-		},
-		{
-			desc = "Agi > Hit > Exp > PvP Power > Resil > Mastery",
-			name = "FeralCatPvP: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 5.53,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.76,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 2.27,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5.39,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.87,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.5,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 2.7,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 2.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.8,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.84,
-			},
-		},
+				ITEM_MOD_STRENGTH_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.5,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.8,
+				ITEM_MOD_HASTE_RATING_SHORT = 2.7
+			}
+		}
 	},
-	["HUNTER"] = {
+	HUNTER = {
 		{
-			desc = "Agi > Hit=Exp > Crit > Haste > Mastery",
-			name = "BeastMasteryPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Beastmastery",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.36,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.67,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.6,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.93,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.31,
-			},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 8.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 6.3,
+				ITEM_MOD_HASTE_RATING_SHORT = 5.6
+			}
 		},
 		{
-			desc = "Agi > Hit=Exp > Haste > Crit > Mastery",
-			name = "BeastMasteryPvE: Tier 15 RPPM",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Marksmanship",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.36,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.67,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.6,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.93,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.31,
-			},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.9,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.9,
+				ITEM_MOD_HASTE_RATING_SHORT = 5.8
+			}
 		},
 		{
-			desc = "Agi > Hit=Exp > Crit > Haste > Mastery",
-			name = "BeastMasteryPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Survival",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.36,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.67,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.6,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.93,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.31,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.82,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.81,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp > Crit > Haste > Mastery",
-			name = "SurvivalPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.26,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.67,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.26,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.34,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.86,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.86,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.73,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp > Haste > Crit > Mastery",
-			name = "SurvivalPvE: Tier 15 RPPM",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.26,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.67,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.26,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.34,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.86,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.86,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.73,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp > Crit > Haste > Mastery",
-			name = "SurvivalPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.26,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.67,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.26,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.34,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.86,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.86,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.73,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.73,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.72,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp > Crit > Haste > Mastery",
-			name = "MarksmanshipPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 3.37,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.24,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.45,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6.68,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.32,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.92,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp > Haste > Crit > Mastery",
-			name = "MarksmanshipPvE: Tier 15 RPPM",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 3.37,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.24,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.45,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6.68,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.6,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.92,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp > Crit > Haste > Mastery",
-			name = "MarksmanshipPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 3.37,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.24,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.45,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6.68,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.32,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.92,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 2.95,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 2.94,
-			},
-		},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.9,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.1,
+				ITEM_MOD_MASTERY_RATING_SHORT = 5.0
+			}
+		}
 	},
-	["MAGE"] = {
+	ROGUE = {
 		{
-			desc = "Hit > Crit > Haste > Mastery",
-			name = "FirePvE: Default Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
+			name = "Assassination",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 3.12,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.62,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.79,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.8,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.23,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.62,
-			},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 8.4,
+				ITEM_MOD_HASTE_RATING_SHORT = 7.1,
+				ITEM_MOD_MASTERY_RATING_SHORT = 5.9
+			}
 		},
 		{
-			desc = "Hit > Crit > Haste > Mastery",
-			name = "FirePvP: Default",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
+			name = "Combat",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 3.12,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.62,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.79,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.8,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.23,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 4.2,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4.19,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.62,
-			},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.9,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.6,
+				ITEM_MOD_HASTE_RATING_SHORT = 5.7
+			}
 		},
 		{
-			desc = "Hit > Mastery > Haste > Crit",
-			name = "ArcanePvE: Default Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
+			name = "Subtlety",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.67,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.43,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.49,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.68,
-			},
-		},
-		{
-			desc = "Hit > Haste > Mastery > Crit",
-			name = "ArcanePvE: Tier 15 RPPM",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.67,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.5,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.43,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.25,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.68,
-			},
-		},
-		{
-			desc = "Hit > Mastery > Haste > Crit",
-			name = "ArcanePvP: Default",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.67,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.19,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.43,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.49,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.88,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.87,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.68,
-			},
-		},
-		{
-			desc = "Hit > Haste > Crit (to cap) > Mastery > Crit",
-			name = "FrostPvE: Default Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.79,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.93,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.41,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.59,
-			},
-		},
-		{
-			desc = "Hit > Haste > Crit (to cap) > Mastery > Crit",
-			name = "FrostPvP: Default",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.79,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.93,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.41,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.86,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.85,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.59,
-			},
-		},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 8.4,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.9,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.4
+			}
+		}
 	},
-	["MONK"] = {
+	PRIEST = {
 		{
-			desc = "Hit (7.5%) > Agi > Exp > Haste > Crit > Mastery",
-			name = "Windwalker2hPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 9350,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Discipline",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.25,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 2.05,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5.2,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.5,
-			},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 8.1,
+				ITEM_MOD_SPIRIT_SHORT = 8.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.5,
+				ITEM_MOD_MASTERY_RATING_SHORT = 6.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 3.0
+			}
 		},
 		{
-			desc = "Hit (7.5%) > Agi > Exp > Haste > Crit > Mastery",
-			name = "Windwalker2hPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 9350,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Holy",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.25,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 2.05,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5.2,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.85,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.84,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.5,
-			},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 8.5,
+				ITEM_MOD_SPIRIT_SHORT = 8.1,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.5,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.2,
+				ITEM_MOD_CRIT_RATING_SHORT = 4.3
+			}
 		},
 		{
-			desc = "Spirit > Haste (16.65%) > Crit = Mastery > Haste",
-			name = "MistweaverPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.3,
-					soft = true,
-					value = 4719,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Shadow",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.85,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
-		},
-		{
-			desc = "Spirit > Haste (16.65%) > Crit = Mastery > Haste",
-			name = "MistweaverPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.3,
-					soft = true,
-					value = 4719,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 0.88,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 0.87,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.85,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste (8000) > Crit > Mastery > Parry > Dodge > Armor > Stam",
-			name = "Brewmaster2hPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 8000,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.3,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.4,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste (4500) > Crit > Mastery > Parry > Dodge > Armor > Stam",
-			name = "Brewmaster2hPvE: Crit Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 4500,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.3,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.4,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste (4500) > Stam > Mastery > Crit > Parry > Dodge > Armor",
-			name = "Brewmaster2hPvE: Effective Health Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 4500,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.7,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.12,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste (8000) > Crit > Mastery > Parry > Dodge > Armor > Stam",
-			name = "Brewmaster2hPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 8000,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.3,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 1.14,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 1.13,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.4,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
-		{
-			desc = "Hit (7.5%) > Agi > Exp > Haste > Crit > Mastery",
-			name = "WindwalkerDwPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 9350,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.25,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 2.05,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 8,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.5,
-			},
-		},
-		{
-			desc = "Hit (7.5%) > Agi > Exp > Haste > Crit > Mastery",
-			name = "WindwalkerDwPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 9350,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.25,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 2.05,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 8,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.85,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.84,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.5,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste > Crit  > Mastery > Parry > Dodge > Armor > Stam",
-			name = "BrewmasterDwPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 8000,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.3,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.4,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste (4500) > Crit > Mastery > Parry > Dodge > Armor > Stam",
-			name = "BrewmasterDwPvE: Crit Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 4500,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.3,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.4,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste (4500) > Stam > Mastery > Crit > Parry > Dodge > Armor",
-			name = "BrewmasterDwPvE: Effective Health Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 4500,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.7,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.12,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
-		{
-			desc = "Agi > Hit/Exp > Haste > Crit  > Mastery > Parry > Dodge > Armor > Stam",
-			name = "BrewmasterDwPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 8000,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 1.3,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 0.45,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.85,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.65,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 1.14,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 1.13,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.4,
-				["RESISTANCE0_NAME"] = 0.68,
-			},
-		},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 9.9,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.1,
+				ITEM_MOD_MASTERY_RATING_SHORT = 8.7,
+				ITEM_MOD_HASTE_RATING_SHORT = 8.4
+			}
+		}
 	},
-	["PALADIN"] = {
+	DEATHKNIGHT = {
 		{
-			desc = "Spirit > Mastery > Haste = Crit",
-			name = "HolyPvE: Mastery",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Blood",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.45,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.75,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
+				ITEM_MOD_STRENGTH_SHORT = 10.0,
+				armorbonus = 9.9,
+				ITEM_MOD_MASTERY_RATING_SHORT = 8.5,
+				ITEM_MOD_HASTE_RATING_SHORT = 8.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 7.0
+			}
 		},
 		{
-			desc = "Spirit > Haste > Mastery > Crit",
-			name = "HolyPvE: Burst Healing",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Frost",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.75,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
+				ITEM_MOD_STRENGTH_SHORT = 10.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 8.7,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.9,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.7
+			}
 		},
 		{
-			desc = "Spirit > Crit > Mastery > Haste",
-			name = "HolyPvE: Highest Output",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Unholy",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.35,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.75,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-			},
-		},
-		{
-			desc = "Int > PvP Power > Resil > Spirit > Haste > Crit > Mastery",
-			name = "HolyPvP: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.35,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.3,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 0.88,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 0.87,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.8,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.75,
-				["RESISTANCE0_NAME"] = 0.01,
-			},
-		},
-		{
-			desc = "Hit > Exp > Haste > Stamina > Mastery",
-			name = "ProtectionPvE: Control/Haste",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.35,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 1.01,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1.02,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.7,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.35,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.35,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.55,
-				["RESISTANCE0_NAME"] = 0.6,
-			},
-		},
-		{
-			desc = "Mastery > Parry=Dodge > Hit > Exp",
-			name = "ProtectionPvE: Avoidance Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.49,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.5,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.1,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 1,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.48,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.14,
-				["RESISTANCE0_NAME"] = 0.99,
-			},
-		},
-		{
-			desc = "Hit > Exp > Mastery > Stamina > Haste",
-			name = "ProtectionPvE: Control/Mastery",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.35,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 1.01,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1.02,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.35,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.35,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.55,
-				["RESISTANCE0_NAME"] = 0.6,
-			},
-		},
-		{
-			desc = "Resil > Stamina > Hit > PvP Pow > Haste",
-			name = "ProtectionPvP: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.25,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.9,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.25,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 1.8,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.9,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.5,
-				["RESISTANCE0_NAME"] = 0.64,
-			},
-		},
-		{
-			desc = "Hit > Str > Exp > Haste > Mastery > Crit",
-			name = "RetributionPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.48,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.46,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5.94,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.93,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.5,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.58,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.52,
-			},
-		},
-		{
-			desc = "Hit > Str > Exp > Haste > Mastery > Crit",
-			name = "RetributionPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.48,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.46,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5.94,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.93,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.5,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.58,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.08,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.07,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.52,
-			},
-		},
+				ITEM_MOD_MASTERY_RATING_SHORT = 10.0,
+				ITEM_MOD_STRENGTH_SHORT = 9.3,
+				ITEM_MOD_HASTE_RATING_SHORT = 7.7,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.6
+			}
+		}
 	},
-	["PRIEST"] = {
+	SHAMAN = {
 		{
-			desc = "Spirit > Haste > Crit > Mastery",
-			name = "DisciplinePvE: Haste Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Elemental",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.49,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.3,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.81,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.8,
-			},
+				ITEM_MOD_CRIT_RATING_SHORT = 10.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 10.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 9.7,
+				ITEM_MOD_INTELLECT_SHORT = 9.5,
+				ITEM_MOD_SPELL_POWER_SHORT = 9.3
+			}
 		},
 		{
-			desc = "Spirit > Crit > Haste > Mastery",
-			name = "DisciplinePvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Enhancement",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.49,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.3,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.81,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.8,
-			},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				TOPFIT_MELEE_DPS = 9.9,
+				ITEM_MOD_CRIT_RATING_SHORT = 7.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.4
+			}
 		},
 		{
-			desc = "Spirit > Mastery > Crit > Haste",
-			name = "DisciplinePvE: Mastery Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Restoration",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.45,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.81,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.8,
-			},
-		},
-		{
-			desc = "Spirit > Crit > Haste > Mastery",
-			name = "DisciplinePvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.49,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.3,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 0.88,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 0.87,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.81,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.8,
-			},
-		},
-		{
-			desc = "Hit > Haste (24.98%) > Crit > Haste > Mastery",
-			name = "ShadowPvE: Tier 14+",
-			caps = {
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 1.6,
-					soft = true,
-					value = 8085,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.73,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.32,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.39,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.89,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.49,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.14,
-				["ITEM_MOD_SPIRIT_SHORT"] = 2.39,
-			},
-		},
-		{
-			desc = "Hit > Haste > Mastery > Crit",
-			name = "ShadowPvE: Tier 15+",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.32,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.39,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.89,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.14,
-				["ITEM_MOD_SPIRIT_SHORT"] = 2.39,
-			},
-		},
-		{
-			desc = "Hit > Haste (24.98%) > Crit > Haste > Mastery",
-			name = "ShadowPvP: Default",
-			caps = {
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 1.6,
-					soft = true,
-					value = 8085,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.73,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.32,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.39,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.89,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.49,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.4,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.39,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.14,
-				["ITEM_MOD_SPIRIT_SHORT"] = 2.39,
-			},
-		},
-		{
-			desc = "Spirit > Haste > Crit > Mastery",
-			name = "HolyPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.43,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.62,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.33,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.85,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.81,
-			},
-		},
-		{
-			desc = "Spirit > Haste > Crit > Mastery",
-			name = "HolyPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.43,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.62,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.33,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 0.88,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 0.87,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.85,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.81,
-			},
-		},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 7.5,
+				ITEM_MOD_SPIRIT_SHORT = 6.5,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 5.8,
+				ITEM_MOD_HASTE_RATING_SHORT = 5.0
+			}
+		}
 	},
-	["ROGUE"] = {
+	MAGE = {
 		{
-			desc = "Hit (7.5%) > Exp > Haste > Crit > Mastery > Hit (26.5%)",
-			name = "SubtletyPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Arcane",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.74,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.28,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.61,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 1.84,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.78,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.18,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.39,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.34,
-			},
+				ITEM_MOD_HASTE_RATING_SHORT = 10.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 9.9,
+				ITEM_MOD_INTELLECT_SHORT = 9.5,
+				ITEM_MOD_SPELL_POWER_SHORT = 9.4,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.3
+			}
 		},
 		{
-			desc = "Hit (7.5%) > Exp > Haste > Crit > Mastery > Hit (26.5%)",
-			name = "SubtletyPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Fire",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.74,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.28,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.61,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 1,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 1.84,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.78,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.18,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.39,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 4.15,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4.14,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.34,
-			},
+				ITEM_MOD_CRIT_RATING_SHORT = 10.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 8.7,
+				ITEM_MOD_HASTE_RATING_SHORT = 8.1,
+				ITEM_MOD_SPELL_POWER_SHORT = 7.0,
+				ITEM_MOD_INTELLECT_SHORT = 7.0
+			}
 		},
 		{
-			desc = "Exp=Hit (7.5%) > Haste > Mastery > Crit > Hit (26.5%)",
-			name = "CombatPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
+			name = "Frost",
 			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.47,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.57,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2.15,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.9,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.54,
-			},
-		},
-		{
-			desc = "Exp=Hit (7.5%) > Haste > Mastery > Crit > Hit (26.5%)",
-			name = "CombatPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.47,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.57,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2.15,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.9,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.5,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.49,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.54,
-			},
-		},
-		{
-			desc = "Hit (7.5%) > Exp >= Mastery > Haste >= Crit > Hit (26.5%)",
-			name = "AssassinationPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.74,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.71,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 1.04,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.13,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.8,
-			},
-		},
-		{
-			desc = "Hit (7.5%) > Exp >= Mastery > Haste >= Crit > Hit (26.5%)",
-			name = "AssassinationPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 4.74,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.71,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 1.04,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 2,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.13,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 4.15,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4.14,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.8,
-			},
-		},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 9.9,
+				ITEM_MOD_MASTERY_RATING_SHORT = 8.3,
+				ITEM_MOD_CRIT_RATING_SHORT = 7.2,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.7
+			}
+		}
 	},
-	["SHAMAN"] = {
+	WARLOCK = {
 		{
-			desc = "Spirit > Haste (12.5%) > Mastery > Haste > Crit",
-			name = "RestorationPvE: Mastery",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.45,
-					soft = true,
-					value = 5316,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Affliction",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.75,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.65,
-			},
+				ITEM_MOD_MASTERY_RATING_SHORT = 10.0,
+				ITEM_MOD_INTELLECT_SHORT = 7.8,
+				ITEM_MOD_SPELL_POWER_SHORT = 7.7,
+				ITEM_MOD_HASTE_RATING_SHORT = 7.7,
+				ITEM_MOD_CRIT_RATING_SHORT = 7.5
+			}
 		},
 		{
-			desc = "Spirit > Haste (12.5%) > Crit > Mastery > Haste",
-			name = "RestorationPvE: Crit",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.35,
-					soft = true,
-					value = 5316,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Demonology",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.45,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.75,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.65,
-			},
+				ITEM_MOD_MASTERY_RATING_SHORT = 10.0,
+				ITEM_MOD_INTELLECT_SHORT = 9.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 8.9,
+				ITEM_MOD_CRIT_RATING_SHORT = 8.2,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.5
+			}
 		},
 		{
-			desc = "Spirit > Haste (12.5%) > Mastery > Haste > Crit",
-			name = "RestorationPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HASTE_RATING_SHORT"] = {
-					active = true,
-					afterValue = 0.45,
-					soft = true,
-					value = 5316,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Destruction",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_INTELLECT_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.55,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 0.88,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 0.87,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 0.75,
-				["ITEM_MOD_SPIRIT_SHORT"] = 0.65,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp (7.5%) > Haste > Mastery > Crit > Spell Hit (15%)",
-			name = "EnhancementPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 5.1,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.8,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.9,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.08,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.25,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.9,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp (7.5%) > Mastery > Crit > Haste > Spell Hit (15%)",
-			name = "EnhancementPvE: Echo of Elements",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 3.82,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.52,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.58,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.08,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.8,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.43,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.8,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.73,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.6,
-			},
-		},
-		{
-			desc = "Agi > Hit=Exp (7.5%) > Haste > Mastery > Crit > Spell Hit (15%)",
-			name = "EnhancementPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_AGILITY_SHORT"] = 5.1,
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.8,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.9,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.08,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.25,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 4.4,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 4.46,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 4.45,
-				["ITEM_MOD_STRENGTH_SHORT"] = 1.9,
-			},
-		},
-		{
-			desc = "Intellect > Hit > Haste > Mastery > Crit",
-			name = "ElementalPvE: Default Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.39,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.74,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.46,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.12,
-			},
-		},
-		{
-			desc = "Intellect > Hit > Haste > Mastery > Crit",
-			name = "ElementalPvP: Default",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.39,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 3.74,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.46,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.27,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.26,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.12,
-			},
-		},
+				ITEM_MOD_HASTE_RATING_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.7,
+				ITEM_MOD_INTELLECT_SHORT = 8.9,
+				ITEM_MOD_SPELL_POWER_SHORT = 8.8,
+				ITEM_MOD_MASTERY_RATING_SHORT = 8.4
+			}
+		}
 	},
-	["WARLOCK"] = {
+	MONK = {
 		{
-			desc = "Hit > Mastery >= Haste >= Crit",
-			name = "DemonologyPvE: Default Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
+			name = "Brewmaster",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.12,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.4,
-			},
+				RESISTANCE0_NAME = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.5,
+				armorbonus = 9.5,
+				ITEM_MOD_MASTERY_RATING_SHORT = 7.8,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.3,
+				ITEM_MOD_AGILITY_SHORT = 4.8
+			}
 		},
 		{
-			desc = "Hit > Mastery >= Haste >= Crit",
-			name = "DemonologyPvP: Default",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
+			name = "Mistweaver",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.95,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.12,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.6,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.59,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.4,
-			},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 8.5,
+				ITEM_MOD_CRIT_RATING_SHORT = 8.0,
+				ITEM_MOD_SPIRIT_SHORT = 7.5,
+				ITEM_MOD_HASTE_RATING_SHORT = 6.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 4.0
+			}
 		},
 		{
-			desc = "Hit > Mastery > Haste > Crit",
-			name = "AfflictionPvE: Hit Cap Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
+			name = "Windwalker",
 			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.78,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.57,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.53,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.82,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.71,
-			},
-		},
-		{
-			desc = "Mastery > Haste > Hit > Crit",
-			name = "AfflictionPvE: Default Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.78,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.57,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.15,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.53,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.82,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.71,
-			},
-		},
-		{
-			desc = "Hit > Mastery > Haste > Crit",
-			name = "AfflictionPvE: Tier 15+",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.78,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.75,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.53,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.5,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.71,
-			},
-		},
-		{
-			desc = "Hit > Mastery > Haste > Crit",
-			name = "AfflictionPvP: Default",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.78,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 2.57,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.53,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.82,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.96,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.95,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.71,
-			},
-		},
-		{
-			desc = "Hit > Crit > Haste > Mastery",
-			name = "DestructionPvE: Default Build",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.33,
-			},
-		},
-		{
-			desc = "Hit > Mastery > Crit > Haste",
-			name = "DestructionPvE: Grimoire of Sacrifice",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.33,
-			},
-		},
-		{
-			desc = "Hit > Haste > Mastery >= Crit",
-			name = "DestructionPvE: Tier 15 RPPM",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.33,
-			},
-		},
-		{
-			desc = "Hit > Crit > Haste > Mastery",
-			name = "DestructionPvP: Default",
-			caps = {
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 5100,
-				},
-			},
-			weights = {
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.75,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_INTELLECT_SHORT"] = 4.1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.65,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.59,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.58,
-				["ITEM_MOD_SPELL_POWER_SHORT"] = 3.33,
-			},
-		},
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 9.8,
+				ITEM_MOD_CRIT_RATING_SHORT = 7.5,
+				ITEM_MOD_MASTERY_RATING_SHORT = 3.9
+			}
+		}
 	},
-	["WARRIOR"] = {
+	DRUID = {
 		{
-			desc = "Hit=Exp > Mastery > Parry=Dodge",
-			name = "ProtectionPvE: Hit/Exp Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Balance",
 			weights = {
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.99,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.9,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.34,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.85,
-				["RESISTANCE0_NAME"] = 0.8,
-			},
+				ITEM_MOD_HASTE_RATING_SHORT = 10.0,
+				ITEM_MOD_MASTERY_RATING_SHORT = 9.5,
+				ITEM_MOD_INTELLECT_SHORT = 9.5,
+				ITEM_MOD_SPELL_POWER_SHORT = 9.3,
+				ITEM_MOD_CRIT_RATING_SHORT = 9.1
+			}
 		},
 		{
-			desc = "Mastery > Parry=Dodge > Hit=Exp",
-			name = "ProtectionPvE: Avoidance Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Feral",
 			weights = {
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.56,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.57,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.8,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.34,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.95,
-				["RESISTANCE0_NAME"] = 0.9,
-			},
+				TOPFIT_MELEE_DPS = 11.3,
+				ITEM_MOD_AGILITY_SHORT = 10.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 3.8,
+				ITEM_MOD_MASTERY_RATING_SHORT = 3.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 2.7
+			}
 		},
 		{
-			desc = "Mastery > Hit=Exp > Parry=Dodge",
-			name = "ProtectionPvE: Balanced Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Guardian",
 			weights = {
-				["ITEM_MOD_DODGE_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 0.9,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 0.91,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1,
-				["ITEM_MOD_PARRY_RATING_SHORT"] = 0.6,
-				["ITEM_MOD_STAMINA_SHORT"] = 1.34,
-				["ITEM_MOD_STRENGTH_SHORT"] = 0.85,
-				["RESISTANCE0_NAME"] = 0.8,
-			},
+				armorbonus = 10.0,
+				ITEM_MOD_AGILITY_SHORT = 9.6,
+				RESISTANCE0_NAME = 9.5,
+				ITEM_MOD_MASTERY_RATING_SHORT = 8.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 7.0,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.0
+			}
 		},
 		{
-			desc = "Strength > Hit > Pvp Power > Resil > Crit > Mastery",
-			name = "ProtectionPvP: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = 8,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
+			name = "Restoration",
 			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 0.98,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 0.2,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 1.7,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 0.4,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 1.5,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 1.4,
-				["ITEM_MOD_STAMINA_SHORT"] = 0.6,
-				["ITEM_MOD_STRENGTH_SHORT"] = 2.3,
-			},
-		},
-		{
-			desc = "Hit=Exp (7.5%) > Str > Crit > Mastery > Hit (26.5%)=Haste",
-			name = "FuryPvE: Single-Minded Fury",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.75,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 3.34,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 4.5,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.55,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.5,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.75,
-			},
-		},
-		{
-			desc = "Hit=Exp (7.5%) > Str > Crit > Mastery > Hit (26.5%)=Haste",
-			name = "FuryPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.75,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 3.34,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 4.5,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3.5,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.55,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3.5,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.28,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.27,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.75,
-			},
-		},
-		{
-			desc = "Hit > Exp > Crit > Mastery > Haste",
-			name = "ArmsPvE: Default Build",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.6,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.8,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 10,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.45,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.55,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.45,
-			},
-		},
-		{
-			desc = "Hit > Exp > Crit > Mastery > Haste",
-			name = "ArmsPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.6,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 1.8,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 10,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.45,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 1.55,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 3.02,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 3.01,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.45,
-			},
-		},
-		{
-			desc = "Exp=Hit (7.5%) > Str > Crit > Mastery > Hit (26.5%) > Haste",
-			name = "Fury2HPvE: Titan's Grip",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.44,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.31,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.45,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.15,
-			},
-		},
-		{
-			desc = "Exp=Hit (7.5%) > Str > Crit > Mastery > Hit (26.5%) > Haste",
-			name = "Fury2HPvP: Default",
-			caps = {
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = {
-					active = true,
-					soft = false,
-					value = 2550,
-				},
-				["ITEM_MOD_HIT_RATING_SHORT"] = {
-					active = true,
-					soft = true,
-					value = 2550,
-				},
-			},
-			weights = {
-				["ITEM_MOD_ATTACK_POWER_SHORT"] = 1.44,
-				["ITEM_MOD_CRIT_RATING_SHORT"] = 2.8,
-				["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3.31,
-				["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 3,
-				["ITEM_MOD_HASTE_RATING_SHORT"] = 1.45,
-				["ITEM_MOD_HIT_RATING_SHORT"] = 3,
-				["ITEM_MOD_MASTERY_RATING_SHORT"] = 2.2,
-				["ITEM_MOD_PVP_POWER_SHORT"] = 2.76,
-				["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 2.75,
-				["ITEM_MOD_STRENGTH_SHORT"] = 3.15,
-			},
-		},
-	},
+				ITEM_MOD_INTELLECT_SHORT = 10.0,
+				ITEM_MOD_SPELL_POWER_SHORT = 8.5,
+				ITEM_MOD_SPIRIT_SHORT = 8.0,
+				ITEM_MOD_HASTE_RATING_SHORT = 7.5,
+				ITEM_MOD_MASTERY_RATING_SHORT = 6.5,
+				ITEM_MOD_CRIT_RATING_SHORT = 6.0
+			}
+		}
+	}
 }
--- vi: ft=lua
+
+-- add some universal stats to every spec at very low scores for leveling
+for class, presets in pairs(ns.presets) do
+	for _, preset in pairs(presets) do
+		preset.weights.RESISTANCE0_NAME = preset.weights.RESISTANCE0_NAME or 0.001
+		preset.weights.ITEM_MOD_STAMINA_SHORT = preset.weights.ITEM_MOD_STAMINA_SHORT or 0.01
+		preset.weights.ITEM_MOD_CRIT_RATING_SHORT = preset.weights.ITEM_MOD_CRIT_RATING_SHORT or 0.01
+		preset.weights.ITEM_MOD_MASTERY_RATING_SHORT = preset.weights.ITEM_MOD_MASTERY_RATING_SHORT or 0.01
+		preset.weights.ITEM_MOD_HASTE_RATING_SHORT = preset.weights.ITEM_MOD_HASTE_RATING_SHORT or 0.01
+	end
+end
