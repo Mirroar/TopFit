@@ -1,7 +1,7 @@
 local addonName, ns = ...
 
 -- create global Addon object
-TopFit = ns
+_G[addonName] = ns
 
 SLASH_TopFit1 = "/topfit"
 SLASH_TopFit2 = "/tf"
