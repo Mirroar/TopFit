@@ -238,7 +238,7 @@ function TopFit:GetItemInfoTable(item)
 
     -- enchantment
     local enchantBonus = {}
-    if enchantID > 0 then
+    if false and enchantID > 0 then
         local found = false
         for _, slotID in pairs(TopFit.slots) do
             if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
@@ -418,7 +418,7 @@ end
 -- used by tooltip to decide which item slots to compare to
 local compareToSlots = {}
 function TopFit:GetEquipLocationsByInvType(itemEquipLoc, createTable)
-	local slots = createTable and compareToSlots or {}
+	local slots = createTable and {} or compareToSlots
 	wipe(slots)
 
     if itemEquipLoc == "INVTYPE_HEAD" then
