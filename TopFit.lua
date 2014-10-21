@@ -259,6 +259,7 @@ function ns:OnInitialize()
             "ITEM_MOD_DODGE_RATING_SHORT",
             "ITEM_MOD_PARRY_RATING_SHORT",
             "RESISTANCE0_NAME",                   -- armor
+            "ITEM_MOD_RESILIENCE_RATING_SHORT",
         },
         [STAT_CATEGORY_GENERAL] = {
             "ITEM_MOD_CRIT_RATING_SHORT",
@@ -266,7 +267,9 @@ function ns:OnInitialize()
             --"ITEM_MOD_HIT_RATING_SHORT",
             "ITEM_MOD_MASTERY_RATING_SHORT",
             "ITEM_MOD_PVP_POWER_SHORT",
-            "ITEM_MOD_RESILIENCE_RATING_SHORT",
+            "ITEM_MOD_CR_MULTISTIKE_SHORT",
+            "ITEM_MOD_CR_LIFESTEAL_SHORT",
+            "ITEM_MOD_VERSATILITY",
         },
         [STAT_CATEGORY_RESISTANCE] = {
             "RESISTANCE1_NAME",                   -- holy
