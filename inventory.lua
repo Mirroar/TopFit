@@ -8,6 +8,8 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 
 ]]--
 
+local tinsert = table.insert
+
 local function tinsertonce(table, data)
     local found = false
     for _, v in pairs(table) do
@@ -236,7 +238,7 @@ function TopFit:GetItemInfoTable(item)
 
     -- enchantment
     local enchantBonus = {}
-    if enchantID > 0 then
+    if false and enchantID > 0 then
         local found = false
         for _, slotID in pairs(TopFit.slots) do
             if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
@@ -402,7 +404,7 @@ function TopFit:GetItemInfoTable(item)
         itemMinLevel = itemMinLevel,
         itemLevel = itemLevel,
         itemEquipLoc = itemEquipLoc,
-        equipLocationsByType = TopFit:GetEquipLocationsByInvType(itemEquipLoc),
+        equipLocationsByType = TopFit:GetEquipLocationsByInvType(itemEquipLoc, true),
         gems = gems,
         itemBonus = itemBonus,
         enchantBonus = enchantBonus,
@@ -418,51 +420,58 @@ function TopFit:GetItemInfoTable(item)
 end
 
 -- used by tooltip to decide which item slots to compare to
-function TopFit:GetEquipLocationsByInvType(itemEquipLoc)
-    if itemEquipLoc == "INVTYPE_2HWEAPON" then
-        --TODO: check weapon type
-        return {16}
-    elseif itemEquipLoc == "INVTYPE_BODY" then
-        return {4}
-    elseif itemEquipLoc == "INVTYPE_CHEST" or itemEquipLoc == "INVTYPE_ROBE" then
-        return {5}
-    elseif itemEquipLoc == "INVTYPE_CLOAK" then
-        return {15}
-    elseif itemEquipLoc == "INVTYPE_FEET" then
-        return {8}
-    elseif itemEquipLoc == "INVTYPE_FINGER" then
-        return {11, 12}
-    elseif itemEquipLoc == "INVTYPE_HAND" then
-        return {10}
-    elseif itemEquipLoc == "INVTYPE_HEAD" then
-        return {1}
-    elseif itemEquipLoc == "INVTYPE_HOLDABLE" or itemEquipLoc == "INVTYPE_SHIELD" then
-        return {17}
-    elseif itemEquipLoc == "INVTYPE_LEGS" then
-        return {7}
+local compareToSlots = {}
+function TopFit:GetEquipLocationsByInvType(itemEquipLoc, createTable)
+	local slots = createTable and {} or compareToSlots
+	wipe(slots)
+
+    if itemEquipLoc == "INVTYPE_HEAD" then
+        tinsert(slots, 1)
     elseif itemEquipLoc == "INVTYPE_NECK" then
-        return {2}
-    elseif itemEquipLoc == "INVTYPE_RANGED" or itemEquipLoc == "INVTYPE_RANGEDRIGHT" or itemEquipLoc == "INVTYPE_THROWN" then
-        return {16}
+        tinsert(slots, 2)
     elseif itemEquipLoc == "INVTYPE_SHOULDER" then
-        return {3}
-    elseif itemEquipLoc == "INVTYPE_TABARD" then
-        return {19}
-    elseif itemEquipLoc == "INVTYPE_TRINKET" then
-        return {13, 14}
+        tinsert(slots, 3)
+    elseif itemEquipLoc == "INVTYPE_BODY" then
+        tinsert(slots, 4)
+    elseif itemEquipLoc == "INVTYPE_CHEST" or itemEquipLoc == "INVTYPE_ROBE" then
+        tinsert(slots, 5)
     elseif itemEquipLoc == "INVTYPE_WAIST" then
-        return {6}
-    elseif itemEquipLoc == "INVTYPE_WEAPON" then
-        return {16, 17}
-    elseif itemEquipLoc == "INVTYPE_WEAPONMAINHAND" then
-        return {16}
-    elseif itemEquipLoc == "INVTYPE_WEAPONOFFHAND" then
-        return {17}
+        tinsert(slots, 6)
+    elseif itemEquipLoc == "INVTYPE_LEGS" then
+        tinsert(slots, 7)
+    elseif itemEquipLoc == "INVTYPE_FEET" then
+        tinsert(slots, 8)
     elseif itemEquipLoc == "INVTYPE_WRIST" then
-        return {9}
+        tinsert(slots, 9)
+    elseif itemEquipLoc == "INVTYPE_HAND" then
+        tinsert(slots, 10)
+    elseif itemEquipLoc == "INVTYPE_FINGER" then
+        tinsert(slots, 11)
+        tinsert(slots, 12)
+    elseif itemEquipLoc == "INVTYPE_TRINKET" then
+        tinsert(slots, 13)
+        tinsert(slots, 14)
+    elseif itemEquipLoc == "INVTYPE_CLOAK" then
+        tinsert(slots, 15)
+    elseif itemEquipLoc == "INVTYPE_2HWEAPON" then
+        --TODO: check weapon type
+        tinsert(slots, 16)
+    elseif itemEquipLoc == "INVTYPE_RANGED" or itemEquipLoc == "INVTYPE_RANGEDRIGHT" or itemEquipLoc == "INVTYPE_THROWN" then
+        tinsert(slots, 16)
+    elseif itemEquipLoc == "INVTYPE_WEAPONMAINHAND" then
+        tinsert(slots, 16)
+    elseif itemEquipLoc == "INVTYPE_WEAPON" then
+        tinsert(slots, 16)
+        tinsert(slots, 17)
+    elseif itemEquipLoc == "INVTYPE_WEAPONOFFHAND" then
+        tinsert(slots, 17)
+    elseif itemEquipLoc == "INVTYPE_HOLDABLE" or itemEquipLoc == "INVTYPE_SHIELD" then
+        tinsert(slots, 17)
+    elseif itemEquipLoc == "INVTYPE_TABARD" then
+        tinsert(slots, 19)
     end
     -- default / invalid location
-    return {}
+    return slots
 end
 
 -- items are deemed interesting if any of these conditions are true:

@@ -681,7 +681,8 @@ local function OnTooltipSetItem(self, semaphore, skipCompareLines)
     if not clearedSemaphores[semaphore] then
         local name, link = self:GetItem()
         if (name) then
-            if IsEquippableItem(link) and not ns.Unfit:IsItemUnusable(link) then
+            local equipSlot = select(9, GetItemInfo(link))
+            if IsEquippableItem(link) and equipSlot ~= 'INVTYPE_BAG' and not ns.Unfit:IsItemUnusable(link) then
                 TooltipAddLines(self, link)
                 if (TopFit.db.profile.showComparisonTooltip and not TopFit.isBlocked and not skipCompareLines) then
                     TooltipAddCompareLines(self, link)
