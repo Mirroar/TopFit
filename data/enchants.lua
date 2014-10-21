@@ -1,3996 +1,3274 @@
--- this table matches enchant ids on items to their corresponding stat.
--- CAUTION: this is not the item-id of an enchant item, nor the same id that is used in tradeskills
--- the enchant ID is the number that appears in the enchanted item's itemLink
-
-TopFit.enchantIDs = {
-	-- Head
-	[1] = {
-		-- level 85, heirloom
-		[4208] = {                                                      -- Arcanum of the Highlands (Dragonmaw / Wildhammer)
-			["ITEM_MOD_STRENGTH_SHORT"] = 60,
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 35,
-		},
-		[4209] = {                                                      -- Arcanum of Ramkahen
-			["ITEM_MOD_AGILITY_SHORT"] = 60,
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 35,
-		},
-		[4207] = {                                                      -- Arcanum of Hyjal
-			["ITEM_MOD_INTELLECT_SHORT"] = 60,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 35,
-		},
-		[4206] = {                                                      -- Arcanum of the Earthern Ring
-			["ITEM_MOD_STAMINA_SHORT"] = 90,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 35,
-		},
-
-		-- level 85, rare
-		[4245] = {                                                      -- Arcanum of Vicious Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 60,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
-		},
-		[4246] = {                                                      -- Arcanum of Vicious Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 60,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
-		},
-		[4247] = {                                                      -- Arcanum of Vicious Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 60,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 35,
-		},
-
-		-- level 80, heirloom
-		[3819] = {                                                      -- Arcanum of Blissful Mending
-			["ITEM_MOD_INTELLECT_SHORT"] = 26,
-			["ITEM_MOD_SPIRIT_SHORT"] = 20,
-		},
-		[3820] = {                                                      -- Arcanum of Burning Mysteries
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 30,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-		},
-		[3817] = {                                                      -- Arcanum of Torment
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 50,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 20
-		},
-		[3842] = {                                                      -- Arcanum of the Savage Gladiator
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		},
-		[3818] = {                                                      -- Arcanum of the Stalwart Protector
-			["ITEM_MOD_STAMINA_SHORT"] = 37,
-			["ITEM_MOD_DODGE_SKILL_RATING_SHORT"] = 20,
-		},
-
-		-- level 80, rare
-		[3797] = {                                                      -- Arcanum of Dominance
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 29,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-		},
-		[3813] = {                                                      -- Arcanum of Toxic Warding
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["RESISTANCE3_NAME"] = 25,
-		},
-		[3795] = {                                                      -- Arcanum of Triumph
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 50,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-		},
-		[3815] = {                                                      -- Arcanum of the Eclipsed Moon
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["RESISTANCE6_NAME"] = 25,
-		},
-		[3816] = {                                                      -- Arcanum of the Flame's Soul
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["RESISTANCE2_NAME"] = 25,
-		},
-		[3814] = {                                                      -- Arcanum of the Fleeing Shadow
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["RESISTANCE5_NAME"] = 25,
-		},
-		[3812] = {                                                      -- Arcanum of the Frosty Soul
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["RESISTANCE4_NAME"] = 25,
-		},
-
-		-- level 80 armor kit
-		[4120] = {                                                      -- Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 36,
-		},
-		[4121] = {                                                      -- Heavy Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 44,
-		},
-
-		-- level 70, uncommon
-		[3006] = {                                                      -- Arcanum of Arcane Warding
-			["RESISTANCE6_NAME"] = 20,
-		},
-		[3003] = {                                                      -- Arcanum of Ferocity
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 34,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 16,
-		},
-		[3007] = {                                                      -- Arcanum of Fire Warding
-			["RESISTANCE2_NAME"] = 20,
-		},
-		[3008] = {                                                      -- Arcanum of Frost Warding
-			["RESISTANCE4_NAME"] = 20,
-		},
-		[3005] = {                                                      -- Arcanum of Nature Warding
-			["RESISTANCE3_NAME"] = 20,
-		},
-		[3002] = {                                                      -- Arcanum of Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 22,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 14,
-		},
-		[3001] = {                                                      -- Arcanum of Renewal
-			["ITEM_MOD_INTELLECT_SHORT"] = 16,
-			["ITEM_MOD_SPIRIT_SHORT"] = 18,
-		},
-		[3009] = {                                                      -- Arcanum of Shadow Warding
-			["RESISTANCE5_NAME"] = 20,
-		},
-		[2999] = {                                                      -- Arcanum of the Defender
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 16,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 17,
-		},
-		[3004] = {                                                      -- Arcanum of the Gladiator
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-		},
-		[3096] = {                                                      -- Arcanum of the Outcast
-			["ITEM_MOD_STRENGTH_SHORT"] = 17,
-			["ITEM_MOD_INTELLECT_SHORT"] = 16,
-		},
-
-		-- level 70 armor kits
-		[3330] = {                                                      -- Heavy Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-		},
-		[3329] = {                                                      -- Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-		},
-
-		-- level 60, Zul'Gurub rare
-		[2591] = {                                                      -- Animist's Caress
-			["ITEM_MOD_INTELLECT_SHORT"] = 10,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 12,
-		},
-		[3755] = {                                                      -- Death's Embrace
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 28,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-		},
-		[3752] = {                                                      -- Falcon's Call
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 24,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		},
-		[2589] = {                                                      -- Hoodoo Hex
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-		},
-		[2583] = {                                                      -- Presence of Might
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		},
-		[2588] = {                                                      -- Presence of Sight
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		},
-		[2590] = {                                                      -- Prophetic Aura
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 13,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_SPIRIT_SHORT"] = 10, -- there is still mana reg on this item, but it is usually converted into double the amount in spirit everywhere
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 5,
-		},
-		[2584] = {                                                      -- Syncretist's Sigil
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		},
-		[2587] = {                                                      -- Vodouisant's Vigilant Embrace
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 13,
-			["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		},
-
-		-- level 60 armor kit
-		[2841] = {                                                      -- Heavy Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-		},
-
-		-- level 55, rare
-		[2682] = {                                                      -- Ice Guard
-			["RESISTANCE4_NAME"] = 10,
-		},
-		[2681] = {                                                      -- Savage Guard
-			["RESISTANCE3_NAME"] = 10,
-		},
-		[2683] = {                                                      -- Shadow Guard
-			["RESISTANCE5_NAME"] = 10,
-		},
-
-		-- level 50, uncommon
-		[2544] = {                                                      -- Arcanum of Focus
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 8,
-		},
-		[2545] = {                                                      -- Arcanum of Protection
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-		},
-		[2543] = {                                                      -- Arcanum of Rapidity
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-		},
-
-		[1503] = {                                                      -- Lesser Arcanum of Constitution
-			["ITEM_MOD_HEALTH_SHORT"] = 100,
-		},
-		[1505] = {                                                      -- Lesser Arcanum of Resilience
-			["RESISTANCE2_NAME"] = 20,
-		},
-		[1483] = {                                                      -- Lesser Arcanum of Rumination
-			["ITEM_MOD_MANA_SHORT"] = 150,
-		},
-		[1504] = {                                                      -- Lesser Arcanum of Tenacity
-			["RESISTANCE0_NAME"] = 125,
-		},
-		[1508] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_AGILITY_SHORT"] = 8,
-		},
-		[1509] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		},
-		[1510] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		},
-		[1507] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_STAMINA_SHORT"] = 8,
-		},
-		[1506] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_STRENGTH_SHORT"] = 8,
-		},
-	},
-
-	-- Shoulders XXX
-	[3] = {
-		-- level 85 armor kits
-		[4869] = {                                                      -- Sha Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 150,
-		},
-
-		-- level 85, epic
-		[4200] = {                                                      -- Greater Inscription of Charged Lodestone
-			["ITEM_MOD_INTELLECT_SHORT"] = 50,
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-		},
-		[4202] = {                                                      -- Greater Inscription of Jagged Stone
-			["ITEM_MOD_STRENGTH_SHORT"] = 50,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-		},
-		[4204] = {                                                      -- Greater Inscription of Shattered Crystal
-			["ITEM_MOD_AGILITY_SHORT"] = 50,
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-		},
-		[4198] = {                                                      -- Greater Inscription of Unbreakable Quartz
-			["ITEM_MOD_STAMINA_SHORT"] = 75,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-		},
-		[4250] = {                                                      -- Greater Inscription of Vicious Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 50,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		},
-		[4248] = {                                                      -- Greater Inscription of Vicious Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 50,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		},
-		[4249] = {                                                      -- Greater Inscription of Vicious Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 50,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 25,
-		},
-
-		-- level 85, rare
-		[4199] = {                                                      -- Lesser Inscription of Charged Lodestone
-			["ITEM_MOD_INTELLECT_SHORT"] = 30,
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 20,
-		},
-		[4201] = {                                                      -- Lesser Inscription of Jagged Stone
-			["ITEM_MOD_STRENGTH_SHORT"] = 30,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 20,
-		},
-		[4205] = {                                                      -- Lesser Inscription of Shattered Crystal
-			["ITEM_MOD_AGILITY_SHORT"] = 30,
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 20,
-		},
-		[4197] = {                                                      -- Lesser Inscription of Unbreakable Quartz
-			["ITEM_MOD_STAMINA_SHORT"] = 45,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-		},
-
-		-- level 80, heirloom
-		[3808] = {                                                      -- Greater Inscription of the Axe
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 40,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-		},
-		[3809] = {                                                      -- Greater Inscription of the Crag
-			["ITEM_MOD_INTELLECT_SHORT"] = 21,
-			["ITEM_MOD_SPIRIT_SHORT"] = 16,
-		},
-		[3811] = {                                                      -- Greater Inscription of the Pinnacle
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-			["ITEM_MOD_STAMINA_SHORT"] = 22,
-		},
-		[3810] = {                                                      -- Greater Inscription of the Storm
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 24,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-		},
-
-		-- level 80, rare
-		[3794] = {                                                      -- Inscription of Dominance
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 23,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,
-		},
-		[3793] = {                                                      -- Inscription of Triumph
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 40,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,
-		},
-		[3875] = {                                                      -- Lesser Inscription of the Axe
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 30,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		},
-		[3807] = {                                                      -- Lesser Inscription of the Crag
-			["ITEM_MOD_INTELLECT_SHORT"] = 15,
-			["ITEM_MOD_SPIRIT_SHORT"] = 10,
-		},
-		[3876] = {                                                      -- Lesser Inscription of the Pinnacle
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-		},
-		[3806] = {                                                      -- Lesser Inscription of the Storm
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		},
-
-		-- level 80 armor kits
-		[4120] = {                                                      -- Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 36,
-		},
-		[4121] = {                                                      -- Heavy Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 44,
-		},
-
-		-- level 70, epic
-		[3852] = {                                                      -- Greater Inscription of the Gladiator
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,
-		},
-
-		-- level 70, rare
-		[2982] = {                                                      -- Greater Inscription of Discipline
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		},
-		[2980] = {                                                      -- Greater Inscription of Faith
-			["ITEM_MOD_INTELLECT_SHORT"] = 15,
-			["ITEM_MOD_SPIRIT_SHORT"] = 10,
-		},
-		[2986] = {                                                      -- Greater Inscription of Vengeance
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 30,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-		},
-		[2978] = {                                                      -- Greater Inscription of Warding
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 15,
-			["ITEM_MOD_STAMINA_SHORT"] = 15,
-		},
-		[2997] = {                                                      -- Greater Inscription of the Blade
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 20,
-		},
-		[2991] = {                                                      -- Greater Inscription of the Knight
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		},
-		[2993] = {                                                      -- Greater Inscription of the Oracle
-			["ITEM_MOD_INTELLECT_SHORT"] = 10,
-			["ITEM_MOD_SPIRIT_SHORT"] = 16,
-		},
-		[2995] = {                                                      -- Greater Inscription of the Orb
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 12,
-		},
-
-		-- level 70 armor kits
-		[3330] = {                                                      -- Heavy Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-		},
-		[3329] = {                                                      -- Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-		},
-
-		-- level 70, uncommon
-		[2998] = {                                                      -- Inscription of Endurance
-			["RESISTANCE1_NAME"] = 7,
-			["RESISTANCE2_NAME"] = 7,
-			["RESISTANCE3_NAME"] = 7,
-			["RESISTANCE4_NAME"] = 7,
-			["RESISTANCE5_NAME"] = 7,
-			["RESISTANCE6_NAME"] = 7,
-		},
-
-		-- level 64, uncommon
-		[2981] = {                                                      -- Inscription of Discipline
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 15,
-		},
-		[2979] = {                                                      -- Inscription of Faith
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 15,
-		},
-		[2983] = {                                                      -- Inscription of Vengeance
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 26,
-		},
-		[2977] = {                                                      -- Inscription of Warding
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 13,
-		},
-		[2996] = {                                                      -- Inscription of the Blade
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 13,
-		},
-		[2990] = {                                                      -- Inscription of the Knight
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 13,
-		},
-		[2992] = {                                                      -- Inscription of the Oracle
-			["ITEM_MOD_SPIRIT_SHORT"] = 12,
-		},
-		[2994] = {                                                      -- Inscription of the Orb
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 13,
-		},
-
-		-- level 60 armor kit
-		[2841] = {                                                      -- Heavy Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-		},
-
-		-- level 55, rare
-		[2606] = {                                                      -- Zandalar Signet of Might
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 30,
-		},
-		[2605] = {                                                      -- Zandalar Signet of Mojo
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-		},
-		[2604] = {                                                      -- Zandalar Signet of Serenity
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-		},
-
-		-- level 50, uncommon
-		[2485] = {                                                      -- Arcane Mantle of the Dawn
-			["RESISTANCE6_NAME"] = 5,
-		},
-		[2488] = {                                                      -- Chromatic Mantle of the Dawn
-			["RESISTANCE1_NAME"] = 5,
-			["RESISTANCE2_NAME"] = 5,
-			["RESISTANCE3_NAME"] = 5,
-			["RESISTANCE4_NAME"] = 5,
-			["RESISTANCE5_NAME"] = 5,
-			["RESISTANCE6_NAME"] = 5,
-		},
-		[2483] = {                                                      -- Flame Mantle of the Dawn
-			["RESISTANCE2_NAME"] = 5,
-		},
-		[2484] = {                                                      -- Frost Mantle of the Dawn
-			["RESISTANCE4_NAME"] = 5,
-		},
-		[2486] = {                                                      -- Nature Mantle of the Dawn
-			["RESISTANCE3_NAME"] = 5,
-		},
-		[2487] = {                                                      -- Shadow Mantle of the Dawn
-			["RESISTANCE5_NAME"] = 5,
-		},
-
-		-- inscription 400
-		[3835] = {                                                      -- Master's Inscription of the Axe
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 120,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-			-- inscription 400
-		},
-		[3836] = {                                                      -- Master's Inscription of the Crag
-			["ITEM_MOD_INTELLECT_SHORT"] = 60,
-			["ITEM_MOD_SPIRIT_SHORT"] = 15,
-			-- inscription 400
-		},
-		[3837] = {                                                      -- Master's Inscription of the Pinnacle
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 60,
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-			-- inscription 400
-		},
-		[3838] = {                                                      -- Master's Inscription of the Storm
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 70,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-			-- inscription 400
-		},
-
-		-- inscription 500
-		[4196] = {                                                      -- Felfire Inscription
-			["ITEM_MOD_INTELLECT_SHORT"] = 130,
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 25,
-			-- inscription 500
-		},
-		[4195] = {                                                      -- Inscription of the Earth Prince
-			["ITEM_MOD_STAMINA_SHORT"] = 195,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 25,
-			-- inscription 500
-		},
-		[4194] = {                                                      -- Lionsmane Inscription
-			["ITEM_MOD_STRENGTH_SHORT"] = 130,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-			-- inscription 500
-		},
-		[4193] = {                                                      -- Swiftsteel Inscription
-			["ITEM_MOD_AGILITY_SHORT"] = 130,
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,
-			-- inscription 500
-		},
-
-		-- inscription 540
-		[4909] = {                                                      -- Crane Wing Inscription
-			["ITEM_MOD_INTELLECT_SHORT"] = 120,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 80,
-			-- inscription 540
-		},
-		[4910] = {                                                      -- Ox Horn Inscription
-			["ITEM_MOD_STAMINA_SHORT"] = 180,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 80,
-			-- inscription 540
-		},
-		[4907] = {                                                      -- Tiger Fang Inscription
-			["ITEM_MOD_STRENGTH_SHORT"] = 120,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 80,
-			-- inscription 540
-		},
-		[4908] = {                                                      -- Tiger Claw Inscription
-			["ITEM_MOD_AGILITY_SHORT"] = 120,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 80,
-			-- inscription 540
-		},
-
-		-- inscription 570
-		[4806] = {                                                      -- Greater Crane Wing Inscription
-			["ITEM_MOD_INTELLECT_SHORT"] = 200,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- inscription 570
-		},
-		[4805] = {                                                      -- Greater Ox Horn Inscription
-			["ITEM_MOD_STAMINA_SHORT"] = 300,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 100,
-			-- inscription 570
-		},
-		[4803] = {                                                      -- Greater Tiger Fang Inscription
-			["ITEM_MOD_STRENGTH_SHORT"] = 200,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- inscription 570
-		},
-		[4804] = {                                                      -- Greater Tiger Claw Inscription
-			["ITEM_MOD_AGILITY_SHORT"] = 200,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- inscription 570
-		},
-
-		-- inscription 575, BoP
-		[4915] = {                                                      -- Secret Crane Wing Inscription
-			["ITEM_MOD_INTELLECT_SHORT"] = 520,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- inscription 575, BoP
-		},
-		[4912] = {                                                      -- Secret Ox Horn Inscription
-			["ITEM_MOD_STAMINA_SHORT"] = 780,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 100,
-			-- inscription 575, BoP
-		},
-		[4913] = {                                                      -- Secret Tiger Fang Inscription
-			["ITEM_MOD_STRENGTH_SHORT"] = 520,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- inscription 575, BoP
-		},
-		[4914] = {                                                      -- Secret Tiger Claw Inscription
-			["ITEM_MOD_AGILITY_SHORT"] = 520,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- inscription 575, BoP
-		},
-	},
-
-	-- Back
-	[15] = {
-		-- pandaria
-		[4422] = {                                                      -- Enchant Cloak - Greater Protection
-			["ITEM_MOD_STAMINA_SHORT"] = 200,
-			-- iLvl 372+
-		},
-		[4421] = {                                                      -- Enchant Cloak - Accuracy
-			["ITEM_MOD_HIT_RATING_SHORT"] = 180,
-			-- iLvl 372+
-		},
-		[4423] = {                                                      -- Enchant Cloak - Superior Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 180,
-			-- iLvl 372+
-		},
-		[4424] = {                                                      -- Enchant Cloak - Superior Critical Strike
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 180,
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4100] = {                                                      -- Enchant Cloak - Greater Critical Strike
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 65,
-			-- iLvl 300+
-		},
-		[4096] = {                                                      -- Enchant Cloak - Greater Intellect
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4090] = {                                                      -- Enchant Cloak - Protection
-			["RESISTANCE0_NAME"] = 250,
-			-- iLvl 300+
-		},
-		[4087] = {                                                      -- Enchant Cloak - Critical Strike
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4072] = {                                                      -- Enchant Cloak - Intellect
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 30,
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[3831] = {                                                      -- Enchant Cloak - Greater Speed
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 23,
-			-- 60+
-		},
-		[3258] = {                                                      -- Enchant Cloak - Shadow Armor
-			["ITEM_MOD_AGILITY_SHORT"] = 10,
-			["RESISTANCE0_NAME"] = 40,
-			-- + stealth
-			-- 60+
-		},
-		[1951] = {                                                      -- Enchant Cloak - Titanweave
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 16,
-			-- 60+
-		},
-		[3296] = {                                                      -- Enchant Cloak - Wisdom
-			["ITEM_MOD_SPIRIT_SHORT"] = 10,
-			-- + 2% aggro reduce
-			-- 60+
-		},
-
-		-- level 80
-		[983] = {                                                       -- Enchant Cloak - Superior Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 16,
-			-- 60+
-		},
-		[1262] = {                                                      -- Enchant Cloak - Superior Arcane Resistance
-			["RESISTANCE6_NAME"] = 20,
-			-- 60+
-		},
-		[1354] = {                                                      -- Enchant Cloak - Superior Fire Resistance
-			["RESISTANCE2_NAME"] = 20,
-			-- 60+
-		},
-		[3230] = {                                                      -- Enchant Cloak - Superior Frost Resistance
-			["RESISTANCE4_NAME"] = 20,
-			-- 60+
-		},
-		[1400] = {                                                      -- Enchant Cloak - Superior Nature Resistance
-			["RESISTANCE3_NAME"] = 20,
-			-- 60+
-		},
-		[1446] = {                                                      -- Enchant Cloak - Superior Shadow Resistance
-			["RESISTANCE5_NAME"] = 20,
-			-- 60+
-		},
-
-		-- level 79
-		[3243] = {                                                      -- Enchant Cloak - Spell Piercing
-			["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 35,
-			-- 60+
-		},
-
-		-- level 75
-		[1099] = {                                                      -- Enchant Cloak - Major Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 22,
-			-- 60+
-		},
-		[3825] = {                                                      -- Enchant Cloak - Speed
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 15,
-			-- 60+
-		},
-		[2648] = {                                                      -- Enchant Cloak - Steelweave
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-			-- 35+
-		},
-
-		-- level 71
-		[3294] = {                                                      -- Enchant Cloak - Mighty Armor
-			["RESISTANCE0_NAME"] = 225,
-			-- 60+
-		},
-
-		-- level 70
-		[2622] = {                                                      -- Enchant Cloak - Dodge
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-			-- 35+
-		},
-		[1257] = {                                                      -- Enchant Cloak - Greater Arcane Resistance
-			["RESISTANCE6_NAME"] = 15,
-			-- 35+
-		},
-		[2619] = {                                                      -- Enchant Cloak - Greater Fire Resistance
-			["RESISTANCE2_NAME"] = 15,
-		},
-		[2620] = {                                                      -- Enchant Cloak - Greater Nature Resistance
-			["RESISTANCE3_NAME"] = 15,
-		},
-		[1441] = {                                                      -- Enchant Cloak - Greater Shadow Resistance
-			["RESISTANCE5_NAME"] = 15,
-		},
-		[910] = {                                                       -- Enchant Cloak - Stealth
-			-- + stealth
-		},
-		[2621] = {                                                      -- Enchant Cloak - Subtlety
-			-- + 2% aggro reuduce
-		},
-
-		-- level 66
-		[2664] = {                                                      -- Enchant Cloak - Major Resistance
-			["RESISTANCE1_NAME"] = 7,
-			["RESISTANCE2_NAME"] = 7,
-			["RESISTANCE3_NAME"] = 7,
-			["RESISTANCE4_NAME"] = 7,
-			["RESISTANCE5_NAME"] = 7,
-			["RESISTANCE6_NAME"] = 7,
-			-- 35+
-		},
-
-		-- level 65
-		[2938] = {                                                      -- Enchant Cloak - Spell Penetration
-			["ITEM_MOD_SPELL_PENETRATION_SHORT"] = 20,
-			-- 35+
-		},
-
-		-- level 62
-		[368] = {                                                       -- Enchant Cloak - Greater Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 12,
-			-- 35+
-		},
-		[2662] = {                                                      -- Enchant Cloak - Major Armor
-			["RESISTANCE0_NAME"] = 120,
-			-- 35+
-		},
-
-		-- level 57
-		[1889] = {                                                      -- Enchant Cloak - Superior Defense
-			["RESISTANCE0_NAME"] = 70,
-		},
-
-		-- level 53
-		[1888] = {                                                      -- Enchant Cloak - Greater Resistance
-			["RESISTANCE1_NAME"] = 5,
-			["RESISTANCE2_NAME"] = 5,
-			["RESISTANCE3_NAME"] = 5,
-			["RESISTANCE4_NAME"] = 5,
-			["RESISTANCE5_NAME"] = 5,
-			["RESISTANCE6_NAME"] = 5,
-		},
-
-		-- level 45
-		[849] = {                                                       -- Enchant Cloak - Lesser Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 3,
-		},
-
-		-- level 41
-		[884] = {                                                       -- Enchant Cloak - Greater Defense
-			["RESISTANCE0_NAME"] = 50,
-		},
-		[903] = {                                                       -- Enchant Cloak - Resistance
-			["RESISTANCE1_NAME"] = 3,
-			["RESISTANCE2_NAME"] = 3,
-			["RESISTANCE3_NAME"] = 3,
-			["RESISTANCE4_NAME"] = 3,
-			["RESISTANCE5_NAME"] = 3,
-			["RESISTANCE6_NAME"] = 3,
-		},
-
-		-- level 35
-		[2463] = {                                                      -- Enchant Cloak - Fire Resistance
-			["RESISTANCE2_NAME"] = 7,
-		},
-
-		-- level 31
-		[848] = {                                                       -- Enchant Cloak - Defense
-			["RESISTANCE0_NAME"] = 30,
-		},
-
-		-- level 27
-		[804] = {                                                       -- Enchant Cloak - Lesser Shadow Resistance
-			["RESISTANCE5_NAME"] = 10,
-		},
-
-		-- level 25
-		[256] = {                                                       -- Enchant Cloak - Lesser Fire Resistance
-			["RESISTANCE2_NAME"] = 5,
-		},
-
-		-- level 23
-		[744] = {                                                       -- Enchant Cloak - Lesser Protection
-			["RESISTANCE0_NAME"] = 20,
-		},
-
-		-- level 22
-		[247] = {                                                       -- Enchant Cloak - Minor Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 1,
-		},
-
-		-- level 18
-		[783] = {                                                       -- Enchant Cloak - Minor Protection
-			["RESISTANCE0_NAME"] = 10,
-		},
-
-		-- level 15
-		[65] = {                                                        -- Enchant Cloak - Minor Resistance
-			["RESISTANCE1_NAME"] = 1,
-			["RESISTANCE2_NAME"] = 1,
-			["RESISTANCE3_NAME"] = 1,
-			["RESISTANCE4_NAME"] = 1,
-			["RESISTANCE5_NAME"] = 1,
-			["RESISTANCE6_NAME"] = 1,
-		},
-
-		-- tailoring 550
-		[4893] = {                                                      -- Darkglow Embroidery (Rank 3)
-			["ITEM_MOD_SPIRIT_SHORT"] = 495,
-			-- 3000, 35% proc, 60 seconds CD ~ 25 mana per 5 sec.
-			-- tailoring 550
-		},
-		[4892] = {                                                      -- Lightweave Embroidery (Rank 3)
-			["ITEM_MOD_INTELLECT_SHORT"] = 330,
-			-- 2000 int, probably same proc rate as spirit
-			-- tailoring 550
-		},
-		[4894] = {                                                      -- Swordguard Embroidery (Rank 3)
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 1000,
-			-- 4000 ap for 15sec, 25% proc, 45 seconds CD (?)
-			-- tailoring 550
-		},
-
-		-- tailoring 500
-		[4116] = {                                                      -- Darkglow Embroidery (Rank 2)
-			["ITEM_MOD_SPIRIT_SHORT"] = 132,
-			-- 800, 35% proc, 60 seconds CD ~ 25 mana per 5 sec.
-			-- tailoring 500
-		},
-		[4115] = {                                                      -- Lightweave Embroidery (Rank 2)
-			["ITEM_MOD_INTELLECT_SHORT"] = 96,
-			-- 580 int, probably same proc rate as spirit
-			-- tailoring 500
-		},
-		[4118] = {                                                      -- Swordguard Embroidery (Rank 2)
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 250,
-			-- 1000 ap for 15sec, 25% proc, 45 seconds CD (?)
-			-- tailoring 500
-		},
-
-		-- tailoring 420
-		[3728] = {                                                      -- Darkglow Embroidery (Rank 1)
-			["ITEM_MOD_SPIRIT_SHORT"] = 66,
-			-- 400, 35% proc, 60 seconds CD ~ 25 mana per 5 sec.
-			-- tailoring 400
-		},
-		[3722] = {                                                      -- Lightweave Embroidery (Rank 1)
-			["ITEM_MOD_INTELLECT_SHORT"] = 49,
-			-- 295 int, probably same proc rate as spirit
-			-- tailoring 400
-		},
-		[3730] = {                                                      -- Swordguard Embroidery (Rank 1)
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 100,
-			-- 400 ap for 15sec, 25% proc, 45 seconds CD (?)
-			-- tailoring 400
-		},
-
-		-- engineering 380
-		[3605] = {                                                      -- Flexweave Underlay
-			-- parachute 1/min
-			-- engineering 350
-		},
-		[3859] = {                                                      -- Springy Arachnoweave
-			-- parachute 1/min
-			-- engineering 350
-		},
-	},
-
-	-- Chest
-	[5] = {
-		-- level 85 armor kits
-		[4869] = {                                                      -- Sha Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 150,
-		},
-
-		-- level 80 armor kits
-		[4120] = {                                                      -- Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 36,
-		},
-		[4121] = {                                                      -- Heavy Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 44,
-		},
-
-		-- level 70 armor kits
-		[3330] = {                                                      -- Heavy Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-		},
-		[3329] = {                                                      -- Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-		},
-
-		-- level 65 armor kits
-		[2989] = {                                                      -- Arcane Armor Kit
-			["RESISTANCE6_NAME"] = 8,
-		},
-		[2985] = {                                                      -- Flame Armor Kit
-			["RESISTANCE2_NAME"] = 8,
-		},
-		[2987] = {                                                      -- Frost Armor Kit
-			["RESISTANCE4_NAME"] = 8,
-		},
-		[2988] = {                                                      -- Nature Armor Kit
-			["RESISTANCE3_NAME"] = 8,
-		},
-		[2984] = {                                                      -- Shadow Armor Kit
-			["RESISTANCE5_NAME"] = 8,
-		},
-
-		-- level 60 armor kit
-		[2841] = {                                                      -- Heavy Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			-- 60+
-		},
-
-		-- level 55 armor kits
-		[2794] = {                                                      -- Magister's Armor Kit
-			["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		},
-		[2793] = {                                                      -- Vindicator's Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		},
-
-		-- level 50 armor kits
-		[2503] = {                                                      -- Core Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		},
-		[2792] = {                                                      -- Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 8,
-			-- 55+
-		},
-
-		-- level 40 armor kit
-		[1843] = {                                                      -- Rugged Armor Kit
-			["RESISTANCE0_NAME"] = 40,
-			-- 35+
-		},
-
-		-- level 30 armor kit
-		[18] = {                                                        -- Thick Armor Kit
-			["RESISTANCE0_NAME"] = 32,
-			-- 25+
-		},
-
-		-- level 20 armor kit
-		[17] = {                                                        -- Heavy Armor Kit
-			["RESISTANCE0_NAME"] = 24,
-			-- 15+
-		},
-
-		-- level 5 armor kit
-		[16] = {                                                        -- Medium Armor Kit
-			["RESISTANCE0_NAME"] = 16,
-		},
-
-		-- level 0 armor kit
-		[15] = {                                                        -- Light Armor Kit
-			["RESISTANCE0_NAME"] = 8,
-		},
-
-		-- enchants
-		-- pandaria
-		[4419] = {                                                      -- Enchant Chest - Glorious Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 80,
-			["ITEM_MOD_INTELLECT_SHORT"] = 80,
-			["ITEM_MOD_SPIRIT_SHORT"] = 80,
-			["ITEM_MOD_STAMINA_SHORT"] = 80,
-			["ITEM_MOD_STRENGTH_SHORT"] = 80,
-			-- iLvl 372+
-		},
-		[4417] = {                                                      -- Enchant Chest - Super Resilience
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 200,
-			-- iLvl 372+
-		},
-		[4418] = {                                                      -- Enchant Chest - Mighty Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 200,
-			-- iLvl 372+
-		},
-		[4420] = {                                                      -- Enchant Chest - Superior Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 300,
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4103] = {                                                      -- Enchant Chest - Greater Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 75,
-			-- iLvl 300+
-		},
-		[4102] = {                                                      -- Enchant Chest - Peerless Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 20,
-			["ITEM_MOD_INTELLECT_SHORT"] = 20,
-			["ITEM_MOD_SPIRIT_SHORT"] = 20,
-			["ITEM_MOD_STAMINA_SHORT"] = 20,
-			["ITEM_MOD_STRENGTH_SHORT"] = 20,
-			-- iLvl 300+
-		},
-		[4088] = {                                                      -- Enchant Chest - Exceptional Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 40,
-			-- iLvl 300+
-		},
-		[4077] = {                                                      -- Enchant Chest - Mighty Resilience
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 40,
-			-- iLvl 300+
-		},
-		[4070] = {                                                      -- Enchant Chest - Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 55,
-			-- iLvl 300+
-		},
-		[4063] = {                                                      -- Enchant Chest - Mighty Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 15,
-			["ITEM_MOD_INTELLECT_SHORT"] = 15,
-			["ITEM_MOD_SPIRIT_SHORT"] = 15,
-			["ITEM_MOD_STAMINA_SHORT"] = 15,
-			["ITEM_MOD_STRENGTH_SHORT"] = 15,
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[3297] = {                                                      -- Enchant Chest - Super Health
-			["ITEM_MOD_HEALTH_SHORT"] = 275,
-			-- 60+
-		},
-		[3252] = {                                                      -- Enchant Chest - Super Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 8,
-			["ITEM_MOD_INTELLECT_SHORT"] = 8,
-			["ITEM_MOD_SPIRIT_SHORT"] = 8,
-			["ITEM_MOD_STAMINA_SHORT"] = 8,
-			["ITEM_MOD_STRENGTH_SHORT"] = 8,
-			-- 60+
-		},
-
-		-- level 82
-		[3245] = {                                                      -- Enchant Chest - Exceptional Resilience
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 20,
-			-- 60+
-		},
-
-		--level 80
-		[1953] = {                                                      -- Enchant Chest - Greater Defense
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 22,
-			-- 60+
-		},
-
-		-- level 79
-		[3236] = {                                                      -- Enchant Chest - Mighty Health
-			["ITEM_MOD_HEALTH_SHORT"] = 200,
-			-- 60+
-		},
-		[3832] = {                                                      -- Enchant Chest - Powerful Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 10,
-			["ITEM_MOD_INTELLECT_SHORT"] = 10,
-			["ITEM_MOD_SPIRIT_SHORT"] = 10,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_STRENGTH_SHORT"] = 10,
-			-- 60+
-		},
-
-		-- level 75
-		[2381] = {                                                      -- Enchant Chest - Greater Mana Restoration
-			["ITEM_MOD_SPIRIT_SHORT"] = 20, -- again, twice the amount of mp5
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 10,
-			-- 60+
-		},
-
-		-- level 72
-		[1951] = {                                                      -- Enchant Chest - Defense
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 16,
-			-- 35+
-		},
-
-		-- level 71
-		[3233] = {                                                      -- Enchant Chest - Exceptional Mana
-			["ITEM_MOD_MANA_SHORT"] = 250,
-			-- 60+
-		},
-
-		[2661] = {                                                      -- Enchant Chest - Exceptional Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 6,
-			["ITEM_MOD_INTELLECT_SHORT"] = 6,
-			["ITEM_MOD_SPIRIT_SHORT"] = 6,
-			["ITEM_MOD_STAMINA_SHORT"] = 6,
-			["ITEM_MOD_STRENGTH_SHORT"] = 6,
-			-- 35+
-		},
-		-- level 69
-		[2933] = {                                                      -- Enchant Chest - Major Resilience
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,
-			-- 35+
-		},
-
-		-- level 64
-		[1144] = {                                                      -- Enchant Chest - Major Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 15,
-		},
-
-		-- level 63
-		[2659] = {                                                      -- Enchant Chest - Exceptional Health
-			["ITEM_MOD_HEALTH_SHORT"] = 150,
-			-- 35+
-		},
-
-		-- level 62
-		[1891] = {                                                      -- Enchant Chest - Greater Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 4,
-			["ITEM_MOD_INTELLECT_SHORT"] = 4,
-			["ITEM_MOD_SPIRIT_SHORT"] = 4,
-			["ITEM_MOD_STAMINA_SHORT"] = 4,
-			["ITEM_MOD_STRENGTH_SHORT"] = 4,
-		},
-
-		-- level 60
-		[3150] = {                                                      -- Enchant Chest - Restore Mana Prime
-			["ITEM_MOD_SPIRIT_SHORT"] = 14, -- double the amount of mp5
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 7,
-			-- 35+
-		},
-
-		-- level 58
-		[1893] = {                                                      -- Enchant Chest - Major Mana
-			["ITEM_MOD_MANA_SHORT"] = 100,
-		},
-
-		-- level 55
-		[1892] = {                                                      -- Enchant Chest - Major Health
-			["ITEM_MOD_HEALTH_SHORT"] = 100,
-		},
-
-		-- level 49
-		[928] = {                                                       -- Enchant Chest - Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 3,
-			["ITEM_MOD_INTELLECT_SHORT"] = 3,
-			["ITEM_MOD_SPIRIT_SHORT"] = 3,
-			["ITEM_MOD_STAMINA_SHORT"] = 3,
-			["ITEM_MOD_STRENGTH_SHORT"] = 3,
-		},
-
-		-- level 46
-		[913] = {                                                       -- Enchant Chest - Superior Mana
-			["ITEM_MOD_MANA_SHORT"] = 65,
-		},
-
-		-- level 44
-		[908] = {                                                       -- Enchant Chest - Superior Health
-			["ITEM_MOD_HEALTH_SHORT"] = 50,
-		},
-
-		-- level 40
-		[866] = {                                                       -- Enchant Chest - Lesser Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 2,
-			["ITEM_MOD_INTELLECT_SHORT"] = 2,
-			["ITEM_MOD_SPIRIT_SHORT"] = 2,
-			["ITEM_MOD_STAMINA_SHORT"] = 2,
-			["ITEM_MOD_STRENGTH_SHORT"] = 2,
-		},
-
-		-- level 37
-		[857] = {                                                       -- Enchant Chest - Greater Mana
-			["ITEM_MOD_MANA_SHORT"] = 50,
-		},
-
-		-- level 32
-		[850] = {                                                       -- Enchant Chest - Greater Health
-			["ITEM_MOD_HEALTH_SHORT"] = 35,
-		},
-
-		-- level 30
-		[847] = {                                                       -- Enchant Chest - Minor Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 1,
-			["ITEM_MOD_INTELLECT_SHORT"] = 1,
-			["ITEM_MOD_SPIRIT_SHORT"] = 1,
-			["ITEM_MOD_STAMINA_SHORT"] = 1,
-			["ITEM_MOD_STRENGTH_SHORT"] = 1,
-		},
-
-		-- level 29
-		[843] = {                                                       -- Enchant Chest - Mana
-			["ITEM_MOD_MANA_SHORT"] = 30,
-		},
-
-		-- level 28
-		[63] = {                                                        -- Enchant Chest - Lesser Absorption
-			-- Enchant a piece of chest armor so it has a 5% chance per hit of giving you 25 points of damage absorption.
-		},
-
-		-- level 24
-		[254] = {                                                       -- Enchant Chest - Health
-			["ITEM_MOD_HEALTH_SHORT"] = 25,
-		},
-
-		-- level 19
-		[246] = {                                                       -- Enchant Chest - Lesser Mana
-			["ITEM_MOD_MANA_SHORT"] = 20,
-		},
-
-		-- level 17
-		[242] = {                                                       -- Enchant Chest - Lesser Health
-			["ITEM_MOD_HEALTH_SHORT"] = 15,
-		},
-
-		-- level 14
-		[44] = {                                                        -- Enchant Chest - Minor Absorption
-			-- Enchant a piece of chest armor so it has a 2% chance per hit of giving you 10 points of damage absorption
-		},
-
-		-- level 12
-		[24] = {                                                        -- Enchant Chest - Minor Mana
-			["ITEM_MOD_MANA_SHORT"] = 5,
-		},
-
-		-- level 10
-		[41] = {                                                        -- Enchant Chest - Minor Health
-			["ITEM_MOD_HEALTH_SHORT"] = 5,
-		},
-	},
-
-	-- Waist XXX
-	[6] = {
-		[5002] = {                                                      -- Living Steel Belt Buckle
-			-- adds a prismatic socket
-		},
-		[3729] = {                                                      -- Eternal Belt Buckle OR Ebonsteel Belt Buckle
-			-- adds a prismatic socket
-		},
-		[3599] = {                                                      -- Personal Electromagnetic Pulse Generator
-			-- Use: Confuse nearby mechanical units
-			-- engineering 390
-		},
-		[3601] = {                                                      -- Frag Belt
-			-- Attach a miniaturized explosive assembly to your belt, allowing you to detach and throw a Cobalt Frag Bomb every 6 minutes.
-			-- engineering 380
-		},
-	},
-
-	-- Wrist XXX
-	[9] = {
-		-- upgradeable Fur Linings
-		[4873] = {                                                      -- Fur Lining - Agility (Rank 1)
-			["ITEM_MOD_AGILITY_SHORT"] = 57,
-			-- leatherworking 400
-		},
-		[3758] = {                                                      -- Fur Lining - Intellect (Rank 1)
-			["ITEM_MOD_INTELLECT_SHORT"] = 57,
-			-- leatherworking 400
-		},
-		[3757] = {                                                      -- Fur Lining - Stamina (Rank 1)
-			["ITEM_MOD_STAMINA_SHORT"] = 102,
-			-- leatherworking 400
-		},
-		[4874] = {                                                      -- Fur Lining - Strength (Rank 1)
-			["ITEM_MOD_STRENGTH_SHORT"] = 57,
-			-- leatherworking 400
-		},
-
-		[4190] = {                                                      -- Fur Lining - Agility (Rank 2)
-			["ITEM_MOD_AGILITY_SHORT"] = 130,
-			-- leatherworking 500
-		},
-		[4192] = {                                                      -- Fur Lining - Intellect (Rank 2)
-			["ITEM_MOD_INTELLECT_SHORT"] = 130,
-			-- leatherworking 500
-		},
-		[4189] = {                                                      -- Fur Lining - Stamina (Rank 2)
-			["ITEM_MOD_STAMINA_SHORT"] = 195,
-			-- leatherworking 500
-		},
-		[4191] = {                                                      -- Fur Lining - Strength (Rank 2)
-			["ITEM_MOD_STRENGTH_SHORT"] = 130,
-			-- leatherworking 500
-		},
-
-		[4875] = {                                                      -- Fur Lining - Agility (Rank 3)
-			["ITEM_MOD_AGILITY_SHORT"] = 500,
-			-- leatherworking 575
-		},
-		[4877] = {                                                      -- Fur Lining - Intellect (Rank 3)
-			["ITEM_MOD_INTELLECT_SHORT"] = 500,
-			-- leatherworking 575
-		},
-		[4878] = {                                                      -- Fur Lining - Stamina (Rank 3)
-			["ITEM_MOD_STAMINA_SHORT"] = 750,
-			-- leatherworking 575
-		},
-		[4879] = {                                                      -- Fur Lining - Strength (Rank 3)
-			["ITEM_MOD_STRENGTH_SHORT"] = 500,
-			-- leatherworking 575
-		},
-
-
-		-- level 80 leatherworking
-		[3763] = {                                                      -- Fur Lining - Arcane Resist
-			["RESISTANCE6_NAME"] = 70,
-			-- leatherworking 400
-		},
-		[3759] = {                                                      -- Fur Lining - Fire Resist
-			["RESISTANCE2_NAME"] = 70,
-			-- leatherworking 400
-		},
-		[3760] = {                                                      -- Fur Lining - Frost Resist
-			["RESISTANCE4_NAME"] = 70,
-			-- leatherworking 400
-		},
-		[3762] = {                                                      -- Fur Lining - Nature Resist
-			["RESISTANCE3_NAME"] = 70,
-			-- leatherworking 400
-		},
-		[3761] = {                                                      -- Fur Lining - Shadow Resist
-			["RESISTANCE5_NAME"] = 70,
-			-- leatherworking 400
-		},
-
-		[3756] = {                                                      -- Fur Lining - Attack Power
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 130,
-			-- leatherworking 400
-		},
-		--[[[3758] = {                                                      -- Fur Lining - Spell Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 76,
-			-- leatherworking 400
-		},]]--
-
-		-- blacksmithing
-		[3717] = {                                                      -- Socket Bracer
-			-- adds a prismatic socket to your bracers
-			-- 60+
-			-- blacksmithing 400
-		},
-
-		-- enchanting
-		-- pandaria
-		[4725] = {                                                      -- Enchant Bracer - ??
-			["ITEM_MOD_AGILITY_SHORT"] = 1,
-		},
-
-		[4415] = {                                                      -- Enchant Bracer - Exceptional Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 180,
-			-- iLvl 372+
-		},
-		[4416] = {                                                      -- Enchant Bracer - Greater Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 180,
-			-- iLvl 372+
-		},
-		[4414] = {                                                      -- Enchant Bracer - Super Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 180,
-			-- iLvl 372+
-		},
-		[4412] = {                                                      -- Enchant Bracer - Major Dodge
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 170,
-			-- iLvl 372+
-		},
-		[4411] = {                                                      -- Enchant Bracer - Mastery
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 170,
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4101] = {                                                      -- Enchant Bracer - Greater Critical Strike
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 65,
-			-- iLvl 300+
-		},
-		[4108] = {                                                      -- Enchant Bracer - Greater Speed
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 65,
-			-- iLvl 300+
-		},
-		[4065] = {                                                      -- Enchant Bracer - Speed
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4095] = {                                                      -- Enchant Bracer - Greater Expertise
-			["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4093] = {                                                      -- Enchant Bracer - Exceptional Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4089] = {                                                      -- Enchant Bracer - Precision
-			["ITEM_MOD_HIT_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4086] = {                                                      -- Enchant Bracer - Dodge
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4071] = {                                                      -- Enchant Bracer - Critical Strike
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4256] = {                                                      -- Enchant Bracer - Greater Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4257] = {                                                      -- Enchant Bracer - Mighty Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4258] = {                                                      -- Enchant Bracer - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 50,
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[2326] = {                                                      -- Enchant Bracers - Greater Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 23,
-			-- 60+
-		},
-
-		-- level 84
-		[3231] = {                                                      -- Enchant Bracers - Expertise
-			["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
-			-- 60+
-		},
-
-		-- level 80
-		[3850] = {                                                      -- Enchant Bracers - Major Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 40,
-			-- 60+
-		},
-		[2661] = {                                                       -- Enchant Bracers - Greater Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 6,
-			["ITEM_MOD_INTELLECT_SHORT"] = 6,
-			["ITEM_MOD_SPIRIT_SHORT"] = 6,
-			["ITEM_MOD_STAMINA_SHORT"] = 6,
-			["ITEM_MOD_STRENGTH_SHORT"] = 6,
-			-- 60+
-		},
-		[1147] = {                                                      -- Enchant Bracers - Major Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 18,
-			-- 60+
-		},
-
-		-- level 75
-		[1119] = {                                                      -- Enchant Bracers - Exceptional Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 16,
-			-- 60+
-		},
-
-		-- level 72
-		[2650] = {                                                      -- Enchant Bracers - Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 15,
-			-- 60+
-		},
-
-		-- level 71
-		[2332] = {                                                      -- Enchant Bracers - Superior Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 30,
-			-- 60+
-		},
-		[3845] = {                                                      -- Enchant Bracers - Greater Assault
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 50,
-			-- 60+
-		},
-		[1600] = {                                                      -- Enchant Bracers - Striking
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 38,
-			-- 60+
-		},
-
-		-- level 70
-		[2649] = {                                                      -- Enchant Bracers - Fortitude
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-			-- 35+
-		},
-
-		-- level 67
-		[2679] = {                                                      -- Enchant Bracers - Restore Mana Prime
-			["ITEM_MOD_SPIRIT_SHORT"] = 16, -- double mp5, as always
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 8,
-			-- 35+
-		},
-
-		-- level 65
-		[2650] = {                                                      -- Enchant Bracers - Superior Healing / Healing Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 15,
-			-- 35+
-		},
-
-		-- level 64
-		[2648] = {                                                      -- Enchant Bracers - Major Defense
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-			-- 35+
-		},
-
-		-- level 63
-		[1891] = {                                                       -- Enchant Bracers - Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 4,
-			["ITEM_MOD_INTELLECT_SHORT"] = 4,
-			["ITEM_MOD_SPIRIT_SHORT"] = 4,
-			["ITEM_MOD_STAMINA_SHORT"] = 4,
-			["ITEM_MOD_STRENGTH_SHORT"] = 4,
-			-- 35+
-		},
-
-		-- level 61
-		[2647] = {                                                      -- Enchant Bracers - Brawn
-			["ITEM_MOD_STRENGTH_SHORT"] = 12,
-			-- 35+
-		},
-		[369] = {                                                      -- Enchant Bracers - Major Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 12,
-			-- 35+
-		},
-
-		-- level 60
-		[1593] = {                                                      -- Enchant Bracers - Assault
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 24,
-			-- 35+
-		},
-		[1886] = {                                                      -- Enchant Bracers - Superior Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 9,
-		},
-
-		-- level 59
-		[1885] = {                                                      -- Enchant Bracers - Superior Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 9,
-		},
-
-		-- level 58
-		[2565] = {                                                      -- Enchant Bracers - Mana Regeneration
-			["ITEM_MOD_SPIRIT_SHORT"] = 10, -- again, doubled mp5
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 5,
-		},
-
-		-- level 54
-		[1884] = {                                                      -- Enchant Bracers - Superior Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 9,
-		},
-
-		-- level 51
-		[1883] = {                                                      -- Enchant Bracers - Greater Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 7,
-		},
-
-		-- level 49
-		[929] = {                                                      -- Enchant Bracers - Greater Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 7,
-		},
-
-		-- level 48
-		[927] = {                                                      -- Enchant Bracers - Greater Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 7,
-		},
-
-		-- level 47
-		[923] = {                                                      -- Enchant Bracers - Deflection
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		},
-
-		-- level 44
-		[907] = {                                                      -- Enchant Bracers - GreaterSpirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 7,
-		},
-
-		-- level 42
-		[905] = {                                                      -- Enchant Bracers - Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 5,
-		},
-
-		-- level 36
-		[856] = {                                                      -- Enchant Bracers - Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 5,
-		},
-
-		-- level 34
-		[925] = {                                                      -- Enchant Bracers - Lesser Deflection
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 3,
-		},
-		[852] = {                                                      -- Enchant Bracers - Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 5,
-		},
-
-		-- level 33
-		[851] = {                                                      -- Enchant Bracers - Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 5,
-		},
-
-		-- level 30
-		[723] = {                                                      -- Enchant Bracers - Lesser Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		},
-
-		-- level 28
-		[823] = {                                                      -- Enchant Bracers - Lesser Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 3,
-		},
-
-		-- level 26
-		[724] = {                                                      -- Enchant Bracers - Lesser Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 3,
-		},
-
-		-- level 24
-		[255] = {                                                      -- Enchant Bracers - Lesser Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 3,
-		},
-
-		-- level 19
-		[247] = {                                                      -- Enchant Bracers - Minor Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 1,
-		},
-		[248] = {                                                      -- Enchant Bracers - Minor Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 1,
-		},
-
-		-- level 17
-		[243] = {                                                      -- Enchant Bracers - Minor Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 1,
-		},
-
-		-- level 16
-		[66] = {                                                      -- Enchant Bracers - Minor Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 1,
-		},
-
-		-- level 12
-		[924] = {                                                      -- Enchant Bracers - Minor Deflection
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 2,
-		},
-
-		-- level 1
-		[41] = {                                                      -- Enchant Bracers - Minor Health
-			["ITEM_MOD_HEALTH_SHORT"] = 5,
-		},
-	},
-
-	-- Ring #1
-	[11] = {
-		-- enchanting 550
-		[4807] = {                                                      -- Enchant Ring - Greater Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 160,
-			-- iLvl 372+
-		},
-		[4361] = {                                                      -- Enchant Ring - Greater Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 240,
-			-- iLvl 372+
-		},
-		[4360] = {                                                      -- Enchant Ring - Greater Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 160,
-			-- iLvl 372+
-		},
-		[4359] = {                                                      -- Enchant Ring - Greater Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 160,
-			-- iLvl 372+
-		},
-
-		-- enchanting 475
-		[4079] = {                                                      -- Enchant Ring - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 40,
-		},
-		[4081] = {                                                      -- Enchant Ring - Greater Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 60,
-		},
-		[4080] = {                                                      -- Enchant Ring - Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 40,
-		},
-		[4078] = {                                                      -- Enchant Ring - Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 40,
-		},
-
-		-- enchanting 400
-		[3839] = {                                                      -- Enchant Ring - Assault
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 40,
-		},
-		[3840] = {                                                      -- Enchant Ring - Greater Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 23,
-		},
-		[3791] = {                                                      -- Enchant Ring - Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-		},
-
-		-- enchanting 375
-		[2931] = {                                                      -- Enchant Ring - Stats
-			["ITEM_MOD_AGILITY_SHORT"] = 4,
-			["ITEM_MOD_INTELLECT_SHORT"] = 4,
-			["ITEM_MOD_SPIRIT_SHORT"] = 4,
-			["ITEM_MOD_STAMINA_SHORT"] = 4,
-			["ITEM_MOD_STRENGTH_SHORT"] = 4,
-			-- 35+
-			-- enchanting 375
-		},
-
-		-- enchanting 370
-		[2930] = {                                                      -- Enchant Ring - Healing Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 12,
-			-- enchanting 370
-			-- 35+
-		},
-
-		-- enchanting 360
-		[2928] = {                                                      -- Enchant Ring - Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 12,
-			-- enchanting 360
-			-- 35+
-		},
-		[2929] = {                                                      -- Enchant Ring - Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed
-			-- enchanting 360
-			-- 35+
-		},
-	},
-
-	-- Offhand XXX
-	[17] = {
-		-- Shields
-		-- blacksmithing
-		[5001] = {                                                      -- Ghost Iron Shield Spike
-			-- deals 600-1000 damage sometimes when you block
-		},
-		[4216] = {                                                      -- Pyrium Shield Spike
-			-- deals 210-350 damage sometimes when you block
-		},
-		[4215] = {                                                      -- Elementium Shield Spike
-			-- deals 90-133 damage every time you block
-		},
-		[3748] = {                                                      -- Titanium Shield Spike
-			-- deals 45-67 damage every time you block
-		},
-		[2714] = {                                                      -- Felsteel Shield Spike
-			-- deals 26-38 damage every time you block
-		},
-		[1704] = {                                                      -- Thorium Shield Spike
-			-- deals 20-30 damage every time you block
-		},
-		[463] = {                                                       -- Mithril Shield Spike
-			-- deals 16-20 damage every time you block
-		},
-		[43] = {                                                        -- Iron Shield Spike
-			-- deals 8-12 damage every time you block
-		},
-		[3849] = {                                                      -- Titanium Plating
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 26,
-			-- disarm duration -50%
-		},
-
-		-- enchanting
-		-- pandaria
-		[4993] = {                                                      -- Enchant Shield - Greater Parry
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 170,
-			-- iLvl 417+
-		},
-		[4434] = {                                                      -- Enchant Off-Hand - Major Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 165,
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4091] = {                                                      -- Enchant Off-Hand - Superior Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 40,
-			-- iLvl 300+
-		},
-		[4085] = {                                                      -- Enchant Shield - Blocking
-			["ITEM_MOD_BLOCK_RATING_SHORT"] = 40,
-			-- iLvl 300+
-		},
-		[4073] = {                                                      -- Enchant Shield - Protection
-			["RESISTANCE0_NAME"] = 160,
-			-- iLvl 300+
-		},
-
-		-- level 75
-		[1128] = {                                                      -- Enchant Shield - Greater Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 25,
-			-- 60+
-		},
-
-		-- level 72
-		[1888] = {                                                      -- Enchant Shield - Resistance
-			["RESISTANCE1_NAME"] = 5,
-			["RESISTANCE2_NAME"] = 5,
-			["RESISTANCE3_NAME"] = 5,
-			["RESISTANCE4_NAME"] = 5,
-			["RESISTANCE5_NAME"] = 5,
-			["RESISTANCE6_NAME"] = 5,
-			-- 35+
-		},
-
-		-- level 71
-		[1952] = {                                                      -- Enchant Shield - Defense
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 20,
-			-- 60+
-		},
-
-		-- level 68
-		[2655] = {                                                      -- Enchant Shield - Shield Block
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-			-- 35+
-		},
-
-		-- level 66
-		[3229] = {                                                      -- Enchant Shield - Resilience
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 12,
-			-- 35+
-		},
-
-		-- level 65
-		[2654] = {                                                      -- Enchant Shield - Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 12,
-			-- 35+
-		},
-		[1071] = {                                                      -- Enchant Shield - Major Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-		},
-
-		-- level 62
-		[2653] = {                                                      -- Enchant Shield - Tough Shield
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 36,
-			-- 35+
-		},
-
-		-- level 56
-		[1890] = {                                                      -- Enchant Shield - Vitality
-			["ITEM_MOD_SPIRIT_SHORT"] = 8, -- again, replaces double the mp5
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 4,
-			["ITEM_MOD_HEALTH_REGENERATION_SHORT"] = 4,
-		},
-
-		-- level 53
-		[929] = {                                                       -- Enchant Shield - Greater Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 7,
-		},
-
-		-- level 47
-		[926] = {                                                       -- Enchant Shield - Frost Resistance
-			["RESISTANCE4_NAME"] = 8,
-		},
-
-		-- level 46
-		[907] = {                                                       -- Enchant Shield - Greater Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 7,
-		},
-
-		-- level 42
-		[852] = {                                                       -- Enchant Shield - Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 5,
-		},
-
-		-- level 39
-		[863] = {                                                       -- Enchant Shield - Lesser Block
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-		},
-
-		-- level 36
-		[851] = {                                                       -- Enchant Shield - Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 5,
-		},
-
-		-- level 31
-		[724] = {                                                       -- Enchant Shield - Lesser Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 3,
-		},
-
-		-- level 26
-		[255] = {                                                       -- Enchant Shield - Lesser Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 3,
-		},
-
-		-- level 23
-		[848] = {                                                       -- Enchant Shield - Lesser Protection
-			["RESISTANCE0_NAME"] = 30,
-		},
-
-		-- level 21
-		[66] = {                                                        -- Enchant Shield - Minor Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 1,
-		},
-
-		-- One-Hand
-		-- DK runesforging
-		-- level 72
-		[3883] = {                                                      -- Rune of the Nerubian Carapace
-			-- +2% armo
-			-- +1% stamina
-			-- runeforging
-		},
-
-		-- level 70
-		[3368] = {                                                      -- Rune of the Fallen Crusader
-			-- proc: 3% maxhp heal
-			-- strength + 15%
-			-- runeforging
-		},
-
-		-- level 63
-		[3594] = {                                                      -- Rune of Swordbreaking
-			-- parry +2%
-			-- disarm duration -50%
-			-- runeforging
-		},
-
-		-- level 60
-		[3366] = {                                                      -- Rune of Lichbane
-			-- 2% extra weapon damage as Fire damage or 4% versus Undead targets
-			-- runeforging
-		},
-
-		-- level 57
-		[3595] = {                                                      -- Rune of Spellbreaking
-			-- spell damage: deflect 2%
-			-- silence duration -50%
-			-- runeforging
-		},
-
-		-- level 55
-		[3369] = {                                                      -- Rune of Cinderglacier
-			-- chance to increase the damage by 20% for your next 2 attacks that deal Frost or Shadow damage
-			-- runeforging
-		},
-		[3370] = {                                                      -- Rune of Razorice
-			--  2% extra weapon damage as Frost damage and has a chance to increase vulnerability to your Frost attacks
-			-- runeforging
-		},
-
-		-- blacksmithing
-		[4918] = {                                                      -- Living Steel Weapon Chain
-			["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
-			-- disarm duration -50%
-		},
-		[4217] = {                                                      -- Pyrium Weapon Chain
-			["ITEM_MOD_HIT_RATING_SHORT"] = 40,
-			-- disarm duration -50%
-		},
-		[3731] = {                                                      -- Titanium Weapon Chain
-			["ITEM_MOD_HIT_RATING_SHORT"] = 28,
-			-- disarm duration -50%
-		},
-		[3223] = {                                                      -- Adamantite Weapon Chain
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-			-- disarm duration -50%
-		},
-		[37] = {                                                        -- Steel Weapon Chain
-			-- disarm duration -50%
-		},
-
-		-- enchanting
-		-- pandaria
-		[4444] = {                                                      -- Enchant Weapon - Dancing Steel
-			["ITEM_MOD_STRENGTH_SHORT"] = 440, -- reduced to 2/3 because both stats aren't active at the same time
-			["ITEM_MOD_AGILITY_SHORT"] = 440, -- reduced to 2/3 because both stats aren't active at the same time
-			-- sometimes increases Strength or Agility (whichever is highest) by 1650 for 12 sec (2 RPPM)
-			-- iLvl 372+
-		},
-		[4442] = {                                                      -- Enchant Weapon - Jade Spirit
-			["ITEM_MOD_INTELLECT_SHORT"] = 660,
-			["ITEM_MOD_SPIRIT_SHORT"] = 100, -- reduced to 1/3 because only below 25%
-			-- sometimes increases Intellect by 1650 for 12 sec (2 RPPM)
-			-- also increases Spirit by 750 if Mana is below 25%
-			-- iLvl 372+
-		},
-		[4446] = {                                                      -- Enchant Weapon - River's Song
-			["ITEM_MOD_DODGE_SHORT"] = 770,
-			-- sometimes increases Dodge by 1650 for 7 sec (4 RPPM)
-			-- iLvl 372+
-		},
-		[4445] = {                                                      -- Enchant Weapon - Colossus
-			["ITEM_MOD_HEALTH_SHORT"] = 3500, -- assuming about 50% uptime
-			-- sometimes grants a 7000HP shield (6 RPPM)
-			-- iLvl 372+
-		},
-		[4441] = {                                                      -- Enchant Weapon - Windsong
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 220, -- reduced to 1/3 because stats are randomly activated
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 220, -- reduced to 1/3 because stats are randomly activated
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 220, -- reduced to 1/3 because stats are randomly activated
-			-- sometimes increases Crit, Haste or Mastery by 1500 for 12 sec (2 RPPM)
-			-- iLvl 372+
-		},
-		[4443] = {                                                      -- Enchant Weapon - Elemental Force
-			-- sometimes deals 2775 to 3225 elemental damage (10 RPPM)
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4099] = {                                                      -- Enchant Weapon - Landslide
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 200, -- (assuming 1 RPPM)
-			-- sometimes increases AP by 1000 for 12 sec
-			-- iLvl 300+
-		},
-		[4097] = {                                                      -- Enchant Weapon - Power Torrent
-			["ITEM_MOD_INTELLECT_SHORT"] = 100, -- (assuming 60 sec. internal CD)
-			-- sometimes increases Intellect by 500 for 12 sec
-			-- iLvl 300+
-		},
-		[4098] = {                                                      -- Enchant Weapon - Windwalk
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 100, -- (assuming 60 sec. internal CD)
-			-- sometimes increases dodge rating by 600 for 10 sec
-			-- and 15% movement speed
-			-- iLvl 300+
-		},
-		[4084] = {                                                      -- Enchant Weapon - Heartsong
-			["ITEM_MOD_SPIRIT_SHORT"] = 50, -- (assuming 60 sec. internal CD)
-			-- sometimes increases spirit by 200 for 15 sec
-			-- iLvl 300+
-		},
-		[4083] = {                                                      -- Enchant Weapon - Hurricane
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 90, -- (assuming 60 sec. internal CD)
-			-- sometimes increases spirit by 450 for 12 sec
-			-- iLvl 300+
-		},
-		[4074] = {                                                      -- Enchant Weapon - Elemental Slayer
-			-- sometimes disrupt elementals when struck by your melee attacks, dealing Arcane damage and silencing them for 5 sec.
-			-- iLvl 300+
-		},
-		[4067] = {                                                      -- Enchant Weapon - Avalanche
-			-- often deals 463 to 537 Nature damage to an enemy struck by your melee attacks (~5 procs per minute)
-			-- iLvl 300+
-		},
-		[4066] = {                                                      -- Enchant Weapon - Mending
-			-- sometimes heals you when damaging an enemy with spells and melee attacks
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[3790] = {                                                      -- Enchant Weapon - Black Magic
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 25, -- conservative 10% uptime (unconfirmed)
-			-- sometimes increases haste rating by 250
-			-- 60+
-		},
-		[3830] = {                                                      -- Enchant Weapon - Exceptional Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			-- 60+
-		},
-		[3241] = {                                                      -- Enchant Weapon - Lifeward
-			-- hps depends too much on your weapon / attacks :( TODO
-			-- 60+
-		},
-		[3834] = {                                                      -- Enchant Weapon - Mighty Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 63,
-			-- 60+
-		},
-
-		-- level 84
-		[1103] = {                                                      -- Enchant Weapon - Exceptional Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 26,
-			-- 60+
-		},
-		[3239] = {                                                      -- Enchant Weapon - Icebreaker
-			-- sometimes inflicts fire damage
-			-- 60+
-		},
-
-		-- level 82
-		[3251] = {                                                      -- Enchant Weapon - Giant Slayer
-			-- chance of reducing movement speed and doing additional damage against giants
-			-- 60+
-		},
-
-		-- level 80
-		[3869] = {                                                      -- Enchant Weapon - Blade Ward
-			-- sometimes gives you 200 parry rating and 600-800 damage on your next parry
-			-- wielder must be 75+
-		},
-		[3870] = {                                                      -- Enchant Weapon - Blood Draining
-			-- sometimes gives you a stack of blood reserve on hit or doing damage with bleed attacks
-			-- up to 5 stacks, when you fall under 33% health, restores 360 to 440 health per stack
-			-- wielder must be 75+
-		},
-		[3844] = {                                                      -- Enchant Weapon - Exceptional Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 45,
-			-- 60+
-		},
-
-		-- level 79
-		[3789] = {                                                      -- Enchant Weapon - Berserking
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 100,
-			["RESISTANCE0_NAME"] = -150,    -- TODO: actually, it's -5%
-			-- sometimes gives 400 AP and reduced armor
-			-- 60+
-		},
-		[3833] = {                                                      -- Enchant Weapon - Superior Potency
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 65,
-			-- 60+
-		},
-
-		-- level 75
-		[3225] = {                                                      -- Enchant Weapon - Executioner
-			-- sometimes grants 120 crit rating
-			-- 60+
-		},
-		[2673] = {                                                      -- Enchant Weapon - Mongoose
-			-- sometimes 120 agility and some attack speed
-			-- 35+
-		},
-		[2672] = {                                                      -- Enchant Weapon - Soulfrost
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 54,
-			-- actually it's only shadow and frost spell power
-			-- 35+
-		},
-		[2671] = {                                                      -- Enchant Weapon - Sunfire
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			-- only fire and arcane
-			-- 35+
-		},
-
-		-- level 73
-		[3788] = {                                                      -- Enchant Weapon - Accuracy
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-			-- 60+
-		},
-		[3273] = {                                                      -- Enchant Weapon - Deathfrost
-			--  cause your damaging spells and melee weapon hits to occasionally inflict additional Frost damage and slow the target
-			-- 60+
-		},
-
-		-- level 72
-		[2675] = {                                                      -- Enchant Weapon - Battlemaster
-			-- melee attack occasionally heals nearby party by 180 to 300
-			-- 35+
-		},
-		[2674] = {                                                      -- Enchant Weapon - Spellsurge
-			-- spells occasionally grant 100 mana to nearby party members
-			-- 35+
-		},
-
-		-- level 71
-		[1606] = {                                                      -- Enchant Weapon - Greater Potency
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 50,
-			-- 60+
-		},
-
-		-- level 70
-		[3222] = {                                                      -- Enchant Weapon - Greater Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 20,
-			-- 35+
-		},
-		[3846] = {                                                      -- Enchant Weapon - Major Healing
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 40,
-			-- 35+
-		},
-		[2669] = {                                                      -- Enchant Weapon - Major Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 40,
-			-- 35+
-		},
-		[2568] = {                                                      -- Enchant Weapon - Mighty Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 22,
-		},
-		[2668] = {                                                      -- Enchant Weapon - Potency
-			["ITEM_MOD_STRENGTH_SHORT"] = 20,
-			-- 35+
-		},
-
-		-- level 68
-		[2666] = {                                                      -- Enchant Weapon - Major Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 30,
-			-- 35+
-		},
-		[963] = {                                                       -- Enchant Weapon - Major Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 7/WeaponSpeed
-			-- 35+
-		},
-
-		-- level 66
-		[2567] = {                                                      -- Enchant Weapon - Mighty Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 20,
-		},
-
-		-- level 62
-		[1898] = {                                                      -- Enchant Weapon - Lifestealing
-			-- often steal life from the enemy and give it to the wielder
-			-- reduced effect for players above level 60
-		},
-
-		-- level 61
-		[1900] = {                                                      -- Enchant Weapon - Crusader
-			-- heal for 75 to 125 and increase Strength by 100 for 15 sec. when attacking in melee
-			-- reduced effect for players above level 60
-		},
-
-		-- level 60
-		[2505] = {                                                      -- Enchant Weapon - Healing Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 29,
-		},
-		[2504] = {                                                      -- Enchant Weapon - Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 30,
-		},
-		[1897] = {                                                      -- Enchant Weapon - Superior Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5/WeaponSpeed
-		},
-
-		-- level 59
-		[1899] = {                                                      -- Enchant Weapon - Unholy Weapon
-			-- often inflict a curse on the target, inflicting shadow damage and reducing their melee damage
-		},
-
-		-- level 58
-		[2564] = {                                                      -- Enchant Weapon - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 15,
-		},
-		[2563] = {                                                      -- Enchant Weapon - Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 15,
-		},
-
-		-- level 57
-		[1894] = {                                                      -- Enchant Weapon - Icy Chill
-			-- often chill the target, reducing their movement and attack speed
-			-- reduced effect for players above level 60
-		},
-
-		-- level 53
-		[803] = {                                                       -- Enchant Weapon - Fiery Weapon
-			-- often strikes for 40 additional fire damage
-		},
-
-		-- level 49
-		[805] = {                                                       -- Enchant Weapon - Greater Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 4/WeaponSpeed
-		},
-
-		-- level 46
-		[912] = {                                                       -- Enchant Weapon - Demonslaying
-			-- chance of stunning and doing additional damage against demons
-			-- and a nice red glow
-		},
-
-		-- level 39
-		[943] = {                                                       -- Enchant Weapon - Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3/WeaponSpeed
-		},
-
-		-- level 38
-		[2443] = {                                                      -- Enchant Weapon - Winter's Might
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 7,
-			-- frost only
-		},
-
-		-- level 35
-		[853] = {                                                       -- Enchant Weapon - Lesser Beastslayer
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6/WeaponSpeed against beasts
-		},
-		[854] = {                                                       -- Enchant Weapon - Lesser Elemental Slayer
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6/WeaponSpeed against elementals
-		},
-
-		-- level 28
-		[241] = {                                                       -- Enchant Weapon - Lesser Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed
-		},
-
-		-- level 20
-		[249] = {                                                       -- Enchant Weapon - Minor Beastslayer
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed against beasts
-		},
-		[250] = {                                                       -- Enchant Weapon - Minor Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 1/WeaponSpeed
-		},
-
-		-- from badlands
-		[36] = {                                                        -- Fiery Blaze Enchantment
-			-- 15% chance to inflict 9 to 13 Fire damage to all enemies within 3 yards
-		},
-
-		-- Two-Hand enchantments as below, minus staves (for titan's grip warriors)
-		-- cataclysm
-		[4227] = {                                                      -- Enchant 2H Weapon - Mighty Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 130,
-			-- iLvl 300+
-		},
-
-		-- level 82
-		[3828] = {                                                      -- Enchant 2H Weapon - Greater Savagery
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 85,
-			-- 60+
-		},
-
-		-- level 80
-		[3247] = {                                                      -- Enchant 2H Weapon - Scourgebane
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 140 --against undead
-			-- 60+
-		},
-
-		-- level 79
-		[3827] = {                                                      -- Enchant 2H Weapon - Massacre
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 110,
-			-- 60+
-		},
-
-		-- level 72
-		[2670] = {                                                      -- Enchant 2H Weapon - Major Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 35,
-			-- 35+
-		},
-
-		-- level 70
-		[2667] = {                                                      -- Enchant 2H Weapon - Savagery
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 70,
-			-- 35+
-		},
-
-		-- level 62
-		[1903] = {                                                      -- Enchant 2H Weapon - Major Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 9,
-		},
-
-		-- level 60
-		[1904] = {                                                      -- Enchant 2H Weapon - Major Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 9,
-		},
-
-		-- level 59
-		[1896] = {                                                      -- Enchant 2H Weapon - Superior Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 9/WeaponSpeed,
-		},
-
-		-- level 58
-		[2646] = {                                                      -- Enchant 2H Weapon - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 25,
-		},
-
-		-- level 48
-		[963] = {                                                       -- Enchant 2H Weapon - Greater Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 7/WeaponSpeed,
-		},
-
-		-- level 40
-		[1897] = {                                                      -- Enchant 2H Weapon - Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5/WeaponSpeed,
-		},
-
-		-- level 29
-		[943] = {                                                       -- Enchant 2H Weapon - Lesser Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3/WeaponSpeed,
-		},
-
-		-- level 22
-		[255] = {                                                       -- Enchant 2H Weapon - Lesser Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 3,
-		},
-
-		-- level 20
-		[723] = {                                                       -- Enchant 2H Weapon - Lesser Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		},
-		[241] = {                                                       -- Enchant 2H Weapon - Minor Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed,
-		},
-	},
-
-	-- Main Hand
-	[16] = {
-		-- level 85 scopes
-		[4700] = {                                                      -- Mirror Scope
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 150, -- just a low estimate, unconfirmed
-			-- Sometimes increases Crit by 900 for 10 sec.
-			-- ranged only
-		},
-		[4700] = {                                                      -- Lord Blastington's Scope of Doom
-			["ITEM_MOD_AGILITY_SHORT"] = 300, -- just a low estimate, unconfirmed
-			-- Sometimes increases Agility by 1800 for 10 sec.
-			-- ranged only
-		},
-		-- level 80 scopes
-		[4175] = {                                                      -- Gnomish X-Ray Scope
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 100, -- just a low estimate for 1/8 uptime, unconfirmed
-			-- Sometimes increases ranged AP by 800 for 10 sec.
-			-- ranged only
-		},
-		[4176] = {                                                      -- R19 Threatfinder
-			["ITEM_MOD_HIT_RATING_SHORT"] = 88,
-			-- ranged only
-		},
-		[4177] = {                                                      -- Safety Catch Removal Kit
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 88,
-			-- ranged only
-		},
-		[4267] = {                                                      -- Flintlocke's Woodchucker
-			["ITEM_MOD_AGILITY_SHORT"] = 50, -- 300 AGI for 10 sec., ICD of about 40 sec.
-			-- ranged only
-		},
-
-		-- level 70 scopes
-		[3608] = {                                                      -- Heartseeker Scope
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 40,
-			-- ranged only
-		},
-		[3607] = {                                                      -- Sun Scope
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 40,
-			-- ranged only
-		},
-		[3843] = {                                                      -- Diamond-cut Refractor Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 15/WeaponSpeed
-			-- ranged only
-		},
-
-		-- level 60 scope
-		[2724] = {                                                      -- Stabilized Eternium Scope
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 28,
-			-- ranged only
-		},
-
-		-- level 55 scopes
-		[2723] = {                                                      -- Khorium Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 12/WeaponSpeed
-			-- ranged only
-		},
-		[2722] = {                                                      -- Adamantite Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 10/WeaponSpeed
-			-- ranged only
-		},
-
-		-- level 50 scrope
-		[2523] = {                                                      -- Biznicks 247x128 Accurascope
-			["ITEM_MOD_HIT_RATING_SHORT"] = 30,
-			-- ranged only
-		},
-
-		-- level 40 scope
-		[664] = {                                                       -- Sniper Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 7/WeaponSpeed
-			-- ranged only
-		},
-
-		-- level 30 scope
-		[663] = {                                                       -- Deadly Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5/WeaponSpeed
-			-- ranged only
-		},
-
-		-- level 20 scope
-		[33] = {                                                        -- Accurate Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3/WeaponSpeed
-			-- ranged only
-		},
-
-		-- level 10 scope
-		[32] = {                                                        -- Standard Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed
-			-- ranged only
-		},
-
-		-- level 5 scope
-		[30] = {                                                        -- Crude Scope
-			--["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 1/WeaponSpeed
-			-- ranged only
-		},
-
-		-- one-handed enchants copied from above!
-		-- DK runesforging
-		-- level 72
-		[3883] = {                                                      -- Rune of the Nerubian Carapace
-			-- +2% armo
-			-- +1% stamina
-			-- runeforging
-		},
-
-		-- level 70
-		[3368] = {                                                      -- Rune of the Fallen Crusader
-			-- proc: 3% maxhp heal
-			-- strength + 15%
-			-- runeforging
-		},
-
-		-- level 63
-		[3594] = {                                                      -- Rune of Swordbreaking
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 2*45.25018692,
-			-- parry +2% [~90]
-			-- disarm duration -50%
-			-- runeforging
-		},
-
-		-- level 60
-		[3366] = {                                                      -- Rune of Lichbane
-			-- 2% extra weapon damage as Fire damage or 4% versus Undead targets
-			-- runeforging
-		},
-
-		-- level 57
-		[3595] = {                                                      -- Rune of Spellbreaking
-			-- spell damage: deflect 2%
-			-- silence duration -50%
-			-- runeforging
-		},
-
-		-- level 55
-		[3369] = {                                                      -- Rune of Cinderglacier
-			-- chance to increase the damage by 20% for your next 2 attacks that deal Frost or Shadow damage
-			-- runeforging
-		},
-		[3370] = {                                                      -- Rune of Razorice
-			--  2% extra weapon damage as Frost damage and has a chance to increase vulnerability to your Frost attacks
-			-- runeforging
-		},
-
-		-- blacksmithing
-		[4918] = {                                                      -- Living Steel Weapon Chain
-			["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 200,
-			-- disarm duration -50%
-		},
-		[4217] = {                                                      -- Pyrium Weapon Chain
-			["ITEM_MOD_HIT_RATING_SHORT"] = 40,
-			-- disarm duration -50%
-		},
-		[3731] = {                                                      -- Titanium Weapon Chain
-			["ITEM_MOD_HIT_RATING_SHORT"] = 28,
-			-- disarm duration -50%
-		},
-		[3223] = {                                                      -- Adamantite Weapon Chain
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 15,
-			-- disarm duration -50%
-		},
-		[37] = {                                                        -- Steel Weapon Chain
-			-- disarm duration -50%
-		},
-
-		-- enchanting
-		-- pandaria
-		[4444] = {                                                      -- Enchant Weapon - Dancing Steel
-			["ITEM_MOD_STRENGTH_SHORT"] = 440, -- reduced to 2/3 because both stats aren't active at the same time
-			["ITEM_MOD_AGILITY_SHORT"] = 440, -- reduced to 2/3 because both stats aren't active at the same time
-			-- sometimes increases Strength or Agility (whichever is highest) by 1650 for 12 sec (2 RPPM)
-			-- iLvl 372+
-		},
-		[4442] = {                                                      -- Enchant Weapon - Jade Spirit
-			["ITEM_MOD_INTELLECT_SHORT"] = 660,
-			["ITEM_MOD_SPIRIT_SHORT"] = 100, -- reduced to 1/3 because only below 25%
-			-- sometimes increases Intellect by 1650 for 12 sec (2 RPPM)
-			-- also increases Spirit by 750 if Mana is below 25%
-			-- iLvl 372+
-		},
-		[4446] = {                                                      -- Enchant Weapon - River's Song
-			["ITEM_MOD_DODGE_SHORT"] = 770,
-			-- sometimes increases Dodge by 1650 for 7 sec (4 RPPM)
-			-- iLvl 372+
-		},
-		[4445] = {                                                      -- Enchant Weapon - Colossus
-			["ITEM_MOD_HEALTH_SHORT"] = 3500, -- assuming about 50% uptime
-			-- sometimes grants a 7000HP shield (6 RPPM)
-			-- iLvl 372+
-		},
-		[4441] = {                                                      -- Enchant Weapon - Windsong
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 220, -- reduced to 1/3 because stats are randomly activated
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 220, -- reduced to 1/3 because stats are randomly activated
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 220, -- reduced to 1/3 because stats are randomly activated
-			-- sometimes increases Crit, Haste or Mastery by 1500 for 12 sec (2 RPPM)
-			-- iLvl 372+
-		},
-		[4443] = {                                                      -- Enchant Weapon - Elemental Force
-			-- sometimes deals 2775 to 3225 elemental damage (10 RPPM)
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4099] = {                                                      -- Enchant Weapon - Landslide
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 200, -- (assuming 60 sec. internal CD)
-			-- sometimes increases AP by 1000 for 12 sec
-			-- iLvl 300+
-		},
-		[4097] = {                                                      -- Enchant Weapon - Power Torrent
-			["ITEM_MOD_INTELLECT_SHORT"] = 100, -- (assuming 60 sec. internal CD)
-			-- sometimes increases Intellect by 500 for 12 sec
-			-- iLvl 300+
-		},
-		[4098] = {                                                      -- Enchant Weapon - Windwalk
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 100, -- (assuming 60 sec. internal CD)
-			-- sometimes increases dodge rating by 600 for 10 sec
-			-- and 15% movement speed
-			-- iLvl 300+
-		},
-		[4084] = {                                                      -- Enchant Weapon - Heartsong
-			["ITEM_MOD_SPIRIT_SHORT"] = 50, -- (assuming 60 sec. internal CD)
-			-- sometimes increases spirit by 200 for 15 sec
-			-- iLvl 300+
-		},
-		[4083] = {                                                      -- Enchant Weapon - Hurricane
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 90, -- (assuming 60 sec. internal CD)
-			-- sometimes increases spirit by 450 for 12 sec
-			-- iLvl 300+
-		},
-		[4074] = {                                                      -- Enchant Weapon - Elemental Slayer
-			-- sometimes disrupt elementals when struck by your melee attacks, dealing Arcane damage and silencing them for 5 sec.
-			-- iLvl 300+
-		},
-		[4067] = {                                                      -- Enchant Weapon - Avalanche
-			-- often deals 463 to 537 Nature damage to an enemy struck by your melee attacks (~5 procs per minute)
-			-- iLvl 300+
-		},
-		[4066] = {                                                      -- Enchant Weapon - Mending
-			-- sometimes heals you when damaging an enemy with spells and melee attacks
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[3790] = {                                                      -- Enchant Weapon - Black Magic
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 25, -- conservative 10% uptime (unconfirmed)
-			-- sometimes increases haste rating by 250
-			-- 60+
-		},
-		[3830] = {                                                      -- Enchant Weapon - Exceptional Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			-- 60+
-		},
-		[3241] = {                                                      -- Enchant Weapon - Lifeward
-			-- hps depends too much on your weapon / attacks :( TODO
-			-- 60+
-		},
-		[3834] = {                                                      -- Enchant Weapon - Mighty Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 63,
-			-- 60+
-		},
-
-		-- level 84
-		[1103] = {                                                      -- Enchant Weapon - Exceptional Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 26,
-			-- 60+
-		},
-		[3239] = {                                                      -- Enchant Weapon - Icebreaker
-			-- sometimes inflicts fire damage
-			-- 60+
-		},
-
-		-- level 82
-		[3251] = {                                                      -- Enchant Weapon - Giant Slayer
-			-- chance of reducing movement speed and doing additional damage against giants
-			-- 60+
-		},
-
-		-- level 80
-		[3869] = {                                                      -- Enchant Weapon - Blade Ward
-			-- sometimes gives you 200 parry rating and 600-800 damage on your next parry
-			-- wielder must be 75+
-		},
-		[3870] = {                                                      -- Enchant Weapon - Blood Draining
-			-- sometimes gives you a stack of blood reserve on hit or doing damage with bleed attacks
-			-- up to 5 stacks, when you fall under 33% health, restores 360 to 440 health per stack
-			-- wielder must be 75+
-		},
-		[3844] = {                                                      -- Enchant Weapon - Exceptional Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 45,
-			-- 60+
-		},
-
-		-- level 79
-		[3789] = {                                                      -- Enchant Weapon - Berserking
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 100,
-			["RESISTANCE0_NAME"] = -150,    -- TODO: actually, it's -5%
-			-- sometimes gives 400 AP and reduced armor
-			-- 60+
-		},
-		[3833] = {                                                      -- Enchant Weapon - Superior Potency
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 65,
-			-- 60+
-		},
-
-		-- level 75
-		[3225] = {                                                      -- Enchant Weapon - Executioner
-			-- sometimes grants 120 crit rating
-			-- 60+
-		},
-		[2673] = {                                                      -- Enchant Weapon - Mongoose
-			-- sometimes 120 agility and some attack speed
-			-- 35+
-		},
-		[2672] = {                                                      -- Enchant Weapon - Soulfrost
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 54,
-			-- actually it's only shadow and frost spell power
-			-- 35+
-		},
-		[2671] = {                                                      -- Enchant Weapon - Sunfire
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			-- only fire and arcane
-			-- 35+
-		},
-
-		-- level 73
-		[3788] = {                                                      -- Enchant Weapon - Accuracy
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 25,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 25,
-			-- 60+
-		},
-		[3273] = {                                                      -- Enchant Weapon - Deathfrost
-			--  cause your damaging spells and melee weapon hits to occasionally inflict additional Frost damage and slow the target
-			-- 60+
-		},
-
-		-- level 72
-		[2675] = {                                                      -- Enchant Weapon - Battlemaster
-			-- melee attack occasionally heals nearby party by 180 to 300
-			-- 35+
-		},
-		[2674] = {                                                      -- Enchant Weapon - Spellsurge
-			-- spells occasionally grant 100 mana to nearby party members
-			-- 35+
-		},
-
-		-- level 71
-		[1606] = {                                                      -- Enchant Weapon - Greater Potency
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 50,
-			-- 60+
-		},
-
-		-- level 70
-		[3222] = {                                                      -- Enchant Weapon - Greater Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 20,
-			-- 35+
-		},
-		[3846] = {                                                      -- Enchant Weapon - Major Healing
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 40,
-			-- 35+
-		},
-		[2669] = {                                                      -- Enchant Weapon - Major Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 40,
-			-- 35+
-		},
-		[2568] = {                                                      -- Enchant Weapon - Mighty Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 22,
-		},
-		[2668] = {                                                      -- Enchant Weapon - Potency
-			["ITEM_MOD_STRENGTH_SHORT"] = 20,
-			-- 35+
-		},
-
-		-- level 68
-		[2666] = {                                                      -- Enchant Weapon - Major Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 30,
-			-- 35+
-		},
-		[963] = {                                                       -- Enchant Weapon - Major Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 7/WeaponSpeed
-			-- 35+
-		},
-
-		-- level 66
-		[2567] = {                                                      -- Enchant Weapon - Mighty Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 20,
-		},
-
-		-- level 62
-		[1898] = {                                                      -- Enchant Weapon - Lifestealing
-			-- often steal life from the enemy and give it to the wielder
-			-- reduced effect for players above level 60
-		},
-
-		-- level 61
-		[1900] = {                                                      -- Enchant Weapon - Crusader
-			-- heal for 75 to 125 and increase Strength by 100 for 15 sec. when attacking in melee
-			-- reduced effect for players above level 60
-		},
-
-		-- level 60
-		[2505] = {                                                      -- Enchant Weapon - Healing Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 29,
-		},
-		[2504] = {                                                      -- Enchant Weapon - Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 30,
-		},
-		[1897] = {                                                      -- Enchant Weapon - Superior Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5/WeaponSpeed
-		},
-
-		-- level 59
-		[1899] = {                                                      -- Enchant Weapon - Unholy Weapon
-			-- often inflict a curse on the target, inflicting shadow damage and reducing their melee damage
-		},
-
-		-- level 58
-		[2564] = {                                                      -- Enchant Weapon - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 15,
-		},
-		[2563] = {                                                      -- Enchant Weapon - Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 15,
-		},
-
-		-- level 57
-		[1894] = {                                                      -- Enchant Weapon - Icy Chill
-			-- often chill the target, reducing their movement and attack speed
-			-- reduced effect for players above level 60
-		},
-
-		-- level 53
-		[803] = {                                                       -- Enchant Weapon - Fiery Weapon
-			-- often strikes for 40 additional fire damage
-		},
-
-		-- level 49
-		[805] = {                                                       -- Enchant Weapon - Greater Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 4/WeaponSpeed
-		},
-
-		-- level 46
-		[912] = {                                                       -- Enchant Weapon - Demonslaying
-			-- chance of stunning and doing additional damage against demons
-			-- and a nice red glow
-		},
-
-		-- level 39
-		[943] = {                                                       -- Enchant Weapon - Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3/WeaponSpeed
-		},
-
-		-- level 38
-		[2443] = {                                                      -- Enchant Weapon - Winter's Might
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 7,
-			-- frost only
-		},
-
-		-- level 35
-		[853] = {                                                       -- Enchant Weapon - Lesser Beastslayer
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6/WeaponSpeed against beasts
-		},
-		[854] = {                                                       -- Enchant Weapon - Lesser Elemental Slayer
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 6/WeaponSpeed against elementals
-		},
-
-		-- level 28
-		[241] = {                                                       -- Enchant Weapon - Lesser Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed
-		},
-
-		-- level 20
-		[249] = {                                                       -- Enchant Weapon - Minor Beastslayer
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed against beasts
-		},
-		[250] = {                                                       -- Enchant Weapon - Minor Striking
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 1/WeaponSpeed
-		},
-
-		-- from badlands
-		[36] = {                                                        -- Fiery Blaze Enchantment
-			-- 15% chance to inflict 9 to 13 Fire damage to all enemies within 3 yards
-		},
-
-
-		-- Two-Hand
-		-- cataclysm
-		[4227] = {                                                      -- Enchant 2H Weapon - Mighty Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 130,
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[3854] = {                                                      -- Enchant Staff - Greater Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 81,
-			-- 60+
-		},
-
-		-- level 82
-		[3828] = {                                                      -- Enchant 2H Weapon - Greater Savagery
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 85,
-			-- 60+
-		},
-
-		-- level 80
-		[3247] = {                                                      -- Enchant 2H Weapon - Scourgebane
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 140 --against undead
-			-- 60+
-		},
-		[3855] = {                                                      -- Enchant Staff - Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 69,
-			-- 60+
-		},
-
-		-- level 79
-		[3827] = {                                                      -- Enchant 2H Weapon - Massacre
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 110,
-			-- 60+
-		},
-
-		-- level 72
-		[2670] = {                                                      -- Enchant 2H Weapon - Major Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 35,
-			-- 35+
-		},
-
-		-- level 70
-		[2667] = {                                                      -- Enchant 2H Weapon - Savagery
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 70,
-			-- 35+
-		},
-
-		-- level 62
-		[1903] = {                                                      -- Enchant 2H Weapon - Major Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 9,
-		},
-
-		-- level 60
-		[1904] = {                                                      -- Enchant 2H Weapon - Major Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 9,
-		},
-
-		-- level 59
-		[1896] = {                                                      -- Enchant 2H Weapon - Superior Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 9/WeaponSpeed,
-		},
-
-		-- level 58
-		[2646] = {                                                      -- Enchant 2H Weapon - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 25,
-		},
-
-		-- level 48
-		[963] = {                                                       -- Enchant 2H Weapon - Greater Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 7/WeaponSpeed,
-		},
-
-		-- level 40
-		[1897] = {                                                      -- Enchant 2H Weapon - Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 5/WeaponSpeed,
-		},
-
-		-- level 29
-		[943] = {                                                       -- Enchant 2H Weapon - Lesser Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 3/WeaponSpeed,
-		},
-
-		-- level 22
-		[255] = {                                                       -- Enchant 2H Weapon - Lesser Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 3,
-		},
-
-		-- level 20
-		[723] = {                                                       -- Enchant 2H Weapon - Lesser Intellect
-			["ITEM_MOD_INTELLECT_SHORT"] = 3,
-		},
-		[241] = {                                                       -- Enchant 2H Weapon - Minor Impact
-			-- ["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] = 2/WeaponSpeed,
-		},
-
-		-- 2H-DK-Runes
-		[3367] = {                                                      -- Rune of the Stoneskin Gargoyle
-			-- +4% armor
-			-- +2% stamina
-			-- runeforging
-		},
-		[3365] = {                                                      -- Rune of Swordshattering
-			-- parry +4%
-			-- disarm duration -50%
-			-- runeforging
-		},
-		[3367] = {                                                      -- Rune of Spellshattering
-			-- spell damage: deflect 4%
-			-- silence duration -50%
-			-- runeforging
-		},
-	},
-
-	-- Hands XXX
-	[10] = {
-		-- level 85 armor kits
-		[4869] = {                                                      -- Sha Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 150,
-		},
-
-		-- level 80 armor kit
-		[4120] = {                                                      -- Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 36,
-		},
-		[4121] = {                                                      -- Heavy Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 44,
-		},
-
-		-- armor kits
-		[4120] = {                                                      -- Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 36,
-		},
-		[4121] = {                                                      -- Heavy Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 44,
-		},
-		[3330] = {                                                      -- Heavy Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-			-- 70+
-		},
-		[3329] = {                                                      -- Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-			-- 70+
-		},
-		[2841] = {                                                      -- Heavy Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			-- 60+
-		},
-		[2792] = {                                                      -- Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 8,
-			-- 55+
-		},
-		[1843] = {                                                      -- Rugged Armor Kit
-			["RESISTANCE0_NAME"] = 40,
-			-- 35+
-		},
-		[18] = {                                                        -- Thick Armor Kit
-			["RESISTANCE0_NAME"] = 32,
-			-- 25+
-		},
-		[17] = {                                                        -- Heavy Armor Kit
-			["RESISTANCE0_NAME"] = 24,
-			-- 15+
-		},
-		[16] = {                                                        -- Medium Armor Kit
-			["RESISTANCE0_NAME"] = 16,
-		},
-		[15] = {                                                        -- Light Armor Kit
-			["RESISTANCE0_NAME"] = 8,
-		},
-		[2793] = {                                                      -- Vindicator's Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		},
-		[2503] = {                                                      -- Core Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		},
-		[2794] = {                                                      -- Magister's Armor Kit
-			["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		},
-		[3260] = {                                                      -- Glove Reinforcements
-			["RESISTANCE0_NAME"] = 240,
-		},
-		[2989] = {                                                      -- Arcane Armor Kit
-			["RESISTANCE6_NAME"] = 8,
-		},
-		[2985] = {                                                      -- Flame Armor Kit
-			["RESISTANCE2_NAME"] = 8,
-		},
-		[2987] = {                                                      -- Frost Armor Kit
-			["RESISTANCE4_NAME"] = 8,
-		},
-		[2988] = {                                                      -- Nature Armor Kit
-			["RESISTANCE3_NAME"] = 8,
-		},
-		[2984] = {                                                      -- Shadow Armor Kit
-			["RESISTANCE5_NAME"] = 8,
-		},
-
-		-- enchanting
-		-- pandaria
-		[4431] = {                                                      -- Enchant Gloves - Superior Expertise
-			["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 170,
-			-- iLvl 372+
-		},
-		[4433] = {                                                      -- Enchant Gloves - Superior Mastery
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 170,
-			-- iLvl 372+
-		},
-		[4432] = {                                                      -- Enchant Gloves - Super Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 170,
-			-- iLvl 372+
-		},
-		[4430] = {                                                      -- Enchant Gloves - Greater Haste
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 170,
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4107] = {                                                      -- Enchant Gloves - Greater Mastery
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 65,
-			-- iLvl 300+
-		},
-		[4106] = {                                                      -- Enchant Gloves - Mighty Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4082] = {                                                      -- Enchant Gloves - Greater Expertise
-			["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4075] = {                                                      -- Enchant Gloves - Exceptional Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 35,
-			-- iLvl 300+
-		},
-		[4068] = {                                                      -- Enchant Gloves - Haste
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4061] = {                                                      -- Enchant Gloves - Mastery
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[3253] = {                                                      -- Enchant Gloves - Armsman
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-			-- +2% Threat
-			-- 60+
-		},
-		[1603] = {                                                      -- Enchant Gloves - Crusher
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 44,
-			-- 60+
-		},
-		[3246] = {                                                      -- Enchant Gloves - Exceptional Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 28,
-			-- 60+
-		},
-		[3222] = {                                                      -- Enchant Gloves - Major Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 20,
-			-- 60+
-		},
-
-		-- level 84
-		[3829] = {                                                      -- Enchant Gloves - Greater Assault
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 35,
-			-- 60+
-		},
-
-		-- level 77
-		[3234] = {                                                      -- Enchant Gloves - Precision
-			["ITEM_MOD_HIT_RATING_SHORT"] = 20,
-			-- 60+
-		},
-
-		-- level 75
-		[3238] = {                                                      -- Enchant Gloves - Gatherer
-			-- mining, herbalism, skinning +5
-			-- 60+
-		},
-
-		-- level 73
-		[3231] = {                                                      -- Enchant Gloves - Expertise
-			["ITEM_MOD_EXPERTISE_RATING_SHORT"] = 15,
-			-- 60+
-		},
-
-		-- level 72
-		[2937] = {                                                      -- Enchant Gloves - Major Spellpower
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 20,
-			-- 35+
-		},
-		[2935] = {                                                      -- Enchant Gloves - Precise Strikes
-			["ITEM_MOD_HIT_RATING_SHORT"] = 15,
-			-- 35+
-		},
-
-		-- level 70
-		[846] = {                                                       -- Enchant Gloves - Angler
-			-- fishing +5
-		},
-		[2616] = {                                                      -- Enchant Gloves - Fire Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 20,
-			-- fire spell power
-		},
-		[2615] = {                                                      -- Enchant Gloves - Frost Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 20,
-			-- frost spell power
-		},
-		[2617] = {                                                      -- Enchant Gloves - Healing Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 16,
-		},
-		[2322] = {                                                      -- Enchant Gloves - Major Healing
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 19,
-			-- 35+
-		},
-		[2614] = {                                                      -- Enchant Gloves - Shadow Power
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 20,
-			-- shadow spell power
-		},
-		[2564] = {                                                      -- Enchant Gloves - Superior Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 15,
-		},
-		[2613] = {                                                      -- Enchant Gloves - Threat
-			-- +2% Threat
-		},
-
-		-- level 68
-		[684] = {                                                       -- Enchant Gloves - Major Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 15,
-			-- 35+
-		},
-
-		-- level 62
-		[1594] = {                                                      -- Enchant Gloves - Assault
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 26,
-			-- 35+
-		},
-
-		-- level 61
-		[2934] = {                                                      -- Enchant Gloves - Blasting
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-			-- 35+
-		},
-
-		-- level 59
-		[927] = {                                                       -- Enchant Gloves - Greater Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 7,
-		},
-
-		-- level 54
-		[1887] = {                                                      -- Enchant Gloves - Greater Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 7,
-		},
-
-		-- level 50
-		[931] = {                                                       -- Enchant Gloves - Minor Haste
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-		},
-		[930] = {                                                       -- Enchant Gloves - Riding Skill
-			-- increase mount speed by 2%
-			-- player level <= 70
-		},
-
-		-- level 45
-		[909] = {                                                       -- Enchant Gloves - Advanced Herbalism
-			-- herbalism +5
-		},
-		[856] = {                                                       -- Enchant Gloves - Strength
-			["ITEM_MOD_STRENGTH_SHORT"] = 5,
-		},
-
-		-- level 43
-		[906] = {                                                       -- Enchant Gloves - Advanced Mining
-			-- mining +5
-		},
-
-		-- level 42
-		[904] = {                                                       -- Enchant Gloves - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 5,
-		},
-
-		-- level 40
-		[865] = {                                                       -- Enchant Gloves - Skinning
-			-- skinning +5
-		},
-
-		-- level 29
-		[846] = {                                                       -- Enchant Gloves - Fishing
-			-- fishing +2
-		},
-		[845] = {                                                       -- Enchant Gloves - Herbalism
-			-- herbalism +2
-		},
-		[844] = {                                                       -- Enchant Gloves - Mining
-			-- mining +2
-		},
-
-		[3603] = {                                                      -- Hand-Mounted Pyro Rocket
-			-- deal 1654 to 2020 Fire damage (45 yards range!), 45sec CD
-			-- engineering 400
-		},
-		[3604] = {                                                      -- Hyperspeed Accelerators
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 48, -- 240 haste rating for 12 sec every minute
-			-- engineering 400
-		},
-		[3860] = {                                                      -- Reticulated Armor Webbing
-			["RESISTANCE0_NAME"] = 163, -- 700 armor for 14 secs every minute
-			-- engineering 400
-		},
-		[3723] = {                                                      -- Socket Gloves
-			-- adds a prismatic socket to your gloves
-			-- blacksmithing 400
-		},
-	},
-
-	-- Legs XXX
-	[7] = {
-		-- level 85 armor kits
-		[4869] = {                                                      -- Sha Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 150,
-		},
-
-		-- level 80 armor kit
-		[4120] = {                                                      -- Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 36,
-		},
-		[4121] = {                                                      -- Heavy Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 44,
-		},
-
-		-- normal armor kits
-		[3330] = {                                                      -- Heavy Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-			-- 70+
-		},
-		[3329] = {                                                      -- Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-			-- 70+
-		},
-		[2841] = {                                                      -- Heavy Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			-- 60+
-		},
-		[2792] = {                                                      -- Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 8,
-			-- 55+
-		},
-		[1843] = {                                                      -- Rugged Armor Kit
-			["RESISTANCE0_NAME"] = 40,
-			-- 35+
-		},
-		[18] = {                                                        -- Thick Armor Kit
-			["RESISTANCE0_NAME"] = 32,
-			-- 25+
-		},
-		[17] = {                                                        -- Heavy Armor Kit
-			["RESISTANCE0_NAME"] = 24,
-			-- 15+
-		},
-		[16] = {                                                        -- Medium Armor Kit
-			["RESISTANCE0_NAME"] = 16,
-		},
-		[15] = {                                                        -- Light Armor Kit
-			["RESISTANCE0_NAME"] = 8,
-		},
-
-		-- special kits
-		[2793] = {                                                      -- Vindicator's Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		},
-		[2794] = {                                                      -- Magister's Armor Kit
-			["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		},
-		[2503] = {                                                      -- Core Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		},
-
-		-- lesser arcanums
-		[1503] = {                                                      -- Lesser Arcanum of Constitution
-			["ITEM_MOD_HEALTH_SHORT"] = 100,
-		},
-		[1505] = {                                                      -- Lesser Arcanum of Resilience
-			["RESISTANCE2_NAME"] = 20,
-		},
-		[1483] = {                                                      -- Lesser Arcanum of Rumination
-			["ITEM_MOD_MANA_SHORT"] = 150,
-		},
-		[1504] = {                                                      -- Lesser Arcanum of Tenacity
-			["RESISTANCE0_NAME"] = 125,
-		},
-		[1507] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_STAMINA_SHORT"] = 8,
-		},
-		[1506] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_STRENGTH_SHORT"] = 8,
-		},
-		[1508] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_AGILITY_SHORT"] = 8,
-		},
-		[1509] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_INTELLECT_SHORT"] = 8,
-		},
-		[1510] = {                                                      -- Lesser Arcanum of Voracity
-			["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		},
-
-		[2544] = {                                                      -- Arcanum of Focus
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 8,
-		},
-		[2545] = {                                                      -- Arcanum of Protection
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-		},
-		[2543] = {                                                      -- Arcanum of Rapidity
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 10,
-		},
-
-		-- pandaria leg armor
-		[4823] = {                                                      -- Angerhide Leg Armor
-			["ITEM_MOD_STRENGTH_SHORT"] = 285,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 165,
-			-- 85+
-		},
-		[4824] = {                                                      -- Ironscale Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 430,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 165,
-			-- 85+
-		},
-		[4822] = {                                                      -- Shadowleather Leg Armor
-			["ITEM_MOD_AGILITY_SHORT"] = 285,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 165,
-			-- 85+
-		},
-		[4872] = {                                                      -- Angerhide Leg Armor
-			["ITEM_MOD_STRENGTH_SHORT"] = 170,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- 85+
-		},
-		[4870] = {                                                      -- Toughened Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 250,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 100,
-			-- 85+
-		},
-		[4871] = {                                                      -- Shadowleather Leg Armor
-			["ITEM_MOD_AGILITY_SHORT"] = 170,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- 85+
-		},
-
-		-- upgradeable enchants
-		[4881] = {                                                      -- Draconic Leg Reinforcements (Rank 3)
-			["ITEM_MOD_STRENGTH_SHORT"] = 285,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 165,
-			-- leatherworking 575+
-		},
-		[4882] = {                                                      -- Heavy Leg Reinforcements (Rank 3)
-			["ITEM_MOD_STAMINA_SHORT"] = 430,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 165,
-			-- leatherworking 575+
-		},
-		[4880] = {                                                      -- Primal Leg Reinforcements (Rank 3)
-			["ITEM_MOD_AGILITY_SHORT"] = 285,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 165,
-			-- leatherworking 575+
-		},
-		[4885] = {                                                      -- Draconic Leg Reinforcements (Rank 2)
-			["ITEM_MOD_STRENGTH_SHORT"] = 95,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 55,
-			-- leatherworking 500+
-		},
-		[4884] = {                                                      -- Heavy Leg Reinforcements (Rank 2)
-			["ITEM_MOD_STAMINA_SHORT"] = 143,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 55,
-			-- leatherworking 500+
-		},
-		[4883] = {                                                      -- Primal Leg Reinforcements (Rank 2)
-			["ITEM_MOD_AGILITY_SHORT"] = 95,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 55,
-			-- leatherworking 500+
-		},
-		[4888] = {                                                      -- Draconic Leg Reinforcements (Rank 1)
-			["ITEM_MOD_STRENGTH_SHORT"] = 37,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 22,
-			-- leatherworking 400+
-		},
-		[4887] = {                                                      -- Heavy Leg Reinforcements (Rank 1)
-			["ITEM_MOD_STAMINA_SHORT"] = 55,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 22,
-			-- leatherworking 400+
-		},
-		[4886] = {                                                      -- Primal Leg Reinforcements (Rank 1)
-			["ITEM_MOD_AGILITY_SHORT"] = 37,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 22,
-			-- leatherworking 400+
-		},
-
-		[3822] = {                                                      -- Frosthide Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 55,
-			["ITEM_MOD_AGILITY_SHORT"] = 22,
-			-- 80+
-		},
-		[3325] = {                                                      -- Jormungar Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 45,
-			["ITEM_MOD_AGILITY_SHORT"] = 15,
-			-- 70+
-		},
-		[3013] = {                                                      -- Nethercleft Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 40,
-			["ITEM_MOD_AGILITY_SHORT"] = 12,
-			-- 60+
-		},
-		[3011] = {                                                      -- Clefthide Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			["ITEM_MOD_AGILITY_SHORT"] = 10,
-			-- 50+
-		},
-
-		[2989] = {                                                      -- Arcane Armor Kit
-			["RESISTANCE6_NAME"] = 8,
-			-- 60+
-		},
-		[2985] = {                                                      -- Flame Armor Kit
-			["RESISTANCE2_NAME"] = 8,
-			-- 65+
-		},
-		[2987] = {                                                      -- Frost Armor Kit
-			["RESISTANCE4_NAME"] = 8,
-			-- 65+
-		},
-		[2988] = {                                                      -- Nature Armor Kit
-			["RESISTANCE3_NAME"] = 8,
-			-- 65+
-		},
-		[2984] = {                                                      -- Shadow Armor Kit
-			["RESISTANCE5_NAME"] = 8,
-			-- 65+
-		},
-
-		[2682] = {                                                      -- Ice Guard
-			["RESISTANCE4_NAME"] = 10,
-			-- 55+
-		},
-		[2681] = {                                                      -- Savage Guard
-			["RESISTANCE3_NAME"] = 10,
-			-- 55+
-		},
-		[2683] = {                                                      -- Shadow Guard
-			["RESISTANCE5_NAME"] = 10,
-			-- 55+
-		},
-
-		[3853] = {                                                      -- Earthen Leg Armor
-			["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 40,
-			["ITEM_MOD_STAMINA_SHORT"] = 28,
-			-- 80+
-		},
-		[3823] = {                                                      -- Icescale Leg Armor
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 75,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 22,
-			-- 80+
-		},
-		[3326] = {                                                      -- Nerubian Leg Armor
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 55,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 15,
-			-- 70+
-		},
-		[3012] = {                                                      -- Nethercobra Leg Armor
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 50,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-			-- 60+
-		},
-		[3010] = {                                                      -- Cobrahide Leg Armor
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 40,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-			-- 50+
-		},
-
-		-- tailoring spellthreads
-		[4825] = {                                                      -- Greater Cerulean Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 285,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 165,
-			-- player 85+
-		},
-		[4826] = {                                                      -- Greater Pearlescent Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 285,
-			["ITEM_MOD_SPIRIT_SHORT"] = 165,
-			-- player 85+
-		},
-		[5003] = {                                                      -- Cerulean Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 170,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 100,
-			-- player 85+
-		},
-		[5004] = {                                                      -- Pearlescent Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 170,
-			["ITEM_MOD_SPIRIT_SHORT"] = 100,
-			-- player 85+
-		},
-		[4112] = {                                                      -- Powerful Enchanted Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 95,
-			["ITEM_MOD_STAMINA_SHORT"] = 80,
-			-- player 85+
-		},
-		[4110] = {                                                      -- Powerful Ghostly Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 95,
-			["ITEM_MOD_SPIRIT_SHORT"] = 55,
-			-- player 85+
-		},
-		[4111] = {                                                      -- Enchanted Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 55,
-			["ITEM_MOD_STAMINA_SHORT"] = 65,
-			-- player 80+
-		},
-		[4109] = {                                                      -- Ghostly Spellthread
-			["ITEM_MOD_INTELLECT_SHORT"] = 55,
-			["ITEM_MOD_SPIRIT_SHORT"] = 45,
-			-- player 80+
-		},
-		[3719] = {                                                      -- Brilliant Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			["ITEM_MOD_SPIRIT_SHORT"] = 20,
-			-- 70+
-		},
-		[3718] = {                                                      -- Shining Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 35,
-			["ITEM_MOD_SPIRIT_SHORT"] = 12,
-			-- 70+
-		},
-		[3721] = {                                                      -- Sapphire Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			-- 70+
-		},
-		[3720] = {                                                      -- Azure Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 35,
-			["ITEM_MOD_STAMINA_SHORT"] = 20,
-			-- 70+
-		},
-		[2746] = {                                                      -- Golden Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 35,
-			["ITEM_MOD_STAMINA_SHORT"] = 20,
-			-- 60+
-		},
-		[2748] = {                                                      -- Runic Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 35,
-			["ITEM_MOD_STAMINA_SHORT"] = 20,
-			-- 60+
-		},
-		[2745] = {                                                      -- Silver Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 25,
-			["ITEM_MOD_STAMINA_SHORT"] = 15,
-			-- 50+
-		},
-		[2747] = {                                                      -- Mystic Spellthread
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 25,
-			["ITEM_MOD_STAMINA_SHORT"] = 15,
-			-- 50+
-		},
-
-		-- level 60, Zul'Gurub rare
-		[2591] = {                                                      -- Animist's Caress
-			["ITEM_MOD_INTELLECT_SHORT"] = 10,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 12,
-		},
-		[3755] = {                                                      -- Death's Embrace
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 28,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 12,
-		},
-		[3752] = {                                                      -- Falcon's Call
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 24,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-		},
-		[2589] = {                                                      -- Hoodoo Hex
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-		},
-		[2583] = {                                                      -- Presence of Might
-			["ITEM_MOD_PARRY_RATING_SHORT"] = 10,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-		},
-		[2588] = {                                                      -- Presence of Sight
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 18,
-			["ITEM_MOD_HIT_RATING_SHORT"] = 8,
-		},
-		[2590] = {                                                      -- Prophetic Aura
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 13,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_SPIRIT_SHORT"] = 10, -- there is still mana reg on this item, but it is usually converted into double the amount in spirit everywhere else
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 5,
-		},
-		[2584] = {                                                      -- Syncretist's Sigil
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 10,
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			["ITEM_MOD_INTELLECT_SHORT"] = 10,
-		},
-		[2587] = {                                                      -- Vodouisant's Vigilant Embrace
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 13,
-			["ITEM_MOD_INTELLECT_SHORT"] = 15,
-		},
-
-		[4126] = {                                                      -- Dragonscale Leg Armor
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 190,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 55,
-			-- leatherworking ???
-		},
-		[4270] = {                                                      -- Drakehide Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 145,
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 55,
-			-- leatherworking ???
-		},
-		[4127] = {                                                      -- Charscale Leg Reinforcements aka Charscale Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 145,
-			["ITEM_MOD_AGILITY_SHORT"] = 55,
-			-- leatherworking ???
-		},
-		[4122] = {                                                      -- Dragonscale Leg Reinforcements aka Scorched Leg Armor
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 110,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 45,
-			-- leatherworking ???
-		},
-		[4124] = {                                                      -- Charscale Leg Reinforcements aka Twilight Leg Armor
-			["ITEM_MOD_STAMINA_SHORT"] = 85,
-			["ITEM_MOD_AGILITY_SHORT"] = 45,
-			-- leatherworking ???
-		},
-		[3328] = {                                                      -- Nerubian Leg Reinforcements
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 75,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 22,
-			-- leatherworking 400
-		},
-		[3327] = {                                                      -- Jormungar Leg Reinforcements
-			["ITEM_MOD_STAMINA_SHORT"] = 55,
-			["ITEM_MOD_AGILITY_SHORT"] = 22,
-			-- leatherworking 400
-		},
-
-		[4896] = {                                                      -- Sanctified Spellthread (Rank 3)
-			["ITEM_MOD_INTELLECT_SHORT"] = 285,
-			["ITEM_MOD_SPIRIT_SHORT"] = 165,
-			-- tailoring 550
-		},
-		[4895] = {                                                      -- Master's Spellthread (Rank 3)
-			["ITEM_MOD_INTELLECT_SHORT"] = 285,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 165,
-			-- tailoring 550
-		},
-		[4114] = {                                                      -- Sanctified Spellthread (Rank 2)
-			["ITEM_MOD_INTELLECT_SHORT"] = 95,
-			["ITEM_MOD_SPIRIT_SHORT"] = 55,
-			-- tailoring 405
-		},
-		[4113] = {                                                      -- Master's Spellthread (Rank 2)
-			["ITEM_MOD_INTELLECT_SHORT"] = 95,
-			["ITEM_MOD_STAMINA_SHORT"] = 80,
-			-- tailoring 405
-		},
-		[3872] = {                                                      -- Sanctified Spellthread (Rank 1)
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			["ITEM_MOD_SPIRIT_SHORT"] = 20,
-			-- tailoring 405
-		},
-		[3873] = {                                                      -- Master's Spellthread (Rank 1)
-			["ITEM_MOD_SPELL_POWER_SHORT"] = 50,
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			-- tailoring 405
-		},
-
-	},
-
-	-- Feet
-	[8] = {
-		-- level 85 armor kits
-		[4869] = {                                                      -- Sha Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 150,
-		},
-
-		[4120] = {                                                      -- Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 36,
-		},
-		[4121] = {                                                      -- Heavy Savage Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 44,
-		},
-		[3330] = {                                                      -- Heavy Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 18,
-			-- 70+
-		},
-		[3329] = {                                                      -- Borean Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-			-- 70+
-		},
-		[2841] = {                                                      -- Heavy Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 10,
-			-- 60+
-		},
-		[2792] = {                                                      -- Knothide Armor Kit
-			["ITEM_MOD_STAMINA_SHORT"] = 8,
-			-- 55+
-		},
-		[1843] = {                                                      -- Rugged Armor Kit
-			["RESISTANCE0_NAME"] = 40,
-			-- 35+
-		},
-		[18] = {                                                        -- Thick Armor Kit
-			["RESISTANCE0_NAME"] = 32,
-			-- 25+
-		},
-		[17] = {                                                        -- Heavy Armor Kit
-			["RESISTANCE0_NAME"] = 24,
-			-- 15+
-		},
-		[16] = {                                                        -- Medium Armor Kit
-			["RESISTANCE0_NAME"] = 16,
-		},
-		[15] = {                                                        -- Light Armor Kit
-			["RESISTANCE0_NAME"] = 8,
-		},
-
-		[2793] = {                                                      -- Vindicator's Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 8,
-		},
-		[2503] = {                                                      -- Core Armor Kit
-			["ITEM_MOD_DODGE_RATING_SHORT"] = 5,
-		},
-		[2794] = {                                                      -- Magister's Armor Kit
-			["ITEM_MOD_SPIRIT_SHORT"] = 8,
-		},
-
-		[2989] = {                                                      -- Arcane Armor Kit
-			["RESISTANCE6_NAME"] = 8,
-		},
-		[2985] = {                                                      -- Flame Armor Kit
-			["RESISTANCE2_NAME"] = 8,
-		},
-		[2987] = {                                                      -- Frost Armor Kit
-			["RESISTANCE4_NAME"] = 8,
-		},
-		[2988] = {                                                      -- Nature Armor Kit
-			["RESISTANCE3_NAME"] = 8,
-		},
-		[2984] = {                                                      -- Shadow Armor Kit
-			["RESISTANCE5_NAME"] = 8,
-		},
-
-		-- enchanting
-		-- pandaria
-		[4429] = {                                                      -- Enchant Boots - Pandaren's Step
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 140,
-			-- increase movement speed by 8%
-			-- iLvl 372+
-		},
-		[4428] = {                                                      -- Enchant Boots - Blurred Speed
-			["ITEM_MOD_AGILITY_SHORT"] = 140,
-			-- increase movement speed by 8%
-			-- iLvl 372+
-		},
-		[4426] = {                                                      -- Enchant Boots - Greater Haste
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 175,
-			-- iLvl 372+
-		},
-		[4427] = {                                                      -- Enchant Boots - Greater Precision
-			["ITEM_MOD_HIT_RATING_SHORT"] = 175,
-			-- iLvl 372+
-		},
-
-		-- cataclysm
-		[4105] = {                                                      -- Enchant Boots - Assassin's Step
-			["ITEM_MOD_AGILITY_SHORT"] = 25,
-			-- slight movement speed increase
-			-- iLvl 300+
-		},
-		[4104] = {                                                      -- Enchant Boots - Lavawalker
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 35,
-			-- slight movement speed increase
-			-- iLvl 300+
-		},
-		[4094] = {                                                      -- Enchant Boots - Mastery
-			["ITEM_MOD_MASTERY_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4092] = {                                                      -- Enchant Boots - Precision
-			["ITEM_MOD_HIT_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-		[4076] = {                                                      -- Enchant Boots - Major Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 35,
-			-- iLvl 300+
-		},
-		[4069] = {                                                      -- Enchant Boots - Haste
-			["ITEM_MOD_HASTE_RATING_SHORT"] = 50,
-			-- iLvl 300+
-		},
-
-		-- level 85
-		[3826] = {                                                      -- Enchant Boots - Icewalker
-			["ITEM_MOD_HIT_RATING_SHORT"] = 12,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 12,
-			-- 60+
-		},
-		[3232] = {                                                      -- Enchant Boots - Tuskarr's Vitality
-			["ITEM_MOD_STAMINA_SHORT"] = 15,
-			-- minor speed
-			-- 60+
-		},
-
-		[4062] = {                                                      -- Enchant Boots - Earthen Vitality
-			["ITEM_MOD_STAMINA_SHORT"] = 30,
-			-- minor speed
-			-- iLvl 300+
-		},
-
-		-- level 82
-		[983] = {                                                       -- Enchant Boots - Superior Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 16,
-			-- 60+
-		},
-
-		-- level 75
-		[1075] = {                                                      -- Enchant Boots - Greater Fortitude
-			["ITEM_MOD_STAMINA_SHORT"] = 22,
-			-- 60+
-		},
-
-		-- level 74
-		[2658] = {                                                      -- Enchant Boots - Surefooted
-			["ITEM_MOD_HIT_RATING_SHORT"] = 10,
-			["ITEM_MOD_CRIT_RATING_SHORT"] = 10,
-			-- 35+
-		},
-
-		-- level 73
-		[3244] = {                                                      -- Enchant Boots - Greater Vitality
-			["ITEM_MOD_HEALTH_REGENERATION_SHORT"] = 7,
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 7,
-			["ITEM_MOD_SPIRIT_SHORT"] = 14, -- again, double old mp5
-			-- 60+
-		},
-
-		-- level 72
-		[2940] = {                                                      -- Enchant Boots - Boar's Speed
-			["ITEM_MOD_STAMINA_SHORT"] = 9,
-			-- minor speed
-			-- 35+
-		},
-		[2939] = {                                                      -- Enchant Boots - Cat's Swiftness
-			["ITEM_MOD_AGILITY_SHORT"] = 6,
-			-- minor speed
-			-- 35+
-		},
-		[1597] = {                                                      -- Enchant Boots - Greater Assault
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 32,
-			-- 60+
-		},
-
-		-- level 71
-		[3824] = {                                                      -- Enchant Boots - Assault
-			["ITEM_MOD_ATTACK_POWER_SHORT"] = 24,
-			-- 60+
-		},
-		[1147] = {                                                      -- Enchant Boots - Greater Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 18,
-			-- 60+
-		},
-
-		-- level 68
-		[2657] = {                                                      -- Enchant Boots - Dexterity
-			["ITEM_MOD_AGILITY_SHORT"] = 12,
-			-- 35+
-		},
-
-		-- level 64
-		[2649] = {                                                      -- Enchant Boots - Fortitude
-			["ITEM_MOD_STAMINA_SHORT"] = 12,
-			-- 35+
-		},
-
-		-- level 61
-		[2656] = {                                                      -- Enchant Boots - Vitality
-			["ITEM_MOD_HEALTH_REGENERATION_SHORT"] = 5,
-			--["ITEM_MOD_MANA_REGENERATION_SHORT"] = 5,
-			["ITEM_MOD_SPIRIT_SHORT"] = 10, -- again, double old mp5
-			-- 35+
-		},
-
-		-- level 59
-		[1887] = {                                                      -- Enchant Boots - Greater Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 7,
-		},
-
-		-- level 55
-		[851] = {                                                       -- Enchant Boots - Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 5,
-		},
-
-		-- level 52
-		[929] = {                                                       -- Enchant Boots - Greater Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 7,
-		},
-
-		-- level 47
-		[904] = {                                                       -- Enchant Boots - Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 5,
-		},
-
-		-- level 45
-		[3858] = {                                                      -- Enchant Boots - Lesser Accuracy
-			["ITEM_MOD_HIT_RATING_SHORT"] = 5,
-		},
-		[911] = {                                                       -- Enchant Boots - Minor Speed
-			-- minor speed
-		},
-
-		-- level 43
-		[852] = {                                                       -- Enchant Boots - Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 5,
-		},
-
-		-- level 38
-		[255] = {                                                       -- Enchant Boots - Lesser Spirit
-			["ITEM_MOD_SPIRIT_SHORT"] = 3,
-		},
-
-		-- level 34
-		[724] = {                                                       -- Enchant Boots - Lesser Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 3,
-		},
-
-		-- level 32
-		[849] = {                                                       -- Enchant Boots - Lesser Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 3,
-		},
-
-		-- level 25
-		[247] = {                                                       -- Enchant Boots - Minor Agility
-			["ITEM_MOD_AGILITY_SHORT"] = 1,
-		},
-		[66] = {                                                        -- Enchant Boots - Minor Stamina
-			["ITEM_MOD_STAMINA_SHORT"] = 1,
-		},
-
-
-
-		[464] = {                                                       -- Mithril Spurs
-			-- +4% Mount Speed
-			-- player level <= 70
-		},
-	},
+local addonName, ns = ...
+
+ns.enchantIDs = {
+  [11] = {
+    [5324] = { -- Enchant Ring - Gift of Critical Strike
+      itemID = 110638,
+      spellID = 158914,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 50,},
+    },
+    [5325] = { -- Enchant Ring - Gift of Haste
+      itemID = 110639,
+      spellID = 158915,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 50,},
+    },
+    [5326] = { -- Enchant Ring - Gift of Mastery
+      itemID = 110640,
+      spellID = 158916,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 50,},
+    },
+    [5327] = { -- Enchant Ring - Gift of Multistrike
+      itemID = 110641,
+      spellID = 158917,
+      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 50,},
+    },
+    [5328] = { -- Enchant Ring - Gift of Versatility
+      itemID = 110642,
+      spellID = 158918,
+      stats = {["ITEM_MOD_VERSATILITY"] = 50,},
+    },
+    [5284] = { -- Enchant Ring - Breath of Critical Strike
+      itemID = 110617,
+      spellID = 158907,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 30,},
+    },
+    [5297] = { -- Enchant Ring - Breath of Haste
+      itemID = 110618,
+      spellID = 158908,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 30,},
+    },
+    [5299] = { -- Enchant Ring - Breath of Mastery
+      itemID = 110619,
+      spellID = 158909,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 30,},
+    },
+    [5301] = { -- Enchant Ring - Breath of Multistrike
+      itemID = 110620,
+      spellID = 158910,
+      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 30,},
+    },
+    [5303] = { -- Enchant Ring - Breath of Versatility
+      itemID = 110621,
+      spellID = 158911,
+      stats = {["ITEM_MOD_VERSATILITY"] = 30,},
+    },
+  },
+  [2] = {
+    [5317] = { -- Enchant Neck - Gift of Critical Strike
+      itemID = 110645,
+      spellID = 158899,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 75,},
+    },
+    [5318] = { -- Enchant Neck - Gift of Haste
+      itemID = 110646,
+      spellID = 158900,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 75,},
+    },
+    [5319] = { -- Enchant Neck - Gift of Mastery
+      itemID = 110647,
+      spellID = 158901,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 75,},
+    },
+    [5320] = { -- Enchant Neck - Gift of Multistrike
+      itemID = 110648,
+      spellID = 158902,
+      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 75,},
+    },
+    [5321] = { -- Enchant Neck - Gift of Versatility
+      itemID = 110649,
+      spellID = 158903,
+      stats = {["ITEM_MOD_VERSATILITY"] = 75,},
+    },
+    [5285] = { -- Enchant Neck - Breath of Critical Strike
+      itemID = 110624,
+      spellID = 158892,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 40,},
+    },
+    [5292] = { -- Enchant Neck - Breath of Haste
+      itemID = 110625,
+      spellID = 158893,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 40,},
+    },
+    [5293] = { -- Enchant Neck - Breath of Mastery
+      itemID = 110626,
+      spellID = 158894,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 40,},
+    },
+    [5294] = { -- Enchant Neck - Breath of Multistrike
+      itemID = 110627,
+      spellID = 158895,
+      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 40,},
+    },
+    [5295] = { -- Enchant Neck - Breath of Versatility
+      itemID = 110628,
+      spellID = 158896,
+      stats = {["ITEM_MOD_VERSATILITY"] = 40,},
+    },
+  },
+  [15] = {
+    [5310] = { -- Enchant Cloak - Gift of Critical Strike
+      itemID = 110652,
+      spellID = 158884,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 100,},
+    },
+    [5311] = { -- Enchant Cloak - Gift of Haste
+      itemID = 110653,
+      spellID = 158885,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 100,},
+    },
+    [5312] = { -- Enchant Cloak - Gift of Mastery
+      itemID = 110654,
+      spellID = 158886,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 100,},
+    },
+    [5313] = { -- Enchant Cloak - Gift of Multistrike
+      itemID = 110655,
+      spellID = 158887,
+      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 100,},
+    },
+    [5314] = { -- Enchant Cloak - Gift of Versatility
+      itemID = 110656,
+      spellID = 158889,
+      stats = {["ITEM_MOD_VERSATILITY"] = 100,},
+    },
+    [5281] = { -- Enchant Cloak - Breath of Critical Strike
+      itemID = 110631,
+      spellID = 158877,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 100,},
+    },
+    [5298] = { -- Enchant Cloak - Breath of Haste
+      itemID = 110632,
+      spellID = 158878,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 100,},
+    },
+    [5300] = { -- Enchant Cloak - Breath of Mastery
+      itemID = 110633,
+      spellID = 158879,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 100,},
+    },
+    [5302] = { -- Enchant Cloak - Breath of Multistrike
+      itemID = 110634,
+      spellID = 158880,
+      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 100,},
+    },
+    [5304] = { -- Enchant Cloak - Breath of Versatility
+      itemID = 110635,
+      spellID = 158881,
+      stats = {["ITEM_MOD_VERSATILITY"] = 100,},
+    },
+    [4421] = { -- Enchant Cloak - Accuracy
+      itemID = 74710,
+      spellID = 104398,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4422] = { -- Enchant Cloak - Greater Protection
+      itemID = 74711,
+      spellID = 104401,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4423] = { -- Enchant Cloak - Superior Intellect
+      itemID = 74712,
+      spellID = 104403,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4424] = { -- Enchant Cloak - Superior Critical Strike
+      itemID = 74713,
+      spellID = 104404,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4064] = { -- Enchant Cloak - Lesser Power
+      itemID = 52745,
+      spellID = 74192,
+      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4072] = { -- Enchant Cloak - Intellect
+      itemID = 52753,
+      spellID = 74202,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 6,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4087] = { -- Enchant Cloak - Critical Strike
+      itemID = 52764,
+      spellID = 74230,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4090] = { -- Enchant Cloak - Protection
+      itemID = 52767,
+      spellID = 74234,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 6,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4096] = { -- Enchant Cloak - Greater Intellect
+      itemID = 52773,
+      spellID = 74240,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4100] = { -- Enchant Cloak - Greater Critical Strike
+      itemID = 52777,
+      spellID = 74247,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4747] = { -- Enchant Cloak - Superior Agility
+      itemID = 38959,
+      spellID = 44500,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3243] = { -- Enchant Cloak - Minor Power
+      itemID = 38973,
+      spellID = 44582,
+      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 14,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1951] = { -- Enchant Cloak - Superior Dodge
+      itemID = 38978,
+      spellID = 44591,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3256] = { -- Enchant Cloak - Shadow Armor
+      itemID = 38993,
+      spellID = 44631,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3294] = { -- Enchant Cloak - Mighty Stamina
+      itemID = 39001,
+      spellID = 47672,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3831] = { -- Enchant Cloak - Greater Speed
+      itemID = 39003,
+      spellID = 47898,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3296] = { -- Enchant Cloak - Wisdom
+      itemID = 39004,
+      spellID = 47899,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3825] = { -- Enchant Cloak - Speed
+      itemID = 44456,
+      spellID = 60609,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1099] = { -- Enchant Cloak - Major Agility
+      itemID = 44457,
+      spellID = 60663,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2622] = { -- Enchant Cloak - Dodge
+      itemID = 38895,
+      spellID = 25086,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2662] = { -- Enchant Cloak - Major Armor
+      itemID = 38914,
+      spellID = 27961,
+      stats = {["RESISTANCE0_NAME"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2938] = { -- Enchant Cloak - PvP Power
+      itemID = 38939,
+      spellID = 34003,
+      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 16,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5258] = { -- Enchant Cloak - Greater Agility
+      itemID = 38940,
+      spellID = 34004,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2648] = { -- Enchant Cloak - Greater Dodge
+      itemID = 39000,
+      spellID = 47051,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 14,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4724] = { -- Enchant Cloak - Minor Agility
+      itemID = 38789,
+      spellID = 13419,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [744] = { -- Enchant Cloak - Lesser Protection
+      itemID = 38790,
+      spellID = 13421,
+      stats = {["RESISTANCE0_NAME"] = 2,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [848] = { -- Enchant Cloak - Defense
+      itemID = 38806,
+      spellID = 13635,
+      stats = {["RESISTANCE0_NAME"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [884] = { -- Enchant Cloak - Greater Defense
+      itemID = 38825,
+      spellID = 13746,
+      stats = {["RESISTANCE0_NAME"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4734] = { -- Enchant Cloak - Lesser Agility
+      itemID = 38835,
+      spellID = 13882,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1889] = { -- Enchant Cloak - Superior Defense
+      itemID = 38859,
+      spellID = 20015,
+      stats = {["RESISTANCE0_NAME"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [910] = { -- Enchant Cloak - Stealth
+      itemID = 38893,
+      spellID = 25083,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 8,["ITEM_MOD_DODGE_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2621] = { -- Enchant Cloak - Subtlety
+      itemID = 38894,
+      spellID = 25084,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
+  [16] = {
+    [5330] = { -- Enchant Weapon - Mark of the Thunderlord
+      itemID = 110682,
+      spellID = 159235,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 83.333333333333,},
+    },
+    [5331] = { -- Enchant Weapon - Mark of the Shattered Hand
+      itemID = 112093,
+      spellID = 159236,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5335] = { -- Enchant Weapon - Mark of Shadowmoon
+      itemID = 112115,
+      spellID = 159673,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 33.333333333333,},
+    },
+    [5336] = { -- Enchant Weapon - Mark of Blackrock
+      itemID = 112160,
+      spellID = 159674,
+      stats = {["RESISTANCE0_NAME"] = 41.666666666667,},
+    },
+    [5337] = { -- Enchant Weapon - Mark of Warsong
+      itemID = 112164,
+      spellID = 159671,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5334] = { -- Enchant Weapon - Mark of the Frostwolf
+      itemID = 112165,
+      spellID = 159672,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5352] = { -- Enchant Weapon - Glory of the Thunderlord
+      itemID = 115973,
+      spellID = 170627,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 83.333333333333,},
+    },
+    [5353] = { -- Enchant Weapon - Glory of the Shadowmoon
+      itemID = 115975,
+      spellID = 170628,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 33.333333333333,},
+    },
+    [5354] = { -- Enchant Weapon - Glory of the Blackrock
+      itemID = 115976,
+      spellID = 170629,
+      stats = {["RESISTANCE0_NAME"] = 41.666666666667,},
+    },
+    [5355] = { -- Enchant Weapon - Glory of the Warsong
+      itemID = 115977,
+      spellID = 170630,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5356] = { -- Enchant Weapon - Glory of the Frostwolf
+      itemID = 115978,
+      spellID = 170631,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5384] = { -- Enchant Weapon - Mark of Bleeding Hollow
+      itemID = 118015,
+      spellID = 173323,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 41.666666666667,},
+    },
+    [5035] = { -- Enchant Weapon - Glorious Tyranny
+      itemID = 95349,
+      spellID = 139631,
+      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 39,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5125] = { -- Enchant Weapon - Bloody Dancing Steel
+      itemID = 98163,
+      spellID = 142468,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4441] = { -- Enchant Weapon - Windsong
+      itemID = 74723,
+      spellID = 104425,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4442] = { -- Enchant Weapon - Jade Spirit
+      itemID = 74724,
+      spellID = 104427,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 103,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4443] = { -- Enchant Weapon - Elemental Force
+      itemID = 74725,
+      spellID = 104430,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4444] = { -- Enchant Weapon - Dancing Steel
+      itemID = 74726,
+      spellID = 104434,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4445] = { -- Enchant Weapon - Colossus
+      itemID = 74727,
+      spellID = 104440,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4446] = { -- Enchant Weapon - River's Song
+      itemID = 74728,
+      spellID = 104442,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 11.857142857143,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5124] = { -- Enchant Weapon - Spirit of Conquest
+      itemID = 98164,
+      spellID = 142469,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 103,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4066] = { -- Enchant Weapon - Mending
+      itemID = 52747,
+      spellID = 74195,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4067] = { -- Enchant Weapon - Avalanche
+      itemID = 52748,
+      spellID = 74197,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4074] = { -- Enchant Weapon - Elemental Slayer
+      itemID = 52755,
+      spellID = 74211,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4083] = { -- Enchant Weapon - Hurricane
+      itemID = 52760,
+      spellID = 74223,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 7.5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4084] = { -- Enchant Weapon - Heartsong
+      itemID = 52761,
+      spellID = 74225,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 2.6666666666667,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4097] = { -- Enchant Weapon - Power Torrent
+      itemID = 52774,
+      spellID = 74242,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 8.3333333333333,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4098] = { -- Enchant Weapon - Windwalk
+      itemID = 52775,
+      spellID = 74244,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 120,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4099] = { -- Enchant Weapon - Landslide
+      itemID = 52776,
+      spellID = 74246,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 8.3333333333333,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4227] = { -- Enchant 2H Weapon - Mighty Agility
+      itemID = 68134,
+      spellID = 95471,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 26,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3225] = { -- Enchant Weapon - Executioner
+      itemID = 38948,
+      spellID = 42974,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3844] = { -- Enchant Weapon - Exceptional Spirit
+      itemID = 38963,
+      spellID = 44510,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 23,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3239] = { -- Enchant Weapon - Icebreaker
+      itemID = 38965,
+      spellID = 44524,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3241] = { -- Enchant Weapon - Lifeward
+      itemID = 38972,
+      spellID = 44576,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3247] = { -- Enchant 2H Weapon - Scourgebane
+      itemID = 38981,
+      spellID = 44595,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3251] = { -- Enchant Weapon - Giant Slayer
+      itemID = 38988,
+      spellID = 44621,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3830] = { -- Enchant Weapon - Exceptional Spellpower
+      itemID = 38991,
+      spellID = 44629,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 25,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3828] = { -- Enchant 2H Weapon - Greater Savagery
+      itemID = 38992,
+      spellID = 44630,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 42,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1103] = { -- Enchant Weapon - Exceptional Agility
+      itemID = 38995,
+      spellID = 44633,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3273] = { -- Enchant Weapon - Deathfrost
+      itemID = 38998,
+      spellID = 46578,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3790] = { -- Enchant Weapon - Black Magic
+      itemID = 43987,
+      spellID = 59625,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 125,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1606] = { -- Enchant Weapon - Greater Potency
+      itemID = 44453,
+      spellID = 60621,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3827] = { -- Enchant 2H Weapon - Massacre
+      itemID = 44463,
+      spellID = 60691,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 55,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3833] = { -- Enchant Weapon - Superior Potency
+      itemID = 44466,
+      spellID = 60707,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 32,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3834] = { -- Enchant Weapon - Mighty Spellpower
+      itemID = 44467,
+      spellID = 60714,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 32,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3789] = { -- Enchant Weapon - Berserking
+      itemID = 44493,
+      spellID = 59621,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 100,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3788] = { -- Enchant Weapon - Accuracy
+      itemID = 44497,
+      spellID = 59619,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3854] = { -- Enchant Staff - Greater Spellpower
+      itemID = 45056,
+      spellID = 62948,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 41,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3855] = { -- Enchant Staff - Spellpower
+      itemID = 45060,
+      spellID = 62959,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 35,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4746] = { -- Enchant Weapon - Major Striking
+      itemID = 38917,
+      spellID = 27967,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2666] = { -- Enchant Weapon - Major Intellect
+      itemID = 38918,
+      spellID = 27968,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 30,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2667] = { -- Enchant 2H Weapon - Savagery
+      itemID = 38919,
+      spellID = 27971,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 35,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2668] = { -- Enchant Weapon - Potency
+      itemID = 38920,
+      spellID = 27972,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 20,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2669] = { -- Enchant Weapon - Major Spellpower
+      itemID = 38921,
+      spellID = 27975,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 40,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2670] = { -- Enchant 2H Weapon - Major Agility
+      itemID = 38922,
+      spellID = 27977,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 35,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2671] = { -- Enchant Weapon - Sunfire
+      itemID = 38923,
+      spellID = 27981,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2672] = { -- Enchant Weapon - Soulfrost
+      itemID = 38924,
+      spellID = 27982,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2673] = { -- Enchant Weapon - Mongoose
+      itemID = 38925,
+      spellID = 27984,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 120,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2674] = { -- Enchant Weapon - Spellsurge
+      itemID = 38926,
+      spellID = 28003,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2675] = { -- Enchant Weapon - Battlemaster
+      itemID = 38927,
+      spellID = 28004,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3846] = { -- Enchant Weapon - Major Healing
+      itemID = 38946,
+      spellID = 34010,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 40,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3222] = { -- Enchant Weapon - Greater Agility
+      itemID = 38947,
+      spellID = 42620,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 20,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4723] = { -- Enchant 2H Weapon - Minor Impact
+      itemID = 38772,
+      spellID = 7745,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [249] = { -- Enchant Weapon - Minor Beastslayer
+      itemID = 38779,
+      spellID = 7786,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [250] = { -- Enchant Weapon - Minor Striking
+      itemID = 38780,
+      spellID = 7788,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [723] = { -- Enchant 2H Weapon - Lesser Intellect
+      itemID = 38781,
+      spellID = 7793,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [255] = { -- Enchant 2H Weapon - Lesser Spirit
+      itemID = 38788,
+      spellID = 13380,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [241] = { -- Enchant Weapon - Lesser Striking
+      itemID = 38794,
+      spellID = 13503,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [943] = { -- Enchant 2H Weapon - Lesser Impact
+      itemID = 38796,
+      spellID = 13529,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [853] = { -- Enchant Weapon - Lesser Beastslayer
+      itemID = 38813,
+      spellID = 13653,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [854] = { -- Enchant Weapon - Lesser Elemental Slayer
+      itemID = 38814,
+      spellID = 13655,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4745] = { -- Enchant Weapon - Striking
+      itemID = 38821,
+      spellID = 13693,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1897] = { -- Enchant 2H Weapon - Impact
+      itemID = 38822,
+      spellID = 13695,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [803] = { -- Enchant Weapon - Fiery Weapon
+      itemID = 38838,
+      spellID = 13898,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [912] = { -- Enchant Weapon - Demonslaying
+      itemID = 38840,
+      spellID = 13915,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [963] = { -- Enchant 2H Weapon - Greater Impact
+      itemID = 38845,
+      spellID = 13937,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [805] = { -- Enchant Weapon - Greater Striking
+      itemID = 38848,
+      spellID = 13943,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1894] = { -- Enchant Weapon - Icy Chill
+      itemID = 38868,
+      spellID = 20029,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1896] = { -- Enchant 2H Weapon - Superior Impact
+      itemID = 38869,
+      spellID = 20030,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1897] = { -- Enchant Weapon - Superior Striking
+      itemID = 38870,
+      spellID = 20031,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1898] = { -- Enchant Weapon - Lifestealing
+      itemID = 38871,
+      spellID = 20032,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1899] = { -- Enchant Weapon - Unholy Weapon
+      itemID = 38872,
+      spellID = 20033,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1900] = { -- Enchant Weapon - Crusader
+      itemID = 38873,
+      spellID = 20034,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 6.6666666666667,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1903] = { -- Enchant 2H Weapon - Major Spirit
+      itemID = 38874,
+      spellID = 20035,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1904] = { -- Enchant 2H Weapon - Major Intellect
+      itemID = 38875,
+      spellID = 20036,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2443] = { -- Enchant Weapon - Winter's Might
+      itemID = 38876,
+      spellID = 21931,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2504] = { -- Enchant Weapon - Spellpower
+      itemID = 38877,
+      spellID = 22749,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 30,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2505] = { -- Enchant Weapon - Healing Power
+      itemID = 38878,
+      spellID = 22750,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 30,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2563] = { -- Enchant Weapon - Strength
+      itemID = 38879,
+      spellID = 23799,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2564] = { -- Enchant Weapon - Agility
+      itemID = 38880,
+      spellID = 23800,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2567] = { -- Enchant Weapon - Mighty Spirit
+      itemID = 38883,
+      spellID = 23803,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 20,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2568] = { -- Enchant Weapon - Mighty Intellect
+      itemID = 38884,
+      spellID = 23804,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 22,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2646] = { -- Enchant 2H Weapon - Agility
+      itemID = 38896,
+      spellID = 27837,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 25,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3869] = { -- Enchant Weapon - Blade Ward
+      itemID = 46026,
+      spellID = 64441,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3870] = { -- Enchant Weapon - Blood Draining
+      itemID = 46098,
+      spellID = 64579,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4687] = { -- Enchant Weapon - Ninja
+      itemID = 77276,
+      spellID = 108115,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 7.5,},
+    },
+  },
+  [9] = {
+    [4411] = { -- Enchant Bracer - Mastery
+      itemID = 74700,
+      spellID = 104338,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4412] = { -- Enchant Bracer - Major Dodge
+      itemID = 74701,
+      spellID = 104385,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4414] = { -- Enchant Bracer - Super Intellect
+      itemID = 74703,
+      spellID = 104389,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4415] = { -- Enchant Bracer - Exceptional Strength
+      itemID = 74704,
+      spellID = 104390,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 18,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4416] = { -- Enchant Bracer - Greater Agility
+      itemID = 74705,
+      spellID = 104391,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4258] = { -- Enchant Bracer - Agility
+      itemID = 68784,
+      spellID = 96264,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4256] = { -- Enchant Bracer - Major Strength
+      itemID = 68785,
+      spellID = 96261,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 16,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4257] = { -- Enchant Bracer - Mighty Intellect
+      itemID = 68786,
+      spellID = 96262,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4065] = { -- Enchant Bracer - Speed
+      itemID = 52746,
+      spellID = 74193,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4071] = { -- Enchant Bracer - Critical Strike
+      itemID = 52752,
+      spellID = 74201,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4086] = { -- Enchant Bracer - Superior Dodge
+      itemID = 52763,
+      spellID = 74229,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4089] = { -- Enchant Bracer - Precision
+      itemID = 52766,
+      spellID = 74232,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4093] = { -- Enchant Bracer - Exceptional Spirit
+      itemID = 52770,
+      spellID = 74237,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4095] = { -- Enchant Bracer - Greater Haste
+      itemID = 52772,
+      spellID = 74239,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4101] = { -- Enchant Bracer - Greater Critical Strike
+      itemID = 52778,
+      spellID = 74248,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4108] = { -- Enchant Bracer - Greater Speed
+      itemID = 52785,
+      spellID = 74256,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1119] = { -- Enchant Bracer - Exceptional Intellect
+      itemID = 38968,
+      spellID = 44555,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1600] = { -- Enchant Bracer - Assault
+      itemID = 38971,
+      spellID = 60616,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1147] = { -- Enchant Bracer - Major Spirit
+      itemID = 38980,
+      spellID = 44593,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3231] = { -- Enchant Bracer - Haste
+      itemID = 38984,
+      spellID = 44598,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2661] = { -- Enchant Bracer - Greater Stats
+      itemID = 38987,
+      spellID = 44616,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,["ITEM_MOD_STRENGTH_SHORT"] = 3,["ITEM_MOD_INTELLECT_SHORT"] = 3,["ITEM_MOD_STAMINA_SHORT"] = 3,["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2326] = { -- Enchant Bracer - Greater Spellpower
+      itemID = 38997,
+      spellID = 44635,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2332] = { -- Enchant Bracer - Superior Spellpower
+      itemID = 44470,
+      spellID = 60767,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3845] = { -- Enchant Bracer - Greater Assault
+      itemID = 44815,
+      spellID = 44575,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 14,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3850] = { -- Enchant Bracer - Major Stamina
+      itemID = 44947,
+      spellID = 62256,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 20,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2647] = { -- Enchant Bracer - Brawn
+      itemID = 38897,
+      spellID = 27899,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1891] = { -- Enchant Bracer - Stats
+      itemID = 38898,
+      spellID = 27905,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2648] = { -- Enchant Bracer - Greater Dodge
+      itemID = 38899,
+      spellID = 27906,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 6,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5183] = { -- Enchant Bracer - Superior Healing
+      itemID = 38900,
+      spellID = 27911,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2679] = { -- Enchant Bracer - Restore Mana Prime
+      itemID = 38901,
+      spellID = 27913,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2649] = { -- Enchant Bracer - Fortitude
+      itemID = 38902,
+      spellID = 27914,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5184] = { -- Enchant Bracer - Spellpower
+      itemID = 38903,
+      spellID = 27917,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [369] = { -- Enchant Bracer - Major Intellect
+      itemID = 38937,
+      spellID = 34001,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5257] = { -- Enchant Bracer - Lesser Assault
+      itemID = 38938,
+      spellID = 34002,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4720] = { -- Enchant Bracer - Minor Health
+      itemID = 38679,
+      spellID = 7418,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [924] = { -- Enchant Bracer - Minor Dodge
+      itemID = 38768,
+      spellID = 7428,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 2,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4721] = { -- Enchant Bracer - Minor Stamina
+      itemID = 38771,
+      spellID = 7457,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [243] = { -- Enchant Bracer - Minor Spirit
+      itemID = 38774,
+      spellID = 7766,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4725] = { -- Enchant Bracer - Minor Agility
+      itemID = 38777,
+      spellID = 7779,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [248] = { -- Enchant Bracer - Minor Strength
+      itemID = 38778,
+      spellID = 7782,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4727] = { -- Enchant Bracer - Lesser Spirit
+      itemID = 38783,
+      spellID = 7859,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4730] = { -- Enchant Bracer - Lesser Stamina
+      itemID = 38793,
+      spellID = 13501,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [823] = { -- Enchant Bracer - Lesser Strength
+      itemID = 38797,
+      spellID = 13536,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4729] = { -- Enchant Bracer - Lesser Intellect
+      itemID = 38803,
+      spellID = 13622,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4735] = { -- Enchant Bracer - Spirit
+      itemID = 38809,
+      spellID = 13642,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [925] = { -- Enchant Bracer - Lesser Dodge
+      itemID = 38811,
+      spellID = 13646,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4737] = { -- Enchant Bracer - Stamina
+      itemID = 38812,
+      spellID = 13648,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [856] = { -- Enchant Bracer - Strength
+      itemID = 38817,
+      spellID = 13661,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [905] = { -- Enchant Bracer - Intellect
+      itemID = 38829,
+      spellID = 13822,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [907] = { -- Enchant Bracer - Greater Spirit
+      itemID = 38832,
+      spellID = 13846,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 6,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [923] = { -- Enchant Bracer - Dodge
+      itemID = 38842,
+      spellID = 13931,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [927] = { -- Enchant Bracer - Greater Strength
+      itemID = 38846,
+      spellID = 13939,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4743] = { -- Enchant Bracer - Greater Stamina
+      itemID = 38849,
+      spellID = 13945,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1883] = { -- Enchant Bracer - Greater Intellect
+      itemID = 38852,
+      spellID = 20008,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1884] = { -- Enchant Bracer - Superior Spirit
+      itemID = 38853,
+      spellID = 20009,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 6,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1885] = { -- Enchant Bracer - Superior Strength
+      itemID = 38854,
+      spellID = 20010,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1886] = { -- Enchant Bracer - Superior Stamina
+      itemID = 38855,
+      spellID = 20011,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2565] = { -- Enchant Bracer - Mana Regeneration
+      itemID = 38881,
+      spellID = 23801,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2650] = { -- Enchant Bracer - Healing Power
+      itemID = 38882,
+      spellID = 23802,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
+  [5] = {
+    [4417] = { -- Enchant Chest - Super Resilience
+      itemID = 74706,
+      spellID = 104392,
+      stats = {["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4418] = { -- Enchant Chest - Mighty Spirit
+      itemID = 74707,
+      spellID = 104393,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4419] = { -- Enchant Chest - Glorious Stats
+      itemID = 74708,
+      spellID = 104395,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,["ITEM_MOD_STRENGTH_SHORT"] = 5,["ITEM_MOD_INTELLECT_SHORT"] = 5,["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4420] = { -- Enchant Chest - Superior Stamina
+      itemID = 74709,
+      spellID = 104397,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4063] = { -- Enchant Chest - Mighty Stats
+      itemID = 52744,
+      spellID = 74191,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,["ITEM_MOD_STRENGTH_SHORT"] = 3,["ITEM_MOD_INTELLECT_SHORT"] = 3,["ITEM_MOD_STAMINA_SHORT"] = 3,["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4070] = { -- Enchant Chest - Stamina
+      itemID = 52751,
+      spellID = 74200,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4077] = { -- Enchant Chest - Mighty Resilience
+      itemID = 52758,
+      spellID = 74214,
+      stats = {["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4088] = { -- Enchant Chest - Exceptional Spirit
+      itemID = 52765,
+      spellID = 74231,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4102] = { -- Enchant Chest - Peerless Stats
+      itemID = 52779,
+      spellID = 74250,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4103] = { -- Enchant Chest - Greater Stamina
+      itemID = 52780,
+      spellID = 74251,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3233] = { -- Enchant Chest - Exceptional Mana
+      itemID = 38912,
+      spellID = 27958,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3236] = { -- Enchant Chest - Mighty Health
+      itemID = 38955,
+      spellID = 44492,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2381] = { -- Enchant Chest - Greater Mana Restoration
+      itemID = 38962,
+      spellID = 44509,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3245] = { -- Enchant Chest - Exceptional Resilience
+      itemID = 38975,
+      spellID = 44588,
+      stats = {["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3252] = { -- Enchant Chest - Super Stats
+      itemID = 38989,
+      spellID = 44623,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1953] = { -- Enchant Chest - Greater Dodge
+      itemID = 39002,
+      spellID = 47766,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3297] = { -- Enchant Chest - Super Health
+      itemID = 39005,
+      spellID = 47900,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3832] = { -- Enchant Chest - Powerful Stats
+      itemID = 44465,
+      spellID = 60692,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,["ITEM_MOD_STRENGTH_SHORT"] = 5,["ITEM_MOD_INTELLECT_SHORT"] = 5,["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2659] = { -- Enchant Chest - Exceptional Health
+      itemID = 38911,
+      spellID = 27957,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2661] = { -- Enchant Chest - Exceptional Stats
+      itemID = 38913,
+      spellID = 27960,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 6,["ITEM_MOD_STRENGTH_SHORT"] = 6,["ITEM_MOD_INTELLECT_SHORT"] = 6,["ITEM_MOD_STAMINA_SHORT"] = 6,["ITEM_MOD_SPIRIT_SHORT"] = 6,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5237] = { -- Enchant Chest - Major Spirit
+      itemID = 38928,
+      spellID = 33990,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3150] = { -- Enchant Chest - Restore Mana Prime
+      itemID = 38929,
+      spellID = 33991,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 14,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2933] = { -- Enchant Chest - Major Resilience
+      itemID = 38930,
+      spellID = 33992,
+      stats = {["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5260] = { -- Enchant Chest - Dodge
+      itemID = 38999,
+      spellID = 46594,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [41] = { -- Enchant Chest - Minor Health
+      itemID = 38766,
+      spellID = 7420,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [24] = { -- Enchant Chest - Minor Mana
+      itemID = 38769,
+      spellID = 7443,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [242] = { -- Enchant Chest - Lesser Health
+      itemID = 38773,
+      spellID = 7748,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [246] = { -- Enchant Chest - Lesser Mana
+      itemID = 38776,
+      spellID = 7776,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [254] = { -- Enchant Chest - Health
+      itemID = 38782,
+      spellID = 7857,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [843] = { -- Enchant Chest - Mana
+      itemID = 38799,
+      spellID = 13607,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [847] = { -- Enchant Chest - Minor Stats
+      itemID = 38804,
+      spellID = 13626,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 1,["ITEM_MOD_STRENGTH_SHORT"] = 1,["ITEM_MOD_INTELLECT_SHORT"] = 1,["ITEM_MOD_STAMINA_SHORT"] = 1,["ITEM_MOD_SPIRIT_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [850] = { -- Enchant Chest - Greater Health
+      itemID = 38808,
+      spellID = 13640,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [857] = { -- Enchant Chest - Greater Mana
+      itemID = 38818,
+      spellID = 13663,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [866] = { -- Enchant Chest - Lesser Stats
+      itemID = 38824,
+      spellID = 13700,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 2,["ITEM_MOD_STRENGTH_SHORT"] = 2,["ITEM_MOD_INTELLECT_SHORT"] = 2,["ITEM_MOD_STAMINA_SHORT"] = 2,["ITEM_MOD_SPIRIT_SHORT"] = 2,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [908] = { -- Enchant Chest - Superior Health
+      itemID = 38833,
+      spellID = 13858,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [913] = { -- Enchant Chest - Superior Mana
+      itemID = 38841,
+      spellID = 13917,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [928] = { -- Enchant Chest - Stats
+      itemID = 38847,
+      spellID = 13941,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,["ITEM_MOD_STRENGTH_SHORT"] = 3,["ITEM_MOD_INTELLECT_SHORT"] = 3,["ITEM_MOD_STAMINA_SHORT"] = 3,["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1891] = { -- Enchant Chest - Greater Stats
+      itemID = 38865,
+      spellID = 20025,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1892] = { -- Enchant Chest - Major Health
+      itemID = 38866,
+      spellID = 20026,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1893] = { -- Enchant Chest - Major Mana
+      itemID = 38867,
+      spellID = 20028,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
+  [8] = {
+    [4426] = { -- Enchant Boots - Greater Haste
+      itemID = 74715,
+      spellID = 104407,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4427] = { -- Enchant Boots - Greater Precision
+      itemID = 74716,
+      spellID = 104408,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4428] = { -- Enchant Boots - Blurred Speed
+      itemID = 74717,
+      spellID = 104409,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4429] = { -- Enchant Boots - Pandaren's Step
+      itemID = 74718,
+      spellID = 104414,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4062] = { -- Enchant Boots - Earthen Vitality
+      itemID = 52743,
+      spellID = 74189,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4069] = { -- Enchant Boots - Haste
+      itemID = 52750,
+      spellID = 74199,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4076] = { -- Enchant Boots - Major Agility
+      itemID = 52757,
+      spellID = 74213,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4092] = { -- Enchant Boots - Precision
+      itemID = 52769,
+      spellID = 74236,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4094] = { -- Enchant Boots - Mastery
+      itemID = 52771,
+      spellID = 74238,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4105] = { -- Enchant Boots - Assassin's Step
+      itemID = 52781,
+      spellID = 74252,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4104] = { -- Enchant Boots - Lavawalker
+      itemID = 52782,
+      spellID = 74253,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1147] = { -- Enchant Boots - Greater Spirit
+      itemID = 38961,
+      spellID = 44508,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1075] = { -- Enchant Boots - Greater Fortitude
+      itemID = 38966,
+      spellID = 44528,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3244] = { -- Enchant Boots - Greater Vitality
+      itemID = 38974,
+      spellID = 44584,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 7,["ITEM_MOD_SPIRIT_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4748] = { -- Enchant Boots - Superior Agility
+      itemID = 38976,
+      spellID = 44589,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3826] = { -- Enchant Boots - Icewalker
+      itemID = 38986,
+      spellID = 60623,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 6,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3232] = { -- Enchant Boots - Tuskarr's Vitality
+      itemID = 39006,
+      spellID = 47901,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3824] = { -- Enchant Boots - Assault
+      itemID = 44449,
+      spellID = 60606,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1597] = { -- Enchant Boots - Greater Assault
+      itemID = 44469,
+      spellID = 60763,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2657] = { -- Enchant Boots - Dexterity
+      itemID = 37603,
+      spellID = 27951,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2656] = { -- Enchant Boots - Vitality
+      itemID = 38908,
+      spellID = 27948,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2649] = { -- Enchant Boots - Fortitude
+      itemID = 38909,
+      spellID = 27950,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2658] = { -- Enchant Boots - Surefooted
+      itemID = 38910,
+      spellID = 27954,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2939] = { -- Enchant Boots - Cat's Swiftness
+      itemID = 38943,
+      spellID = 34007,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2940] = { -- Enchant Boots - Boar's Speed
+      itemID = 38944,
+      spellID = 34008,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [66] = { -- Enchant Boots - Minor Stamina
+      itemID = 38785,
+      spellID = 7863,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [247] = { -- Enchant Boots - Minor Agility
+      itemID = 38786,
+      spellID = 7867,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [849] = { -- Enchant Boots - Lesser Agility
+      itemID = 38807,
+      spellID = 13637,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [724] = { -- Enchant Boots - Lesser Stamina
+      itemID = 38810,
+      spellID = 13644,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4726] = { -- Enchant Boots - Lesser Spirit
+      itemID = 38819,
+      spellID = 13687,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [852] = { -- Enchant Boots - Stamina
+      itemID = 38830,
+      spellID = 13836,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [904] = { -- Enchant Boots - Agility
+      itemID = 38844,
+      spellID = 13935,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [929] = { -- Enchant Boots - Greater Stamina
+      itemID = 38862,
+      spellID = 20020,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1887] = { -- Enchant Boots - Greater Agility
+      itemID = 38863,
+      spellID = 20023,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [851] = { -- Enchant Boots - Spirit
+      itemID = 38864,
+      spellID = 20024,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3858] = { -- Enchant Boots - Lesser Accuracy
+      itemID = 45628,
+      spellID = 63746,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 2,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
+  [10] = {
+    [4430] = { -- Enchant Gloves - Greater Haste
+      itemID = 74719,
+      spellID = 104416,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4431] = { -- Enchant Gloves - Superior Haste
+      itemID = 74720,
+      spellID = 104417,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4432] = { -- Enchant Gloves - Super Strength
+      itemID = 74721,
+      spellID = 104419,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4433] = { -- Enchant Gloves - Superior Mastery
+      itemID = 74722,
+      spellID = 104420,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4061] = { -- Enchant Gloves - Mastery
+      itemID = 52687,
+      spellID = 74132,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4068] = { -- Enchant Gloves - Haste
+      itemID = 52749,
+      spellID = 74198,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4075] = { -- Enchant Gloves - Exceptional Strength
+      itemID = 52756,
+      spellID = 74212,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4082] = { -- Enchant Gloves - Greater Haste
+      itemID = 52759,
+      spellID = 74220,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4106] = { -- Enchant Gloves - Mighty Strength
+      itemID = 52783,
+      spellID = 74254,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4107] = { -- Enchant Gloves - Greater Mastery
+      itemID = 52784,
+      spellID = 74255,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3231] = { -- Enchant Gloves - Haste
+      itemID = 38951,
+      spellID = 44484,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3234] = { -- Enchant Gloves - Precision
+      itemID = 38953,
+      spellID = 44488,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3829] = { -- Enchant Gloves - Greater Assault
+      itemID = 38964,
+      spellID = 44513,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 9,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5259] = { -- Enchant Gloves - Major Agility
+      itemID = 38967,
+      spellID = 44529,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3246] = { -- Enchant Gloves - Exceptional Spellpower
+      itemID = 38979,
+      spellID = 44592,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 14,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3253] = { -- Enchant Gloves - Armsman
+      itemID = 38990,
+      spellID = 44625,
+      stats = {["ITEM_MOD_PARRY_RATING_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1603] = { -- Enchant Gloves - Crusher
+      itemID = 44458,
+      spellID = 60668,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2934] = { -- Enchant Gloves - Blasting
+      itemID = 38931,
+      spellID = 33993,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2935] = { -- Enchant Gloves - Precise Strikes
+      itemID = 38932,
+      spellID = 33994,
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5250] = { -- Enchant Gloves - Major Strength
+      itemID = 38933,
+      spellID = 33995,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5255] = { -- Enchant Gloves - Assault
+      itemID = 38934,
+      spellID = 33996,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2937] = { -- Enchant Gloves - Major Spellpower
+      itemID = 38935,
+      spellID = 33997,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 20,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2322] = { -- Enchant Gloves - Major Healing
+      itemID = 38936,
+      spellID = 33999,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 20,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5255] = { -- Enchant Gloves - Assault
+      itemID = 72070,
+      spellID = 33996,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4740] = { -- Enchant Gloves - Agility
+      itemID = 38827,
+      spellID = 13815,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4739] = { -- Enchant Gloves - Strength
+      itemID = 38836,
+      spellID = 13887,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [930] = { -- Enchant Gloves - Riding Skill
+      itemID = 38850,
+      spellID = 13947,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [931] = { -- Enchant Gloves - Minor Haste
+      itemID = 38851,
+      spellID = 13948,
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1887] = { -- Enchant Gloves - Greater Agility
+      itemID = 38856,
+      spellID = 20012,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4742] = { -- Enchant Gloves - Greater Strength
+      itemID = 38857,
+      spellID = 20013,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2613] = { -- Enchant Gloves - Threat
+      itemID = 38885,
+      spellID = 25072,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2614] = { -- Enchant Gloves - Shadow Power
+      itemID = 38886,
+      spellID = 25073,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2615] = { -- Enchant Gloves - Frost Power
+      itemID = 38887,
+      spellID = 25074,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2616] = { -- Enchant Gloves - Fire Power
+      itemID = 38888,
+      spellID = 25078,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2617] = { -- Enchant Gloves - Healing Power
+      itemID = 38889,
+      spellID = 25079,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 14,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2564] = { -- Enchant Gloves - Superior Agility
+      itemID = 38890,
+      spellID = 25080,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 15,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3238] = { -- Enchant Gloves - Gatherer
+      itemID = 38960,
+      spellID = 44506,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4732] = { -- Enchant Gloves - Angler
+      itemID = 50816,
+      spellID = 71692,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
+  [17] = {
+    [4434] = { -- Enchant Off-Hand - Major Intellect
+      itemID = 74729,
+      spellID = 104445,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4993] = { -- Enchant Shield - Greater Parry
+      itemID = 89737,
+      spellID = 130758,
+      stats = {["ITEM_MOD_PARRY_RATING_SHORT"] = 11,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4073] = { -- Enchant Shield - Protection
+      itemID = 52754,
+      spellID = 74207,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4085] = { -- Enchant Shield - Mastery
+      itemID = 52762,
+      spellID = 74226,
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4091] = { -- Enchant Off-Hand - Superior Intellect
+      itemID = 52768,
+      spellID = 74235,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1952] = { -- Enchant Shield - Dodge
+      itemID = 38954,
+      spellID = 44489,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1128] = { -- Shield Enchant - Greater Intellect
+      itemID = 44455,
+      spellID = 60653,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2653] = { -- Enchant Shield - Lesser Dodge
+      itemID = 38904,
+      spellID = 27944,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2654] = { -- Enchant Shield - Intellect
+      itemID = 38905,
+      spellID = 27945,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2655] = { -- Enchant Shield - Parry
+      itemID = 38906,
+      spellID = 27946,
+      stats = {["ITEM_MOD_PARRY_RATING_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1071] = { -- Enchant Shield - Major Stamina
+      itemID = 38945,
+      spellID = 34009,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 18,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3229] = { -- Enchant Shield - Resilience
+      itemID = 38949,
+      spellID = 44383,
+      stats = {["ITEM_MOD_RESILIENCE_RATING_SHORT"] = 12,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4722] = { -- Enchant Shield - Minor Stamina
+      itemID = 38787,
+      spellID = 13378,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 1,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4733] = { -- Enchant Shield - Lesser Protection
+      itemID = 38791,
+      spellID = 13464,
+      stats = {["RESISTANCE0_NAME"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4728] = { -- Enchant Shield - Lesser Spirit
+      itemID = 38792,
+      spellID = 13485,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4731] = { -- Enchant Shield - Lesser Stamina
+      itemID = 38805,
+      spellID = 13631,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 3,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4736] = { -- Enchant Shield - Spirit
+      itemID = 38816,
+      spellID = 13659,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [863] = { -- Enchant Shield - Lesser Parry
+      itemID = 38820,
+      spellID = 13689,
+      stats = {["ITEM_MOD_PARRY_RATING_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4738] = { -- Enchant Shield - Stamina
+      itemID = 38828,
+      spellID = 13817,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4741] = { -- Enchant Shield - Greater Spirit
+      itemID = 38839,
+      spellID = 13905,
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1890] = { -- Enchant Shield - Vitality
+      itemID = 38860,
+      spellID = 20016,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 10,["ITEM_MOD_SPIRIT_SHORT"] = 10,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4744] = { -- Enchant Shield - Greater Stamina
+      itemID = 38861,
+      spellID = 20017,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 7,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
+  [3] = {
+    [2715] = { -- Resilience of the Scourge
+      itemID = 23547,
+      spellID = 29475,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 16,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2717] = { -- Might of the Scourge
+      itemID = 23548,
+      spellID = 29483,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 13,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2716] = { -- Fortitude of the Scourge
+      itemID = 23549,
+      spellID = 29480,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 16,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
+  ["UNKNOWN"] = {
+    [5275] = { -- Oglethorpe's Missile Splitter
+      itemID = 109120,
+      spellID = 156050,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5276] = { -- Megawatt Filament
+      itemID = 109122,
+      spellID = 156061,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5383] = { -- Hemet's Heartseeker
+      itemID = 118008,
+      spellID = 173287,
+      couldNotParse = true,
+      stats = {},
+    },
+    [5357] = { -- Rook's Lucky Fishin' Line
+      itemID = 116117,
+      spellID = 170886,
+      couldNotParse = true,
+      stats = {},
+    },
+    [4803] = { -- Greater Tiger Fang Inscription
+      itemID = 83006,
+      spellID = 121192,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4804] = { -- Greater Tiger Claw Inscription
+      itemID = 83007,
+      spellID = 121193,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4806] = { -- Greater Crane Wing Inscription
+      itemID = 87559,
+      spellID = 121195,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4805] = { -- Greater Ox Horn Inscription
+      itemID = 87560,
+      spellID = 121194,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4912] = { -- Secret Ox Horn Inscription
+      itemID = 87581,
+      spellID = 113048,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4915] = { -- Secret Crane Wing Inscription
+      itemID = 87582,
+      spellID = 113045,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4914] = { -- Secret Tiger Claw Inscription
+      itemID = 87584,
+      spellID = 113046,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4913] = { -- Secret Tiger Fang Inscription
+      itemID = 87585,
+      spellID = 113047,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4699] = { -- Lord Blastington's Scope of Doom
+      itemID = 77529,
+      spellID = 109086,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4700] = { -- Mirror Scope
+      itemID = 77531,
+      spellID = 109093,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4824] = { -- Ironscale Leg Armor
+      itemID = 83763,
+      spellID = 122386,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4822] = { -- Shadowleather Leg Armor
+      itemID = 83764,
+      spellID = 122387,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4823] = { -- Angerhide Leg Armor
+      itemID = 83765,
+      spellID = 122388,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4910] = { -- Ox Horn Inscription
+      itemID = 87577,
+      spellID = 127012,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4909] = { -- Crane Wing Inscription
+      itemID = 87578,
+      spellID = 127013,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4908] = { -- Tiger Claw Inscription
+      itemID = 87579,
+      spellID = 127014,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4907] = { -- Tiger Fang Inscription
+      itemID = 87580,
+      spellID = 127015,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4918] = { -- Living Steel Weapon Chain
+      itemID = 86597,
+      spellID = 128286,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [5001] = { -- Ghost Iron Shield Spike
+      itemID = 86599,
+      spellID = 131464,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4872] = { -- Brutal Leg Armor
+      itemID = 85568,
+      spellID = 124119,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4871] = { -- Sha-Touched Leg Armor
+      itemID = 85569,
+      spellID = 124118,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4870] = { -- Toughened Leg Armor
+      itemID = 85570,
+      spellID = 124116,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4869] = { -- Sha Armor Kit
+      itemID = 85559,
+      spellID = 124091,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4110] = { -- Powerful Ghostly Spellthread
+      itemID = 54450,
+      spellID = 75150,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4126] = { -- Dragonscale Leg Armor
+      itemID = 56550,
+      spellID = 78171,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4127] = { -- Charscale Leg Armor
+      itemID = 56551,
+      spellID = 78172,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4198] = { -- Greater Inscription of Unbreakable Quartz
+      itemID = 62333,
+      spellID = 86854,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4200] = { -- Greater Inscription of Charged Lodestone
+      itemID = 62343,
+      spellID = 86899,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4202] = { -- Greater Inscription of Jagged Stone
+      itemID = 62345,
+      spellID = 86901,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4204] = { -- Greater Inscription of Shattered Crystal
+      itemID = 62346,
+      spellID = 86907,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4248] = { -- Greater Inscription of Vicious Intellect
+      itemID = 68772,
+      spellID = 96249,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4249] = { -- Greater Inscription of Vicious Strength
+      itemID = 68773,
+      spellID = 96250,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4250] = { -- Greater Inscription of Vicious Agility
+      itemID = 68774,
+      spellID = 96251,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4270] = { -- Drakehide Leg Armor
+      itemID = 71720,
+      spellID = 101598,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4216] = { -- Pyrium Shield Spike
+      itemID = 55056,
+      spellID = 92437,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4175] = { -- Gnomish X-Ray Scope
+      itemID = 59594,
+      spellID = 81932,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4176] = { -- R19 Threatfinder
+      itemID = 59595,
+      spellID = 81933,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4177] = { -- Safety Catch Removal Kit
+      itemID = 59596,
+      spellID = 81934,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4197] = { -- Lesser Inscription of Unbreakable Quartz
+      itemID = 62321,
+      spellID = 86847,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4199] = { -- Lesser Inscription of Charged Lodestone
+      itemID = 62342,
+      spellID = 86898,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4201] = { -- Lesser Inscription of Jagged Stone
+      itemID = 62344,
+      spellID = 86900,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4205] = { -- Lesser Inscription of Shattered Crystal
+      itemID = 62347,
+      spellID = 86909,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4267] = { -- Flintlocke's Woodchucker
+      itemID = 70139,
+      spellID = 99623,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4217] = { -- Pyrium Weapon Chain
+      itemID = 55057,
+      spellID = 93448,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4121] = { -- Heavy Savage Armor Kit
+      itemID = 56517,
+      spellID = 78166,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4122] = { -- Scorched Leg Armor
+      itemID = 56502,
+      spellID = 78169,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4124] = { -- Twilight Leg Armor
+      itemID = 56503,
+      spellID = 78170,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4120] = { -- Savage Armor Kit
+      itemID = 56477,
+      spellID = 78165,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3808] = { -- Greater Inscription of the Axe
+      itemID = 44133,
+      spellID = 59934,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3809] = { -- Greater Inscription of the Crag
+      itemID = 44134,
+      spellID = 59936,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3810] = { -- Greater Inscription of the Storm
+      itemID = 44135,
+      spellID = 59937,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3811] = { -- Greater Inscription of the Pinnacle
+      itemID = 44136,
+      spellID = 59941,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3808] = { -- Greater Inscription of the Axe
+      itemID = 50335,
+      spellID = 59934,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3809] = { -- Greater Inscription of the Crag
+      itemID = 50336,
+      spellID = 59936,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3811] = { -- Greater Inscription of the Pinnacle
+      itemID = 50337,
+      spellID = 59941,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3810] = { -- Greater Inscription of the Storm
+      itemID = 50338,
+      spellID = 59937,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3822] = { -- Frosthide Leg Armor
+      itemID = 38373,
+      spellID = 60581,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3823] = { -- Icescale Leg Armor
+      itemID = 38374,
+      spellID = 60582,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3719] = { -- Brilliant Spellthread
+      itemID = 41602,
+      spellID = 55631,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3721] = { -- Sapphire Spellthread
+      itemID = 41604,
+      spellID = 55634,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3852] = { -- Greater Inscription of the Gladiator
+      itemID = 44957,
+      spellID = 62384,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3853] = { -- Earthen Leg Armor
+      itemID = 44963,
+      spellID = 62447,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3608] = { -- Heartseeker Scope
+      itemID = 41167,
+      spellID = 55135,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3718] = { -- Shining Spellthread
+      itemID = 41601,
+      spellID = 55630,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3720] = { -- Azure Spellthread
+      itemID = 41603,
+      spellID = 55632,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3793] = { -- Inscription of Triumph
+      itemID = 44067,
+      spellID = 59771,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3794] = { -- Inscription of Dominance
+      itemID = 44068,
+      spellID = 59773,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3806] = { -- Lesser Inscription of the Storm
+      itemID = 44129,
+      spellID = 59927,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3807] = { -- Lesser Inscription of the Crag
+      itemID = 44130,
+      spellID = 59928,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3875] = { -- Lesser Inscription of the Axe
+      itemID = 44131,
+      spellID = 59929,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3876] = { -- Lesser Inscription of the Pinnacle
+      itemID = 44132,
+      spellID = 59932,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3849] = { -- Titanium Plating
+      itemID = 44936,
+      spellID = 62201,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3330] = { -- Heavy Borean Armor Kit
+      itemID = 38376,
+      spellID = 50909,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3731] = { -- Titanium Weapon Chain
+      itemID = 41976,
+      spellID = 55836,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3748] = { -- Titanium Shield Spike
+      itemID = 42500,
+      spellID = 56353,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4215] = { -- Elementium Shield Spike
+      itemID = 55055,
+      spellID = 92433,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3329] = { -- Borean Armor Kit
+      itemID = 38375,
+      spellID = 50906,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3325] = { -- Jormungar Leg Armor
+      itemID = 38371,
+      spellID = 50901,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3326] = { -- Nerubian Leg Armor
+      itemID = 38372,
+      spellID = 50902,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2748] = { -- Runic Spellthread
+      itemID = 24274,
+      spellID = 31372,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2746] = { -- Golden Spellthread
+      itemID = 24276,
+      spellID = 31370,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3607] = { -- Sun Scope
+      itemID = 41146,
+      spellID = 55076,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3012] = { -- Nethercobra Leg Armor
+      itemID = 29535,
+      spellID = 35490,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3013] = { -- Nethercleft Leg Armor
+      itemID = 29536,
+      spellID = 35495,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2982] = { -- Greater Inscription of Discipline
+      itemID = 28886,
+      spellID = 35406,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2980] = { -- Greater Inscription of Faith
+      itemID = 28887,
+      spellID = 35404,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2986] = { -- Greater Inscription of Vengeance
+      itemID = 28888,
+      spellID = 35417,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2978] = { -- Greater Inscription of Warding
+      itemID = 28889,
+      spellID = 35402,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2995] = { -- Greater Inscription of the Orb
+      itemID = 28909,
+      spellID = 35437,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2997] = { -- Greater Inscription of the Blade
+      itemID = 28910,
+      spellID = 35439,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2991] = { -- Greater Inscription of the Knight
+      itemID = 28911,
+      spellID = 35433,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2993] = { -- Greater Inscription of the Oracle
+      itemID = 28912,
+      spellID = 35435,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2998] = { -- Inscription of Endurance
+      itemID = 29187,
+      spellID = 35441,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3260] = { -- Glove Reinforcements
+      itemID = 34207,
+      spellID = 44769,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3269] = { -- Spun Truesilver Fishing Line
+      itemID = 34836,
+      spellID = 45697,
+      couldNotParse = true,
+      stats = {},
+    },
+    [2841] = { -- Heavy Knothide Armor Kit
+      itemID = 34330,
+      spellID = 44968,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2747] = { -- Mystic Spellthread
+      itemID = 24273,
+      spellID = 31371,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2745] = { -- Silver Spellthread
+      itemID = 24275,
+      spellID = 31369,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3010] = { -- Cobrahide Leg Armor
+      itemID = 29533,
+      spellID = 35488,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3011] = { -- Clefthide Leg Armor
+      itemID = 29534,
+      spellID = 35489,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2793] = { -- Vindicator's Armor Kit
+      itemID = 25651,
+      spellID = 32398,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2794] = { -- Magister's Armor Kit
+      itemID = 25652,
+      spellID = 32399,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2979] = { -- Inscription of Faith
+      itemID = 28878,
+      spellID = 35403,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2981] = { -- Inscription of Discipline
+      itemID = 28881,
+      spellID = 35405,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2977] = { -- Inscription of Warding
+      itemID = 28882,
+      spellID = 35355,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2983] = { -- Inscription of Vengeance
+      itemID = 28885,
+      spellID = 35407,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2994] = { -- Inscription of the Orb
+      itemID = 28903,
+      spellID = 35436,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2992] = { -- Inscription of the Oracle
+      itemID = 28904,
+      spellID = 35434,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2996] = { -- Inscription of the Blade
+      itemID = 28907,
+      spellID = 35438,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2990] = { -- Inscription of the Knight
+      itemID = 28908,
+      spellID = 35432,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3223] = { -- Adamantite Weapon Chain
+      itemID = 33185,
+      spellID = 42687,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2721] = { -- Power of the Scourge
+      itemID = 23545,
+      spellID = 29467,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2503] = { -- Core Armor Kit
+      itemID = 18251,
+      spellID = 22725,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2523] = { -- Biznicks 247x128 Accurascope
+      itemID = 18283,
+      spellID = 22779,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2583] = { -- Presence of Might
+      itemID = 19782,
+      spellID = 24149,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2584] = { -- Syncretist's Sigil
+      itemID = 19783,
+      spellID = 24160,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3755] = { -- Death's Embrace
+      itemID = 19784,
+      spellID = 24161,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3754] = { -- Falcon's Call
+      itemID = 19785,
+      spellID = 24162,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2587] = { -- Vodouisant's Vigilant Embrace
+      itemID = 19786,
+      spellID = 24163,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2588] = { -- Presence of Sight
+      itemID = 19787,
+      spellID = 24164,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2589] = { -- Hoodoo Hex
+      itemID = 19788,
+      spellID = 24165,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2590] = { -- Prophetic Aura
+      itemID = 19789,
+      spellID = 24167,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2591] = { -- Animist's Caress
+      itemID = 19790,
+      spellID = 24168,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2605] = { -- Zandalar Signet of Mojo
+      itemID = 20076,
+      spellID = 24421,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2606] = { -- Zandalar Signet of Might
+      itemID = 20077,
+      spellID = 24422,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2604] = { -- Zandalar Signet of Serenity
+      itemID = 20078,
+      spellID = 24420,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2681] = { -- Savage Guard
+      itemID = 22635,
+      spellID = 28161,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2682] = { -- Ice Guard
+      itemID = 22636,
+      spellID = 28163,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2683] = { -- Shadow Guard
+      itemID = 22638,
+      spellID = 28165,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1483] = { -- Lesser Arcanum of Rumination
+      itemID = 11622,
+      spellID = 15340,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1503] = { -- Lesser Arcanum of Constitution
+      itemID = 11642,
+      spellID = 15389,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1504] = { -- Lesser Arcanum of Tenacity
+      itemID = 11643,
+      spellID = 15391,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1506] = { -- Lesser Arcanum of Voracity
+      itemID = 11645,
+      spellID = 15397,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1507] = { -- Lesser Arcanum of Voracity
+      itemID = 11646,
+      spellID = 15400,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1508] = { -- Lesser Arcanum of Voracity
+      itemID = 11647,
+      spellID = 15402,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1509] = { -- Lesser Arcanum of Voracity
+      itemID = 11648,
+      spellID = 15404,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [1510] = { -- Lesser Arcanum of Voracity
+      itemID = 11649,
+      spellID = 15406,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2483] = { -- Flame Mantle of the Dawn
+      itemID = 18169,
+      spellID = 22593,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2484] = { -- Frost Mantle of the Dawn
+      itemID = 18170,
+      spellID = 22594,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2485] = { -- Arcane Mantle of the Dawn
+      itemID = 18171,
+      spellID = 22598,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2486] = { -- Nature Mantle of the Dawn
+      itemID = 18172,
+      spellID = 22597,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2487] = { -- Shadow Mantle of the Dawn
+      itemID = 18173,
+      spellID = 22596,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2488] = { -- Chromatic Mantle of the Dawn
+      itemID = 18182,
+      spellID = 22599,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2543] = { -- Arcanum of Rapidity
+      itemID = 18329,
+      spellID = 22840,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2544] = { -- Arcanum of Focus
+      itemID = 18330,
+      spellID = 22844,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2545] = { -- Arcanum of Protection
+      itemID = 18331,
+      spellID = 22846,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [2792] = { -- Knothide Armor Kit
+      itemID = 25650,
+      spellID = 32397,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [846] = { -- High Test Eternium Fishing Line
+      itemID = 19971,
+      spellID = 24302,
+      couldNotParse = true,
+      stats = {},
+    },
+    [36] = { -- Fiery Blaze Enchantment
+      itemID = 5421,
+      spellID = 6296,
+      couldNotParse = true,
+      stats = {},
+    },
+    [464] = { -- Mithril Spurs
+      itemID = 7969,
+      spellID = 9783,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [37] = { -- Steel Weapon Chain
+      itemID = 6041,
+      spellID = 7220,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4112] = { -- Powerful Enchanted Spellthread
+      itemID = 54448,
+      spellID = 75152,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [783] = { -- Enchant Cloak - Minor Protection
+      itemID = 38775,
+      spellID = 7771,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4259] = { -- Reinforced Fishing Line
+      itemID = 68796,
+      spellID = 96286,
+      couldNotParse = true,
+      stats = {},
+      requirements = {["max_ilevel"] = 600,},
+    },
+  },
 }
-
-TopFit.enchantIDs[12] = TopFit.enchantIDs[11] -- set ring 2 enchants to the same as ring 1
