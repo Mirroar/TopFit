@@ -238,7 +238,7 @@ function TopFit:GetItemInfoTable(item)
 
     -- enchantment
     local enchantBonus = {}
-    if false and enchantID > 0 then
+    if enchantID > 0 then
         local found = false
         for _, slotID in pairs(TopFit.slots) do
             if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
