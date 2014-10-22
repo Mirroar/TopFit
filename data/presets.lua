@@ -5,8 +5,6 @@ function ns:GetPresets(class)
 	return ns.presets[class]
 end
 
--- TODO: handle armorbonus
-
 ns.presets = {
 	WARRIOR = {
 		{
@@ -31,7 +29,7 @@ ns.presets = {
 			name = "Protection",
 			weights = {
 				ITEM_MOD_STRENGTH_SHORT = 10.0,
-				armorbonus = 9.0,
+				RESISTANCE0_NAME = 9.0,
 				ITEM_MOD_STAMINA_SHORT = 7.1,
 				ITEM_MOD_CRIT_RATING_SHORT = 6.0,
 				ITEM_MOD_MASTERY_RATING_SHORT = 5.1
@@ -55,7 +53,6 @@ ns.presets = {
 			weights = {
 				ITEM_MOD_MASTERY_RATING_SHORT = 10.0,
 				ITEM_MOD_STAMINA_SHORT = 9.6,
-				armorbonus = 9.5,
 				ITEM_MOD_HASTE_RATING_SHORT = 7.4,
 				ITEM_MOD_CRIT_RATING_SHORT = 7.1,
 				RESISTANCE0_NAME = 5.9,
@@ -170,7 +167,7 @@ ns.presets = {
 			name = "Blood",
 			weights = {
 				ITEM_MOD_STRENGTH_SHORT = 10.0,
-				armorbonus = 9.9,
+				RESISTANCE0_NAME = 9.9,
 				ITEM_MOD_MASTERY_RATING_SHORT = 8.5,
 				ITEM_MOD_HASTE_RATING_SHORT = 8.0,
 				ITEM_MOD_CRIT_RATING_SHORT = 7.0
@@ -298,7 +295,6 @@ ns.presets = {
 			weights = {
 				RESISTANCE0_NAME = 10.0,
 				ITEM_MOD_CRIT_RATING_SHORT = 9.5,
-				armorbonus = 9.5,
 				ITEM_MOD_MASTERY_RATING_SHORT = 7.8,
 				ITEM_MOD_HASTE_RATING_SHORT = 6.3,
 				ITEM_MOD_AGILITY_SHORT = 4.8
@@ -349,7 +345,6 @@ ns.presets = {
 		{
 			name = "Guardian",
 			weights = {
-				armorbonus = 10.0,
 				ITEM_MOD_AGILITY_SHORT = 9.6,
 				RESISTANCE0_NAME = 9.5,
 				ITEM_MOD_MASTERY_RATING_SHORT = 8.0,
