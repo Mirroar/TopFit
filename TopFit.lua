@@ -267,7 +267,7 @@ function ns:OnInitialize()
             --"ITEM_MOD_HIT_RATING_SHORT",
             "ITEM_MOD_MASTERY_RATING_SHORT",
             "ITEM_MOD_PVP_POWER_SHORT",
-            "ITEM_MOD_CR_MULTISTIKE_SHORT",
+            "ITEM_MOD_CR_MULTISTRIKE_SHORT",
             "ITEM_MOD_CR_LIFESTEAL_SHORT",
             "ITEM_MOD_VERSATILITY",
         },
