@@ -47,8 +47,10 @@ local function FindSpecialBonus(effectText, ...)
 	for i = 1, numArgs do
 		searchStat = select(i, ...)
 		searchStatGlobal = _G[searchStat]
-		if string.find(effectText, searchStatGlobal) then
-			return searchStat, amount, duration, cooldown
+		if searchStatGlobal then
+			if string.find(effectText, searchStatGlobal) then
+				return searchStat, amount, duration, cooldown
+			end
 		end
 	end
 end
@@ -63,7 +65,7 @@ local function FindInTooltip(searchString, scanRightText, filterFunc)
 		leftLineText = leftLine and leftLine:GetText() or ""
 		rightLine = getglobal("TopFitTrinketScanTooltipTextRight"..i)
 		rightLineText = rightLine and rightLine:GetText() or ""
-		
+
 		if (string.find(leftLineText, searchString) or (scanRightText and string.find(rightLineText, searchString)))
 			and (not filterFunc or filterFunc(leftLineText, rightLineText)) then
 			return leftLineText, rightLineText
@@ -83,7 +85,7 @@ end
 function TopFit:ItemHasSpecialBonus(itemLink, ...)
 	local itemStats = GetItemStats(itemLink)
 	local effectText = ScanTooltipFor(ITEM_SPELL_TRIGGER_ONUSE, itemLink)
-		or ScanTooltipFor(ITEM_SPELL_TRIGGER_ONEQUIP, itemLink, nil, 
+		or ScanTooltipFor(ITEM_SPELL_TRIGGER_ONEQUIP, itemLink, nil,
 			function(textLeft, textRight)
 				for stat, value in pairs(itemStats) do
 					local notShortStat = string.gsub(stat, "_SHORT", "")

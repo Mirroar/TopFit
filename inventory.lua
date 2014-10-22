@@ -40,7 +40,7 @@ function TopFit:GetSetItemFromSlot(slotID, setCode)
                     -- item is banked, use itemID
                     local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
                     if itemID and itemID ~= 1 then
-                        _, itemLink = ns.GetItemInfo(itemID)
+                        _, itemLink = GetItemInfo(itemID)
                     end
                 elseif bags then
                     -- item is in player's bags
@@ -105,7 +105,7 @@ end
 -- find out all we need to know about an item. and maybe even more
 -- this does not return information which might change, only things you can get from the item link
 function TopFit:GetItemInfoTable(item)
-    local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = ns.GetItemInfo(item)
+    local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(item)
     if not itemLink then
         return nil
     end
@@ -244,7 +244,7 @@ function TopFit:GetItemInfoTable(item)
             if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
                 enchantBonus = TopFit.enchantIDs[slotID][enchantID].stats
                 if TopFit.enchantIDs[slotID][enchantID].couldNotParse then
-                    local _, enchantLink = ns.GetItemInfo(TopFit.enchantIDs[slotID][enchantID].itemID)
+                    local _, enchantLink = GetItemInfo(TopFit.enchantIDs[slotID][enchantID].itemID)
                     TopFit:Warning("Could not identify enchant "..enchantLink.." of your "..itemLink..". Please tell the author so its stats can be added. Also include the enchant's name to make it easier to add, please.")
                 end
                 found = true
@@ -709,7 +709,7 @@ end
 
 -- check whether a weapon can be equipped in one hand (takes titan's grip into account)
 function TopFit:IsOnehandedWeapon(set, itemID)
-    local _, _, _, _, _, _, subclass, _, equipSlot, _, _ = ns.GetItemInfo(itemID)
+    local _, _, _, _, _, _, subclass, _, equipSlot, _, _ = GetItemInfo(itemID)
     if equipSlot and string.find(equipSlot, "2HWEAPON") then
         if (set:CanTitansGrip()) then
             local polearms = select(7, GetAuctionItemSubClasses(1))
