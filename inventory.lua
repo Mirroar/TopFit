@@ -244,8 +244,12 @@ function TopFit:GetItemInfoTable(item)
             if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
                 enchantBonus = TopFit.enchantIDs[slotID][enchantID].stats
                 if TopFit.enchantIDs[slotID][enchantID].couldNotParse then
-                    local _, enchantLink = GetItemInfo(TopFit.enchantIDs[slotID][enchantID].itemID)
-                    TopFit:Warning("Could not identify enchant "..enchantLink.." of your "..itemLink..". Please tell the author so its stats can be added. Also include the enchant's name to make it easier to add, please.")
+                    enchantItemID = TopFit.enchantIDs[slotID][enchantID].itemID
+                    local _, enchantLink = GetItemInfo(enchantItemID)
+                    if enchantLink then
+                        TopFit:Warning("Could not identify enchant "..(enchantLink or enchantItemID).." of your "..itemLink..". Please tell the author so its stats can be added. Also include the enchant's name to make it easier to add, please.")
+                    else
+                    end
                 end
                 found = true
             end
