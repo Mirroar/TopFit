@@ -288,6 +288,7 @@ function ns.RemoveNonForcedItemsFromItemList(set, itemList)
             for i = #(itemList[slotID]), 1, -1 do
                 local itemTable = ns:GetCachedItem(itemList[slotID][i].itemLink)
                 if not itemTable then
+                    ns:Debug('Reduce: No item info', itemList[slotID][i].itemLink)
                     tremove(itemList[slotID], i)
                 else
                     local found = false
@@ -299,6 +300,7 @@ function ns.RemoveNonForcedItemsFromItemList(set, itemList)
                     end
 
                     if not found then
+                        ns:Debug('Reduce: Not a forced item in a forced slot', itemList[slotID][i].itemLink)
                         tremove(itemList[slotID], i)
                     end
                 end
@@ -310,6 +312,7 @@ function ns.RemoveNonForcedItemsFromItemList(set, itemList)
             -- always remove all 2H-weapons from mainhand
             for i = #(itemList[16]), 1, -1 do
                 if (not ns:IsOnehandedWeapon(set, itemList[16][i].itemLink)) then
+                    ns:Debug('Reduce: Two-handed weapon when offhand is forced', itemList[16][i].itemLink)
                     tremove(itemList[16], i)
                 end
             end
@@ -328,14 +331,17 @@ function ns.RemoveWrongArmorTypesFromItemList(set, itemList)
                     local itemTable = ns:GetCachedItem(itemList[slotID][i].itemLink)
                     if playerClass == "DRUID" or playerClass == "ROGUE" or playerClass == "MONK" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_LEATHER"] then
+                            ns:Debug('Reduce: Wrong armor type', itemList[slotID][i].itemLink)
                             tremove(itemList[slotID], i)
                         end
                     elseif playerClass == "HUNTER" or playerClass == "SHAMAN" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_MAIL"] then
+                            ns:Debug('Reduce: Wrong armor type', itemList[slotID][i].itemLink)
                             tremove(itemList[slotID], i)
                         end
                     elseif playerClass == "WARRIOR" or playerClass == "DEATHKNIGHT" or playerClass == "PALADIN" then
                         if not itemTable or not itemTable.totalBonus["TOPFIT_ARMORTYPE_PLATE"] then
+                            ns:Debug('Reduce: Wrong armor type', itemList[slotID][i].itemLink)
                             tremove(itemList[slotID], i)
                         end
                     end
@@ -351,8 +357,8 @@ function ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
         if #itemList > 0 then
             for i = #itemList, 1, -1 do
                 if itemList[i].isBoE then
+                    ns:Debug('Reduce: Binds on equip', itemList[i].itemLink)
                     tremove(itemList, i)
-                    --itemList[i].reason = itemList[i].reason.."BoE item; "
                 end
             end
         end
@@ -378,17 +384,20 @@ local function RemoveUnusableSkillItems(set, subList)
             itemStats = itemTable and itemTable.totalBonus
         end
         if not itemTable then
+            ns:Debug('Reduce: No item info', subList[i].itemLink)
             tremove(subList, i)
         else
             for statCode, statValue in pairs(itemStats) do
                 local profession = tonumber(string.match(statCode, "^SKILL: (.+)") or "")
                 if profession and (not professionSkills[profession] or professionSkills[profession] < statValue) then
+                    ns:Debug('Reduce: Profession requirements not met', subList[i].itemLink)
                     tremove(subList, i)
                 end
             end
         end
     end
 end
+
 function ns.RemoveUnusableItemsFromItemList(set, subList)
     RemoveUnusableSkillItems(set, subList)
 end
@@ -396,7 +405,8 @@ end
 function ns.RemoveItemsBelowThresholdFromItemList(set, subList)
     if #subList >= 1 then
         for i = #subList, 1, -1 do
-            if (set:GetItemScore(subList[i].itemLink) <= 0) then --TODO: get score from set
+            local score = set:GetItemScore(subList[i].itemLink)
+            if (score <= 0) then
                 -- check caps
                 local hasCap = false
 
@@ -416,8 +426,8 @@ function ns.RemoveItemsBelowThresholdFromItemList(set, subList)
                 end
 
                 if not hasCap then
+                    ns:Debug('Reduce: Non-positive score', score, subList[i].itemLink)
                     tremove(subList, i)
-                    --itemList[i].reason = itemList[i].reason.."score <= 0, no cap contribution and not forced; "
                 end
             end
         end
@@ -435,6 +445,7 @@ function ns.RemoveLowScoreItemsFromItemList(set, subList, numBetterItemsNeeded, 
                 itemStats = itemTable and itemTable.totalBonus
             end
             if not itemTable then
+                ns:Debug('Reduce: No item info', subList[i].itemLink)
                 tremove(subList, i)
             else
                 -- try to see if an item exists which is definitely better
@@ -481,10 +492,8 @@ function ns.RemoveLowScoreItemsFromItemList(set, subList, numBetterItemsNeeded, 
                 end
 
                 if betterItemExists >= numBetterItemsNeeded then
-                    -- remove this item
-                    --ns:Debug(itemTable.itemLink.." removed because "..betterItemExists.." better items found.")
+                    ns:Debug('Reduce: Better items found', betterItemExists, subList[i].itemLink)
                     tremove(subList, i)
-                    --subList[i].reason = subList[i].reason..betterItemExists.." better items found (setCode: "..(ns.setCode or "nil").."; relevantScore: "..(set.calculationData.ignoreCapsForCalculation or "nil").."); "
                 end
             end
         end
