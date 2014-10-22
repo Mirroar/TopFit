@@ -595,6 +595,12 @@ function TopFit:GetEquippableItems(requestedSlotID)
         itemListBySlot[i] = {}
     end
 
+    -- quick fix for headless horsemen rings
+    availableSlots[117362] = {11, 12}
+    availableSlots[117363] = {11, 12}
+    availableSlots[117364] = {11, 12}
+    availableSlots[117365] = {11, 12}
+
     -- find available item ids for each slot
     for slotName, slotID in pairs(TopFit.slots) do
         itemListBySlot[slotID] = {}
