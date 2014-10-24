@@ -116,7 +116,7 @@ function WeightsPlugin.InitializeHeaderActions()
     end)
 
     -- assign a specialization
-    local dropDown = CreateFrame("Frame", "TopFitWeightsPluginSpecDropdown", frame, "UIDropDownMenuTemplate")
+    --[[local dropDown = CreateFrame("Frame", "TopFitWeightsPluginSpecDropdown", frame, "UIDropDownMenuTemplate")
           dropDown:SetPoint("RIGHT", frame, "RIGHT", 0, 0)
           dropDown:SetPoint("TOP", changeName, "TOP", 0, 0)
     _G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
@@ -177,7 +177,7 @@ function WeightsPlugin.InitializeHeaderActions()
         end
     end
 
-    UIDropDownMenu_Initialize(dropDown, dropDown.initialize)
+    UIDropDownMenu_Initialize(dropDown, dropDown.initialize)--]]
 end
 
 function WeightsPlugin.ShowEditLine(statLine, btn)
@@ -533,10 +533,10 @@ function WeightsPlugin:OnShow()
     newStat:SetBackdropColor(1, 0, 0)
 
     -- update selected specialization
-    local spec = set:GetAssociatedSpec()
+    --[[local spec = set:GetAssociatedSpec()
     if spec then
         UIDropDownMenu_SetSelectedValue(TopFitWeightsPluginSpecDropdown, spec)
     else
         UIDropDownMenu_SetSelectedValue(TopFitWeightsPluginSpecDropdown, 'none')
-    end
+    end--]]
 end
