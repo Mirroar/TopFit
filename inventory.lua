@@ -23,6 +23,12 @@ local function tinsertonce(table, data)
     end
 end
 
+ns.enhancementWarnings = {
+    show = false,
+    gems = {},
+    enchants = {},
+}
+
 function TopFit:ClearCache()
     TopFit.itemsCache = {}
     TopFit.scoresCache = {}
@@ -169,7 +175,14 @@ function TopFit:GetItemInfoTable(item)
                 end
             else
                 -- unknown gem, tell the user
-                TopFit:Warning("Could not identify gem "..i.." ("..gem..") of your "..itemLink..". Please tell the author so its stats can be added.")
+                if not ns.enhancementWarnings.gems[gemID] then
+                    ns.enhancementWarnings.show = true
+                    ns.enhancementWarnings.gems[gemID] = {
+                        itemID = gemID,
+                        itemLink = gem,
+                        hostItemLink = itemLink,
+                    }
+                end
             end
         end
     end
@@ -246,9 +259,15 @@ function TopFit:GetItemInfoTable(item)
                 if TopFit.enchantIDs[slotID][enchantID].couldNotParse then
                     enchantItemID = TopFit.enchantIDs[slotID][enchantID].itemID
                     local _, enchantLink = GetItemInfo(enchantItemID)
-                    if enchantLink then
-                        TopFit:Warning("Could not identify enchant "..(enchantLink or enchantItemID).." of your "..itemLink..". Please tell the author so its stats can be added. Also include the enchant's name to make it easier to add, please.")
-                    else
+
+                    if not ns.enhancementWarnings.enchants[enchantID] then
+                        ns.enhancementWarnings.show = true
+                        ns.enhancementWarnings.enchants[enchantID] = {
+                            enchantID = enchantID,
+                            itemID = enchantItemID,
+                            itemLink = enchantLink,
+                            hostItemLink = itemLink,
+                        }
                     end
                 end
                 found = true
@@ -257,7 +276,13 @@ function TopFit:GetItemInfoTable(item)
 
         if not found then
             -- unknown enchant, tell the user
-            TopFit:Warning("Could not identify enchant ID "..enchantID.." of your "..itemLink..". Please tell the author so its stats can be added. Also include the enchant's name to make it easier to add, please.")
+            if not ns.enhancementWarnings.enchants[enchantID] then
+                ns.enhancementWarnings.show = true
+                ns.enhancementWarnings.enchants[enchantID] = {
+                    enchantID = enchantID,
+                    hostItemLink = itemLink,
+                }
+            end
         end
     end
 

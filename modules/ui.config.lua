@@ -511,7 +511,41 @@ function ui.ToggleTopFitConfigFrame()
 		progressText:SetAllPoints()
 		progressText:SetText("0.00%")
 		progressBar.text = progressText
+
+		-- initialize "unknown enhancements" warning
+		local warning = CreateFrame('Button', nil, frame)
+		warning:SetSize(32, 32)
+		warning:SetNormalTexture('Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew')
+		warning:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
+		warning:SetPoint('TOP', sidebarFrame, 'TOPLEFT', 60, -20)
+		warning:SetHitRectInsets(0, -104, 0, 0)
+		local warningText = warning:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		warningText:SetText(ns.locale.unknownEnhancementsNotification)
+		warningText:SetPoint('TOPLEFT', warning, 'TOPRIGHT', 4, 0)
+		warningText:SetSize(100, 32)
+		warningText:SetWordWrap(true)
+		warningText:SetJustifyV('MIDDLE')
+		warningText:SetJustifyH('LEFT')
+		frame.warning = warning
+
+		warning:SetScript('OnEnter', function(frame)
+			GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
+
+			GameTooltip:AddLine('Warning')
+			for _, gem in pairs(ns.enhancementWarnings.gems) do
+				GameTooltip:AddLine(ns.locale.unknownGemNotification:format(gem.itemLink))
+			end
+			for _, enchant in pairs(ns.enhancementWarnings.enchants) do
+				GameTooltip:AddLine(ns.locale.unknownEnchantNotification:format(enchant.itemLink or enchant.itemID or ('enchant ID '..enchant.enchantID), enchant.hostItemLink))
+			end
+
+			GameTooltip:Show()
+		end)
+		warning:SetScript('OnLeave', ns.HideTooltip)
 	end
+
+	-- toggle warning text if necessary
+	frame.warning:SetShown(ns.enhancementWarnings.show)
 
 	if frame:IsShown() then
 		HideUIPanel(frame)

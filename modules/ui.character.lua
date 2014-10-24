@@ -290,17 +290,13 @@ end
 
 function ui.InitializeConfigButton()
     local button = CreateFrame("Button", "TopFitConfigButton", PaperDollItemsFrame)
-    button:SetPoint("RIGHT", "TopFitSetDropDown", "LEFT", 14, 2)
+    button:SetPoint("RIGHT", "TopFitSetDropDown", "LEFT", 14, 3)
     button:SetAlpha(0.8)
-    button:SetSize(16, 16)
-    button.tipText = _G.CHAT_CONFIGURATION
+    button:SetSize(14, 14)
+    button.tipText = ns.locale.OpenOptionsTooltip
     button:SetScript("OnEnter", ns.ShowTooltip)
     button:SetScript("OnLeave", ns.HideTooltip)
-    local confTexture = button:CreateTexture('$parentConfigTexture')
-          confTexture:SetTexture("Interface\\MINIMAP\\ObjectIcons")
-          confTexture:SetTexCoord(1/8, 2/8, 4/8, 5/8)
-          confTexture:SetAllPoints()
-    button:SetNormalTexture(confTexture)
+    button:SetNormalTexture("Interface\\Buttons\\UI-OptionsButton")
     local confHilightTexture = button:CreateTexture('$parentConfigHighlight')
           confHilightTexture:SetTexture("Interface\\Buttons\\UI-Common-MouseHilight")
           confHilightTexture:SetPoint('TOPLEFT', -4, 4)

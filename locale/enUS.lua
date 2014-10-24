@@ -50,6 +50,10 @@ do
     TopFit.locale.NoticeEquipFailure = "Oh. I am sorry, but I must have made a mistake. I cannot equip all the items I chose:"
     TopFit.locale.WelcomeText = "Welcome back, my master!\nIn order to present your equipment as fitting as possible, please select which set I shall look at:"
 
+    TopFit.locale.unknownEnhancementsNotification = "unknown enhancements"
+    TopFit.locale.unknownGemNotification = "Unknown gem: %s"
+    TopFit.locale.unknownEnchantNotification = "Unknown enchant: %s on %s"
+
     -- ------------------------------------------------------------
     --  Options
     -- ------------------------------------------------------------
@@ -122,7 +126,6 @@ do
     TopFit.locale.UtilitiesErrorStringParse = "Error! String could not be parsed."
     TopFit.locale.UtilitiesErrorSetExists = "Error! A set with this name already exists."
     TopFit.locale.UtilitiesNoticeImported = "Import of %s succeeded."
-    TopFit.locale.GearScore = "You rock! Your GearScore is %s!"
 
     TopFit.locale.ItemScan = {}
     TopFit.locale.ItemScan.PercentBonusTrigger = "Equip: Amplifies your Critical Strike damage and healing, Haste, Mastery, and Spirit by "
