@@ -148,6 +148,8 @@ SlashCmdList["TopFit"] = TopFit.ChatCommand
 
 function ns:OnInitialize()
     -- load saved variables
+    local currentVersion = 600
+
     local profileName = GetUnitName('player')..' - '..GetRealmName('player')
     local selectedProfile = profileName
     if TopFitDB then
@@ -160,7 +162,7 @@ function ns:OnInitialize()
     else
         -- initialize saved variables
         TopFitDB = {
-            version = 600,
+            version = currentVersion,
             profileKeys = {
                 [profileName] = profileName
             },
@@ -183,14 +185,18 @@ function ns:OnInitialize()
     ns.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
 
     -- update saved variables from previous versions
-    if not TopFitDB.version then
+    if not TopFitDB.version or TopFitDB.version < 600 then
         -- updating from a pre-6.0-version
         TopFitDB.version = 600
         -- wipe all sets because of incompatibility and major stat changes
         for _, profile in pairs(TopFitDB.profiles) do
             profile.sets = nil
+            profile.defaultUpdateSet = nil
+            profile.defaultUpdateSet2 = nil
         end
     end
+
+    TopFitDB.version = currentVersion
 
     -- check if any set is saved already, if not, create default
     if (not ns.db.profile.sets) then
