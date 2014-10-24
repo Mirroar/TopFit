@@ -1,0 +1,14 @@
+tag v1.0.7
+71a6a7eb54d261e2d57c7b056305a71a5ceaaf56
+Kevin Ballard <kevin@sb.org>
+2014-10-17 00:59:32 -0700
+
+Tagging as v1.0.7
+
+
+--------------------
+
+Kevin Ballard:
+	- Bump TOC for 6.0 and version to 1.0.7
+	- Update item upgrade table for 6.0
+	- Update itemlink parsing for 6.0

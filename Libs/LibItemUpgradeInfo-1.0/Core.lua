@@ -1,12 +1,12 @@
-local MAJOR, MINOR = "LibItemUpgradeInfo-1.0", 3
+local MAJOR, MINOR = "LibItemUpgradeInfo-1.0", 5
 
 local lib = _G.LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
 local upgradeTable = {
 	[  1] = { upgrade = 1, max = 1, ilevel = 8 },
-	[373] = { upgrade = 1, max = 2, ilevel = 4 },
-	[374] = { upgrade = 2, max = 2, ilevel = 8 },
+	[373] = { upgrade = 1, max = 3, ilevel = 4 },
+	[374] = { upgrade = 2, max = 3, ilevel = 8 },
 	[375] = { upgrade = 1, max = 3, ilevel = 4 },
 	[376] = { upgrade = 2, max = 3, ilevel = 4 },
 	[377] = { upgrade = 3, max = 3, ilevel = 4 },
@@ -36,14 +36,19 @@ local upgradeTable = {
 	[470] = { upgrade = 2, max = 4, ilevel = 8 },
 	[471] = { upgrade = 3, max = 4, ilevel = 12 },
 	[472] = { upgrade = 4, max = 4, ilevel = 16 },
-	[491] = { upgrade = 0, max = 2, ilevel = 0 },
-	[492] = { upgrade = 1, max = 2, ilevel = 4 },
-	[493] = { upgrade = 2, max = 2, ilevel = 8 },
-	[494] = { upgrade = 0, max = 4, ilevel = 0 },
-	[495] = { upgrade = 1, max = 4, ilevel = 4 },
-	[496] = { upgrade = 2, max = 4, ilevel = 8 },
-	[497] = { upgrade = 3, max = 4, ilevel = 12 },
-	[498] = { upgrade = 4, max = 4, ilevel = 16 },
+	[491] = { upgrade = 0, max = 4, ilevel = 0 },
+	[492] = { upgrade = 1, max = 4, ilevel = 4 },
+	[493] = { upgrade = 2, max = 4, ilevel = 8 },
+	[494] = { upgrade = 0, max = 6, ilevel = 0 },
+	[495] = { upgrade = 1, max = 6, ilevel = 4 },
+	[496] = { upgrade = 2, max = 6, ilevel = 8 },
+	[497] = { upgrade = 3, max = 6, ilevel = 12 },
+	[498] = { upgrade = 4, max = 6, ilevel = 16 },
+	[503] = { upgrade = 3, max = 3, ilevel = 1 },
+	[504] = { upgrade = 3, max = 4, ilevel = 12 },
+	[505] = { upgrade = 4, max = 4, ilevel = 16 },
+	[506] = { upgrade = 5, max = 6, ilevel = 20 },
+	[507] = { upgrade = 6, max = 6, ilevel = 24 },
 }
 do
 	local stub = { ilevel = 0 }
@@ -61,7 +66,7 @@ end
 --   Number - The upgrade ID (possibly 0), or nil if the input is invalid or
 --            does not contain upgrade info
 function lib:GetUpgradeID(itemString)
-	return tonumber(itemString:match("item:%d+:%d+:%d+:%d+:%d+:%d+:%-?%d+:%-?%d+:%d+:%d+:(%d+)"))
+	return tonumber(itemString:match("item:%d+:%d+:%d+:%d+:%d+:%d+:%-?%d+:%-?%d+:%d+:(%d+)"))
 end
 
 -- GetCurrentUpgrade(id)
@@ -214,7 +219,9 @@ local function printDiffTable(t1, t2)
 end
 
 -- Scans the first 10000 upgrade IDs
- do
+-- Run this with /run LibStub:GetLibrary("LibItemUpgradeInfo-1.0"):_CheckUpgradeTable()
+-- If you don't have Aspirant's Staff of Harmony cached it may error out, just try again.
+do
 	local debugFrame
 	local worker
 	local newTable
@@ -254,7 +261,7 @@ end
 			debugTooltip:SetOwner(_G.WorldFrame, "ANCHOR_NONE")
 		end
 		newTable = {}
-		local itemLink = "|cff0070dd|Hitem:89551:0:0:0:0:0:0:0:90:0:0|h[Aspirant's Staff of Harmony]|h|r"
+		local itemLink = "|cff0070dd|Hitem:89551:0:0:0:0:0:0:0:90:0|h[Aspirant's Staff of Harmony]|h|r"
 		local itemLevel = select(4, _G.GetItemInfo(itemLink))
 		assert(itemLevel, "Can't find item level for itemLink")
 		local count, max, batchsize = 0, 10000, 200
