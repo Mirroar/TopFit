@@ -100,7 +100,7 @@ local function ButtonOnEnter(self)
 	if self.selected then return end
 	if self.tooltip and self.tooltip ~= "" then
 		GameTooltip:SetOwner(self, "ANCHOR_TOP")
-		GameTooltip:AddLine(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+		GameTooltip:AddLine(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, true)
 		GameTooltip:Show()
 	end
 end
@@ -364,7 +364,7 @@ function ui.ToggleTopFitConfigFrame()
 		LoadAddOn("Blizzard_TalentUI") -- won't double init
 
 		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
-		frame:EnableMouse()
+		frame:EnableMouse(true)
 		-- TalentFrame size: 646, 468
 		-- PVEFrame width: 563, 424
 		frame:SetWidth(646)
