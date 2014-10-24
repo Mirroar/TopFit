@@ -542,6 +542,10 @@ function ui.ToggleTopFitConfigFrame()
 			GameTooltip:Show()
 		end)
 		warning:SetScript('OnLeave', ns.HideTooltip)
+
+		--FIXME: readjust roleName until Spec is displayed below it
+		frame.Inset.spellsScroll.child.roleName:ClearAllPoints()
+		frame.Inset.spellsScroll.child.roleName:SetPoint("LEFT", frame.Inset.spellsScroll.child.roleIcon, "RIGHT", 3, 0)
 	end
 
 	-- toggle warning text if necessary
