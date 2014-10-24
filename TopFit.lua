@@ -160,6 +160,7 @@ function ns:OnInitialize()
     else
         -- initialize saved variables
         TopFitDB = {
+            version = 600,
             profileKeys = {
                 [profileName] = profileName
             },
@@ -180,6 +181,16 @@ function ns:OnInitialize()
 
     -- create gametooltip for scanning
     ns.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
+
+    -- update saved variables from previous versions
+    if not TopFitDB.version then
+        -- updating from a pre-6.0-version
+        TopFitDB.version = 600
+        -- wipe all sets because of incompatibility and major stat changes
+        for _, profile in pairs(TopFitDB.profiles) do
+            profile.sets = nil
+        end
+    end
 
     -- check if any set is saved already, if not, create default
     if (not ns.db.profile.sets) then
