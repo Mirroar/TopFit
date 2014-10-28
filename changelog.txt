@@ -1,6 +1,17 @@
 Changelog for TopFit
 ====================
 
+6.0v1 - 2014/10/24
+  - updated for patch 6.0.2
+  - wipe saved sets to account for numerous stat changes
+  - removed reforging
+  - added new stats
+  - updated enchant and gem data to account for item squish
+  - updated presets to current wowhead.com scales
+  - missing enchants and gems no longer generate a chat message and are instead shown in the config frame
+  - no longer show set comparison values for bags
+  - no longer use LibItemUpgradeInfo since API now provides correct stats
+
 5.3v1 - 2013/07/03
   - fixed +80 Stats enchant
   - removed Ace and other Libraries we were hardly using
