@@ -280,7 +280,7 @@ function ui.Update()
 	frame:SetVerticalScroll(0)
 
 	local panel = ui.GetActivePanel()
-	if panel and panel.OnUpdate then
+	if panel and panel.OnUpdate and not ns.IsEmpty(ns.db.profile.sets) then
 		panel:OnUpdate()
 	end
 end

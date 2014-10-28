@@ -471,7 +471,7 @@ function WeightsPlugin:InitializeUI()
 end
 
 local function SortStats(a, b)
-    local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
+    local set = TopFit.db.profile.sets[TopFit.selectedSet]
     local cappedA, cappedB = set.caps[a] and set.caps[a].value or 0, set.caps[b] and set.caps[b].value or 0
     local weightA, weightB = set.weights[a] or 0, set.weights[b] or 0
 

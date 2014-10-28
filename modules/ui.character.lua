@@ -79,7 +79,7 @@ function ui.InitializeSetDropdown()
     local anchorFrame = _G["CharacterModelFrame"]
     local dropDown = CreateFrame("Frame", "TopFitSetDropDown", PaperDollItemsFrame, "UIDropDownMenuTemplate")
           dropDown:SetPoint("TOP", anchorFrame, "TOP", 0, 17)
-          dropDown:SetFrameStrata( anchorFrame:GetFrameStrata() )
+          dropDown:SetFrameStrata(anchorFrame:GetFrameStrata())
     _G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
     UIDropDownMenu_SetWidth(dropDown, anchorFrame:GetWidth() - 100)
     UIDropDownMenu_JustifyText(dropDown, "LEFT")
@@ -110,13 +110,13 @@ function ui.InitializeSetDropdown()
         local info = UIDropDownMenu_CreateInfo()
 
         if level == 1 then
-            local selected = UIDropDownMenu_GetSelectedValue(self)
-
-            info.text         = ns.locale.SelectSetDropDown
-            info.value        = 'selectsettitle'
-            info.isTitle      = true
-            info.notCheckable = true
-            UIDropDownMenu_AddButton(info, level)
+            if not ns.IsEmpty(ns.db.profile.sets) then
+                info.text         = ns.locale.SelectSetDropDown
+                info.value        = 'selectsettitle'
+                info.isTitle      = true
+                info.notCheckable = true
+                UIDropDownMenu_AddButton(info, level)
+            end
 
             info.hasArrow     = true
             info.isTitle      = nil
@@ -124,6 +124,7 @@ function ui.InitializeSetDropdown()
             info.notCheckable = nil
 
             -- list all existing sets
+            local selected = UIDropDownMenu_GetSelectedValue(self)
             info.func = DropDownSelectSet
             for k, v in pairs(ns.db.profile.sets) do
                 info.text     = v.name
@@ -338,7 +339,7 @@ hooksecurefunc("ToggleCharacter", ui.Initialize)
 local forcedItemsInSlot = {}
 local function UpdateForcedSlotIndicator(slotButton)
     local slotID = slotButton:GetID()
-    if not slotButton or not slotID then return end
+    if not slotButton or not slotID or not ns.selectedSet then return end
     wipe(forcedItemsInSlot)
 
     local set = ns.GetSetByID(ns.selectedSet, true)

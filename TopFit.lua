@@ -115,6 +115,11 @@ function ns:JoinTables(...)
     return result
 end
 
+function ns.IsEmpty(table)
+    if table and next(table) then return false end
+    return true
+end
+
 function ns.ShowTooltip(frame)
     GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
     if frame.tipText then
@@ -680,7 +685,7 @@ end
 
 -- get a set object from the database
 function ns.GetSetByID(setID, useGlobalInstance)
-    assert(type(ns.db.profile.sets[setID]) ~= nil, "GetSetByID: invalid set ID given")
+    assert(setID and type(ns.db.profile.sets[setID]) ~= nil, "GetSetByID: invalid set ID given")
 
     if not useGlobalInstance then
         return ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
