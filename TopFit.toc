@@ -11,7 +11,6 @@
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 Libs\tekKonfig\tekKonfig.xml
-Libs\LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
 Libs\Unfit-1.0\Unfit-1.0.lua
 
 # locales
@@ -29,9 +28,9 @@ plugin.class.lua
 # plugins: things displayed in config panel
 modules\weightsplugin.class.lua
 modules\importplugin.class.lua
-# modules\optimizerplugin.class.lua
-# modules\itemstatsplugin.class.lua
-# modules\shoppinglist.lua
+modules\optimizerplugin.class.lua
+modules\itemstatsplugin.class.lua
+modules\shoppinglist.lua
 modules\virtual_items.lua
 
 inventory.lua
