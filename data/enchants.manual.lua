@@ -15,274 +15,78 @@ local OFFHAND  = 17
 
 
 
--- handle enchants that could not be parsed completely, but have no applicable stats anyway
+-- handle enchants that could not be parsed completely and have no applicable stats anyway
 ns.enchantIDs[  BACK][2621].couldNotParse = nil -- Enchant Cloak - Subtlety
 ns.enchantIDs[WEAPON][4443].couldNotParse = nil -- Enchant Weapon - Elemental Force
 ns.enchantIDs[WEAPON][4445].couldNotParse = nil -- Enchant Weapon - Colossus
 ns.enchantIDs[WEAPON][4066].couldNotParse = nil -- Enchant Weapon - Mending
-
-
-
--- handle enchants with special effects
 ns.enchantIDs[WEAPON][5331].couldNotParse = nil -- Enchant Weapon - Mark of the Shattered Hand
-ns.enchantIDs[WEAPON][5331].stats = {ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 350} --Deals 1500 Bleed damage, plus an additional 750 Bleed damage every 1 sec for 6 sec.; 3.5*Haste RPPM +USP - probably weaker than 350 DPS because it does not benefit from weapon skills
+ns.enchantIDs[WEAPON][4067].couldNotParse = nil -- Enchant Weapon - Avalanche
+ns.enchantIDs[WEAPON][4074].couldNotParse = nil -- Enchant Weapon - Elemental Slayer
+ns.enchantIDs[WEAPON][3239].couldNotParse = nil -- Enchant Weapon - Icebreaker
+ns.enchantIDs[WEAPON][3241].couldNotParse = nil -- Enchant Weapon - Lifeward
+ns.enchantIDs[WEAPON][3247].couldNotParse = nil -- Enchant 2H Weapon - Scourgebane
+ns.enchantIDs[WEAPON][3251].couldNotParse = nil -- Enchant Weapon - Giant Slayer
+ns.enchantIDs[WEAPON][3273].couldNotParse = nil -- Enchant Weapon - Deathfrost
+ns.enchantIDs[WEAPON][2671].couldNotParse = nil -- Enchant Weapon - Sunfire
+ns.enchantIDs[WEAPON][2672].couldNotParse = nil -- Enchant Weapon - Soulfrost
+ns.enchantIDs[WEAPON][2674].couldNotParse = nil -- Enchant Weapon - Spellsurge
+ns.enchantIDs[WEAPON][2675].couldNotParse = nil -- Enchant Weapon - Battlemaster
+ns.enchantIDs[WEAPON][ 249].couldNotParse = nil -- Enchant Weapon - Minor Beastslayer
+ns.enchantIDs[WEAPON][ 250].couldNotParse = nil -- Enchant Weapon - Minor Striking
+ns.enchantIDs[WEAPON][ 853].couldNotParse = nil -- Enchant Weapon - Lesser Beastslayer
+ns.enchantIDs[WEAPON][ 854].couldNotParse = nil -- Enchant Weapon - Lesser Elemental Slayer
+ns.enchantIDs[WEAPON][ 803].couldNotParse = nil -- Enchant Weapon - Fiery Weapon
+ns.enchantIDs[WEAPON][ 912].couldNotParse = nil -- Enchant Weapon - Demonslaying
+ns.enchantIDs[WEAPON][1894].couldNotParse = nil -- Enchant Weapon - Icy Chill
+ns.enchantIDs[WEAPON][1898].couldNotParse = nil -- Enchant Weapon - Lifestealing
+ns.enchantIDs[WEAPON][1899].couldNotParse = nil -- Enchant Weapon - Unholy Weapon
+ns.enchantIDs[WEAPON][2443].couldNotParse = nil -- Enchant Weapon - Winter's Might
+ns.enchantIDs[WEAPON][3869].couldNotParse = nil -- Enchant Weapon - Blade Ward -- this grants parry, but difficult to say how much on average
+ns.enchantIDs[WEAPON][3870].couldNotParse = nil -- Enchant Weapon - Blood Draining
 
+-- handle enchants that could not be parsed automatically but still have useful stats
 ns.enchantIDs[WEAPON][4441].couldNotParse = nil -- Enchant Weapon - Windsong
 ns.enchantIDs[WEAPON][4441].stats = {ITEM_MOD_CRIT_RATING_SHORT = 10, ITEM_MOD_HASTE_RATING_SHORT = 10, ITEM_MOD_MASTERY_RATING_SHORT = 10} -- sometimes increase your critical strike, haste, or mastery by 75 for 12 - 2 RPPM
 
 ns.enchantIDs[WEAPON][4444].couldNotParse = nil -- Enchant Weapon - Dancing Steel
-ns.enchantIDs[WEAPON][4444].stats = {ITEM_MOD_AGILITY_SHORT = 47.38, ITEM_MOD_STRENGTH_SHORT = 47.38}
--- sometimes increase your Strength or Agility by 103 for 12 sec. Your highest stat is always chosen. - 2.3 RPPM
+ns.enchantIDs[WEAPON][4444].stats = {ITEM_MOD_AGILITY_SHORT = 47.38, ITEM_MOD_STRENGTH_SHORT = 47.38} -- sometimes increase your Strength or Agility by 103 for 12 sec. Your highest stat is always chosen. - 2.3 RPPM
 
+ns.enchantIDs[WEAPON][5125].couldNotParse = nil -- Enchant Weapon - Bloody Dancing Steel
+ns.enchantIDs[WEAPON][5125].stats = {ITEM_MOD_AGILITY_SHORT = 47.38, ITEM_MOD_STRENGTH_SHORT = 47.38} -- sometimes increase your Strength or Agility by 103 for 12 sec. Your highest stat is always chosen. - 2.3 RPPM
 
+ns.enchantIDs[WEAPON][5337].couldNotParse = nil -- Enchant Weapon - Mark of Warsong
+ns.enchantIDs[WEAPON][5337].stats = {ITEM_MOD_HASTE_RATING_SHORT = 210.83} -- sometimes increase haste by (100 * 10), diminishing by 10% every 2 sec. - 1.15 RPPM
+
+ns.enchantIDs[WEAPON][5355].couldNotParse = nil -- Enchant Weapon - Glory of Warsong
+ns.enchantIDs[WEAPON][5355].stats = {ITEM_MOD_HASTE_RATING_SHORT = 210.83} -- sometimes increase haste by (100 * 10), diminishing by 10% every 2 sec. - 1.15 RPPM
+
+ns.enchantIDs[WEAPON][5334].couldNotParse = nil -- Enchant Weapon - Mark of the Frostwolf
+ns.enchantIDs[WEAPON][5334].stats = {ITEM_MOD_CR_MULTISTRIKE_SHORT = 150} -- sometimes increases multistrike by 500 for 6 sec - 3 RPPM +USP
+
+ns.enchantIDs[WEAPON][5356].couldNotParse = nil -- Enchant Weapon - Glory of the Frostwolf
+ns.enchantIDs[WEAPON][5356].stats = {ITEM_MOD_CR_MULTISTRIKE_SHORT = 150} -- sometimes increases multistrike by 500 for 6 sec - 3 RPPM +USP
+
+ns.enchantIDs[WEAPON][3225].couldNotParse = nil -- Enchant Weapon - Glory of the Frostwolf
+ns.enchantIDs[WEAPON][3225].stats = {ITEM_MOD_CRIT_RATING_SHORT = 15} -- occasionally grant you 60 critical strike - assuming 15s and 1PPM
+
+ns.enchantIDs[SHOULDER][2483].couldNotParse = nil -- Flame Mantle of the Dawn
+ns.enchantIDs[SHOULDER][2483].stats = {RESISTANCE2_NAME = 5}
+
+ns.enchantIDs[SHOULDER][2484].couldNotParse = nil -- Frost Mantle of the Dawn
+ns.enchantIDs[SHOULDER][2484].stats = {RESISTANCE4_NAME = 5}
+
+ns.enchantIDs[SHOULDER][2485].couldNotParse = nil -- Arcane Mantle of the Dawn
+ns.enchantIDs[SHOULDER][2485].stats = {RESISTANCE6_NAME = 5}
+
+ns.enchantIDs[SHOULDER][2486].couldNotParse = nil -- Nature Mantle of the Dawn
+ns.enchantIDs[SHOULDER][2486].stats = {RESISTANCE3_NAME = 5}
+
+ns.enchantIDs[SHOULDER][2487].couldNotParse = nil -- Shadow Mantle of the Dawn
+ns.enchantIDs[SHOULDER][2487].stats = {RESISTANCE5_NAME = 5}
 
 --[[
 
-
-
-    [5337] = { -- Enchant Weapon - Mark of Warsong
-      itemID = 112164,
-      spellID = 159671,
-      couldNotParse = true,
-      stats = {},
-    },
-    [5334] = { -- Enchant Weapon - Mark of the Frostwolf
-      itemID = 112165,
-      spellID = 159672,
-      couldNotParse = true,
-      stats = {},
-    },
-    [5355] = { -- Enchant Weapon - Glory of the Warsong
-      itemID = 115977,
-      spellID = 170630,
-      couldNotParse = true,
-      stats = {},
-    },
-    [5356] = { -- Enchant Weapon - Glory of the Frostwolf
-      itemID = 115978,
-      spellID = 170631,
-      couldNotParse = true,
-      stats = {},
-    },
-    [5125] = { -- Enchant Weapon - Bloody Dancing Steel
-      itemID = 98163,
-      spellID = 142468,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [4067] = { -- Enchant Weapon - Avalanche
-      itemID = 52748,
-      spellID = 74197,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [4074] = { -- Enchant Weapon - Elemental Slayer
-      itemID = 52755,
-      spellID = 74211,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3225] = { -- Enchant Weapon - Executioner
-      itemID = 38948,
-      spellID = 42974,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-
-    [3239] = { -- Enchant Weapon - Icebreaker
-      itemID = 38965,
-      spellID = 44524,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3241] = { -- Enchant Weapon - Lifeward
-      itemID = 38972,
-      spellID = 44576,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3247] = { -- Enchant 2H Weapon - Scourgebane
-      itemID = 38981,
-      spellID = 44595,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3251] = { -- Enchant Weapon - Giant Slayer
-      itemID = 38988,
-      spellID = 44621,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3273] = { -- Enchant Weapon - Deathfrost
-      itemID = 38998,
-      spellID = 46578,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2671] = { -- Enchant Weapon - Sunfire
-      itemID = 38923,
-      spellID = 27981,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2672] = { -- Enchant Weapon - Soulfrost
-      itemID = 38924,
-      spellID = 27982,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2674] = { -- Enchant Weapon - Spellsurge
-      itemID = 38926,
-      spellID = 28003,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2675] = { -- Enchant Weapon - Battlemaster
-      itemID = 38927,
-      spellID = 28004,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [249] = { -- Enchant Weapon - Minor Beastslayer
-      itemID = 38779,
-      spellID = 7786,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [250] = { -- Enchant Weapon - Minor Striking
-      itemID = 38780,
-      spellID = 7788,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [853] = { -- Enchant Weapon - Lesser Beastslayer
-      itemID = 38813,
-      spellID = 13653,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [854] = { -- Enchant Weapon - Lesser Elemental Slayer
-      itemID = 38814,
-      spellID = 13655,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [803] = { -- Enchant Weapon - Fiery Weapon
-      itemID = 38838,
-      spellID = 13898,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [912] = { -- Enchant Weapon - Demonslaying
-      itemID = 38840,
-      spellID = 13915,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [1894] = { -- Enchant Weapon - Icy Chill
-      itemID = 38868,
-      spellID = 20029,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [1898] = { -- Enchant Weapon - Lifestealing
-      itemID = 38871,
-      spellID = 20032,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [1899] = { -- Enchant Weapon - Unholy Weapon
-      itemID = 38872,
-      spellID = 20033,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2443] = { -- Enchant Weapon - Winter's Might
-      itemID = 38876,
-      spellID = 21931,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3869] = { -- Enchant Weapon - Blade Ward
-      itemID = 46026,
-      spellID = 64441,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3870] = { -- Enchant Weapon - Blood Draining
-      itemID = 46098,
-      spellID = 64579,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-
-
-
-
-
-
-
-
-    [2483] = { -- Flame Mantle of the Dawn
-      itemID = 18169,
-      spellID = 22593,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2484] = { -- Frost Mantle of the Dawn
-      itemID = 18170,
-      spellID = 22594,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2485] = { -- Arcane Mantle of the Dawn
-      itemID = 18171,
-      spellID = 22598,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2486] = { -- Nature Mantle of the Dawn
-      itemID = 18172,
-      spellID = 22597,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2487] = { -- Shadow Mantle of the Dawn
-      itemID = 18173,
-      spellID = 22596,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
 
 
 
@@ -362,6 +166,10 @@ ns.enchantIDs[WEAPON][4444].stats = {ITEM_MOD_AGILITY_SHORT = 47.38, ITEM_MOD_ST
       stats = {},
       requirements = {["max_ilevel"] = 600,},
     },
+
+
+
+
     [4428] = { -- Enchant Boots - Blurred Speed
       itemID = 74717,
       spellID = 104409,
@@ -376,14 +184,6 @@ ns.enchantIDs[WEAPON][4444].stats = {ITEM_MOD_AGILITY_SHORT = 47.38, ITEM_MOD_ST
       stats = {},
       requirements = {["max_ilevel"] = 600,},
     },
-
-
-
-
-
-
-
-
     [2658] = { -- Enchant Boots - Surefooted
       itemID = 38910,
       spellID = 27954,
