@@ -34,7 +34,7 @@ function ns:SetSelectedSet(setID)
         end
     end
 
-    ns.ui.Update()
+    ns.ui.Update(true)
 end
 
 function TopFit:StoppedCalculation()

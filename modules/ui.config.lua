@@ -286,11 +286,15 @@ function ui.ShowPanel(panel)
 	DisplayScrollFramePanel(_G["TopFitConfigFrameInsetSpellScrollFrame"], panel)
 end
 
-function ui.Update()
+function ui.Update(rebuildPanel)
 	local frame = _G["TopFitConfigFrameInsetSpellScrollFrame"]
 	if not frame then return end
 
 	ui.UpdateSetTabs()
+
+	if rebuildPanel and TopFitConfigFrame.activePanel then
+		ui.ShowPanel(TopFitConfigFrame.activePanel)
+	end
 
 	-- ScrollFrame_OnScrollRangeChanged(frame, 0, 0)
 	frame:SetVerticalScroll(0)
