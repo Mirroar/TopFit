@@ -22,18 +22,15 @@ function ns:SetSelectedSet(setID)
     end
 
     ns.selectedSet = setID
-    if not setID then
-        if TopFitSidebarCalculateButton then
+    if TopFitSetDropDown then
+        UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, ns.selectedSet)
+        UIDropDownMenu_SetText(TopFitSetDropDown, ns.selectedSet and ns.db.profile.sets[ns.selectedSet].name or ns.locale.NoSetTitle)
+    end
+    if TopFitSidebarCalculateButton then
+        if not setID then
             TopFitSidebarCalculateButton:Disable()
-        end
-    else
-        if TopFitSidebarCalculateButton then
+        else
             TopFitSidebarCalculateButton:Enable()
-        end
-        -- ns:SetCurrentCombinationFromEquipmentSet(setID)
-        if TopFitSetDropDown then
-            UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, ns.selectedSet)
-            UIDropDownMenu_SetText(TopFitSetDropDown, ns.db.profile.sets[ns.selectedSet].name)
         end
     end
 
