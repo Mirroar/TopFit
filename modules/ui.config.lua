@@ -362,7 +362,7 @@ function ui.UpdateSetTabs()
 		tab.tooltip = RED_FONT_COLOR_CODE..EQUIPMENT_SETS_TOO_MANY
 	else
 		tab:GetNormalTexture():SetDesaturated(false)
-		tab.tooltip = GREEN_FONT_COLOR_CODE..ADD_ANOTHER
+		tab.tooltip = ns.locale.AddSetTab
 	end
 	tab:SetChecked(nil)
 	tab:Show()

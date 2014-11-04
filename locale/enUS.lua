@@ -22,6 +22,7 @@ do
     TopFit.locale.EditSetNameTooltip = "Click here to edit this set's name!"
     TopFit.locale.SelectSetDropDown = "Select / Modify Set"
     TopFit.locale.AddSetDropDown = "Add New Set"
+    TopFit.locale.AddSetTab = GREEN_FONT_COLOR_CODE.."Add new set"..FONT_COLOR_CODE_CLOSE.."\n\nLeft click to add an empty set and start customizing it.\n\nRight click to add a set based on a preset for your class."
     TopFit.locale.ModifySetSelectText = "Select"
     TopFit.locale.ModifySetRenameText = "Rename"
     TopFit.locale.ModifySetDeleteText = "Delete"
