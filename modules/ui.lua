@@ -21,12 +21,12 @@ function ns:SetSelectedSet(setID)
         end
     end
 
+    ns.selectedSet = setID
     if not setID then
         if TopFitSidebarCalculateButton then
             TopFitSidebarCalculateButton:Disable()
         end
     else
-        ns.selectedSet = setID
         if TopFitSidebarCalculateButton then
             TopFitSidebarCalculateButton:Enable()
         end
