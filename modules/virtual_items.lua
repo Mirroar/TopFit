@@ -96,7 +96,6 @@ end
 
 function VirtualItems:InitializeUI()
     local frame = self:GetConfigPanel()
-    local set = ns.GetSetByID(ns.selectedSet, true)
 
     local info = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
     info:SetJustifyH("LEFT")
@@ -107,10 +106,7 @@ function VirtualItems:InitializeUI()
 
     -- option for disabling virtual items calculation
     local enable = LibStub("tekKonfig-Checkbox").new(frame, nil, TopFit.locale.IncludeVI, "TOPLEFT", info, "BOTTOMLEFT", 10, -4)
-        enable.tiptext = TopFit.locale.IncludeVITooltip
-    if set then
-        enable:SetChecked(set:GetUseVirtualItems())
-    end
+    enable.tiptext = TopFit.locale.IncludeVITooltip
     local checksound = enable:GetScript("OnClick")
     enable:SetScript("OnClick", function(self)
         local set = ns.GetSetByID(ns.selectedSet, true)
@@ -200,4 +196,11 @@ end
 
 function VirtualItems:OnShow()
     self:RefreshItems()
+
+    -- update checkboxes
+    local frame = self:GetConfigPanel()
+    if ns.selectedSet then
+        local set = ns.GetSetByID(ns.selectedSet, true)
+        frame.includeVirtualItemsCheckButton:SetChecked(set:GetUseVirtualItems())
+    end
 end
