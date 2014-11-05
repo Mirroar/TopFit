@@ -972,13 +972,13 @@ ns.enchantIDs = {
     [4805] = { -- Greater Ox Horn Inscription
       itemID = 87560,
       spellID = 121194,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 15,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 15,["ITEM_MOD_DODGE_RATING_SHORT"] = 5,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4912] = { -- Secret Ox Horn Inscription
       itemID = 87581,
       spellID = 113048,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 20,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 20,["ITEM_MOD_DODGE_RATING_SHORT"] = 5,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4915] = { -- Secret Crane Wing Inscription
@@ -1002,7 +1002,7 @@ ns.enchantIDs = {
     [4910] = { -- Ox Horn Inscription
       itemID = 87577,
       spellID = 127012,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 12,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 12,["ITEM_MOD_DODGE_RATING_SHORT"] = 5,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4909] = { -- Crane Wing Inscription
