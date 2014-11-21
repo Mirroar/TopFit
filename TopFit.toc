@@ -49,6 +49,7 @@ modules\utilities.lua
 
 data\gems.lua
 data\enchants.lua
+data\enchants.manual.lua
 data\presets.lua
 
 tests.lua
