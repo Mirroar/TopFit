@@ -451,8 +451,8 @@ end
 -- used by tooltip to decide which item slots to compare to
 local compareToSlots = {}
 function TopFit:GetEquipLocationsByInvType(itemEquipLoc, createTable)
-	local slots = createTable and {} or compareToSlots
-	wipe(slots)
+    local slots = createTable and {} or compareToSlots
+    wipe(slots)
 
     if itemEquipLoc == "INVTYPE_HEAD" then
         tinsert(slots, 1)
@@ -619,12 +619,6 @@ function TopFit:GetEquippableItems(requestedSlotID)
     for i = 1, 20 do
         itemListBySlot[i] = {}
     end
-
-    -- quick fix for headless horsemen rings
-    availableSlots[117362] = {11, 12}
-    availableSlots[117363] = {11, 12}
-    availableSlots[117364] = {11, 12}
-    availableSlots[117365] = {11, 12}
 
     -- find available item ids for each slot
     for slotName, slotID in pairs(TopFit.slots) do
