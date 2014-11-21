@@ -281,6 +281,7 @@ function ns:OnInitialize()
             "ITEM_MOD_DODGE_RATING_SHORT",
             "ITEM_MOD_PARRY_RATING_SHORT",
             "RESISTANCE0_NAME",                   -- armor
+            "ITEM_MOD_EXTRA_ARMOR_SHORT",
             "ITEM_MOD_RESILIENCE_RATING_SHORT",
         },
         [STAT_CATEGORY_GENERAL] = {
