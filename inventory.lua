@@ -768,3 +768,101 @@ function TopFit:IsOnehandedWeapon(set, itemID)
     end
     return true
 end
+
+
+-- --------------------------------------------------------
+--  Add missing items to Blizzard's GetInventoryItemsForSlot
+-- --------------------------------------------------------
+local Unfit = LibStub('Unfit-1.0')
+local ItemLocations = LibStub('LibItemLocations')
+local equipLocation = {
+	INVTYPE_HEAD 			= 1,
+	INVTYPE_NECK 			= 2,
+	INVTYPE_SHOULDER 		= 3,
+	INVTYPE_BODY 			= 4,
+	INVTYPE_CHEST 			= 5,
+	INVTYPE_ROBE 			= 5,
+	INVTYPE_WAIST 			= 6,
+	INVTYPE_LEGS 			= 7,
+	INVTYPE_FEET 			= 8,
+	INVTYPE_WRIST 			= 9,
+	INVTYPE_HAND 			= 10,
+	INVTYPE_FINGER 			= 11,
+	INVTYPE_TRINKET 		= 13,
+	INVTYPE_CLOAK 			= 15,
+	INVTYPE_WEAPON 			= 16,
+	INVTYPE_SHIELD 			= 17,
+	INVTYPE_2HWEAPON 		= 16,
+	INVTYPE_RANGED 			= 16,
+	INVTYPE_RANGEDRIGHT 	= 16,
+	INVTYPE_WEAPONMAINHAND 	= 16,
+	INVTYPE_WEAPONOFFHAND 	= 17,
+	INVTYPE_HOLDABLE 		= 17,
+	INVTYPE_TABARD 			= 19,
+}
+-- local scanTooltip = CreateFrame('GameTooltip', self:GetName()..'ScanTooltip', UIParent, 'GameTooltipTemplate')
+local scanTooltip = TopFit.scanTooltip
+local function PassesTooltipRequirements(link)
+	if UnitLevel('player') < MAX_PLAYER_LEVEL_TABLE[#MAX_PLAYER_LEVEL_TABLE] then
+		scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+		scanTooltip:SetHyperlink(link)
+		local numLines = scanTooltip:NumLines()
+		if numLines < 1 then return false end
+		for line = 1, numLines do
+			-- if tooltip contains red text lines, item is unusable
+			local fontString = _G[scanTooltip:GetName()..'TextLeft'..line]
+			local r, g, b, a = fontString:GetTextColor()
+			if math.abs(r*255 - 255) < 1 and math.abs(g*255 - 32) < 1 and math.abs(b*255 - 32) < 1 and math.abs(a*255 - 255) < 1 then
+				return false
+			end
+			fontString = _G[scanTooltip:GetName()..'TextRight'..line]
+			r, g, b, a = fontString:GetTextColor()
+			if math.abs(r*255 - 255) < 1 and math.abs(g*255 - 32) < 1 and math.abs(b*255 - 32) < 1 and math.abs(a*255 - 255) < 1 then
+				return false
+			end
+		end
+		return true
+	end
+	return false
+end
+local function AddEquippableItem(useTable, inventorySlot, container, slot)
+	local itemID = GetContainerItemID(container, slot)
+	local link   = GetContainerItemLink(container, slot)
+	if not link then return end -- even when there's an id, without the link we can't do anything
+
+	local isBags   = container >= _G.BACKPACK_CONTAINER and container <= _G.NUM_BAG_SLOTS+_G.NUM_BANKBAGSLOTS
+	local isBank   = container == _G.BANK_CONTAINER or (isBags and container > _G.NUM_BAG_SLOTS)
+	local isPlayer = not isBank
+	if not isBags then container = nil end
+
+	local location = ItemLocations:PackInventoryLocation(container, slot, isPlayer, isBank, isBags)
+
+	local _, _, _, _, _, _, subClass, _, equipSlot = GetItemInfo(link)
+	if inventorySlot == 14 then inventorySlot = 13 end -- trinket
+	if inventorySlot == 12 then inventorySlot = 11 end -- ring
+	-- maybe also use IsUsableItem()?
+	if not useTable[location] and equipLocation[equipSlot] == inventorySlot
+		and not Unfit:IsClassUnusable(subClass, equipSlot) and PassesTooltipRequirements(link) then
+		-- print('item', link, 'missing from item list', container, slot, '/', isPlayer, isBank, isBags)
+		useTable[location] = itemID
+	end
+end
+hooksecurefunc('GetInventoryItemsForSlot', function(inventorySlot, useTable, transmog)
+	-- scan bag containers
+	for container = 1, _G.NUM_BAG_SLOTS do
+		for slot = 1, GetContainerNumSlots(container) or 0 do
+			AddEquippableItem(useTable, inventorySlot, container, slot)
+		end
+	end
+	-- scan bank main frame (data is only available when bank is opened)
+	for slot = 1, _G.NUM_BANKGENERIC_SLOTS do
+		AddEquippableItem(useTable, inventorySlot, _G.BANK_CONTAINER, slot)
+	end
+	-- scan bank containers
+	for bankContainer = 1, _G.NUM_BANKBAGSLOTS do
+		local container = _G.ITEM_INVENTORY_BANK_BAG_OFFSET + bankContainer
+		for slot = 1, GetContainerNumSlots(container) or 0 do
+			AddEquippableItem(useTable, inventorySlot, container, slot)
+		end
+	end
+end)
