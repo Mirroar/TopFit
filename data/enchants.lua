@@ -159,13 +159,13 @@ ns.enchantIDs = {
     [4421] = { -- Enchant Cloak - Accuracy
       itemID = 74710,
       spellID = 104398,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 12,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 13,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4422] = { -- Enchant Cloak - Greater Protection
       itemID = 74711,
       spellID = 104401,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 13,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 16,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4423] = { -- Enchant Cloak - Superior Intellect
@@ -177,19 +177,19 @@ ns.enchantIDs = {
     [4424] = { -- Enchant Cloak - Superior Critical Strike
       itemID = 74713,
       spellID = 104404,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 12,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4064] = { -- Enchant Cloak - Lesser Power
       itemID = 52745,
       spellID = 74192,
-      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 11,},
+      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 18,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4072] = { -- Enchant Cloak - Intellect
       itemID = 52753,
       spellID = 74202,
-      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 6,},
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 10,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4087] = { -- Enchant Cloak - Critical Strike
@@ -201,43 +201,43 @@ ns.enchantIDs = {
     [4090] = { -- Enchant Cloak - Protection
       itemID = 52767,
       spellID = 74234,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 6,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4096] = { -- Enchant Cloak - Greater Intellect
       itemID = 52773,
       spellID = 74240,
-      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 10,},
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4100] = { -- Enchant Cloak - Greater Critical Strike
       itemID = 52777,
       spellID = 74247,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 13,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 12,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4747] = { -- Enchant Cloak - Superior Agility
       itemID = 38959,
       spellID = 44500,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 8,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 10,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3243] = { -- Enchant Cloak - Minor Power
       itemID = 38973,
       spellID = 44582,
-      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 14,},
+      stats = {["ITEM_MOD_PVP_POWER_SHORT"] = 20,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1951] = { -- Enchant Cloak - Superior Dodge
       itemID = 38978,
       spellID = 44591,
-      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 9,},
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3256] = { -- Enchant Cloak - Shadow Armor
       itemID = 38993,
       spellID = 44631,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,["RESISTANCE0_NAME"] = 20,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 6,["RESISTANCE0_NAME"] = 6,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3294] = { -- Enchant Cloak - Mighty Stamina
@@ -261,7 +261,7 @@ ns.enchantIDs = {
     [3825] = { -- Enchant Cloak - Speed
       itemID = 44456,
       spellID = 60609,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 8,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 9,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1099] = { -- Enchant Cloak - Major Agility
@@ -273,13 +273,13 @@ ns.enchantIDs = {
     [2622] = { -- Enchant Cloak - Dodge
       itemID = 38895,
       spellID = 25086,
-      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 12,},
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 8,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2662] = { -- Enchant Cloak - Major Armor
       itemID = 38914,
       spellID = 27961,
-      stats = {["RESISTANCE0_NAME"] = 12,},
+      stats = {["RESISTANCE0_NAME"] = 9,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2938] = { -- Enchant Cloak - PvP Power
@@ -291,13 +291,13 @@ ns.enchantIDs = {
     [5258] = { -- Enchant Cloak - Greater Agility
       itemID = 38940,
       spellID = 34004,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 12,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 9,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2648] = { -- Enchant Cloak - Greater Dodge
       itemID = 39000,
       spellID = 47051,
-      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 14,},
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 9,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4724] = { -- Enchant Cloak - Minor Agility
@@ -439,7 +439,7 @@ ns.enchantIDs = {
     [4442] = { -- Enchant Weapon - Jade Spirit
       itemID = 74724,
       spellID = 104427,
-      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 103,},
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 83,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4443] = { -- Enchant Weapon - Elemental Force
@@ -529,7 +529,7 @@ ns.enchantIDs = {
     [4227] = { -- Enchant 2H Weapon - Mighty Agility
       itemID = 68134,
       spellID = 95471,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 26,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 60,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3225] = { -- Enchant Weapon - Executioner
@@ -601,7 +601,7 @@ ns.enchantIDs = {
     [3790] = { -- Enchant Weapon - Black Magic
       itemID = 43987,
       spellID = 59625,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 125,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 62,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1606] = { -- Enchant Weapon - Greater Potency
@@ -705,7 +705,7 @@ ns.enchantIDs = {
     [2673] = { -- Enchant Weapon - Mongoose
       itemID = 38925,
       spellID = 27984,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 120,["ITEM_MOD_HASTE_RATING_SHORT"] = 30,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 60,["ITEM_MOD_HASTE_RATING_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2674] = { -- Enchant Weapon - Spellsurge
@@ -1322,6 +1322,42 @@ ns.enchantIDs = {
       stats = {},
       requirements = {["max_ilevel"] = 600,},
     },
+    [3835] = { -- Master's Inscription of the Axe
+      spellID = 61117,
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 10,["ITEM_MOD_CRIT_RATING_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3837] = { -- Master's Inscription of the Pinnacle
+      spellID = 61119,
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 8,["ITEM_MOD_STAMINA_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3838] = { -- Master's Inscription of the Storm
+      spellID = 61120,
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,["ITEM_MOD_CRIT_RATING_SHORT"] = 5,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [3836] = { -- Master's Inscription of the Crag
+      spellID = 61118,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 11,["ITEM_MOD_SPIRIT_SHORT"] = 8,},
+      requirements = {["max_ilevel"] = 600,},
+    },
+    [4193] = { -- Swiftsteel Inscription
+      spellID = 86375,
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 10,["ITEM_MOD_MASTERY_RATING_SHORT"] = 5,},
+    },
+    [4194] = { -- Lionsmane Inscription
+      spellID = 86401,
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 10,["ITEM_MOD_CRIT_RATING_SHORT"] = 5,},
+    },
+    [4195] = { -- Inscription of the Earth Prince
+      spellID = 86402,
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 15,["ITEM_MOD_DODGE_RATING_SHORT"] = 5,},
+    },
+    [4196] = { -- Felfire Inscription
+      spellID = 86403,
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 10,["ITEM_MOD_HASTE_RATING_SHORT"] = 5,},
+    },
   },
   [7] = {
     [4826] = { -- Greater Pearlescent Spellthread
@@ -1417,7 +1453,7 @@ ns.enchantIDs = {
     [4122] = { -- Scorched Leg Armor
       itemID = 56502,
       spellID = 78169,
-      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 28,["ITEM_MOD_CRIT_RATING_SHORT"] = 23,},
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 10,["ITEM_MOD_CRIT_RATING_SHORT"] = 9,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4124] = { -- Twilight Leg Armor
@@ -1691,97 +1727,97 @@ ns.enchantIDs = {
     [4411] = { -- Enchant Bracer - Mastery
       itemID = 74700,
       spellID = 104338,
-      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4412] = { -- Enchant Bracer - Major Dodge
       itemID = 74701,
       spellID = 104385,
-      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4414] = { -- Enchant Bracer - Super Intellect
       itemID = 74703,
       spellID = 104389,
-      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 12,},
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 16,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4415] = { -- Enchant Bracer - Exceptional Strength
       itemID = 74704,
       spellID = 104390,
-      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 18,},
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 16,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4416] = { -- Enchant Bracer - Greater Agility
       itemID = 74705,
       spellID = 104391,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 12,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 16,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4258] = { -- Enchant Bracer - Agility
       itemID = 68784,
       spellID = 96264,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 10,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4256] = { -- Enchant Bracer - Major Strength
       itemID = 68785,
       spellID = 96261,
-      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 16,},
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4257] = { -- Enchant Bracer - Mighty Intellect
       itemID = 68786,
       spellID = 96262,
-      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 11,},
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4065] = { -- Enchant Bracer - Speed
       itemID = 52746,
       spellID = 74193,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 13,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4071] = { -- Enchant Bracer - Critical Strike
       itemID = 52752,
       spellID = 74201,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4086] = { -- Enchant Bracer - Superior Dodge
       itemID = 52763,
       spellID = 74229,
-      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 9,},
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4089] = { -- Enchant Bracer - Precision
       itemID = 52766,
       spellID = 74232,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4093] = { -- Enchant Bracer - Exceptional Spirit
       itemID = 52770,
       spellID = 74237,
-      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 12,},
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4095] = { -- Enchant Bracer - Greater Haste
       itemID = 52772,
       spellID = 74239,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4101] = { -- Enchant Bracer - Greater Critical Strike
       itemID = 52778,
       spellID = 74248,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 13,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4108] = { -- Enchant Bracer - Greater Speed
       itemID = 52785,
       spellID = 74256,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 13,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1119] = { -- Enchant Bracer - Exceptional Intellect
@@ -1799,25 +1835,25 @@ ns.enchantIDs = {
     [1147] = { -- Enchant Bracer - Major Spirit
       itemID = 38980,
       spellID = 44593,
-      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 9,},
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 12,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3231] = { -- Enchant Bracer - Haste
       itemID = 38984,
       spellID = 44598,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 8,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 12,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2661] = { -- Enchant Bracer - Greater Stats
       itemID = 38987,
       spellID = 44616,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,["ITEM_MOD_STRENGTH_SHORT"] = 3,["ITEM_MOD_INTELLECT_SHORT"] = 3,["ITEM_MOD_STAMINA_SHORT"] = 3,["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2326] = { -- Enchant Bracer - Greater Spellpower
       itemID = 38997,
       spellID = 44635,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 12,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 13,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2332] = { -- Enchant Bracer - Superior Spellpower
@@ -1847,7 +1883,7 @@ ns.enchantIDs = {
     [1891] = { -- Enchant Bracer - Stats
       itemID = 38898,
       spellID = 27905,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,["ITEM_MOD_STRENGTH_SHORT"] = 3,["ITEM_MOD_INTELLECT_SHORT"] = 3,["ITEM_MOD_STAMINA_SHORT"] = 3,["ITEM_MOD_SPIRIT_SHORT"] = 3,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2648] = { -- Enchant Bracer - Greater Dodge
@@ -1859,7 +1895,7 @@ ns.enchantIDs = {
     [5183] = { -- Enchant Bracer - Superior Healing
       itemID = 38900,
       spellID = 27911,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2679] = { -- Enchant Bracer - Restore Mana Prime
@@ -1877,7 +1913,7 @@ ns.enchantIDs = {
     [5184] = { -- Enchant Bracer - Spellpower
       itemID = 38903,
       spellID = 27917,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [369] = { -- Enchant Bracer - Major Intellect
@@ -2015,7 +2051,7 @@ ns.enchantIDs = {
     [1884] = { -- Enchant Bracer - Superior Spirit
       itemID = 38853,
       spellID = 20009,
-      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 6,},
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 7,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1885] = { -- Enchant Bracer - Superior Strength
@@ -2039,7 +2075,7 @@ ns.enchantIDs = {
     [2650] = { -- Enchant Bracer - Healing Power
       itemID = 38882,
       spellID = 23802,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 8,},
       requirements = {["max_ilevel"] = 600,},
     },
   },
@@ -2053,31 +2089,31 @@ ns.enchantIDs = {
     [4418] = { -- Enchant Chest - Mighty Spirit
       itemID = 74707,
       spellID = 104393,
-      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 15,},
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 25,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4419] = { -- Enchant Chest - Glorious Stats
       itemID = 74708,
       spellID = 104395,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,["ITEM_MOD_STRENGTH_SHORT"] = 5,["ITEM_MOD_INTELLECT_SHORT"] = 5,["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 9,["ITEM_MOD_STRENGTH_SHORT"] = 9,["ITEM_MOD_INTELLECT_SHORT"] = 9,["ITEM_MOD_STAMINA_SHORT"] = 9,["ITEM_MOD_SPIRIT_SHORT"] = 9,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4420] = { -- Enchant Chest - Superior Stamina
       itemID = 74709,
       spellID = 104397,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 7,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 18,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4063] = { -- Enchant Chest - Mighty Stats
       itemID = 52744,
       spellID = 74191,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,["ITEM_MOD_STRENGTH_SHORT"] = 3,["ITEM_MOD_INTELLECT_SHORT"] = 3,["ITEM_MOD_STAMINA_SHORT"] = 3,["ITEM_MOD_SPIRIT_SHORT"] = 3,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 6,["ITEM_MOD_STRENGTH_SHORT"] = 6,["ITEM_MOD_INTELLECT_SHORT"] = 6,["ITEM_MOD_STAMINA_SHORT"] = 6,["ITEM_MOD_SPIRIT_SHORT"] = 6,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4070] = { -- Enchant Chest - Stamina
       itemID = 52751,
       spellID = 74200,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 11,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 14,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4077] = { -- Enchant Chest - Mighty Resilience
@@ -2089,19 +2125,19 @@ ns.enchantIDs = {
     [4088] = { -- Enchant Chest - Exceptional Spirit
       itemID = 52765,
       spellID = 74231,
-      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 12,},
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 20,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4102] = { -- Enchant Chest - Peerless Stats
       itemID = 52779,
       spellID = 74250,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 8,["ITEM_MOD_STRENGTH_SHORT"] = 8,["ITEM_MOD_INTELLECT_SHORT"] = 8,["ITEM_MOD_STAMINA_SHORT"] = 8,["ITEM_MOD_SPIRIT_SHORT"] = 8,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4103] = { -- Enchant Chest - Greater Stamina
       itemID = 52780,
       spellID = 74251,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 15,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 16,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3233] = { -- Enchant Chest - Exceptional Mana
@@ -2119,7 +2155,7 @@ ns.enchantIDs = {
     [2381] = { -- Enchant Chest - Greater Mana Restoration
       itemID = 38962,
       spellID = 44509,
-      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 10,},
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 18,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3245] = { -- Enchant Chest - Exceptional Resilience
@@ -2131,7 +2167,7 @@ ns.enchantIDs = {
     [3252] = { -- Enchant Chest - Super Stats
       itemID = 38989,
       spellID = 44623,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 4,["ITEM_MOD_STRENGTH_SHORT"] = 4,["ITEM_MOD_INTELLECT_SHORT"] = 4,["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,["ITEM_MOD_STRENGTH_SHORT"] = 5,["ITEM_MOD_INTELLECT_SHORT"] = 5,["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1953] = { -- Enchant Chest - Greater Dodge
@@ -2149,7 +2185,7 @@ ns.enchantIDs = {
     [3832] = { -- Enchant Chest - Powerful Stats
       itemID = 44465,
       spellID = 60692,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 5,["ITEM_MOD_STRENGTH_SHORT"] = 5,["ITEM_MOD_INTELLECT_SHORT"] = 5,["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 7,["ITEM_MOD_STRENGTH_SHORT"] = 7,["ITEM_MOD_INTELLECT_SHORT"] = 7,["ITEM_MOD_STAMINA_SHORT"] = 7,["ITEM_MOD_SPIRIT_SHORT"] = 7,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2659] = { -- Enchant Chest - Exceptional Health
@@ -2161,13 +2197,13 @@ ns.enchantIDs = {
     [2661] = { -- Enchant Chest - Exceptional Stats
       itemID = 38913,
       spellID = 27960,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 6,["ITEM_MOD_STRENGTH_SHORT"] = 6,["ITEM_MOD_INTELLECT_SHORT"] = 6,["ITEM_MOD_STAMINA_SHORT"] = 6,["ITEM_MOD_SPIRIT_SHORT"] = 6,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 3,["ITEM_MOD_STRENGTH_SHORT"] = 3,["ITEM_MOD_INTELLECT_SHORT"] = 3,["ITEM_MOD_STAMINA_SHORT"] = 3,["ITEM_MOD_SPIRIT_SHORT"] = 3,},
       requirements = {["max_ilevel"] = 600,},
     },
     [5237] = { -- Enchant Chest - Major Spirit
       itemID = 38928,
       spellID = 33990,
-      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 8,},
+      stats = {["ITEM_MOD_SPIRIT_SHORT"] = 16,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3150] = { -- Enchant Chest - Restore Mana Prime
@@ -2303,13 +2339,13 @@ ns.enchantIDs = {
     [4426] = { -- Enchant Boots - Greater Haste
       itemID = 74715,
       spellID = 104407,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 12,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4427] = { -- Enchant Boots - Greater Precision
       itemID = 74716,
       spellID = 104408,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 12,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4428] = { -- Enchant Boots - Blurred Speed
@@ -2335,25 +2371,25 @@ ns.enchantIDs = {
     [4069] = { -- Enchant Boots - Haste
       itemID = 52750,
       spellID = 74199,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4076] = { -- Enchant Boots - Major Agility
       itemID = 52757,
       spellID = 74213,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 7,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4092] = { -- Enchant Boots - Precision
       itemID = 52769,
       spellID = 74236,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4094] = { -- Enchant Boots - Mastery
       itemID = 52771,
       spellID = 74238,
-      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 11,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4105] = { -- Enchant Boots - Assassin's Step
@@ -2377,25 +2413,25 @@ ns.enchantIDs = {
     [1075] = { -- Enchant Boots - Greater Fortitude
       itemID = 38966,
       spellID = 44528,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 11,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 13,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3244] = { -- Enchant Boots - Greater Vitality
       itemID = 38974,
       spellID = 44584,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 7,["ITEM_MOD_SPIRIT_SHORT"] = 7,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4748] = { -- Enchant Boots - Superior Agility
       itemID = 38976,
       spellID = 44589,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 8,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 10,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3826] = { -- Enchant Boots - Icewalker
       itemID = 38986,
       spellID = 60623,
-      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 6,},
+      stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 9,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3232] = { -- Enchant Boots - Tuskarr's Vitality
@@ -2407,25 +2443,25 @@ ns.enchantIDs = {
     [3824] = { -- Enchant Boots - Assault
       itemID = 44449,
       spellID = 60606,
-      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 12,},
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 8,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1597] = { -- Enchant Boots - Greater Assault
       itemID = 44469,
       spellID = 60763,
-      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 8,},
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 10,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2657] = { -- Enchant Boots - Dexterity
       itemID = 37603,
       spellID = 27951,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 12,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 8,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2656] = { -- Enchant Boots - Vitality
       itemID = 38908,
       spellID = 27948,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 5,["ITEM_MOD_SPIRIT_SHORT"] = 5,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 4,["ITEM_MOD_SPIRIT_SHORT"] = 4,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2649] = { -- Enchant Boots - Fortitude
@@ -2530,61 +2566,61 @@ ns.enchantIDs = {
     [4430] = { -- Enchant Gloves - Greater Haste
       itemID = 74719,
       spellID = 104416,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 24,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4431] = { -- Enchant Gloves - Superior Haste
       itemID = 74720,
       spellID = 104417,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 25,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4432] = { -- Enchant Gloves - Super Strength
       itemID = 74721,
       spellID = 104419,
-      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 11,},
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 25,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4433] = { -- Enchant Gloves - Superior Mastery
       itemID = 74722,
       spellID = 104420,
-      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 13,},
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 25,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4061] = { -- Enchant Gloves - Mastery
       itemID = 52687,
       spellID = 74132,
-      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 18,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4068] = { -- Enchant Gloves - Haste
       itemID = 52749,
       spellID = 74198,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 9,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 20,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4075] = { -- Enchant Gloves - Exceptional Strength
       itemID = 52756,
       spellID = 74212,
-      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 9,},
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 20,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4082] = { -- Enchant Gloves - Greater Haste
       itemID = 52759,
       spellID = 74220,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 22,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4106] = { -- Enchant Gloves - Mighty Strength
       itemID = 52783,
       spellID = 74254,
-      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 10,},
+      stats = {["ITEM_MOD_STRENGTH_SHORT"] = 22,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4107] = { -- Enchant Gloves - Greater Mastery
       itemID = 52784,
       spellID = 74255,
-      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 22,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3231] = { -- Enchant Gloves - Haste
@@ -2602,19 +2638,19 @@ ns.enchantIDs = {
     [3829] = { -- Enchant Gloves - Greater Assault
       itemID = 38964,
       spellID = 44513,
-      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 9,},
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 18,},
       requirements = {["max_ilevel"] = 600,},
     },
     [5259] = { -- Enchant Gloves - Major Agility
       itemID = 38967,
       spellID = 44529,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 10,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 18,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3246] = { -- Enchant Gloves - Exceptional Spellpower
       itemID = 38979,
       spellID = 44592,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 14,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 12,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3253] = { -- Enchant Gloves - Armsman
@@ -2626,7 +2662,7 @@ ns.enchantIDs = {
     [1603] = { -- Enchant Gloves - Crusher
       itemID = 44458,
       spellID = 60668,
-      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 11,},
+      stats = {["ITEM_MOD_MELEE_ATTACK_POWER_SHORT"] = 20,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2934] = { -- Enchant Gloves - Blasting
@@ -2656,13 +2692,13 @@ ns.enchantIDs = {
     [2937] = { -- Enchant Gloves - Major Spellpower
       itemID = 38935,
       spellID = 33997,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 20,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2322] = { -- Enchant Gloves - Major Healing
       itemID = 38936,
       spellID = 33999,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 20,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [5255] = { -- Enchant Gloves - Assault
@@ -2728,13 +2764,13 @@ ns.enchantIDs = {
     [931] = { -- Enchant Gloves - Minor Haste
       itemID = 38851,
       spellID = 13948,
-      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 8,},
+      stats = {["ITEM_MOD_HASTE_RATING_SHORT"] = 6,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1887] = { -- Enchant Gloves - Greater Agility
       itemID = 38856,
       spellID = 20012,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 7,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 6,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4742] = { -- Enchant Gloves - Greater Strength
@@ -2774,13 +2810,13 @@ ns.enchantIDs = {
     [2617] = { -- Enchant Gloves - Healing Power
       itemID = 38889,
       spellID = 25079,
-      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 14,},
+      stats = {["ITEM_MOD_SPELL_POWER_SHORT"] = 7,},
       requirements = {["max_ilevel"] = 600,},
     },
     [2564] = { -- Enchant Gloves - Superior Agility
       itemID = 38890,
       spellID = 25080,
-      stats = {["ITEM_MOD_AGILITY_SHORT"] = 15,},
+      stats = {["ITEM_MOD_AGILITY_SHORT"] = 7,},
       requirements = {["max_ilevel"] = 600,},
     },
     [3238] = { -- Enchant Gloves - Gatherer
@@ -2800,37 +2836,37 @@ ns.enchantIDs = {
     [4434] = { -- Enchant Off-Hand - Major Intellect
       itemID = 74729,
       spellID = 104445,
-      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 11,},
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 25,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4993] = { -- Enchant Shield - Greater Parry
       itemID = 89737,
       spellID = 130758,
-      stats = {["ITEM_MOD_PARRY_RATING_SHORT"] = 11,},
+      stats = {["ITEM_MOD_PARRY_RATING_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4073] = { -- Enchant Shield - Protection
       itemID = 52754,
       spellID = 74207,
-      stats = {["ITEM_MOD_STAMINA_SHORT"] = 3,},
+      stats = {["ITEM_MOD_STAMINA_SHORT"] = 20,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4085] = { -- Enchant Shield - Mastery
       itemID = 52762,
       spellID = 74226,
-      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_MASTERY_RATING_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [4091] = { -- Enchant Off-Hand - Superior Intellect
       itemID = 52768,
       spellID = 74235,
-      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 8,},
+      stats = {["ITEM_MOD_INTELLECT_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1952] = { -- Enchant Shield - Dodge
       itemID = 38954,
       spellID = 44489,
-      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 10,},
+      stats = {["ITEM_MOD_DODGE_RATING_SHORT"] = 15,},
       requirements = {["max_ilevel"] = 600,},
     },
     [1128] = { -- Shield Enchant - Greater Intellect

@@ -4,17 +4,17 @@ ns.gemIDs = {
   [89873] = { -- Crystallized Dread
     colors = {"HYDRAULIC"},
     stats = {["ITEM_MOD_AGILITY_SHORT"] = 31,},
-    requirements = {["level"] = 90,},
+    requirements = {},
   },
   [89881] = { -- Crystallized Terror
     colors = {"HYDRAULIC"},
     stats = {["ITEM_MOD_STRENGTH_SHORT"] = 31,},
-    requirements = {["level"] = 90,},
+    requirements = {},
   },
   [89882] = { -- Crystallized Horror
     colors = {"HYDRAULIC"},
     stats = {["ITEM_MOD_INTELLECT_SHORT"] = 31,},
-    requirements = {["level"] = 90,},
+    requirements = {},
   },
   [115809] = { -- Greater Critical Strike Taladite
     colors = {"RED", "BLUE", "YELLOW"},
@@ -514,22 +514,22 @@ ns.gemIDs = {
   [95344] = { -- Indomitable Primal Diamond
     colors = {"META"},
     stats = {["ITEM_MOD_STAMINA_SHORT"] = 20,},
-    requirements = {["level"] = 90,},
+    requirements = {},
   },
   [95345] = { -- Courageous Primal Diamond
     colors = {"META"},
     stats = {["ITEM_MOD_INTELLECT_SHORT"] = 20,},
-    requirements = {["level"] = 90,},
+    requirements = {},
   },
   [95346] = { -- Capacitive Primal Diamond
     colors = {"META"},
     stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 20,},
-    requirements = {["level"] = 90,},
+    requirements = {},
   },
   [95347] = { -- Sinister Primal Diamond
     colors = {"META"},
     stats = {["ITEM_MOD_CRIT_RATING_SHORT"] = 20,},
-    requirements = {["level"] = 90,},
+    requirements = {},
   },
   [95348] = { -- Tyrannical Primal Diamond
     colors = {"META"},
