@@ -1,6 +1,14 @@
 Changelog for TopFit
 ====================
 
+6.0v2 - 2014/11/22
+  - updated gem and enchant data from wowhead
+  - added some enchant data manually
+  - updated presets from askmrrobot
+  - internally scaling dungeon loot should now be correctly considered by TopFit (and the Paperdoll item flyout)
+  - added Bonus Armor as a stat in the defense category
+  - fixed errors when the user had no sets defined or deleted their last set
+
 6.0v1 - 2014/10/24
   - updated for patch 6.0.2
   - wipe saved sets to account for numerous stat changes

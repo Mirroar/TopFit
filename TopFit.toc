@@ -2,7 +2,7 @@
 ## Author: Mirroar
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
-## Version: 6.0v1
+## Version: 6.0v2
 ## X-Category: Inventory
 ## X-Credits: ckaotik, tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB

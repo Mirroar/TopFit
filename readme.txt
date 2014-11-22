@@ -2,8 +2,8 @@ TopFit
 ======
 
 Author: Mirroar (Nadasha @ EU-Die Aldor)
-Version: 5.3v1
-WoW Version: 5.3 (TOC 50300)
+Version: 6.0v2
+WoW Version: 6.0 (TOC 60000)
 
 WoWInterface: http://www.wowinterface.com/downloads/info16177-TopFit.html
 Curse:        http://wow.curse.com/downloads/wow-addons/details/topfit.aspx
