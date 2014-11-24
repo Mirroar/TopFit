@@ -8,6 +8,13 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 
 ]]--
 
+-- FIXME: this should not be used
+-- GLOBALS: TopFit, TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE
+
+-- GLOBALS: _G, UIParent, MAX_PLAYER_LEVEL_TABLE, ITEM_BIND_ON_EQUIP, SPEED, MAX_NUM_SOCKETS
+-- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, GetAuctionItemClasses, GetAuctionItemSubClasses, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetItemUniqueness, GetSpecialization
+-- GLOBALS: string, math, select, pairs, tonumber, wipe, unpack
+
 local tinsert = table.insert
 
 local function tinsertonce(table, data)
@@ -188,9 +195,11 @@ function TopFit:GetItemInfoTable(item)
     end
 
     -- try to find socket bonus and some other info by scanning item tooltip (though I hoped to avoid that entirely)
-    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-    TopFit.scanTooltip:SetHyperlink(itemLink)
-    local numLines = TopFit.scanTooltip:NumLines()
+    local tooltip = TopFit.scanTooltip
+    tooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+    tooltip:SetHyperlink(itemLink)
+    local numLines = tooltip:NumLines()
+
     if #gems > 0 then
         --TODO: this will have to be rewritten to be calculated on the fly at some point. meta gem requirements will not always work this way
 
@@ -200,7 +209,7 @@ function TopFit:GetItemInfoTable(item)
         local socketBonusIsActive = false
         local socketBonus = nil
         for i = 1, numLines do
-            local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+            local leftLine = _G[tooltip:GetName()..'TextLeft'..i]
             local leftLineText = leftLine:GetText()
             if string.find(leftLineText, socketBonusString) then
                 -- This line is the socket bonus.
@@ -232,13 +241,13 @@ function TopFit:GetItemInfoTable(item)
     end
 
     -- scan for siege of Orgrimmar %-based Trinkets
-    if (itemEquipLoc == 'INVTYPE_TRINKET') then
+    if itemEquipLoc == 'INVTYPE_TRINKET' then
         for i = 1, numLines do
-            local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+            local leftLine = _G[tooltip:GetName()..'TextLeft'..i]
             local leftLineText = leftLine:GetText()
             if string.find(leftLineText, TopFit.locale.ItemScan.PercentBonusTrigger) then
-                -- SOO Percent bonus, figure out percentage
-                percentBonus = string.gsub(leftLineText, "^.*(%d+)%%.*$", "%1")
+                -- SoO Percent bonus, figure out percentage
+                local percentBonus = string.gsub(leftLineText, "^.*(%d+)%%.*$", "%1")
                 if percentBonus then
                     itemBonus['TOPFIT_SECONDARY_PERCENT'] = tonumber(percentBonus)
                     break
@@ -246,8 +255,6 @@ function TopFit:GetItemInfoTable(item)
             end
         end
     end
-
-    TopFit.scanTooltip:Hide()
 
     -- enchantment
     local enchantBonus = {}
@@ -257,7 +264,7 @@ function TopFit:GetItemInfoTable(item)
             if (TopFit.enchantIDs[slotID] and TopFit.enchantIDs[slotID][enchantID]) then
                 enchantBonus = TopFit.enchantIDs[slotID][enchantID].stats
                 if TopFit.enchantIDs[slotID][enchantID].couldNotParse then
-                    enchantItemID = TopFit.enchantIDs[slotID][enchantID].itemID
+                    local enchantItemID = TopFit.enchantIDs[slotID][enchantID].itemID
                     local _, enchantLink = GetItemInfo(enchantItemID)
 
                     if not ns.enhancementWarnings.enchants[enchantID] then
@@ -287,16 +294,11 @@ function TopFit:GetItemInfoTable(item)
     end
 
     -- scan for setname
-    TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-    TopFit.scanTooltip:SetHyperlink(itemLink)
-    local numLines = TopFit.scanTooltip:NumLines()
     local setName = nil
     for i = 1, numLines do
-        local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
-        local leftLineText = leftLine:GetText()
-
-        if string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)") then
-            setName = select(3, string.find(leftLineText, "(.*)%s%([0-9]+/[0-9+]%)"))
+        local textLeft = _G[tooltip:GetName()..'TextLeft'..i]:GetText()
+        if string.find(textLeft, "(.*)%s%([0-9]+/[0-9+]%)") then
+            setName = select(3, string.find(textLeft, "(.*)%s%([0-9]+/[0-9+]%)"))
             break
         end
     end
@@ -321,35 +323,28 @@ function TopFit:GetItemInfoTable(item)
     -- add armor type
     if itemSubType == TOPFIT_ARMORTYPE_CLOTH then
         itemBonus["TOPFIT_ARMORTYPE_CLOTH"] = 1
-    end
-    if itemSubType == TOPFIT_ARMORTYPE_LEATHER then
+    elseif itemSubType == TOPFIT_ARMORTYPE_LEATHER then
         itemBonus["TOPFIT_ARMORTYPE_LEATHER"] = 1
-    end
-    if itemSubType == TOPFIT_ARMORTYPE_MAIL then
+    elseif itemSubType == TOPFIT_ARMORTYPE_MAIL then
         itemBonus["TOPFIT_ARMORTYPE_MAIL"] = 1
-    end
-    if itemSubType == TOPFIT_ARMORTYPE_PLATE then
+    elseif itemSubType == TOPFIT_ARMORTYPE_PLATE then
         itemBonus["TOPFIT_ARMORTYPE_PLATE"] = 1
     end
 
     -- for weapons, add melee/ranged dps
-    if (string.find(itemEquipLoc, "RANGED") or string.find(itemEquipLoc, "THROWN")) then
+    if string.find(itemEquipLoc, "RANGED") or string.find(itemEquipLoc, "THROWN") then
         itemBonus["TOPFIT_RANGED_DPS"] = itemBonus["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] or nil
     end
-    if (string.find(itemEquipLoc, "WEAPON")) then
+    if string.find(itemEquipLoc, "WEAPON") then
         itemBonus["TOPFIT_MELEE_DPS"] = itemBonus["ITEM_MOD_DAMAGE_PER_SECOND_SHORT"] or nil
     end
 
     -- add weapon speeds
-    if (string.find(itemEquipLoc, "RANGED") or string.find(itemEquipLoc, "THROWN") or string.find(itemEquipLoc, "WEAPON")) then
-        TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-        TopFit.scanTooltip:SetHyperlink(itemLink)
-        local numLines = TopFit.scanTooltip:NumLines()
-
+    if string.find(itemEquipLoc, "RANGED") or string.find(itemEquipLoc, "THROWN") or string.find(itemEquipLoc, "WEAPON") then
         local speedString = SPEED.." ([0-9.]*)";
 
         for i = 1, numLines do
-            local rightLine = getglobal("TFScanTooltip".."TextRight"..i)
+            local rightLine = _G[tooltip:GetName()..'TextRight'..i]
             local rightLineText = rightLine:GetText()
 
             if (rightLineText and string.find(rightLineText, speedString)) then
@@ -367,6 +362,9 @@ function TopFit:GetItemInfoTable(item)
         end
         TopFit.scanTooltip:Hide()
     end
+
+    -- done scanning the tooltip
+    tooltip:Hide()
 
     -- dirty little mana regen fix
     itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] = ((itemBonus["ITEM_MOD_POWER_REGEN0_SHORT"] or 0) + (itemBonus["ITEM_MOD_MANA_REGENERATION_SHORT"] or 0))
@@ -600,7 +598,7 @@ function TopFit:IsItemBoE(bag, slot)
     TopFit.scanTooltip:SetBagItem(bag, slot)
     local numLines = TopFit.scanTooltip:NumLines()
     for i = 1, numLines do
-        local leftLine = getglobal("TFScanTooltip".."TextLeft"..i)
+        local leftLine = _G[TopFit.scanTooltip:GetName().."TextLeft"..i]
         local leftLineText = leftLine:GetText()
 
         if string.find(leftLineText, ITEM_BIND_ON_EQUIP) then
@@ -770,16 +768,16 @@ end
 local Unfit = LibStub('Unfit-1.0')
 local ItemLocations = LibStub('LibItemLocations')
 local equipLocation = {
-    INVTYPE_HEAD            = 1,
-    INVTYPE_NECK            = 2,
-    INVTYPE_SHOULDER        = 3,
-    INVTYPE_BODY            = 4,
-    INVTYPE_CHEST           = 5,
-    INVTYPE_ROBE            = 5,
-    INVTYPE_WAIST           = 6,
-    INVTYPE_LEGS            = 7,
-    INVTYPE_FEET            = 8,
-    INVTYPE_WRIST           = 9,
+    INVTYPE_HEAD            =  1,
+    INVTYPE_NECK            =  2,
+    INVTYPE_SHOULDER        =  3,
+    INVTYPE_BODY            =  4,
+    INVTYPE_CHEST           =  5,
+    INVTYPE_ROBE            =  5,
+    INVTYPE_WAIST           =  6,
+    INVTYPE_LEGS            =  7,
+    INVTYPE_FEET            =  8,
+    INVTYPE_WRIST           =  9,
     INVTYPE_HAND            = 10,
     INVTYPE_FINGER          = 11,
     INVTYPE_TRINKET         = 13,
