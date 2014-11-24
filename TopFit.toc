@@ -36,6 +36,9 @@ modules\virtual_items.lua
 
 inventory.lua
 
+# this file needs some more work
+modules\utilities.lua
+
 # modules
 modules\tooltip.lua
 modules\calculation.lua
@@ -44,9 +47,6 @@ modules\options.lua
 modules\ui.character.lua
 modules\ui.config.lua
 modules\ui.lua
-
-# this file needs some more work
-modules\utilities.lua
 
 data\gems.lua
 data\enchants.lua
