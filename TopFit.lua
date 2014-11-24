@@ -532,6 +532,7 @@ end
 -- triggered when an item is looted into bags
 -- note: this does not trigger when items are bound
 function ns:ITEM_PUSH(event, bagID, icon)
+	TopFit:collectItems(bagID)
 	local newEquip = TopFit:collectEquippableItems(bagID)
 	if newEquip then EvaluateNewItems(newEquip) end
 end
