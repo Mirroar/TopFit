@@ -4,11 +4,13 @@ LibStub('AceAddon-3.0'):NewAddon(ns, addonName, 'AceEvent-3.0')
 -- create global Addon object
 _G[addonName] = ns
 
-SLASH_TopFit1 = "/topfit"
-SLASH_TopFit2 = "/tf"
-SLASH_TopFit3 = "/fit"
+-- TODO: this should not be
+-- GLOBALS: TopFit, TopFitDB
 
-ns.initialized = false
+-- GLOBALS: _G, LibStub, C_Timer, SLASH_TopFit1, SLASH_TopFit2, SLASH_TopFit3, GameTooltip, DEFAULT_CHAT_FRAME, UIParent, NUM_BAG_SLOTS, InterfaceOptionsFrame_OpenToCategory, CreateFrame, ToggleFrame
+-- GLOBALS: TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE, TOPFIT_ITEM_MOD_MAINHAND, TOPFIT_ITEM_MOD_OFFHAND
+-- GLOBALS: GetEquipmentSetInfoByName, SaveEquipmentSet, GetUnitName, GetRealmName, UnitClass, GetActiveSpecGroup, GetSpecializationInfo, GetAuctionItemSubClasses, CanUseEquipmentSets, UseEquipmentSet, IsEquippableItem, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, GetInventorySlotInfo
+-- GLOBALS: setmetatable, getmetatable, type, pairs, assert, error, wipe, tinsert, next, select, tonumber, tContains
 
 -- class function - enables pseudo-oop with inheritance using metatables
 function ns.class(baseClass)
@@ -138,7 +140,7 @@ end
 function ns:GenerateSetName(name)
 	-- using substr because blizzard interface only allows 16 characters
 	-- although technically SaveEquipmentSet & co allow more
-	return (((name ~= nil) and string.sub(name.." ", 1, 12).."(TF)") or "TopFit")
+	return (((name ~= nil) and (name.." "):sub(1, 12).."(TF)") or "TopFit")
 end
 
 function TopFit.ChatCommand(input)
@@ -150,12 +152,16 @@ function TopFit.ChatCommand(input)
 		TopFit:Print(TopFit.locale.SlashHelp)
 	end
 end
+SLASH_TopFit1 = "/topfit"
+SLASH_TopFit2 = "/tf"
+SLASH_TopFit3 = "/fit"
 SlashCmdList["TopFit"] = TopFit.ChatCommand
 
 function ns:OnEnable()
 	-- load saved variables
 	local currentVersion = 600
 
+	-- TODO: replace with self.db = LibStub('AceDB-3.0'):New(addonName..'DB', defaults, nil)
 	local profileName = GetUnitName('player')..' - '..GetRealmName('player')
 	local selectedProfile = profileName
 	if TopFitDB then
@@ -182,9 +188,8 @@ function ns:OnEnable()
 	-- load Unfit-1.0
 	ns.Unfit = LibStub('Unfit-1.0')
 
-	-- TODO: unify, we only need one scanning tooltip...
 	-- create gametooltip for scanning
-	ns.scanTooltip = CreateFrame('GameTooltip', 'TFScanTooltip', UIParent, 'GameTooltipTemplate')
+	ns.scanTooltip = CreateFrame('GameTooltip', addonName..'ScanTooltip', UIParent, 'GameTooltipTemplate')
 
 	-- update saved variables from previous versions
 	if not TopFitDB.version or TopFitDB.version < 600 then
@@ -211,6 +216,18 @@ function ns:OnEnable()
 			},
 		}
 	end
+
+	-- launcher ldb
+	local ldb = LibStub('LibDataBroker-1.1'):NewDataObject(addonName, {
+		type  = 'launcher',
+		icon  = 'Interface\\Icons\\Achievement_BG_trueAVshutout',
+		label = addonName,
+
+		OnClick = function(button, btn, up)
+			ToggleFrame(_G['TopFitConfigFrame'])
+		end,
+	})
+	LibStub('LibDBIcon-1.0'):Register(addonName, ldb, self.db.profile)
 
 	-- collect spec info
 	ns.specInfo = {}
@@ -250,14 +267,14 @@ function ns:OnEnable()
 	-- list of weight categories and stats
 	ns.statList = {
 		-- STAT_CATEGORY_RANGED
-		[STAT_CATEGORY_ATTRIBUTES] = {
+		[_G.STAT_CATEGORY_ATTRIBUTES] = {
 			"ITEM_MOD_AGILITY_SHORT",
 			"ITEM_MOD_INTELLECT_SHORT",
 			"ITEM_MOD_SPIRIT_SHORT",
 			"ITEM_MOD_STAMINA_SHORT",
 			"ITEM_MOD_STRENGTH_SHORT",
 		},
-		[STAT_CATEGORY_MELEE] = {
+		[_G.STAT_CATEGORY_MELEE] = {
 			-- "ITEM_MOD_EXPERTISE_RATING_SHORT",
 			"ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
 			-- "ITEM_MOD_ATTACK_POWER_SHORT",
@@ -269,11 +286,11 @@ function ns:OnEnable()
 			"TOPFIT_MELEE_WEAPON_SPEED",
 			"TOPFIT_RANGED_WEAPON_SPEED",
 		},
-		[STAT_CATEGORY_SPELL] = {
+		[_G.STAT_CATEGORY_SPELL] = {
 			"ITEM_MOD_SPELL_PENETRATION_SHORT",
 			"ITEM_MOD_SPELL_POWER_SHORT",
 		},
-		[STAT_CATEGORY_DEFENSE] = {
+		[_G.STAT_CATEGORY_DEFENSE] = {
 			"ITEM_MOD_BLOCK_RATING_SHORT",
 			"ITEM_MOD_DODGE_RATING_SHORT",
 			"ITEM_MOD_PARRY_RATING_SHORT",
@@ -281,7 +298,7 @@ function ns:OnEnable()
 			"ITEM_MOD_EXTRA_ARMOR_SHORT",
 			"ITEM_MOD_RESILIENCE_RATING_SHORT",
 		},
-		[STAT_CATEGORY_GENERAL] = {
+		[_G.STAT_CATEGORY_GENERAL] = {
 			"ITEM_MOD_CRIT_RATING_SHORT",
 			"ITEM_MOD_HASTE_RATING_SHORT",
 			--"ITEM_MOD_HIT_RATING_SHORT",
@@ -291,7 +308,7 @@ function ns:OnEnable()
 			"ITEM_MOD_CR_LIFESTEAL_SHORT",
 			"ITEM_MOD_VERSATILITY",
 		},
-		[STAT_CATEGORY_RESISTANCE] = {
+		[_G.STAT_CATEGORY_RESISTANCE] = {
 			"RESISTANCE1_NAME",                   -- holy
 			"RESISTANCE2_NAME",                   -- fire
 			"RESISTANCE3_NAME",                   -- nature
@@ -309,13 +326,10 @@ function ns:OnEnable()
 		-- TODO: mainhand / offhand dps + speed
 	}
 
-	TOPFIT_ARMORTYPE_CLOTH   = select(2, GetAuctionItemSubClasses(2));
-	TOPFIT_ARMORTYPE_LEATHER = select(3, GetAuctionItemSubClasses(2));
-	TOPFIT_ARMORTYPE_MAIL    = select(4, GetAuctionItemSubClasses(2));
-	TOPFIT_ARMORTYPE_PLATE   = select(5, GetAuctionItemSubClasses(2));
+	TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE = select(2, GetAuctionItemSubClasses(2))
 
-	TOPFIT_ITEM_MOD_MAINHAND = INVTYPE_WEAPONMAINHAND
-	TOPFIT_ITEM_MOD_OFFHAND  = INVTYPE_WEAPONOFFHAND
+	TOPFIT_ITEM_MOD_MAINHAND = _G.INVTYPE_WEAPONMAINHAND
+	TOPFIT_ITEM_MOD_OFFHAND  = _G.INVTYPE_WEAPONOFFHAND
 
 	-- list of inventory slot names
 	ns.slotList = {
@@ -373,16 +387,17 @@ function ns:OnEnable()
 
 	-- table for equippable item list
 	ns.equippableItems = {}
-	ns:collectEquippableItems()
+	-- ns:collectEquippableItems() -- delay this a little, see below
 
 	-- register needed events
+	self:RegisterEvent('ITEM_PUSH')
 	self:RegisterEvent('PLAYER_LEVEL_UP')
 	self:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
-	self:RegisterEvent('PLAYER_TALENT_UPDATE')
+	-- self:RegisterEvent('PLAYER_TALENT_UPDATE') -- TODO: currently unused
 	-- wait 50ms until we do our first calculation
 	C_Timer.After(0.05, function()
 		TopFit:collectEquippableItems()
-		TopFit:RegisterEvent('BAG_UPDATE_DELAYED')
+		-- TopFit:RegisterEvent('BAG_UPDATE_DELAYED')
 	end)
 
 	-- frame for calculation function
@@ -426,27 +441,19 @@ function ns.IsInitialized()
 	return ns.initialized
 end
 
-function TopFit:collectEquippableItems()
-	local newItem = {}
+local newItems = {}
+function TopFit:collectEquippableItems(bagID)
+	wipe(newItems)
 
 	-- check bags
-	for bag = 0, 4 do
-		for slot = 1, GetContainerNumSlots(bag) do
-			local item = GetContainerItemLink(bag, slot)
-
-			if IsEquippableItem(item) then
-				local found = false
-				for _, link in pairs(TopFit.equippableItems) do
-					if link == item then
-						found = true
-						break
-					end
-				end
-
-				if not found then
-					tinsert(TopFit.equippableItems, item)
-					tinsert(newItem, {
-						itemLink = item,
+	for bag = 1, NUM_BAG_SLOTS do
+		if not bagID or bag == bagID then
+			for slot = 1, GetContainerNumSlots(bag) do
+				local itemLink = GetContainerItemLink(bag, slot)
+				if itemLink and IsEquippableItem(itemLink) and not tContains(TopFit.equippableItems, itemLink) then
+					tinsert(TopFit.equippableItems, itemLink)
+					tinsert(newItems, {
+						itemLink = itemLink,
 						bag = bag,
 						slot = slot
 					})
@@ -457,28 +464,74 @@ function TopFit:collectEquippableItems()
 
 	-- check equipment (mostly so your set doesn't get recalculated just because you unequip an item)
 	for _, invSlot in pairs(TopFit.slots) do
-		local item = GetInventoryItemLink("player", invSlot)
-		if IsEquippableItem(item) then
-			local found = false
-			for _, link in pairs(TopFit.equippableItems) do
-				if link == item then
-					found = true
-					break
-				end
-			end
-
-			if not found then
-				tinsert(TopFit.equippableItems, item)
-				tinsert(newItem, {
-					itemLink = item,
-					slot = invSlot
-				})
-			end
+		local itemLink = GetInventoryItemLink('player', invSlot)
+		if itemLink and IsEquippableItem(itemLink) and not tContains(TopFit.equippableItems, itemLink) then
+			tinsert(TopFit.equippableItems, itemLink)
+			tinsert(newItems, {
+				itemLink = itemLink,
+				slot = invSlot
+			})
 		end
 	end
 
-	if (#newItem == 0) then return false end
-	return newItem
+	return #newItems > 0 and newItems or false
+end
+
+local function EvaluateNewItems(newItems)
+	local currentSpec = GetActiveSpecGroup()
+	local setCode
+	if currentSpec == 1 then
+		setCode = TopFit.db.profile.defaultUpdateSet
+	else
+		setCode = TopFit.db.profile.defaultUpdateSet2
+	end
+	local set = setCode and ns.GetSetByID(setCode, true)
+	if not set then return end
+
+	-- new equippable item in inventory, check if it is actually better than anything currently available
+	for _, newItem in pairs(newItems) do
+		-- skip BoE items
+		if not newItem.bag or not TopFit:IsItemBoE(newItem.bag, newItem.slot) and
+			IsEquippableItem(newItem.itemLink) and not ns.Unfit:IsItemUnusable(newItem.itemLink)
+		then
+			TopFit:Debug("New Item: "..newItem.itemLink)
+			local itemTable = TopFit:GetCachedItem(newItem.itemLink)
+			for _, slotID in pairs(itemTable.equipLocationsByType) do
+				-- try to get the currently used item from the player's equipment set
+				local setItem = TopFit:GetSetItemFromSlot(slotID, setCode)
+				local setItemTable = TopFit:GetCachedItem(setItem)
+				if setItem and setItemTable then
+					-- if either score or any cap is higher than currently equipped, calculate
+					if set:GetItemScore(newItem.itemLink) > set:GetItemScore(setItem) then
+						TopFit:Debug('Higher Score!')
+						TopFit:RunAutoUpdate(true)
+						return
+					else
+						-- check caps
+						for stat, cap in pairs(TopFit.db.profile.sets[setCode].caps) do
+							if cap.active and (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
+								TopFit:Debug('Higher Cap!')
+								TopFit:RunAutoUpdate(true)
+								return
+							end
+						end
+					end
+				else
+					-- no item found in set, good reason to upgrade!
+					TopFit:Debug('No Item in base set found!')
+					TopFit:RunAutoUpdate(true)
+					return
+				end
+			end
+		end
+	end
+end
+
+-- triggered when an item is looted into bags
+-- note: this does not trigger when items are bound
+function ns:ITEM_PUSH(event, bagID, icon)
+	local newEquip = TopFit:collectEquippableItems(bagID)
+	if newEquip then EvaluateNewItems(newEquip) end
 end
 
 function ns:BAG_UPDATE_DELAYED(event, ...)
@@ -488,51 +541,7 @@ function ns:BAG_UPDATE_DELAYED(event, ...)
 
 	-- check inventory for new equippable items
 	local newEquip = TopFit:collectEquippableItems()
-	if not newEquip then return end
-
-	if (TopFit.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) or
-		(TopFit.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
-		-- new equippable item in inventory, check if it is actually better than anything currently available
-		for _, newItem in pairs(newEquip) do
-			-- skip BoE items
-			if (not newItem.bag or not TopFit:IsItemBoE(newItem.bag, newItem.slot)) and
-				IsEquippableItem(newItem.itemLink) and not ns.Unfit:IsItemUnusable(newItem.itemLink)
-			then
-				TopFit:Debug("New Item: "..newItem.itemLink)
-				local itemTable = TopFit:GetCachedItem(newItem.itemLink)
-				local setCode = (GetActiveSpecGroup() == 1) and TopFit.db.profile.defaultUpdateSet or TopFit.db.profile.defaultUpdateSet2
-				local set = ns.GetSetByID(setCode, true)
-
-				for _, slotID in pairs(itemTable.equipLocationsByType) do
-					-- try to get the currently used item from the player's equipment set
-					local setItem = TopFit:GetSetItemFromSlot(slotID, setCode)
-					local setItemTable = TopFit:GetCachedItem(setItem)
-					if setItem and setItemTable then
-						-- if either score or any cap is higher than currently equipped, calculate
-						if set:GetItemScore(newItem.itemLink) > set:GetItemScore(setItem) then
-							TopFit:Debug('Higher Score!')
-							TopFit:RunAutoUpdate(true)
-							return
-						else
-							-- check caps
-							for stat, cap in pairs(TopFit.db.profile.sets[setCode].caps) do
-								if cap.active and (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
-									TopFit:Debug('Higher Cap!')
-									TopFit:RunAutoUpdate(true)
-									return
-								end
-							end
-						end
-					else
-						-- no item found in set, good reason to upgrade!
-						TopFit:Debug('No Item in base set found!')
-						TopFit:RunAutoUpdate(true)
-						return
-					end
-				end
-			end
-		end
-	end
+	if newEquip then EvaluateNewItems(newEquip) end
 end
 
 function ns:PLAYER_LEVEL_UP(event, ...)
@@ -610,8 +619,9 @@ end
 
 function ns:CreateEquipmentSet(set)
 	if (CanUseEquipmentSets()) then
-		setName = ns:GenerateSetName(set)
+		local setName = ns:GenerateSetName(set)
 		-- check if a set with this name exists
+		local texture
 		if (GetEquipmentSetInfoByName(setName)) then
 			texture = GetEquipmentSetInfoByName(setName)
 		else
