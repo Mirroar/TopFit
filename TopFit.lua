@@ -217,6 +217,8 @@ function ns:OnEnable()
 		}
 	end
 
+	ns.db.profile.minimapIcon = ns.db.profile.minimapIcon or {}
+
 	-- launcher ldb
 	local ldb = LibStub('LibDataBroker-1.1'):NewDataObject(addonName, {
 		type  = 'launcher',
@@ -224,10 +226,10 @@ function ns:OnEnable()
 		label = addonName,
 
 		OnClick = function(button, btn, up)
-			ToggleFrame(_G['TopFitConfigFrame'])
+			ns.ui.ToggleTopFitConfigFrame()
 		end,
 	})
-	LibStub('LibDBIcon-1.0'):Register(addonName, ldb, self.db.profile)
+	LibStub('LibDBIcon-1.0'):Register(addonName, ldb, self.db.profile.minimapIcon)
 
 	-- collect spec info
 	ns.specInfo = {}

@@ -571,9 +571,5 @@ function ui.ToggleTopFitConfigFrame()
 	-- toggle warning text if necessary
 	frame.warning:SetShown(ns.enhancementWarnings.show)
 
-	if frame:IsShown() then
-		HideUIPanel(frame)
-	else
-		ShowUIPanel(frame)
-	end
+	ToggleFrame(frame)
 end
