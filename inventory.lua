@@ -794,13 +794,13 @@ local equipLocation = {
     INVTYPE_HOLDABLE        = 17,
     INVTYPE_TABARD          = 19,
 }
-local scanTooltip = ns.scanTooltip
 local equippableCache = {}
 local function PassesTooltipRequirements(link)
     if equippableCache[link] ~= nil then
         return equippableCache[link]
     end
 
+    local scanTooltip = ns.scanTooltip
     scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
     scanTooltip:SetHyperlink(link)
     local numLines = scanTooltip:NumLines()
