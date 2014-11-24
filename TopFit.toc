@@ -8,11 +8,14 @@
 ## SavedVariables: TopFitDB
 
 # libraries
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-Libs\tekKonfig\tekKonfig.xml
-Libs\Unfit-1.0\Unfit-1.0.lua
-Libs\LibItemLocations.lua
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\LibDataBroker-1.1
+libs\tekKonfig\tekKonfig.xml
+libs\Unfit-1.0\Unfit-1.0.lua
+libs\LibItemLocations.lua
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 
 # locales
 locale\enUS.lua
