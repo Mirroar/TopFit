@@ -406,23 +406,6 @@ function TopFit:GetItemInfoTable(item)
         end
     end
 
-    -- add hit for spirit for caster classes with the respective talent
-    -- TODO: rethink and move setting into set
-    local hitForSpirit = 0;
-    local specialization = GetSpecialization()
-    if (select(2, UnitClass("player")) == "PRIEST" and specialization == 3)
-        or (select(2, UnitClass("player")) == "DRUID" and specialization == 1)
-        or (select(2, UnitClass("player")) == "SHAMAN" and specialization == 1) then
-        if UnitLevel("player") >= 20 then
-            hitForSpirit = 1;
-        end
-    end
-
-    if (hitForSpirit > 0) then
-        totalBonus["ITEM_MOD_HIT_RATING_SHORT"] = (totalBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (totalBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
-        itemBonus["ITEM_MOD_HIT_RATING_SHORT"] = (itemBonus["ITEM_MOD_HIT_RATING_SHORT"] or 0) + (itemBonus["ITEM_MOD_SPIRIT_SHORT"] or 0) * hitForSpirit
-    end
-
     -- generate result
     local result = {
         itemLink = itemLink,
