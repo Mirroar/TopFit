@@ -1,3 +1,5 @@
+local addonName, addon, _ = ...
+
 local function ReformatGlobalString(globalString)
 	if not globalString then return "" end
 
@@ -55,16 +57,12 @@ local function FindSpecialBonus(effectText, ...)
 	end
 end
 
-local scanTooltip = CreateFrame("GameTooltip", "TopFitTrinketScanTooltip", UIParent, "GameTooltipTemplate")
-
 local function FindInTooltip(searchString, scanRightText, filterFunc)
-	local numLines = scanTooltip:NumLines()
-	local leftLine, leftLineText, rightLine, rightLineText
-	for i = 1, numLines do
-		leftLine = getglobal("TopFitTrinketScanTooltipTextLeft"..i)
-		leftLineText = leftLine and leftLine:GetText() or ""
-		rightLine = getglobal("TopFitTrinketScanTooltipTextRight"..i)
-		rightLineText = rightLine and rightLine:GetText() or ""
+	local tooltip = addon.scanTooltip
+	for i = 1, tooltip:NumLines() do
+		local leftLine, rightLine = _G[tooltip:GetName()..'TextLeft'..i], _G[tooltip:GetName()..'TextRight'..i]
+		local leftLineText  = leftLine and leftLine:GetText() or ''
+		local rightLineText = rightLine and rightLine:GetText() or ''
 
 		if (string.find(leftLineText, searchString) or (scanRightText and string.find(rightLineText, searchString)))
 			and (not filterFunc or filterFunc(leftLineText, rightLineText)) then
@@ -76,13 +74,13 @@ end
 local function ScanTooltipFor(searchString, item, scanRightText, filterFunc)
 	-- (String) searchString, (String|Int) item:ItemLink|BagSlotID, [(Boolean|Int) inBag:true|ContainerID], [(Function) filterFunc]
 	if not item then return end
-	scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-	scanTooltip:SetHyperlink(item)
+	addon.scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+	addon.scanTooltip:SetHyperlink(item)
 	return FindInTooltip(searchString, scanRightText, filterFunc)
 end
 
 -- TopFit:ItemHasSpecialBonus("|cff0070dd|Hitem:55795:0:0:0:0:0:0:1945498240:85:0|h[Schlüssel zur unendlichen Kammer]|h|r", "ITEM_MOD_AGILITY_SHORT", "ITEM_MOD_HIT_RATING_SHORT")
-function TopFit:ItemHasSpecialBonus(itemLink, ...)
+function addon:ItemHasSpecialBonus(itemLink, ...)
 	local itemStats = GetItemStats(itemLink)
 	local effectText = ScanTooltipFor(ITEM_SPELL_TRIGGER_ONUSE, itemLink)
 		or ScanTooltipFor(ITEM_SPELL_TRIGGER_ONEQUIP, itemLink, nil,
