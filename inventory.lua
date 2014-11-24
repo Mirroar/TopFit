@@ -12,7 +12,7 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 -- GLOBALS: TopFit, TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE
 
 -- GLOBALS: _G, UIParent, MAX_PLAYER_LEVEL_TABLE, ITEM_BIND_ON_EQUIP, SPEED, MAX_NUM_SOCKETS
--- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, GetAuctionItemClasses, GetAuctionItemSubClasses, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetItemUniqueness, GetSpecialization
+-- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, GetAuctionItemSubClasses, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetItemUniqueness, GetSpecialization
 -- GLOBALS: string, math, select, pairs, tonumber, wipe, unpack
 
 local tinsert = table.insert
@@ -718,25 +718,19 @@ function TopFit:GetCachedItem(itemLink)
 end
 
 -- check whether a weapon can be equipped in one hand (takes titan's grip into account)
+local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
 function TopFit:IsOnehandedWeapon(set, itemID)
     local _, _, _, _, _, _, subclass, _, equipSlot, _, _ = GetItemInfo(itemID)
     if equipSlot and string.find(equipSlot, "2HWEAPON") then
         if (set:CanTitansGrip()) then
-            local polearms = select(7, GetAuctionItemSubClasses(1))
-            local staves = select(10, GetAuctionItemSubClasses(1))
-            local fishingPoles = select(17, GetAuctionItemSubClasses(1))
-            if (subclass == polearms) or -- Polearms
-                (subclass == staves) or -- Staves
-                (subclass == fishingPoles) then -- Fishing Poles
-
+            if subclass == POLEARMS or subclass == STAVES or subclass == FISHINGPOLES then
                 return false
             end
         else
             return false
         end
     elseif equipSlot and string.find(equipSlot, "RANGED") then
-        local wands = select(16, GetAuctionItemSubClasses(1))
-        if (subclass == wands) then
+        if subclass == WANDS then
             return true
         end
         return false
