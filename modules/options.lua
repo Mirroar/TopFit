@@ -1,3 +1,5 @@
+local addonName, ns = ...
+
 function TopFit:createOptions()
     if not TopFit.InterfaceOptionsFrame then
         TopFit.InterfaceOptionsFrame = CreateFrame("Frame", "TopFit_InterfaceOptionsFrame", InterfaceOptionsFramePanelContainer)
@@ -6,8 +8,23 @@ function TopFit:createOptions()
 
         local title, subtitle = LibStub("tekKonfig-Heading").new(TopFit.InterfaceOptionsFrame, "TopFit", TopFit.locale.SubTitle)
 
+        -- Show Minimap Icon Checkbox
+        local showMinimapIcon = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowMinimapIcon, "TOPLEFT", subtitle, "BOTTOMLEFT", -2, 0)
+        showMinimapIcon.tiptext = TopFit.locale.ShowMinimapIconTooltip
+        showMinimapIcon:SetChecked(not TopFit.db.profile.minimapIcon.hide)
+        local checksound = showMinimapIcon:GetScript("OnClick")
+        showMinimapIcon:SetScript("OnClick", function(self)
+            checksound(self)
+            TopFit.db.profile.minimapIcon.hide = not TopFit.db.profile.minimapIcon.hide
+            if TopFit.db.profile.minimapIcon.hide then
+                TopFit.minimapIcon:Hide(addonName)
+            else
+                TopFit.minimapIcon:Show(addonName)
+            end
+        end)
+
         -- Show Tooltip Checkbox
-        local showTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowTooltipScores, "TOPLEFT", subtitle, "BOTTOMLEFT", -2, 0)
+        local showTooltip = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowTooltipScores, "TOPLEFT", showMinimapIcon, "BOTTOMLEFT", 0, 0)
         showTooltip.tiptext = TopFit.locale.ShowTooltipScoresTooltip
         showTooltip:SetChecked(TopFit.db.profile.showTooltip)
         local checksound = showTooltip:GetScript("OnClick")

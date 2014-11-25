@@ -62,6 +62,8 @@ do
     --  Options
     -- ------------------------------------------------------------
     TopFit.locale.SubTitle = "Basic options"
+    TopFit.locale.ShowMinimapIcon = "Show minimap icon"
+    TopFit.locale.ShowMinimapIconTooltip = "|cffffffffCheck to show an icon on the border of your minimap for quick access to TopFit's settings."
     TopFit.locale.ShowTooltipScores = "Show set values in tooltip"
     TopFit.locale.ShowTooltipScoresTooltip = "|cffffffffCheck to show your sets' scores for an item in the item's tooltip."
     TopFit.locale.ShowTooltipComparison = "Show item comparison values in tooltip"

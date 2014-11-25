@@ -147,11 +147,12 @@ SlashCmdList["TopFit"] = TopFit.ChatCommand
 
 local defaultOptions = {
 	showComparisonTooltip = true,
+	minimapIcon = {},
 }
 
 function ns:OnEnable()
 	-- load saved variables
-	local currentVersion = 600
+	local currentVersion = 601
 
 	-- TODO: replace with self.db = LibStub('AceDB-3.0'):New(addonName..'DB', defaults, nil)
 	local profileName = GetUnitName('player')..' - '..GetRealmName('player')
@@ -185,13 +186,20 @@ function ns:OnEnable()
 
 	-- update saved variables from previous versions
 	if not TopFitDB.version or TopFitDB.version < 600 then
-		-- updating from a pre-6.0-version
+		-- updating from a pre-6.0v1-version
 		TopFitDB.version = 600
 		-- wipe all sets because of incompatibility and major stat changes
 		for _, profile in pairs(TopFitDB.profiles) do
 			profile.sets = nil
 			profile.defaultUpdateSet = nil
 			profile.defaultUpdateSet2 = nil
+		end
+	end
+
+	if TopFitDB.version < 601 then
+		-- 6.0v3 adds setting for minimap button
+		for _, profile in pairs(TopFitDB.profiles) do
+			profile.minimapIcon = {}
 		end
 	end
 
@@ -209,12 +217,15 @@ function ns:OnEnable()
 		label = addonName,
 
 		OnClick = function(button, btn, up)
-			-- TODO: right click menu to hide button
-			ns.ui.ToggleTopFitConfigFrame()
+			if btn == 'RightButton' then
+				InterfaceOptionsFrame_OpenToCategory('TopFit')
+			else
+				ns.ui.ToggleTopFitConfigFrame()
+			end
 		end,
 	})
-	ns.db.profile.minimapIcon = ns.db.profile.minimapIcon or {}
-	LibStub('LibDBIcon-1.0'):Register(addonName, ldb, self.db.profile.minimapIcon)
+	ns.minimapIcon = LibStub('LibDBIcon-1.0')
+	ns.minimapIcon:Register(addonName, ldb, self.db.profile.minimapIcon)
 
 	-- select current auto-update set by default
 	ns:SetSelectedSet()
@@ -443,38 +454,38 @@ end
 -- database access functions
 -----------------------------------------------------
 function ns:SetSelectedSet(setID)
-    -- select current auto-update set by default
-    if not setID then
-        if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
-            setID = ns.db.profile.defaultUpdateSet
-        end
-        if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
-            setID = ns.db.profile.defaultUpdateSet2
-        end
-    end
+	-- select current auto-update set by default
+	if not setID then
+		if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
+			setID = ns.db.profile.defaultUpdateSet
+		end
+		if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
+			setID = ns.db.profile.defaultUpdateSet2
+		end
+	end
 
-    if not setID then
-        -- if still no set is selected, select first available set instead
-        for id, _ in pairs(ns.db.profile.sets) do
-            setID = id
-            break
-        end
-    end
+	if not setID then
+		-- if still no set is selected, select first available set instead
+		for id, _ in pairs(ns.db.profile.sets) do
+			setID = id
+			break
+		end
+	end
 
-    ns.selectedSet = setID
-    if TopFitSetDropDown then
-        UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, ns.selectedSet)
-        UIDropDownMenu_SetText(TopFitSetDropDown, ns.selectedSet and ns.db.profile.sets[ns.selectedSet].name or ns.locale.NoSetTitle)
-    end
-    if TopFitSidebarCalculateButton then
-        if not setID then
-            TopFitSidebarCalculateButton:Disable()
-        else
-            TopFitSidebarCalculateButton:Enable()
-        end
-    end
+	ns.selectedSet = setID
+	if TopFitSetDropDown then
+		UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, ns.selectedSet)
+		UIDropDownMenu_SetText(TopFitSetDropDown, ns.selectedSet and ns.db.profile.sets[ns.selectedSet].name or ns.locale.NoSetTitle)
+	end
+	if TopFitSidebarCalculateButton then
+		if not setID then
+			TopFitSidebarCalculateButton:Disable()
+		else
+			TopFitSidebarCalculateButton:Enable()
+		end
+	end
 
-    ns.ui.Update(true)
+	ns.ui.Update(true)
 end
 
 -- get a list of all set IDs in the database
