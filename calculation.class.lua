@@ -179,18 +179,19 @@ function Calculation:GetCurrentProgress()
     return 0 -- this should be overridden
 end
 
+local calculationsFrame = CreateFrame("Frame")
 function Calculation._RunCalculation(calculation)
     if not ns.activeCalculations then
         ns.activeCalculations = {}
     end
     tinsert(ns.activeCalculations, calculation)
-    ns.calculationsFrame:SetScript("OnUpdate", Calculation._ContinueActiveCalculations)
+    calculationsFrame:SetScript("OnUpdate", Calculation._ContinueActiveCalculations)
 end
 
 function Calculation._ContinueActiveCalculations(frame, elapsed)
     ns:Debug("Continue")
     if #(ns.activeCalculations) < 1 then
-        ns.calculationsFrame:SetScript("OnUpdate", nil)
+        calculationsFrame:SetScript("OnUpdate", nil)
     else
         for i = #(ns.activeCalculations), 1, -1 do
             ns:Debug("Continue "..i)
