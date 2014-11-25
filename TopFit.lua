@@ -145,6 +145,10 @@ SLASH_TopFit2 = "/tf"
 SLASH_TopFit3 = "/fit"
 SlashCmdList["TopFit"] = TopFit.ChatCommand
 
+local defaultOptions = {
+	showComparisonTooltip = true,
+}
+
 function ns:OnEnable()
 	-- load saved variables
 	local currentVersion = 600
@@ -157,7 +161,7 @@ function ns:OnEnable()
 		if not selectedProfile then
 			-- initialize profile for this character
 			TopFitDB.profileKeys[profileName] = profileName
-			TopFitDB.profiles[profileName] = {}
+			TopFitDB.profiles[profileName] = defaultOptions
 		end
 	else
 		-- initialize saved variables
@@ -167,7 +171,7 @@ function ns:OnEnable()
 				[profileName] = profileName
 			},
 			profiles = {
-				[profileName] = {}
+				[profileName] = defaultOptions
 			}
 		}
 	end
