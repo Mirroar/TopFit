@@ -6,6 +6,7 @@ Changelog for TopFit
   - moved import / export plugin into set dropdown and weights plugin to free some space
   - updated import / export compatibility with Pawn
   - show comparison tooltip be default for new users
+  - added simple LibDataBroker launcher, which will also show up as a minimap button
 
 6.0v2 - 2014/11/22
   - updated gem and enchant data from wowhead
