@@ -177,9 +177,6 @@ function TopFit:AddSet(preset)
         forced = {},
     }
 
-    --[[ if TopFit.ProgressFrame then
-        TopFit.ProgressFrame:SetSelectedSet("set_"..i)
-    end --]]
     TopFit:SetSelectedSet("set_"..i)
 
     return "set_"..i
