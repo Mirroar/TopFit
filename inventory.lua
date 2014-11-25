@@ -839,6 +839,9 @@ hooksecurefunc('GetInventoryItemsForSlot', function(inventorySlot, useTable, tra
 	if UnitLevel('player') >= MAX_PLAYER_LEVEL_TABLE[#MAX_PLAYER_LEVEL_TABLE] then return end
 	-- scan equipped items
 	AddEquippableItem(useTable, inventorySlot)
+	if partnerSlots[inventorySlot] then
+		AddEquippableItem(useTable, partnerSlots[inventorySlot])
+	end
 
 	-- scan bag containers
 	for container = 1, _G.NUM_BAG_SLOTS do
