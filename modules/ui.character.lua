@@ -236,16 +236,11 @@ end
 function ui.SetButtonState(state)
     state = state or 'idle'
 
+    -- ui.config frame
     if TopFitConfigFrameCalculateButton then
-        if state == 'idle' then
-            TopFitConfigFrameCalculationProgressBar:Show()
-            TopFitConfigFrameCalculationProgressBarFrame:Show()
-            TopFitConfigFrameCalculateButton:Show()
-        else
-            TopFitConfigFrameCalculationProgressBar:Hide()
-            TopFitConfigFrameCalculationProgressBarFrame:Hide()
-            TopFitConfigFrameCalculateButton:Hide()
-        end
+        TopFitConfigFrameCalculateButton:SetShown(state == 'idle')
+        TopFitConfigFrameCalculationProgressBar:SetShown(state ~= 'idle')
+        TopFitConfigFrameCalculationProgressBarFrame:SetShown(state ~= 'idle')
     end
 
     -- ui.character frame

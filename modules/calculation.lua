@@ -26,8 +26,6 @@ function ns:AbortCalculations()
         ns.isBlocked = false
         ns.ui.SetButtonState('idle')
         ns.runningCalculation = nil
-
-        ns.ui.SetButtonState()
     end
 end
 
