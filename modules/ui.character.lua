@@ -75,6 +75,47 @@ function ui.InitializeStaticPopupDialogs()
     end)
 end
 
+local function DropDownImportSet()
+	-- TODO: localize
+	StaticPopup_Show('TOPFIT_IMPORT', 'Paste your import string from Pawn or TopFit below:')
+end
+local function DropDownAddSet(self)
+    local preset
+    if self.value and self.value ~= "" then
+        preset = ns:GetPresets()[self.value]
+    end
+    local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
+    local setName = ns.db.profile.sets[setCode].name
+    ns:CreateEquipmentSet(setName)
+end
+
+-- reused in ui.config.lua
+function ui.NewSetDropDown(self, level, menuList)
+	local info = UIDropDownMenu_CreateInfo()
+	info.notCheckable = true
+
+	-- import
+	info.func = DropDownImportSet
+	info.text = NORMAL_FONT_COLOR_CODE..'Import from string' -- TODO: localize
+	info.value = nil
+	UIDropDownMenu_AddButton(info, level)
+
+	-- empty set
+	info.func = DropDownAddSet
+	info.text = NORMAL_FONT_COLOR_CODE..ns.locale.EmptySet
+	info.value = ''
+	UIDropDownMenu_AddButton(info, level)
+
+	-- preset
+	local presets = ns:GetPresets()
+	for k, v in pairs(presets or {}) do
+		info.func = DropDownAddSet
+		info.text = v.name
+		info.value = k
+		UIDropDownMenu_AddButton(info, level)
+	end
+end
+
 function ui.InitializeSetDropdown()
     local anchorFrame = _G["CharacterModelFrame"]
     local dropDown = CreateFrame("Frame", "TopFitSetDropDown", PaperDollItemsFrame, "UIDropDownMenuTemplate")
@@ -86,15 +127,6 @@ function ui.InitializeSetDropdown()
 
     ns:SetSelectedSet()
 
-    local function DropDownAddSet(self)
-        local preset
-        if self.value and self.value ~= "" then
-            preset = ns:GetPresets()[self.value]
-        end
-        local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
-        local setName = ns.db.profile.sets[setCode].name
-        ns:CreateEquipmentSet(setName)
-    end
     local function DropDownRenameSet(self)
         ns.currentlyRenamingSetID = self.value
         ui.ShowRenameDialog()
@@ -149,17 +181,7 @@ function ui.InitializeSetDropdown()
 
             if menuList == 'addset' then
                 -- list options for creating new sets
-                info.text  = ns.locale.EmptySet
-                info.value = ''
-                info.func  = DropDownAddSet
-                UIDropDownMenu_AddButton(info, level)
-
-                local presets = ns:GetPresets()
-                for k, v in pairs(presets or {}) do
-                    info.text = v.name
-                    info.value = k
-                    UIDropDownMenu_AddButton(info, level)
-                end
+                ui.NewSetDropDown(self, level, menuList)
             else
                 -- list options for editing existing sets
                 info.value = menuList
@@ -306,6 +328,7 @@ function ui.InitializeConfigButton()
 
     button:RegisterForClicks("AnyUp")
     button:SetScript("OnClick", function(self, btn)
+    	CloseMenus() -- prevent oddities when ui.config gets initialized
         if btn == "RightButton" then
             InterfaceOptionsFrame_OpenToCategory(addonName)
         else

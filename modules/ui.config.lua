@@ -378,196 +378,181 @@ end
 function ui.IsConfigFrameInitialized()
 	return _G["TopFitConfigFrame"] and true or false
 end
+function ui.Initialize()
+	LoadAddOn("Blizzard_TalentUI") -- won't double init
+
+	local frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
+	frame:EnableMouse(true)
+	-- TalentFrame size: 646, 468
+	-- PVEFrame width: 563, 424
+	frame:SetWidth(646)
+	frame:Hide()
+
+	frame:SetAttribute("UIPanelLayout-defined", true)
+	frame:SetAttribute("UIPanelLayout-enabled", true)
+	frame:SetAttribute("UIPanelLayout-whileDead", true)
+	frame:SetAttribute("UIPanelLayout-area", "left")
+	frame:SetAttribute("UIPanelLayout-pushable", 5) 	-- when competing for space, lower numbers get closed first
+	frame:SetAttribute("UIPanelLayout-width", 646) 		-- width + 20
+	frame:SetAttribute("UIPanelLayout-height", 468) 	-- height + 20
+
+	SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
+	frame.TitleText:SetText("TopFit")
+
+	local frameContent = CreateFrame("Frame", "$parentInset", frame, "SpecializationFrameTemplate")
+	frame.Inset = frameContent
+	frameContent:SetPoint("TOPLEFT", PANEL_INSET_LEFT_OFFSET, PANEL_INSET_TOP_OFFSET)
+	frameContent:SetPoint("BOTTOMRIGHT", PANEL_INSET_RIGHT_OFFSET, PANEL_INSET_BOTTOM_OFFSET)
+	-- fix portrait icon being overlaid by Inset
+	frameContent:SetFrameLevel(0) -- put below parent
+	frameContent:SetFrameLevel(1) -- and then raise again
+
+	frameContent.MainHelpButton:Hide()
+	frameContent.learnButton:Hide()
+	frameContent.bg:SetPoint("BOTTOMRIGHT")
+	frameContent.bg:SetTexCoord(0, 0.75, 0, 0.86)
+	local sidebarBg = frameContent:GetRegions()
+	sidebarBg:SetHeight(400)
+	local sidebarFrame = select(7, frameContent:GetChildren())
+	local _, sidebarBR, sidebarBL, sidebarSeperator, sidebarLineL, sidebarLineR, sidebarLineB = sidebarFrame:GetRegions()
+	sidebarSeperator:SetHeight(400)
+	sidebarBL:SetPoint("BOTTOMLEFT", 3, 0)
+	sidebarBR:SetPoint("BOTTOMLEFT", 147, 0)
+
+	local scrollFrame = frameContent.spellsScroll
+	scrollFrame:SetHeight(410-18) -- Blizzard_TalentUI is taller than we are
+	scrollFrame.scrollBarHideable = true
+	-- alternative offsets: -15, -14 / -15, 10
+	scrollFrame.ScrollBar:SetPoint("TOPLEFT", "$parent", "TOPRIGHT", -18, -16)
+	scrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", "$parent", "BOTTOMRIGHT", -18, 16)
+
+	-- reanchor textures so they don't scroll later on
+	local scrollChild = scrollFrame.child
+	scrollChild:SetAllPoints(scrollFrame)
+	scrollChild.scrollwork_topleft:SetParent(frameContent)
+	scrollChild.scrollwork_topleft:ClearAllPoints()
+	scrollChild.scrollwork_topleft:SetPoint("TOPLEFT", 217, 0)
+	scrollChild.scrollwork_topright:SetParent(frameContent)
+	scrollChild.scrollwork_topright:ClearAllPoints()
+	scrollChild.scrollwork_topright:SetPoint("TOPRIGHT", 0, 0)
+	scrollChild.scrollwork_bottomleft:SetParent(frameContent)
+	scrollChild.scrollwork_bottomleft:ClearAllPoints()
+	scrollChild.scrollwork_bottomleft:SetPoint("BOTTOMLEFT", 217, 8)
+	scrollChild.scrollwork_bottomright:SetParent(frameContent)
+	scrollChild.scrollwork_bottomright:ClearAllPoints()
+	scrollChild.scrollwork_bottomright:SetPoint("BOTTOMRIGHT", 0, 8)
+	scrollChild.gradient:SetParent(frameContent)
+	scrollChild.gradient:SetPoint("TOPLEFT", 217-9, 0)
+	scrollChild.gradient:SetPoint("BOTTOMRIGHT", "$parent", "TOPRIGHT", 0, -200)
+
+	local index = 1
+	while frameContent["specButton"..index] do
+		frameContent["specButton"..index]:Hide()
+		index = index + 1
+	end
+
+	-- initialize set tabs
+	local dropDown = CreateFrame("Frame", "$parentAddFromPreset", frameContent, "UIDropDownMenuTemplate")
+		  dropDown:Hide()
+		  dropDown.displayMode = "MENU"
+		  dropDown.initialize = ui.NewSetDropDown
+	ui.UpdateSetTabs()
+
+	-- initialize plugin config panels
+	for _, plugin in pairs(ns.currentPlugins) do
+		plugin:CreateConfigPanel(plugin.fullPanel)
+	end
+
+	ui.SetActivePanel(1)
+
+	-- initialize calculate button
+	local button = CreateFrame('Button', '$parentCalculateButton', frame, 'UIPanelButtonTemplate')
+	button:SetText('Calculate')
+	button:SetPoint('BOTTOM', sidebarFrame, 'BOTTOMLEFT', 108, 20)
+	button:Show()
+	button:SetWidth(100)
+
+	button:SetScript('OnClick', function()
+		if ns.isBlocked then
+			ns:AbortCalculations()
+		else
+			ns:StartCalculations(not IsShiftKeyDown() and ns.selectedSet or nil)
+		end
+	end)
+
+	local barScale = 180
+	local progressBarBorder = CreateFrame('StatusBar', '$parentCalculationProgressBarFrame', frame)
+	progressBarBorder:SetBackdrop({
+		bgFile = 'Interface\\UnitPowerBarAlt\\MetalEternium_Horizontal_Frame',
+		tile = false,
+		insets = {
+			left = 0,
+			right = 0,
+			top = 0,
+			bottom = 0,
+		},
+	})
+	progressBarBorder:SetSize(barScale, barScale / 4)
+	progressBarBorder:SetPoint('BOTTOM', sidebarFrame, 'BOTTOMLEFT', 108, 10)
+	progressBarBorder:Hide()
+	local progressBar = CreateFrame('StatusBar', '$parentCalculationProgressBar', frame)
+	progressBar:SetStatusBarTexture('Interface\\UnitPowerBarAlt\\Generic1_Horizontal_Fill')
+	progressBar:SetStatusBarColor(0, 1, 0, 1)
+	progressBar:SetMinMaxValues(0, 100)
+	progressBar:SetPoint('CENTER', progressBarBorder, 'CENTER')
+	progressBar:SetSize(barScale, barScale / 4)
+	progressBar:SetMinMaxValues(-18, 118) -- compensates for texture borders so values from 0 to 100 look correct
+	progressBar:Hide()
+
+	-- progress text
+	local progressText = progressBar:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	progressText:SetAllPoints()
+	progressText:SetText("0.00%")
+	progressBar.text = progressText
+
+	-- initialize "unknown enhancements" warning
+	local warning = CreateFrame('Button', nil, frame)
+	warning:SetSize(32, 32)
+	warning:SetNormalTexture('Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew')
+	warning:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
+	warning:SetPoint('TOP', sidebarFrame, 'TOPLEFT', 60, -20)
+	warning:SetHitRectInsets(0, -104, 0, 0)
+	local warningText = warning:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	warningText:SetText(ns.locale.unknownEnhancementsNotification)
+	warningText:SetPoint('TOPLEFT', warning, 'TOPRIGHT', 4, 0)
+	warningText:SetSize(100, 32)
+	warningText:SetWordWrap(true)
+	warningText:SetJustifyV('MIDDLE')
+	warningText:SetJustifyH('LEFT')
+	frame.warning = warning
+
+	warning:SetScript('OnEnter', function(frame)
+		GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
+
+		GameTooltip:AddLine('Warning')
+		for _, gem in pairs(ns.enhancementWarnings.gems) do
+			GameTooltip:AddLine(ns.locale.unknownGemNotification:format(gem.itemLink))
+		end
+		for _, enchant in pairs(ns.enhancementWarnings.enchants) do
+			GameTooltip:AddLine(ns.locale.unknownEnchantNotification:format(enchant.itemLink or enchant.itemID or ('enchant ID '..enchant.enchantID), enchant.hostItemLink))
+		end
+
+		GameTooltip:Show()
+	end)
+	warning:SetScript('OnLeave', ns.HideTooltip)
+
+	--FIXME: readjust roleName until Spec is displayed below it
+	frame.Inset.spellsScroll.child.roleName:ClearAllPoints()
+	frame.Inset.spellsScroll.child.roleName:SetPoint("LEFT", frame.Inset.spellsScroll.child.roleIcon, "RIGHT", 3, 0)
+
+	return frame
+end
+
 function ui.ToggleTopFitConfigFrame()
 	local frame = _G["TopFitConfigFrame"]
 	if not frame then
-		LoadAddOn("Blizzard_TalentUI") -- won't double init
-
-		frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
-		frame:EnableMouse(true)
-		-- TalentFrame size: 646, 468
-		-- PVEFrame width: 563, 424
-		frame:SetWidth(646)
-		frame:Hide()
-
-		frame:SetAttribute("UIPanelLayout-defined", true)
-		frame:SetAttribute("UIPanelLayout-enabled", true)
-		frame:SetAttribute("UIPanelLayout-whileDead", true)
-		frame:SetAttribute("UIPanelLayout-area", "left")
-		frame:SetAttribute("UIPanelLayout-pushable", 5) 	-- when competing for space, lower numbers get closed first
-		frame:SetAttribute("UIPanelLayout-width", 646) 		-- width + 20
-		frame:SetAttribute("UIPanelLayout-height", 468) 	-- height + 20
-
-		SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
-		frame.TitleText:SetText("TopFit")
-
-		local frameContent = CreateFrame("Frame", "$parentInset", frame, "SpecializationFrameTemplate")
-		frame.Inset = frameContent
-		frameContent:SetPoint("TOPLEFT", PANEL_INSET_LEFT_OFFSET, PANEL_INSET_TOP_OFFSET)
-		frameContent:SetPoint("BOTTOMRIGHT", PANEL_INSET_RIGHT_OFFSET, PANEL_INSET_BOTTOM_OFFSET)
-		-- fix portrait icon being overlaid by Inset
-		frameContent:SetFrameLevel(0) -- put below parent
-		frameContent:SetFrameLevel(1) -- and then raise again
-
-		frameContent.MainHelpButton:Hide()
-		frameContent.learnButton:Hide()
-		frameContent.bg:SetPoint("BOTTOMRIGHT")
-		frameContent.bg:SetTexCoord(0, 0.75, 0, 0.86)
-		local sidebarBg = frameContent:GetRegions()
-		sidebarBg:SetHeight(400)
-		local sidebarFrame = select(7, frameContent:GetChildren())
-		local _, sidebarBR, sidebarBL, sidebarSeperator, sidebarLineL, sidebarLineR, sidebarLineB = sidebarFrame:GetRegions()
-		sidebarSeperator:SetHeight(400)
-		sidebarBL:SetPoint("BOTTOMLEFT", 3, 0)
-		sidebarBR:SetPoint("BOTTOMLEFT", 147, 0)
-
-		local scrollFrame = frameContent.spellsScroll
-		scrollFrame:SetHeight(410-18) -- Blizzard_TalentUI is taller than we are
-		scrollFrame.scrollBarHideable = true
-		-- alternative offsets: -15, -14 / -15, 10
-		scrollFrame.ScrollBar:SetPoint("TOPLEFT", "$parent", "TOPRIGHT", -18, -16)
-		scrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", "$parent", "BOTTOMRIGHT", -18, 16)
-
-		-- reanchor textures so they don't scroll later on
-		local scrollChild = scrollFrame.child
-		scrollChild:SetAllPoints(scrollFrame)
-		scrollChild.scrollwork_topleft:SetParent(frameContent)
-		scrollChild.scrollwork_topleft:ClearAllPoints()
-		scrollChild.scrollwork_topleft:SetPoint("TOPLEFT", 217, 0)
-		scrollChild.scrollwork_topright:SetParent(frameContent)
-		scrollChild.scrollwork_topright:ClearAllPoints()
-		scrollChild.scrollwork_topright:SetPoint("TOPRIGHT", 0, 0)
-		scrollChild.scrollwork_bottomleft:SetParent(frameContent)
-		scrollChild.scrollwork_bottomleft:ClearAllPoints()
-		scrollChild.scrollwork_bottomleft:SetPoint("BOTTOMLEFT", 217, 8)
-		scrollChild.scrollwork_bottomright:SetParent(frameContent)
-		scrollChild.scrollwork_bottomright:ClearAllPoints()
-		scrollChild.scrollwork_bottomright:SetPoint("BOTTOMRIGHT", 0, 8)
-		scrollChild.gradient:SetParent(frameContent)
-		scrollChild.gradient:SetPoint("TOPLEFT", 217-9, 0)
-		scrollChild.gradient:SetPoint("BOTTOMRIGHT", "$parent", "TOPRIGHT", 0, -200)
-
-		local index = 1
-		while frameContent["specButton"..index] do
-			frameContent["specButton"..index]:Hide()
-			index = index + 1
-		end
-
-		-- initialize set tabs
-		local dropDown = CreateFrame("Frame", "$parentAddFromPreset", frameContent, "UIDropDownMenuTemplate")
-			  dropDown:Hide()
-			  dropDown.displayMode = "MENU"
-		local function DropDownAddSet(self)
-			local preset = (self.value and self.value ~= "") and ns:GetPresets()[self.value] or nil
-			local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
-			ns:CreateEquipmentSet(ns.db.profile.sets[setCode].name)
-			ToggleDropDownMenu(nil, nil, dropDown)
-			ui.Update()
-		end
-		dropDown.initialize = function(self, level)
-			local info = UIDropDownMenu_CreateInfo()
-			info.func = DropDownAddSet
-			info.text = ns.locale.EmptySet
-			info.value = ''
-			UIDropDownMenu_AddButton(info, level)
-
-			local presets = ns:GetPresets()
-			for k, v in pairs(presets or {}) do
-				info.text = v.name
-				info.value = k
-				UIDropDownMenu_AddButton(info, level)
-			end
-		end
-		ui.UpdateSetTabs()
-
-		-- initialize plugin config panels
-		for _, plugin in pairs(ns.currentPlugins) do
-			plugin:CreateConfigPanel(plugin.fullPanel)
-		end
-
-		ui.SetActivePanel(1)
-
-		-- initialize calculate button
-		local button = CreateFrame('Button', '$parentCalculateButton', frame, 'UIPanelButtonTemplate')
-		button:SetText('Calculate')
-		button:SetPoint('BOTTOM', sidebarFrame, 'BOTTOMLEFT', 108, 20)
-		button:Show()
-		button:SetWidth(100)
-
-		button:SetScript('OnClick', function()
-			if ns.isBlocked then
-				ns:AbortCalculations()
-			else
-				ns:StartCalculations(not IsShiftKeyDown() and ns.selectedSet or nil)
-			end
-		end)
-
-		local barScale = 180
-		local progressBarBorder = CreateFrame('StatusBar', '$parentCalculationProgressBarFrame', frame)
-		progressBarBorder:SetBackdrop({
-			bgFile = 'Interface\\UnitPowerBarAlt\\MetalEternium_Horizontal_Frame',
-			tile = false,
-			insets = {
-				left = 0,
-				right = 0,
-				top = 0,
-				bottom = 0,
-			},
-		})
-		progressBarBorder:SetSize(barScale, barScale / 4)
-		progressBarBorder:SetPoint('BOTTOM', sidebarFrame, 'BOTTOMLEFT', 108, 10)
-		progressBarBorder:Hide()
-		local progressBar = CreateFrame('StatusBar', '$parentCalculationProgressBar', frame)
-		progressBar:SetStatusBarTexture('Interface\\UnitPowerBarAlt\\Generic1_Horizontal_Fill')
-		progressBar:SetStatusBarColor(0, 1, 0, 1)
-		progressBar:SetMinMaxValues(0, 100)
-		progressBar:SetPoint('CENTER', progressBarBorder, 'CENTER')
-		progressBar:SetSize(barScale, barScale / 4)
-		progressBar:SetMinMaxValues(-18, 118) -- compensates for texture borders so values from 0 to 100 look correct
-		progressBar:Hide()
-
-		-- progress text
-		local progressText = progressBar:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		progressText:SetAllPoints()
-		progressText:SetText("0.00%")
-		progressBar.text = progressText
-
-		-- initialize "unknown enhancements" warning
-		local warning = CreateFrame('Button', nil, frame)
-		warning:SetSize(32, 32)
-		warning:SetNormalTexture('Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew')
-		warning:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight")
-		warning:SetPoint('TOP', sidebarFrame, 'TOPLEFT', 60, -20)
-		warning:SetHitRectInsets(0, -104, 0, 0)
-		local warningText = warning:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		warningText:SetText(ns.locale.unknownEnhancementsNotification)
-		warningText:SetPoint('TOPLEFT', warning, 'TOPRIGHT', 4, 0)
-		warningText:SetSize(100, 32)
-		warningText:SetWordWrap(true)
-		warningText:SetJustifyV('MIDDLE')
-		warningText:SetJustifyH('LEFT')
-		frame.warning = warning
-
-		warning:SetScript('OnEnter', function(frame)
-			GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
-
-			GameTooltip:AddLine('Warning')
-			for _, gem in pairs(ns.enhancementWarnings.gems) do
-				GameTooltip:AddLine(ns.locale.unknownGemNotification:format(gem.itemLink))
-			end
-			for _, enchant in pairs(ns.enhancementWarnings.enchants) do
-				GameTooltip:AddLine(ns.locale.unknownEnchantNotification:format(enchant.itemLink or enchant.itemID or ('enchant ID '..enchant.enchantID), enchant.hostItemLink))
-			end
-
-			GameTooltip:Show()
-		end)
-		warning:SetScript('OnLeave', ns.HideTooltip)
-
-		--FIXME: readjust roleName until Spec is displayed below it
-		frame.Inset.spellsScroll.child.roleName:ClearAllPoints()
-		frame.Inset.spellsScroll.child.roleName:SetPoint("LEFT", frame.Inset.spellsScroll.child.roleIcon, "RIGHT", 3, 0)
+		frame = ui.Initialize()
 	end
-
 	-- toggle warning text if necessary
 	frame.warning:SetShown(ns.enhancementWarnings.show)
 
