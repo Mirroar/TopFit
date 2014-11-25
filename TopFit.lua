@@ -216,6 +216,20 @@ function ns:OnEnable()
 			},
 		}
 	end
+	-- check if each set has a forced table
+	for set, table in pairs(ns.db.profile.sets) do
+		if table.forced == nil then
+			table.forced = {}
+		end
+
+		-- also set if all stat and cap values are numbers
+		for stat, value in pairs(table.weights) do
+			table.weights[stat] = tonumber(value) or nil
+		end
+		for _, capTable in pairs(table.caps) do
+			capTable.value = tonumber(capTable.value)
+		end
+	end
 
 	ns.db.profile.minimapIcon = ns.db.profile.minimapIcon or {}
 
@@ -251,21 +265,6 @@ function ns:OnEnable()
 	-- select current auto-update set by default
 	ns:SetSelectedSet()
 
-	-- for savedvariable updates: check if each set has a forced table
-	for set, table in pairs(ns.db.profile.sets) do
-		if table.forced == nil then
-			table.forced = {}
-		end
-
-		-- also set if all stat and cap values are numbers
-		for stat, value in pairs(table.weights) do
-			table.weights[stat] = tonumber(value) or nil
-		end
-		for _, capTable in pairs(table.caps) do
-			capTable.value = tonumber(capTable.value)
-		end
-	end
-
 	-- list of weight categories and stats
 	ns.statList = {
 		-- STAT_CATEGORY_RANGED
@@ -277,9 +276,9 @@ function ns:OnEnable()
 			"ITEM_MOD_STRENGTH_SHORT",
 		},
 		[_G.STAT_CATEGORY_MELEE] = {
+			-- "ITEM_MOD_ATTACK_POWER_SHORT",
 			-- "ITEM_MOD_EXPERTISE_RATING_SHORT",
 			"ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
-			-- "ITEM_MOD_ATTACK_POWER_SHORT",
 			"ITEM_MOD_MELEE_ATTACK_POWER_SHORT",
 			"ITEM_MOD_RANGED_ATTACK_POWER_SHORT",
 			"ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
@@ -293,10 +292,11 @@ function ns:OnEnable()
 			"ITEM_MOD_SPELL_POWER_SHORT",
 		},
 		[_G.STAT_CATEGORY_DEFENSE] = {
-			"ITEM_MOD_BLOCK_RATING_SHORT",
-			"ITEM_MOD_DODGE_RATING_SHORT",
-			"ITEM_MOD_PARRY_RATING_SHORT",
-			"RESISTANCE0_NAME",                   -- armor
+			-- "ITEM_MOD_BLOCK_RATING_SHORT",
+			-- "ITEM_MOD_DODGE_RATING_SHORT",
+			-- "ITEM_MOD_PARRY_RATING_SHORT",
+			"ITEM_MOD_CR_AVOIDANCE_SHORT",
+			"RESISTANCE0_NAME", -- armor
 			"ITEM_MOD_EXTRA_ARMOR_SHORT",
 			"ITEM_MOD_RESILIENCE_RATING_SHORT",
 		},
@@ -306,17 +306,22 @@ function ns:OnEnable()
 			--"ITEM_MOD_HIT_RATING_SHORT",
 			"ITEM_MOD_MASTERY_RATING_SHORT",
 			"ITEM_MOD_PVP_POWER_SHORT",
+			"ITEM_MOD_VERSATILITY",
 			"ITEM_MOD_CR_MULTISTRIKE_SHORT",
 			"ITEM_MOD_CR_LIFESTEAL_SHORT",
-			"ITEM_MOD_VERSATILITY",
+			"ITEM_MOD_CR_AMPLIFY_SHORT",
+			"ITEM_MOD_CR_CLEAVE_SHORT",
+			"ITEM_MOD_CR_STURDINESS_SHORT",
+			"ITEM_MOD_CR_READINESS_SHORT",
+			"ITEM_MOD_CR_SPEED_SHORT",
 		},
 		[_G.STAT_CATEGORY_RESISTANCE] = {
-			"RESISTANCE1_NAME",                   -- holy
-			"RESISTANCE2_NAME",                   -- fire
-			"RESISTANCE3_NAME",                   -- nature
-			"RESISTANCE4_NAME",                   -- frost
-			"RESISTANCE5_NAME",                   -- shadow
-			"RESISTANCE6_NAME",                   -- arcane
+			"RESISTANCE1_NAME", -- holy
+			"RESISTANCE2_NAME", -- fire
+			"RESISTANCE3_NAME", -- nature
+			"RESISTANCE4_NAME", -- frost
+			"RESISTANCE5_NAME", -- shadow
+			"RESISTANCE6_NAME", -- arcane
 		},
 		--[[ [ns.locale.StatsCategoryArmorTypes] = {
 			"TOPFIT_ARMORTYPE_CLOTH",
@@ -328,7 +333,10 @@ function ns:OnEnable()
 		-- TODO: mainhand / offhand dps + speed
 	}
 
-	TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE = select(2, GetAuctionItemSubClasses(2))
+	TOPFIT_ARMORTYPE_CLOTH,
+	TOPFIT_ARMORTYPE_LEATHER,
+	TOPFIT_ARMORTYPE_MAIL,
+	TOPFIT_ARMORTYPE_PLATE = select(2, GetAuctionItemSubClasses(2))
 
 	TOPFIT_ITEM_MOD_MAINHAND = _G.INVTYPE_WEAPONMAINHAND
 	TOPFIT_ITEM_MOD_OFFHAND  = _G.INVTYPE_WEAPONOFFHAND
