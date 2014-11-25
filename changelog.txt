@@ -1,6 +1,12 @@
 Changelog for TopFit
 ====================
 
+6.0v3 - 2014/11/25
+  - fixed an error that was preventing the fix to dungeon loot in 6.0v2 from working
+  - moved import / export plugin into set dropdown and weights plugin to free some space
+  - updated import / export compatibility with Pawn
+  - show comparison tooltip be default for new users
+
 6.0v2 - 2014/11/22
   - updated gem and enchant data from wowhead
   - added some enchant data manually
