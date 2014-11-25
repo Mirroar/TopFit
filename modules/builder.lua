@@ -51,6 +51,13 @@ function Builder:Initialize()
 	if not db2[currentCharacter] then
 		db2[currentCharacter] = {}
 	end
+
+	hooksecurefunc("ChatEdit_InsertLink", function(text) -- hook shift-clicks on items
+		local popup = StaticPopup_FindVisible('TOPFIT_BUILDER_SETLINK')
+        if popup and popup.editBox:HasFocus() then
+            popup.editBox:Insert(text)
+        end
+    end)
 end
 
 -- --------------------------------------------------------
@@ -128,8 +135,7 @@ local function UpdateItemSlot(itemButton, itemLink)
 end
 
 local function SetSlotItem(self, itemLink)
-	-- TODO: prettify
-	local slotID = nil -- TODO: FIXME
+	local slotID = self:GetID()
 	local _, _, _, _, _, _, _, _, equipSlot = GetItemInfo(itemLink)
 	local slots = ns:GetEquipLocationsByInvType(equipSlot)
 	local suitable = false
@@ -170,7 +176,7 @@ local function ItemButtonOnClick(self, button, up)
 	else
 		local cursorType, itemID, itemLink = GetCursorInfo()
 		if not cursorType then
-			StaticPopup_Show('TOPFIT_BUILDER_SETLINK', slotID)
+			StaticPopup_Show('TOPFIT_BUILDER_SETLINK', slotID, nil, self)
 		elseif cursorType == 'item' and itemLink then
 			SetSlotItem(self, itemLink)
 		end
@@ -196,13 +202,15 @@ function Builder:OnShow()
 			button1 = _G.OKAY,
 			button2 = _G.CANCEL,
 			hasEditBox = true,
-			OnAccept = function(self)
+			OnAccept = function(self, data)
 				local item = self.editBox:GetText()
-				print('okay!', self, item)
+				if not item or item == '' then return end
+				local _, itemLink = GetItemInfo(item)
+				SetSlotItem(data, itemLink)
 			end,
-			OnShow = function(self)
-				print('show', self.data)
-				-- self.text:SetFormattedText()
+			OnShow = function(self, data)
+				self.editBox:SetText(data.itemLink)
+				self.editBox:HighlightText()
 			end,
 			OnHide = function (self) self.data = nil end,
 			EditBoxOnEscapePressed = function(self)
