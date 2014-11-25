@@ -10,7 +10,6 @@ TOPFIT_ITEM_MOD_OFFHAND  = _G.INVTYPE_WEAPONOFFHAND
 
 -- heirloom info
 local _, playerClass = UnitClass('player')
-print('player class:', playerClass)
 -- tables of itemIDs for heirlooms which change armor type
 -- 1: head, 3: shoulder, 5: chest
 ns.heirloomInfo = {
