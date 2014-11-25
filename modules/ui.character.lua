@@ -220,32 +220,6 @@ function ui.InitializeSetProgressBar()
     return progressBar
 end
 
-function ui.ShowProgress()
-    if _G["TopFitSetDropDown"] then
-        _G["TopFitSetDropDown"]:Hide()
-    end
-    if _G["TopFitProgressBar"] then
-        _G["TopFitProgressBar"]:Show()
-    end
-
-    if TopFitConfigFrameCalculationProgressBar then
-        TopFitConfigFrameCalculationProgressBar:Show()
-        TopFitConfigFrameCalculationProgressBarFrame:Show()
-    end
-end
-function ui.HideProgress()
-    if _G["TopFitSetDropDown"] then
-        _G["TopFitSetDropDown"]:Show()
-    end
-    if _G["TopFitProgressBar"] then
-        _G["TopFitProgressBar"]:Hide()
-    end
-
-    if TopFitConfigFrameCalculationProgressBar then
-        TopFitConfigFrameCalculationProgressBar:Hide()
-        TopFitConfigFrameCalculationProgressBarFrame:Hide()
-    end
-end
 function ui.SetProgress(progress)
     progress = progress or 0
     if TopFitProgressBar then
@@ -260,27 +234,33 @@ function ui.SetProgress(progress)
 end
 
 function ui.SetButtonState(state)
-    if not state then
-        state = 'idle'
-    end
+    state = state or 'idle'
 
     if TopFitConfigFrameCalculateButton then
         if state == 'idle' then
+            TopFitConfigFrameCalculationProgressBar:Show()
+            TopFitConfigFrameCalculationProgressBarFrame:Show()
             TopFitConfigFrameCalculateButton:Show()
         else
+            TopFitConfigFrameCalculationProgressBar:Hide()
+            TopFitConfigFrameCalculationProgressBarFrame:Hide()
             TopFitConfigFrameCalculateButton:Hide()
         end
     end
 
+    -- ui.character frame
     if TopFitSidebarCalculateButton then
         local button = TopFitSidebarCalculateButton
-
-        button.state = state
+              button.state = state
 
         if button.state == 'idle' then
+            TopFitSetDropDown:Show()
+            TopFitProgressBar:Hide()
             button:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
             button.tipText = ns.locale.StartTooltip
         else
+            TopFitSetDropDown:Hide()
+            TopFitProgressBar:Show()
             button:SetNormalTexture("Interface\\TimeManager\\PauseButton")
             button.tipText = CANCEL
         end

@@ -166,11 +166,12 @@ function WeightsPlugin.InitializeHeaderActions()
 			UIDropDownMenu_AddButton(info, level)
 
 			-- list all specs
-			for k, v in pairs(ns.specInfo) do
-				info.text = v.name
-				info.value = v.globalID
-				info.icon = v.icon
-				info.checked = UIDROPDOWNMENU_MENU_VALUE == v.globalID
+			for index = 1, GetNumSpecializations() do
+				local specOD, name, _, icon, _, role = GetSpecializationInfo(index)
+				info.text = name
+				info.value = specID
+				info.icon = icon
+				info.checked = UIDROPDOWNMENU_MENU_VALUE == specID
 				info.func = assignSpec
 				UIDropDownMenu_AddButton(info, level)
 			end
@@ -313,6 +314,38 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 	statLine:Show()
 end
 
+local setNames = {}
+local function GetAvailableItemSetNames()
+    wipe(setNames)
+    for _, itemList in pairs(TopFit:GetEquippableItems()) do
+        for _, locationTable in pairs(itemList) do
+            local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
+            if itemTable then
+                for stat, _ in pairs(itemTable.itemBonus) do
+                    if string.find(stat, "SET: ") and not tContains(setNames, stat) then
+                        tinsert(setNames, stat)
+                    end
+                end
+            end
+        end
+    end
+
+    -- also add sets that might have been added in one of the player's TopFit sets
+    for _, setTable in pairs(TopFit.db.profile.sets) do
+        for statCode, _ in pairs(setTable.weights) do
+            if string.find(statCode, "SET: ") and not tContains(setNames, statCode) then
+                tinsert(setNames, statCode)
+            end
+        end
+        for statCode, _ in pairs(setTable.caps) do
+            if string.find(statCode, "SET: ") and not tContains(setNames, statCode) then
+                tinsert(setNames, statCode)
+            end
+        end
+    end
+    return setNames
+end
+
 local function AddStatDropDownFunc(self)
 	local currentSet = ns.GetSetByID(ns.selectedSet, true)
 	currentSet:SetStatWeight(self.value, 0)
@@ -344,7 +377,7 @@ local function InitializeAddStatDropDown(self, level)
 			end
 		end
 
-		local itemSets = ns:GetAvailableItemSetNames()
+		local itemSets = GetAvailableItemSetNames()
 		if itemSets and #itemSets > 0 then
 			info.text = string.gsub(SLASH_EQUIP_SET1, "/", "")
 			info.value = SLASH_EQUIP_SET1
@@ -354,7 +387,7 @@ local function InitializeAddStatDropDown(self, level)
 		info.func = AddStatDropDownFunc
 		if UIDROPDOWNMENU_MENU_VALUE == SLASH_EQUIP_SET1 then
 			-- euipment set bonusses
-			local itemSets = ns:GetAvailableItemSetNames()
+			local itemSets = GetAvailableItemSetNames()
 			for i, setName in ipairs(itemSets or {}) do
 				info.text = string.gsub(setName, "SET: ", "")
 				info.value = setName

@@ -24,7 +24,7 @@ function ns:AbortCalculations()
     if ns.isBlocked and ns.runningCalculation then
         ns.runningCalculation:Abort()
         ns.isBlocked = false
-        ns:StoppedCalculation()
+        ns.ui.SetButtonState('idle')
         ns.runningCalculation = nil
 
         ns.ui.SetButtonState()
@@ -65,8 +65,7 @@ function ns:CalculateSets(silent)
             ns.itemListBySlot = ns:GetEquippableItems() --TODO: replace with Calculation:AddItem(item, slot) mechanic
             ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before it
 
-            ns:ResetProgress()
-
+            TopFit.progress = nil
             calculation:Start()
             ns.runningCalculation = calculation
             ns.ui.SetButtonState('busy')
@@ -78,11 +77,15 @@ function ns.UpdateUIWithCalculationProgress(calculation) --TODO: don't interact 
     -- update progress
     local set = calculation.set
     local progress = calculation:GetCurrentProgress()
-    ns:SetProgress(progress)
+    if (TopFit.progress == nil) or (TopFit.progress < progress) then
+        TopFit.progress = progress
+        ns.ui.SetProgress(progress)
+    end
 
     -- update icons and statistics
     if calculation.bestCombination then
-        ns:SetCurrentCombination(calculation.bestCombination)
+        -- TODO: since we no longer have a statistics panel, we have no place to display this info
+        -- SetCurrentCombination(calculation.bestCombination)
     end
 
     ns:Debug("Current combination count: "..calculation.combinationCount)
@@ -123,8 +126,8 @@ function TopFit.EquipRecommendedItems(set)
         TopFit:Print(TopFit.locale.NoticeVirtualItemsUsed)
 
         -- reenable options and quit
-        TopFit:StoppedCalculation()
         TopFit.isBlocked = false
+        ns.ui.SetButtonState('idle')
 
         -- reset relevant score field
         set.calculationData.ignoreCapsForCalculation = nil
@@ -241,7 +244,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 
         TopFit:Debug("All Done!")
         TopFit.updateFrame:SetScript("OnUpdate", nil)
-        TopFit:StoppedCalculation()
+        ns.ui.SetButtonState('idle')
 
         EquipmentManagerClearIgnoredSlotsForSave()
         for _, slotID in pairs(TopFit.slots) do

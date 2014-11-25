@@ -20,6 +20,7 @@ libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 # locales
 locale\enUS.lua
 
+constants.lua
 TopFit.lua
 
 # classes
@@ -35,7 +36,7 @@ modules\importplugin.class.lua
 modules\optimizerplugin.class.lua
 modules\itemstatsplugin.class.lua
 modules\virtual_items.lua
-# modules\builder.lua
+modules\builder.lua
 
 inventory.lua
 
@@ -49,7 +50,6 @@ modules\trinketlogic.lua
 modules\options.lua
 modules\ui.character.lua
 modules\ui.config.lua
-modules\ui.lua
 
 data\gems.lua
 data\enchants.lua

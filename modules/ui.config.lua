@@ -155,9 +155,9 @@ function ui.GetSidebarButton(index)
 
 		button.roleIcon:Hide()
 		button.roleName:Hide()
-		button.ring:SetTexture("Interface\\TalentFrame\\spec-filagree") 			-- Interface\\TalentFrame\\talent-main
-		button.ring:SetTexCoord(0.00390625, 0.27734375, 0.48437500, 0.75781250) 	-- 0.50000000, 0.91796875, 0.00195313, 0.21093750
-		button.specIcon:SetSize(100-14, 100-14) 									-- 100/66 (filagree is 70/56)
+		button.ring:SetTexture("Interface\\TalentFrame\\spec-filagree")             -- Interface\\TalentFrame\\talent-main
+		button.ring:SetTexCoord(0.00390625, 0.27734375, 0.48437500, 0.75781250)     -- 0.50000000, 0.91796875, 0.00195313, 0.21093750
+		button.specIcon:SetSize(100-14, 100-14)                                     -- 100/66 (filagree is 70/56)
 
 		ui.SetSidebarButtonHeight(button, 40)
 		if frame["specButton"..index] then
@@ -180,13 +180,13 @@ function ui.SetSidebarButtonState(button, active)
 	end
 end
 function ui.SetSidebarButtonHeight(button, height)
-	button:SetHeight(height) 							-- 60
-	button.bg:SetHeight(height+20) 						-- 80
-	button.selectedTex:SetHeight(height+20) 			-- 80
-	button.learnedTex:SetHeight(2*height+8) 			-- 128
-	button:GetHighlightTexture():SetHeight(height+20) 	-- 80
+	button:SetHeight(height)                            -- 60
+	button.bg:SetHeight(height+20)                      -- 80
+	button.selectedTex:SetHeight(height+20)             -- 80
+	button.learnedTex:SetHeight(2*height+8)             -- 128
+	button:GetHighlightTexture():SetHeight(height+20)   -- 80
 
-	local ringSize = 80/60 * height 					-- 100
+	local ringSize = 80/60 * height                     -- 100
 	button.specIcon:SetSize(ringSize*4/5, ringSize*4/5) -- 2/3
 	button.ring:SetSize(ringSize, ringSize)
 	button.ring:ClearAllPoints()
@@ -392,9 +392,9 @@ function ui.Initialize()
 	frame:SetAttribute("UIPanelLayout-enabled", true)
 	frame:SetAttribute("UIPanelLayout-whileDead", true)
 	frame:SetAttribute("UIPanelLayout-area", "left")
-	frame:SetAttribute("UIPanelLayout-pushable", 5) 	-- when competing for space, lower numbers get closed first
-	frame:SetAttribute("UIPanelLayout-width", 646) 		-- width + 20
-	frame:SetAttribute("UIPanelLayout-height", 468) 	-- height + 20
+	frame:SetAttribute("UIPanelLayout-pushable", 5)     -- when competing for space, lower numbers get closed first
+	frame:SetAttribute("UIPanelLayout-width", 646)      -- width + 20
+	frame:SetAttribute("UIPanelLayout-height", 468)     -- height + 20
 
 	SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
 	frame.TitleText:SetText("TopFit")
