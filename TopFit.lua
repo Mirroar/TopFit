@@ -195,28 +195,7 @@ function ns:OnEnable()
 
 	-- check if any set is saved already, if not, create default
 	if (not ns.db.profile.sets) then
-		ns.db.profile.sets = {
-			["set_1"] = {
-				name = "Default Set",
-				weights = {},
-				caps = {},
-				forced = {},
-			},
-		}
-	end
-	-- check if each set has a forced table
-	for set, table in pairs(ns.db.profile.sets) do
-		if table.forced == nil then
-			table.forced = {}
-		end
-
-		-- also set if all stat and cap values are numbers
-		for stat, value in pairs(table.weights) do
-			table.weights[stat] = tonumber(value) or nil
-		end
-		for _, capTable in pairs(table.caps) do
-			capTable.value = tonumber(capTable.value)
-		end
+		ns:AddSet({name = "Default Set"})
 	end
 
 	-- launcher ldb

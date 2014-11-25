@@ -174,7 +174,7 @@ function TopFit:AddSet(preset)
         name = setName,
         weights = weights,
         caps = caps,
-        forced = {}
+        forced = {},
     }
 
     --[[ if TopFit.ProgressFrame then
