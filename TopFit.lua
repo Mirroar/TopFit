@@ -89,18 +89,6 @@ function ns:Debug(...)
 	end
 end
 
--- debug function
-function ns:Warning(text)
-	if not ns.warningsCache then
-		ns.warningsCache = {}
-	end
-
-	if not ns.warningsCache[text] then
-		ns.warningsCache[text] = true
-		ns:Print("|cffff0000Warning: "..text)
-	end
-end
-
 -- joins any number of tables together, one after the other. elements within the input-tables will get mixed, though
 function ns:JoinTables(...)
 	local result = {}
@@ -245,145 +233,8 @@ function ns:OnEnable()
 	})
 	LibStub('LibDBIcon-1.0'):Register(addonName, ldb, self.db.profile.minimapIcon)
 
-	-- collect spec info
-	ns.specInfo = {}
-	local specID = 1
-	while GetSpecializationInfo(specID) do
-		local globalID, name, description, icon, background, role = GetSpecializationInfo(specID)
-		tinsert(ns.specInfo, {
-			globalID = globalID,
-			name = name,
-			description = description,
-			icon = icon,
-			background = background,
-			role = role,
-		})
-
-		specID = specID + 1
-	end
-
 	-- select current auto-update set by default
 	ns:SetSelectedSet()
-
-	-- list of weight categories and stats
-	ns.statList = {
-		-- STAT_CATEGORY_RANGED
-		[_G.STAT_CATEGORY_ATTRIBUTES] = {
-			"ITEM_MOD_AGILITY_SHORT",
-			"ITEM_MOD_INTELLECT_SHORT",
-			"ITEM_MOD_SPIRIT_SHORT",
-			"ITEM_MOD_STAMINA_SHORT",
-			"ITEM_MOD_STRENGTH_SHORT",
-		},
-		[_G.STAT_CATEGORY_MELEE] = {
-			-- "ITEM_MOD_ATTACK_POWER_SHORT",
-			-- "ITEM_MOD_EXPERTISE_RATING_SHORT",
-			"ITEM_MOD_FERAL_ATTACK_POWER_SHORT",
-			"ITEM_MOD_MELEE_ATTACK_POWER_SHORT",
-			"ITEM_MOD_RANGED_ATTACK_POWER_SHORT",
-			"ITEM_MOD_DAMAGE_PER_SECOND_SHORT",
-			"TOPFIT_MELEE_DPS",
-			"TOPFIT_RANGED_DPS",
-			"TOPFIT_MELEE_WEAPON_SPEED",
-			"TOPFIT_RANGED_WEAPON_SPEED",
-		},
-		[_G.STAT_CATEGORY_SPELL] = {
-			"ITEM_MOD_SPELL_PENETRATION_SHORT",
-			"ITEM_MOD_SPELL_POWER_SHORT",
-		},
-		[_G.STAT_CATEGORY_DEFENSE] = {
-			-- "ITEM_MOD_BLOCK_RATING_SHORT",
-			-- "ITEM_MOD_DODGE_RATING_SHORT",
-			-- "ITEM_MOD_PARRY_RATING_SHORT",
-			"ITEM_MOD_CR_AVOIDANCE_SHORT",
-			"RESISTANCE0_NAME", -- armor
-			"ITEM_MOD_EXTRA_ARMOR_SHORT",
-			"ITEM_MOD_RESILIENCE_RATING_SHORT",
-		},
-		[_G.STAT_CATEGORY_GENERAL] = {
-			"ITEM_MOD_CRIT_RATING_SHORT",
-			"ITEM_MOD_HASTE_RATING_SHORT",
-			--"ITEM_MOD_HIT_RATING_SHORT",
-			"ITEM_MOD_MASTERY_RATING_SHORT",
-			"ITEM_MOD_PVP_POWER_SHORT",
-			"ITEM_MOD_VERSATILITY",
-			"ITEM_MOD_CR_MULTISTRIKE_SHORT",
-			"ITEM_MOD_CR_LIFESTEAL_SHORT",
-			"ITEM_MOD_CR_AMPLIFY_SHORT",
-			"ITEM_MOD_CR_CLEAVE_SHORT",
-			"ITEM_MOD_CR_STURDINESS_SHORT",
-			"ITEM_MOD_CR_READINESS_SHORT",
-			"ITEM_MOD_CR_SPEED_SHORT",
-		},
-		[_G.STAT_CATEGORY_RESISTANCE] = {
-			"RESISTANCE1_NAME", -- holy
-			"RESISTANCE2_NAME", -- fire
-			"RESISTANCE3_NAME", -- nature
-			"RESISTANCE4_NAME", -- frost
-			"RESISTANCE5_NAME", -- shadow
-			"RESISTANCE6_NAME", -- arcane
-		},
-		--[[ [ns.locale.StatsCategoryArmorTypes] = {
-			"TOPFIT_ARMORTYPE_CLOTH",
-			"TOPFIT_ARMORTYPE_LEATHER",
-			"TOPFIT_ARMORTYPE_MAIL",
-			"TOPFIT_ARMORTYPE_PLATE",
-		}]]
-		-- TODO: empty sockets
-		-- TODO: mainhand / offhand dps + speed
-	}
-
-	TOPFIT_ARMORTYPE_CLOTH,
-	TOPFIT_ARMORTYPE_LEATHER,
-	TOPFIT_ARMORTYPE_MAIL,
-	TOPFIT_ARMORTYPE_PLATE = select(2, GetAuctionItemSubClasses(2))
-
-	TOPFIT_ITEM_MOD_MAINHAND = _G.INVTYPE_WEAPONMAINHAND
-	TOPFIT_ITEM_MOD_OFFHAND  = _G.INVTYPE_WEAPONOFFHAND
-
-	-- list of inventory slot names
-	ns.slotList = {
-		--"AmmoSlot",
-		"BackSlot",
-		"ChestSlot",
-		"FeetSlot",
-		"Finger0Slot",
-		"Finger1Slot",
-		"HandsSlot",
-		"HeadSlot",
-		"LegsSlot",
-		"MainHandSlot",
-		"NeckSlot",
-		-- "RangedSlot",
-		"SecondaryHandSlot",
-		"ShirtSlot",
-		"ShoulderSlot",
-		"TabardSlot",
-		"Trinket0Slot",
-		"Trinket1Slot",
-		"WaistSlot",
-		"WristSlot",
-	}
-
-	ns.armoredSlots = {
-		[1] = true,
-		[3] = true,
-		[5] = true,
-		[6] = true,
-		[7] = true,
-		[8] = true,
-		[9] = true,
-		[10] = true,
-	}
-
-	-- create list of slot names with corresponding slot IDs
-	ns.slots = {}
-	ns.slotNames = {}
-	for _, slotName in pairs(ns.slotList) do
-		local slotID, _, _ = GetInventorySlotInfo(slotName)
-		ns.slots[slotName] = slotID;
-		ns.slotNames[slotID] = slotName;
-	end
 
 	-- create frame for OnUpdate
 	ns.updateFrame = CreateFrame("Frame")
@@ -411,26 +262,7 @@ function ns:OnEnable()
 	end)
 
 	-- frame for calculation function
-	ns.calculationsFrame = CreateFrame("Frame");
-
-	-- heirloom info
-	local _, playerClass = UnitClass('player')
-	-- tables of itemIDs for heirlooms which change armor type
-	-- 1: head, 3: shoulder, 5: chest
-	ns.heirloomInfo = {
-		plateHeirlooms = {
-			[1] = {69887, 61931},
-			[3] = {42949, 44100, 44099, 69890},
-			[5] = {48685, 69889},
-		},
-		mailHeirlooms = {
-			[1] = {61936, 61935},
-			[3] = {44102, 42950, 42951, 44101},
-			[5] = {48677, 48683},
-		},
-		isPlateWearer = playerClass == 'WARRIOR' or playerClass == 'PALADIN' or playerClass == 'DEATHKNIGHT',
-		isMailWearer  = playerClass == 'SHAMAN' or playerClass == 'HUNTER'
-	}
+	ns.calculationsFrame = CreateFrame("Frame")
 
 	-- container for plugin information and frames
 	ns.plugins = {}
@@ -454,7 +286,6 @@ end
 local newItems = {}
 function TopFit:collectEquippableItems(bagID)
 	wipe(newItems)
-
 	-- check bags
 	for bag = 1, NUM_BAG_SLOTS do
 		if not bagID or bag == bagID then
@@ -644,14 +475,43 @@ function ns:CreateEquipmentSet(set)
 	end
 end
 
--- frame for eventhandling
-ns.eventFrame = CreateFrame("Frame")
-ns.eventFrame:SetScript("OnEvent", ns.FrameOnEvent)
-ns.eventFrame:RegisterEvent("ADDON_LOADED")
-
 -----------------------------------------------------
 -- database access functions
 -----------------------------------------------------
+function ns:SetSelectedSet(setID)
+    -- select current auto-update set by default
+    if not setID then
+        if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
+            setID = ns.db.profile.defaultUpdateSet
+        end
+        if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
+            setID = ns.db.profile.defaultUpdateSet2
+        end
+    end
+
+    if not setID then
+        -- if still no set is selected, select first available set instead
+        for id, _ in pairs(ns.db.profile.sets) do
+            setID = id
+            break
+        end
+    end
+
+    ns.selectedSet = setID
+    if TopFitSetDropDown then
+        UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, ns.selectedSet)
+        UIDropDownMenu_SetText(TopFitSetDropDown, ns.selectedSet and ns.db.profile.sets[ns.selectedSet].name or ns.locale.NoSetTitle)
+    end
+    if TopFitSidebarCalculateButton then
+        if not setID then
+            TopFitSidebarCalculateButton:Disable()
+        else
+            TopFitSidebarCalculateButton:Enable()
+        end
+    end
+
+    ns.ui.Update(true)
+end
 
 -- get a list of all set IDs in the database
 function ns.GetSetList(useTable)
