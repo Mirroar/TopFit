@@ -82,7 +82,7 @@ function ns:collectItems(bag)
 			ns:UpdateCache(item)
 		end
 	else
-		-- check bags
+		-- check all bags
 		for bag = 0, 4 do
 			for slot = 1, GetContainerNumSlots(bag) do
 				local item = GetContainerItemLink(bag, slot)
@@ -575,21 +575,65 @@ function TopFit:IsInterestingItem(itemID, setID)
 	return false, "item is not interesting for this set"
 end
 
--- checks whether an item is BoE by given bag and slot number
-function TopFit:IsItemBoE(bag, slot)
-	TopFit.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-	TopFit.scanTooltip:SetBagItem(bag, slot)
-	local numLines = TopFit.scanTooltip:NumLines()
-	for i = 1, numLines do
-		local leftLine = _G[TopFit.scanTooltip:GetName().."TextLeft"..i]
-		local leftLineText = leftLine:GetText()
-
-		if string.find(leftLineText, ITEM_BIND_ON_EQUIP) then
-			return true
+-- TopFit will only equip items that are already bound or do not bind at all
+local bindings = {
+	[false]                  =  true, -- item does not bind
+	ITEM_SOULBOUND           =  true,
+	ITEM_ACCOUNTBOUND        =  true,
+	ITEM_BIND_ON_PICKUP      =  true,
+	ITEM_BIND_QUEST          =  true,
+	ITEM_BIND_TO_ACCOUNT     =  true,
+	ITEM_BIND_TO_BNETACCOUNT =  true,
+	ITEM_BIND_ON_EQUIP       = false,
+	ITEM_BIND_ON_USE         = false,
+}
+-- cache results since tooltip scanning is expensive
+local GetItemBinding = setmetatable({}, {
+	__mode = 'kv',
+	__index = function(self, item)
+		local itemLink
+		if not rawget(self, 'isBagItem') then
+			-- we cache data by itemLink but also allow querying by itemID or name
+			itemLink = select(2, GetItemInfo(item))
+			if item ~= itemLink then return self[itemLink] end
+			ns.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+			ns.scanTooltip:SetHyperlink(itemLink)
 		end
-	end
 
-	return false
+		local binding
+		local tipName = ns.scanTooltip:GetName()
+		for lineNum = 1, ns.scanTooltip:NumLines() do
+			local left, right = _G[tipName..'TextLeft'..lineNum], _G[tipName..'TextRight'..lineNum]
+			local textLeft, textRight = left and left:GetText(), right and right:GetText()
+			if textLeft and bindings[textLeft] ~= nil then
+				binding = textLeft; break
+			elseif textRight and bindings[textRight] ~= nil then
+				binding = textRight; break
+			end
+		end
+		ns.scanTooltip:Hide()
+
+		if not rawget(self, 'isBagItem') then -- cache result
+			self[itemLink] = binding or false
+		end
+		rawset(self, 'isBagItem', nil)
+		return binding or false
+	end ,
+	__call = function(self, item, slot)
+		if item and slot then
+			-- requires uncached data
+			ns.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+			ns.scanTooltip:SetBagItem(item, slot)
+			self.isBagItem = true
+			rawset(self, item, nil)
+		end
+		return self[item]
+	end
+})
+-- returns true if item has no binding or is already bound
+function ns:CanUseItemBinding(container, slot)
+	local binding = GetItemBinding(container, slot)
+	return bindings[binding]
 end
 
 -- returns all equippable items, limited by slot, if given
@@ -603,37 +647,40 @@ function TopFit:GetEquippableItems(requestedSlotID)
 
 	-- find available item ids for each slot
 	for slotName, slotID in pairs(TopFit.slots) do
-		itemListBySlot[slotID] = {}
+		if not requestedSlotID or requestedSlotID == slotID then
+			itemListBySlot[slotID] = {}
 
-		wipe(slotAvailableItems)
-		GetInventoryItemsForSlot(slotID, slotAvailableItems)
+			-- TODO/FIXME: this is duplicated by our blizz fix
+			wipe(slotAvailableItems)
+			GetInventoryItemsForSlot(slotID, slotAvailableItems)
 
-		for availableLocation, availableItemID in pairs(slotAvailableItems) do
-			if (not availableSlots[availableItemID]) then
-				availableSlots[availableItemID] = { slotID }
-			else
-				tinsertonce(availableSlots[availableItemID], slotID)
-			end
-		end
-
-		-- special handling for plate heirlooms
-		if (TopFit.heirloomInfo.isPlateWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
-			for i = 1, #(TopFit.heirloomInfo.plateHeirlooms[slotID]) do
-				if (not availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]]) then
-					availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]] = { slotID }
+			for availableLocation, availableItemID in pairs(slotAvailableItems) do
+				if (not availableSlots[availableItemID]) then
+					availableSlots[availableItemID] = { slotID }
 				else
-					tinsertonce(availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]], slotID)
+					tinsertonce(availableSlots[availableItemID], slotID)
 				end
 			end
-		end
 
-		-- special handling for mail heirlooms
-		if (TopFit.heirloomInfo.isMailWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
-			for i = 1, #(TopFit.heirloomInfo.mailHeirlooms[slotID]) do
-				if (not availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]]) then
-					availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]] = { slotID }
-				else
-					tinsertonce(availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]], slotID)
+			-- special handling for plate heirlooms
+			if (TopFit.heirloomInfo.isPlateWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
+				for i = 1, #(TopFit.heirloomInfo.plateHeirlooms[slotID]) do
+					if (not availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]]) then
+						availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]] = { slotID }
+					else
+						tinsertonce(availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]], slotID)
+					end
+				end
+			end
+
+			-- special handling for mail heirlooms
+			if (TopFit.heirloomInfo.isMailWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
+				for i = 1, #(TopFit.heirloomInfo.mailHeirlooms[slotID]) do
+					if (not availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]]) then
+						availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]] = { slotID }
+					else
+						tinsertonce(availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]], slotID)
+					end
 				end
 			end
 		end
@@ -642,23 +689,18 @@ function TopFit:GetEquippableItems(requestedSlotID)
 	-- check player's bags
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
+			local itemID   = GetContainerItemID(bag, slot)
 			local itemLink = GetContainerItemLink(bag, slot)
-			if itemLink then
-				local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
-				itemID = tonumber(itemID)
-
-				if (availableSlots[itemID]) then
-					-- check if item is BoE
-					local isBoE = TopFit:IsItemBoE(bag, slot)
-
-					for _, slotID in pairs(availableSlots[itemID]) do
-						tinsert(itemListBySlot[slotID], {
-							itemLink = itemLink,
-							isBoE = isBoE,
-							bag = bag,
-							slot = slot
-						})
-					end
+			if itemID and availableSlots[itemID] then
+				-- check if item is BoE
+				local isBoE = GetItemBinding(itemLink) == ITEM_BIND_ON_EQUIP
+				for _, slotID in pairs(availableSlots[itemID]) do
+					tinsert(itemListBySlot[slotID], {
+						itemLink = itemLink,
+						isBoE = isBoE,
+						bag = bag,
+						slot = slot
+					})
 				end
 			end
 		end
@@ -666,19 +708,15 @@ function TopFit:GetEquippableItems(requestedSlotID)
 
 	-- check player's inventory
 	for _, invSlot in pairs(TopFit.slots) do
+		local itemID   = GetInventoryItemID("player", invSlot)
 		local itemLink = GetInventoryItemLink("player", invSlot)
-		if itemLink then
-			local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
-			itemID = tonumber(itemID)
-
-			if (availableSlots[itemID]) then
-				for _, slotID in pairs(availableSlots[itemID]) do
-					tinsert(itemListBySlot[slotID], {
-						itemLink = itemLink,
-						isBoE = false, -- it is already equipped
-						slot = invSlot
-					})
-				end
+		if itemID and availableSlots[itemID] then
+			for _, slotID in pairs(availableSlots[itemID]) do
+				tinsert(itemListBySlot[slotID], {
+					itemLink = itemLink,
+					isBoE = false, -- item is already equipped
+					slot = invSlot
+				})
 			end
 		end
 	end

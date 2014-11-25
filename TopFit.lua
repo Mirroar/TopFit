@@ -219,8 +219,6 @@ function ns:OnEnable()
 		end
 	end
 
-	ns.db.profile.minimapIcon = ns.db.profile.minimapIcon or {}
-
 	-- launcher ldb
 	local ldb = LibStub('LibDataBroker-1.1'):NewDataObject(addonName, {
 		type  = 'launcher',
@@ -228,9 +226,11 @@ function ns:OnEnable()
 		label = addonName,
 
 		OnClick = function(button, btn, up)
+			-- TODO: right click menu to hide button
 			ns.ui.ToggleTopFitConfigFrame()
 		end,
 	})
+	ns.db.profile.minimapIcon = ns.db.profile.minimapIcon or {}
 	LibStub('LibDBIcon-1.0'):Register(addonName, ldb, self.db.profile.minimapIcon)
 
 	-- select current auto-update set by default
@@ -248,26 +248,20 @@ function ns:OnEnable()
 
 	-- table for equippable item list
 	ns.equippableItems = {}
-	-- ns:collectEquippableItems() -- delay this a little, see below
 
 	-- register needed events
-	self:RegisterEvent('ITEM_PUSH')
 	self:RegisterEvent('PLAYER_LEVEL_UP')
 	self:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
 	-- self:RegisterEvent('PLAYER_TALENT_UPDATE') -- TODO: currently unused
 	-- wait 50ms until we do our first calculation
 	C_Timer.After(0.05, function()
-		TopFit:collectEquippableItems()
-		-- TopFit:RegisterEvent('BAG_UPDATE_DELAYED')
+		ns:collectItems()
+		ns:collectEquippableItems()
+		ns:RegisterEvent('BAG_UPDATE_DELAYED')
 	end)
-
-	-- frame for calculation function
-	ns.calculationsFrame = CreateFrame("Frame")
 
 	-- container for plugin information and frames
 	ns.plugins = {}
-
-	ns:collectItems()
 
 	-- we're done initializing
 	ns.initialized = true
@@ -284,19 +278,20 @@ function ns.IsInitialized()
 end
 
 local newItems = {}
-function TopFit:collectEquippableItems(bagID)
+function ns:collectEquippableItems(bagID)
 	wipe(newItems)
 	-- check bags
 	for bag = 1, NUM_BAG_SLOTS do
 		if not bagID or bag == bagID then
 			for slot = 1, GetContainerNumSlots(bag) do
 				local itemLink = GetContainerItemLink(bag, slot)
-				if itemLink and IsEquippableItem(itemLink) and not tContains(TopFit.equippableItems, itemLink) then
-					tinsert(TopFit.equippableItems, itemLink)
+				if itemLink and not tContains(ns.equippableItems, itemLink) and IsEquippableItem(itemLink)
+					and not ns.Unfit:IsItemUnusable(itemLink) and ns:CanUseItemBinding(bag, slot) then
+					tinsert(ns.equippableItems, itemLink)
 					tinsert(newItems, {
 						itemLink = itemLink,
 						bag = bag,
-						slot = slot
+						slot = slot,
 					})
 				end
 			end
@@ -304,13 +299,13 @@ function TopFit:collectEquippableItems(bagID)
 	end
 
 	-- check equipment (mostly so your set doesn't get recalculated just because you unequip an item)
-	for _, invSlot in pairs(TopFit.slots) do
+	for _, invSlot in pairs(ns.slots) do
 		local itemLink = GetInventoryItemLink('player', invSlot)
-		if itemLink and IsEquippableItem(itemLink) and not tContains(TopFit.equippableItems, itemLink) then
-			tinsert(TopFit.equippableItems, itemLink)
+		if itemLink and not tContains(ns.equippableItems, itemLink) and IsEquippableItem(itemLink) and not ns.Unfit:IsItemUnusable(itemLink) then
+			tinsert(ns.equippableItems, itemLink)
 			tinsert(newItems, {
 				itemLink = itemLink,
-				slot = invSlot
+				slot = invSlot,
 			})
 		end
 	end
@@ -322,68 +317,53 @@ local function EvaluateNewItems(newItems)
 	local currentSpec = GetActiveSpecGroup()
 	local setCode
 	if currentSpec == 1 then
-		setCode = TopFit.db.profile.defaultUpdateSet
+		setCode = ns.db.profile.defaultUpdateSet
 	else
-		setCode = TopFit.db.profile.defaultUpdateSet2
+		setCode = ns.db.profile.defaultUpdateSet2
 	end
 	local set = setCode and ns.GetSetByID(setCode, true)
 	if not set then return end
 
 	-- new equippable item in inventory, check if it is actually better than anything currently available
 	for _, newItem in pairs(newItems) do
-		-- skip BoE items
-		if not newItem.bag or not TopFit:IsItemBoE(newItem.bag, newItem.slot) and
-			IsEquippableItem(newItem.itemLink) and not ns.Unfit:IsItemUnusable(newItem.itemLink)
-		then
-			TopFit:Debug("New Item: "..newItem.itemLink)
-			local itemTable = TopFit:GetCachedItem(newItem.itemLink)
-			for _, slotID in pairs(itemTable.equipLocationsByType) do
-				-- try to get the currently used item from the player's equipment set
-				local setItem = TopFit:GetSetItemFromSlot(slotID, setCode)
-				local setItemTable = TopFit:GetCachedItem(setItem)
-				if setItem and setItemTable then
-					-- if either score or any cap is higher than currently equipped, calculate
-					if set:GetItemScore(newItem.itemLink) > set:GetItemScore(setItem) then
-						TopFit:Debug('Higher Score!')
-						TopFit:RunAutoUpdate(true)
-						return
-					else
-						-- check caps
-						for stat, cap in pairs(TopFit.db.profile.sets[setCode].caps) do
-							if cap.active and (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
-								TopFit:Debug('Higher Cap!')
-								TopFit:RunAutoUpdate(true)
-								return
-							end
+		ns:Debug("New Item: "..newItem.itemLink)
+		local itemTable = ns:GetCachedItem(newItem.itemLink)
+		for _, slotID in pairs(itemTable.equipLocationsByType) do
+			-- try to get the currently used item from the player's equipment set
+			local setItem = ns:GetSetItemFromSlot(slotID, setCode)
+			local setItemTable = ns:GetCachedItem(setItem)
+			if setItem and setItemTable then
+				-- if either score or any cap is higher than currently equipped, calculate
+				if set:GetItemScore(newItem.itemLink) > set:GetItemScore(setItem) then
+					ns:Debug('Higher Score!')
+					ns:RunAutoUpdate(true)
+					return
+				else
+					-- check caps
+					for stat, cap in pairs(ns.db.profile.sets[setCode].caps) do
+						if cap.active and (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
+							ns:Debug('Higher Cap!')
+							ns:RunAutoUpdate(true)
+							return
 						end
 					end
-				else
-					-- no item found in set, good reason to upgrade!
-					TopFit:Debug('No Item in base set found!')
-					TopFit:RunAutoUpdate(true)
-					return
 				end
+			else
+				-- no item found in set, good reason to upgrade!
+				TopFit:Debug('No Item in base set found!')
+				TopFit:RunAutoUpdate(true)
+				return
 			end
 		end
 	end
 end
 
--- triggered when an item is looted into bags
--- note: this does not trigger when items are bound
-function ns:ITEM_PUSH(event, inventoryID, icon)
-	local bagID = inventoryID > 0 and inventoryID - CONTAINER_BAG_OFFSET or inventoryID
-	TopFit:collectItems(bagID)
-	local newEquip = TopFit:collectEquippableItems(bagID)
-	if newEquip then EvaluateNewItems(newEquip) end
-end
-
 function ns:BAG_UPDATE_DELAYED(event, ...)
 	-- update item list
-	-- TODO: only update affected bag
-	TopFit:collectItems()
+	ns:collectItems()
 
 	-- check inventory for new equippable items
-	local newEquip = TopFit:collectEquippableItems()
+	local newEquip = ns:collectEquippableItems()
 	if newEquip then EvaluateNewItems(newEquip) end
 end
 
