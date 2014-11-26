@@ -163,6 +163,7 @@ function ns:OnEnable()
 			-- initialize profile for this character
 			TopFitDB.profileKeys[profileName] = profileName
 			TopFitDB.profiles[profileName] = defaultOptions
+			selectedProfile = profileName
 		end
 	else
 		-- initialize saved variables
@@ -207,6 +208,7 @@ function ns:OnEnable()
 
 	-- check if any set is saved already, if not, create default
 	if (not ns.db.profile.sets) then
+		ns.db.profile.sets = {}
 		ns:AddSet({name = "Default Set"})
 	end
 
