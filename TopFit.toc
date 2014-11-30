@@ -10,7 +10,7 @@
 # libraries
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-libs\LibDataBroker-1.1
+libs\LibDataBroker-1.1.lua
 libs\tekKonfig\tekKonfig.xml
 libs\Unfit-1.0\Unfit-1.0.lua
 libs\LibItemLocations.lua
