@@ -577,15 +577,15 @@ end
 
 -- TopFit will only equip items that are already bound or do not bind at all
 local bindings = {
-	[false]                  =  true, -- item does not bind
-	ITEM_SOULBOUND           =  true,
-	ITEM_ACCOUNTBOUND        =  true,
-	ITEM_BIND_ON_PICKUP      =  true,
-	ITEM_BIND_QUEST          =  true,
-	ITEM_BIND_TO_ACCOUNT     =  true,
-	ITEM_BIND_TO_BNETACCOUNT =  true,
-	ITEM_BIND_ON_EQUIP       = false,
-	ITEM_BIND_ON_USE         = false,
+	[false]                    =  true, -- item does not bind
+	[ITEM_SOULBOUND]           =  true,
+	[ITEM_ACCOUNTBOUND]        =  true,
+	[ITEM_BIND_ON_PICKUP]      =  true,
+	[ITEM_BIND_QUEST]          =  true,
+	[ITEM_BIND_TO_ACCOUNT]     =  true,
+	[ITEM_BIND_TO_BNETACCOUNT] =  true,
+	[ITEM_BIND_ON_EQUIP]       = false,
+	[ITEM_BIND_ON_USE]         = false,
 }
 -- cache results since tooltip scanning is expensive
 local GetItemBinding = setmetatable({}, {
@@ -624,7 +624,7 @@ local GetItemBinding = setmetatable({}, {
 			-- requires uncached data
 			ns.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
 			ns.scanTooltip:SetBagItem(item, slot)
-			self.isBagItem = true
+			rawset(self, 'isBagItem', true)
 			rawset(self, item, nil)
 		end
 		return self[item]
@@ -689,15 +689,13 @@ function TopFit:GetEquippableItems(requestedSlotID)
 	-- check player's bags
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
-			local itemID   = GetContainerItemID(bag, slot)
-			local itemLink = GetContainerItemLink(bag, slot)
+			local itemID = GetContainerItemID(bag, slot)
 			if itemID and availableSlots[itemID] then
 				-- check if item is BoE
-				local isBoE = GetItemBinding(itemLink) == ITEM_BIND_ON_EQUIP
 				for _, slotID in pairs(availableSlots[itemID]) do
 					tinsert(itemListBySlot[slotID], {
-						itemLink = itemLink,
-						isBoE = isBoE,
+						itemLink = GetContainerItemLink(bag, slot),
+						isBoE = not ns:CanUseItemBinding(bag, slot),
 						bag = bag,
 						slot = slot
 					})
