@@ -7,6 +7,7 @@ ns.Plugin = Plugin
 -- not advised, this class is meant to be inherited from by different plugins
 function Plugin:construct(name)
     self.hasConfigPanel = false
+    self.hasConfigButton = true -- default, will only make a difference if hasConfigPanel is true
     self.configButton = nil
     self.configPanel = nil
     self.tooltipText = nil
@@ -38,13 +39,13 @@ end
 function Plugin:RegisterConfigPanel()
     self.hasConfigPanel = true
     if ns.ui.IsConfigFrameInitialized() then
-        self:CreateConfigPanel(self.fullPanel)
+        self:CreateConfigPanel()
     end
 end
 
 function Plugin:CreateConfigPanel()
     if self.hasConfigPanel then
-        self.configButton, self.configPanel = ns.ui.CreateConfigPanel(self.fullPanel)
+        self.configButton, self.configPanel = ns.ui.CreateConfigPanel(self.fullPanel, not self.hasConfigButton)
 
         self.configPanel.OnUpdate = function(frame)
             if self.OnShow then
@@ -54,10 +55,11 @@ function Plugin:CreateConfigPanel()
 
         if self.configButton then
             self:UpdateConfigButton()
-            self:UpdateConfigPanel()
-
-            self:InitializeUI()
         end
+
+        self:UpdateConfigPanel()
+
+        self:InitializeUI()
     end
 end
 

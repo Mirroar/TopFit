@@ -5,15 +5,24 @@ local ui = ns.ui
 -- GLOBALS: NORMAL_FONT_COLOR, GREEN_FONT_COLOR_CODE, RED_FONT_COLOR_CODE, MAX_EQUIPMENT_SETS_PER_PLAYER, EQUIPMENT_SETS_TOO_MANY, ADD_ANOTHER, _G, PANEL_INSET_LEFT_OFFSET, PANEL_INSET_TOP_OFFSET, PANEL_INSET_RIGHT_OFFSET, PANEL_INSET_BOTTOM_OFFSET, UIParent, GameTooltip, assert, hooksecurefunc, unpack, select, type, pairs, ipairs
 -- GLOBALS: LoadAddOn, PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic, GetNumEquipmentSets, ToggleDropDownMenu, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton
 
-function ui.CreateConfigPanel(isFull)
-	local button = ui.GetSidebarButton()
-	local id = button:GetID()
-	local panel = CreateFrame("Frame", "TopFitConfigFramePlugin"..button:GetID(), _G["TopFitConfigFrameInset"].spellsScroll.child)
+local noButtonConfigID = 1
+function ui.CreateConfigPanel(isFull, noButton)
+	local button, id
+	if noButton then
+		id = 'NoButton'..noButtonConfigID
+		noButtonConfigID = noButtonConfigID + 1
+	else
+		button = ui.GetSidebarButton()
+		id = button:GetID()
+	end
+	local panel = CreateFrame("Frame", "TopFitConfigFramePlugin"..id, _G["TopFitConfigFrameInset"].spellsScroll.child)
 		  panel:Hide()
 
 	panel.displayHeader = not isFull
 
-	button.panel = panel
+	if not noButton then
+		button.panel = panel
+	end
 	panel.button = button
 
 	return button, panel
@@ -37,11 +46,13 @@ end
 
 local function DisplayScrollFramePanel(scrollFrame, panel)
 	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
+
 	local buttonID = 1
+	local clickedButtonID = panel.button and panel.button:GetID() or nil
 	local button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
 	while button do
-		ui.SetSidebarButtonState(button, button:GetID() == panel.button:GetID())
-		button.selected = button:GetID() == panel.button:GetID()
+		ui.SetSidebarButtonState(button, button:GetID() == clickedButtonID)
+		button.selected = button:GetID() == clickedButtonID
 
 		buttonID = buttonID + 1
 		button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
