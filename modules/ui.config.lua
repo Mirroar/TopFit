@@ -47,6 +47,13 @@ end
 local function DisplayScrollFramePanel(scrollFrame, panel)
 	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
 
+	if (not ns.selectedSet or true) and panel ~= ns.SetupPlugin.configPanel then
+		-- show setup plugin
+		ui.ShowPanel(ns.SetupPlugin.configPanel)
+
+		return
+	end
+
 	local buttonID = 1
 	local clickedButtonID = panel.button and panel.button:GetID() or nil
 	local button = _G[scrollFrame:GetParent():GetName().."SpecButton"..buttonID]
@@ -70,51 +77,36 @@ local function DisplayScrollFramePanel(scrollFrame, panel)
 	end
 
 	local scrollChild = _G[scrollFrame:GetName().."ScrollChild"]
-	if not ns.selectedSet then
-		-- show placeholder panel to inform the user
-		currentChild:Hide()
-		scrollFrame:SetScrollChild(scrollChild)
-		scrollChild:Show()
-
-		SetPortraitToTexture(scrollChild.specIcon, "Interface\\ICONS\\Achievement_BG_AB_kill_in_mine")
-		scrollChild.specIcon:Show()
-
-		scrollChild.specName:SetText(ns.locale.NoSetTitle)
-		scrollChild.description:SetText(ns.locale.NoSetDescription)
-		scrollChild.roleName:SetText("")
-		scrollChild.roleIcon:SetTexture("")
-	else
-		currentChild:Show()
-		if panel.displayHeader then
-			if currentChild ~= scrollChild then
-				-- changing fromm full mode to header mode
-				currentChild:Hide()
-				scrollFrame:SetScrollChild(scrollChild)
-				scrollChild:Show()
-			end
-
-			SetHeaderData(scrollChild, panel)
-
-			panel:SetParent(scrollChild)
-			panel:ClearAllPoints()
-			panel:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 24, -185)
-			panel:SetPoint("BOTTOMRIGHT", scrollChild, "BOTTOMRIGHT", -24, 10)
-			-- panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -24, -185)
-			panel:Show()
-
-			scrollChild.panel = panel
-		else
-			-- changing from header mode to full mode
-			if currentChild == scrollChild then currentChild:Hide() end
-
-			scrollFrame:SetScrollChild(panel)
-			panel:SetSize(400, 400) -- totally random
-			panel:SetParent(scrollFrame)
-			panel:ClearAllPoints()
-			panel:SetPoint("TOPLEFT")
-			panel:SetPoint("BOTTOMRIGHT")
-			panel:Show()
+	currentChild:Show()
+	if panel.displayHeader then
+		if currentChild ~= scrollChild then
+			-- changing fromm full mode to header mode
+			currentChild:Hide()
+			scrollFrame:SetScrollChild(scrollChild)
+			scrollChild:Show()
 		end
+
+		SetHeaderData(scrollChild, panel)
+
+		panel:SetParent(scrollChild)
+		panel:ClearAllPoints()
+		panel:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 24, -185)
+		panel:SetPoint("BOTTOMRIGHT", scrollChild, "BOTTOMRIGHT", -24, 10)
+		-- panel:SetPoint("TOPRIGHT", scrollChild, "TOPRIGHT", -24, -185)
+		panel:Show()
+
+		scrollChild.panel = panel
+	else
+		-- changing from header mode to full mode
+		if currentChild == scrollChild then currentChild:Hide() end
+
+		scrollFrame:SetScrollChild(panel)
+		panel:SetSize(400, 400) -- totally random
+		panel:SetParent(scrollFrame)
+		panel:ClearAllPoints()
+		panel:SetPoint("TOPLEFT")
+		panel:SetPoint("BOTTOMRIGHT")
+		panel:Show()
 	end
 	ui.Update()
 end
