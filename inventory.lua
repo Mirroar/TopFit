@@ -314,6 +314,8 @@ function TopFit:GetItemInfoTable(item)
 		if uniqueFamily == -1 then
 			-- single unique item
 			itemBonus["UNIQUE: item-"..itemID.."*"..maxEquipped] = 1
+			-- since WoD, unique items are determined by name
+			itemBonus["UNIQUE: item-"..itemName.."*"..maxEquipped] = 1
 		else
 			-- item belongs to a unique family
 			itemBonus["UNIQUE: family-"..uniqueFamily.."*"..maxEquipped] = 1

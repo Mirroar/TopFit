@@ -561,6 +561,16 @@ local function TooltipAddNewLines(tt, link)
     end
 end
 
+local statNames = {
+	TOPFIT_ARMORTYPE_CLOTH   = 'Cloth armor',
+	TOPFIT_ARMORTYPE_LEATHER = 'Leather armor',
+	TOPFIT_ARMORTYPE_MAIL    = 'Mail armor',
+	TOPFIT_ARMORTYPE_PLATE   = 'Plate armor',
+}
+local function GetStatName(statGlobal)
+	return _G[statGlobal] or statNames[statGlobal] or statGlobal
+end
+
 local function TooltipAddLines(tt, link)
     local itemTable = TopFit:GetCachedItem(link)
 
@@ -582,7 +592,8 @@ local function TooltipAddLines(tt, link)
                     end
                     valueString = valueString..(tonumber(weightedValue) or "0")
                 end
-                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.5, 0.9, 1)
+                local statLabel = ('  +%1$d %2$s'):format(value or 0, GetStatName(stat))
+                tt:AddDoubleLine(statLabel, valueString, 0.5, 0.9, 1)
             end
         end
 
@@ -601,7 +612,8 @@ local function TooltipAddLines(tt, link)
                     end
                     valueString = valueString..(tonumber(weightedValue) or "0")
                 end
-                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 1, 0.9, 0.5)
+                local statLabel = ('  +%1$d %2$s'):format(value or 0, GetStatName(stat))
+                tt:AddDoubleLine(statLabel, valueString, 1, 0.9, 0.5)
             end
         end
 
@@ -625,31 +637,8 @@ local function TooltipAddLines(tt, link)
                     end
                     valueString = valueString..(tonumber(weightedValue) or "0")
                 end
-                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.8, 0.2, 0)
-            end
-        end
-
-        -- reforging
-        if (itemTable["reforgeBonus"]) then
-            local first = true
-            for stat, value in pairs(itemTable["reforgeBonus"]) do
-                if first then
-                    first = false
-                    tt:AddLine("Reforging:", 0.8, 0.8, 0)
-                end
-
-                local valueString = ""
-                local first = true
-                for _, setTable in pairs(TopFit.db.profile.sets) do
-                    local weightedValue = (setTable.weights[stat] or 0) * value
-                    if first then
-                        first = false
-                    else
-                        valueString = valueString.." / "
-                    end
-                    valueString = valueString..(tonumber(weightedValue) or "0")
-                end
-                tt:AddDoubleLine("  +"..(value or 0).." "..(_G[stat] or "Unknown stat"), valueString, 0.8, 0.8, 0)
+                local statLabel = ('  +%1$d %2$s'):format(value or 0, GetStatName(stat))
+                tt:AddDoubleLine(statLabel, valueString, 0.8, 0.2, 0)
             end
         end
     end

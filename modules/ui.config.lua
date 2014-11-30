@@ -381,7 +381,7 @@ end
 function ui.Initialize()
 	LoadAddOn("Blizzard_TalentUI") -- won't double init
 
-	local frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
+    local frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
 	frame:EnableMouse(true)
 	-- TalentFrame size: 646, 468
 	-- PVEFrame width: 563, 424
@@ -399,6 +399,49 @@ function ui.Initialize()
 	SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
 	frame.TitleText:SetText("TopFit")
 
+	-- TODO: localize!
+	local helpPlate = {
+		FramePos  = { x = 0, y = -22 },
+		FrameSize = { width = 646, height = 424 },
+		{ -- set tabs
+			ButtonPos    = { x = 640, y = -12 },
+			HighLightBox = { x = 644, y = -2, width = 38, height = 270 },
+			ToolTipDir   = 'LEFT',
+			ToolTipText  = 'You can find your available TopFit sets here.\n\nRight-Click the plus button to add a new set, optionally using presets or import from Pawn or TopFit.',
+		},
+		{ -- plugin sidebar
+			ButtonPos    = { x = 100, y = -100 },
+			HighLightBox = { x =   8, y =  -58, width = 204, height = 290 },
+			ToolTipDir   = 'DOWN',
+			ToolTipText  = 'Select a plugin from this list.\n\nEvery plugin has a different panel that is always directly tied to your currently selected set.',
+		},
+		{ -- calculate button
+			ButtonPos    = { x = 130, y = -345 },
+			HighLightBox = { x =  66, y = -356, width = 100, height = 25 },
+			ToolTipDir   = 'RIGHT',
+			ToolTipText  = 'Click the calculate button to update your currently selected set.',
+		},
+		{ -- content panel
+			ButtonPos    = { x = 385, y = -100 },
+			HighLightBox = { x = 222, y = -2, width = 418, height = 395 },
+			ToolTipDir   = 'DOWN',
+			ToolTipText  = 'This is the main config area.\n\nPlugins display their data and options here.',
+		},
+	}
+	local helpButton = CreateFrame('Button', '$parentTutorialButton', frame, 'MainHelpPlateButton')
+	helpButton:SetPoint('TOPLEFT', '$parent', 'TOPLEFT', 39, 20)
+	helpButton:SetScript('OnClick', function(self, btn, up)
+		if helpPlate and not HelpPlate_IsShowing(helpPlate) then
+			-- self, parent, mainHelpButton, userToggled
+			HelpPlate_Show(helpPlate, self:GetParent(), self, true)
+		else
+			HelpPlate_Hide(true)
+		end
+	end)
+	frame:SetScript('OnHide', HelpPlate_Hide)
+
+	-- TODO: use GroupFinderFrame instead of relying on Blizzard_TalentUI
+	-- http://www.townlong-yak.com/framexml/19116/PVEFrame.xml#195
 	local frameContent = CreateFrame("Frame", "$parentInset", frame, "SpecializationFrameTemplate")
 	frame.Inset = frameContent
 	frameContent:SetPoint("TOPLEFT", PANEL_INSET_LEFT_OFFSET, PANEL_INSET_TOP_OFFSET)
