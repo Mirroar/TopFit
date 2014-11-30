@@ -47,7 +47,7 @@ end
 local function DisplayScrollFramePanel(scrollFrame, panel)
 	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
 
-	if (not ns.selectedSet or true) and panel ~= ns.SetupPlugin.configPanel then
+	if (not ns.selectedSet) and panel ~= ns.SetupPlugin.configPanel then
 		-- show setup plugin
 		ui.ShowPanel(ns.SetupPlugin.configPanel)
 
