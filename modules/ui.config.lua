@@ -47,10 +47,9 @@ end
 local function DisplayScrollFramePanel(scrollFrame, panel)
 	assert(scrollFrame and panel, "Missing arguments. Usage: DisplayScrollFramePanel(scrollFrame, panel)")
 
-	if (not ns.selectedSet) and panel ~= ns.SetupPlugin.configPanel then
+	if not ns.selectedSet and panel ~= ns.SetupPlugin.configPanel then
 		-- show setup plugin
 		ui.ShowPanel(ns.SetupPlugin.configPanel)
-
 		return
 	end
 
@@ -303,7 +302,7 @@ function ui.Update(rebuildPanel)
 	frame:SetVerticalScroll(0)
 
 	local panel = ui.GetActivePanel()
-	if panel and panel.OnUpdate and not ns.IsEmpty(ns.db.profile.sets) then
+	if panel and panel.OnUpdate and (not ns.IsEmpty(ns.db.profile.sets) or panel == ns.SetupPlugin.configPanel) then
 		panel:OnUpdate()
 	end
 end

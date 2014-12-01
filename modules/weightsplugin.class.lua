@@ -111,6 +111,7 @@ function WeightsPlugin.InitializeHeaderActions()
 	delete:SetScript("OnEnter", function(self) self:SetAlpha(1); ns.ShowTooltip(self) end)
 	delete:SetScript("OnLeave", function(self) self:SetAlpha(.5); ns.HideTooltip() end)
 	delete:SetScript("OnClick", function(self, btn)
+		print('click', ns.selectedSet)
 		ns.currentlyDeletingSetID = ns.selectedSet
 		StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
 	end)
