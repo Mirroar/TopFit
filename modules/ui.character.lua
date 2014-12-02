@@ -76,8 +76,7 @@ function ui.InitializeStaticPopupDialogs()
 end
 
 local function DropDownImportSet()
-	-- TODO: localize
-	StaticPopup_Show('TOPFIT_IMPORT', 'Paste your import string from Pawn or TopFit below:')
+	StaticPopup_Show("TOPFIT_IMPORT", ns.locale.UtilitiesDefaultText)
 end
 local function DropDownAddSet(self)
     local preset
@@ -111,7 +110,7 @@ function ui.NewSetDropDown(self, level, menuList)
 
 	-- import
 	info.func = DropDownImportSet
-	info.text = NORMAL_FONT_COLOR_CODE..'Import from string' -- TODO: localize
+	info.text = NORMAL_FONT_COLOR_CODE..ns.locale.ImportLabel
 	info.value = nil
 	UIDropDownMenu_AddButton(info, level)
 end

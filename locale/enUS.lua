@@ -129,7 +129,8 @@ do
     -- utilities
     TopFit.locale.Utilities = "Import / Export"
     TopFit.locale.UtilitiesTooltip = "Click here to import or export your TopFit or Pawn gear sets."
-    TopFit.locale.UtilitiesDefaultText = "Insert your import string here."
+    TopFit.locale.ImportLabel = "Import from string"
+    TopFit.locale.UtilitiesDefaultText = "Paste your import string from Pawn or TopFit here:"
     TopFit.locale.UtilitiesErrorStringParse = "Error! String could not be parsed."
     TopFit.locale.UtilitiesErrorSetExists = "Error! A set with this name already exists."
     TopFit.locale.UtilitiesNoticeImported = "Import of %s succeeded."
