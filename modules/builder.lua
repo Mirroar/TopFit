@@ -77,8 +77,6 @@ end
 local itemStats = {}
 local function UpdateItemSlot(itemButton, itemLink)
 	if itemLink then
-		local name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture, vendorPrice = GetItemInfo(itemLink)
-
 		for gemIndex = 1, _G.MAX_NUM_SOCKETS do
 			itemButton[gemIndex]:Hide()
 		end
@@ -86,7 +84,7 @@ local function UpdateItemSlot(itemButton, itemLink)
 		wipe(itemStats)
 		itemStats = GetItemStats(itemLink, itemStats)
 
-		local _, enchantID = link:match("item:([^:]+):([^:]+):")
+		local _, enchantID = itemLink:match("item:([^:]+):([^:]+):")
 		if enchantID then
 			local socketColor = addsSocket[enchantID]
 			if socketColor then
@@ -126,11 +124,12 @@ local function UpdateItemSlot(itemButton, itemLink)
 			end
 		end
 
-		itemButton.itemLink = itemLink
+		local texture = select(10, GetItemInfo(itemLink))
 		SetItemButtonTexture(itemButton, texture or "Interface\\Icons\\Inv_Misc_Questionmark")
+		itemButton.itemLink = itemLink
 	else
-		itemButton.itemLink = nil
 		SetItemButtonTexture(itemButton, "Interface\\PaperDoll\\UI-Backpack-EmptySlot")
+		itemButton.itemLink = nil
 	end
 end
 
