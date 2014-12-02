@@ -135,6 +135,12 @@ do
     TopFit.locale.UtilitiesErrorSetExists = "Error! A set with this name already exists."
     TopFit.locale.UtilitiesNoticeImported = "Import of %s succeeded."
 
+    -- help system
+    TopFit.locale.HelpSetTabs = "You can find your available TopFit sets here.\n\nClick the plus button to add a new set, optionally using presets or importing from Pawn or TopFit."
+    TopFit.locale.HelpSidebarPlugins = "Select a plugin from this list.\n\nEvery plugin has a unique panel that is directly tied to your currently selected set."
+    TopFit.locale.HelpSidebarCalculate = "Click the calculate button to update the currently selected set."
+    TopFit.locale.HelpContentPanel = "This is the main configuration area.\n\nPlugins display their data and options here."
+
     TopFit.locale.ItemScan = {}
     TopFit.locale.ItemScan.PercentBonusTrigger = "Equip: Amplifies your Critical Strike damage and healing, Haste, Mastery, and Spirit by "
 end
