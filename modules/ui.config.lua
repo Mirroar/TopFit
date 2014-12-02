@@ -115,7 +115,8 @@ end
 local function ButtonOnEnter(self)
 	if self.selected then return end
 	if self.tooltip and self.tooltip ~= "" then
-		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("BOTTOMLEFT", self, "TOPRIGHT")
 		GameTooltip:AddLine(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, true)
 		GameTooltip:Show()
 	end
@@ -316,14 +317,14 @@ local function CreateSideTab(index)
 
 		if self.setID then
 			ns:SetSelectedSet(self.setID)
-		else -- new set tab
-			if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then return end
 			if btn == "RightButton" then
-				ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameInsetAddFromPreset"], "cursor")
-			else
-				ns:AddSet()
+				ns.currentlyDeletingSetID = ns.selectedSet
+				StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
 			end
-			ui.Update()
+		elseif GetNumEquipmentSets() < MAX_EQUIPMENT_SETS_PER_PLAYER then
+			-- new set tab
+			ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameInsetAddFromPreset"], self)
+			self:SetChecked(false)
 		end
 	end)
 
@@ -344,7 +345,7 @@ function ui.UpdateSetTabs()
 		set = ns.GetSetByID(setID)
 
 		tab = _G["TopFitConfigFrameTab"..index] or CreateSideTab(index)
-		tab.tooltip = set:GetName()
+		tab.tooltip = (ns.locale.SetTabTooltip):format(set:GetName())
 		tab.setID = setID
 
 		tab:GetNormalTexture():SetTexture( set:GetIconTexture() )
