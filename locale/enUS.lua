@@ -23,14 +23,12 @@ do
     TopFit.locale.SelectSetDropDown = "Select / Modify Set"
     TopFit.locale.AddSetDropDown = "Add New Set"
     TopFit.locale.AddSetTab = "|cFF20FF20Add new set|r|nCreate a new set using a preset or start from scratch."
+    TopFit.locale.SetTabTooltip = '%1$s|n|cFF808080Right-Click to delete this set.|r'
     TopFit.locale.ModifySetSelectText = "Select"
     TopFit.locale.ModifySetRenameText = "Rename"
     TopFit.locale.ModifySetDeleteText = "Delete"
     TopFit.locale.AddSetTooltip = "Add a new equipment set\n|cffffffffAfterwards, you can adjust this set's weights and caps in the right frame, or force items by clicking on any equipment slots below."
     TopFit.locale.DeleteSetTooltip = "Delete the selected set\n\n|cffff0000WARNING|cffffffff: The associated set in the equipment manager will also be deleted! If you want to keep it, create a copy in Blizzard's equipment manager first!"
-    TopFit.locale.NoSetTitle = "No sets available"
-    TopFit.locale.NoSetDescription = "Configuration is not available until you have created at least one set."
-    TopFit.locale.SetTabTooltip = '%1$s|n|cFF808080Right-Click to delete this set.|r'
 
     TopFit.locale.Options = "Options"
     TopFit.locale.OpenOptionsTooltip = "Open TopFit's options"
@@ -80,6 +78,14 @@ do
     -- ------------------------------------------------------------
     --  Plugins
     -- ------------------------------------------------------------
+    -- setup
+    TopFit.locale.NoSetTitle = "No sets available"
+    TopFit.locale.NoSetDescription = "Configuration is not available until you have created at least one set."
+    TopFit.locale.SetupWizardIntro = "|cffffffffWhat weight sets would you like to optimize your gear for?"
+    TopFit.locale.SetupWizardSpec1 = "|cffffffffYour primary specialization is:|r %s"
+    TopFit.locale.SetupWizardSpec2 = "|cffffffffYour secondary specialization is:|r %s"
+    TopFit.locale.SetupWizardCreateNoSet = "Do nothing"
+
     -- stats
     TopFit.locale.Stats = "Stats"
     TopFit.locale.StatsTooltip = "See the stats for your currently selected set."
