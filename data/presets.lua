@@ -9,6 +9,7 @@ ns.presets = {
 	WARRIOR = {
 		{
 			name = "Arms",
+			defaultForSpec = 71,
 			weights = {
 				ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 14.50,
 				ITEM_MOD_STRENGTH_SHORT = 4.90,
@@ -22,6 +23,7 @@ ns.presets = {
 		},
 		{
 			name = "Fury - Single-Minded",
+			defaultForSpec = 72,
 			weights = {
 				ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 9.10,
 				ITEM_MOD_STRENGTH_SHORT = 4.85,
@@ -48,6 +50,7 @@ ns.presets = {
 		},
 		{
 			name = "Protection",
+			defaultForSpec = 73,
 			weights = {
 				ITEM_MOD_EXTRA_ARMOR_SHORT = 1.00,
 				RESISTANCE0_NAME = 0.85,

@@ -29,21 +29,7 @@ function ui.ShowRenameDialog()
 
     RecalculateGearManagerDialogPopup(name, icon)
 end
-function ui.InitializeStaticPopupDialogs()
-    StaticPopupDialogs["TOPFIT_DELETESET"] = {
-        text = CONFIRM_DELETE_EQUIPMENT_SET,
-        button1 = OKAY,
-        button2 = CANCEL,
-        OnAccept = function(self)
-            ns:DeleteSet(ns.currentlyDeletingSetID)
-            ns:SetSelectedSet()
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = true,
-        preferredIndex = 3
-    }
-
+function ui.InitializeGearManagerHooks()
     _G["GearManagerDialogPopup"]:HookScript("OnShow", function(self)
         self.setID = nil
     end)
@@ -302,7 +288,7 @@ function ui.InitializeConfigButton()
 
     button:RegisterForClicks("AnyUp")
     button:SetScript("OnClick", function(self, btn)
-    	CloseMenus() -- prevent oddities when ui.config gets initialized
+        CloseMenus() -- prevent oddities when ui.config gets initialized
         if btn == "RightButton" then
             InterfaceOptionsFrame_OpenToCategory(addonName)
         else
@@ -315,7 +301,7 @@ end
 local initialized
 function ui.Initialize()
     if initialized then return end
-    ui.InitializeStaticPopupDialogs()
+    ui.InitializeGearManagerHooks()
     ui.InitializeSetDropdown()
     ui.InitializeSetProgressBar()
     ui.InitializeMultiButton()

@@ -259,6 +259,21 @@ function ns:OnEnable()
 	-- container for plugin information and frames
 	ns.plugins = {}
 
+	-- initialize delete set popup
+	StaticPopupDialogs["TOPFIT_DELETESET"] = {
+		text = CONFIRM_DELETE_EQUIPMENT_SET,
+		button1 = OKAY,
+		button2 = CANCEL,
+		OnAccept = function(self)
+			ns:DeleteSet(ns.currentlyDeletingSetID)
+			ns:SetSelectedSet()
+		end,
+		timeout = 0,
+		whileDead = true,
+		hideOnEscape = true,
+		preferredIndex = 3
+	}
+
 	-- we're done initializing
 	ns.initialized = true
 

@@ -32,6 +32,7 @@ smartcalculation.class.lua
 plugin.class.lua
 
 # plugins: things displayed in config panel
+modules\setupplugin.class.lua
 modules\weightsplugin.class.lua
 modules\importplugin.class.lua
 modules\optimizerplugin.class.lua
