@@ -206,12 +206,6 @@ function ns:OnEnable()
 
 	TopFitDB.version = currentVersion
 
-	-- check if any set is saved already, if not, create default
-	if (not ns.db.profile.sets) then
-		ns.db.profile.sets = {}
-		ns:AddSet({name = "Default Set"})
-	end
-
 	-- launcher ldb
 	local ldb = LibStub('LibDataBroker-1.1'):NewDataObject(addonName, {
 		type  = 'launcher',
