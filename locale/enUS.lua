@@ -31,7 +31,8 @@ do
     TopFit.locale.DeleteSetTooltip = "Delete the selected set\n\n|cffff0000WARNING|cffffffff: The associated set in the equipment manager will also be deleted! If you want to keep it, create a copy in Blizzard's equipment manager first!"
 
     TopFit.locale.Options = "Options"
-    TopFit.locale.OpenOptionsTooltip = "Open TopFit's options"
+    TopFit.locale.OpenSetConfigTooltip = "Left-Click: Open set config"
+    TopFit.locale.OpenAddonConfigTooltip = "Right-Click: Open addon config"
     TopFit.locale.ForceItem = "Force Item for %s:"
     TopFit.locale.ForceItemNone = "Do not force"
     TopFit.locale.EmptySet = "Empty Set"

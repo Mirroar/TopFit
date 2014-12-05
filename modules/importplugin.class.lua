@@ -7,33 +7,39 @@ local addonName, ns, _ = ...
 -- this table maps pawn stat names to topfit stats
 local globalString = {
 	-- primary stats
-	Strength          = 'ITEM_MOD_STRENGTH_SHORT',
 	Agility           = 'ITEM_MOD_AGILITY_SHORT',
-	Stamina           = 'ITEM_MOD_STAMINA_SHORT',
 	Intellect         = 'ITEM_MOD_INTELLECT_SHORT',
+	Stamina           = 'ITEM_MOD_STAMINA_SHORT',
+	Strength          = 'ITEM_MOD_STRENGTH_SHORT',
 
 	-- secondary stats
-	CritRating        = 'ITEM_MOD_CRIT_RATING_SHORT',
-	HasteRating       = 'ITEM_MOD_HASTE_RATING_SHORT',
-	MasteryRating     = 'ITEM_MOD_MASTERY_RATING_SHORT',
-	Multistrike       = 'ITEM_MOD_CR_MULTISTRIKE_SHORT',
-	Versatility       = 'ITEM_MOD_VERSATILITY',
 	BonusArmor        = 'ITEM_MOD_EXTRA_ARMOR_SHORT',
+	CriticalStrike    = 'ITEM_MOD_CRIT_RATING_SHORT', -- AMR
+	CritRating        = 'ITEM_MOD_CRIT_RATING_SHORT', -- Pawn
+	Haste             = 'ITEM_MOD_HASTE_RATING_SHORT', -- AMR
+	HasteRating       = 'ITEM_MOD_HASTE_RATING_SHORT', -- Pawn
+	Mastery           = 'ITEM_MOD_MASTERY_RATING_SHORT', -- AMR
+	MasteryRating     = 'ITEM_MOD_MASTERY_RATING_SHORT', -- Pawn
+	Multistrike       = 'ITEM_MOD_CR_MULTISTRIKE_SHORT',
 	Spirit            = 'ITEM_MOD_SPIRIT_SHORT',
+	Versatility       = 'ITEM_MOD_VERSATILITY',
 
 	-- tertiary stats
-	MovementSpeed     = 'ITEM_MOD_CR_SPEED_SHORT',
-	Avoidance         = 'ITEM_MOD_CR_AVOIDANCE_SHORT',
-	Leech             = 'ITEM_MOD_CR_LIFESTEAL_SHORT',
-	Indestructible    = 'ITEM_MOD_CR_STURDINESS_SHORT',
 	Amplify           = 'ITEM_MOD_CR_AMPLIFY_SHORT', -- nyi by pawn
+	Avoidance         = 'ITEM_MOD_CR_AVOIDANCE_SHORT',
 	Cleave            = 'ITEM_MOD_CR_CLEAVE_SHORT', -- nyi by pawn
+	Indestructible    = 'ITEM_MOD_CR_STURDINESS_SHORT',
+	Leech             = 'ITEM_MOD_CR_LIFESTEAL_SHORT',
+	MovementSpeed     = 'ITEM_MOD_CR_SPEED_SHORT',
 
 	-- meta stats
+	MainHandDps       = 'TOPFIT_MELEE_DPS', -- AMR
+	-- OffHandDps        = 'TOPFIT_MELEE_DPS', -- AMR
 	MeleeDps          = 'TOPFIT_MELEE_DPS',
 	RangedDps         = 'TOPFIT_RANGED_DPS',
 	Dps               = 'ITEM_MOD_DAMAGE_PER_SECOND_SHORT',
-	Ap                = 'ITEM_MOD_ATTACK_POWER_SHORT',
+	Ap                = 'ITEM_MOD_ATTACK_POWER_SHORT', -- Pawn
+	AttackPower       = 'ITEM_MOD_ATTACK_POWER_SHORT', -- AMR
 	SpellPower        = 'ITEM_MOD_SPELL_POWER_SHORT',
 	Armor             = 'RESISTANCE0_NAME',
 	Speed             = nil, -- weapon speed, in seconds per swing; fast weapons -> use negative score!
@@ -154,6 +160,15 @@ local function ParsePawn(importString)
 	end)
 	return setName, scaleTable
 end
+local function ParseAMR(importString)
+	local weights, setName = importString:trim()
+	local scaleTable = {}
+	weights:gsub('([^ \n]+) -([%d.]+)', function(stat, weight)
+		setName = setName or stat
+		scaleTable[stat] = tonumber(weight)
+	end)
+	return setName, scaleTable
+end
 -- e.g. ( TopFit: v1: "SetName": Intellect=A, RangedDps=B : HitRating=<value>; <isSoftCap>, DefenseRating=[...] )
 local function ParseTopFit(importString)
 	local found, _, version, setName, weights, caps = importString:find('^%s*%(%s*TopFit%s*:%s*v(%d+)%s*:%s*"([^"]+)"%s*:%s*(.+)%s*%:?%s*(.*)%s*%)%s*$')
@@ -244,6 +259,9 @@ local function ImportString(importString)
 	local setName, setScores, caps = ParsePawn(importString)
 	if not setName then
 		setName, setScores, caps = ParseTopFit(importString)
+	end
+	if not setName then
+		setName, setScores = ParseAMR(importString)
 	end
 	if not setName then
 		TopFit:Print(TopFit.locale.UtilitiesErrorStringParse)

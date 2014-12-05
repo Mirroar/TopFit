@@ -276,7 +276,9 @@ function ui.InitializeConfigButton()
     button:SetPoint("RIGHT", "TopFitSetDropDown", "LEFT", 14, 3)
     button:SetAlpha(0.8)
     button:SetSize(14, 14)
-    button.tipText = ns.locale.OpenOptionsTooltip
+    button.tipText = addonName .. '|n|cFFFFFFFF'
+    	.. ns.locale.OpenSetConfigTooltip .. '|n'
+    	.. ns.locale.OpenAddonConfigTooltip
     button:SetScript("OnEnter", ns.ShowTooltip)
     button:SetScript("OnLeave", ns.HideTooltip)
     button:SetNormalTexture("Interface\\Buttons\\UI-OptionsButton")
