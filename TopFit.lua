@@ -225,6 +225,12 @@ function ns:OnEnable()
 				ns.ui.ToggleTopFitConfigFrame()
 			end
 		end,
+		OnTooltipShow = function(tooltip)
+			tooltip:AddLine(addonName)
+			local c = GRAY_FONT_COLOR
+			tooltip:AddLine(ns.locale.OpenSetConfigTooltip, c.r, c.g, c.b)
+			tooltip:AddLine(ns.locale.OpenAddonConfigTooltip, c.r, c.g, c.b)
+		end
 	})
 	ns.minimapIcon = LibStub('LibDBIcon-1.0')
 	ns.minimapIcon:Register(addonName, ldb, self.db.profile.minimapIcon)
