@@ -512,7 +512,7 @@ function ui.Initialize()
 
 	-- initialize calculate button
 	local button = CreateFrame('Button', '$parentCalculateButton', frame, 'UIPanelButtonTemplate')
-	button:SetText('Calculate')
+	button:SetText('Calculate') --TODO: translate
 	button:SetPoint('BOTTOM', sidebarFrame, 'BOTTOMLEFT', 108, 20)
 	button:Show()
 	button:SetWidth(100)

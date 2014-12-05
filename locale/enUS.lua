@@ -80,11 +80,10 @@ do
     -- ------------------------------------------------------------
     -- setup
     TopFit.locale.NoSetTitle = "No sets available"
-    TopFit.locale.NoSetDescription = "Configuration is not available until you have created at least one set."
     TopFit.locale.SetupWizardIntro = "|cffffffffIn order for TopFit to do anything for you, stat weights need to be set. You can start off by creating some default sets."
     TopFit.locale.SetupWizardSpec0 = "|cffffffffYou don't have any specialization yet."
-    TopFit.locale.SetupWizardSpec1 = "|cffffffffYour current specialization is \""..NORMAL_FONT_COLOR_CODE.."%s"..FONT_COLOR_CODE_CLOSE.."\"."
-    TopFit.locale.SetupWizardSpec2 = "|cffffffffYour current specializations are \""..NORMAL_FONT_COLOR_CODE.."%s"..FONT_COLOR_CODE_CLOSE.."\" and \""..NORMAL_FONT_COLOR_CODE.."%s"..FONT_COLOR_CODE_CLOSE.."\"."
+    TopFit.locale.SetupWizardSpec1 = "|cffffffffYour current specialization is \""..NORMAL_FONT_COLOR_CODE.."%s".."|cffffffff".."\"."
+    TopFit.locale.SetupWizardSpec2 = "|cffffffffYour current specializations are \""..NORMAL_FONT_COLOR_CODE.."%s".."|cffffffff".."\" and \""..NORMAL_FONT_COLOR_CODE.."%s".."|cffffffff".."\"."
     TopFit.locale.SetupWizardSpecAll = " Choose which sets should be created."
     TopFit.locale.SetupWizardCreateNoSet = "Do nothing"
     TopFit.locale.SetupWizardAuteEquip = "Auto-update and equip these sets"
