@@ -22,11 +22,12 @@ do
     TopFit.locale.EditSetNameTooltip = "Click here to edit this set's name!"
     TopFit.locale.SelectSetDropDown = "Select / Modify Set"
     TopFit.locale.AddSetDropDown = "Add New Set"
-    TopFit.locale.AddSetTab = GREEN_FONT_COLOR_CODE.."Add new set"..FONT_COLOR_CODE_CLOSE.."\n\nLeft click to add an empty set and start customizing it.\n\nRight click to add a set based on a preset for your class."
+    TopFit.locale.AddSetTab = "|cFF20FF20Add new set|r|nCreate a new set using a preset or start from scratch."
+    TopFit.locale.SetTabTooltip = '%1$s|n|cFF808080Right-Click to delete this set.|r'
     TopFit.locale.ModifySetSelectText = "Select"
     TopFit.locale.ModifySetRenameText = "Rename"
     TopFit.locale.ModifySetDeleteText = "Delete"
-    TopFit.locale.AddSetTooltip = "Add a new equipment set\n|cffffffffAftewards, you can adjust this set's weights and caps in the right frame, or force items by clicking on any equipment slots below."
+    TopFit.locale.AddSetTooltip = "Add a new equipment set\n|cffffffffAfterwards, you can adjust this set's weights and caps in the right frame, or force items by clicking on any equipment slots below."
     TopFit.locale.DeleteSetTooltip = "Delete the selected set\n\n|cffff0000WARNING|cffffffff: The associated set in the equipment manager will also be deleted! If you want to keep it, create a copy in Blizzard's equipment manager first!"
 
     TopFit.locale.Options = "Options"
@@ -137,10 +138,17 @@ do
     -- utilities
     TopFit.locale.Utilities = "Import / Export"
     TopFit.locale.UtilitiesTooltip = "Click here to import or export your TopFit or Pawn gear sets."
-    TopFit.locale.UtilitiesDefaultText = "Insert your import string here."
+    TopFit.locale.ImportLabel = "Import from string"
+    TopFit.locale.UtilitiesDefaultText = "Paste your import string from Pawn or TopFit here:"
     TopFit.locale.UtilitiesErrorStringParse = "Error! String could not be parsed."
     TopFit.locale.UtilitiesErrorSetExists = "Error! A set with this name already exists."
     TopFit.locale.UtilitiesNoticeImported = "Import of %s succeeded."
+
+    -- help system
+    TopFit.locale.HelpSetTabs = "You can find your available TopFit sets here.\n\nClick the plus button to add a new set, optionally using presets or importing from Pawn or TopFit."
+    TopFit.locale.HelpSidebarPlugins = "Select a plugin from this list.\n\nEvery plugin has a unique panel that is directly tied to your currently selected set."
+    TopFit.locale.HelpSidebarCalculate = "Click the calculate button to update the currently selected set."
+    TopFit.locale.HelpContentPanel = "This is the main configuration area.\n\nPlugins display their data and options here."
 
     TopFit.locale.ItemScan = {}
     TopFit.locale.ItemScan.PercentBonusTrigger = "Equip: Amplifies your Critical Strike damage and healing, Haste, Mastery, and Spirit by "

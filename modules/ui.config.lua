@@ -117,7 +117,8 @@ end
 local function ButtonOnEnter(self)
 	if self.selected then return end
 	if self.tooltip and self.tooltip ~= "" then
-		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("BOTTOMLEFT", self, "TOPRIGHT")
 		GameTooltip:AddLine(self.tooltip, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, true)
 		GameTooltip:Show()
 	end
@@ -318,14 +319,14 @@ local function CreateSideTab(index)
 
 		if self.setID then
 			ns:SetSelectedSet(self.setID)
-		else -- new set tab
-			if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then return end
 			if btn == "RightButton" then
-				ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameInsetAddFromPreset"], "cursor")
-			else
-				ns:AddSet()
+				ns.currentlyDeletingSetID = ns.selectedSet
+				StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
 			end
-			ui.Update()
+		elseif GetNumEquipmentSets() < MAX_EQUIPMENT_SETS_PER_PLAYER then
+			-- new set tab
+			ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameInsetAddFromPreset"], self)
+			self:SetChecked(false)
 		end
 	end)
 
@@ -346,7 +347,7 @@ function ui.UpdateSetTabs()
 		set = ns.GetSetByID(setID)
 
 		tab = _G["TopFitConfigFrameTab"..index] or CreateSideTab(index)
-		tab.tooltip = set:GetName()
+		tab.tooltip = (ns.locale.SetTabTooltip):format(set:GetName())
 		tab.setID = setID
 
 		tab:GetNormalTexture():SetTexture( set:GetIconTexture() )
@@ -401,7 +402,6 @@ function ui.Initialize()
 	SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
 	frame.TitleText:SetText("TopFit")
 
-	-- TODO: localize!
 	local helpPlate = {
 		FramePos  = { x = 0, y = -22 },
 		FrameSize = { width = 646, height = 424 },
@@ -409,25 +409,25 @@ function ui.Initialize()
 			ButtonPos    = { x = 640, y = -12 },
 			HighLightBox = { x = 644, y = -2, width = 38, height = 270 },
 			ToolTipDir   = 'LEFT',
-			ToolTipText  = 'You can find your available TopFit sets here.\n\nRight-Click the plus button to add a new set, optionally using presets or import from Pawn or TopFit.',
+			ToolTipText  = ns.locale.HelpSetTabs,
 		},
 		{ -- plugin sidebar
 			ButtonPos    = { x = 100, y = -100 },
 			HighLightBox = { x =   8, y =  -58, width = 204, height = 290 },
 			ToolTipDir   = 'DOWN',
-			ToolTipText  = 'Select a plugin from this list.\n\nEvery plugin has a different panel that is always directly tied to your currently selected set.',
+			ToolTipText  = ns.locale.HelpSidebarPlugins,
 		},
 		{ -- calculate button
 			ButtonPos    = { x = 130, y = -345 },
 			HighLightBox = { x =  66, y = -356, width = 100, height = 25 },
 			ToolTipDir   = 'RIGHT',
-			ToolTipText  = 'Click the calculate button to update your currently selected set.',
+			ToolTipText  = ns.locale.HelpSidebarCalculate,
 		},
 		{ -- content panel
 			ButtonPos    = { x = 385, y = -100 },
 			HighLightBox = { x = 222, y = -2, width = 418, height = 395 },
 			ToolTipDir   = 'DOWN',
-			ToolTipText  = 'This is the main config area.\n\nPlugins display their data and options here.',
+			ToolTipText  = ns.locale.HelpContentPanel,
 		},
 	}
 	local helpButton = CreateFrame('Button', '$parentTutorialButton', frame, 'MainHelpPlateButton')
