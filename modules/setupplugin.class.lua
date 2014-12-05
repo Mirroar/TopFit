@@ -63,27 +63,9 @@ function SetupPlugin:OnShow()
             end)
         end
 
-        checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAuteEquip, "TOP", checkbox, "BOTTOM",0, -5)
+        -- create checkbox for auto-equipping
+        checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", checkbox, "BOTTOM",0, -5)
         checkbox:SetPoint("LEFT", frame, "LEFT")
-
-        -- create confirmation button
-        local button = CreateFrame('Button', '$parentConfirmButton', frame, 'UIPanelButtonTemplate')
-        button:SetText('Confirm') --TODO: translate
-        button:SetPoint('TOPLEFT', checkbox, 'BOTTOMLEFT', 0, -10)
-        button:Show()
-        button:SetWidth(100)
-
-        button:SetScript('OnClick', function()
-            -- create selected sets
-            for presetID, preset in ipairs(presets) do
-                if frame['presetCheckbox'..presetID]:GetChecked() then
-                    ns:AddSet(preset)
-                end
-            end
-            -- switch to weights plugin
-            ns.ui.ShowPanel(ns.WeightsPlugin.configPanel)
-        end)
-        frame.confirmButton = button
 
         -- detect character specialization for suggesting default sets
         local specID, specName = GetSpecialization(nil, nil, 1)
@@ -113,6 +95,25 @@ function SetupPlugin:OnShow()
                 frame['presetCheckbox'..presetID]:SetChecked(false)
             end
         end
+
+        -- create confirmation button
+        local button = CreateFrame('Button', '$parentConfirmButton', frame, 'UIPanelButtonTemplate')
+        button:SetText('Confirm') --TODO: translate
+        button:SetPoint('TOPLEFT', checkbox, 'BOTTOMLEFT', 0, -10)
+        button:Show()
+        button:SetWidth(100)
+
+        button:SetScript('OnClick', function()
+            -- create selected sets
+            for presetID, preset in ipairs(presets) do
+                if frame['presetCheckbox'..presetID]:GetChecked() then
+                    ns:AddSet(preset)
+                end
+            end
+            -- switch to weights plugin
+            ns.ui.ShowPanel(ns.WeightsPlugin.configPanel)
+        end)
+        frame.confirmButton = button
     end
 
     updateButtonState()

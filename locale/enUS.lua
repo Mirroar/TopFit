@@ -87,7 +87,7 @@ do
     TopFit.locale.SetupWizardSpec2 = "|cffffffffYour current specializations are \""..NORMAL_FONT_COLOR_CODE.."%s".."|cffffffff".."\" and \""..NORMAL_FONT_COLOR_CODE.."%s".."|cffffffff".."\"."
     TopFit.locale.SetupWizardSpecAll = " Choose which sets should be created."
     TopFit.locale.SetupWizardCreateNoSet = "Do nothing"
-    TopFit.locale.SetupWizardAuteEquip = "Auto-update and equip these sets"
+    TopFit.locale.SetupWizardAutoEquip = "Auto-update and equip these sets"
 
     -- stats
     TopFit.locale.Stats = "Stats"
