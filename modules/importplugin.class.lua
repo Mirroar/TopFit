@@ -4,7 +4,7 @@ local addonName, ns, _ = ...
 -- GLOBALS: CreateFrame, GetTime
 -- GLOBALS: string, tostring, pairs, gsub, tonumber, strfind
 
--- this table maps pawn stat names to topfit stats
+-- this table maps Pawn/AMR stat names to topfit stats
 local globalString = {
 	-- primary stats
 	Agility           = 'ITEM_MOD_AGILITY_SHORT',
