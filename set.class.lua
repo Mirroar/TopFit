@@ -151,7 +151,7 @@ end
 
 -- get a list of all configured hard caps and their values, keyed by stat
 function Set:GetHardCaps(useTable)
-	if useTable then wipe(useTable) end
+    if useTable then wipe(useTable) end
     local caps = useTable or {}
     for stat, value in pairs(self.caps) do
         caps[stat] = value
