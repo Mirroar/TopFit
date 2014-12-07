@@ -3,10 +3,10 @@ local addonName, ns = ...
 function TopFit:createOptions()
     if not TopFit.InterfaceOptionsFrame then
         TopFit.InterfaceOptionsFrame = CreateFrame("Frame", "TopFit_InterfaceOptionsFrame", InterfaceOptionsFramePanelContainer)
-        TopFit.InterfaceOptionsFrame.name = "TopFit"
+        TopFit.InterfaceOptionsFrame.name = addonName
         TopFit.InterfaceOptionsFrame:Hide()
 
-        local title, subtitle = LibStub("tekKonfig-Heading").new(TopFit.InterfaceOptionsFrame, "TopFit", TopFit.locale.SubTitle)
+        local title, subtitle = LibStub("tekKonfig-Heading").new(TopFit.InterfaceOptionsFrame, addonName, TopFit.locale.SubTitle)
 
         -- Show Minimap Icon Checkbox
         local showMinimapIcon = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.ShowMinimapIcon, "TOPLEFT", subtitle, "BOTTOMLEFT", -2, 0)
@@ -136,7 +136,7 @@ function TopFit:createOptions()
         end)
 
         InterfaceOptions_AddCategory(TopFit.InterfaceOptionsFrame)
-        LibStub("tekKonfig-AboutPanel").new("TopFit", "TopFit")
+        LibStub("tekKonfig-AboutPanel").new(addonName, addonName)
 
         TopFit.InterfaceOptionsFrame:SetScript("OnShow", function()
             showTooltip:SetChecked(TopFit.db.profile.showTooltip)
@@ -249,7 +249,7 @@ function TopFit:RenameSet(setCode, newName)
 
     -- check if set name is already taken, generate a unique one in that case
     if (TopFit:HasSet(newName) and not newName == TopFit.db.profile.sets[setCode].name) then
-        local newSetName = "2-"..newName
+        local newSetName = "2-"..newName --TODO: wut?
         local k = 2
         while TopFit:HasSet(newSetName) do
             k = k + 1
