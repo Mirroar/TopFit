@@ -453,16 +453,10 @@ function ns:AutoEquipSet()
 	end
 end
 
-function ns:CreateEquipmentSet(set)
+function ns:CreateEquipmentManagerSet(set)
 	if (CanUseEquipmentSets()) then
-		local setName = ns:GenerateSetName(set)
-		-- check if a set with this name exists
-		local texture
-		if (GetEquipmentSetInfoByName(setName)) then
-			texture = GetEquipmentSetInfoByName(setName)
-		else
-			texture = "Spell_Holy_EmpowerChampion"
-		end
+		local setName = ns:GenerateSetName(set:GetName())
+		local texture = set:GetIconTexture():gsub("Interface\\Icons\\", "")
 
 		ns:Debug("Trying to create set: "..setName..", "..(texture or "nil"))
 		SaveEquipmentSet(setName, texture)

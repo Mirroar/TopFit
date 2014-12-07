@@ -204,6 +204,14 @@ function TopFit:AddSet(preset)
         set:SetHardCap(key, value)
     end
 
+    if preset and preset.specialization then
+        set:SetAssociatedSpec(preset.specialization)
+    end
+
+    if not GetEquipmentSetInfoByName(ns:GenerateSetName(set:GetName())) then
+        TopFit:CreateEquipmentManagerSet(set)
+    end
+
     TopFit:SetSelectedSet(setID)
 
     return setID

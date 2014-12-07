@@ -69,9 +69,7 @@ local function DropDownAddSet(self)
     if self.value and self.value ~= "" then
         preset = ns:GetPresets()[self.value]
     end
-    local setCode = ns:AddSet(preset) -- [TODO] rewrite for set objects
-    local setName = ns.db.profile.sets[setCode].name
-    ns:CreateEquipmentSet(setName)
+    ns:AddSet(preset)
 end
 
 -- reused in ui.config.lua
