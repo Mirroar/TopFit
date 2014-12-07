@@ -9,6 +9,7 @@ ns.presets = {
   DEATHKNIGHT = {
     {
       name = "Blood",
+      wizardName = "Blood",
       specialization = 250,
       default = true,
       weights = {
@@ -28,7 +29,8 @@ ns.presets = {
       },
     },
     {
-      name = "Frost: Single-Target",
+      name = "Frost",
+      wizardName = "Frost: Single-Target",
       specialization = 251,
       default = true,
       weights = {
@@ -43,7 +45,8 @@ ns.presets = {
       },
     },
     {
-      name = "Frost: Multi-Target",
+      name = "Frost",
+      wizardName = "Frost: Multi-Target",
       specialization = 251,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 17.32,
@@ -57,7 +60,8 @@ ns.presets = {
       },
     },
     {
-      name = "Frost (Dual-Wield)",
+      name = "Frost",
+      wizardName = "Frost (Dual-Wield)",
       specialization = 251,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 10.34,
@@ -72,6 +76,7 @@ ns.presets = {
     },
     {
       name = "Unholy",
+      wizardName = "Unholy",
       specialization = 252,
       default = true,
       weights = {
@@ -88,7 +93,8 @@ ns.presets = {
   },
   DRUID = {
     {
-      name = "Balance: Euphoria",
+      name = "Balance",
+      wizardName = "Balance: Euphoria",
       specialization = 102,
       default = true,
       weights = {
@@ -102,7 +108,8 @@ ns.presets = {
       },
     },
     {
-      name = "Balance: Stellar Flare",
+      name = "Balance",
+      wizardName = "Balance: Stellar Flare",
       specialization = 102,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -115,7 +122,8 @@ ns.presets = {
       },
     },
     {
-      name = "Feral: Single-Target",
+      name = "Feral",
+      wizardName = "Feral: Single-Target",
       specialization = 103,
       default = true,
       weights = {
@@ -130,7 +138,8 @@ ns.presets = {
       },
     },
     {
-      name = "Feral: Multi-Target",
+      name = "Feral",
+      wizardName = "Feral: Multi-Target",
       specialization = 103,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 9.4,
@@ -145,6 +154,7 @@ ns.presets = {
     },
     {
       name = "Guardian",
+      wizardName = "Guardian",
       specialization = 104,
       default = true,
       weights = {
@@ -164,7 +174,8 @@ ns.presets = {
       },
     },
     {
-      name = "Restoration: Haste",
+      name = "Restoration",
+      wizardName = "Restoration: Haste",
       specialization = 105,
       default = true,
       weights = {
@@ -179,7 +190,8 @@ ns.presets = {
       },
     },
     {
-      name = "Restoration: Mastery",
+      name = "Restoration",
+      wizardName = "Restoration: Mastery",
       specialization = 105,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -195,7 +207,8 @@ ns.presets = {
   },
   HUNTER = {
     {
-      name = "BeastMastery: Single Target",
+      name = "BeastMastery",
+      wizardName = "BeastMastery: Single Target",
       specialization = 253,
       default = true,
       weights = {
@@ -210,7 +223,8 @@ ns.presets = {
       },
     },
     {
-      name = "BeastMastery: Multi Target",
+      name = "BeastMastery",
+      wizardName = "BeastMastery: Multi Target",
       specialization = 253,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 9.91,
@@ -224,7 +238,8 @@ ns.presets = {
       },
     },
     {
-      name = "Marksmanship: Lone Wolf",
+      name = "Marksmanship",
+      wizardName = "Marksmanship: Lone Wolf",
       specialization = 254,
       default = true,
       weights = {
@@ -239,7 +254,8 @@ ns.presets = {
       },
     },
     {
-      name = "Marksmanship: Pet",
+      name = "Marksmanship",
+      wizardName = "Marksmanship: Pet",
       specialization = 254,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 21.47,
@@ -253,7 +269,8 @@ ns.presets = {
       },
     },
     {
-      name = "Survival: Lone Wolf",
+      name = "Survival",
+      wizardName = "Survival: Lone Wolf",
       specialization = 255,
       default = true,
       weights = {
@@ -268,7 +285,8 @@ ns.presets = {
       },
     },
     {
-      name = "Survival: Pet",
+      name = "Survival",
+      wizardName = "Survival: Pet",
       specialization = 255,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 5.69,
@@ -285,6 +303,7 @@ ns.presets = {
   MAGE = {
     {
       name = "Arcane",
+      wizardName = "Arcane",
       specialization = 62,
       default = true,
       weights = {
@@ -298,7 +317,8 @@ ns.presets = {
       },
     },
     {
-      name = "Fire: Default",
+      name = "Fire",
+      wizardName = "Fire: Default",
       specialization = 63,
       default = true,
       weights = {
@@ -312,7 +332,8 @@ ns.presets = {
       },
     },
     {
-      name = "Fire: Pre-Raid Single-Target",
+      name = "Fire",
+      wizardName = "Fire: Pre-Raid Single-Target",
       specialization = 63,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -326,6 +347,7 @@ ns.presets = {
     },
     {
       name = "Frost",
+      wizardName = "Frost",
       specialization = 64,
       default = true,
       weights = {
@@ -342,6 +364,7 @@ ns.presets = {
   MONK = {
     {
       name = "Brewmaster",
+      wizardName = "Brewmaster",
       specialization = 268,
       default = true,
       weights = {
@@ -361,7 +384,8 @@ ns.presets = {
       },
     },
     {
-      name = "Brewmaster (Dual-Wield)",
+      name = "Brewmaster",
+      wizardName = "Brewmaster (Dual-Wield)",
       specialization = 268,
       weights = {
         ITEM_MOD_EXTRA_ARMOR_SHORT = 10,
@@ -381,6 +405,7 @@ ns.presets = {
     },
     {
       name = "Mistweaver",
+      wizardName = "Mistweaver",
       specialization = 270,
       default = true,
       weights = {
@@ -396,6 +421,7 @@ ns.presets = {
     },
     {
       name = "Windwalker",
+      wizardName = "Windwalker",
       specialization = 269,
       default = true,
       weights = {
@@ -410,7 +436,8 @@ ns.presets = {
       },
     },
     {
-      name = "Windwalker (Dual-Wield): Single-Target",
+      name = "Windwalker",
+      wizardName = "Windwalker (Dual-Wield): Single-Target",
       specialization = 269,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 21.32,
@@ -424,7 +451,8 @@ ns.presets = {
       },
     },
     {
-      name = "Windwalker (Dual-Wield): Multi-Target",
+      name = "Windwalker",
+      wizardName = "Windwalker (Dual-Wield): Multi-Target",
       specialization = 269,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 21.68,
@@ -440,7 +468,8 @@ ns.presets = {
   },
   PALADIN = {
     {
-      name = "Holy: Crit",
+      name = "Holy",
+      wizardName = "Holy: Crit",
       specialization = 65,
       default = true,
       weights = {
@@ -455,7 +484,8 @@ ns.presets = {
       },
     },
     {
-      name = "Holy: Mastery",
+      name = "Holy",
+      wizardName = "Holy: Mastery",
       specialization = 65,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -469,7 +499,8 @@ ns.presets = {
       },
     },
     {
-      name = "Holy: Output",
+      name = "Holy",
+      wizardName = "Holy: Output",
       specialization = 65,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -484,6 +515,7 @@ ns.presets = {
     },
     {
       name = "Protection",
+      wizardName = "Protection",
       specialization = 66,
       default = true,
       weights = {
@@ -504,6 +536,7 @@ ns.presets = {
     },
     {
       name = "Retribution",
+      wizardName = "Retribution",
       specialization = 70,
       default = true,
       weights = {
@@ -520,7 +553,8 @@ ns.presets = {
   },
   PRIEST = {
     {
-      name = "Discipline: Balanced",
+      name = "Discipline",
+      wizardName = "Discipline: Balanced",
       specialization = 256,
       default = true,
       weights = {
@@ -535,7 +569,8 @@ ns.presets = {
       },
     },
     {
-      name = "Discipline: Output",
+      name = "Discipline",
+      wizardName = "Discipline: Output",
       specialization = 256,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -549,7 +584,8 @@ ns.presets = {
       },
     },
     {
-      name = "Holy: Multistrike/Haste",
+      name = "Holy",
+      wizardName = "Holy: Multistrike/Haste",
       specialization = 257,
       default = true,
       weights = {
@@ -564,7 +600,8 @@ ns.presets = {
       },
     },
     {
-      name = "Holy: Crit",
+      name = "Holy",
+      wizardName = "Holy: Crit",
       specialization = 257,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -578,7 +615,8 @@ ns.presets = {
       },
     },
     {
-      name = "Shadow: Balanced",
+      name = "Shadow",
+      wizardName = "Shadow: Balanced",
       specialization = 258,
       default = true,
       weights = {
@@ -592,7 +630,8 @@ ns.presets = {
       },
     },
     {
-      name = "Shadow: Single-Target",
+      name = "Shadow",
+      wizardName = "Shadow: Single-Target",
       specialization = 258,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -608,6 +647,7 @@ ns.presets = {
   ROGUE = {
     {
       name = "Assassination",
+      wizardName = "Assassination",
       specialization = 259,
       default = true,
       weights = {
@@ -623,6 +663,7 @@ ns.presets = {
     },
     {
       name = "Combat",
+      wizardName = "Combat",
       specialization = 260,
       default = true,
       weights = {
@@ -638,6 +679,7 @@ ns.presets = {
     },
     {
       name = "Subtlety",
+      wizardName = "Subtlety",
       specialization = 261,
       default = true,
       weights = {
@@ -655,6 +697,7 @@ ns.presets = {
   SHAMAN = {
     {
       name = "Elemental",
+      wizardName = "Elemental",
       specialization = 262,
       default = true,
       weights = {
@@ -669,6 +712,7 @@ ns.presets = {
     },
     {
       name = "Enhancement",
+      wizardName = "Enhancement",
       specialization = 263,
       default = true,
       weights = {
@@ -683,7 +727,8 @@ ns.presets = {
       },
     },
     {
-      name = "Restoration: Mastery",
+      name = "Restoration",
+      wizardName = "Restoration: Mastery",
       specialization = 264,
       default = true,
       weights = {
@@ -698,7 +743,8 @@ ns.presets = {
       },
     },
     {
-      name = "Restoration: Crit",
+      name = "Restoration",
+      wizardName = "Restoration: Crit",
       specialization = 264,
       weights = {
         ITEM_MOD_INTELLECT_SHORT = 10,
@@ -715,6 +761,7 @@ ns.presets = {
   WARLOCK = {
     {
       name = "Affliction",
+      wizardName = "Affliction",
       specialization = 265,
       default = true,
       weights = {
@@ -729,6 +776,7 @@ ns.presets = {
     },
     {
       name = "Demonology",
+      wizardName = "Demonology",
       specialization = 266,
       default = true,
       weights = {
@@ -743,6 +791,7 @@ ns.presets = {
     },
     {
       name = "Destruction",
+      wizardName = "Destruction",
       specialization = 267,
       default = true,
       weights = {
@@ -759,6 +808,7 @@ ns.presets = {
   WARRIOR = {
     {
       name = "Arms",
+      wizardName = "Arms",
       specialization = 71,
       default = true,
       weights = {
@@ -774,6 +824,7 @@ ns.presets = {
     },
     {
       name = "Fury",
+      wizardName = "Fury",
       specialization = 72,
       default = true,
       weights = {
@@ -788,7 +839,8 @@ ns.presets = {
       },
     },
     {
-      name = "Fury (Titan's Grip)",
+      name = "Fury",
+      wizardName = "Fury (Titan's Grip)",
       specialization = 72,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 25.24,
@@ -803,6 +855,7 @@ ns.presets = {
     },
     {
       name = "Protection",
+      wizardName = "Protection",
       specialization = 73,
       default = true,
       weights = {
@@ -823,6 +876,7 @@ ns.presets = {
     },
     {
       name = "ProtectionGlad",
+      wizardName = "ProtectionGlad",
       specialization = 73,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 9.26,
