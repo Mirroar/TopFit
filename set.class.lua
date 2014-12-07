@@ -113,7 +113,16 @@ end
 
 -- get the set's icon texture used for its equipment set
 function Set:GetIconTexture()
-    return "Interface\\Icons\\" .. (GetEquipmentSetInfoByName(self:GetEquipmentSetName()) or "Spell_Holy_EmpowerChampion")
+    local icon = GetEquipmentSetInfoByName(self:GetEquipmentSetName())
+    if icon then
+        return "Interface\\Icons\\" .. icon
+    end
+
+    local spec = self:GetAssociatedSpec()
+    if spec then
+        icon = select(4, GetSpecializationInfoByID(spec))
+    end
+    return icon or "Interface\\Icons\\Spell_Holy_EmpowerChampion"
 end
 
 function Set:GetEquipmentSetName()
