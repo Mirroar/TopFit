@@ -400,7 +400,7 @@ function ui.Initialize()
 	frame:SetAttribute("UIPanelLayout-height", 468)     -- height + 20
 
 	SetPortraitToTexture(frame:GetName().."Portrait", "Interface\\Icons\\Achievement_BG_trueAVshutout")
-	frame.TitleText:SetText("TopFit")
+	frame.TitleText:SetText(addonName)
 
 	local helpPlate = {
 		FramePos  = { x = 0, y = -22 },

@@ -275,7 +275,7 @@ local function ImportString(importString)
 	end
 
 	local tempName = string.sub(tostring(GetTime()), 1, 5) or "?"
-	local setCode = TopFit:AddSet({                                     -- TODO!
+	local setCode = TopFit:AddSet({ -- this mimics the structure of a preset table
 		name = setName or "Import"..tempName,
 		weights = SanitizeScales(setScores),
 		caps = caps or {},

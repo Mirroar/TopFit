@@ -125,15 +125,15 @@ function ns.HideTooltip()
 	GameTooltip:Hide()
 end
 
-function ns:GenerateSetName(name)
+function ns:GenerateSetName(name) --TODO: ideally move this function into set class
 	-- using substr because blizzard interface only allows 16 characters
 	-- although technically SaveEquipmentSet & co allow more
-	return (((name ~= nil) and (name.." "):sub(1, 12).."(TF)") or "TopFit")
+	return (((name ~= nil) and (name.." "):sub(1, 12).."(TF)") or "TopFit") --TODO: clean up
 end
 
 function TopFit.ChatCommand(input)
 	if not input or input:trim() == "" or input:trim():lower() == "options" or input:trim():lower() == "conf" or input:trim():lower() == "config" then
-		InterfaceOptionsFrame_OpenToCategory("TopFit")
+		InterfaceOptionsFrame_OpenToCategory(addonName)
 	elseif input:trim():lower() == "show" then
 		--TODO: TopFit:CreateProgressFrame() is outdated
 	else
@@ -203,6 +203,8 @@ function ns:OnEnable()
 			profile.minimapIcon = {}
 		end
 	end
+
+	--TODO: replace old ugly set_i set IDs with simple numbers - in profile.sets and defaultUpdateSet
 
 	TopFitDB.version = currentVersion
 
