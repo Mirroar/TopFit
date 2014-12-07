@@ -839,13 +839,35 @@ end
 local function AddEquippableItem(useTable, inventorySlot, container, slot)
 	local itemID, link
 	if not container then
+		itemID = GetInventoryItemID('player', inventorySlot)
+		link   = GetInventoryItemLink('player', inventorySlot)
 		slot   = inventorySlot
-		itemID = GetInventoryItemID('player', slot)
-		link   = GetInventoryItemLink('player', slot)
 	else
 		itemID = GetContainerItemID(container, slot)
 		link   = GetContainerItemLink(container, slot)
 	end
+
+	local _, _, _, _, _, _, subClass, _, equipSlot = GetItemInfo(link or '')
+	if not container and slot == 16 or slot == 17 then
+		-- not all partner slots are interchangable, e.g. mh/shield
+		if equipSlot == 'INVTYPE_2HWEAPON' then
+			-- fury warrior's titan's grip
+			if not IsSpellKnown(23588) then return end
+		elseif equipSlot == 'INVTYPE_WEAPON' then
+			-- regular dual wield
+			local _, playerClass = UnitClass('player')
+			local specID = GetSpecializationInfo(GetSpecialization() or 0)
+			local canDualWield = playerClass == 'DEATHKNIGHT' or playerClass == 'ROGUE'
+				or IsSpellKnown(23588) -- fury warrior
+				or specID == 263 -- enhancement shaman
+				or specID == 268 or specID == 269 -- brewmaster/windwalker monk
+			if not canDualWield then return end
+		else
+			-- only weapons can be dual wielded
+			return
+		end
+	end
+
 	if not link then return end -- even when there's an id, without the link we can't do anything
 
 	local isBags   = container and container >= _G.BACKPACK_CONTAINER and container <= _G.NUM_BAG_SLOTS+_G.NUM_BANKBAGSLOTS
@@ -855,7 +877,6 @@ local function AddEquippableItem(useTable, inventorySlot, container, slot)
 
 	local location = ItemLocations:PackInventoryLocation(container, slot, isPlayer, isBank, isBags)
 
-	local _, _, _, _, _, _, subClass, _, equipSlot = GetItemInfo(link)
 	if inventorySlot == 14 then inventorySlot = 13 end -- trinket
 	if inventorySlot == 12 then inventorySlot = 11 end -- ring
 	-- maybe also use IsUsableItem()?
@@ -878,7 +899,7 @@ hooksecurefunc('GetInventoryItemsForSlot', function(inventorySlot, useTable, tra
 	-- scan equipped items
 	AddEquippableItem(useTable, inventorySlot)
 	if partnerSlots[inventorySlot] then
-		AddEquippableItem(useTable, partnerSlots[inventorySlot])
+		AddEquippableItem(useTable, partnerSlots[inventorySlot], nil, inventorySlot)
 	end
 
 	-- scan bag containers
