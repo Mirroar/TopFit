@@ -3408,7 +3408,7 @@ ns.gemIDs = {
   },
   [34142] = { -- Infinite Sphere
     colors = {"RED", "BLUE", "YELLOW"},
-    stats = {["RESISTANCE6_NAME"] = 33,["RESISTANCE2_NAME"] = 33,["RESISTANCE4_NAME"] = 33,["RESISTANCE1_NAME"] = 33,["RESISTANCE3_NAME"] = 33,},
+    stats = {["RESISTANCE6_NAME"] = 33,["RESISTANCE2_NAME"] = 33,["RESISTANCE4_NAME"] = 33,["RESISTANCE1_NAME"] = 33,["RESISTANCE3_NAME"] = 33,["RESISTANCE5_NAME"] = 33,},
     requirements = {},
   },
   [32193] = { -- Bold Crimson Spinel
@@ -4563,12 +4563,12 @@ ns.gemIDs = {
   },
   [22459] = { -- Void Sphere
     colors = {"RED", "BLUE", "YELLOW"},
-    stats = {["RESISTANCE6_NAME"] = 4,["RESISTANCE2_NAME"] = 4,["RESISTANCE4_NAME"] = 4,["RESISTANCE1_NAME"] = 4,["RESISTANCE3_NAME"] = 4,},
+    stats = {["RESISTANCE6_NAME"] = 4,["RESISTANCE2_NAME"] = 4,["RESISTANCE4_NAME"] = 4,["RESISTANCE1_NAME"] = 4,["RESISTANCE3_NAME"] = 4,["RESISTANCE5_NAME"] = 4,},
     requirements = {},
   },
   [22460] = { -- Prismatic Sphere
     colors = {"RED", "BLUE", "YELLOW"},
-    stats = {["RESISTANCE6_NAME"] = 3,["RESISTANCE2_NAME"] = 3,["RESISTANCE4_NAME"] = 3,["RESISTANCE1_NAME"] = 3,["RESISTANCE3_NAME"] = 3,},
+    stats = {["RESISTANCE6_NAME"] = 3,["RESISTANCE2_NAME"] = 3,["RESISTANCE4_NAME"] = 3,["RESISTANCE1_NAME"] = 3,["RESISTANCE3_NAME"] = 3,["RESISTANCE5_NAME"] = 3,},
     requirements = {},
   },
   [42701] = { -- Enchanted Pearl
