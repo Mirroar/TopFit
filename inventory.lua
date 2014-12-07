@@ -303,6 +303,25 @@ function TopFit:GetItemInfoTable(item)
 		end
 	end
 
+	-- scan for currently inactive primary stats
+	for i = 1, numLines do
+		local leftLine = _G[tooltip:GetName()..'TextLeft'..i]
+		local textLeft = leftLine:GetText()
+		local start, _, amount, stat = string.find(textLeft, "^%+(%d*) (.*)")
+		if start then --and math.abs(_G[tooltip:GetName()..'TextLeft'..i]:GetTextColor() - GRAY_FONT_COLOR.r) < 0.01 then
+			local r, g, b = leftLine:GetTextColor()
+			if math.abs(GRAY_FONT_COLOR.r - r) < 0.01 and math.abs(GRAY_FONT_COLOR.g - g) < 0.01 and math.abs(GRAY_FONT_COLOR.b - b) < 0.01 then
+				if stat == ITEM_MOD_INTELLECT_SHORT then
+					itemBonus.ITEM_MOD_INTELLECT_SHORT = tonumber(amount)
+				elseif stat == ITEM_MOD_AGILITY_SHORT then
+					itemBonus.ITEM_MOD_AGILITY_SHORT = tonumber(amount)
+				elseif stat == ITEM_MOD_STRENGTH_SHORT then
+					itemBonus.ITEM_MOD_STRENGTH_SHORT = tonumber(amount)
+				end
+			end
+		end
+	end
+
 	-- add set name
 	if setName then
 		itemBonus["SET: "..setName] = 1
@@ -331,6 +350,12 @@ function TopFit:GetItemInfoTable(item)
 		itemBonus["TOPFIT_ARMORTYPE_MAIL"] = 1
 	elseif itemSubType == TOPFIT_ARMORTYPE_PLATE then
 		itemBonus["TOPFIT_ARMORTYPE_PLATE"] = 1
+	end
+
+	-- add spec info
+	local specs = GetItemSpecInfo(item)
+	if specs and #specs <= 0 then
+		specs = nil
 	end
 
 	-- for weapons, add melee/ranged dps
@@ -422,7 +447,8 @@ function TopFit:GetItemInfoTable(item)
 		enchantBonus = enchantBonus,
 		gemBonus = gemBonus,
 		totalBonus = totalBonus,
-		procBonus = procBonus
+		procBonus = procBonus,
+		specs = specs,
 	}
 
 	-- allow plugins to modify result
