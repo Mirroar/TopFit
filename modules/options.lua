@@ -187,16 +187,26 @@ function TopFit:AddSet(preset)
         setName = newSetName
     end
 
-    TopFit.db.profile.sets["set_"..i] = {
+    local setID = "set_"..i
+    TopFit.db.profile.sets[setID] = {
         name = setName,
-        weights = weights,
-        caps = caps,
+        weights = {},
+        caps = {},
         forced = {},
     }
 
-    TopFit:SetSelectedSet("set_"..i)
+    local set = ns.Set.CreateWritableFromSavedVariables(setID)
+    for key, value in pairs(weights) do
+        set:SetStatWeight(key, value)
+    end
 
-    return "set_"..i
+    for key, value in pairs(caps) do
+        set:SetHardCap(key, value)
+    end
+
+    TopFit:SetSelectedSet(setID)
+
+    return setID
 end
 
 function TopFit:HasSet(setName)
