@@ -33,7 +33,7 @@ ns.gemIDs = {
   },
   [115813] = { -- Greater Multistrike Taladite
     colors = {"RED", "BLUE", "YELLOW"},
-    stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 50,},
+    stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 50,},
     requirements = {},
   },
   [115814] = { -- Greater Versatility Taladite
@@ -63,7 +63,7 @@ ns.gemIDs = {
   },
   [115806] = { -- Multistrike Taladite
     colors = {"RED", "BLUE", "YELLOW"},
-    stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 35,},
+    stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 35,},
     requirements = {},
   },
   [115807] = { -- Versatility Taladite

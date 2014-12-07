@@ -20,7 +20,7 @@ ns.enchantIDs = {
     [5327] = { -- Enchant Ring - Gift of Multistrike
       itemID = 110641,
       spellID = 158917,
-      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 50,},
+      stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 50,},
     },
     [5328] = { -- Enchant Ring - Gift of Versatility
       itemID = 110642,
@@ -45,7 +45,7 @@ ns.enchantIDs = {
     [5301] = { -- Enchant Ring - Breath of Multistrike
       itemID = 110620,
       spellID = 158910,
-      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 30,},
+      stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 30,},
     },
     [5303] = { -- Enchant Ring - Breath of Versatility
       itemID = 110621,
@@ -72,7 +72,7 @@ ns.enchantIDs = {
     [5320] = { -- Enchant Neck - Gift of Multistrike
       itemID = 110648,
       spellID = 158902,
-      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 75,},
+      stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 75,},
     },
     [5321] = { -- Enchant Neck - Gift of Versatility
       itemID = 110649,
@@ -97,7 +97,7 @@ ns.enchantIDs = {
     [5294] = { -- Enchant Neck - Breath of Multistrike
       itemID = 110627,
       spellID = 158895,
-      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 40,},
+      stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 40,},
     },
     [5295] = { -- Enchant Neck - Breath of Versatility
       itemID = 110628,
@@ -124,7 +124,7 @@ ns.enchantIDs = {
     [5313] = { -- Enchant Cloak - Gift of Multistrike
       itemID = 110655,
       spellID = 158887,
-      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 100,},
+      stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 100,},
     },
     [5314] = { -- Enchant Cloak - Gift of Versatility
       itemID = 110656,
@@ -149,7 +149,7 @@ ns.enchantIDs = {
     [5302] = { -- Enchant Cloak - Breath of Multistrike
       itemID = 110634,
       spellID = 158880,
-      stats = {["ITEM_MOD_CR_MULTISTIKE_SHORT"] = 100,},
+      stats = {["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = 100,},
     },
     [5304] = { -- Enchant Cloak - Breath of Versatility
       itemID = 110635,
