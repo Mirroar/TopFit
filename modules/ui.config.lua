@@ -384,7 +384,7 @@ end
 function ui.Initialize()
 	LoadAddOn("Blizzard_TalentUI") -- won't double init
 
-    local frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
+	local frame = CreateFrame("Frame", "TopFitConfigFrame", UIParent, "PortraitFrameTemplate")
 	frame:EnableMouse(true)
 	-- TalentFrame size: 646, 468
 	-- PVEFrame width: 563, 424

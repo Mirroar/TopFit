@@ -54,10 +54,10 @@ function Builder:Initialize()
 
 	hooksecurefunc("ChatEdit_InsertLink", function(text) -- hook shift-clicks on items
 		local popup = StaticPopup_FindVisible('TOPFIT_BUILDER_SETLINK')
-        if popup and popup.editBox:HasFocus() then
-            popup.editBox:Insert(text)
-        end
-    end)
+		if popup and popup.editBox:HasFocus() then
+			popup.editBox:Insert(text)
+		end
+	end)
 end
 
 -- --------------------------------------------------------

@@ -317,34 +317,34 @@ end
 
 local setNames = {}
 local function GetAvailableItemSetNames()
-    wipe(setNames)
-    for _, itemList in pairs(TopFit:GetEquippableItems()) do
-        for _, locationTable in pairs(itemList) do
-            local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
-            if itemTable then
-                for stat, _ in pairs(itemTable.itemBonus) do
-                    if string.find(stat, "SET: ") and not tContains(setNames, stat) then
-                        tinsert(setNames, stat)
-                    end
-                end
-            end
-        end
-    end
+	wipe(setNames)
+	for _, itemList in pairs(TopFit:GetEquippableItems()) do
+		for _, locationTable in pairs(itemList) do
+			local itemTable = TopFit:GetCachedItem(locationTable.itemLink)
+			if itemTable then
+				for stat, _ in pairs(itemTable.itemBonus) do
+					if string.find(stat, "SET: ") and not tContains(setNames, stat) then
+						tinsert(setNames, stat)
+					end
+				end
+			end
+		end
+	end
 
-    -- also add sets that might have been added in one of the player's TopFit sets
-    for _, setTable in pairs(TopFit.db.profile.sets) do
-        for statCode, _ in pairs(setTable.weights) do
-            if string.find(statCode, "SET: ") and not tContains(setNames, statCode) then
-                tinsert(setNames, statCode)
-            end
-        end
-        for statCode, _ in pairs(setTable.caps) do
-            if string.find(statCode, "SET: ") and not tContains(setNames, statCode) then
-                tinsert(setNames, statCode)
-            end
-        end
-    end
-    return setNames
+	-- also add sets that might have been added in one of the player's TopFit sets
+	for _, setTable in pairs(TopFit.db.profile.sets) do
+		for statCode, _ in pairs(setTable.weights) do
+			if string.find(statCode, "SET: ") and not tContains(setNames, statCode) then
+				tinsert(setNames, statCode)
+			end
+		end
+		for statCode, _ in pairs(setTable.caps) do
+			if string.find(statCode, "SET: ") and not tContains(setNames, statCode) then
+				tinsert(setNames, statCode)
+			end
+		end
+	end
+	return setNames
 end
 
 local function AddStatDropDownFunc(self)
