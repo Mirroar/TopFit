@@ -91,140 +91,140 @@ ns.enchantIDs[SHOULDER][2487].stats = {RESISTANCE5_NAME = 5}
 
 
 
-    [2583] = { -- Presence of Might
-      itemID = 19782,
-      spellID = 24149,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2584] = { -- Syncretist's Sigil
-      itemID = 19783,
-      spellID = 24160,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [3754] = { -- Falcon's Call
-      itemID = 19785,
-      spellID = 24162,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2590] = { -- Prophetic Aura
-      itemID = 19789,
-      spellID = 24167,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2591] = { -- Animist's Caress
-      itemID = 19790,
-      spellID = 24168,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2681] = { -- Savage Guard
-      itemID = 22635,
-      spellID = 28161,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2682] = { -- Ice Guard
-      itemID = 22636,
-      spellID = 28163,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2683] = { -- Shadow Guard
-      itemID = 22638,
-      spellID = 28165,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
+		[2583] = { -- Presence of Might
+			itemID = 19782,
+			spellID = 24149,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2584] = { -- Syncretist's Sigil
+			itemID = 19783,
+			spellID = 24160,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[3754] = { -- Falcon's Call
+			itemID = 19785,
+			spellID = 24162,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2590] = { -- Prophetic Aura
+			itemID = 19789,
+			spellID = 24167,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2591] = { -- Animist's Caress
+			itemID = 19790,
+			spellID = 24168,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2681] = { -- Savage Guard
+			itemID = 22635,
+			spellID = 28161,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2682] = { -- Ice Guard
+			itemID = 22636,
+			spellID = 28163,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2683] = { -- Shadow Guard
+			itemID = 22638,
+			spellID = 28165,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
 
 
 
 
 
-    [10] = { -- Enchant Chest - Minor Absorption
-      itemID = 38767,
-      spellID = 7426,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [25] = { -- Enchant Chest - Lesser Absorption
-      itemID = 38798,
-      spellID = 13538,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
+		[10] = { -- Enchant Chest - Minor Absorption
+			itemID = 38767,
+			spellID = 7426,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[25] = { -- Enchant Chest - Lesser Absorption
+			itemID = 38798,
+			spellID = 13538,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
 
 
 
 
-    [4428] = { -- Enchant Boots - Blurred Speed
-      itemID = 74717,
-      spellID = 104409,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [4429] = { -- Enchant Boots - Pandaren's Step
-      itemID = 74718,
-      spellID = 104414,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2658] = { -- Enchant Boots - Surefooted
-      itemID = 38910,
-      spellID = 27954,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
+		[4428] = { -- Enchant Boots - Blurred Speed
+			itemID = 74717,
+			spellID = 104409,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[4429] = { -- Enchant Boots - Pandaren's Step
+			itemID = 74718,
+			spellID = 104414,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2658] = { -- Enchant Boots - Surefooted
+			itemID = 38910,
+			spellID = 27954,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
 
 
 
 
-    [2613] = { -- Enchant Gloves - Threat
-      itemID = 38885,
-      spellID = 25072,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2614] = { -- Enchant Gloves - Shadow Power
-      itemID = 38886,
-      spellID = 25073,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2615] = { -- Enchant Gloves - Frost Power
-      itemID = 38887,
-      spellID = 25074,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
-    [2616] = { -- Enchant Gloves - Fire Power
-      itemID = 38888,
-      spellID = 25078,
-      couldNotParse = true,
-      stats = {},
-      requirements = {["max_ilevel"] = 600,},
-    },
+		[2613] = { -- Enchant Gloves - Threat
+			itemID = 38885,
+			spellID = 25072,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2614] = { -- Enchant Gloves - Shadow Power
+			itemID = 38886,
+			spellID = 25073,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2615] = { -- Enchant Gloves - Frost Power
+			itemID = 38887,
+			spellID = 25074,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
+		[2616] = { -- Enchant Gloves - Fire Power
+			itemID = 38888,
+			spellID = 25078,
+			couldNotParse = true,
+			stats = {},
+			requirements = {["max_ilevel"] = 600,},
+		},
 
 
-    + unknowns
+		+ unknowns
 
 --]]
