@@ -4,6 +4,12 @@ local addonName, ns, _ = ...
 -- GLOBALS: CreateFrame, GetTime
 -- GLOBALS: string, tostring, pairs, gsub, tonumber, strfind
 
+--[[
+	TODO: Parse caps from AMR
+		CriticalStrike < 33.33%   2.70
+		CriticalStrike 33.33% +   2.00
+--]]
+
 -- this table maps Pawn/AMR stat names to topfit stats
 local globalString = {
 	-- primary stats
