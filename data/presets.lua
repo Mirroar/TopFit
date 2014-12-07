@@ -9,7 +9,8 @@ ns.presets = {
 	WARRIOR = {
 		{
 			name = "Arms",
-			defaultForSpec = 71,
+			specialization = 71,
+			default = true,
 			weights = {
 				ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 14.50,
 				ITEM_MOD_STRENGTH_SHORT = 4.90,
@@ -23,7 +24,8 @@ ns.presets = {
 		},
 		{
 			name = "Fury - Single-Minded",
-			defaultForSpec = 72,
+			specialization = 72,
+			default = true,
 			weights = {
 				ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 9.10,
 				ITEM_MOD_STRENGTH_SHORT = 4.85,
@@ -37,6 +39,7 @@ ns.presets = {
 		},
 		{
 			name = "Fury - Titan Grip",
+			specialization = 72,
 			weights = {
 				ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 10.35,
 				ITEM_MOD_STRENGTH_SHORT = 4.10,
@@ -50,7 +53,8 @@ ns.presets = {
 		},
 		{
 			name = "Protection",
-			defaultForSpec = 73,
+			specialization = 73,
+			default = true,
 			weights = {
 				ITEM_MOD_EXTRA_ARMOR_SHORT = 1.00,
 				RESISTANCE0_NAME = 0.85,
@@ -68,6 +72,7 @@ ns.presets = {
 		},
 		{
 			name = "Protection - Gladiator",
+			specialization = 73,
 			weights = {
 				ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 5.00,
 				ITEM_MOD_STRENGTH_SHORT = 4.00,

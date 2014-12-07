@@ -66,12 +66,12 @@ function SetupPlugin:OnShow()
         -- create checkbox for auto-equipping
         checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", checkbox, "BOTTOM",0, -5)
         checkbox:SetPoint("LEFT", frame, "LEFT")
+        checkbox:SetChecked(true)
+        frame.autoEquipCheckbox = checkbox
 
         -- detect character specialization for suggesting default sets
-        local specID, specName = GetSpecialization(nil, nil, 1)
-        if specID then specID, specName = GetSpecializationInfo(specID) end
-        local specID2, specName2 = GetSpecialization(nil, nil, 2)
-        if specID2 then specID2, specName2 = GetSpecializationInfo(specID2) end
+        local specID, specName = GetSpecializationInfo(GetSpecialization(nil, nil, 1) or 0)
+        local specID2, specName2 = GetSpecializationInfo(GetSpecialization(nil, nil, 2) or 0)
 
         local specText = ns.locale.SetupWizardSpec0
         if specID and specID2 then
@@ -85,8 +85,8 @@ function SetupPlugin:OnShow()
 
         -- set default sets to checked
         for presetID, preset in ipairs(presets) do
-            if preset.defaultForSpec then
-                if (not specID and not specID2) or (preset.defaultForSpec == specID or preset.defaultForSpec == specID2) then
+            if preset.default then
+                if (not specID and not specID2) or (preset.specialization == specID or preset.specialization == specID2) then
                     frame['presetCheckbox'..presetID]:SetChecked(true)
                 else
                     frame['presetCheckbox'..presetID]:SetChecked(false)
@@ -107,9 +107,20 @@ function SetupPlugin:OnShow()
             -- create selected sets
             for presetID, preset in ipairs(presets) do
                 if frame['presetCheckbox'..presetID]:GetChecked() then
-                    ns:AddSet(preset)
+                    local set = ns:AddSet(preset)
+
+                    if frame.autoEquipCheckbox:GetChecked() then
+                        -- check if this set is default for one of the player's specs and auto-equip it
+                        if preset.specialization == specID then
+                            ns.db.profile.defaultUpdateSet = set
+                        end
+                        if preset.specialization == specID2 then
+                            ns.db.profile.defaultUpdateSet2 = set
+                        end
+                    end
                 end
             end
+
             -- switch to weights plugin
             ns.ui.ShowPanel(ns.WeightsPlugin.configPanel)
         end)
