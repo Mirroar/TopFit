@@ -875,8 +875,8 @@ ns.presets = {
       },
     },
     {
-      name = "ProtectionGlad",
-      wizardName = "ProtectionGlad",
+      name = "Gladiator",
+      wizardName = "Protection: Gladiator",
       specialization = 73,
       weights = {
         ITEM_MOD_DAMAGE_PER_SECOND_SHORT = 9.26,
