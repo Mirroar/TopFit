@@ -294,21 +294,22 @@ function ns.IsInitialized()
 end
 
 local newItems = {}
-function ns:collectEquippableItems(bagID)
+function ns:collectEquippableItems(bagID) --TODO: rename into something more fitting
 	wipe(newItems)
 	-- check bags
-	for bag = 1, NUM_BAG_SLOTS do
+	for bag = 0, NUM_BAG_SLOTS do
 		if not bagID or bag == bagID then
 			for slot = 1, GetContainerNumSlots(bag) do
 				local itemLink = GetContainerItemLink(bag, slot)
-				if itemLink and not tContains(ns.equippableItems, itemLink) and IsEquippableItem(itemLink)
-					and not ns.Unfit:IsItemUnusable(itemLink) and ns:CanUseItemBinding(bag, slot) then
-					tinsert(ns.equippableItems, itemLink)
-					tinsert(newItems, {
-						itemLink = itemLink,
-						bag = bag,
-						slot = slot,
-					})
+				if itemLink and not tContains(ns.equippableItems, itemLink) then
+					if IsEquippableItem(itemLink) and not ns.Unfit:IsItemUnusable(itemLink) and ns:CanUseItemBinding(bag, slot) then
+						tinsert(ns.equippableItems, itemLink)
+						tinsert(newItems, {
+							itemLink = itemLink,
+							bag = bag,
+							slot = slot,
+						})
+					end
 				end
 			end
 		end
@@ -380,7 +381,9 @@ function ns:BAG_UPDATE_DELAYED(event, ...)
 
 	-- check inventory for new equippable items
 	local newEquip = ns:collectEquippableItems()
-	if newEquip then EvaluateNewItems(newEquip) end
+	if newEquip then
+		EvaluateNewItems(newEquip)
+	end
 end
 
 function ns:PLAYER_LEVEL_UP(event, ...)
