@@ -208,6 +208,9 @@ function ns:OnEnable()
 
 	TopFitDB.version = currentVersion
 
+	-- make sure a sets container exists even if there are no sets
+	if not ns.db.profile.sets then ns.db.profile.sets = {} end
+
 	-- launcher ldb
 	local ldb = LibStub('LibDataBroker-1.1'):NewDataObject(addonName, {
 		type  = 'launcher',
