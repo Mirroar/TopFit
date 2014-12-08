@@ -881,13 +881,7 @@ local function AddEquippableItem(useTable, inventorySlot, container, slot)
 			if not IsSpellKnown(23588) then return end
 		elseif equipSlot == 'INVTYPE_WEAPON' then
 			-- regular dual wield
-			local _, playerClass = UnitClass('player')
-			local specID = GetSpecializationInfo(GetSpecialization() or 0)
-			local canDualWield = playerClass == 'DEATHKNIGHT' or playerClass == 'ROGUE'
-				or IsSpellKnown(23588) -- fury warrior
-				or specID == 263 -- enhancement shaman
-				or specID == 268 or specID == 269 -- brewmaster/windwalker monk
-			if not canDualWield then return end
+			if not ns:PlayerCanDualWield() then return end
 		else
 			-- only weapons can be dual wielded
 			return
