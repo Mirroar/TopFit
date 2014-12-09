@@ -12,7 +12,7 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 -- GLOBALS: TopFit, TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE
 
 -- GLOBALS: _G, UIParent, MAX_PLAYER_LEVEL_TABLE, ITEM_BIND_ON_EQUIP, SPEED, MAX_NUM_SOCKETS
--- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, GetAuctionItemSubClasses, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetItemUniqueness, GetSpecialization
+-- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, GetAuctionItemSubClasses, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetSpecialization
 -- GLOBALS: string, math, select, pairs, tonumber, wipe, unpack
 
 local tinsert = table.insert
@@ -156,7 +156,7 @@ function TopFit:GetItemInfoTable(item)
 			gemID = tonumber(gemID)
 
 			-- add gem uniqueness
-			local uniqueFamily, maxEquipped = GetItemUniqueness(gem)
+			local uniqueFamily, maxEquipped = ns:GetItemUniqueness(gem)
 			local uniqueStat
 			if uniqueFamily then
 				if uniqueFamily == -1 then
@@ -328,7 +328,7 @@ function TopFit:GetItemInfoTable(item)
 	end
 
 	-- add item uniqueness
-	local uniqueFamily, maxEquipped = GetItemUniqueness(item)
+	local uniqueFamily, maxEquipped = ns:GetItemUniqueness(item)
 	if uniqueFamily then
 		if uniqueFamily == -1 then
 			-- single unique item
