@@ -24,6 +24,9 @@ locale\enUS.lua
 constants.lua
 TopFit.lua
 
+# this file needs some more work
+modules\utilities.lua
+
 # classes
 set.class.lua
 calculation.class.lua
@@ -41,9 +44,6 @@ modules\virtual_items.lua
 modules\builder.lua
 
 inventory.lua
-
-# this file needs some more work
-modules\utilities.lua
 
 # modules
 modules\tooltip.lua
