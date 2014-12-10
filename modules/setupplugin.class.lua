@@ -52,7 +52,7 @@ function SetupPlugin:OnShow()
 				anchorTarget = frame['presetCheckbox'..(presetID - 2)]
 			end
 
-			checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, preset.wizardName, "TOPLEFT", anchorTarget, anchorTo, xOffset, 0)
+			checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, preset.wizardName, "TOPLEFT", anchorTarget, anchorTo, xOffset, presetID == 1 and -10 or 0)
 			--checkbox.tiptext = TopFit.locale.ShowMinimapIconTooltip
 			frame['presetCheckbox'..presetID] = checkbox
 

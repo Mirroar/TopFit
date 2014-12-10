@@ -81,7 +81,7 @@ function ui.NewSetDropDown(self, level, menuList)
 	local presets = ns:GetPresets()
 	for k, v in pairs(presets or {}) do
 		info.func = DropDownAddSet
-		info.text = v.name
+		info.text = v.wizardName or v.name
 		info.value = k
 		UIDropDownMenu_AddButton(info, level)
 	end
