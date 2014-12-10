@@ -121,6 +121,7 @@ function Set:GetIconTexture()
 	local spec = self:GetAssociatedSpec()
 	if spec then
 		icon = select(4, GetSpecializationInfoByID(spec))
+		icon = icon:gsub('[iI][nN][tT][eE][rR][fF][aA][cC][eE]\\[iI][cC][oO][nN][sS]\\', 'Interface\\Icons\\')
 	end
 	return icon or "Interface\\Icons\\Spell_Holy_EmpowerChampion"
 end
