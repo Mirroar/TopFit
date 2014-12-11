@@ -61,11 +61,6 @@ do
 	L.ShowTooltipScoresTooltip = "|cffffffffCheck to show your sets' scores for an item in the item's tooltip."
 	L.ShowTooltipComparison = "Show item comparison values in tooltip"
 	L.ShowTooltipComparisonTooltip = "|cffffffffCheck to show values in your tooltip which indicate how much of an improvement an item is in comparison with your equipped items for each set."
-	L.AutoUpdateSet = "Automatic update set"
-	L.AutoUpdateSetTooltip = "|cffffffffThe set you choose here will be updated automatically whenever you loot an equippable item.\n\n|cffffff00Warning: |cffffffffThis option is intended to be used while levelling. If you have a character with dualspec, it might suddenly equip the set you specify here even if you activated your other specialization."
-	L.None = "None"
-	L.AutoUpdateOnRespec = "Update Set automatically when you change spec"
-	L.AutoUpdateOnRespecTooltip = "|cffffffffThis will automatically calculate your selected auto-update set when you change specializations. Effectively, this will provide you with your correct gear whenever you respec."
 	L.Debug = "Debug mode"
 	L.DebugTooltip = "|cffffffffCheck to enable debug messages.\n\n|cffffff00Caution: |cffffffffThis will spam your chatframe, a lot!"
 
@@ -131,6 +126,13 @@ do
 	L.StatsEnableTitansGripTooltip = "Check to calculate this set with Titan's Grip in mind even if your current spec does not include it. If left off, the set will be calculated with your current spec in mind."
 	L.StatsForceArmorType = "Force Armor Type"
 	L.StatsForceArmorTypeTooltip = "After reaching character level 50, only armor that counts towards your armor specialization will be equipped in the appropriate slots."
+	L.SpecDropDownLabel = "Associated specialization:"
+	L.SpecDropDownTooltip = "You may assign a specialization to this set, unlocking some of the advanced options below."
+	L.AutoUpdateSet = "Automatic update set"
+	L.AutoUpdateSetTooltip = "|cffffffffThe set you choose here will be updated automatically whenever you loot an equippable item.\n\n|cffffff00Warning: |cffffffffThis option is intended to be used while levelling. If you have a character with dualspec, it might suddenly equip the set you specify here even if you activated your other specialization."
+	L.None = "None"
+	L.AutoUpdateOnRespec = "Update Set automatically when you change spec"
+	L.AutoUpdateOnRespecTooltip = "|cffffffffThis will automatically calculate your selected auto-update set when you change specializations. Effectively, this will provide you with your correct gear whenever you respec."
 
 	-- utilities
 	L.Utilities = "Import / Export"
