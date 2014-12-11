@@ -64,7 +64,7 @@ function SetupPlugin:OnShow()
 		end
 
 		-- create checkbox for auto-equipping
-		checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", checkbox, "BOTTOM",0, -5)
+		checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", checkbox, "BOTTOM", 0, -5)
 		checkbox:SetPoint("LEFT", frame, "LEFT")
 		checkbox:SetChecked(true)
 		frame.autoEquipCheckbox = checkbox

@@ -82,14 +82,24 @@ function SetOptionsPlugin:InitializeExposedSettings()
 end
 
 function SetOptionsPlugin:InitializeUI()
+	local frame = self:GetConfigPanel()
 	local lastCheckbox = self:InitializeExposedSettings()
 
 	-- assign a specialization
-	local frame = self:GetConfigPanel()
+	local specText = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	specText:SetPoint('TOPLEFT', lastCheckbox, 'BOTTOMLEFT', 0, -10)
+	specText:SetPoint('RIGHT', frame, 'RIGHT', 0, 0)
+	specText:SetJustifyH('LEFT')
+	specText:SetText(ns.locale.SpecDropDownLabel)
+	frame.specText = specText
+
 	local dropDown = CreateFrame("Frame", "$parentSpecDropdown", frame, "UIDropDownMenuTemplate")
-		  dropDown:SetPoint("TOPLEFT", lastCheckbox, "BOTTOMLEFT", -10, -10)
+		  dropDown:SetPoint("TOPLEFT", specText, "BOTTOMLEFT", -10, -5)
 	frame.specDropDown = dropDown
 	_G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
+	_G[dropDown:GetName().."Button"].tipText = ns.locale.SpecDropDownTooltip
+	_G[dropDown:GetName().."Button"]:SetScript('OnEnter', ns.ShowTooltip)
+	_G[dropDown:GetName().."Button"]:SetScript('OnLeave', ns.HideTooltip)
 	UIDropDownMenu_SetWidth(dropDown, 150)
 	UIDropDownMenu_JustifyText(dropDown, "LEFT")
 
@@ -108,6 +118,7 @@ function SetOptionsPlugin:InitializeUI()
 		else
 			set:SetAssociatedSpec(nil)
 		end
+		self:OnShow()
 	end
 
 	dropDown.initialize = function(self, level)
@@ -147,6 +158,20 @@ function SetOptionsPlugin:InitializeUI()
 			end
 		end
 	end
+
+	-- spec-based options
+	-- create checkbox for auto-updating
+	local checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", dropDown, "BOTTOM", 0, -5)
+	checkbox:SetPoint("LEFT", frame, "LEFT")
+	checkbox:SetChecked(true)
+	frame.autoUpdateCheckbox = checkbox
+
+	-- create checkbox for auto-equipping
+	checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", checkbox, "BOTTOM", 0, 4)
+	checkbox:SetPoint("LEFT", frame, "LEFT")
+	checkbox:SetChecked(true)
+	frame.autoEquipCheckbox = checkbox
+
 end
 
 function SetOptionsPlugin:OnShow()
@@ -166,7 +191,18 @@ function SetOptionsPlugin:OnShow()
 	local spec = set:GetAssociatedSpec()
 	if spec then
 		UIDropDownMenu_SetSelectedValue(frame.specDropDown, spec)
+		local _, specName = GetSpecializationInfoByID(spec)
+		UIDropDownMenu_SetText(frame.specDropDown, specName)
+
+		-- enable spec-based options
+		frame.autoEquipCheckbox:SetEnabled(true)
+		frame.autoUpdateCheckbox:SetEnabled(true)
 	else
 		UIDropDownMenu_SetSelectedValue(frame.specDropDown, 'none')
+		UIDropDownMenu_SetText(frame.specDropDown, ns.locale.NoSpecSelected)
+
+		-- disable spec-based options
+		frame.autoEquipCheckbox:SetEnabled(false)
+		frame.autoUpdateCheckbox:SetEnabled(false)
 	end
 end
