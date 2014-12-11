@@ -48,71 +48,6 @@ function WeightsPlugin.InitializeHeaderActions()
 		ns.currentlyDeletingSetID = ns.selectedSet
 		StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
 	end)
-
-	-- assign a specialization
-	local dropDown = CreateFrame("Frame", "TopFitWeightsPluginSpecDropdown", frame, "UIDropDownMenuTemplate")
-		  dropDown:SetPoint("RIGHT", frame, "RIGHT", 20, 0)
-		  dropDown:SetPoint("TOP", changeName, "TOP", 0, 0)
-	_G[dropDown:GetName().."Button"]:SetPoint("LEFT", dropDown, "LEFT", 20, 0) -- makes the whole dropdown react to mouseover
-	UIDropDownMenu_SetWidth(dropDown, 100)
-	UIDropDownMenu_JustifyText(dropDown, "LEFT")
-
-	local function assignSpec(button)
-		ns:Debug(button.value)
-		UIDropDownMenu_SetSelectedValue(dropDown, button.value)
-
-		local set = ns.GetSetByID(ns.selectedSet, true)
-		if button.value ~= 'none' then
-			set:SetAssociatedSpec(button.value)
-			ns:Debug(GetSpecializationInfoByID(button.value))
-			local _, _, _, icon = GetSpecializationInfoByID(button.value)
-			if icon then
-				--UIDropDownMenu_SetText(dropDown, '|T'..icon..':0|t')
-			end
-		else
-			set:SetAssociatedSpec(nil)
-		end
-	end
-
-	dropDown.initialize = function(self, level)
-		if level == 1 then
-			local info = UIDropDownMenu_CreateInfo()
-
-			-- add header
-			info.text = ns.locale.SelectSpecHeader
-			info.value = 'selectspecheader'
-			info.isTitle = true
-			info.notCheckable = true
-			UIDropDownMenu_AddButton(info, level)
-
-			-- set defaults for following items
-			info.hasArrow = nil
-			info.isTitle = nil
-			info.disabled = nil
-			info.notCheckable = nil
-			info.icon = nil
-
-			-- add a "select none" item
-			info.text = ns.locale.NoSpecSelected
-			info.value = 'none'
-			info.checked = UIDROPDOWNMENU_MENU_VALUE == 'none'
-			info.func = assignSpec
-			UIDropDownMenu_AddButton(info, level)
-
-			-- list all specs
-			for index = 1, GetNumSpecializations() do
-				local specID, name, _, icon, _, role = GetSpecializationInfo(index)
-				info.text = name
-				info.value = specID
-				info.icon = icon
-				info.checked = UIDROPDOWNMENU_MENU_VALUE == specID
-				info.func = assignSpec
-				UIDropDownMenu_AddButton(info, level)
-			end
-		end
-	end
-
-	--UIDropDownMenu_Initialize(dropDown, dropDown.initialize)--]]
 end
 
 function WeightsPlugin.ShowEditLine(statLine, btn)
@@ -506,12 +441,4 @@ function WeightsPlugin:OnShow()
 	local export = _G[panel:GetName().."Export"]
 	export:SetPoint("TOPRIGHT", "$parentStatLine"..#(panel.stats), "BOTTOMRIGHT", 0, -10)
 	export:SetBackdropColor(1, 0, 0)
-
-	-- update selected specialization
-	local spec = set:GetAssociatedSpec()
-	if spec then
-		UIDropDownMenu_SetSelectedValue(TopFitWeightsPluginSpecDropdown, spec)
-	else
-		UIDropDownMenu_SetSelectedValue(TopFitWeightsPluginSpecDropdown, 'none')
-	end--]]
 end

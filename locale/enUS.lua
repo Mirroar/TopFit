@@ -91,7 +91,7 @@ do
 	L.StatsHeaderName = "Name"
 	L.StatsHeaderValue = "Value"
 	L.StatsHeaderCap = "Cap"
-	L.StatsPanelLabel = "Weights and Caps"
+	L.StatsPanelLabel = "Stat Weights"
 	L.StatsAdd = "Add stat ..."
 	L.StatsSet = "Set: "
 	L.StatsCapSoft = "Soft"
