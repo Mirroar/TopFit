@@ -42,6 +42,7 @@ modules\optimizerplugin.class.lua
 modules\itemstatsplugin.class.lua
 modules\virtual_items.lua
 modules\builder.lua
+modules\setoptionsplugin.class.lua
 
 inventory.lua
 
