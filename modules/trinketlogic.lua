@@ -1,5 +1,16 @@
 local addonName, addon, _ = ...
 
+-- GLOBALS: _G, ITEM_COOLDOWN_TOTAL, DECIMAL_SEPERATOR, LARGE_NUMBER_SEPERATOR, ITEM_SPELL_TRIGGER_ONUSE, ITEM_SPELL_TRIGGER_ONEQUIP, UIParent
+-- GLOBALS: GetItemInfo, GetItemStats
+-- GLOBALS: string, tonumber, tostring, select, pairs
+
+--[[
+scan "On Use" & "Equip" bonuses and try to parse amount, stat, duration and cooldown of trinket procs
+examples:
+  "Benutzen: Gewährt Euch 15 Sek. lang 1.060 Vielseitigkeit. (1 Min. 30 Sek. Abklingzeit)"
+  "Anlegen: Eure Angriffe haben eine Chance, 10 Sek. lang 1.383 Mehrfachschlag zu gewähren. (Ungefähr 0,92 Auslösungen pro Minute)"
+--]]
+
 local function ReformatGlobalString(globalString)
 	if not globalString then return "" end
 
@@ -13,87 +24,97 @@ local function ReformatGlobalString(globalString)
 	return returnString
 end
 
+local procsPerMinute = '(%(.*'..MINUTES:match('\1244([^:;]+)')..'.*%))$'
+local onUseCooldown  = ReformatGlobalString(ITEM_COOLDOWN_TOTAL)
+local durSec = ReformatGlobalString(INT_SPELL_DURATION_SEC):gsub('%%%.', '')
+local durMin = ReformatGlobalString(INT_SPELL_DURATION_MIN):gsub('%%%.', '')
+local statAmount = '(%d[%d%.]+)[^%%]'
+
 local function FindSpecialBonus(effectText, ...)
 	if not effectText then return end
+	-- deDE uses "." here which messes up patterns
+	effectText = effectText:gsub('%'..LARGE_NUMBER_SEPERATOR, '')
+	-- convert separator to "." which we know how to handle
+	effectText = effectText:gsub(DECIMAL_SEPERATOR, '%.')
 
-	local durSec = string.gsub(ReformatGlobalString(INT_SPELL_DURATION_SEC), "%%%.", "")
-	local durMin = string.gsub(ReformatGlobalString(INT_SPELL_DURATION_MIN), "%%%.", "")
-
-	-- on use cooldown
-	local cooldown = string.match(effectText, ReformatGlobalString(ITEM_COOLDOWN_TOTAL))
+	local cooldown = effectText:match(onUseCooldown)
 	if cooldown then
-		cooldown = tonumber(string.match(cooldown, durSec) or 0)
-			+ (tonumber(string.match(cooldown, durMin) or 0) * 60)
+		-- on use cooldown
+		cooldown   = (cooldown:match(durMin) or 0)*60 + (cooldown:match(durSec) or 0)*1
+		effectText = effectText:gsub(onUseCooldown, '')
+		-- print('cooldown: on use', cooldown)
+	else
+		cooldown = effectText:match(procsPerMinute)
+		if cooldown then
+			-- procs per minute
+			cooldown = 60 / (cooldown:match('([0-9.]+)') * 1)
+			effectText = effectText:gsub(procsPerMinute, '')
+			-- print('cooldown: ppm', cooldown)
+		else
+			-- cooldown within main description
+			cooldown = (effectText:match(durMin) or 0) * 60 + (effectText:match(durSec) or 0) * 1
+			-- print('cooldown: misc', cooldown)
+		end
 	end
-	-- remove matched texts to avoid confusion
-	effectText = string.gsub(effectText, ReformatGlobalString(ITEM_COOLDOWN_TOTAL), "")
 
 	-- buff duration
 	local duration = tonumber(string.match(effectText, durSec) or 0)
 	if duration > 0 then
-		effectText = string.gsub(effectText, durSec, "", 1)
+		effectText = effectText:gsub(durSec, '', 1)
 	end
 
-	-- stat name and amount
-	local amount = tonumber(string.match(effectText, "(%d+)[^%%0-9]"))
+	-- stat amount
+	local amount = tonumber(effectText:match(statAmount) or 0)
+	effectText = effectText:gsub(statAmount, '', 1)
 
-	if not cooldown then
-		effectText = string.gsub(effectText, "(%d+)[^%%0-9]", "", 1)
-
-		cooldown = (string.match(effectText, durSec) or 0)
-			+ ((string.match(effectText, durMin) or 0) * 60)
-	end
-
-	local numArgs = select('#', ...)
-	local searchStat
-	for i = 1, numArgs do
-		searchStat = select(i, ...)
-		searchStatGlobal = _G[searchStat]
-		if searchStatGlobal then
-			if string.find(effectText, searchStatGlobal) then
-				return searchStat, amount, duration, cooldown
-			end
+	-- stat name
+	for i = 1, select('#', ...) do
+		local stat = select(i, ...)
+		if string.find(effectText, _G[stat] or addonName) then
+			return stat, amount, duration, cooldown
 		end
 	end
 end
 
-local function FindInTooltip(searchString, scanRightText, filterFunc)
+local function ScanTooltipFor(searchString, itemLink, filterFunc)
+	if not itemLink then return end
+	local itemStats = filterFunc and GetItemStats(itemLink) or nil
+	addon.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+	addon.scanTooltip:SetHyperlink(itemLink)
+
 	local tooltip = addon.scanTooltip
 	for i = 1, tooltip:NumLines() do
-		local leftLine, rightLine = _G[tooltip:GetName()..'TextLeft'..i], _G[tooltip:GetName()..'TextRight'..i]
-		local leftLineText  = leftLine and leftLine:GetText() or ''
-		local rightLineText = rightLine and rightLine:GetText() or ''
-
-		if (string.find(leftLineText, searchString) or (scanRightText and string.find(rightLineText, searchString)))
-			and (not filterFunc or filterFunc(leftLineText, rightLineText)) then
-			return leftLineText, rightLineText
+		local left = _G[tooltip:GetName()..'TextLeft'..i]
+		local leftText  = left and left:GetText() or ''
+		if leftText:find(searchString) and (not filterFunc or filterFunc(itemStats, leftText)) then
+			return leftText
 		end
 	end
 end
 
-local function ScanTooltipFor(searchString, item, scanRightText, filterFunc)
-	-- (String) searchString, (String|Int) item:ItemLink|BagSlotID, [(Boolean|Int) inBag:true|ContainerID], [(Function) filterFunc]
-	if not item then return end
-	addon.scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-	addon.scanTooltip:SetHyperlink(item)
-	return FindInTooltip(searchString, scanRightText, filterFunc)
+local function FilterOnEquipLine(itemStats, textLeft)
+	for stat, value in pairs(itemStats) do
+		local notShortStat = stat:gsub('_SHORT', '')
+		stat = ReformatGlobalString(_G[notShortStat] or _G[stat])
+		stat = ITEM_SPELL_TRIGGER_ONEQUIP .. ' ' .. stat
+		if textLeft:match(stat) == tostring(value) then
+			return nil
+		end
+	end
+	return true
 end
 
 -- TopFit:ItemHasSpecialBonus("|cff0070dd|Hitem:55795:0:0:0:0:0:0:1945498240:85:0|h[Schlüssel zur unendlichen Kammer]|h|r", "ITEM_MOD_AGILITY_SHORT", "ITEM_MOD_HIT_RATING_SHORT")
 function addon:ItemHasSpecialBonus(itemLink, ...)
-	local itemStats = GetItemStats(itemLink)
+	-- we only need to scan equipment items!
+	local equipSlot = select(9, GetItemInfo(itemLink))
+	if not equipSlot or equipSlot == '' or equipSlot == 'INVTYPE_BAG' then return end
+
 	local effectText = ScanTooltipFor(ITEM_SPELL_TRIGGER_ONUSE, itemLink)
-		or ScanTooltipFor(ITEM_SPELL_TRIGGER_ONEQUIP, itemLink, nil,
-			function(textLeft, textRight)
-				for stat, value in pairs(itemStats) do
-					local notShortStat = string.gsub(stat, "_SHORT", "")
-					stat = ReformatGlobalString(_G[notShortStat] or _G[stat])
-					stat = ITEM_SPELL_TRIGGER_ONEQUIP .. " " .. stat
-					if string.match(textLeft, stat) == tostring(value) or string.match(textRight, stat) == tostring(value) then
-						return nil
-					end
-				end
-				return true
-			end)
-	return FindSpecialBonus(effectText, ...)
+		or ScanTooltipFor(ITEM_SPELL_TRIGGER_ONEQUIP, itemLink, FilterOnEquipLine)
+	if not effectText then return end
+
+	local stat, amount, duration, cooldown = FindSpecialBonus(effectText, ...)
+	-- print(itemLink, effectText, 'parsed for stats', stat, amount, duration, cooldown, '\n', '--------------')
+	return stat, amount, duration, cooldown
 end
