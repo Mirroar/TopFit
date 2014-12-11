@@ -35,7 +35,7 @@ local function FindSpecialBonus(effectText, ...)
 	-- deDE uses "." here which messes up patterns
 	effectText = effectText:gsub('%'..LARGE_NUMBER_SEPERATOR, '')
 	-- convert separator to "." which we know how to handle
-	effectText = effectText:gsub(DECIMAL_SEPERATOR, '%.')
+	effectText = effectText:gsub('%'..DECIMAL_SEPERATOR, '%.')
 
 	local cooldown = effectText:match(onUseCooldown)
 	if cooldown then
