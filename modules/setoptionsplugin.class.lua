@@ -121,6 +121,7 @@ function SetOptionsPlugin:InitializeUI()
 		self:OnShow()
 	end
 
+	--TODO: add specialization twice if player has the same spec twice
 	dropDown.initialize = function(self, level)
 		if level == 1 then
 			local info = UIDropDownMenu_CreateInfo()
@@ -161,17 +162,32 @@ function SetOptionsPlugin:InitializeUI()
 
 	-- spec-based options
 	-- create checkbox for auto-updating
-	local checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", dropDown, "BOTTOM", 0, -5)
+	local checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.AutoUpdateSet, "TOP", dropDown, "BOTTOM", 0, -5)
 	checkbox:SetPoint("LEFT", frame, "LEFT")
-	checkbox:SetChecked(true)
+	checkbox.tipText = ns.locale.AutoUpdateSetTooltip
+	checkbox:SetScript('OnEnter', ns.ShowTooltip)
+	checkbox:SetScript('OnLeave', ns.HideTooltip)
+	local checksound = checkbox:GetScript('OnClick')
+	checkbox:SetScript('OnClick', function(self)
+		checksound(self)
+		local set = ns.GetSetByID(ns.selectedSet, true)
+		set:SetAutoUpdate(not set:GetAutoUpdate())
+	end)
 	frame.autoUpdateCheckbox = checkbox
 
 	-- create checkbox for auto-equipping
-	checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.SetupWizardAutoEquip, "TOP", checkbox, "BOTTOM", 0, 4)
+	checkbox = LibStub("tekKonfig-Checkbox").new(frame, nil, ns.locale.AutoUpdateOnRespec, "TOP", checkbox, "BOTTOM", 0, 4)
 	checkbox:SetPoint("LEFT", frame, "LEFT")
-	checkbox:SetChecked(true)
+	checkbox.tipText = ns.locale.AutoUpdateOnRespecTooltip
+	checkbox:SetScript('OnEnter', ns.ShowTooltip)
+	checkbox:SetScript('OnLeave', ns.HideTooltip)
+	checksound = checkbox:GetScript('OnClick')
+	checkbox:SetScript('OnClick', function(self)
+		checksound(self)
+		local set = ns.GetSetByID(ns.selectedSet, true)
+		set:SetAutoEquip(not set:GetAutoEquip())
+	end)
 	frame.autoEquipCheckbox = checkbox
-
 end
 
 function SetOptionsPlugin:OnShow()
@@ -205,4 +221,7 @@ function SetOptionsPlugin:OnShow()
 		frame.autoEquipCheckbox:SetEnabled(false)
 		frame.autoUpdateCheckbox:SetEnabled(false)
 	end
+
+	frame.autoUpdateCheckbox:SetChecked(set:GetAutoUpdate())
+	frame.autoEquipCheckbox:SetChecked(set:GetAutoEquip())
 end

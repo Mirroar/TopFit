@@ -14,6 +14,8 @@ function Set:construct(setName)
 	self.ignoreCapsForCalculation = false
 	self.useVirtualItems = true
 	self.associatedSpec = nil
+	self.autoUpdate = false
+	self.autoEquip = false
 
 	self.calculationData = {} -- for use by calculation functions
 
@@ -68,7 +70,12 @@ function Set.CreateFromSavedVariables(setTable)
 	if setTable.associatedSpec then
 		setInstance:SetAssociatedSpec(setTable.associatedSpec)
 	end
-
+	if setTable.autoUpdate then
+		setInstance:SetAutoUpdate(true)
+	end
+	if setTable.autoEquip then
+		setInstance:SetAutoEquip(true)
+	end
 	if setTable.simulateDualWield then
 		setInstance:ForceDualWield(true)
 	end
@@ -421,6 +428,26 @@ function Set:SetAssociatedSpec(spec)
 end
 function Set:GetAssociatedSpec()
 	return self.associatedSpec
+end
+
+function Set:SetAutoUpdate(enable)
+	self.autoUpdate = enable and true or false
+	if self.setID and ns.db.profile.sets[self.setID] then
+		ns.db.profile.sets[self.setID].autoUpdate = enable and true or false
+	end
+end
+function Set:GetAutoUpdate()
+	return self.autoUpdate
+end
+
+function Set:SetAutoEquip(enable)
+	self.autoEquip = enable and true or false
+	if self.setID and ns.db.profile.sets[self.setID] then
+		ns.db.profile.sets[self.setID].autoEquip = enable and true or false
+	end
+end
+function Set:GetAutoEquip()
+	return self.autoEquip
 end
 
 function Set:GetItemScore(item, useRaw)
