@@ -60,10 +60,7 @@ function SetOptionsPlugin:InitializeExposedSettings()
 			frame["exposedSetting"..positionIndex] = button
 
 			if positionIndex == 1 then
-				button:SetPoint("TOPLEFT", _G[frame:GetParent():GetName().."Description"], 0, 6)
-			elseif positionIndex == 3 then
-				-- first box in second column
-				button:SetPoint("TOPLEFT", frame["exposedSetting1"], 190, 0)
+				button:SetPoint("TOPLEFT", frame, 0, 0)
 			else
 				button:SetPoint("TOPLEFT", frame["exposedSetting"..(positionIndex - 1)], "BOTTOMLEFT", 0, 4)
 			end
@@ -84,14 +81,14 @@ function SetOptionsPlugin:InitializeUI()
 end
 
 function SetOptionsPlugin:OnShow()
-	local panel = self:GetConfigPanel()
+	local frame = self:GetConfigPanel()
 	local set = ns.GetSetByID(ns.selectedSet, true)
 
 	local index, func = 1, nil
-	while panel["exposedSetting"..index] do
-		func = panel["exposedSetting"..index].updateHandler
+	while frame["exposedSetting"..index] do
+		func = frame["exposedSetting"..index].updateHandler
 		if func and set[func] then
-			panel["exposedSetting"..index]:SetChecked(set[func](set))
+			frame["exposedSetting"..index]:SetChecked(set[func](set))
 		end
 		index = index + 1
 	end
