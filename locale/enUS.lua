@@ -87,14 +87,6 @@ do
 	L.StatsTooltip = "See the stats for your currently selected set."
 	L.StatsExplanation = "Every stat gets its own value, i.e. "..NORMAL_FONT_COLOR_CODE.."1 point of this stat"..FONT_COLOR_CODE_CLOSE.." is worth this much when calculating.\nA stat may also have a cap that TopFit will try to reach with first priority. It can be either "..NORMAL_FONT_COLOR_CODE.."hard"..FONT_COLOR_CODE_CLOSE.." (more points in this stat are wasted) or "..NORMAL_FONT_COLOR_CODE.."soft"..FONT_COLOR_CODE_CLOSE.." (more points in it are OK)."
 	L.StatsUsage = "To change a stat's value, simply click on the stat name or value in the list below.\nTo remove a stat, set its value to "..NORMAL_FONT_COLOR_CODE.."0"..FONT_COLOR_CODE_CLOSE.."."
-	L.StatsShowTooltip = "Include set in tooltip"
-	L.StatsShowTooltipTooltip = "Check to show this set in item comparison tooltips when that option is enabled."
-	L.StatsEnableDualWield = "Calculate with dual-wield"
-	L.StatsEnableDualWieldTooltip = "Check to calculate this set with dualwielding in mind even if your current spec does not allow you to. If left off, the set will be calculated with your current spec in mind."
-	L.StatsEnableTitansGrip = "Calculate with Titan's Grip"
-	L.StatsEnableTitansGripTooltip = "Check to calculate this set with Titan's Grip in mind even if your current spec does not include it. If left off, the set will be calculated with your current spec in mind."
-	L.StatsForceArmorType = "Force Armor Type"
-	L.StatsForceArmorTypeTooltip = "After reaching character level 50, only armor that counts towards your armor specialization will be equipped in the appropriate slots."
 	L.StatsSetPiece = "Set Piece"
 	L.StatsHeaderName = "Name"
 	L.StatsHeaderValue = "Value"
@@ -127,6 +119,18 @@ do
 	L.VIItemNotFound = "Item not found."
 	L.VIErrorNotEquippable = "%s could not be added as it seems to be no equippable item."
 	L.VIErrorNoSet = "Please select or create a set before adding virtual items to it."
+
+	-- options
+	L.OptionsPanelTitle = "Options"
+	L.OptionsPanelTooltip = "Adjust set-specific options here."
+	L.StatsShowTooltip = "Include set in tooltip"
+	L.StatsShowTooltipTooltip = "Check to show this set in item comparison tooltips when that option is enabled."
+	L.StatsEnableDualWield = "Calculate with dual-wield"
+	L.StatsEnableDualWieldTooltip = "Check to calculate this set with dualwielding in mind even if your current spec does not allow you to. If left off, the set will be calculated with your current spec in mind."
+	L.StatsEnableTitansGrip = "Calculate with Titan's Grip"
+	L.StatsEnableTitansGripTooltip = "Check to calculate this set with Titan's Grip in mind even if your current spec does not include it. If left off, the set will be calculated with your current spec in mind."
+	L.StatsForceArmorType = "Force Armor Type"
+	L.StatsForceArmorTypeTooltip = "After reaching character level 50, only armor that counts towards your armor specialization will be equipped in the appropriate slots."
 
 	-- utilities
 	L.Utilities = "Import / Export"

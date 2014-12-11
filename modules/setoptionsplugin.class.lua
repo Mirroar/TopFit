@@ -5,11 +5,20 @@ ns.SetOptionsPlugin = SetOptionsPlugin
 
 local tekCheck = LibStub("tekKonfig-Checkbox")
 
+--Possible Icons
+--INV_Gizmo_Pipe_03
+--INV_Misc_Wrench_01
+--INV_Misc_Blizzcon09_GraphicsCard
+--INV_Misc_EngGizmos_30
+--INV_Misc_EngGizmos_37
+--INV_Misc_EngGizmos_swissArmy
+--INV_Misc_Gear_01 - 08
+
 -- creates a new SetOptionsPlugin object
 function SetOptionsPlugin:Initialize()
-	self:SetName(TopFit.locale.StatsPanelLabel)
-	self:SetTooltipText(TopFit.locale.StatsTooltip)
-	self:SetButtonTexture("Interface\\Icons\\Ability_Druid_BalanceofPower")
+	self:SetName(ns.locale.OptionsPanelTitle)
+	self:SetTooltipText(ns.locale.OptionsPanelTooltip)
+	self:SetButtonTexture("Interface\\Icons\\INV_Misc_EngGizmos_swissArmy")
 	self:RegisterConfigPanel()
 end
 
@@ -25,12 +34,6 @@ local exposedSettings = {
 			return playerClass ~= "PRIEST" and playerClass ~= "WARLOCK" and playerClass ~= "MAGE"
 		end
 	},
-	--[[{
-		"Enable hit conversion", "Check to enable spirit to hit conversion, even if it does not apply to your current spec",
-		"GetHitConversion", "SetHitConversion", function(playerClass)
-			return playerClass == "DRUID" or playerClass == "MONK" or playerClass == "PALADIN" or playerClass == "PRIEST" or playerClass == "SHAMAN"
-		end
-	},--]]
 	{
 		ns.locale.StatsEnableDualWield, ns.locale.StatsEnableDualWieldTooltip,
 		"IsDualWieldForced", "ForceDualWield", function(playerClass)
