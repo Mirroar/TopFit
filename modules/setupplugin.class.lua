@@ -105,18 +105,17 @@ function SetupPlugin:OnShow()
 
 		button:SetScript('OnClick', function()
 			-- create selected sets
+			local autoUpdateSpecs = {}
 			for presetID, preset in ipairs(presets) do
 				if frame['presetCheckbox'..presetID]:GetChecked() then
-					local set = ns:AddSet(preset)
+					local setID = ns:AddSet(preset)
 
-					if frame.autoEquipCheckbox:GetChecked() then
-						-- check if this set is default for one of the player's specs and auto-equip it
-						if preset.specialization == specID then
-							ns.db.profile.defaultUpdateSet = set
-						end
-						if preset.specialization == specID2 then
-							ns.db.profile.defaultUpdateSet2 = set
-						end
+					if frame.autoEquipCheckbox:GetChecked() and preset.specialization and not autoUpdateSpecs[preset.specialization] then
+						local set = ns.GetSetByID(setID, true)
+
+						set:SetAutoEquip(true)
+						set:SetAutoUpdate(true)
+						autoUpdateSpecs[preset.specialization] = true
 					end
 				end
 			end

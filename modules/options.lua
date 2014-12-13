@@ -150,14 +150,6 @@ function TopFit:DeleteSet(setCode)
 	-- remove from saved variables
 	self.db.profile.sets[setCode] = nil
 
-	-- remove automatic update set if necessary
-	if self.db.profile.defaultUpdateSet == setCode then
-		self.db.profile.defaultUpdateSet = nil
-	end
-	if self.db.profile.defaultUpdateSet2 == setCode then
-		self.db.profile.defaultUpdateSet2 = nil
-	end
-
 	if self.setObjectCache then
 		self.setObjectCache[setCode] = nil
 	end

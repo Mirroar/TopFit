@@ -10,10 +10,10 @@ function ns:StartCalculations(setCode)
 	wipe(ns.workSetList)
 
 	if setCode then
-		tinsert(ns.workSetList, setCode)
+		tinsert(ns.workSetList, ns.GetSetByID(setCode, true))
 	else
 		for setCode, _ in pairs(self.db.profile.sets) do
-			tinsert(ns.workSetList, setCode)
+			tinsert(ns.workSetList, ns.GetSetByID(setCode, true))
 		end
 	end
 
@@ -31,43 +31,37 @@ end
 
 function ns:CalculateSets(silent)
 	if not ns.isBlocked then
-		local setCode = tremove(ns.workSetList)
-		while not ns.db.profile.sets[setCode] and #(ns.workSetList) > 0 do
-			setCode = tremove(ns.workSetList)
-		end
+		local set = tremove(ns.workSetList)
 
-		if ns.db.profile.sets[setCode] then
-			ns.setCode = setCode -- globally save the current set that is being calculated
-			--TODO: probably not necessary anymore?
+		ns.setCode = set.setID -- globally save the current set that is being calculated
+		-- TODO: remove and replace all uses of it - will have to remember the currently calculating set in a different way
 
-			local set = ns.GetSetByID(setCode)
-			local calculation = ns.DefaultCalculation(set)
-			calculation:SetOperationsPerFrame(500)
+		local calculation = ns.DefaultCalculation(set)
+		calculation:SetOperationsPerFrame(500)
 
-			ns:Debug("Calculating items for "..set:GetName())
+		ns:Debug("Calculating items for "..set:GetName())
 
-			-- set as working to prevent any further calls from "interfering" --TODO: remove
-			ns.isBlocked = true
+		-- set as working to prevent any further calls from "interfering" --TODO: remove
+		ns.isBlocked = true
 
-			-- copy caps
-			set.calculationData.ignoreCapsForCalculation = false
-			set.calculationData.silentCalculation = silent
+		-- copy caps
+		set.calculationData.ignoreCapsForCalculation = false
+		set.calculationData.silentCalculation = silent
 
-			-- do the actual work
-			ns:collectItems() -- TODO: change so it just adds all available items to the calculation
+		-- do the actual work
+		ns:collectItems() -- TODO: change so it just adds all available items to the calculation
 
-			calculation.OnUpdate = ns.UpdateUIWithCalculationProgress
-			calculation.OnComplete = ns.CalculationHasCompleted
+		calculation.OnUpdate = ns.UpdateUIWithCalculationProgress
+		calculation.OnComplete = ns.CalculationHasCompleted
 
-			-- save equippable items
-			ns.itemListBySlot = ns:GetEquippableItems() --TODO: replace with Calculation:AddItem(item, slot) mechanic
-			ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before it
+		-- save equippable items
+		ns.itemListBySlot = ns:GetEquippableItems() --TODO: replace with Calculation:AddItem(item, slot) mechanic
+		ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before it
 
-			TopFit.progress = nil
-			calculation:Start()
-			ns.runningCalculation = calculation
-			ns.ui.SetButtonState('busy')
-		end
+		TopFit.progress = nil
+		calculation:Start()
+		ns.runningCalculation = calculation
+		ns.ui.SetButtonState('busy')
 	end
 end
 

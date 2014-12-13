@@ -40,7 +40,7 @@ local exposedSettings = {
 			return playerClass == "SHAMAN" or playerClass == "WARRIOR" or playerClass == "MONK"
 		end
 	},
-	{
+	{ -- TODO: remove, since this is now included in fury's regular dual wield
 		ns.locale.StatsEnableTitansGrip, ns.locale.StatsEnableTitansGripTooltip,
 		"IsTitansGripForced", "ForceTitansGrip", function(playerClass)
 			return playerClass == "WARRIOR"
