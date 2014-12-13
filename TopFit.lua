@@ -91,7 +91,7 @@ function ns:OnEnable()
 		end
 	end
 
-	--TODO: replace old ugly set_i set IDs with simple numbers - in profile.sets and defaultUpdateSet
+	--TODO: replace old ugly set_i set IDs with simple numbers - in profile.sets
 
 	TopFitDB.version = currentVersion
 
@@ -218,14 +218,7 @@ function ns:collectEquippableItems(bagID) --TODO: rename into something more fit
 end
 
 local function EvaluateNewItems(newItems)
-	local currentSpec = GetActiveSpecGroup()
-	local setCode
-	if currentSpec == 1 then
-		setCode = ns.db.profile.defaultUpdateSet
-	else
-		setCode = ns.db.profile.defaultUpdateSet2
-	end
-	local set = setCode and ns.GetSetByID(setCode, true)
+	local set = ns.GetCurrentAutoUpdateSet()
 	if not set then return end
 
 	-- new equippable item in inventory, check if it is actually better than anything currently available
@@ -234,7 +227,7 @@ local function EvaluateNewItems(newItems)
 		local itemTable = ns:GetCachedItem(newItem.itemLink)
 		for _, slotID in pairs(itemTable.equipLocationsByType) do
 			-- try to get the currently used item from the player's equipment set
-			local setItem = ns:GetSetItemFromSlot(slotID, setCode)
+			local setItem = ns:GetSetItemFromSlot(slotID, set)
 			local setItemTable = ns:GetCachedItem(setItem)
 			if setItem and setItemTable then
 				-- if either score or any cap is higher than currently equipped, calculate
@@ -244,7 +237,7 @@ local function EvaluateNewItems(newItems)
 					return
 				else
 					-- check caps
-					for stat, cap in pairs(ns.db.profile.sets[setCode].caps) do
+					for stat, cap in pairs(set:GetHardCaps()) do
 						if cap.active and (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
 							ns:Debug('Higher Cap!')
 							ns:RunAutoUpdate(true)
@@ -275,72 +268,52 @@ end
 
 function ns:PLAYER_LEVEL_UP(event, ...)
 	--[[ remove cache info for heirlooms so they are rescanned
-	for itemLink, itemTable in pairs(TopFit.itemsCache) do
+	for itemLink, itemTable in pairs(ns.itemsCache) do
 		if itemTable.itemQuality == 7 then
-			TopFit.itemsCache[itemLink] = nil
-			TopFit.scoresCache[itemLink] = nil
+			ns.itemsCache[itemLink] = nil
+			ns.scoresCache[itemLink] = nil
 		end
 	end--]]
 
 	-- if an auto-update-set is set, update that as well
-	TopFit:ClearCache()
-	TopFit:RunAutoUpdate()
+	ns:ClearCache()
+	ns:RunAutoUpdate()
 end
 
 function ns:ACTIVE_TALENT_GROUP_CHANGED(event, ...)
-	TopFit:ClearCache()
-	if not TopFit.db.profile.preventAutoUpdateOnRespec then
-		--TopFit:RunAutoUpdate()
-		TopFit:SetSelectedSet()
-		TopFit:AutoEquipSet()
-	end
+	ns:ClearCache()
+	ns:AutoEquipSet()
 end
 
 function ns:RunAutoUpdate(skipDelay)
-	if not ns.workSetList then
-		ns.workSetList = {}
+	local set = ns.GetCurrentAutoUpdateSet(true)
+	if not set then return end
+
+	ns.workSetList = ns.workSetList or {}
+	tinsert(ns.workSetList, set)
+	if not ns.autoUpdateTimerFrame then
+		ns.autoUpdateTimerFrame = CreateFrame("Frame")
 	end
-	local runUpdate = false;
-	if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
-		tinsert(ns.workSetList, ns.db.profile.defaultUpdateSet)
-		runUpdate = true;
+	-- because right on level up there seem to be problems finding the items for equipping, delay the actual update
+	if not skipDelay then
+		ns.delayCalculation = 0.5 -- delay in seconds until update
+	else
+		ns.delayCalculation = 0
 	end
-	if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
-		tinsert(ns.workSetList, ns.db.profile.defaultUpdateSet2)
-		runUpdate = true;
-	end
-	if runUpdate then
-		if not ns.autoUpdateTimerFrame then
-			ns.autoUpdateTimerFrame = CreateFrame("Frame")
-		end
-		-- because right on level up there seem to be problems finding the items for equipping, delay the actual update
-		if not skipDelay then
-			ns.delayCalculation = 0.5 -- delay in seconds until update
+	ns.autoUpdateTimerFrame:SetScript("OnUpdate", function(self, delay)
+		if (ns.delayCalculation > 0) then
+			ns.delayCalculation = ns.delayCalculation - delay
 		else
-			ns.delayCalculation = 0
+			ns.autoUpdateTimerFrame:SetScript("OnUpdate", nil)
+			ns:CalculateSets(true) -- calculate silently
 		end
-		ns.autoUpdateTimerFrame:SetScript("OnUpdate", function(self, delay)
-			if (ns.delayCalculation > 0) then
-				ns.delayCalculation = ns.delayCalculation - delay
-			else
-				ns.autoUpdateTimerFrame:SetScript("OnUpdate", nil)
-				ns:CalculateSets(true) -- calculate silently
-			end
-		end)
-	end
+	end)
 end
 
 function ns:AutoEquipSet()
-	local setName = nil;
-	if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
-		setName = ns.db.profile.defaultUpdateSet
-	end
-	if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
-		setName = ns.db.profile.defaultUpdateSet2
-	end
-
-	if setName then
-		local set = ns.GetSetByID(setName, true)
+	local set = ns.GetCurrentAutoEquipSet()
+	if set then
+		ns:SetSelectedSet(set.setID)
 		local equipSet = set:GetEquipmentSetName()
 		UseEquipmentSet(equipSet)
 	end
@@ -360,13 +333,11 @@ end
 -- database access functions
 -----------------------------------------------------
 function ns:SetSelectedSet(setID)
-	-- select current auto-update set by default
+	-- select current auto-equip set by default
 	if not setID then
-		if (ns.db.profile.defaultUpdateSet and GetActiveSpecGroup() == 1) then
-			setID = ns.db.profile.defaultUpdateSet
-		end
-		if (ns.db.profile.defaultUpdateSet2 and GetActiveSpecGroup() == 2) then
-			setID = ns.db.profile.defaultUpdateSet2
+		local set = ns.GetCurrentAutoEquipSet()
+		if set then
+			setID = set.setID
 		end
 	end
 
@@ -405,7 +376,7 @@ end
 
 -- get a set object from the database
 function ns.GetSetByID(setID, useGlobalInstance)
-	assert(setID and type(ns.db.profile.sets[setID]) ~= nil, "GetSetByID: invalid set ID given")
+	assert(setID and type(ns.db.profile.sets[setID]) ~= "nil", "GetSetByID: invalid set ID given")
 
 	if not useGlobalInstance then
 		return ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
@@ -418,6 +389,40 @@ function ns.GetSetByID(setID, useGlobalInstance)
 		end
 
 		return ns.setObjectCache[setID]
+	end
+end
+
+-- get the current auto-update-set
+function ns.GetCurrentAutoUpdateSet(useGlobalInstance)
+	local currentSpec = GetSpecializationInfo(GetSpecialization() or 0)
+	for setID, _ in pairs(ns.db.profile.sets) do
+		local set = ns.GetSetByID(setID, true) -- use global instances while searching because it's faster than creating new set objects
+
+		--TODO: deal with having the same spec twice
+		if set:GetAssociatedSpec() == currentSpec and set:GetAutoUpdate() then
+			if useGlobalInstance then
+				return set
+			else
+				return ns.GetSetByID(setID, false)
+			end
+		end
+	end
+end
+
+-- get the current auto-update-set
+function ns.GetCurrentAutoEquipSet(useGlobalInstance)
+	local currentSpec = GetSpecializationInfo(GetSpecialization() or 0)
+	for setID, _ in pairs(ns.db.profile.sets) do
+		local set = ns.GetSetByID(setID, true) -- use global instances while searching because it's faster than creating new set objects
+
+		--TODO: deal with having the same spec twice
+		if set:GetAssociatedSpec() == currentSpec and set:GetAutoEquip() then
+			if useGlobalInstance then
+				return set
+			else
+				return ns.GetSetByID(setID, false)
+			end
+		end
 	end
 end
 

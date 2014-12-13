@@ -41,8 +41,8 @@ function TopFit:ClearCache()
 	TopFit.scoresCache = {}
 end
 
-function TopFit:GetSetItemFromSlot(slotID, setCode)
-	local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))
+function TopFit:GetSetItemFromSlot(slotID, set)
+	local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(set:GetName()))
 	if itemPositions then
 		local itemLocation = itemPositions[slotID]
 		if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
@@ -51,7 +51,7 @@ function TopFit:GetSetItemFromSlot(slotID, setCode)
 			if player then
 				if bank then
 					-- item is banked, use itemID
-					local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
+					local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(set:GetName()))[slotID]
 					if itemID and itemID ~= 1 then
 						_, itemLink = GetItemInfo(itemID)
 					end
