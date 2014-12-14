@@ -39,7 +39,7 @@ local defaultOptions = {
 
 function ns:OnEnable()
 	-- load saved variables
-	local currentVersion = 601
+	local currentVersion = 602
 
 	-- TODO: replace with self.db = LibStub('AceDB-3.0'):New(addonName..'DB', defaults, nil)
 	local profileName = GetUnitName('player')..' - '..GetRealmName('player')
@@ -88,6 +88,33 @@ function ns:OnEnable()
 		-- 6.0v3 adds setting for minimap button
 		for _, profile in pairs(TopFitDB.profiles) do
 			profile.minimapIcon = {}
+		end
+	end
+
+	if TopFitDB.version < 602 then
+		-- 6.0v4 moves settings for auto-equip and auto-update into sets themselves
+		for _, profile in pairs(TopFitDB.profiles) do
+			if profile.defaultUpdateSet then
+				local set = ns.GetSetByID(profile.defaultUpdateSet)
+				if set then
+					set:SetAutoUpdate(true)
+					if not profile.preventAutoUpdateOnRespec then
+						set:SetAutoEquip(true)
+					end
+				end
+				profile.defaultUpdateSet = nil
+			end
+			if profile.defaultUpdateSet2 then
+				local set = ns.GetSetByID(profile.defaultUpdateSet2)
+				if set then
+					set:SetAutoUpdate(true)
+					if not profile.preventAutoUpdateOnRespec then
+						set:SetAutoEquip(true)
+					end
+				end
+				profile.defaultUpdateSet2 = nil
+			end
+			profile.preventAutoUpdateOnRespec = nil
 		end
 	end
 
