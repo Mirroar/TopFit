@@ -12,6 +12,8 @@ _G[addonName] = ns
 -- GLOBALS: GetEquipmentSetInfoByName, SaveEquipmentSet, GetUnitName, GetRealmName, UnitClass, GetActiveSpecGroup, GetSpecializationInfo, GetAuctionItemSubClasses, CanUseEquipmentSets, UseEquipmentSet, IsEquippableItem, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, GetInventorySlotInfo
 -- GLOBALS: setmetatable, getmetatable, type, pairs, assert, error, wipe, tinsert, next, select, tonumber, tContains
 
+--TODO: replace old ugly set_i set IDs with simple numbers - in profile.sets
+
 function ns:GenerateSetName(name) --TODO: ideally move this function into set class
 	-- using substr because blizzard interface only allows 16 characters
 	-- although technically SaveEquipmentSet & co allow more
@@ -32,98 +34,14 @@ SLASH_TopFit2 = "/tf"
 SLASH_TopFit3 = "/fit"
 SlashCmdList["TopFit"] = TopFit.ChatCommand
 
-local defaultOptions = {
-	showComparisonTooltip = true,
-	minimapIcon = {},
-}
-
 function ns:OnEnable()
-	-- load saved variables
-	local currentVersion = 602
-
-	-- TODO: replace with self.db = LibStub('AceDB-3.0'):New(addonName..'DB', defaults, nil)
-	local profileName = GetUnitName('player')..' - '..GetRealmName('player')
-	local selectedProfile = profileName
-	if TopFitDB then
-		selectedProfile = TopFitDB.profileKeys[profileName]
-		if not selectedProfile then
-			-- initialize profile for this character
-			TopFitDB.profileKeys[profileName] = profileName
-			TopFitDB.profiles[profileName] = defaultOptions
-			selectedProfile = profileName
-		end
-	else
-		-- initialize saved variables
-		TopFitDB = {
-			version = currentVersion,
-			profileKeys = {
-				[profileName] = profileName
-			},
-			profiles = {
-				[profileName] = defaultOptions
-			}
-		}
-	end
-	ns.db = {profile = TopFitDB.profiles[selectedProfile]}
+	ns:PrepareDatabase()
 
 	-- load Unfit-1.0
 	ns.Unfit = LibStub('Unfit-1.0')
 
 	-- create gametooltip for scanning
 	ns.scanTooltip = CreateFrame('GameTooltip', addonName..'ScanTooltip', UIParent, 'GameTooltipTemplate')
-
-	-- update saved variables from previous versions
-	if not TopFitDB.version or TopFitDB.version < 600 then
-		-- updating from a pre-6.0v1-version
-		TopFitDB.version = 600
-		-- wipe all sets because of incompatibility and major stat changes
-		for _, profile in pairs(TopFitDB.profiles) do
-			profile.sets = nil
-			profile.defaultUpdateSet = nil
-			profile.defaultUpdateSet2 = nil
-		end
-	end
-
-	if TopFitDB.version < 601 then
-		-- 6.0v3 adds setting for minimap button
-		for _, profile in pairs(TopFitDB.profiles) do
-			profile.minimapIcon = {}
-		end
-	end
-
-	if TopFitDB.version < 602 then
-		-- 6.0v4 moves settings for auto-equip and auto-update into sets themselves
-		for _, profile in pairs(TopFitDB.profiles) do
-			if profile.defaultUpdateSet then
-				local set = ns.GetSetByID(profile.defaultUpdateSet)
-				if set then
-					set:SetAutoUpdate(true)
-					if not profile.preventAutoUpdateOnRespec then
-						set:SetAutoEquip(true)
-					end
-				end
-				profile.defaultUpdateSet = nil
-			end
-			if profile.defaultUpdateSet2 then
-				local set = ns.GetSetByID(profile.defaultUpdateSet2)
-				if set then
-					set:SetAutoUpdate(true)
-					if not profile.preventAutoUpdateOnRespec then
-						set:SetAutoEquip(true)
-					end
-				end
-				profile.defaultUpdateSet2 = nil
-			end
-			profile.preventAutoUpdateOnRespec = nil
-		end
-	end
-
-	--TODO: replace old ugly set_i set IDs with simple numbers - in profile.sets
-
-	TopFitDB.version = currentVersion
-
-	-- make sure a sets container exists even if there are no sets
-	if not ns.db.profile.sets then ns.db.profile.sets = {} end
 
 	-- launcher ldb
 	local ldb = LibStub('LibDataBroker-1.1'):NewDataObject(addonName, {

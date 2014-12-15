@@ -22,6 +22,7 @@ libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 locale\enUS.lua
 
 constants.lua
+database.lua
 TopFit.lua
 
 # this file needs some more work
