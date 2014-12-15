@@ -14,6 +14,7 @@ function Set:construct(setName)
 	self.ignoreCapsForCalculation = false
 	self.useVirtualItems = true
 	self.associatedSpec = nil
+	self.preferredSpecNum = nil
 	self.autoUpdate = false
 	self.autoEquip = false
 
@@ -69,6 +70,9 @@ function Set.CreateFromSavedVariables(setTable)
 
 	if setTable.associatedSpec then
 		setInstance:SetAssociatedSpec(setTable.associatedSpec)
+	end
+	if setTable.preferredSpecNum then
+		setInstance:SetPreferredSpecNumber(setTable.preferredSpecNum)
 	end
 	if setTable.autoUpdate then
 		setInstance:SetAutoUpdate(true)
@@ -428,6 +432,16 @@ function Set:SetAssociatedSpec(spec)
 end
 function Set:GetAssociatedSpec()
 	return self.associatedSpec
+end
+
+function Set:SetPreferredSpecNumber(specNum)
+	self.preferredSpecNum = specNum
+	if self.setID and ns.db.profile.sets[self.setID] then
+		ns.db.profile.sets[self.setID].preferredSpecNum = specNum
+	end
+end
+function Set:GetPreferredSpecNumber()
+	return self.preferredSpecNum
 end
 
 function Set:SetAutoUpdate(enable)

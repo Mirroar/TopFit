@@ -130,6 +130,15 @@ function ns:PlayerHasTitansGrip()
 	return IsSpellKnown(46917)
 end
 
+function ns:GetPlayerDoubleSpec()
+	-- find out if the player currently has the same spec twice, and return that spec
+	if GetSpecialization(nil, nil, 1) and GetSpecialization(nil, nil, 1) == GetSpecialization(nil, nil, 2) then
+		return GetSpecializationInfo(GetSpecialization(nil, nil, 1) or 0)
+	end
+
+	return false
+end
+
 function ns:GetLinkID(link)
 	if not link or type(link) ~= "string" then return end
 	local linkType, id = link:match("\124H([^:]+):([^:\124]+)")

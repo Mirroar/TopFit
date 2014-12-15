@@ -95,19 +95,27 @@ function SetOptionsPlugin:InitializeUI()
 	UIDropDownMenu_JustifyText(dropDown, "LEFT")
 
 	local function assignSpec(button)
-		ns:Debug(button.value)
-		UIDropDownMenu_SetSelectedValue(dropDown, button.value)
+		local specID = button.value
+		local specNum = nil
+		ns:Debug(specID)
+		UIDropDownMenu_SetSelectedValue(dropDown, specID)
+
+		if string.find(specID, '-') then
+			specNum = tonumber(string.sub(specID, string.len(specID)))
+			specID = tonumber(string.sub(specID, 1, string.len(specID) - 2))
+		end
 
 		local set = ns.GetSetByID(ns.selectedSet, true)
-		if button.value ~= 'none' then
-			set:SetAssociatedSpec(button.value)
-			ns:Debug(GetSpecializationInfoByID(button.value))
-			local _, _, _, icon = GetSpecializationInfoByID(button.value)
+		if specID ~= 'none' then
+			set:SetAssociatedSpec(tonumber(specID))
+			set:SetPreferredSpecNumber(specNum)
+			local _, _, _, icon = GetSpecializationInfoByID(specID)
 			if icon then
 				--UIDropDownMenu_SetText(dropDown, '|T'..icon..':0|t')
 			end
 		else
 			set:SetAssociatedSpec(nil)
+			set:SetPreferredSpecNumber(nil)
 		end
 		self:OnShow()
 	end
@@ -139,13 +147,27 @@ function SetOptionsPlugin:InitializeUI()
 			UIDropDownMenu_AddButton(info, level)
 
 			-- list all specs
+			local doubleSpecID = ns:GetPlayerDoubleSpec()
 			for index = 1, GetNumSpecializations() do
 				local specID, name, _, icon, _, role = GetSpecializationInfo(index)
 				info.text = name
 				info.value = specID
 				info.icon = icon
-				info.checked = UIDROPDOWNMENU_MENU_VALUE == specID
+				info.checked = UIDROPDOWNMENU_MENU_VALUE == info.value
 				info.func = assignSpec
+
+				if doubleSpecID and doubleSpecID == specID then
+					-- add selections for primary and secondary spec individually
+					UIDropDownMenu_AddButton(info, level)
+					info.text = name..' - '.._G.PRIMARY
+					info.value = specID..'-1'
+					info.checked = UIDROPDOWNMENU_MENU_VALUE == info.value
+					UIDropDownMenu_AddButton(info, level)
+					info.text = name..' - '.._G.SECONDARY
+					info.value = specID..'-2'
+					info.checked = UIDROPDOWNMENU_MENU_VALUE == info.value
+				end
+
 				UIDropDownMenu_AddButton(info, level)
 			end
 		end
@@ -197,9 +219,17 @@ function SetOptionsPlugin:OnShow()
 	-- update selected specialization
 	local spec = set:GetAssociatedSpec()
 	if spec then
-		UIDropDownMenu_SetSelectedValue(frame.specDropDown, spec)
-		local _, specName = GetSpecializationInfoByID(spec)
-		UIDropDownMenu_SetText(frame.specDropDown, specName)
+		local specID, specName = GetSpecializationInfoByID(spec)
+		local doubleSpecID = ns:GetPlayerDoubleSpec()
+		local preferredSpecNum = set:GetPreferredSpecNumber()
+
+		if spec == doubleSpecID and preferredSpecNum then
+			UIDropDownMenu_SetSelectedValue(frame.specDropDown, spec..'-'..preferredSpecNum)
+			UIDropDownMenu_SetText(frame.specDropDown, specName..' - '..(preferredSpecNum == 1 and _G.PRIMARY or _G.SECONDARY))
+		else
+			UIDropDownMenu_SetSelectedValue(frame.specDropDown, spec)
+			UIDropDownMenu_SetText(frame.specDropDown, specName)
+		end
 
 		-- enable spec-based options
 		frame.autoEquipCheckbox:SetEnabled(true)
