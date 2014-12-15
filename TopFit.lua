@@ -344,10 +344,10 @@ function ns.GetCurrentAutoUpdateSet(useGlobalInstance)
 	for setID, _ in pairs(ns.db.profile.sets) do
 		local set = ns.GetSetByID(setID, true) -- use global instances while searching because it's faster than creating new set objects
 
-		if set:GetAssociatedSpec() == currentSpec and set:GetAutoUpdate() then
+		if (not currentSpec or set:GetAssociatedSpec() == currentSpec) and set:GetAutoUpdate() then
 			-- deal with having the same spec twice
 			local preferredSpecNum = set:GetPreferredSpecNumber()
-			if doubleSpecID and currentSpec == doubleSpecID and (not preferredSpecNum or preferredSpecNum == GetSpecialization()) then
+			if (not doubleSpecID or currentSpec == doubleSpecID) and (not preferredSpecNum or preferredSpecNum == GetSpecialization()) then
 				if useGlobalInstance then
 					return set
 				else
@@ -359,16 +359,17 @@ function ns.GetCurrentAutoUpdateSet(useGlobalInstance)
 end
 
 -- get the current auto-update-set
+--TODO: merge this and the above function
 function ns.GetCurrentAutoEquipSet(useGlobalInstance)
 	local currentSpec = GetSpecializationInfo(GetSpecialization() or 0)
 	local doubleSpecID = ns:GetPlayerDoubleSpec()
 	for setID, _ in pairs(ns.db.profile.sets) do
 		local set = ns.GetSetByID(setID, true) -- use global instances while searching because it's faster than creating new set objects
 
-		if set:GetAssociatedSpec() == currentSpec and set:GetAutoEquip() then
+		if (not currentSpec or set:GetAssociatedSpec() == currentSpec) and set:GetAutoEquip() then
 			-- deal with having the same spec twice
 			local preferredSpecNum = set:GetPreferredSpecNumber()
-			if doubleSpecID and currentSpec == doubleSpecID and (not preferredSpecNum or preferredSpecNum == GetSpecialization()) then
+			if (not doubleSpecID or currentSpec == doubleSpecID) and (not preferredSpecNum or preferredSpecNum == GetSpecialization()) then
 				if useGlobalInstance then
 					return set
 				else
