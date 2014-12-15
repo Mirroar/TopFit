@@ -81,26 +81,25 @@ end)
 AddUpdateHandler(602, function()
 	-- 6.0v4 moves settings for auto-equip and auto-update into sets themselves
 	for _, profile in pairs(TopFitDB.profiles) do
-		if profile.defaultUpdateSet then
-			local set = ns.GetSetByID(profile.defaultUpdateSet)
-			if set then
-				set:SetAutoUpdate(true)
-				if not profile.preventAutoUpdateOnRespec then
-					set:SetAutoEquip(true)
+		for specIndex, savedVar in ipairs({'defaultUpdateSet', 'defaultUpdateSet2'}) do
+			if profile[savedVar] then
+				local set = ns.GetSetByID(profile[savedVar])
+				if set then
+					set:SetAutoUpdate(true)
+					if not profile.preventAutoUpdateOnRespec then
+						set:SetAutoEquip(true)
+					end
+
+					-- also set associated spec if the set has none assigned yet
+					if not set:GetAssociatedSpec() then
+						local specID = GetSpecializationInfo(GetSpecialization(nil, nil, specIndex) or 0)
+						set:SetAssociatedSpec(specID)
+					end
 				end
 			end
-			profile.defaultUpdateSet = nil
 		end
-		if profile.defaultUpdateSet2 then
-			local set = ns.GetSetByID(profile.defaultUpdateSet2)
-			if set then
-				set:SetAutoUpdate(true)
-				if not profile.preventAutoUpdateOnRespec then
-					set:SetAutoEquip(true)
-				end
-			end
-			profile.defaultUpdateSet2 = nil
-		end
+		profile.defaultUpdateSet = nil
+		profile.defaultUpdateSet2 = nil
 		profile.preventAutoUpdateOnRespec = nil
 	end
 end)
