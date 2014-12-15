@@ -5,15 +5,6 @@ ns.SetOptionsPlugin = SetOptionsPlugin
 
 local tekCheck = LibStub("tekKonfig-Checkbox")
 
---Possible Icons
---INV_Gizmo_Pipe_03
---INV_Misc_Wrench_01
---INV_Misc_Blizzcon09_GraphicsCard
---INV_Misc_EngGizmos_30
---INV_Misc_EngGizmos_37
---INV_Misc_EngGizmos_swissArmy
---INV_Misc_Gear_01 - 08
-
 -- creates a new SetOptionsPlugin object
 function SetOptionsPlugin:Initialize()
 	self:SetName(ns.locale.OptionsPanelTitle)
