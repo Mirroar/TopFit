@@ -1,6 +1,25 @@
 Changelog for TopFit
 ====================
 
+6.0v4 - 2014/12/16
+  - fixed dual-wield detection
+  - fixed problems with TopFit trying to equip two Solium Rings
+  - fixed auto-update not triggering when a new item was put in the player's backpack instead of any of the other bags
+  - fixed multistrike not being recognized correctly on gems and enchantments
+  - fixed shadow resistance not being recognized correctly on gems
+  - fixed detection and handling of unique or unique-equipped items
+  - import now supports importing weights from askmrrobot
+  - the option to add sets from a preset will now also be shown on left-clicking the "+"-button, instead of only when right-clicking
+  - added new options plugin for sets to config frame containing options formerly available from within the weights plugin
+  - sets can now be assigned a specialization - this affects auto-update and auto-equip and will later be used to limit calculation to gear appropriate for the selected spec
+  - auto-update and auto-equip are now configured in a set's options instead of TopFit's global options
+  - updated trinket logic to better detect and parse trinket proc effects
+  - TopFit will no longer create a "Default Set" with no weights for new characters
+  - instead, the new setup plugin will be shown, assisting the player in creating initial sets
+  - added a tutorial overlay, triggered by clicking the "i"-button in the top-left corner of the options frame
+  - updated presets with new values from askmrrobot
+  - sets created from a preset will have an appropriate icon and associated spec assigned
+
 6.0v3 - 2014/11/25
   - fixed an error that was preventing the fix to dungeon loot in 6.0v2 from working
   - moved import / export plugin into set dropdown and weights plugin to free some space

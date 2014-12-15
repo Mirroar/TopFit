@@ -2,7 +2,7 @@ TopFit
 ======
 
 Author: Mirroar (Nadasha @ EU-Die Aldor)
-Version: 6.0v3
+Version: 6.0v4
 WoW Version: 6.0 (TOC 60000)
 
 WoWInterface: http://www.wowinterface.com/downloads/info16177-TopFit.html
