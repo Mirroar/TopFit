@@ -7,7 +7,7 @@ ns.ItemStatsPlugin = ItemStatsPlugin
 function ItemStatsPlugin:Initialize()
 	self:SetName("Item Stats")
 	self:SetTooltipText("Allows you to check which stats TopFit detects on an item, as well as change those stats when necessary.")
-	self:SetButtonTexture("Interface\\Icons\\INV_Glove_Mail_PVPHunter_D_01")
+	self:SetButtonTexture("Interface\\Icons\\INV_Enchant_FormulaSuperior_01")
 	self:RegisterConfigPanel()
 end
 
