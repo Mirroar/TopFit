@@ -82,7 +82,7 @@ AddUpdateHandler(602, function()
 	-- 6.0v4 moves settings for auto-equip and auto-update into sets themselves
 	for _, profile in pairs(TopFitDB.profiles) do
 		for specIndex, savedVar in ipairs({'defaultUpdateSet', 'defaultUpdateSet2'}) do
-			if profile[savedVar] then
+			if profile[savedVar] and profile.sets and profile.sets[profile[savedVar]] then
 				local set = ns.GetSetByID(profile[savedVar])
 				if set then
 					set:SetAutoUpdate(true)
