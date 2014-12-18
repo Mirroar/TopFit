@@ -18,7 +18,7 @@ do
 	L.AddSetTab = "|cFF20FF20Add new set|r|nCreate a new set using a preset or start from scratch."
 	L.SetTabTooltip = '%1$s|n|cFF808080Right-Click to delete this set.|r'
 	L.ModifySetSelectText = _G.LFG_LIST_SELECT
-	L.ModifySetRenameText = _G.RENAME_GUILD
+	L.ModifySetRenameText = _G.BATTLE_PET_RENAME
 	L.ModifySetDeleteText = _G.DELETE
 	L.AddSetTooltip = "Add a new equipment set\n|cffffffffAfterwards, you can adjust this set's weights and caps in the right frame, or force items by clicking on any equipment slots below."
 	L.DeleteSetTooltip = "Delete the selected set\n\n|cffff0000WARNING|cffffffff: The associated set in the equipment manager will also be deleted! If you want to keep it, create a copy in Blizzard's equipment manager first!"
@@ -34,7 +34,7 @@ do
 	L.HeadingCaps = "Caps"
 	L.SetScore = "Total Score: %.2f"
 	L.SetHeader = "Item Sets"
-	L.FlyoutTooltip = "Force Items\n|cffffffffClick items in this flyout menu and TopFit will only use those items for calculation in that slot. Click them again to remove their selection."
+	L.FlyoutTooltip = "Force Items\n|cffffffffClick checkboxes in this flyout menu and TopFit will only use those items for calculation in that slot. Click them again to remove their selection."
 	L.missingForcedItemTooltip = "Forced Item missing\n|cffffffffThis item is still forced for this slot, but could not be found in your inventory."
 	L.capActiveTooltip = "When checked, TopFit will try everything it can to reach this cap. Otherwise, this value just specifies the point at which the alternate value kicks in."
 

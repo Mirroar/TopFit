@@ -652,7 +652,8 @@ local function TooltipAddLines(tt, link)
 			if set:GetDisplayInTooltip() then
 				if first then
 					first = false
-					tt:AddLine("Set Values:", 0.6, 1, 0.7)
+					tt:AddLine(' ')
+					tt:AddLine("TopFit Set Values:", 0.6, 1, 0.7) --TODO: translate
 				end
 
 				tt:AddLine(string.format("  %.2f - %s", set:GetItemScore(itemTable.itemLink), set:GetName()), 0.6, 1, 0.7)
