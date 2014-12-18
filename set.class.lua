@@ -39,7 +39,7 @@ function Set.CreateFromSavedVariables(setTable)
 	-- as part of the 6.0v4 database update, detect the character's spec for auto-updating if necessary
 	if setTable._oldAutoUpdate then
 		if not setTable.associatedSpec then
-			local specID = GetSpecializationInfo(GetSpecialization(nil, nil, specIndex) or 0)
+			local specID = GetSpecializationInfo(GetSpecialization(nil, nil, setTable._oldAutoUpdate) or 0)
 			setInstance:SetAssociatedSpec(specID)
 		end
 
