@@ -36,6 +36,24 @@ function Set.CreateFromSavedVariables(setTable)
 
 	local setInstance = Set(setTable.name)
 
+	-- as part of the 6.0v4 database update, detect the character's spec for auto-updating if necessary
+	if setTable._oldAutoUpdate then
+		if not setTable.associatedSpec then
+			local specID = GetSpecializationInfo(GetSpecialization(nil, nil, specIndex) or 0)
+			setInstance:SetAssociatedSpec(specID)
+		end
+
+		setTable._oldAutoUpdate = nil
+	end
+
+	-- load weights and caps
+	if setTable.weights then
+		-- initialize weights
+		for stat, value in pairs(setTable.weights) do
+			setInstance:SetStatWeight(stat, value)
+		end
+	end
+
 	if setTable.caps then
 		-- initialize caps
 		for stat, cap in pairs(setTable.caps) do
@@ -45,13 +63,7 @@ function Set.CreateFromSavedVariables(setTable)
 		end
 	end
 
-	if setTable.weights then
-		-- initialize weights
-		for stat, value in pairs(setTable.weights) do
-			setInstance:SetStatWeight(stat, value)
-		end
-	end
-
+	-- load forced items
 	if setTable.forced then
 		-- initialize forced items
 		for slotID, forced in pairs(setTable.forced) do
@@ -61,6 +73,7 @@ function Set.CreateFromSavedVariables(setTable)
 		end
 	end
 
+	-- load virtual items
 	if setTable.virtualItems then
 		for _, item in pairs(setTable.virtualItems) do
 			-- TODO: use function
@@ -68,6 +81,7 @@ function Set.CreateFromSavedVariables(setTable)
 		end
 	end
 
+	-- load all other individual settings
 	if setTable.associatedSpec then
 		setInstance:SetAssociatedSpec(setTable.associatedSpec)
 	end

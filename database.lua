@@ -78,24 +78,22 @@ AddUpdateHandler(601, function()
 	end
 end)
 
---[[AddUpdateHandler(602, function()
+AddUpdateHandler(602, function()
 	-- 6.0v4 moves settings for auto-equip and auto-update into sets themselves
 	for _, profile in pairs(TopFitDB.profiles) do
 		for specIndex, savedVar in ipairs({'defaultUpdateSet', 'defaultUpdateSet2'}) do
-			if profile[savedVar] and profile.sets and profile.sets[profile[savedVar] ] then
-				local set = ns.GetSetByID(profile[savedVar])
-				if set then
-					set:SetAutoUpdate(true)
-					if not profile.preventAutoUpdateOnRespec then
-						set:SetAutoEquip(true)
-					end
+			if profile[savedVar] and profile.sets and profile.sets[profile[savedVar]] then
+				local set = profile.sets[profile[savedVar]]
 
-					-- TODO: this doesn't work in a global context
-					-- also set associated spec if the set has none assigned yet
-					if not set:GetAssociatedSpec() then
-						local specID = GetSpecializationInfo(GetSpecialization(nil, nil, specIndex) or 0)
-						set:SetAssociatedSpec(specID)
-					end
+				set.autoUpdate = true
+				if not profile.preventAutoUpdateOnRespec then
+					set.autoEquip = true
+				end
+
+				-- TODO: this doesn't work in a global context
+				-- also set associated spec if the set has none assigned yet
+				if not set.associatedSpec then
+					set._oldAutoUpdate = specIndex -- this will be converted to the correct specID when that character logs in within Set.CreateFromSavedVariables
 				end
 			end
 		end
@@ -103,7 +101,7 @@ end)
 		profile.defaultUpdateSet2 = nil
 		profile.preventAutoUpdateOnRespec = nil
 	end
-end)--]]
+end)
 
 function ns:PrepareDatabase()
 	InitializeDB()
