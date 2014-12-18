@@ -8,6 +8,7 @@ Changelog for TopFit
   - fixed multistrike not being recognized correctly on gems and enchantments
   - fixed shadow resistance not being recognized correctly on gems
   - fixed detection and handling of unique or unique-equipped items
+  - fixed addon options only showing correctly after using slash command or options button twice
   - import now supports importing weights from askmrrobot
   - the option to add sets from a preset will now also be shown on left-clicking the "+"-button, instead of only when right-clicking
   - added new options plugin for sets to config frame containing options formerly available from within the weights plugin
