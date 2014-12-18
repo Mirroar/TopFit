@@ -23,6 +23,7 @@ end
 function TopFit.ChatCommand(input)
 	if not input or input:trim() == "" or input:trim():lower() == "options" or input:trim():lower() == "conf" or input:trim():lower() == "config" then
 		InterfaceOptionsFrame_OpenToCategory(addonName)
+		InterfaceOptionsFrame_OpenToCategory(addonName)
 	elseif input:trim():lower() == "show" then
 		--TODO: TopFit:CreateProgressFrame() is outdated
 	else
@@ -51,7 +52,8 @@ function ns:OnEnable()
 
 		OnClick = function(button, btn, up)
 			if btn == 'RightButton' then
-				InterfaceOptionsFrame_OpenToCategory('TopFit')
+				InterfaceOptionsFrame_OpenToCategory(addonName)
+				InterfaceOptionsFrame_OpenToCategory(addonName)
 			else
 				ns.ui.ToggleTopFitConfigFrame()
 			end

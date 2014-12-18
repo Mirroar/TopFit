@@ -291,6 +291,7 @@ function ui.InitializeConfigButton()
 		CloseMenus() -- prevent oddities when ui.config gets initialized
 		if btn == "RightButton" then
 			InterfaceOptionsFrame_OpenToCategory(addonName)
+			InterfaceOptionsFrame_OpenToCategory(addonName)
 		else
 			ui.ToggleTopFitConfigFrame()
 		end
