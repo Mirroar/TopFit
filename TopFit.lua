@@ -280,7 +280,7 @@ end
 function ns:SetSelectedSet(setID)
 	-- select current auto-equip set by default
 	if not setID then
-		local set = ns.GetCurrentAutoEquipSet()
+		local set = ns.GetCurrentAutoEquipSet(true)
 		if set then
 			setID = set.setID
 		end
