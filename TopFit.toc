@@ -32,17 +32,13 @@ modules\utilities.lua
 set.class.lua
 calculation.class.lua
 defaultcalculation.class.lua
-smartcalculation.class.lua
 plugin.class.lua
 
 # plugins: things displayed in config panel
 modules\setupplugin.class.lua
 modules\weightsplugin.class.lua
 modules\importplugin.class.lua
-modules\optimizerplugin.class.lua
-modules\itemstatsplugin.class.lua
 modules\virtual_items.lua
-modules\builder.lua
 modules\setoptionsplugin.class.lua
 
 inventory.lua
@@ -60,4 +56,11 @@ data\enchants.lua
 data\enchants.manual.lua
 data\presets.lua
 
-tests.lua
+# files below are should not be included in a release version
+modules\optimizerplugin.class.lua
+modules\itemstatsplugin.class.lua
+modules\builder.lua
+
+smartcalculation.class.lua
+
+tests\tests.lua
