@@ -63,6 +63,8 @@ do
 	L.ShowTooltipComparisonTooltip = "|cffffffffCheck to show values in your tooltip which indicate how much of an improvement an item is in comparison with your equipped items for each set."
 	L.Debug = "Debug mode"
 	L.DebugTooltip = "|cffffffffCheck to enable debug messages.\n\n|cffffff00Caution: |cffffffffThis will spam your chatframe, a lot!"
+	L.AutoRunTests = "Run unit tests automatically"
+	L.AutoRunTestsTooltip = "|cffffffffCheck to automatically run TopFit's unit tests after loading. Only works with the development version of the AddOn."
 	L.None = "None"
 
 	-- ------------------------------------------------------------

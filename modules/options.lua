@@ -53,6 +53,18 @@ function TopFit:createOptions()
 			TopFit.db.profile.debugMode = not TopFit.db.profile.debugMode
 		end)
 
+		-- auto-test checkbox
+		if IsAddOnLoaded('wowUnit') and ns.testsLoaded then
+			local autoRunTests = LibStub("tekKonfig-Checkbox").new(TopFit.InterfaceOptionsFrame, nil, TopFit.locale.AutoRunTests, "TOPLEFT", debugMode, "BOTTOMLEFT", 0, 0)
+			autoRunTests.tiptext = TopFit.locale.AutoRunTestsTooltip
+			autoRunTests:SetChecked(TopFit.db.profile.autoRunTests)
+			local checksound = autoRunTests:GetScript("OnClick")
+			autoRunTests:SetScript("OnClick", function(self)
+				checksound(self)
+				TopFit.db.profile.autoRunTests = not TopFit.db.profile.autoRunTests
+			end)
+		end
+
 		InterfaceOptions_AddCategory(TopFit.InterfaceOptionsFrame)
 		LibStub("tekKonfig-AboutPanel").new(addonName, addonName)
 
