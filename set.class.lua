@@ -34,32 +34,33 @@ end
 --- Create a set object, loading data from saved variables.
 -- Changes to the set will not be written to the given table.
 -- @param setTable table of variables from which to load settings
-function Set.CreateFromSavedVariables(setTable)
-	Set.AssertArgumentType(setTable, 'table')
+-- @param writable whether changes to the set object should be stored in setTable
+function Set.CreateFromSavedVariables(savedVariables, writable)
+	Set.AssertArgumentType(savedVariables, 'table')
 
-	local setInstance = Set(setTable.name)
+	local setInstance = Set(savedVariables.name)
 
 	-- as part of the 6.0v4 database update, detect the character's spec for auto-updating if necessary
-	if setTable._oldAutoUpdate then
-		if not setTable.associatedSpec then
-			local specID = GetSpecializationInfo(GetSpecialization(nil, nil, setTable._oldAutoUpdate) or 0)
+	if savedVariables._oldAutoUpdate then
+		if not savedVariables.associatedSpec then
+			local specID = GetSpecializationInfo(GetSpecialization(nil, nil, savedVariables._oldAutoUpdate) or 0)
 			setInstance:SetAssociatedSpec(specID)
 		end
 
-		setTable._oldAutoUpdate = nil
+		savedVariables._oldAutoUpdate = nil
 	end
 
 	-- load weights and caps
-	if setTable.weights then
+	if savedVariables.weights then
 		-- initialize weights
-		for stat, value in pairs(setTable.weights) do
+		for stat, value in pairs(savedVariables.weights) do
 			setInstance:SetStatWeight(stat, value)
 		end
 	end
 
-	if setTable.caps then
+	if savedVariables.caps then
 		-- initialize caps
-		for stat, cap in pairs(setTable.caps) do
+		for stat, cap in pairs(savedVariables.caps) do
 			if cap.active then
 				setInstance:SetHardCap(stat, cap.value)
 			end
@@ -67,9 +68,9 @@ function Set.CreateFromSavedVariables(setTable)
 	end
 
 	-- load forced items
-	if setTable.forced then
+	if savedVariables.forced then
 		-- initialize forced items
-		for slotID, forced in pairs(setTable.forced) do
+		for slotID, forced in pairs(savedVariables.forced) do
 			for _, forcedItemID in ipairs(forced) do
 				setInstance:ForceItem(slotID, forcedItemID)
 			end
@@ -77,48 +78,53 @@ function Set.CreateFromSavedVariables(setTable)
 	end
 
 	-- load virtual items
-	if setTable.virtualItems then
-		for _, item in pairs(setTable.virtualItems) do
+	if savedVariables.virtualItems then
+		for _, item in pairs(savedVariables.virtualItems) do
 			-- TODO: use function
 			tinsert(setInstance.virtualItems, item)
 		end
 	end
 
 	-- load all other individual settings
-	if setTable.associatedSpec then
-		setInstance:SetAssociatedSpec(setTable.associatedSpec)
+	if savedVariables.associatedSpec then
+		setInstance:SetAssociatedSpec(savedVariables.associatedSpec)
 	end
-	if setTable.preferredSpecNum then
-		setInstance:SetPreferredSpecNumber(setTable.preferredSpecNum)
+	if savedVariables.preferredSpecNum then
+		setInstance:SetPreferredSpecNumber(savedVariables.preferredSpecNum)
 	end
-	if setTable.autoUpdate then
+	if savedVariables.autoUpdate then
 		setInstance:SetAutoUpdate(true)
 	end
-	if setTable.autoEquip then
+	if savedVariables.autoEquip then
 		setInstance:SetAutoEquip(true)
 	end
-	if setTable.simulateDualWield then
+	if savedVariables.simulateDualWield then
 		setInstance:ForceDualWield(true)
 	end
-	if setTable.simulateTitansGrip then
+	if savedVariables.simulateTitansGrip then
 		setInstance:ForceTitansGrip(true)
 	end
-	if not setTable.excludeFromTooltip then
+	if not savedVariables.excludeFromTooltip then
 		setInstance:SetDisplayInTooltip(true)
 	end
-	if setTable.forceArmorType then
+	if savedVariables.forceArmorType then
 		setInstance:SetForceArmorType(true)
 	end
-	if setTable.skipVirtualItems then
+	if savedVariables.skipVirtualItems then
 		setInstance:SetUseVirtualItems(false)
+	end
+
+	if writable then
+		setInstance.savedVariables = savedVariables
 	end
 
 	return setInstance
 end
 
+-- TODO: merge into above function
 function Set.CreateWritableFromSavedVariables(setID)
 	if not setID or not ns.db.profile.sets[setID] then return nil end
-	local setInstance = Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
+	local setInstance = Set.CreateFromSavedVariables(ns.db.profile.sets[setID], true)
 	setInstance.setID = setID
 
 	return setInstance
