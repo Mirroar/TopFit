@@ -82,8 +82,8 @@ local function testChangedValues(set)
 	wowUnit:assertSame(set:GetHardCaps(), {FOO = 42, BAZ = 789}, "Changing hard caps works.")
 
 	wowUnit:assertEquals(set:GetStatWeight("FOOO"), 41, "Changing a stat weight works.")
-	wowUnit:isNil(set:GetStatWeight("BARR"), "Removing a stat weight works.")
-	wowUnit:assertSame(set:GetStatWeights(), {FOOO = 41, BAZZ = 788}, "Changing stat weights works.")
+	wowUnit:isNil(set:GetStatWeight("BAR"), "Removing a stat weight works.")
+	wowUnit:assertSame(set:GetStatWeights(), {FOOO = 41, BAZ = 788}, "Changing stat weights works.")
 end
 
 tests["setting values and saved variables"] = function()
@@ -91,9 +91,10 @@ tests["setting values and saved variables"] = function()
 
 	wowUnit:isTable(vars, "Prepared saved variables are a table of some sorts.")
 
-	--TODO: create a set from these saved variables, change all kinds of settings, create another set from the same variables and check whether the changes stuck
+	-- create a set from these saved variables
 	local set = ns.Set.CreateFromSavedVariables(vars, true)
 
+	-- change all kinds of settings
 	set:SetName("Test Set")
 
 	set:SetHardCap("FOO", 42)
@@ -102,12 +103,14 @@ tests["setting values and saved variables"] = function()
 	set:SetHardCap("BAZ", 789)
 
 	set:SetStatWeight("FOOO", 41)
-	set:SetStatWeight("BARR", 122)
-	set:SetStatWeight("BARR", nil)
-	set:SetStatWeight("BAZZ", 788)
+	set:SetStatWeight("BAR", 122)
+	set:SetStatWeight("BAR", nil)
+	set:SetStatWeight("BAZ", 788)
 
+	-- check whether the changes were saved correctly
 	testChangedValues(set)
 
+	-- create another set from the same variables and check whether the changes stuck
 	set = ns.Set.CreateFromSavedVariables(vars)
 	testChangedValues(set)
 end

@@ -6,7 +6,6 @@ ns.DefaultCalculation = DefaultCalculation
 -- run steps needed for initializing the calculation process
 function DefaultCalculation:Initialize()
 	ns.itemRecommendations = {}
-	ns.currentSetName = self.set:GetName() -- TODO: remove; currently used by calculation.lua:OnUpdateForEquipment
 
 	self.combinationCount = 0
 	self.slotCounters = {}

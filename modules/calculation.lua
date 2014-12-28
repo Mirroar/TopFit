@@ -252,7 +252,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 		-- save equipment set
 		if (CanUseEquipmentSets()) then
 			local texture
-			local setName = TopFit:GenerateSetName(TopFit.currentSetName)
+			local setName = set:GetEquipmentSetName()
 			-- check if a set with this name exists
 			if (GetEquipmentSetInfoByName(setName)) then
 				texture = GetEquipmentSetInfoByName(setName)
