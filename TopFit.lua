@@ -295,7 +295,7 @@ function ns:SetSelectedSet(setID)
 
 	if not setID then
 		-- if still no set is selected, select first available set instead
-		for id, _ in pairs(ns.db.profile.sets) do
+		for _, id in pairs(ns.GetSetList()) do
 			setID = id
 			break
 		end

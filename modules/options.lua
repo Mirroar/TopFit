@@ -139,8 +139,9 @@ function TopFit:AddSet(preset)
 end
 
 function TopFit:HasSet(setName)
-	for setCode, setTable in pairs(TopFit.db.profile.sets) do
-		if (setTable.name == setName) then
+	for _, setCode in pairs(ns.GetSetList()) do
+		local set = ns.GetSetByID(setCode, true)
+		if (set:GetName() == setName) then
 			return true
 		end
 	end
@@ -148,7 +149,8 @@ function TopFit:HasSet(setName)
 end
 
 function TopFit:DeleteSet(setCode)
-	local setName = TopFit:GenerateSetName(self.db.profile.sets[setCode].name)
+	local set = ns.GetSetByID(setCode, true)
+	local setName = set:GetEquipmentSetName()
 
 	-- remove from equipment manager
 	if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(setName)) then

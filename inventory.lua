@@ -536,8 +536,8 @@ function TopFit:IsInterestingItem(itemID, setID)
 		end
 
 		-- check for all sets
-		for set, _ in pairs(TopFit.db.profile.sets) do
-			local isInteresting, reason = TopFit:IsInterestingItem(itemID, set)
+		for _, setID in pairs(ns.GetSetList()) do
+			local isInteresting, reason = TopFit:IsInterestingItem(itemID, setID)
 			if (isInteresting) then
 				return isInteresting, reason
 			end

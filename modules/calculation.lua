@@ -12,7 +12,7 @@ function ns:StartCalculations(setCode)
 	if setCode then
 		tinsert(ns.workSetList, ns.GetSetByID(setCode, true))
 	else
-		for setCode, _ in pairs(self.db.profile.sets) do
+		for _, setCode, _ in pairs(ns.GetSetList()) do
 			tinsert(ns.workSetList, ns.GetSetByID(setCode, true))
 		end
 	end

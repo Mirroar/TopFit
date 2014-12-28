@@ -142,7 +142,7 @@ function ui.InitializeSetDropdown()
 			-- list all existing sets
 			local selected = UIDropDownMenu_GetSelectedValue(self)
 			info.func = DropDownSelectSet
-			for setID, _ in pairs(ns.db.profile.sets) do
+			for _, setID in pairs(ns.GetSetList()) do
 				local set = ns.GetSetByID(setID, true)
 				info.text     = set:GetName()
 				info.value    = setID
