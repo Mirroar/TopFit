@@ -34,8 +34,8 @@ end
 
 --- Create a set object, loading data from saved variables.
 -- Changes to the set will not be written to the given table.
--- @param setTable table of variables from which to load settings
--- @param writable whether changes to the set object should be stored in setTable
+-- @param setTable Table of variables from which to load settings
+-- @param writable Whether changes to the set object should be stored in setTable
 function Set.CreateFromSavedVariables(savedVariables, writable)
 	Set.AssertArgumentType(savedVariables, 'table')
 
@@ -122,7 +122,7 @@ function Set.CreateFromSavedVariables(savedVariables, writable)
 	return setInstance
 end
 
---- Creates a table to be used as settings table for a set
+--- Creates a table to be used as settings table for a set.
 function Set.PrepareSavedVariableTable()
 	return {
 		name = 'Unknown',
@@ -132,7 +132,8 @@ function Set.PrepareSavedVariableTable()
 	}
 end
 
--- set the set's name
+--- Set the set's name.
+-- @param setName The new set's name
 function Set:SetName(setName)
 	self.AssertArgumentType(setName, 'string')
 
@@ -142,12 +143,12 @@ function Set:SetName(setName)
 	end
 end
 
--- get the set's name
+--- Get the set's name.
 function Set:GetName()
 	return self.name
 end
 
--- get the set's icon texture used for its equipment set
+--- Get the set's icon texture used for its equipment set.
 function Set:GetIconTexture()
 	local icon = GetEquipmentSetInfoByName(self:GetEquipmentSetName())
 	if icon then
@@ -162,13 +163,15 @@ function Set:GetIconTexture()
 	return icon or "Interface\\Icons\\Spell_Holy_EmpowerChampion"
 end
 
+--- Gets the name of the equipment manager set associated with this set.
 function Set:GetEquipmentSetName()
 	--TODO: save equipment set name in saved variables so it can better be decoupled from TopFit
 	return ns:GenerateSetName(self:GetName()) -- TODO: move code here and get rid of global function in favor of class function Set.GenerateEquipmenSetName
 end
 
--- set a hard cap for any stat
--- use value = nil to unset a cap
+--- Set a hard cap for any stat.
+-- @param stat The identifier of the stat (usually a global string name)
+-- @param value The new cap value for the given stat - use nil to remove a current cap
 function Set:SetHardCap(stat, value)
 	self.AssertArgumentType(stat, 'string')
 	if type(value) ~= 'nil' then
@@ -189,14 +192,16 @@ function Set:SetHardCap(stat, value)
 	self.caps[stat] = value
 end
 
--- get the defined hard cap for any stat
+--- Get the defined hard cap for any stat.
+-- @param stat The identifier of the stat (usually a global string name)
 function Set:GetHardCap(stat)
 	self.AssertArgumentType(stat, 'string')
 
 	return self.caps[stat]
 end
 
--- get a list of all configured hard caps and their values, keyed by stat
+--- Get a list of all configured hard caps and their values, keyed by stat.
+-- @param useTable A table to write the requested data into (optional)
 function Set:GetHardCaps(useTable)
 	if useTable then wipe(useTable) end
 	local caps = useTable or {}
@@ -206,8 +211,8 @@ function Set:GetHardCaps(useTable)
 	return caps
 end
 
--- set a hard cap for any stat
--- use value = nil to unset a cap
+-- set a stat weight for any stat
+-- use value = nil to unset a weight
 function Set:SetStatWeight(stat, value)
 	self.AssertArgumentType(stat, 'string')
 	if type(value) ~= 'nil' then

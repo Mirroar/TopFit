@@ -22,6 +22,21 @@ end
 
 
 AddCategory("Sets")
+tests["set data integrity"] = function()
+	local set = ns.Set()
+
+	wowUnit:isTable(set:GetHardCaps(), "Set:GetHardCaps always returns a table.")
+	wowUnit:isNil(set:GetHardCap('FOO'), "Trying to get a non-existant hard cap returns nil.")
+
+	wowUnit:isTable(set:GetStatWeights(), "Set:GetStatWeights always returns a table.")
+	wowUnit:isNil(set:GetStatWeight('FOO'), "Trying to get a non-existant stat weight returns nil.")
+
+	wowUnit:isTable(set:GetForcedItems(), "Set:GetForcedItems always returns a table.")
+	wowUnit:assert(not set:IsForcedItem('FOO'), "A non-existant item is not forced.")
+
+	wowUnit:isTable(set:GetVirtualItems(), "Set:GetVirtualItems always returns a table.")
+end
+
 local function testDefaultSettings(set)
 	wowUnit:assertEquals(set:GetName(), "Unknown", "New sets are named 'Unknown'.")
 	wowUnit:assertEquals(set:GetEquipmentSetName(), "Unknown (TF)", "Sets have an appropriate equipment set name.")
@@ -45,21 +60,6 @@ local function testDefaultSettings(set)
 	wowUnit:assert(not set:GetAutoEquip(), "A new set does not automatically equip.")
 end
 
-tests["set data integrity"] = function()
-	local set = ns.Set()
-
-	wowUnit:isTable(set:GetHardCaps(), "Set:GetHardCaps always returns a table.")
-	wowUnit:isNil(set:GetHardCap('FOO'), "Trying to get a non-existant hard cap returns nil.")
-
-	wowUnit:isTable(set:GetStatWeights(), "Set:GetStatWeights always returns a table.")
-	wowUnit:isNil(set:GetStatWeight('FOO'), "Trying to get a non-existant stat weight returns nil.")
-
-	wowUnit:isTable(set:GetForcedItems(), "Set:GetForcedItems always returns a table.")
-	wowUnit:assert(not set:IsForcedItem('FOO'), "A non-existant item is not forced.")
-
-	wowUnit:isTable(set:GetVirtualItems(), "Set:GetVirtualItems always returns a table.")
-end
-
 tests["default values for sets created through constuctor"] = function()
 	local set = ns.Set()
 
@@ -74,10 +74,33 @@ tests["default values for sets created through empty saved variables"] = functio
 	testDefaultSettings(set)
 end
 
+local function testChangedValues(set)
+	wowUnit:assertEquals(set:GetName(), "Test Set", "Changing the set name sticks.")
+
+	wowUnit:assertEquals(set:GetHardCap("FOO"), 42, "Changing a hard cap works.")
+	wowUnit:isNil(set:GetHardCap("BAR"), "Removing a hard cap works.")
+	wowUnit:assertSame(set:GetHardCaps(), {FOO = 42, BAZ = 789}, "Changing hard caps works.")
+end
+
 tests["setting values and saved variables"] = function()
 	local vars = ns.Set.PrepareSavedVariableTable()
 
 	wowUnit:isTable(vars, "Prepared saved variables are a table of some sorts.")
+
+	--TODO: create a set from these saved variables, change all kinds of settings, create another set from the same variables and check whether the changes stuck
+	local set = ns.Set.CreateFromSavedVariables(vars, true)
+
+	set:SetName("Test Set")
+
+	set:SetHardCap("FOO", 42)
+	set:SetHardCap("BAR", 123)
+	set:SetHardCap("BAR", nil)
+	set:SetHardCap("BAZ", 789)
+
+	testChangedValues(set)
+
+	set = ns.Set.CreateFromSavedVariables(vars)
+	testChangedValues(set)
 end
 
 
