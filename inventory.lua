@@ -663,6 +663,7 @@ function ns:CanUseItemBinding(container, slot)
 end
 
 -- returns all equippable items, limited by slot, if given
+-- TODO: rewrite this complex of functions so available items are determined and then saved as part of a calculation, not globally
 local slotAvailableItems = {}
 function TopFit:GetEquippableItems(requestedSlotID)
 	local itemListBySlot = {}
@@ -747,8 +748,9 @@ function TopFit:GetEquippableItems(requestedSlotID)
 
 	if (TopFit.setCode) then
 		-- add virtual items
-		if (TopFit.setCode and TopFit.db.profile.sets[TopFit.setCode].virtualItems and not TopFit.db.profile.sets[TopFit.setCode].skipVirtualItems) then
-			for _, itemLink in pairs(TopFit.db.profile.sets[TopFit.setCode].virtualItems) do
+		local set = ns.GetSetByID(TopFit.setCode, true)
+		if set:GetUseVirtualItems() then
+			for _, itemLink in pairs(set:GetVirtualItems()) do
 				local item = TopFit:GetCachedItem(itemLink)
 				if item then    -- in case weird items end up in our cache
 					local equipSlots = TopFit:GetEquipLocationsByInvType(item.itemEquipLoc)
