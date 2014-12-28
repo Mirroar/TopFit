@@ -238,6 +238,7 @@ end
 
 -- remove all hard caps from this set
 function Set:ClearAllHardCaps()
+	--TODO: this should be handled with care and should modify saved variables, too
 	wipe(self.itemScoreCache)
 	wipe(self.caps)
 end
@@ -384,6 +385,7 @@ function Set:EnableDualWield(value)
 end
 
 -- get the current setting for dual wielding for this set
+--TODO: needs tests once it is deterministic
 function Set:CanDualWield()
 	return self.canDualWield or self.forceDualWield
 end
@@ -395,6 +397,7 @@ function Set:ForceDualWield(force)
 	end
 end
 
+--- Check whether dual wielding is forced for this set.
 function Set:IsDualWieldForced()
 	return self.forceDualWield
 end
