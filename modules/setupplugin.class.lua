@@ -120,6 +120,9 @@ function SetupPlugin:OnShow()
 				end
 			end
 
+			-- select a sensible set
+			ns:SetSelectedSet()
+
 			-- switch to weights plugin
 			ns.ui.ShowPanel(ns.WeightsPlugin.configPanel)
 		end)
