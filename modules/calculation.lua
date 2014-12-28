@@ -513,7 +513,7 @@ function ns.ReduceItemList(set, itemList)
 
 	-- remove all items with score <= 0 that are neither forced nor contribute to caps
 	for slotID, subList in pairs(itemList) do
-		if #(ns:GetForcedItems(ns.setCode, slotID)) == 0 then --TODO: Get forced items from set
+		if #(set:GetForcedItems(slotID)) == 0 then
 			ns.RemoveItemsBelowThresholdFromItemList(set, subList)
 		end
 	end
