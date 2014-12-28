@@ -1,3 +1,6 @@
+--- This is a base class containing the interface that is necessary for communicating with TopFit.
+-- Calculation classes that actually calculate sets should inherit from this class to ensure correct functionality
+
 local addonName, ns, _ = ...
 
 local Calculation = ns.class()
@@ -6,11 +9,9 @@ ns.Calculation = Calculation
 -- create a new, empty calculation object
 -- not advised, this class is meant to be inherited from by different calculation methods
 function Calculation:construct(set)
-	self.AssertArgumentType(set, ns.Set)
-
 	self.running = false
 	self.started = false
-	self.set = set
+	self:UseSet(set)
 	self.elapsed = 0
 	self.availableItems = {}
 	for slotID, _ in pairs(ns.slotNames) do
@@ -29,7 +30,7 @@ function Calculation:GetUsedSet()
 	return self.set
 end
 
--- add an item to be available for the current calculation in the given slot (or all applicable slots if none is provided)
+--- Add an item to be available for the current calculation in the given slot (or all applicable slots if none is provided).
 function Calculation:AddItem(item, slotID)
 	-- accepts item IDs, links and tables
 	assert(item, "Usage: calculation:AddItem(itemLink or itemID or itemTable[, slotID])")
@@ -51,14 +52,14 @@ function Calculation:AddItem(item, slotID)
 	end
 end
 
--- removes all currently available items from this calculation
+--- Removes all currently available items from this calculation.
 function Calculation:ClearItems()
 	for _, slotTable in pairs(self.availableItems) do
 		wipe(slotTable)
 	end
 end
 
--- get available items for a slot
+--- Get available items for a slot.
 function Calculation:GetItems(slotID)
 	if not slotID then
 		return self.availableItems --TODO: copy tables or use provided table
@@ -68,6 +69,7 @@ function Calculation:GetItems(slotID)
 	end
 end
 
+--- Set a callback to be called when the calculation completes.
 function Calculation:SetCallback(callback)
 	if callback then
 		self.AssertArgumentType(callback, "function")
@@ -75,19 +77,21 @@ function Calculation:SetCallback(callback)
 	self.callback = callback
 end
 
--- check whether the calculation is currently running
--- even if it is not running, it might be in progress but paused - check Calculation:IsStarted() for that
+--- Check whether the calculation is currently running.
+-- Even if it is not running, it might be in progress but paused.
+-- @see Calculation:IsStarted
 function Calculation:IsRunning()
 	return self.running
 end
 
--- check whether the calculation has been started and is not finished yet
--- it might be paused, though - check Calculation:IsRunning() for that
+--- Check whether the calculation has been started and is not finished yet.
+-- It might be paused, however
+-- @see Calculation:IsRunning
 function Calculation:IsStarted()
 	return self.started
 end
 
--- start or resume this calculation
+--- Start or resume this calculation.
 function Calculation:Start()
 	if not self:IsRunning() then
 		if not self:IsStarted() then
@@ -102,14 +106,14 @@ function Calculation:Start()
 end
 Calculation.Resume = Calculation.Start
 
--- pause the current calculation so it can be resumed later
+--- Pause the current calculation so it can be resumed later.
 function Calculation:Pause()
 	if self:IsRunning() then
 		self.running = false
 	end
 end
 
--- abort the current calculation completely
+--- Abort the current calculation completely.
 function Calculation:Abort()
 	if self:IsStarted() then
 		self.running = false
@@ -119,35 +123,36 @@ end
 Calculation.Stop = Calculation.Abort
 Calculation.Cancel = Calculation.Abort
 
--- set the number of combinations to check each frame
+--- Set the number of combinations to check each frame.
+-- @param ops
 function Calculation:SetOperationsPerFrame(ops)
 	self.AssertArgumentType(ops, 'number')
 
 	self.operationsPerFrame = ops
 end
 
--- get the number of combinations being checked each frame
+--- Get the number of combinations being checked each frame.
 function Calculation:GetOperationsPerFrame()
 	return self.operationsPerFrame
 end
 
--- run steps needed for initializing the calculation process
+--- Run steps needed for initializing the calculation process.
 function Calculation:Initialize()
 	-- empty and intended to be overridden
 end
 
--- run single step of this calculation
+--- Run a single step of this calculation.
 function Calculation:Step()
 	-- empty and intended to be overridden
 	self:Done()
 end
 
--- run final operation of this calculation and get ready to return a result
+--- Run final operations for this calculation and get ready to return a result.
 function Calculation:Finalize()
 	-- empty and intended to be overridden
 end
 
--- mark the current calculation as finished
+--- Mark the current calculation as finished.
 function Calculation:Done()
 	self.running = false
 	self.started = false

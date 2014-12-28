@@ -90,7 +90,7 @@ function ns:OnEnable()
 	-- self:RegisterEvent('PLAYER_TALENT_UPDATE') -- TODO: currently unused
 	-- wait 50ms until we do our first calculation
 	C_Timer.After(0.05, function()
-		ns:collectItems()
+		ns:updateItemsCache()
 		ns:collectEquippableItems()
 		ns:RegisterEvent('BAG_UPDATE_DELAYED')
 	end)
@@ -209,7 +209,7 @@ end
 
 function ns:BAG_UPDATE_DELAYED(event, ...)
 	-- update item list
-	ns:collectItems()
+	ns:updateItemsCache()
 
 	-- check inventory for new equippable items
 	local newEquip = ns:collectEquippableItems()

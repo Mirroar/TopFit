@@ -70,8 +70,9 @@ function TopFit:GetSetItemFromSlot(slotID, set)
 	return nil
 end
 
--- gather all items from inventory and bags, save their info to cache
-function ns:collectItems(bag)
+--- Gather all items from inventory and bags and save their info to cache.
+-- @param bag Limit collection to this bag.
+function ns:updateItemsCache(bag)
 	ns.characterLevel = UnitLevel("player")
 
 	if bag and bag >= 0 and bag <= 4 then

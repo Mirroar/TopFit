@@ -49,7 +49,7 @@ function ns:CalculateSets(silent)
 		set.calculationData.silentCalculation = silent
 
 		-- do the actual work
-		ns:collectItems() -- TODO: change so it just adds all available items to the calculation
+		ns:updateItemsCache()
 
 		calculation.OnUpdate = ns.UpdateUIWithCalculationProgress
 		calculation.OnComplete = ns.CalculationHasCompleted
