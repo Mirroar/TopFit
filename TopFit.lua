@@ -9,7 +9,7 @@ _G[addonName] = ns
 
 -- GLOBALS: _G, LibStub, C_Timer, SLASH_TopFit1, SLASH_TopFit2, SLASH_TopFit3, GameTooltip, DEFAULT_CHAT_FRAME, UIParent, NUM_BAG_SLOTS, InterfaceOptionsFrame_OpenToCategory, CreateFrame, ToggleFrame
 -- GLOBALS: TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE, TOPFIT_ITEM_MOD_MAINHAND, TOPFIT_ITEM_MOD_OFFHAND
--- GLOBALS: GetEquipmentSetInfoByName, SaveEquipmentSet, GetUnitName, GetRealmName, UnitClass, GetActiveSpecGroup, GetSpecializationInfo, GetAuctionItemSubClasses, CanUseEquipmentSets, UseEquipmentSet, IsEquippableItem, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, GetInventorySlotInfo
+-- GLOBALS: GetEquipmentSetInfoByName, SaveEquipmentSet, GetRealmName, GetActiveSpecGroup, GetSpecializationInfo, GetAuctionItemSubClasses, CanUseEquipmentSets, UseEquipmentSet, IsEquippableItem, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, GetInventorySlotInfo
 -- GLOBALS: setmetatable, getmetatable, type, pairs, assert, error, wipe, tinsert, next, select, tonumber, tContains
 
 --TODO: replace old ugly set_i set IDs with simple numbers - in profile.sets
@@ -120,6 +120,11 @@ function ns:OnEnable()
 	if not ns.currentPlugins then ns.currentPlugins = {} end
 	for _, plugin in pairs(ns.currentPlugins) do
 		plugin:Initialize()
+	end
+
+	-- if enabled, automatically run tests
+	if ns.db.profile.autoRunTests and ns.testsLoaded then
+		wowUnit:StartTests(ns)
 	end
 end
 

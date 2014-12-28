@@ -3,9 +3,10 @@ local addonName, ns, _ = ...
 local Set = ns.class()
 ns.Set = Set
 
--- create a new, empty set object using the given name
+--- Create a new, empty set object.
+-- @param setName The name of the set (optional)
 function Set:construct(setName)
-	-- initialize member variables
+	-- initialize defaults
 	self.weights = {}
 	self.caps = {}
 	self.forced = {}
@@ -26,11 +27,13 @@ function Set:construct(setName)
 	-- determine if the player can dualwield
 	self:ForceDualWield(false)
 	self:ForceTitansGrip(false)
-	self:EnableDualWield(ns:PlayerCanDualWield()) -- TODO: instead of initializing once, get capability from namespaced variable (which should be updated on spec change)
+	self:EnableDualWield(ns:PlayerCanDualWield()) -- TODO: TopFit should enable / disable dual wielding, this is not the set's responsibility
 	self:EnableTitansGrip(ns:PlayerHasTitansGrip())
 end
 
--- create a new set object using data from saved variables
+--- Create a set object, loading data from saved variables.
+-- Changes to the set will not be written to the given table.
+-- @param setTable table of variables from which to load settings
 function Set.CreateFromSavedVariables(setTable)
 	Set.AssertArgumentType(setTable, 'table')
 
