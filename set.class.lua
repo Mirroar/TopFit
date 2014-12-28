@@ -211,8 +211,9 @@ function Set:GetHardCaps(useTable)
 	return caps
 end
 
--- set a stat weight for any stat
--- use value = nil to unset a weight
+--- Set a stat weight for any stat.
+-- @param stat The identifier of the stat (usually a global string name)
+-- @param value The new weight value for the given stat - use nil to remove a current stat
 function Set:SetStatWeight(stat, value)
 	self.AssertArgumentType(stat, 'string')
 	if type(value) ~= 'nil' then
@@ -226,14 +227,16 @@ function Set:SetStatWeight(stat, value)
 	end
 end
 
--- get the defined hard cap for any stat
+--- Get the defined stat weight for any stat.
+-- @param stat The identifier of the stat (usually a global string name)
 function Set:GetStatWeight(stat)
 	self.AssertArgumentType(stat, 'string')
 
 	return self.weights[stat]
 end
 
--- get a list of all configured hard caps and their values, keyed by stat
+--- Get a list of all configured stat weights and their values, keyed by stat.
+-- @param useTable A table to write the requested data into (optional)
 function Set:GetStatWeights(useTable)
 	local weights = useTable and wipe(useTable) or {}
 	for stat, value in pairs(self.weights) do

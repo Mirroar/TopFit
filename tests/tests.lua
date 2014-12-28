@@ -80,6 +80,10 @@ local function testChangedValues(set)
 	wowUnit:assertEquals(set:GetHardCap("FOO"), 42, "Changing a hard cap works.")
 	wowUnit:isNil(set:GetHardCap("BAR"), "Removing a hard cap works.")
 	wowUnit:assertSame(set:GetHardCaps(), {FOO = 42, BAZ = 789}, "Changing hard caps works.")
+
+	wowUnit:assertEquals(set:GetStatWeight("FOOO"), 41, "Changing a stat weight works.")
+	wowUnit:isNil(set:GetStatWeight("BARR"), "Removing a stat weight works.")
+	wowUnit:assertSame(set:GetStatWeights(), {FOOO = 41, BAZZ = 788}, "Changing stat weights works.")
 end
 
 tests["setting values and saved variables"] = function()
@@ -96,6 +100,11 @@ tests["setting values and saved variables"] = function()
 	set:SetHardCap("BAR", 123)
 	set:SetHardCap("BAR", nil)
 	set:SetHardCap("BAZ", 789)
+
+	set:SetStatWeight("FOOO", 41)
+	set:SetStatWeight("BARR", 122)
+	set:SetStatWeight("BARR", nil)
+	set:SetStatWeight("BAZZ", 788)
 
 	testChangedValues(set)
 
