@@ -263,9 +263,9 @@ function ns:RunAutoUpdate(skipDelay)
 end
 
 function ns:AutoEquipSet()
-	local set = ns.GetCurrentAutoEquipSet()
-	if set then
-		ns:SetSelectedSet(set.setID)
+	local set, setID = ns.GetCurrentAutoEquipSet()
+	if setID then
+		ns:SetSelectedSet(setID)
 		local equipSet = set:GetEquipmentSetName()
 		UseEquipmentSet(equipSet)
 	end
@@ -287,9 +287,9 @@ end
 function ns:SetSelectedSet(setID)
 	-- select current auto-equip set by default
 	if not setID then
-		local set = ns.GetCurrentAutoEquipSet(true)
-		if set then
-			setID = set.setID
+		local set, setCode = ns.GetCurrentAutoEquipSet(true)
+		if setCode then
+			setID = setCode
 		end
 	end
 
@@ -360,9 +360,9 @@ function ns.GetCurrentAutoUpdateSet(useGlobalInstance)
 			local preferredSpecNum = set:GetPreferredSpecNumber()
 			if (not doubleSpecID or currentSpec == doubleSpecID) and (not preferredSpecNum or preferredSpecNum == GetSpecialization()) then
 				if useGlobalInstance then
-					return set
+					return set, setID
 				else
-					return ns.GetSetByID(setID, false)
+					return ns.GetSetByID(setID, false), setID
 				end
 			end
 		end
@@ -382,9 +382,9 @@ function ns.GetCurrentAutoEquipSet(useGlobalInstance)
 			local preferredSpecNum = set:GetPreferredSpecNumber()
 			if (not doubleSpecID or currentSpec == doubleSpecID) and (not preferredSpecNum or preferredSpecNum == GetSpecialization()) then
 				if useGlobalInstance then
-					return set
+					return set, setID
 				else
-					return ns.GetSetByID(setID, false)
+					return ns.GetSetByID(setID, false), setID
 				end
 			end
 		end
