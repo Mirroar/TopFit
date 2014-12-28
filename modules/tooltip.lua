@@ -355,7 +355,7 @@ local function TooltipAddCompareLines(tt, link)
 	local sets = ns.GetSetList()
 	for _, setCode in ipairs(sets) do
 		local set = ns.GetSetByID(setCode, true)
-		if not TopFit.db.profile.sets[setCode].excludeFromTooltip then
+		if set:GetDisplayInTooltip() then
 			-- find current item(s) from set
 			local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(set:GetName()))
 			local itemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(set:GetName()))

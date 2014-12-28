@@ -46,7 +46,8 @@ function WeightsPlugin.InitializeHeaderActions()
 	delete:SetScript("OnClick", function(self, btn)
 		--print('click', ns.selectedSet)
 		ns.currentlyDeletingSetID = ns.selectedSet
-		StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
+		local set = ns.GetSetByID(ns.selectedSet)
+		StaticPopup_Show("TOPFIT_DELETESET", set:GetName())
 	end)
 end
 
@@ -222,6 +223,7 @@ local function AddStatDropDownFunc(self)
 	WeightsPlugin:OnShow()
 end
 local function InitializeAddStatDropDown(self, level)
+	--TODO: rewrite using set class
 	local set = TopFit.db.profile.sets[ TopFit.selectedSet ]
 
 	local info = UIDropDownMenu_CreateInfo()
@@ -386,6 +388,7 @@ function WeightsPlugin:InitializeUI()
 end
 
 local function SortStats(a, b)
+	--TODO: rewrite using set class
 	local set = TopFit.db.profile.sets[TopFit.selectedSet]
 	local cappedA, cappedB = set.caps[a] and set.caps[a].value or 0, set.caps[b] and set.caps[b].value or 0
 	local weightA, weightB = set.weights[a] or 0, set.weights[b] or 0

@@ -304,7 +304,12 @@ function ns:SetSelectedSet(setID)
 	ns.selectedSet = setID
 	if TopFitSetDropDown then
 		UIDropDownMenu_SetSelectedValue(TopFitSetDropDown, ns.selectedSet)
-		UIDropDownMenu_SetText(TopFitSetDropDown, ns.selectedSet and ns.db.profile.sets[ns.selectedSet].name or ns.locale.NoSetTitle)
+		if ns.selectedSet then
+			local set = ns.GetSetByID(ns.selectedSet, true)
+			UIDropDownMenu_SetText(TopFitSetDropDown, set:GetName())
+		else
+			UIDropDownMenu_SetText(TopFitSetDropDown, ns.locale.NoSetTitle)
+		end
 	end
 	if TopFitSidebarCalculateButton then
 		if not setID then
@@ -320,8 +325,8 @@ end
 -- get a list of all set IDs in the database
 function ns.GetSetList(useTable)
 	local setList = useTable and wipe(useTable) or {}
-	for setName, _ in pairs(ns.db.profile.sets) do
-		tinsert(setList, setName)
+	for setID, _ in pairs(ns.db.profile.sets) do
+		tinsert(setList, setID)
 	end
 	return setList
 end
@@ -347,7 +352,7 @@ end
 function ns.GetCurrentAutoUpdateSet(useGlobalInstance)
 	local currentSpec = GetSpecializationInfo(GetSpecialization() or 0)
 	local doubleSpecID = ns:GetPlayerDoubleSpec()
-	for setID, _ in pairs(ns.db.profile.sets) do
+	for _, setID in pairs(ns.GetSetList()) do
 		local set = ns.GetSetByID(setID, true) -- use global instances while searching because it's faster than creating new set objects
 
 		if (not currentSpec or set:GetAssociatedSpec() == currentSpec) and set:GetAutoUpdate() then
@@ -369,7 +374,7 @@ end
 function ns.GetCurrentAutoEquipSet(useGlobalInstance)
 	local currentSpec = GetSpecializationInfo(GetSpecialization() or 0)
 	local doubleSpecID = ns:GetPlayerDoubleSpec()
-	for setID, _ in pairs(ns.db.profile.sets) do
+	for _, setID in pairs(ns.GetSetList()) do
 		local set = ns.GetSetByID(setID, true) -- use global instances while searching because it's faster than creating new set objects
 
 		if (not currentSpec or set:GetAssociatedSpec() == currentSpec) and set:GetAutoEquip() then

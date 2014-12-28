@@ -321,7 +321,8 @@ local function CreateSideTab(index)
 			ns:SetSelectedSet(self.setID)
 			if btn == "RightButton" then
 				ns.currentlyDeletingSetID = ns.selectedSet
-				StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ ns.selectedSet ].name)
+				local set = ns.GetSetByID(ns.selectedSet, true)
+				StaticPopup_Show("TOPFIT_DELETESET", set:GetName())
 			end
 		elseif GetNumEquipmentSets() < MAX_EQUIPMENT_SETS_PER_PLAYER then
 			-- new set tab

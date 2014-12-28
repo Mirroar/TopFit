@@ -116,7 +116,8 @@ function ui.InitializeSetDropdown()
 	end
 	local function DropDownDeleteSet(self)
 		ns.currentlyDeletingSetID = self.value
-		StaticPopup_Show("TOPFIT_DELETESET", ns.db.profile.sets[ self.value ].name or "Unknown")
+		local set = ns.GetSetByID(self.value)
+		StaticPopup_Show("TOPFIT_DELETESET", set:GetName())
 	end
 	local function DropDownSelectSet(self)
 		ns:SetSelectedSet(self.value)
@@ -141,11 +142,12 @@ function ui.InitializeSetDropdown()
 			-- list all existing sets
 			local selected = UIDropDownMenu_GetSelectedValue(self)
 			info.func = DropDownSelectSet
-			for k, v in pairs(ns.db.profile.sets) do
-				info.text     = v.name or "Unknown"
-				info.value    = k
-				info.menuList = k
-				info.checked  = k == selected
+			for setID, _ in pairs(ns.db.profile.sets) do
+				local set = ns.GetSetByID(setID, true)
+				info.text     = set:GetName()
+				info.value    = setID
+				info.menuList = setID
+				info.checked  = setID == selected
 				UIDropDownMenu_AddButton(info, level)
 			end
 
