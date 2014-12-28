@@ -14,6 +14,7 @@ function Set:construct(setName)
 	self.itemScoreCache = {}
 	self.ignoreCapsForCalculation = false
 	self.useVirtualItems = true
+	self.displayInTooltip = true
 	self.associatedSpec = nil
 	self.preferredSpecNum = nil
 	self.autoUpdate = false
