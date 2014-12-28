@@ -107,6 +107,8 @@ tests["setting values and saved variables"] = function()
 	set:SetStatWeight("BAR", nil)
 	set:SetStatWeight("BAZ", 788)
 
+	--TODO: change all other values
+
 	-- check whether the changes were saved correctly
 	testChangedValues(set)
 
@@ -118,13 +120,19 @@ end
 
 
 AddCategory("Calculation")
-tests["trivial case"] = function()
-	local set = ns.Set("test")
-	local calc = ns.SmartCalculation(set)
 
-	local testID = wowUnit:pauseTesting()
-	calc:SetCallback(function()
-		wowUnit:resumeTesting(testID)
-	end)
-	calc:Start()
+local calculationClasses = {"Calculation", "DefaultCalculation", "SmartCalculation"}
+
+for _, calculationClassName in ipairs(calculationClasses) do
+	local calculationClass = ns[calculationClassName]
+	tests["trivial case for "..calculationClassName] = function()
+		local set = ns.Set("test")
+		local calc = calculationClass(set)
+
+		local testID = wowUnit:pauseTesting()
+		calc:SetCallback(function()
+			wowUnit:resumeTesting(testID)
+		end)
+		calc:Start()
+	end
 end
