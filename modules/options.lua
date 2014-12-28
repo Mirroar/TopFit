@@ -113,14 +113,14 @@ function TopFit:AddSet(preset)
 	end
 
 	local setID = "set_"..i
-	TopFit.db.profile.sets[setID] = {
+	TopFit.db.profile.sets[setID] = { -- TODO: move this into a separate function, preferably in set.class.lua as PrepareSavedVariableTable
 		name = setName,
 		weights = {},
 		caps = {},
 		forced = {},
 	}
 
-	local set = ns.Set.CreateWritableFromSavedVariables(setID)
+	local set = ns.GetSetByID(setID, true)
 	for key, value in pairs(weights) do
 		set:SetStatWeight(key, value)
 	end

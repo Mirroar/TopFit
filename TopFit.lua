@@ -113,6 +113,9 @@ function ns:OnEnable()
 		preferredIndex = 3
 	}
 
+	-- initialize set cache
+	ns.setObjectCache = {}
+
 	-- we're done initializing
 	ns.initialized = true
 
@@ -333,11 +336,8 @@ function ns.GetSetByID(setID, useGlobalInstance)
 	if not useGlobalInstance then
 		return ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID])
 	else
-		if not ns.setObjectCache then
-			ns.setObjectCache = {}
-		end
 		if not ns.setObjectCache[setID] then
-			ns.setObjectCache[setID] = ns.Set.CreateWritableFromSavedVariables(setID)
+			ns.setObjectCache[setID] = ns.Set.CreateFromSavedVariables(ns.db.profile.sets[setID], true)
 		end
 
 		return ns.setObjectCache[setID]

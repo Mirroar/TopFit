@@ -121,15 +121,6 @@ function Set.CreateFromSavedVariables(savedVariables, writable)
 	return setInstance
 end
 
--- TODO: merge into above function
-function Set.CreateWritableFromSavedVariables(setID)
-	if not setID or not ns.db.profile.sets[setID] then return nil end
-	local setInstance = Set.CreateFromSavedVariables(ns.db.profile.sets[setID], true)
-	setInstance.setID = setID
-
-	return setInstance
-end
-
 -- set the set's name
 function Set:SetName(setName)
 	self.AssertArgumentType(setName, 'string')
