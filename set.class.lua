@@ -493,6 +493,7 @@ function Set:GetAutoEquip()
 	return self.autoEquip
 end
 
+-- TODO: allow using an item table to make this testable
 function Set:GetItemScore(item, useRaw)
 	assert(item and (type(item) == "string" or type(item) == "number"), "Usage: setObject:GetItemScore(itemLink or itemID[, useRaw])")
 

@@ -37,6 +37,12 @@ local function testDefaultSettings(set)
 	wowUnit:assert(not set:IsDualWieldForced(), "A new set does not enforce dual wielding.")
 	wowUnit:assert(not set:IsTitansGripForced(), "A new set does not enforce titan's grip.")
 	wowUnit:assert(set:GetDisplayInTooltip(), "A new set is displayed in tooltips by default.")
+	wowUnit:assert(not set:GetForceArmorType(), "A new set does not enfoce armor types by default.")
+	wowUnit:assert(set:GetUseVirtualItems(), "A new set allows using virtual items by default.")
+	wowUnit:isNil(set:GetAssociatedSpec(), "A new set does not have a spec associated.")
+	wowUnit:isNil(set:GetPreferredSpecNumber(), "A new set does not have a spec number associated.")
+	wowUnit:assert(not set:GetAutoUpdate(), "A new set does not automatically update.")
+	wowUnit:assert(not set:GetAutoEquip(), "A new set does not automatically equip.")
 end
 
 tests["set data integrity"] = function()
@@ -54,7 +60,7 @@ tests["set data integrity"] = function()
 	wowUnit:isTable(set:GetVirtualItems(), "Set:GetVirtualItems always returns a table.")
 end
 
-tests["create set through constuctor"] = function()
+tests["default values for sets created through constuctor"] = function()
 	local set = ns.Set()
 
 	testDefaultSettings(set)
@@ -62,7 +68,7 @@ tests["create set through constuctor"] = function()
 	wowUnit:assertEquals(set:GetName(), "AName", "Constructor can take a set name.")
 end
 
-tests["create set through empty saved variables"] = function()
+tests["default values for sets created through empty saved variables"] = function()
 	local set = ns.Set.CreateFromSavedVariables(ns.Set.PrepareSavedVariableTable())
 
 	testDefaultSettings(set)
