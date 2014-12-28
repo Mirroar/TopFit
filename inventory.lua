@@ -576,12 +576,10 @@ function TopFit:IsInterestingItem(itemID, setID)
 
 				-- score is greater, see if caps are also better
 				local allStats = true
-				for statCode, preferences in pairs(TopFit.db.profile.sets[setID].caps) do
-					if preferences.active then
-						if (item.totalBonus[statCode] or 0) > (compareTable.totalBonus[statCode] or 0) then
-							allStats = false
-							break
-						end
+				for statCode, _ in pairs(set:GetHardCaps()) do
+					if (item.totalBonus[statCode] or 0) > (compareTable.totalBonus[statCode] or 0) then
+						allStats = false
+						break
 					end
 				end
 
