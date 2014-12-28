@@ -34,7 +34,7 @@ function ns:CalculateSets(silent)
 		local set = tremove(ns.workSetList)
 
 		ns.setCode = set.setID -- globally save the current set that is being calculated
-		-- TODO: remove and replace all uses of it - will have to remember the currently calculating set in a different way
+		-- TODO: remove and replace all uses of it - will have to remember the currently calculating set in a different way, e.g. the calculation saving a reference to the set object
 
 		local calculation = ns.DefaultCalculation(set)
 		calculation:SetOperationsPerFrame(500)
@@ -56,7 +56,12 @@ function ns:CalculateSets(silent)
 
 		-- save equippable items
 		ns.itemListBySlot = ns:GetEquippableItems() --TODO: replace with Calculation:AddItem(item, slot) mechanic
-		ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before it
+		for slotID, items in pairs(ns.itemListBySlot) do
+			for _, item in pairs(items) do
+				calculation:AddItem(item, slotID)
+			end
+		end
+		ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before starting it
 
 		TopFit.progress = nil
 		calculation:Start()

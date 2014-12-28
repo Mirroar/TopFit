@@ -670,6 +670,7 @@ function TopFit:GetEquippableItems(requestedSlotID)
 	local itemListBySlot = {}
 	local availableSlots = {}
 	for i = 1, 20 do
+		--TODO: only initilize for IDs in ns.slotList
 		itemListBySlot[i] = {}
 	end
 
@@ -749,6 +750,7 @@ function TopFit:GetEquippableItems(requestedSlotID)
 
 	if (TopFit.setCode) then
 		-- add virtual items
+		--TODO: this does not belong in this function and should instead be handled wherever it is currently needed
 		local set = ns.GetSetByID(TopFit.setCode, true)
 		if set:GetUseVirtualItems() then
 			for _, itemLink in pairs(set:GetVirtualItems()) do
