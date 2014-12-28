@@ -113,14 +113,10 @@ function TopFit:AddSet(preset)
 	end
 
 	local setID = "set_"..i
-	TopFit.db.profile.sets[setID] = { -- TODO: move this into a separate function, preferably in set.class.lua as PrepareSavedVariableTable
-		name = setName,
-		weights = {},
-		caps = {},
-		forced = {},
-	}
+	TopFit.db.profile.sets[setID] = TopFit.Set.PrepareSavedVariableTable()
 
 	local set = ns.GetSetByID(setID, true)
+	set:SetName(setName)
 	for key, value in pairs(weights) do
 		set:SetStatWeight(key, value)
 	end
@@ -170,41 +166,32 @@ function TopFit:DeleteSet(setCode)
 end
 
 function TopFit:RenameSet(setCode, newName)
-	oldSetName = TopFit:GenerateSetName(self.db.profile.sets[setCode].name)
+	local set = ns.GetSetByID(setCode, true)
+	oldSetName = set:GetEquipmentSetName()
 
 	-- check if set name is already taken, generate a unique one in that case
-	if (TopFit:HasSet(newName) and not newName == TopFit.db.profile.sets[setCode].name) then
-		local newSetName = "2-"..newName --TODO: wut?
+	if (TopFit:HasSet(newName) and not newName == set:GetName()) then
+		-- prefix numbers to set name until a unique name is generated
 		local k = 2
-		while TopFit:HasSet(newSetName) do
+		while TopFit:HasSet(k.."-"..newName) do
 			k = k + 1
-			newSetName = k.."-"..newName
 		end
-		newName = newSetName
+		newName = k.."-"..newName
 	end
 
-	newSetName = TopFit:GenerateSetName(newName)
+	local newSetName = TopFit:GenerateSetName(newName)
 
 	-- rename in saved variables
-	self.db.profile.sets[setCode].name = newName
+	set:SetName(newName)
 
 	-- rename equipment set if it exists
 	if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(oldSetName)) then
 		ModifyEquipmentSet(oldSetName, newSetName)
 	end
 
+	-- trigger UI update
 	TopFit:SetSelectedSet(TopFit.selectedSet)
-
-	--TODO: remove when progress frame is removed
-	if (TopFit.ProgressFrame) then
-		-- update setname if it is selected
-		if UIDropDownMenu_GetSelectedValue(TopFit.ProgressFrame.setDropDown) == setCode then
-			UIDropDownMenu_SetSelectedName(TopFit.ProgressFrame.setDropDown, newName)
-		end
-	end
 end
-
-
 
 function TopFit:GetStatValue(setCode, statCode)
 	if not setCode or not statCode then return 0 end

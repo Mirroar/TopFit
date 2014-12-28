@@ -121,6 +121,16 @@ function Set.CreateFromSavedVariables(savedVariables, writable)
 	return setInstance
 end
 
+--- Creates a table to be used as settings table for a set
+function Set.PrepareSavedVariableTable()
+	return {
+		name = 'Unknown',
+		weights = {},
+		caps = {},
+		forced = {},
+	}
+end
+
 -- set the set's name
 function Set:SetName(setName)
 	self.AssertArgumentType(setName, 'string')
@@ -152,7 +162,8 @@ function Set:GetIconTexture()
 end
 
 function Set:GetEquipmentSetName()
-	return ns:GenerateSetName(self:GetName()) -- TODO: move code here and maybe get rid of global function
+	--TODO: save equipment set name in saved variables so it can better be decoupled from TopFit
+	return ns:GenerateSetName(self:GetName()) -- TODO: move code here and get rid of global function in favor of class function Set.GenerateEquipmenSetName
 end
 
 -- set a hard cap for any stat
@@ -217,7 +228,7 @@ function Set:GetStatWeight(stat)
 end
 
 -- get a list of all configured hard caps and their values, keyed by stat
-function Set:GetStatWeights()
+function Set:GetStatWeights(useTable)
 	local weights = useTable and wipe(useTable) or {}
 	for stat, value in pairs(self.weights) do
 		weights[stat] = value

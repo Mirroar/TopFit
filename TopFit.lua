@@ -113,9 +113,6 @@ function ns:OnEnable()
 		preferredIndex = 3
 	}
 
-	-- initialize set cache
-	ns.setObjectCache = {}
-
 	-- we're done initializing
 	ns.initialized = true
 
@@ -328,6 +325,8 @@ function ns.GetSetList(useTable)
 	end
 	return setList
 end
+
+ns.setObjectCache = {}
 
 -- get a set object from the database
 function ns.GetSetByID(setID, useGlobalInstance)

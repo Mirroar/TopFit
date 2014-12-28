@@ -114,21 +114,24 @@ end
 
 function TopFit.EquipRecommendedItems(set)
 	-- skip equipping if virtual items were included
-	if (not TopFit.db.profile.sets[TopFit.setCode].skipVirtualItems) and TopFit.db.profile.sets[TopFit.setCode].virtualItems and #(TopFit.db.profile.sets[TopFit.setCode].virtualItems) > 0 then
-		TopFit:Print(TopFit.locale.NoticeVirtualItemsUsed)
+	if set:GetUseVirtualItems() then
+		local virtualItems = set:GetVirtualItems()
+		if #virtualItems > 0 then
+			TopFit:Print(TopFit.locale.NoticeVirtualItemsUsed)
 
-		-- reenable options and quit
-		TopFit.isBlocked = false
-		ns.ui.SetButtonState('idle')
+			-- reenable options and quit
+			TopFit.isBlocked = false
+			ns.ui.SetButtonState('idle')
 
-		-- reset relevant score field
-		set.calculationData.ignoreCapsForCalculation = nil
+			-- reset relevant score field
+			set.calculationData.ignoreCapsForCalculation = nil
 
-		-- initiate next calculation if necessary
-		if (#TopFit.workSetList > 0) then
-			TopFit:CalculateSets()
+			-- initiate next calculation if necessary
+			if (#TopFit.workSetList > 0) then
+				TopFit:CalculateSets()
+			end
+			return
 		end
-		return
 	end
 
 	-- equip them

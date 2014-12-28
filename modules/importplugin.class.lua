@@ -285,10 +285,10 @@ local function ImportString(importString)
 end
 -- ( TopFit: v1: "SetName": Intellect=A, RangedDps=B : HitRating=<value>; <isSoftCap>, DefenseRating=[...] )
 local function GenerateExportString(addon, version)
-	local set = TopFit.db.profile.sets[TopFit.selectedSet]
+	local set = TopFit.GetSetByID(TopFit.selectedSet, true)
 
 	local stats
-	for stat, value in pairs(set.weights) do
+	for stat, value in pairs(set:GetStatWeights()) do
 		local statName = GetInverseStat(stat)
 		if statName then
 			stats = (stats and stats .. ', ' or '') .. statName..'='..value
@@ -297,10 +297,10 @@ local function GenerateExportString(addon, version)
 
 	if addon == addonName then
 		local caps
-		for stat, data in pairs(set.caps) do
+		for stat, value in pairs(set:GetHardCaps()) do
 			local statName = GetInverseStat(stat)
-			if statName and data.active then
-				caps = (caps and caps .. ', ' or '') .. statName..'='..data.value..'; '..(data.soft and 'Soft' or 'Hard')
+			if statName then
+				caps = (caps and caps .. ', ' or '') .. statName..'='..value..'; '..'Hard' --TODO: 'Soft' once soft caps are implemented reliably
 			end
 		end
 		if caps then stats = stats .. ': ' .. caps end
