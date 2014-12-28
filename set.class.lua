@@ -135,8 +135,8 @@ function Set:SetName(setName)
 	self.AssertArgumentType(setName, 'string')
 
 	self.name = setName
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].name = setName
+	if self.savedVariables then
+		self.savedVariables.name = setName
 	end
 end
 
@@ -170,15 +170,15 @@ function Set:SetHardCap(stat, value)
 	self.AssertArgumentType(stat, 'string')
 	if type(value) ~= 'nil' then
 		self.AssertArgumentType(value, 'number')
-		if self.setID and ns.db.profile.sets[self.setID] then
-			ns.db.profile.sets[self.setID].caps[stat] = {
+		if self.savedVariables then
+			self.savedVariables.caps[stat] = {
 				active = 1,
 				value = value
 			}
 		end
 	else
-		if self.setID and ns.db.profile.sets[self.setID] then
-			ns.db.profile.sets[self.setID].caps[stat] = nil
+		if self.savedVariables then
+			self.savedVariables.caps[stat] = nil
 		end
 	end
 
@@ -213,8 +213,8 @@ function Set:SetStatWeight(stat, value)
 
 	wipe(self.itemScoreCache)
 	self.weights[stat] = value
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].weights[stat] = value
+	if self.savedVariables then
+		self.savedVariables.weights[stat] = value
 	end
 end
 
@@ -249,14 +249,14 @@ function Set:ForceItem(slotID, itemID)
 	end
 	tinsert(self.forced[slotID], itemID)
 
-	if self.setID and ns.db.profile.sets[self.setID] then
-		if not ns.db.profile.sets[self.setID].forced then
-			ns.db.profile.sets[self.setID].forced = {}
+	if self.savedVariables then
+		if not self.savedVariables.forced then
+			self.savedVariables.forced = {} --TODO: check if this is really necessary still, should be enforced in an update hook
 		end
-		if not ns.db.profile.sets[self.setID].forced[slotID] then
-			ns.db.profile.sets[self.setID].forced[slotID] = {}
+		if not self.savedVariables.forced[slotID] then
+			self.savedVariables.forced[slotID] = {}
 		end
-		tinsert(ns.db.profile.sets[self.setID].forced[slotID], itemID)
+		tinsert(self.savedVariables.forced[slotID], itemID)
 	end
 end
 
@@ -272,11 +272,11 @@ function Set:UnforceItem(slotID, itemID)
 		end
 	end
 
-	if self.setID and ns.db.profile.sets[self.setID] and ns.db.profile.sets[self.setID].forced and ns.db.profile.sets[self.setID].forced[slotID] then
-		for i = #(ns.db.profile.sets[self.setID].forced[slotID]), 1, -1 do
-			local forcedItemID = ns.db.profile.sets[self.setID].forced[slotID][i]
+	if self.savedVariables and self.savedVariables.forced and self.savedVariables.forced[slotID] then
+		for i = #(self.savedVariables.forced[slotID]), 1, -1 do
+			local forcedItemID = self.savedVariables.forced[slotID][i]
 			if forcedItemID == itemID then
-				tremove(ns.db.profile.sets[self.setID].forced[slotID], i)
+				tremove(self.savedVariables.forced[slotID], i)
 			end
 		end
 	end
@@ -336,11 +336,11 @@ function Set:AddVirtualItem(item)
 
 	tinsert(self.virtualItems, item)
 
-	if self.setID and ns.db.profile.sets[self.setID] then
-		if not ns.db.profile.sets[self.setID].virtualItems then
-			ns.db.profile.sets[self.setID].virtualItems = {}
+	if self.savedVariables then
+		if not self.savedVariables.virtualItems then
+			self.savedVariables.virtualItems = {} -- TODO: this should be enforced in an update hook
 		end
-		tinsert(ns.db.profile.sets[self.setID].virtualItems, item)
+		tinsert(self.savedVariables.virtualItems, item)
 	end
 end
 
@@ -355,11 +355,11 @@ function Set:RemoveVirtualItem(item)
 		end
 	end
 
-	if self.setID and ns.db.profile.sets[self.setID] and ns.db.profile.sets[self.setID].virtualItems then
-		for i = #(ns.db.profile.sets[self.setID].virtualItems), 1, -1 do
-			local virtualItem = ns.db.profile.sets[self.setID].virtualItems[i]
+	if self.savedVariables and self.savedVariables.virtualItems then
+		for i = #(self.savedVariables.virtualItems), 1, -1 do
+			local virtualItem = self.savedVariables.virtualItems[i]
 			if virtualItem == item then
-				tremove(ns.db.profile.sets[self.setID].virtualItems, i)
+				tremove(self.savedVariables.virtualItems, i)
 			end
 		end
 	end
@@ -388,8 +388,8 @@ end
 
 function Set:ForceDualWield(force)
 	self.forceDualWield = force and true or false
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].simulateDualWield = force and true or false
+	if self.savedVariables then
+		self.savedVariables.simulateDualWield = force and true or false
 	end
 end
 
@@ -409,8 +409,8 @@ end
 
 function Set:ForceTitansGrip(force)
 	self.forceTitansGrip = force and true or false
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].simulateTitansGrip = force and true or false
+	if self.savedVariables then
+		self.savedVariables.simulateTitansGrip = force and true or false
 	end
 end
 function Set:IsTitansGripForced()
@@ -419,8 +419,8 @@ end
 
 function Set:SetDisplayInTooltip(enable)
 	self.displayInTooltip = enable and true or false
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].excludeFromTooltip = (not enable) and true or false
+	if self.savedVariables then
+		self.savedVariables.excludeFromTooltip = (not enable) and true or false
 	end
 end
 function Set:GetDisplayInTooltip()
@@ -429,8 +429,8 @@ end
 
 function Set:SetForceArmorType(enable)
 	self.forceArmorType = enable and true or false
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].forceArmorType = enable and true or false
+	if self.savedVariables then
+		self.savedVariables.forceArmorType = enable and true or false
 	end
 end
 function Set:GetForceArmorType()
@@ -439,8 +439,8 @@ end
 
 function Set:SetUseVirtualItems(enable)
 	self.useVirtualItems = enable and true or false
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].skipVirtualItems = (not enable) and true or false
+	if self.savedVariables then
+		self.savedVariables.skipVirtualItems = (not enable) and true or false
 	end
 end
 function Set:GetUseVirtualItems()
@@ -449,8 +449,8 @@ end
 
 function Set:SetAssociatedSpec(spec)
 	self.associatedSpec = spec
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].associatedSpec = spec
+	if self.savedVariables then
+		self.savedVariables.associatedSpec = spec
 	end
 end
 function Set:GetAssociatedSpec()
@@ -459,8 +459,8 @@ end
 
 function Set:SetPreferredSpecNumber(specNum)
 	self.preferredSpecNum = specNum
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].preferredSpecNum = specNum
+	if self.savedVariables then
+		self.savedVariables.preferredSpecNum = specNum
 	end
 end
 function Set:GetPreferredSpecNumber()
@@ -469,8 +469,8 @@ end
 
 function Set:SetAutoUpdate(enable)
 	self.autoUpdate = enable and true or false
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].autoUpdate = enable and true or false
+	if self.savedVariables then
+		self.savedVariables.autoUpdate = enable and true or false
 	end
 end
 function Set:GetAutoUpdate()
@@ -479,8 +479,8 @@ end
 
 function Set:SetAutoEquip(enable)
 	self.autoEquip = enable and true or false
-	if self.setID and ns.db.profile.sets[self.setID] then
-		ns.db.profile.sets[self.setID].autoEquip = enable and true or false
+	if self.savedVariables then
+		self.savedVariables.autoEquip = enable and true or false
 	end
 end
 function Set:GetAutoEquip()
