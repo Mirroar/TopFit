@@ -21,11 +21,11 @@ function ns:GenerateSetName(name) --TODO: ideally move this function into set cl
 end
 
 function TopFit.ChatCommand(input)
-	if not input or input:trim() == "" or input:trim():lower() == "options" or input:trim():lower() == "conf" or input:trim():lower() == "config" then
+	if not input or input:trim() == "" or input:trim():lower() == "show" then
+		ns.ui.ToggleTopFitConfigFrame()
+	elseif input:trim():lower() == "options" or input:trim():lower() == "conf" or input:trim():lower() == "config" then
 		InterfaceOptionsFrame_OpenToCategory(addonName)
 		InterfaceOptionsFrame_OpenToCategory(addonName)
-	elseif input:trim():lower() == "show" then
-		--TODO: TopFit:CreateProgressFrame() is outdated
 	else
 		TopFit:Print(TopFit.locale.SlashHelp)
 	end
