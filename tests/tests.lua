@@ -120,19 +120,58 @@ end
 
 
 AddCategory("Calculation")
-
 local calculationClasses = {"Calculation", "DefaultCalculation", "SmartCalculation"}
+
+local function createMockItem(base)
+	for _, tableName in pairs({"itemBonus", "totalBonus"}) do
+		if not base[tableName] then base[tableName] = {} end
+	end
+
+	-- inject into TopFit's cache
+	--TODO: probably better to mock GetCachedItem function instead
+	if base.itemLink then
+		ns.itemsCache[base.itemLink] = base
+	end
+	if base.itemID then
+		ns.itemsCache[base.itemID] = base
+	end
+end
+
+tests.setup = function()
+	createMockItem({
+		itemLink = "[Item FOO]",
+		itemID = 42,
+		itemBonus = {
+			STAT_FOO = 5,
+		},
+		totalBonus = {
+			STAT_FOO = 5,
+		}
+	})
+end
+tests.teardown = function()
+	ns.itemsCache["[Item FOO]"] = nil
+	ns.itemsCache[42] = nil
+end
 
 for _, calculationClassName in ipairs(calculationClasses) do
 	local calculationClass = ns[calculationClassName]
 	tests["trivial case for "..calculationClassName] = function()
 		local set = ns.Set("test")
+		set:SetStatWeight("STAT_FOO", 3)
+
 		local calc = calculationClass(set)
+
+		calc:AddItem("[Item FOO]", 1)
 
 		local testID = wowUnit:pauseTesting()
 		calc:SetCallback(function()
 			wowUnit:resumeTesting(testID)
+
+			wowUnit:assertEquals(calc.maxScore, 15, "5 STAT_FOO with a weight of 3 should yield a total score of 15.")
 		end)
 		calc:Start()
+
+		TESTFOO = calc
 	end
 end

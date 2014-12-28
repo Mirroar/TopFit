@@ -64,9 +64,17 @@ function Calculation:GetItems(slotID)
 	if not slotID then
 		return self.availableItems --TODO: copy tables or use provided table
 	elseif self.availableItems[slotID] then
+		--TODO: this assert makes no sense. remove it or the elseif-condition above
 		assert(self.availableItems[slotID], "calculation:GetItems() - invalid slotID given: "..(slotID or "nil"))
 		return self.availableItems[slotID] --TODO: copy tables or use provided table
 	end
+end
+
+--- Get a single item for a slot.
+function Calculation:GetItem(slotID, itemNum)
+	assert(slotID and self.availableItems[slotID], "calculation:GetItem(slotID, itemNum) - invalid slotID given: "..(slotID or "nil"))
+	assert(itemNum and self.availableItems[slotID][itemNum], "calculation:GetItem(slotID, itemNum) - invalid itemNum given: "..(itemNum or "nil"))
+	return self.availableItems[slotID][itemNum]
 end
 
 --- Set a callback to be called when the calculation completes.

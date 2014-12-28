@@ -67,7 +67,8 @@ function DefaultCalculation:Step()
 	local currentSlot = 19
 	local increased = false
 	while (not increased) and (currentSlot > 0) do
-		while (self.slotCounters[currentSlot] == nil or self.slotCounters[currentSlot] == #(TopFit.itemListBySlot[currentSlot])) and (currentSlot > 0) do
+		local currentItems = self:GetItems()
+		while (self.slotCounters[currentSlot] == nil or self.slotCounters[currentSlot] == #currentItems[currentSlot]) and (currentSlot > 0) do
 			self.slotCounters[currentSlot] = nil -- reset to "no item"
 			currentSlot = currentSlot - 1
 		end
@@ -93,12 +94,13 @@ function DefaultCalculation:InitializeSlots(currentSlot)
 	-- fill all further slots with first choices again - until caps are reached or unreachable
 	while (not self:IsCapsReached(currentSlot) or self.moreUniquesAvailable[currentSlot]) and not self:IsCapsUnreachable(currentSlot) and not self:UniquenessViolated(currentSlot) and (currentSlot < 19) do
 		currentSlot = currentSlot + 1
-		if #(TopFit.itemListBySlot[currentSlot]) > 0 then
+		local currentItems = self:GetItems(currentSlot)
+		if #currentItems > 0 then
 			self.slotCounters[currentSlot] = 1
 			while self:IsDuplicateItem(currentSlot) or self:UniquenessViolated(currentSlot) or (not self:IsOffhandValid(currentSlot)) do
 				self.slotCounters[currentSlot] = self.slotCounters[currentSlot] + 1
 			end
-			if self.slotCounters[currentSlot] > #(TopFit.itemListBySlot[currentSlot]) then
+			if self.slotCounters[currentSlot] > #currentItems then
 				self.slotCounters[currentSlot] = 0
 			end
 		else
@@ -129,11 +131,11 @@ function DefaultCalculation:GetCurrentProgress()
 		local impact = 1
 		for slot = 1, 20 do
 			-- check if slot has items for calculation
-			if ns.itemListBySlot[slot] then
+			local items = self:GetItems(slot)
+			if items and #items > 0 then
 				-- calculate current progress towards finish
-				local numItemsInSlot = #(ns.itemListBySlot[slot]) or 1
-				local selectedItem = (self.slotCounters[slot] == 0) and (#(ns.itemListBySlot[slot]) or 1) or (self.slotCounters[slot] or 1)
-				if numItemsInSlot == 0 then numItemsInSlot = 1 end
+				local numItemsInSlot = #items
+				local selectedItem = (self.slotCounters[slot] == 0) and #items or (self.slotCounters[slot] or 1)
 				if selectedItem == 0 then selectedItem = 1 end
 
 				impact = impact / numItemsInSlot
@@ -149,12 +151,13 @@ end
 
 local secondaryStats = {'ITEM_MOD_SPIRIT_SHORT', 'ITEM_MOD_CRIT_RATING_SHORT', 'ITEM_MOD_HASTE_RATING_SHORT', --[['ITEM_MOD_HIT_RATING_SHORT', ]]'ITEM_MOD_MASTERY_RATING_SHORT'}
 function DefaultCalculation:ApplySecondaryPercentBonus(stat, value)
+	-- TODO: this is probably slow to check evey time and should be cached
 	for j = 1, #secondaryStats do
 		if secondaryStats[j] == stat then
 			-- check if percent bonus is active until now
-			for i = 13, 14 do -- only need to check trinket slots
-				if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 and TopFit.itemListBySlot[i][self.slotCounters[i]] then
-					local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][self.slotCounters[i]].itemLink)
+			for slotID = 13, 14 do -- only need to check trinket slots
+				if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 then
+					local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
 					if itemTable then
 						value = value * (1 + (itemTable.totalBonus['TOPFIT_SECONDARY_PERCENT'] or 0) / 100)
 					end
@@ -170,7 +173,7 @@ function DefaultCalculation:IsCapsReached(currentSlot)
 	local currentValues = {}
 	local i
 	for i = 1, currentSlot do
-		if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 and ns.itemListBySlot[i][self.slotCounters[i]] then
+		if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 then
 			for stat, _ in pairs(self.set:GetHardCaps()) do
 				local itemTable = ns:GetCachedItem(ns.itemListBySlot[i][self.slotCounters[i]].itemLink)
 				if itemTable then

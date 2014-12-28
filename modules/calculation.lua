@@ -59,7 +59,7 @@ function ns:CalculateSets(silent)
 		ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before starting it
 
 		for slotID, items in pairs(ns.itemListBySlot) do
-			for _, item in pairs(items) do
+			for _, item in ipairs(items) do
 				calculation:AddItem(item, slotID)
 			end
 		end

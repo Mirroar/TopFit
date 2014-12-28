@@ -54,8 +54,8 @@ function ns.class(baseClass)
 	return classObject
 end
 
-function ns:Print(message)
-	DEFAULT_CHAT_FRAME:AddMessage(addonName..': '..(message or "")) --TODO: add a pretty color!
+function ns:Print(...)
+	DEFAULT_CHAT_FRAME:AddMessage(addonName..': '..(string.join(", ", tostringall(...)))) --TODO: add a pretty color!
 end
 
 -- debug function
