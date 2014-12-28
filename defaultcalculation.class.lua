@@ -18,22 +18,19 @@ function DefaultCalculation:Initialize()
 	for statCode, _ in pairs(self.set:GetHardCaps()) do
 		self.capHeuristics[statCode] = {}
 		for _, slotID in pairs(ns.slots) do
-			if (ns.itemListBySlot[slotID]) then
-				-- get maximum value contributed to cap in this slot
-				local maxStat = 0
-				for _, locationTable in pairs(ns.itemListBySlot[slotID]) do
-					local itemTable = ns:GetCachedItem(locationTable.itemLink)
-					if itemTable then
-						local thisStat = itemTable.totalBonus[statCode] or 0
+			local items = self:GetItems(slotID)
 
-						if thisStat > maxStat then
-							maxStat = thisStat
-						end
-					end
+			-- get maximum value contributed to cap in this slot
+			local maxStat = 0
+			for _, itemTable in pairs(items) do
+				local thisStat = itemTable.totalBonus[statCode] or 0
+
+				if thisStat > maxStat then
+					maxStat = thisStat
 				end
-
-				self.capHeuristics[statCode][slotID] = maxStat
 			end
+
+			self.capHeuristics[statCode][slotID] = maxStat
 		end
 	end
 
@@ -44,15 +41,14 @@ function DefaultCalculation:Initialize()
 			self.moreUniquesAvailable[slotID] = true
 		else
 			self.moreUniquesAvailable[slotID] = false
-			if (ns.itemListBySlot[slotID]) then
-				for _, locationTable in pairs(ns.itemListBySlot[slotID]) do
-					local itemTable = ns:GetCachedItem(locationTable.itemLink)
-					if itemTable then
-						for statCode, _ in pairs(itemTable.totalBonus) do
-							if (string.sub(statCode, 1, 8) == "UNIQUE: ") then
-								uniqueFound = true
-								break
-							end
+			local items = self:GetItems(slotID)
+
+			if items then
+				for _, itemTable in pairs(items) do
+					for statCode, _ in pairs(itemTable.totalBonus) do
+						if (string.sub(statCode, 1, 8) == "UNIQUE: ") then
+							uniqueFound = true
+							break
 						end
 					end
 				end
