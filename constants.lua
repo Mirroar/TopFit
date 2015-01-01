@@ -67,14 +67,14 @@ for _, slotName in pairs(ns.slotList) do
 end
 
 ns.armoredSlots = {
-	[1] = true,
-	[3] = true,
-	[5] = true,
-	[6] = true,
-	[7] = true,
-	[8] = true,
-	[9] = true,
-	[10] = true,
+	[_G.INVSLOT_HEAD] = true,
+	[_G.INVSLOT_SHOULDER] = true,
+	[_G.INVSLOT_CHEST] = true,
+	[_G.INVSLOT_WAIST] = true,
+	[_G.INVSLOT_LEGS] = true,
+	[_G.INVSLOT_FEET] = true,
+	[_G.INVSLOT_WRIST] = true,
+	[_G.INVSLOT_HAND] = true,
 }
 
 -- list of weight categories and stats
