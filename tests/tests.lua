@@ -175,3 +175,6 @@ for _, calculationClassName in ipairs(calculationClasses) do
 		TESTFOO = calc
 	end
 end
+
+--TODO: test against wearing the same item twice
+--TODO: test to make sure its possible to wear the same item twice if you have it more than once

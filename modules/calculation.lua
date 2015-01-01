@@ -112,6 +112,7 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
 		end
 
 		-- start over without hard caps
+		-- TODO: copy the current set, but remove all caps, and use that for calculating again
 		set:ClearAllHardCaps()
 		set.calculationData.ignoreCapsForCalculation = true
 		calculation:Start()

@@ -171,11 +171,10 @@ end
 -- check whether the selected items up to currentSlot already fulfill all hard cap requirements
 function DefaultCalculation:IsCapsReached(currentSlot)
 	local currentValues = {}
-	local i
-	for i = 1, currentSlot do
-		if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 then
+	for slotID = 1, currentSlot do
+		if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 then
 			for stat, _ in pairs(self.set:GetHardCaps()) do
-				local itemTable = ns:GetCachedItem(ns.itemListBySlot[i][self.slotCounters[i]].itemLink)
+				local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
 				if itemTable then
 					currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
 				end
@@ -195,19 +194,16 @@ end
 function DefaultCalculation:IsCapsUnreachable(currentSlot)
 	local currentValues = {}
 	local restValues = {}
-	local i
 	for stat, value in pairs(self.set:GetHardCaps()) do
-		for i = 1, currentSlot do
-			if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 and TopFit.itemListBySlot[i][self.slotCounters[i]] then
-				local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[i][self.slotCounters[i]].itemLink)
-				if itemTable then
-					currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
-				end
+		for slotID = 1, currentSlot do
+			local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
+			if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 and itemTable then
+				currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
 			end
 		end
 
-		for i = currentSlot + 1, 19 do
-			restValues[stat] = (restValues[stat] or 0) + (self.capHeuristics[stat][i] or 0)
+		for slotID = currentSlot + 1, 19 do
+			restValues[stat] = (restValues[stat] or 0) + (self.capHeuristics[stat][slotID] or 0)
 		end
 
 		if (currentValues[stat] or 0) + (restValues[stat] or 0) < value then
@@ -222,14 +218,14 @@ end
 local weights = {}
 function DefaultCalculation:UniquenessViolated(currentSlot)
 	local currentValues = {}
-	for slot = 1, currentSlot do
-		local itemIndex = self.slotCounters[slot]
-		local slotItem  = TopFit.itemListBySlot[slot][itemIndex]
-		local itemTable = slotItem and TopFit:GetCachedItem(slotItem.itemLink)
-		if itemTable then
-			for stat, amount in pairs(itemTable.totalBonus) do
-				if stat:find('^UNIQUE: ') then
-					currentValues[stat] = (currentValues[stat] or 0) + (amount or 0)
+	for slotID = 1, currentSlot do
+		if self.slotCounters[slotID] and self.slotCounters[slotID] ~= 0 then
+			local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
+			if itemTable then
+				for stat, amount in pairs(itemTable.totalBonus) do
+					if stat:find('^UNIQUE: ') then
+						currentValues[stat] = (currentValues[stat] or 0) + (amount or 0)
+					end
 				end
 			end
 		end
@@ -246,11 +242,12 @@ end
 
 -- check whether the selected items up to currentSlot already contain the item in currentSlot itself
 function DefaultCalculation:IsDuplicateItem(currentSlot)
+	--TODO: make sure it's possible to use the same items multiple times if it's owned multiple times
 	for i = 1, currentSlot - 1 do
 		if self.slotCounters[i] and self.slotCounters[i] > 0 then
-			local lTable1 = TopFit.itemListBySlot[i][self.slotCounters[i]]
-			local lTable2 = TopFit.itemListBySlot[currentSlot][self.slotCounters[currentSlot]]
-			if lTable1 and lTable2 and lTable1.itemLink == lTable2.itemLink and lTable1.bag == lTable2.bag and lTable1.slot == lTable2.slot then
+			local item1 = self:GetItem(i, self.slotCounters[i])
+			local item2 = self:GetItem(currentSlot, self.slotCounters[currentSlot])
+			if item1 and item2 and item1 == item2 then
 				return true
 			end
 		end
@@ -261,11 +258,11 @@ end
 -- check whether the currently selected offhand is valid for this calculation
 function DefaultCalculation:IsOffhandValid(currentSlot)
 	if currentSlot == 17 then -- offhand slot
-		if (self.slotCounters[17] ~= nil) and (self.slotCounters[17] > 0) and (self.slotCounters[17] <= #(TopFit.itemListBySlot[17])) then -- offhand is set to something
+		if (self.slotCounters[17] ~= nil) and (self.slotCounters[17] > 0) then -- offhand is set to something
 			if (self.slotCounters[16] == nil or self.slotCounters[16] == 0) or -- no Mainhand is forced
-				(TopFit:IsOnehandedWeapon(self.set, TopFit.itemListBySlot[16][self.slotCounters[16]].itemLink)) then -- Mainhand is not a Two-Handed Weapon
+				(TopFit:IsOnehandedWeapon(self.set, self:GetItem(16, self.slotCounters[16]).itemLink)) then -- Mainhand is not a Two-Handed Weapon
 
-				local itemTable = TopFit:GetCachedItem(TopFit.itemListBySlot[17][self.slotCounters[17]].itemLink)
+				local itemTable = self:GetItem(17, self.slotCounters[17])
 				if not itemTable then return false end
 
 				if (not self.set:CanDualWield()) then
