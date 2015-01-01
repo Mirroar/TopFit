@@ -219,7 +219,6 @@ function ns:PLAYER_EQUIPMENT_CHANGED(event, ...)
 end
 
 function ns:BAG_UPDATE(event, ...)
-	print(event, ...)
 	ns.CheckBagItems(...)
 end
 
