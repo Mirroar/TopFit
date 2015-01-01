@@ -190,7 +190,7 @@ local function EvaluateNewItems(newItems)
 				else
 					-- check caps
 					for stat, cap in pairs(set:GetHardCaps()) do
-						if cap.active and (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
+						if (itemTable.totalBonus[stat] or 0) > (setItemTable.totalBonus[stat] or 0) then
 							ns:Debug('Higher Cap!')
 							ns:RunAutoUpdate(true)
 							return
