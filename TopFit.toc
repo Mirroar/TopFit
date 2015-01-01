@@ -27,6 +27,7 @@ TopFit.lua
 
 # this file needs some more work
 modules\utilities.lua
+itemlocations.lua
 
 # classes
 set.class.lua

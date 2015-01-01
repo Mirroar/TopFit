@@ -1,6 +1,9 @@
 Changelog for TopFit
 ====================
 
+6.0v5
+  - ATTENTION: the current calculation version breaks the possibility of equipping the same item multiple times - see DefaultCalculation:IsDuplicateItem
+
 6.0v4 - 2014/12/16
   - fixed dual-wield detection
   - fixed problems with TopFit trying to equip two Solium Rings

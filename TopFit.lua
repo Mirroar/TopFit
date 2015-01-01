@@ -85,14 +85,21 @@ function ns:OnEnable()
 	ns.equippableItems = {}
 
 	-- register needed events
-	self:RegisterEvent('PLAYER_LEVEL_UP')
-	self:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
+	ns:RegisterEvent('PLAYER_LEVEL_UP')
+	ns:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
+	ns:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
+	ns:RegisterEvent('BAG_UPDATE')
+	ns:RegisterEvent('BAG_UPDATE_DELAYED')
 	-- self:RegisterEvent('PLAYER_TALENT_UPDATE') -- TODO: currently unused
 	-- wait 50ms until we do our first calculation
 	C_Timer.After(0.05, function()
 		ns:updateItemsCache()
 		ns:collectEquippableItems()
-		ns:RegisterEvent('BAG_UPDATE_DELAYED')
+
+		ns.CheckInventoryItems()
+		ns.CheckBagItems()
+
+		ns.canAutoCalculate = true
 	end)
 
 	-- container for plugin information and frames
@@ -207,7 +214,17 @@ local function EvaluateNewItems(newItems)
 	end
 end
 
+function ns:PLAYER_EQUIPMENT_CHANGED(event, ...)
+	ns.CheckInventoryItems(...)
+end
+
+function ns:BAG_UPDATE(event, ...)
+	print(event, ...)
+	ns.CheckBagItems(...)
+end
+
 function ns:BAG_UPDATE_DELAYED(event, ...)
+	if not ns.canAutoCalculate then return end
 	-- update item list
 	ns:updateItemsCache()
 
