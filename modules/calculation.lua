@@ -94,12 +94,11 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
 
 	-- find best combination that satisfies ALL caps
 	if (calculation.bestCombination) then
-		ns:Print("Total Score: " .. math.ceil(calculation.bestCombination.totalScore))
+		--ns:Print("Total Score: " .. math.ceil(calculation.bestCombination.totalScore))
+		-- TODO: find a way to create decent output like "Increased set score by 5%"
 		-- caps are reached, save and equip best combination
-		for slotID, locationTable in pairs(calculation.bestCombination.items) do
-			ns.itemRecommendations[slotID] = {
-				locationTable = locationTable,
-			}
+		for slotID, itemTable in pairs(calculation.bestCombination.items) do
+			ns.itemRecommendations[slotID] = itemTable.itemLink
 		end
 
 		ns.EquipRecommendedItems(set)
@@ -159,10 +158,10 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 	-- see if all items already fit
 	local slotItemLink
 	local allDone = true
-	for slotID, recTable in pairs(TopFit.itemRecommendations) do
-		if (set:GetItemScore(recTable.locationTable.itemLink) > 0) then
+	for slotID, itemLink in pairs(TopFit.itemRecommendations) do
+		if (set:GetItemScore(itemLink) > 0) then --TODO: check if it makes sense to check for positive score here - there might be forced items and whatnot
 			slotItemLink = GetInventoryItemLink("player", slotID)
-			if (slotItemLink ~= recTable.locationTable.itemLink) then
+			if (slotItemLink ~= itemLink) then
 				allDone = false
 			end
 		end
@@ -172,10 +171,11 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 
 	-- try equipping the items every 100 frames (some weird ring positions might stop us from correctly equipping items on the first try, for example)
 	if (TopFit.updateEquipmentCounter > 1) then
-		for slotID, recTable in pairs(TopFit.itemRecommendations) do
+		for slotID, recItemLink in pairs(TopFit.itemRecommendations) do
 			slotItemLink = GetInventoryItemLink("player", slotID)
-			if (slotItemLink ~= recTable.locationTable.itemLink) then
+			if (slotItemLink ~= recItemLink) then
 				-- find itemLink in bags
+				--TODO: just use functions from itemlocations.lua
 				local itemTable = nil
 				local found = false
 				local foundBag, foundSlot
@@ -183,7 +183,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 					for slot = 1, GetContainerNumSlots(bag) do
 						local itemLink = GetContainerItemLink(bag,slot)
 
-						if itemLink == recTable.locationTable.itemLink then
+						if itemLink == recItemLink then
 							foundBag = bag
 							foundSlot = slot
 							found = true
@@ -197,7 +197,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 					for _, invSlot in pairs(TopFit.slots) do
 						local itemLink = GetInventoryItemLink("player", invSlot)
 
-						if itemLink == recTable.locationTable.itemLink then
+						if itemLink == recItemLink then
 							foundBag = nil
 							foundSlot = invSlot
 							found = true
@@ -207,7 +207,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 				end
 
 				if not found then
-					TopFit:Print(string.format(TopFit.locale.ErrorItemNotFound, recTable.locationTable.itemLink))
+					TopFit:Print(string.format(TopFit.locale.ErrorItemNotFound, recItemLink))
 					TopFit.itemRecommendations[slotID] = nil
 				else
 					-- try equipping the item again
@@ -235,10 +235,10 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 		if (not allDone) then
 			TopFit:Print(TopFit.locale.NoticeEquipFailure)
 
-			for slotID, recTable in pairs(TopFit.itemRecommendations) do
+			for slotID, recItemLink in pairs(TopFit.itemRecommendations) do
 				slotItemLink = GetInventoryItemLink("player", slotID)
-				if (slotItemLink ~= recTable.locationTable.itemLink) then
-					TopFit:Print(string.format(TopFit.locale.ErrorEquipFailure, recTable.locationTable.itemLink, slotID, TopFit.slotNames[slotID]))
+				if (slotItemLink ~= recItemLink) then
+					TopFit:Print(string.format(TopFit.locale.ErrorEquipFailure, recItemLink, slotID, TopFit.slotNames[slotID]))
 					TopFit.itemRecommendations[slotID] = nil
 				end
 			end
@@ -404,7 +404,7 @@ local function RemoveUnusableSkillItems(set, subList)
 end
 
 --- Remove items that are unusable because their item level requirement is too high
-function ns.RemoveUnusableLevelItems(set, subList)
+local function RemoveUnusableLevelItems(set, subList)
 	for i = #subList, 1, -1 do
 		if subList[i].itemLink then
 			local itemTable = ns:GetCachedItem(subList[i].itemLink)

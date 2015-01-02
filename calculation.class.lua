@@ -77,6 +77,11 @@ function Calculation:GetItem(slotID, itemNum)
 	return self.availableItems[slotID][itemNum]
 end
 
+function Calculation:GetItemCount(itemLink)
+	--TODO: record how often an item is added to the calculation instead of checking what the character has
+	return ns.GetItemCount(itemLink)
+end
+
 --- Set a callback to be called when the calculation completes.
 function Calculation:SetCallback(callback)
 	if callback then
