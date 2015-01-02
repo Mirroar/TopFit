@@ -144,6 +144,7 @@ local function EvaluateNewItems(newItems)
 	if not set then return end
 
 	-- new equippable item in inventory, check if it is actually better than anything currently available
+	--TODO: optimize! This takes a lot of time if the player has many items
 	for _, newItem in pairs(newItems) do
 		ns:Debug("New Item: "..newItem)
 		local itemTable = ns:GetCachedItem(newItem)

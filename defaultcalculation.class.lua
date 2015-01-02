@@ -242,12 +242,12 @@ end
 
 -- check whether the selected items up to currentSlot already contain the item in currentSlot itself
 function DefaultCalculation:IsDuplicateItem(currentSlot)
-	--TODO: make sure it's possible to use the same items multiple times if it's owned multiple times
+	--TODO: do not rely on global funciton to determine item count, it should by apparent by how ofthen the item has been added to the calculation
 	for i = 1, currentSlot - 1 do
 		if self.slotCounters[i] and self.slotCounters[i] > 0 then
 			local item1 = self:GetItem(i, self.slotCounters[i])
 			local item2 = self:GetItem(currentSlot, self.slotCounters[currentSlot])
-			if item1 and item2 and item1 == item2 then
+			if item1 and item2 and item1 == item2 and ns.GetItemCount(item1.itemLink) < 2 then
 				return true
 			end
 		end
