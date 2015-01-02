@@ -381,14 +381,14 @@ local function RemoveUnusableSkillItems(set, subList)
 	end
 
 	for i = #subList, 1, -1 do
-		local itemStats, itemTable
+		local itemStats
 		if subList[i].stats then
 			itemStats = subList[i].stats
 		elseif subList[i].itemLink then
-			itemTable = ns:GetCachedItem(subList[i].itemLink)
+			local itemTable = ns:GetCachedItem(subList[i].itemLink)
 			itemStats = itemTable and itemTable.totalBonus
 		end
-		if not itemTable then
+		if not itemStats then
 			ns:Debug('Reduce: No item info', subList[i].itemLink)
 			tremove(subList, i)
 		else
@@ -403,8 +403,21 @@ local function RemoveUnusableSkillItems(set, subList)
 	end
 end
 
+--- Remove items that are unusable because their item level requirement is too high
+function ns.RemoveUnusableLevelItems(set, subList)
+	for i = #subList, 1, -1 do
+		if subList[i].itemLink then
+			local itemTable = ns:GetCachedItem(subList[i].itemLink)
+			if itemTable.itemMinLevel > ns.characterLevel then
+				tremove(subList, i)
+			end
+		end
+	end
+end
+
 function ns.RemoveUnusableItemsFromItemList(set, subList)
 	RemoveUnusableSkillItems(set, subList)
+	RemoveUnusableLevelItems(set, subList)
 end
 
 function ns.RemoveItemsBelowThresholdFromItemList(set, subList)
@@ -520,6 +533,8 @@ function ns.ReduceItemList(set, itemList)
 
 	-- remove all items with score <= 0 that are neither forced nor contribute to caps
 	for slotID, subList in pairs(itemList) do
+		ns.RemoveUnusableItemsFromItemList(set, subList)
+
 		if #(set:GetForcedItems(slotID)) == 0 then
 			ns.RemoveItemsBelowThresholdFromItemList(set, subList)
 		end
