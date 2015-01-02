@@ -94,10 +94,10 @@ function ns:OnEnable()
 	-- wait 50ms until we do our first calculation
 	C_Timer.After(0.05, function()
 		ns:updateItemsCache()
-		ns:collectEquippableItems()
 
 		ns.CheckInventoryItems()
 		ns.CheckBagItems()
+		ns.ResetNewItems()
 
 		ns.canAutoCalculate = true
 	end)
@@ -139,58 +139,21 @@ function ns.IsInitialized()
 	return ns.initialized
 end
 
-local newItems = {}
-function ns:collectEquippableItems(bagID) --TODO: rename into something more fitting
-	wipe(newItems)
-	-- check bags
-	for bag = 0, NUM_BAG_SLOTS do
-		if not bagID or bag == bagID then
-			for slot = 1, GetContainerNumSlots(bag) do
-				local itemLink = GetContainerItemLink(bag, slot)
-				if itemLink and not tContains(ns.equippableItems, itemLink) then
-					if IsEquippableItem(itemLink) and not ns.Unfit:IsItemUnusable(itemLink) and ns:CanUseItemBinding(bag, slot) then
-						tinsert(ns.equippableItems, itemLink)
-						tinsert(newItems, {
-							itemLink = itemLink,
-							bag = bag,
-							slot = slot,
-						})
-					end
-				end
-			end
-		end
-	end
-
-	-- check equipment (mostly so your set doesn't get recalculated just because you unequip an item)
-	for _, invSlot in pairs(ns.slots) do
-		local itemLink = GetInventoryItemLink('player', invSlot)
-		if itemLink and not tContains(ns.equippableItems, itemLink) and IsEquippableItem(itemLink) and not ns.Unfit:IsItemUnusable(itemLink) then
-			tinsert(ns.equippableItems, itemLink)
-			tinsert(newItems, {
-				itemLink = itemLink,
-				slot = invSlot,
-			})
-		end
-	end
-
-	return #newItems > 0 and newItems or false
-end
-
 local function EvaluateNewItems(newItems)
 	local set = ns.GetCurrentAutoUpdateSet()
 	if not set then return end
 
 	-- new equippable item in inventory, check if it is actually better than anything currently available
 	for _, newItem in pairs(newItems) do
-		ns:Debug("New Item: "..newItem.itemLink)
-		local itemTable = ns:GetCachedItem(newItem.itemLink)
+		ns:Debug("New Item: "..newItem)
+		local itemTable = ns:GetCachedItem(newItem)
 		for _, slotID in pairs(itemTable.equipLocationsByType) do
 			-- try to get the currently used item from the player's equipment set
 			local setItem = ns:GetSetItemFromSlot(slotID, set)
 			local setItemTable = ns:GetCachedItem(setItem)
 			if setItem and setItemTable then
 				-- if either score or any cap is higher than currently equipped, calculate
-				if set:GetItemScore(newItem.itemLink) > set:GetItemScore(setItem) then
+				if set:GetItemScore(newItem) > set:GetItemScore(setItem) then
 					ns:Debug('Higher Score!')
 					ns:RunAutoUpdate(true)
 					return
@@ -225,11 +188,12 @@ end
 function ns:BAG_UPDATE_DELAYED(event, ...)
 	if not ns.canAutoCalculate then return end
 	-- update item list
-	ns:updateItemsCache()
+	ns:updateItemsCache() --TODO: check if necessary
 
 	-- check inventory for new equippable items
-	local newEquip = ns:collectEquippableItems()
-	if newEquip then
+	local newEquip = ns.GetNewItems()
+	ns.ResetNewItems()
+	if #newEquip > 0 then
 		EvaluateNewItems(newEquip)
 	end
 end
