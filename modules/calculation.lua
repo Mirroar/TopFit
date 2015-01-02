@@ -56,7 +56,7 @@ function ns:CalculateSets(silent)
 
 		-- save equippable items
 		ns.itemListBySlot = ns:GetEquippableItems() --TODO: replace with Calculation:AddItem(item, slot) mechanic
-		ns.ReduceItemList(calculation.set, ns.itemListBySlot) --TODO: should not happen in calculation but before starting it
+		ns.ReduceItemList(calculation.set, ns.itemListBySlot)
 
 		for slotID, items in pairs(ns.itemListBySlot) do
 			for _, item in ipairs(items) do

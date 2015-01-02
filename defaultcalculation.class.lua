@@ -440,7 +440,7 @@ function DefaultCalculation:SaveCurrentCombination()
 					break
 				end
 			end
-		end--]]
+		end
 	end
 
 	-- check if it's better than old best
