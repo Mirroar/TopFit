@@ -254,6 +254,52 @@ for _, calculationClassName in ipairs(calculationClasses) do
 		end)
 		calc:Start()
 	end
+
+	tests["test hard caps that can be reached"] = function()
+		local set = ns.Set("test")
+		set:SetStatWeight("STAT_FOO", 3)
+		set:SetStatWeight("STAT_BAR", 1)
+		set:SetHardCap("STAT_BAR", 5)
+
+		local calc = calculationClass(set)
+
+		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
+		calc:AddItem("[Item BAR]", 1) -- 12 STAT_BAR for a total score of 12, but is neede for cap
+
+		local testID = wowUnit:pauseTesting()
+		calc:SetCallback(function()
+			wowUnit:resumeTesting(testID)
+
+			wowUnit:assertEquals(calc.maxScore, 12, "12 STAT_BAR with a weight of 1 should yield a total score of 12.")
+			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_BAR = 12}, "The final set has 12 STAT_BAR and nothing else.")
+			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 43, "Item BAR would be equipped into slot 1.")
+		end)
+		calc:Start()
+	end
+
+	tests["test hard caps that cannot be reached"] = function()
+		local set = ns.Set("test")
+		set:SetStatWeight("STAT_FOO", 3)
+		set:SetStatWeight("STAT_BAR", 1)
+		set:SetStatWeight("STAT_BAZ", 200)
+		set:SetHardCap("STAT_BAR", 20)
+
+		local calc = calculationClass(set)
+
+		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
+		calc:AddItem("[Item BAR]", 1) -- 12 STAT_BAR for a total score of 12, but is neede for cap
+		calc:AddItem("[Item BAZ]", 2) -- 1  STAT_BAZ for a total score of 500
+
+		local testID = wowUnit:pauseTesting()
+		calc:SetCallback(function()
+			wowUnit:resumeTesting(testID)
+
+			wowUnit:isNil(calc.maxScore, "Failing to reach caps yields no score.")
+			wowUnit:isEmpty(calc.bestCombination.totalStats, "The final set has no stats.")
+			wowUnit:isEmpty(calc.bestCombination.items, "The final set has no items.")
+		end)
+		calc:Start()
+	end
 end
 
 --TODO: test all kinds of main- and offhand combinations
