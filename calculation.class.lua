@@ -14,6 +14,7 @@ function Calculation:construct(set)
 	self:UseSet(set)
 	self.elapsed = 0
 	self.availableItems = {}
+	self.itemCounts = {}
 	for slotID, _ in pairs(ns.slotNames) do
 		self.availableItems[slotID] = {}
 	end
@@ -57,6 +58,7 @@ function Calculation:ClearItems()
 	for _, slotTable in pairs(self.availableItems) do
 		wipe(slotTable)
 	end
+	wipe(self.itemCounts)
 end
 
 --- Get available items for a slot.
@@ -77,9 +79,12 @@ function Calculation:GetItem(slotID, itemNum)
 	return self.availableItems[slotID][itemNum]
 end
 
+function Calculation:SetItemCount(itemLink, count)
+	self.itemCounts[itemLink] = count
+end
+
 function Calculation:GetItemCount(itemLink)
-	--TODO: record how often an item is added to the calculation instead of checking what the character has
-	return ns.GetItemCount(itemLink)
+	return self.itemCounts[itemLink] or 1
 end
 
 --- Set a callback to be called when the calculation completes.

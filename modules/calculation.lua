@@ -61,6 +61,7 @@ function ns:CalculateSets(silent)
 		for slotID, items in pairs(itemListBySlot) do
 			for _, item in ipairs(items) do
 				calculation:AddItem(item, slotID)
+				calculation:SetItemCount(item.itemLink, ns.GetItemCount(item.itemLink))
 			end
 		end
 

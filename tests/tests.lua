@@ -174,6 +174,8 @@ tests.setup = function()
 			STAT_BAZ = 1,
 		}
 	})
+
+	TopFit.characterLevel = UnitLevel("player") --TODO: this should not be necessary for calculating
 end
 tests.teardown = function()
 	ns.itemsCache["[Item FOO]"] = nil
@@ -187,8 +189,6 @@ end
 for _, calculationClassName in ipairs(calculationClasses) do
 	local calculationClass = ns[calculationClassName]
 	tests["trivial case for "..calculationClassName] = function()
-		TopFit.characterLevel = UnitLevel("player")
-
 		local set = ns.Set("test")
 		set:SetStatWeight("STAT_FOO", 3)
 		set:SetStatWeight("STAT_BAR", 1)
@@ -209,11 +209,52 @@ for _, calculationClassName in ipairs(calculationClasses) do
 			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 42, "Item FOO would be equipped into slot 1.")
 		end)
 		calc:Start()
+	end
 
-		TESTFOO = calc
+	tests["test against equipping the same item twice"] = function()
+		local set = ns.Set("test")
+		set:SetStatWeight("STAT_FOO", 3)
+
+		local calc = calculationClass(set)
+
+		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
+		calc:AddItem("[Item FOO]", 2) -- 5  STAT_FOO for a total score of 15
+
+		local testID = wowUnit:pauseTesting()
+		calc:SetCallback(function()
+			wowUnit:resumeTesting(testID)
+
+			wowUnit:assertEquals(calc.maxScore, 15, "5 STAT_FOO with a weight of 3 should yield a total score of 15.")
+			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 5}, "The final set has 5 STAT_FOO and nothing else.")
+			local itemID = calc.bestCombination.items[1] and calc.bestCombination.items[1].itemID or calc.bestCombination.items[2].itemID
+			wowUnit:assertEquals(itemID, 42, "Item FOO would be equipped into slot 1 or 2.")
+		end)
+		calc:Start()
+	end
+
+	tests["test for equipping 2 of the same item"] = function()
+		local set = ns.Set("test")
+		set:SetStatWeight("STAT_FOO", 3)
+
+		local calc = calculationClass(set)
+
+		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
+		calc:AddItem("[Item FOO]", 2) -- 5  STAT_FOO for a total score of 15
+
+		calc:SetItemCount("[Item FOO]", 2)
+
+		local testID = wowUnit:pauseTesting()
+		calc:SetCallback(function()
+			wowUnit:resumeTesting(testID)
+
+			wowUnit:assertEquals(calc.maxScore, 30, "10 STAT_FOO with a weight of 3 should yield a total score of 30.")
+			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 10}, "The final set has 10 STAT_FOO and nothing else.")
+			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 42, "Item FOO would be equipped into slot 1.")
+			wowUnit:assertEquals(calc.bestCombination.items[2].itemID, 42, "Item FOO would be equipped into slot 2.")
+		end)
+		calc:Start()
 	end
 end
 
 --TODO: test all kinds of main- and offhand combinations
---TODO: test against wearing the same item twice
 --TODO: test to make sure its possible to wear the same item twice if you have it more than once
