@@ -22,7 +22,7 @@ local function AddEquipLocation(itemLink, location)
         equipmentLocations[itemLink] = {}
     end
     tinsert(equipmentLocations[itemLink], location)
-    itemCountChanges[itemLink] = itemCountChanges[itemLink] or 0 + 1
+    itemCountChanges[itemLink] = (itemCountChanges[itemLink] or 0) + 1
 end
 
 --- Internal function that records the fact that an item is no longer available at a certain location
@@ -35,7 +35,7 @@ local function RemoveEquipLocation(itemLink, location)
             break
         end
     end
-    itemCountChanges[itemLink] = itemCountChanges[itemLink] or 0 + 1
+    itemCountChanges[itemLink] = (itemCountChanges[itemLink] or 0) - 1
 end
 
 --- Internal function that updates what item is available in a certain slot
@@ -50,6 +50,7 @@ local function UpdateEquipLocation(container, slot, itemLink)
     if equipment[container][slot] then
         -- there was an item previously equipped in this slot
         RemoveEquipLocation(equipment[container][slot], location)
+        equipment[container][slot] = nil
     end
     -- TODO: we might actually want to include monitoring BoE items
     -- by removing the check to ns:CanUseItemBinding and just remove them when calculating
@@ -57,8 +58,6 @@ local function UpdateEquipLocation(container, slot, itemLink)
     if itemLink and IsEquippableItem(itemLink) and not ns.Unfit:IsItemUnusable(itemLink) and (container == _G.EQUIPMENT_CONTAINER or ns:CanUseItemBinding(container, slot)) then
         AddEquipLocation(itemLink, location)
         equipment[container][slot] = itemLink
-    else
-        equipment[container][slot] = nil
     end
 end
 
