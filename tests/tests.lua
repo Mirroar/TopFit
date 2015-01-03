@@ -122,6 +122,7 @@ end
 AddCategory("Calculation")
 local calculationClasses = {"DefaultCalculation"}
 
+local removeItems = {}
 local function createMockItem(base)
 	for _, tableName in pairs({"itemBonus", "totalBonus", "procBonus"}) do
 		if not base[tableName] then base[tableName] = {} end
@@ -137,13 +138,16 @@ local function createMockItem(base)
 	--TODO: probably better to mock GetCachedItem function instead
 	if base.itemLink then
 		ns.itemsCache[base.itemLink] = base
+		tinsert(removeItems, base.itemLink)
 	end
 	if base.itemID then
 		ns.itemsCache[base.itemID] = base
+		tinsert(removeItems, base.itemID)
 	end
 end
 
 tests.setup = function()
+	wipe(removeItems)
 	createMockItem({
 		itemLink = "[Item FOO]",
 		itemID = 42,
@@ -174,20 +178,55 @@ tests.setup = function()
 			STAT_BAZ = 1,
 		}
 	})
+	createMockItem({
+		itemLink = "[Item Unique 1]",
+		itemID = 45,
+		itemBonus = {
+			STAT_FOO = 11,
+			['UNIQUE: foo*2'] = 1,
+		},
+		totalBonus = {
+			STAT_FOO = 11,
+			['UNIQUE: foo*2'] = 1,
+		}
+	})
+	createMockItem({
+		itemLink = "[Item Unique 2]",
+		itemID = 46,
+		itemBonus = {
+			STAT_FOO = 10,
+			['UNIQUE: foo*2'] = 1,
+		},
+		totalBonus = {
+			STAT_FOO = 10,
+			['UNIQUE: foo*2'] = 1,
+		}
+	})
+	createMockItem({
+		itemLink = "[Item Unique 3]",
+		itemID = 47,
+		itemBonus = {
+			STAT_FOO = 9,
+			['UNIQUE: foo*2'] = 1,
+		},
+		totalBonus = {
+			STAT_FOO = 9,
+			['UNIQUE: foo*2'] = 1,
+		}
+	})
 
 	TopFit.characterLevel = UnitLevel("player") --TODO: this should not be necessary for calculating
 end
 tests.teardown = function()
-	ns.itemsCache["[Item FOO]"] = nil
-	ns.itemsCache[42] = nil
-	ns.itemsCache["[Item BAR]"] = nil
-	ns.itemsCache[43] = nil
-	ns.itemsCache["[Item BAZ]"] = nil
-	ns.itemsCache[44] = nil
+	for _, identifier in pairs(removeItems) do
+		ns.itemsCache[identifier] = nil
+	end
 end
 
 for _, calculationClassName in ipairs(calculationClasses) do
 	local calculationClass = ns[calculationClassName]
+
+	--TODO: there seems to be a lot of duplication here
 	tests["trivial case for "..calculationClassName] = function()
 		local set = ns.Set("test")
 		set:SetStatWeight("STAT_FOO", 3)
@@ -295,8 +334,30 @@ for _, calculationClassName in ipairs(calculationClasses) do
 			wowUnit:resumeTesting(testID)
 
 			wowUnit:isNil(calc.maxScore, "Failing to reach caps yields no score.")
-			wowUnit:isEmpty(calc.bestCombination.totalStats, "The final set has no stats.")
-			wowUnit:isEmpty(calc.bestCombination.items, "The final set has no items.")
+			wowUnit:isEmpty(calc.bestCombination, "The final set has no stats.")
+		end)
+		calc:Start()
+	end
+
+	tests["test uniqueness"] = function()
+		local set = ns.Set("test")
+		set:SetStatWeight("STAT_FOO", 1)
+
+		local calc = calculationClass(set)
+
+		calc:AddItem("[Item Unique 1]", 1) -- 11 STAT_FOO
+		calc:AddItem("[Item Unique 2]", 2) -- 10 STAT_FOO
+		calc:AddItem("[Item Unique 3]", 3) --  9 STAT_FOO
+
+		local testID = wowUnit:pauseTesting()
+		calc:SetCallback(function()
+			wowUnit:resumeTesting(testID)
+
+			wowUnit:assertEquals(calc.maxScore, 21, "21 STAT_FOO with a weight of 1 should yield a total score of 21.")
+			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 21}, "The final set has 21 STAT_FOO and nothing else.")
+			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 45, "Item 1 would be equipped into slot 1.")
+			wowUnit:assertEquals(calc.bestCombination.items[2].itemID, 46, "Item 2 would be equipped into slot 2.")
+			wowUnit:isNil(calc.bestCombination.items[3], "No item would be equipped into slot 3.")
 		end)
 		calc:Start()
 	end

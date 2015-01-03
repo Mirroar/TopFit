@@ -1,3 +1,4 @@
+--TODO: split into multiple files
 local addonName, ns, _ = ...
 
 local DefaultCalculation = ns.class(ns.Calculation)
@@ -81,7 +82,7 @@ function DefaultCalculation:Step()
 			end
 		else
 			-- we're back here, and so we're done
-			TopFit:Print("Finished calculation after " .. math.ceil(self.elapsed * 100) / 100 .. " seconds at " .. self:GetOperationsPerFrame() .. " operations per frame")
+			TopFit:Debug("Finished calculation after " .. math.ceil(self.elapsed * 100) / 100 .. " seconds at " .. self:GetOperationsPerFrame() .. " operations per frame")
 			self:Done()
 			return
 		end
