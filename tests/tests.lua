@@ -133,8 +133,8 @@ local function createMockItem(base)
 	if not base.itemMinLevel then
 		base.itemMinLevel = 1
 	end
-	if not base.invType then
-		base.invType = "INVTYPE_FOO"
+	if not base.itemEquipLoc then
+		base.itemEquipLoc = "INVTYPE_FOO"
 	end
 
 	-- inject into TopFit's cache
@@ -184,14 +184,24 @@ local items = {
 	},
 	weapon = {
 		itemLink = "[Item 1h-Weapon]",
+		itemEquipLoc = "INVTYPE_WEAPON",
+		subClass = 'Sword',
 		totalBonus = {
-			STAT_FOO = 1,
+			STAT_FOO = 2,
 		}
 	},
 	bigweapon = {
 		itemLink = "[Item 2h-Weapon]",
+		itemEquipLoc = "INVTYPE_2HWEAPON",
+		subClass = 'Sword',
 		totalBonus = {
-			STAT_FOO = 1,
+			STAT_FOO = 3,
+		}
+	},
+	offhand = {
+		itemLink = "[Item Off-hand]",
+		totalBonus = {
+			STAT_FOO = 3,
 		}
 	},
 }
@@ -361,5 +371,130 @@ tests["test uniqueness"] = function()
 	calc:Start()
 end
 
---TODO: test all kinds of main- and offhand combinations
---TODO: test to make sure its possible to wear the same item twice if you have it more than once
+tests["test 2 weapons without dual-wielding"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 1)
+	set:EnableDualWield(false) -- necessary, because the currently logged in player might be able to dual wield while this test runs
+	set:EnableTitansGrip(false)
+
+	local calc = ns.DefaultCalculation(set)
+
+	calc:AddItem(items.weapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.weapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.weapon.itemLink, 2)
+
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
+
+		wowUnit:assertEquals(calc.maxScore, 2, "Only one weapon should be equipped.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_MAINHAND].itemID, items.weapon.itemID, "The weapon should be equipped in the player's main hand.")
+		wowUnit:isNil(calc.bestCombination.items[INVSLOT_OFFHAND], "The player's off hand should be empty.")
+	end)
+	calc:Start()
+end
+
+tests["test 2 weapons without dual-wielding with 2h-alternative"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 1)
+	set:EnableDualWield(false) -- necessary, because the currently logged in player might be able to dual wield while this test runs
+	set:EnableTitansGrip(false)
+
+	local calc = ns.DefaultCalculation(set)
+
+	calc:AddItem(items.weapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.weapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.weapon.itemLink, 2)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.bigweapon.itemLink, 2)
+
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
+
+		wowUnit:assertEquals(calc.maxScore, 3, "Only one 2h-weapon should be equipped.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_MAINHAND].itemID, items.bigweapon.itemID, "The weapon should be equipped in the player's main hand.")
+		wowUnit:isNil(calc.bestCombination.items[INVSLOT_OFFHAND], "The player's off hand should be empty.")
+	end)
+	calc:Start()
+end
+
+tests["test 2 weapons without dual-wielding with 2h- and offhand-alternative"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 1)
+	set:EnableDualWield(false) -- necessary, because the currently logged in player might be able to dual wield while this test runs
+	set:EnableTitansGrip(false)
+
+	local calc = ns.DefaultCalculation(set)
+
+	calc:AddItem(items.weapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.weapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.weapon.itemLink, 2)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.bigweapon.itemLink, 2)
+	calc:AddItem(items.offhand.itemLink, INVSLOT_OFFHAND)
+
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
+
+		wowUnit:assertEquals(calc.maxScore, 5, "1h-weapon and off-hand should be equipped.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_MAINHAND].itemID, items.weapon.itemID, "The weapon should be equipped in the player's main hand.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_OFFHAND].itemID, items.offhand.itemID, "The other item should be equipped in the player's off hand.")
+	end)
+	calc:Start()
+end
+
+tests["test 2 weapons with dual-wielding"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 1)
+	set:EnableDualWield(true) -- necessary, because the currently logged in player might be able to dual wield while this test runs
+	set:EnableTitansGrip(false)
+
+	local calc = ns.DefaultCalculation(set)
+
+	calc:AddItem(items.weapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.weapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.weapon.itemLink, 2)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.bigweapon.itemLink, 2)
+
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
+
+		wowUnit:assertEquals(calc.maxScore, 4, "Two weapons should be equipped.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_MAINHAND].itemID, items.weapon.itemID, "The weapon should be equipped in the player's main hand.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_OFFHAND].itemID, items.weapon.itemID, "The weapon should be equipped in the player's off hand.")
+	end)
+	calc:Start()
+end
+
+tests["test 2 2h-weapons with dual-wielding"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 1)
+	set:EnableDualWield(true) -- necessary, because the currently logged in player might be able to dual wield while this test runs
+	set:EnableTitansGrip(true)
+
+	local calc = ns.DefaultCalculation(set)
+
+	calc:AddItem(items.weapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.weapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.weapon.itemLink, 2)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_MAINHAND)
+	calc:AddItem(items.bigweapon.itemLink, INVSLOT_OFFHAND)
+	calc:SetItemCount(items.bigweapon.itemLink, 2)
+
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
+
+		wowUnit:assertEquals(calc.maxScore, 6, "Two 2h-weapons should be equipped.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_MAINHAND].itemID, items.bigweapon.itemID, "The weapon should be equipped in the player's main hand.")
+		wowUnit:assertEquals(calc.bestCombination.items[INVSLOT_OFFHAND].itemID, items.bigweapon.itemID, "The weapon should be equipped in the player's off hand.")
+	end)
+	calc:Start()
+end
