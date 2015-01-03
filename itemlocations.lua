@@ -29,9 +29,9 @@ end
 -- @param itemLink The item's item link
 -- @param location The location the item was available at
 local function RemoveEquipLocation(itemLink, location)
-    for i = #equipmentLocations[itemLink], 1, -1 do
-        if location == equipmentLocations[itemLink][i] then
-            tremove(equipmentLocations[itemLink], 1)
+    for i, equipLocation in ipairs(equipmentLocations[itemLink]) do
+        if location == equipLocation then
+            tremove(equipmentLocations[itemLink], i)
             break
         end
     end
@@ -45,19 +45,17 @@ end
 local function UpdateEquipLocation(container, slot, itemLink)
     local location = ItemLocations:GetLocation(container, slot)
 
-    if not equipment[container] then equipment[container] = {} end
-
-    if equipment[container][slot] then
+    if equipment[location] then
         -- there was an item previously equipped in this slot
-        RemoveEquipLocation(equipment[container][slot], location)
-        equipment[container][slot] = nil
+        RemoveEquipLocation(equipment[location], location)
+        equipment[location] = nil
     end
     -- TODO: we might actually want to include monitoring BoE items
     -- by removing the check to ns:CanUseItemBinding and just remove them when calculating
     -- careful: this will affect ns.GetNewItems
     if itemLink and IsEquippableItem(itemLink) and not ns.Unfit:IsItemUnusable(itemLink) and (container == _G.EQUIPMENT_CONTAINER or ns:CanUseItemBinding(container, slot)) then
         AddEquipLocation(itemLink, location)
-        equipment[container][slot] = itemLink
+        equipment[location] = itemLink
     end
 end
 
