@@ -130,7 +130,7 @@ function DefaultCalculation:GetCurrentProgress()
 	if not self.done then --TODO: variable has been removed, replace with new way of checking whether calculation has finished
 		local progress = 0
 		local impact = 1
-		for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+		for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED + 1 do
 			-- check if slot has items for calculation
 			local items = self:GetItems(slot)
 			if items and #items > 0 then
@@ -274,12 +274,14 @@ function DefaultCalculation:IsOffhandValid(currentSlot)
 				local itemTable = self:GetItem(INVSLOT_OFFHAND, self.slotCounters[INVSLOT_OFFHAND])
 				if not itemTable then return false end
 
-				if (not self.set:CanDualWield()) then
-					if not FilterNoWeapon(self, itemTable) then
+				if self.set:CanDualWield() then
+					-- off hand may be a one-handed weapon
+					if not FilterOneHanded(self, itemTable) then
 						return false
 					end
-				else -- player can dualwield
-					if not FilterOneHanded(self, itemTable) then
+				else
+					-- no weapons allowed in off hand
+					if not FilterNoWeapon(self, itemTable) then
 						return false
 					end
 				end
@@ -305,7 +307,7 @@ function DefaultCalculation:SaveCurrentCombination()
 	local itemsAlreadyChosen = {}
 
 	local i
-	for i = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+	for i = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED + 1 do
 		local itemTable = nil
 		local stat, slotTable
 
