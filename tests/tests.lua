@@ -120,12 +120,15 @@ end
 
 
 AddCategory("Calculation")
-local calculationClasses = {"DefaultCalculation"}
-
 local removeItems = {}
+local maxItemID = 42
 local function createMockItem(base)
 	for _, tableName in pairs({"itemBonus", "totalBonus", "procBonus"}) do
 		if not base[tableName] then base[tableName] = {} end
+	end
+	if not base.itemID then
+		base.itemID = maxItemID
+		maxItemID = maxItemID + 1
 	end
 	if not base.itemMinLevel then
 		base.itemMinLevel = 1
@@ -146,74 +149,59 @@ local function createMockItem(base)
 	end
 end
 
+local items = {
+	foo = {
+		itemLink = "[Item FOO]",
+		totalBonus = {
+			STAT_FOO = 5,
+		}
+	},
+	bar = {
+		itemLink = "[Item BAR]",
+		totalBonus = {
+			STAT_BAR = 12,
+		}
+	},
+	baz = {
+		itemLink = "[Item BAZ]",
+		totalBonus = {
+			STAT_BAZ = 1,
+		}
+	},
+	unique1 = {
+		itemLink = "[Item Unique 1]",
+		totalBonus = {
+			STAT_FOO = 11,
+			['UNIQUE: foo*2'] = 1,
+		}
+	},
+	unique2 = {
+		itemLink = "[Item Unique 2]",
+		totalBonus = {
+			STAT_FOO = 10,
+			['UNIQUE: foo*2'] = 1,
+		}
+	},
+	weapon = {
+		itemLink = "[Item 1h-Weapon]",
+		totalBonus = {
+			STAT_FOO = 1,
+		}
+	},
+	bigweapon = {
+		itemLink = "[Item 2h-Weapon]",
+		totalBonus = {
+			STAT_FOO = 1,
+		}
+	},
+}
+
 tests.setup = function()
 	wipe(removeItems)
-	createMockItem({
-		itemLink = "[Item FOO]",
-		itemID = 42,
-		itemBonus = {
-			STAT_FOO = 5,
-		},
-		totalBonus = {
-			STAT_FOO = 5,
-		}
-	})
-	createMockItem({
-		itemLink = "[Item BAR]",
-		itemID = 43,
-		itemBonus = {
-			STAT_BAR = 12,
-		},
-		totalBonus = {
-			STAT_BAR = 12,
-		}
-	})
-	createMockItem({
-		itemLink = "[Item BAZ]",
-		itemID = 44,
-		itemBonus = {
-			STAT_BAZ = 1,
-		},
-		totalBonus = {
-			STAT_BAZ = 1,
-		}
-	})
-	createMockItem({
-		itemLink = "[Item Unique 1]",
-		itemID = 45,
-		itemBonus = {
-			STAT_FOO = 11,
-			['UNIQUE: foo*2'] = 1,
-		},
-		totalBonus = {
-			STAT_FOO = 11,
-			['UNIQUE: foo*2'] = 1,
-		}
-	})
-	createMockItem({
-		itemLink = "[Item Unique 2]",
-		itemID = 46,
-		itemBonus = {
-			STAT_FOO = 10,
-			['UNIQUE: foo*2'] = 1,
-		},
-		totalBonus = {
-			STAT_FOO = 10,
-			['UNIQUE: foo*2'] = 1,
-		}
-	})
-	createMockItem({
-		itemLink = "[Item Unique 3]",
-		itemID = 47,
-		itemBonus = {
-			STAT_FOO = 9,
-			['UNIQUE: foo*2'] = 1,
-		},
-		totalBonus = {
-			STAT_FOO = 9,
-			['UNIQUE: foo*2'] = 1,
-		}
-	})
+
+	for _, item in pairs(items) do
+		createMockItem(item)
+	end
 
 	TopFit.characterLevel = UnitLevel("player") --TODO: this should not be necessary for calculating
 end
@@ -223,152 +211,154 @@ tests.teardown = function()
 	end
 end
 
-for _, calculationClassName in ipairs(calculationClasses) do
-	local calculationClass = ns[calculationClassName]
+--TODO: there seems to be a lot of duplication here
+tests["trivial case for DefaultCalculation"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 3)
+	set:SetStatWeight("STAT_BAR", 1)
+	set:SetStatWeight("STAT_BAZ", 10)
 
-	--TODO: there seems to be a lot of duplication here
-	tests["trivial case for "..calculationClassName] = function()
-		local set = ns.Set("test")
-		set:SetStatWeight("STAT_FOO", 3)
-		set:SetStatWeight("STAT_BAR", 1)
-		set:SetStatWeight("STAT_BAZ", 10)
+	local calc = ns.DefaultCalculation(set)
 
-		local calc = calculationClass(set)
+	calc:AddItem(items.bar.itemLink, 1) -- 12 STAT_BAR for a total score of 12
+	calc:AddItem(items.foo.itemLink, 1) -- 5  STAT_FOO for a total score of 15
+	calc:AddItem(items.baz.itemLink, 1) -- 1  STAT_BAZ for a total score of 10
 
-		calc:AddItem("[Item BAR]", 1) -- 12 STAT_BAR for a total score of 12
-		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
-		calc:AddItem("[Item BAZ]", 1) -- 1  STAT_BAZ for a total score of 10
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
 
-		local testID = wowUnit:pauseTesting()
-		calc:SetCallback(function()
-			wowUnit:resumeTesting(testID)
+		wowUnit:assert(calc.bestCombination, "There needs to be a best combination.")
+		wowUnit:assert(calc.bestCombination.items, "best combination has items.")
+		wowUnit:assertEquals(calc.maxScore, 15, "5 STAT_FOO with a weight of 3 should yield a total score of 15.")
+		wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 5}, "The final set has 5 STAT_FOO and nothing else.")
+		wowUnit:assertEquals(calc.bestCombination.items[1].itemID, items.foo.itemID, "Item FOO would be equipped into slot 1.")
+	end)
+	calc:Start()
+end
 
-			wowUnit:assertEquals(calc.maxScore, 15, "5 STAT_FOO with a weight of 3 should yield a total score of 15.")
-			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 5}, "The final set has 5 STAT_FOO and nothing else.")
-			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 42, "Item FOO would be equipped into slot 1.")
-		end)
-		calc:Start()
-	end
+tests["test against equipping the same item twice"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 3)
 
-	tests["test against equipping the same item twice"] = function()
-		local set = ns.Set("test")
-		set:SetStatWeight("STAT_FOO", 3)
+	local calc = ns.DefaultCalculation(set)
 
-		local calc = calculationClass(set)
+	calc:AddItem(items.foo.itemLink, 1) -- 5  STAT_FOO for a total score of 15
+	calc:AddItem(items.foo.itemLink, 2) -- 5  STAT_FOO for a total score of 15
 
-		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
-		calc:AddItem("[Item FOO]", 2) -- 5  STAT_FOO for a total score of 15
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
 
-		local testID = wowUnit:pauseTesting()
-		calc:SetCallback(function()
-			wowUnit:resumeTesting(testID)
+		wowUnit:assertEquals(calc.maxScore, 15, "5 STAT_FOO with a weight of 3 should yield a total score of 15.")
+		wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 5}, "The final set has 5 STAT_FOO and nothing else.")
+		local itemID = calc.bestCombination.items[1] and calc.bestCombination.items[1].itemID or calc.bestCombination.items[2].itemID
+		wowUnit:assertEquals(itemID, items.foo.itemID, "Item FOO would be equipped into slot 1 or 2.")
+	end)
+	calc:Start()
+end
 
-			wowUnit:assertEquals(calc.maxScore, 15, "5 STAT_FOO with a weight of 3 should yield a total score of 15.")
-			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 5}, "The final set has 5 STAT_FOO and nothing else.")
-			local itemID = calc.bestCombination.items[1] and calc.bestCombination.items[1].itemID or calc.bestCombination.items[2].itemID
-			wowUnit:assertEquals(itemID, 42, "Item FOO would be equipped into slot 1 or 2.")
-		end)
-		calc:Start()
-	end
+tests["test for equipping 2 of the same item"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 3)
 
-	tests["test for equipping 2 of the same item"] = function()
-		local set = ns.Set("test")
-		set:SetStatWeight("STAT_FOO", 3)
+	local calc = ns.DefaultCalculation(set)
 
-		local calc = calculationClass(set)
+	calc:AddItem(items.foo.itemLink, 1) -- 5  STAT_FOO for a total score of 15
+	calc:AddItem(items.foo.itemLink, 2) -- 5  STAT_FOO for a total score of 15
 
-		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
-		calc:AddItem("[Item FOO]", 2) -- 5  STAT_FOO for a total score of 15
+	calc:SetItemCount(items.foo.itemLink, 2)
 
-		calc:SetItemCount("[Item FOO]", 2)
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
 
-		local testID = wowUnit:pauseTesting()
-		calc:SetCallback(function()
-			wowUnit:resumeTesting(testID)
+		wowUnit:assertEquals(calc.maxScore, 30, "10 STAT_FOO with a weight of 3 should yield a total score of 30.")
+		wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 10}, "The final set has 10 STAT_FOO and nothing else.")
+		wowUnit:assertEquals(calc.bestCombination.items[1].itemID, items.foo.itemID, "Item FOO would be equipped into slot 1.")
+		wowUnit:assertEquals(calc.bestCombination.items[2].itemID, items.foo.itemID, "Item FOO would be equipped into slot 2.")
+	end)
+	calc:Start()
+end
 
-			wowUnit:assertEquals(calc.maxScore, 30, "10 STAT_FOO with a weight of 3 should yield a total score of 30.")
-			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 10}, "The final set has 10 STAT_FOO and nothing else.")
-			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 42, "Item FOO would be equipped into slot 1.")
-			wowUnit:assertEquals(calc.bestCombination.items[2].itemID, 42, "Item FOO would be equipped into slot 2.")
-		end)
-		calc:Start()
-	end
+tests["test hard caps that can be reached"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 3)
+	set:SetStatWeight("STAT_BAR", 1)
+	set:SetStatWeight("STAT_BAZ", 10)
+	set:SetHardCap("STAT_BAR", 5)
 
-	tests["test hard caps that can be reached"] = function()
-		local set = ns.Set("test")
-		set:SetStatWeight("STAT_FOO", 3)
-		set:SetStatWeight("STAT_BAR", 1)
-		set:SetHardCap("STAT_BAR", 5)
+	local calc = ns.DefaultCalculation(set)
 
-		local calc = calculationClass(set)
+	calc:AddItem(items.foo.itemLink, 1) -- 5  STAT_FOO for a total score of 15
+	calc:AddItem(items.bar.itemLink, 1) -- 12 STAT_BAR for a total score of 12, but is neede for cap
+	calc:AddItem(items.baz.itemLink, 2) -- 1  STAT_BAZ for a total score of 10
 
-		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
-		calc:AddItem("[Item BAR]", 1) -- 12 STAT_BAR for a total score of 12, but is neede for cap
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
 
-		local testID = wowUnit:pauseTesting()
-		calc:SetCallback(function()
-			wowUnit:resumeTesting(testID)
+		wowUnit:assertEquals(calc.maxScore, 22, "12 STAT_BAR and 1 STAT_BAZ should yield a total score of 22.")
+		wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_BAR = 12, STAT_BAZ = 1}, "The final set has 12 STAT_BAR and nothing else.")
+		wowUnit:assertEquals(calc.bestCombination.items[1].itemID, items.bar.itemID, "Item BAR would be equipped into slot 1.")
+		wowUnit:assertEquals(calc.bestCombination.items[2].itemID, items.baz.itemID, "Item BAZ would be equipped into slot 2.")
+	end)
+	calc:Start()
+end
 
-			wowUnit:assertEquals(calc.maxScore, 12, "12 STAT_BAR with a weight of 1 should yield a total score of 12.")
-			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_BAR = 12}, "The final set has 12 STAT_BAR and nothing else.")
-			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 43, "Item BAR would be equipped into slot 1.")
-		end)
-		calc:Start()
-	end
+tests["test hard caps that cannot be reached"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 3)
+	set:SetStatWeight("STAT_BAR", 1)
+	set:SetStatWeight("STAT_BAZ", 200)
+	set:SetHardCap("STAT_BAR", 20)
 
-	tests["test hard caps that cannot be reached"] = function()
-		local set = ns.Set("test")
-		set:SetStatWeight("STAT_FOO", 3)
-		set:SetStatWeight("STAT_BAR", 1)
-		set:SetStatWeight("STAT_BAZ", 200)
-		set:SetHardCap("STAT_BAR", 20)
+	local calc = ns.DefaultCalculation(set)
 
-		local calc = calculationClass(set)
+	calc:AddItem(items.foo.itemLink, 1) -- 5  STAT_FOO for a total score of 15
+	calc:AddItem(items.bar.itemLink, 1) -- 12 STAT_BAR for a total score of 12, but is neede for cap
+	calc:AddItem(items.baz.itemLink, 2) -- 1  STAT_BAZ for a total score of 500
 
-		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
-		calc:AddItem("[Item BAR]", 1) -- 12 STAT_BAR for a total score of 12, but is neede for cap
-		calc:AddItem("[Item BAZ]", 2) -- 1  STAT_BAZ for a total score of 500
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
 
-		local testID = wowUnit:pauseTesting()
-		calc:SetCallback(function()
-			wowUnit:resumeTesting(testID)
+		wowUnit:isNil(calc.maxScore, "Failing to reach caps yields no score.")
+		wowUnit:isEmpty(calc.bestCombination, "The final set has no stats.")
+	end)
+	calc:Start()
+end
 
-			wowUnit:isNil(calc.maxScore, "Failing to reach caps yields no score.")
-			wowUnit:isEmpty(calc.bestCombination, "The final set has no stats.")
-		end)
-		calc:Start()
-	end
+tests["test uniqueness"] = function()
+	local set = ns.Set("test")
+	set:SetStatWeight("STAT_FOO", 1)
 
-	tests["test uniqueness"] = function()
-		local set = ns.Set("test")
-		set:SetStatWeight("STAT_FOO", 1)
+	local calc = ns.DefaultCalculation(set)
 
-		local calc = calculationClass(set)
+	calc:AddItem(items.unique1.itemLink, 1) -- 11 STAT_FOO
+	calc:AddItem(items.unique1.itemLink, 2) -- 11 STAT_FOO
+	calc:AddItem(items.unique2.itemLink, 3) -- 10 STAT_FOO
+	calc:SetItemCount(items.unique1.itemLink, 2)
 
-		calc:AddItem("[Item Unique 1]", 1) -- 11 STAT_FOO
-		calc:AddItem("[Item Unique 2]", 2) -- 10 STAT_FOO
-		calc:AddItem("[Item Unique 3]", 3) --  9 STAT_FOO
+	--TODO: We're adding alternatives to each slot because there is currently a bug that causes calculations to crash when there is no alternative to unique items
+	calc:AddItem(items.bar.itemLink, 1)
+	calc:AddItem(items.bar.itemLink, 2)
+	calc:AddItem(items.bar.itemLink, 3)
+	calc:SetItemCount(items.bar.itemLink, 3)
 
-		--TODO: We're adding alternatives to each slot because there is currently a bug that causes calculations to crash when there is no alternative to unique items
-		calc:AddItem("[Item BAR]", 1)
-		calc:AddItem("[Item BAR]", 2)
-		calc:AddItem("[Item BAR]", 3)
-		calc:SetItemCount("[Item BAR]", 3)
+	local testID = wowUnit:pauseTesting()
+	calc:SetCallback(function()
+		wowUnit:resumeTesting(testID)
 
-		local testID = wowUnit:pauseTesting()
-		calc:SetCallback(function()
-			wowUnit:resumeTesting(testID)
-
-			wowUnit:assertEquals(calc.maxScore, 21, "21 STAT_FOO with a weight of 1 should yield a total score of 21.")
-			--wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 21, ['UNIQUE: foo*2'] = 2}, "The final set has 21 STAT_FOO and nothing else.")
-			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 21, STAT_BAR = 12, ['UNIQUE: foo*2'] = 2}, "TEMP: The final set has 21 STAT_FOO and some other stuff.")
-			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 45, "Item 1 would be equipped into slot 1.")
-			wowUnit:assertEquals(calc.bestCombination.items[2].itemID, 46, "Item 2 would be equipped into slot 2.")
-			--wowUnit:isNil(calc.bestCombination.items[3], "No item would be equipped into slot 3.")
-			wowUnit:assertEquals(calc.bestCombination.items[3].itemID, 43, "TEMP: Item BAR would be equipped into slot 3.")
-		end)
-		calc:Start()
-	end
+		wowUnit:assertEquals(calc.maxScore, 22, "22 STAT_FOO with a weight of 1 should yield a total score of 22.")
+		--wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 22, ['UNIQUE: foo*2'] = 2}, "The final set has 22 STAT_FOO and nothing else.")
+		wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 22, STAT_BAR = 12, ['UNIQUE: foo*2'] = 2}, "TEMP: The final set has 22 STAT_FOO and some other stuff.")
+		wowUnit:assertEquals(calc.bestCombination.items[1].itemID, items.unique1.itemID, "Item 1 would be equipped into slot 1.")
+		wowUnit:assertEquals(calc.bestCombination.items[2].itemID, items.unique1.itemID, "Item 1 would be equipped into slot 2.")
+		--wowUnit:isNil(calc.bestCombination.items[3], "No item would be equipped into slot 3.")
+		wowUnit:assertEquals(calc.bestCombination.items[3].itemID, items.bar.itemID, "TEMP: Item BAR would be equipped into slot 3.")
+	end)
+	calc:Start()
 end
 
 --TODO: test all kinds of main- and offhand combinations
