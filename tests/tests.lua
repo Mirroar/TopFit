@@ -129,6 +129,9 @@ local function createMockItem(base)
 	if not base.itemMinLevel then
 		base.itemMinLevel = 1
 	end
+	if not base.invType then
+		base.invType = "INVTYPE_FOO"
+	end
 
 	-- inject into TopFit's cache
 	--TODO: probably better to mock GetCachedItem function instead
@@ -151,10 +154,34 @@ tests.setup = function()
 			STAT_FOO = 5,
 		}
 	})
+	createMockItem({
+		itemLink = "[Item BAR]",
+		itemID = 43,
+		itemBonus = {
+			STAT_BAR = 12,
+		},
+		totalBonus = {
+			STAT_BAR = 12,
+		}
+	})
+	createMockItem({
+		itemLink = "[Item BAZ]",
+		itemID = 44,
+		itemBonus = {
+			STAT_BAZ = 1,
+		},
+		totalBonus = {
+			STAT_BAZ = 1,
+		}
+	})
 end
 tests.teardown = function()
 	ns.itemsCache["[Item FOO]"] = nil
 	ns.itemsCache[42] = nil
+	ns.itemsCache["[Item BAR]"] = nil
+	ns.itemsCache[43] = nil
+	ns.itemsCache["[Item BAZ]"] = nil
+	ns.itemsCache[44] = nil
 end
 
 for _, calculationClassName in ipairs(calculationClasses) do
@@ -164,16 +191,22 @@ for _, calculationClassName in ipairs(calculationClasses) do
 
 		local set = ns.Set("test")
 		set:SetStatWeight("STAT_FOO", 3)
+		set:SetStatWeight("STAT_BAR", 1)
+		set:SetStatWeight("STAT_BAZ", 10)
 
 		local calc = calculationClass(set)
 
-		calc:AddItem("[Item FOO]", 1)
+		calc:AddItem("[Item BAR]", 1) -- 12 STAT_BAR for a total score of 12
+		calc:AddItem("[Item FOO]", 1) -- 5  STAT_FOO for a total score of 15
+		calc:AddItem("[Item BAZ]", 1) -- 1  STAT_BAZ for a total score of 10
 
 		local testID = wowUnit:pauseTesting()
 		calc:SetCallback(function()
 			wowUnit:resumeTesting(testID)
 
 			wowUnit:assertEquals(calc.maxScore, 15, "5 STAT_FOO with a weight of 3 should yield a total score of 15.")
+			wowUnit:assertSame(calc.bestCombination.totalStats, {STAT_FOO = 5}, "The final set has 5 STAT_FOO and nothing else.")
+			wowUnit:assertEquals(calc.bestCombination.items[1].itemID, 42, "Item FOO would be equipped into slot 1.")
 		end)
 		calc:Start()
 
