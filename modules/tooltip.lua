@@ -19,197 +19,95 @@ local function percentilize(ratio, noColor)
 	return ratioString
 end
 
--- takes a string and escapes the magic characters ^$()%.[]*+-? with a %-character for safe use in Lua patterns
+--- takes a string and escapes the magic characters ^$()%.[]*+-? with a %-character for safe use in Lua patterns
 local function noPattern(text)
 	return string.gsub(text, "([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
 end
 
--- Tooltip formatter
-function TopFit:getComparisonTooltipLines(item)
-	local lines = {}
-	--compareItem = TopFit:GetCachedItem(12345)
 
-	local tooltipFormat = {
-		{" "},
-		{"##############TopFit Tooltip!################"},
-		{"Comparing with your items for {{[setlist]||, }}:"},
-		{"[setpercentages:nocolor]"},
-	}
 
-	for lineNumber = 1, #tooltipFormat do
-		local lineTable = tooltipFormat[lineNumber]
-		local tooltipLine = {}
-		for columnNumber = 1, 2 do
-			local lineText = lineTable[columnNumber] or ""
 
-			lineText = TopFit:replaceTokensInString(lineText, item)
 
-			tinsert(tooltipLine, lineText)
+--- New Tooltip code, wheeeee!
+local tooltipPatternLeft, tooltipPatternRight = '[set:icon] [set:name] ([delta:raw:percent]/[delta:current:percent])', '[item:score]'
+
+local currentSet, currentItem
+local tokenCache = {}
+
+local tokenHandlers = {
+	['item'] = function(base, options)
+		if options == 'score' then
+			return ('%.2f'):format(currentSet:GetItemScore(currentItem.itemLink))
 		end
-		tinsert(lines, tooltipLine)
+	end,
+	['set'] = function(base, options)
+		if options == 'icon' then
+			return '|T'..currentSet:GetIconTexture()..':0|t'
+		elseif options == 'name' then
+			return currentSet:GetName()
+		end
+	end,
+	['delta'] = function(base, options)
+		local scoreType, scoreFormat = string.split(':', options)
+		local useRaw = scoreType and scoreType == 'raw'
+
+		local itemScore = currentSet:GetItemScore(currentItem.itemLink, useRaw)
+
+		--TODO: handle edge cases (no score and no item in set)
+		--TODO: handle scoreFormat
+		-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Strong-Small:0|t'
+		-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Weak-Small:0|t'
+		-- http://wowinterface.com/downloads/info22536
+
+		for _, slotID in ipairs(currentItem.equipLocationsByType) do
+			local setItem = ns:GetSetItemFromSlot(slotID, currentSet)
+			local setItemScore = setItem and currentSet:GetItemScore(setItem, useRaw) or 0
+
+			if setItemScore > 0 then
+				return percentilize(itemScore / setItemScore)
+			elseif itemScore > 0 then
+				return percentilize(math.huge)
+			end
+		end
+	end,
+}
+
+local function ReplaceToken(token)
+	if not tokenCache[currentSet] then
+		tokenCache[currentSet] = {}
 	end
 
-	return lines
-end
-
-function TopFit:replaceTokensInString(text, item)
-	local findOffset = 1
-	local setIDs = ns.GetSetList()
-
-	-- only keep sets that should be shown in tooltip
-	for i = #setIDs, 1, -1 do
-		if not ns.GetSetByID(setIDs[i], true):GetDisplayInTooltip() then
-			tremove(setIDs, i)
-		end
+	if tokenCache[currentSet][token] ~= nil then
+		return tokenCache[currentSet][token]
 	end
 
-	repeat
-		-- /run for k in (('this [foo] is [bar]'):gmatch('%b[]')) do print(k) end => '[foo]', '[bar]'
-		local findStart, findEnd, findString = string.find(text, "%[(.-)%]", findOffset)
+	--TODO: allow plugins to provide token replacements
+	local base, options = string.split(':', token:sub(2, strlen(token) - 1), 2)
+	local replacement = tokenHandlers[base] and tokenHandlers[base](base, options) or false
+	TopFit:Debug('Replacing Token', base, options, 'with', replacement)
 
-		if findStart then
-			local parts = TopFit:getTokenAndArguments(findString)
-			local token = string.lower(parts[1])
-
-			replaceText = "[" .. findString .. "]"
-
-			if token == "setlist" then
-				local namesString = ''
-				for i = 1, #setIDs do
-					local setName = ns.GetSetByID(setIDs[i], true):GetName();
-					if namesString ~= '' then
-						namesString = namesString..', '
-					end
-					namesString = namesString..setName
-				end
-				replaceText = namesString
-			elseif token == "setpercentages" then
-				local noColor = false
-				for i = 2, #parts do
-					local modifier = parts[i]
-					if string.lower(modifier) == 'nocolor' then
-						noColor = true
-					end
-				end
-
-				local percentagesString = ''
-				for i = 1, #setIDs do
-					local setID = setIDs[i]
-
-					local percentage = TopFit:getComparePercentage(item, setID)
-
-					if percentagesString ~= '' then
-						percentagesString = percentagesString..', '
-					end
-					percentagesString = percentagesString..percentilize(percentage, noColor)..'%'
-				end
-				replaceText = percentagesString
-			else
-				findOffset = findStart + 1 -- keep looking behind this unknown token
-			end
-			text = string.gsub(text, "%["..noPattern(findString).."%]", replaceText)
-		end
-	until not findStart
-
-	return text
+	tokenCache[currentSet][token] = replacement
+	return replacement
 end
 
-function TopFit:getTokenAndArguments(token)
-	local parts = {string.split(':', token)}
+function ns.AddComparisonTooltipLines(tooltip, itemTable)
+	local wipeCache = itemTable ~= currentItem
+	currentItem = itemTable
 
-	return parts
-end
+	for _, setCode in pairs(ns.GetSetList()) do
+		local set = ns.GetSetByID(setCode, true)
+		if wipeCache and tokenCache[set] then wipe(tokenCache[set]) end
 
--- calculates the items that the given item should be compared to in a tooltip
-function TopFit:getCompareItems(itemTable, setCode)
-	local compareSets = {}
+		if set:GetDisplayInTooltip() then
+			currentSet = set
+			local left, right = tooltipPatternLeft:gsub('(%b[])', ReplaceToken), tooltipPatternRight:gsub('(%b[])', ReplaceToken)
 
-	if itemTable and setCode then
-		-- find current item(s) from set
-		local setItemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(setTable.name))
-		local setItemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(setTable.name))
-		local setItemLinks = {}
-		if not setItemPositions then return end
-
-		for slotID, setItemLocation in pairs(setItemPositions) do
-			if setItemLocation and setItemLocation ~= 1 and setItemLocation ~= 0 then -- 0: no item; 1: slot is ignored
-				local setItemLink = nil
-				local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(setItemLocation)
-				if player then
-					if bank then
-						-- item is banked, use itemID
-						local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(TopFit.db.profile.sets[setCode].name))[slotID]
-						if itemID and itemID ~= 1 then
-							_, setItemLink = GetItemInfo(itemID)
-						end
-					elseif bags then
-						-- item is in player's bags
-						setItemLink = GetContainerItemLink(bag, slot)
-					else
-						-- item is equipped
-						setItemLink = GetInventoryItemLink("player", slot)
-					end
-				else
-					-- item not found
-				end
-				setItemLinks[slotID] = setItemLink
-			end
-		end
-
-		for _, slotID in pairs(itemTable.equipLocationsByType) do
-			-- for each slot the item can be equipped in
-			local setItemID = nil
-			local setItemLink = nil
-			local extraText = ""
-			local compareTable = nil
-			local itemTable2 = nil
-			local compareTable2 = nil
-			local compareNotCached = false
-
-			if setItemIDs and setItemIDs[slotID] and setItemIDs[slotID] ~= 1 and setItemIDs[slotID] ~= 0 then
-				setItemID = setItemIDs[slotID]
-				setItemLink = setItemLinks[slotID]
-
-				if setItemLink then
-					setItemTable = TopFit:GetCachedItem(setItemLink)
-				end
-
-				if not setItemTable then
-					compareNotCached = true
-				end
-			end
-
-			-- location tables for best-in-slot requests
-			local locationTable, compLocationTable
-			if (slotID == 16 or slotID == 17) then
-				locationTable = {itemLink = itemTable.itemLink, slot = nil, bag = nil}
-				if setItemTable then
-					local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(setItemPositions[slotID])
-					if player then
-						if bags then
-							compLocationTable = {itemLink = setItemTable.itemLink, slot = slot, bag = bag}
-						elseif bank then
-							compLocationTable = {itemLink = setItemTable.itemLink, slot = nil, bag = nil}
-						else
-							compLocationTable = {itemLink = setItemTable.itemLink, slot = slot, bag = nil}
-						end
-					else
-						compLocationTable = {itemLink = setItemTable.itemLink, slot = nil, bag = nil}
-					end
-				else
-					compLocationTable = {itemLink = "", slot = nil, bag = nil}
-				end
-			end
-
-
-			tinsert(compareSets, {
-				setItemTable
-			})
+			tooltip:AddDoubleLine(left, right)
 		end
 	end
-
-	return compareSets
 end
+
+
 
 
 
@@ -546,19 +444,11 @@ local function TooltipAddCompareLines(tt, link)
 	end
 end
 
-local function TooltipAddNewLines(tt, link)
+local function TooltipAddNewLines(tooltip, link)
 	if not (TopFit.db.profile.debugMode) then return end
 
 	local itemTable = TopFit:GetCachedItem(link)
-	local lines = TopFit:getComparisonTooltipLines(itemTable)
-
-	for _, line in ipairs(lines) do
-		if (#line == 1) then
-			tt:AddLine(line[1], 0.5, 0.9, 1)
-		else
-			tt:AddDoubleLine(line[1], line[2], 0.5, 0.9, 1)
-		end
-	end
+	TopFit.AddComparisonTooltipLines(tooltip, itemTable)
 end
 
 local statNames = {
