@@ -37,7 +37,7 @@ function DefaultCalculation:Initialize()
 
 	-- cache up to which slot unique items are available
 	local uniqueFound = false
-	for slotID = 20, 0, -1 do
+	for slotID = INVSLOT_LAST_EQUIPPED + 1, INVSLOT_FIRST_EQUIPPED - 1, -1 do --TODO: why INVSLOT_FIRST_EQUIPPED - 1?
 		if uniqueFound then
 			self.moreUniquesAvailable[slotID] = true
 		else
@@ -57,7 +57,7 @@ function DefaultCalculation:Initialize()
 		end
 	end
 
-	self:InitializeSlots(0)
+	self:InitializeSlots(INVSLOT_FIRST_EQUIPPED - 1) --TODO: why INVSLOT_FIRST_EQUIPPED - 1?
 end
 
 -- run single step of this calculation
@@ -65,7 +65,7 @@ function DefaultCalculation:Step()
 	-- set counters to next combination
 
 	-- check all nil counters from the end
-	local currentSlot = 19
+	local currentSlot = INVSLOT_LAST_EQUIPPED
 	local increased = false
 	while (not increased) and (currentSlot > 0) do
 		local currentItems = self:GetItems()
@@ -74,7 +74,7 @@ function DefaultCalculation:Step()
 			currentSlot = currentSlot - 1
 		end
 
-		if (currentSlot > 0) then
+		if (currentSlot >= INVSLOT_FIRST_EQUIPPED) then
 			-- increase combination, starting at currentSlot
 			self.slotCounters[currentSlot] = self.slotCounters[currentSlot] + 1
 			if (not self:IsDuplicateItem(currentSlot)) and (self:IsOffhandValid(currentSlot)) then
@@ -93,7 +93,7 @@ end
 
 function DefaultCalculation:InitializeSlots(currentSlot)
 	-- fill all further slots with first choices again - until caps are reached or unreachable
-	while (not self:IsCapsReached(currentSlot) or self.moreUniquesAvailable[currentSlot]) and not self:IsCapsUnreachable(currentSlot) and not self:UniquenessViolated(currentSlot) and (currentSlot < 19) do
+	while (not self:IsCapsReached(currentSlot) or self.moreUniquesAvailable[currentSlot]) and not self:IsCapsUnreachable(currentSlot) and not self:UniquenessViolated(currentSlot) and (currentSlot < INVSLOT_LAST_EQUIPPED) do
 		currentSlot = currentSlot + 1
 		local currentItems = self:GetItems(currentSlot)
 		if #currentItems > 0 then
@@ -130,7 +130,7 @@ function DefaultCalculation:GetCurrentProgress()
 	if not self.done then --TODO: variable has been removed, replace with new way of checking whether calculation has finished
 		local progress = 0
 		local impact = 1
-		for slot = 1, 20 do
+		for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
 			-- check if slot has items for calculation
 			local items = self:GetItems(slot)
 			if items and #items > 0 then
@@ -156,7 +156,7 @@ function DefaultCalculation:ApplySecondaryPercentBonus(stat, value)
 	for j = 1, #secondaryStats do
 		if secondaryStats[j] == stat then
 			-- check if percent bonus is active until now
-			for slotID = 13, 14 do -- only need to check trinket slots
+			for slotID = INVSLOT_TRINKET1, INVSLOT_TRINKET2 do
 				if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 then
 					local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
 					if itemTable then
@@ -196,14 +196,14 @@ function DefaultCalculation:IsCapsUnreachable(currentSlot)
 	local currentValues = {}
 	local restValues = {}
 	for stat, value in pairs(self.set:GetHardCaps()) do
-		for slotID = 1, currentSlot do
+		for slotID = INVSLOT_FIRST_EQUIPPED, currentSlot do
 			local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
 			if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 and itemTable then
 				currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
 			end
 		end
 
-		for slotID = currentSlot + 1, 19 do
+		for slotID = currentSlot + 1, INVSLOT_LAST_EQUIPPED do
 			restValues[stat] = (restValues[stat] or 0) + (self.capHeuristics[stat][slotID] or 0)
 		end
 
@@ -219,7 +219,7 @@ end
 local weights = {}
 function DefaultCalculation:UniquenessViolated(currentSlot)
 	local currentValues = {}
-	for slotID = 1, currentSlot do
+	for slotID = INVSLOT_FIRST_EQUIPPED, currentSlot do
 		if self.slotCounters[slotID] and self.slotCounters[slotID] ~= 0 then
 			local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
 			if itemTable then
@@ -244,7 +244,7 @@ end
 -- check whether the selected items up to currentSlot already contain the item in currentSlot itself
 function DefaultCalculation:IsDuplicateItem(currentSlot)
 	--TODO: do not rely on global funciton to determine item count, it should by apparent by how ofthen the item has been added to the calculation
-	for i = 1, currentSlot - 1 do
+	for i = INVSLOT_FIRST_EQUIPPED, currentSlot - 1 do
 		if self.slotCounters[i] and self.slotCounters[i] > 0 then
 			local item1 = self:GetItem(i, self.slotCounters[i])
 			local item2 = self:GetItem(currentSlot, self.slotCounters[currentSlot])
@@ -256,24 +256,30 @@ function DefaultCalculation:IsDuplicateItem(currentSlot)
 	return false
 end
 
+-- assertion functions for CalculateBestInSlot
+local function FilterOneHanded(calculation, itemTable)
+	return ns:IsOnehandedWeapon(calculation.set, itemTable.itemLink)
+end
+local function FilterNoWeapon(calculation, itemTable)
+	return not itemTable.itemEquipLoc:find("WEAPON")
+end
+
 -- check whether the currently selected offhand is valid for this calculation
 function DefaultCalculation:IsOffhandValid(currentSlot)
-	if currentSlot == 17 then -- offhand slot
-		if (self.slotCounters[17] ~= nil) and (self.slotCounters[17] > 0) then -- offhand is set to something
-			if (self.slotCounters[16] == nil or self.slotCounters[16] == 0) or -- no Mainhand is forced
-				(TopFit:IsOnehandedWeapon(self.set, self:GetItem(16, self.slotCounters[16]).itemLink)) then -- Mainhand is not a Two-Handed Weapon
+	if currentSlot == INVSLOT_OFFHAND then -- offhand slot
+		if (self.slotCounters[INVSLOT_OFFHAND] ~= nil) and (self.slotCounters[INVSLOT_OFFHAND] > 0) then -- offhand is set to something
+			if (self.slotCounters[INVSLOT_MAINHAND] == nil or self.slotCounters[INVSLOT_MAINHAND] == 0) or -- no Mainhand is forced
+				(TopFit:IsOnehandedWeapon(self.set, self:GetItem(INVSLOT_MAINHAND, self.slotCounters[INVSLOT_MAINHAND]).itemLink)) then -- Mainhand is not a Two-Handed Weapon
 
-				local itemTable = self:GetItem(17, self.slotCounters[17])
+				local itemTable = self:GetItem(INVSLOT_OFFHAND, self.slotCounters[INVSLOT_OFFHAND])
 				if not itemTable then return false end
 
 				if (not self.set:CanDualWield()) then
-					if (string.find(itemTable.itemEquipLoc, "WEAPON")) then
-						-- no weapon in offhand if you cannot dualwield
+					if not FilterNoWeapon(self, itemTable) then
 						return false
 					end
 				else -- player can dualwield
-					if (not TopFit:IsOnehandedWeapon(self.set, itemTable.itemID)) then
-						-- no 2h-weapon in offhand
+					if not FilterOneHanded(self, itemTable) then
 						return false
 					end
 				end
@@ -284,14 +290,6 @@ function DefaultCalculation:IsOffhandValid(currentSlot)
 		end
 	end
 	return true
-end
-
--- assertion functions for CalculateBestInSlot
-local function FilterOneHanded(calculation, itemTable)
-	return ns:IsOnehandedWeapon(calculation.set, itemTable.itemLink)
-end
-local function FilterNoWeapon(calculation, itemTable)
-	return not itemTable.itemEquipLoc:find("WEAPON")
 end
 
 --TODO: use INVSLOT_-constants
@@ -307,7 +305,7 @@ function DefaultCalculation:SaveCurrentCombination()
 	local itemsAlreadyChosen = {}
 
 	local i
-	for i = 1, 20 do
+	for i = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
 		local itemTable = nil
 		local stat, slotTable
 
@@ -319,9 +317,9 @@ function DefaultCalculation:SaveCurrentCombination()
 
 			if itemTable then
 				-- special cases for main an offhand (to account for dual wielding and Titan's Grip)
-				if i == 16 then
+				if i == INVSLOT_MAINHAND then
 					-- check if off hand is forced
-					if self.slotCounters[17] then
+					if self.slotCounters[INVSLOT_OFFHAND] then
 						-- use 1H-weapon in main hand (or a titan's grip 2H, if applicable)
 						itemTable = self:CalculateBestInSlot(itemsAlreadyChosen, i, FilterOneHanded)
 					else
@@ -379,7 +377,7 @@ function DefaultCalculation:SaveCurrentCombination()
 							end
 						end -- if mainhand would not be twohanded anyway, it can just be used
 					end
-				elseif (i == 17) then
+				elseif (i == INVSLOT_OFFHAND) then
 					-- check if mainhand is empty or one-handed
 					if (not currentCombination.items[i - 1]) or (ns:IsOnehandedWeapon(self.set, currentCombination.items[i - 1].itemLink)) then
 						-- check if player can dual wield
