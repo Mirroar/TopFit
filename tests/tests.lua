@@ -120,11 +120,14 @@ end
 
 
 AddCategory("Calculation")
-local calculationClasses = {"Calculation", "DefaultCalculation", "SmartCalculation"}
+local calculationClasses = {"DefaultCalculation"}
 
 local function createMockItem(base)
-	for _, tableName in pairs({"itemBonus", "totalBonus"}) do
+	for _, tableName in pairs({"itemBonus", "totalBonus", "procBonus"}) do
 		if not base[tableName] then base[tableName] = {} end
+	end
+	if not base.itemMinLevel then
+		base.itemMinLevel = 1
 	end
 
 	-- inject into TopFit's cache
@@ -157,6 +160,8 @@ end
 for _, calculationClassName in ipairs(calculationClasses) do
 	local calculationClass = ns[calculationClassName]
 	tests["trivial case for "..calculationClassName] = function()
+		TopFit.characterLevel = UnitLevel("player")
+
 		local set = ns.Set("test")
 		set:SetStatWeight("STAT_FOO", 3)
 
@@ -176,5 +181,6 @@ for _, calculationClassName in ipairs(calculationClasses) do
 	end
 end
 
+--TODO: test all kinds of main- and offhand combinations
 --TODO: test against wearing the same item twice
 --TODO: test to make sure its possible to wear the same item twice if you have it more than once

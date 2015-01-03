@@ -87,6 +87,9 @@ ns.enchantIDs[SHOULDER][2487].stats = {RESISTANCE5_NAME = 5}
 
 --[[
 
+4882 - 27 sta, 10 dodge
+3368 - DK Rune of Crusader
+4881 - 18str, 10 crit on legs
 
 
 

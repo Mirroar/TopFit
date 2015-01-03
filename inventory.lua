@@ -41,6 +41,7 @@ function TopFit:ClearCache()
 	TopFit.scoresCache = {}
 end
 
+--TODO: move into set
 function TopFit:GetSetItemFromSlot(slotID, set)
 	local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(set:GetName()))
 	if itemPositions then
