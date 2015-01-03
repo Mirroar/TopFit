@@ -442,6 +442,7 @@ function TopFit:GetItemInfoTable(item)
 		itemQuality = itemQuality,
 		itemMinLevel = itemMinLevel,
 		itemLevel = itemLevel,
+		subClass = itemSubType,
 		itemEquipLoc = itemEquipLoc,
 		equipLocationsByType = TopFit:GetEquipLocationsByInvType(itemEquipLoc, true),
 		gems = gems,
@@ -787,18 +788,18 @@ end
 
 -- check whether a weapon can be equipped in one hand (takes titan's grip into account)
 local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
-function TopFit:IsOnehandedWeapon(set, itemID)
-	local _, _, _, _, _, _, subclass, _, equipSlot, _, _ = GetItemInfo(itemID)
-	if equipSlot and string.find(equipSlot, "2HWEAPON") then
+function TopFit:IsOnehandedWeapon(set, item)
+	local itemTable = TopFit:GetCachedItem(item)
+	if itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "2HWEAPON") then
 		if (set:CanTitansGrip()) then
-			if subclass == POLEARMS or subclass == STAVES or subclass == FISHINGPOLES then
+			if itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES then
 				return false
 			end
 		else
 			return false
 		end
-	elseif equipSlot and string.find(equipSlot, "RANGED") then
-		if subclass == WANDS then
+	elseif itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "RANGED") then
+		if itemTable.subclass == WANDS then
 			return true
 		end
 		return false
