@@ -12,8 +12,16 @@ function DefaultCalculation:Initialize()
 	self.slotCounters = {}
 	self.bestCombination = nil
 	self.maxScore = nil
+
+	self:InitializeCapHeuristics()
+	self:InitializeAvailableUniqueItems()
+
+	self:InitializeSlots(INVSLOT_FIRST_EQUIPPED - 1) --TODO: why INVSLOT_FIRST_EQUIPPED - 1?
+end
+
+--- Find out how much of a given capped stat can be contributed by any slot
+function DefaultCalculation:InitializeCapHeuristics()
 	self.capHeuristics = {}
-	self.moreUniquesAvailable = {}
 
 	-- create maximum values for each cap and item slot
 	for statCode, _ in pairs(self.set:GetHardCaps()) do
@@ -34,6 +42,11 @@ function DefaultCalculation:Initialize()
 			self.capHeuristics[statCode][slotID] = maxStat
 		end
 	end
+end
+
+--- Find out until which slot unique items might be equipped
+function DefaultCalculation:InitializeAvailableUniqueItems()
+	self.moreUniquesAvailable = {}
 
 	-- cache up to which slot unique items are available
 	local uniqueFound = false
@@ -56,8 +69,6 @@ function DefaultCalculation:Initialize()
 			end
 		end
 	end
-
-	self:InitializeSlots(INVSLOT_FIRST_EQUIPPED - 1) --TODO: why INVSLOT_FIRST_EQUIPPED - 1?
 end
 
 -- run single step of this calculation
@@ -117,6 +128,13 @@ function DefaultCalculation:InitializeSlots(currentSlot)
 	end
 
 	return currentSlot
+end
+
+--- Returns the item currently selected for a slot
+function DefaultCalculation:GetCurrentItem(slotID)
+	if self.slotCounters[slotID] and self.slotCounters[slotID] > 0 then
+		return self:GetItem(slotID, self.slotCounters[slotID])
+	end
 end
 
 -- run final operation of this calculation and get ready to return a result
