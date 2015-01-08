@@ -287,37 +287,34 @@ local function FilterNoWeapon(calculation, itemTable)
 	return not itemTable.itemEquipLoc:find("WEAPON")
 end
 
--- check whether the currently selected offhand is valid for this calculation
+--- check whether the currently selected offhand is valid for this calculation
 function DefaultCalculation:IsOffhandValid(currentSlot)
-	if currentSlot == INVSLOT_OFFHAND then -- offhand slot
-		if (self.slotCounters[INVSLOT_OFFHAND] ~= nil) and (self.slotCounters[INVSLOT_OFFHAND] > 0) then -- offhand is set to something
-			if (self.slotCounters[INVSLOT_MAINHAND] == nil or self.slotCounters[INVSLOT_MAINHAND] == 0) or -- no Mainhand is forced
-				(TopFit:IsOnehandedWeapon(self.set, self:GetItem(INVSLOT_MAINHAND, self.slotCounters[INVSLOT_MAINHAND]).itemLink)) then -- Mainhand is not a Two-Handed Weapon
+	local offHand = self:GetCurrentItem(INVSLOT_OFFHAND)
+	if offHand then -- offhand is set to something
+		local mainHand = self:GetCurrentItem(INVSLOT_MAINHAND)
+		if mainHand and not TopFit:IsOnehandedWeapon(self.set, mainHand.itemLink) then
+			-- a 2H-Mainhand is set, there can be no offhand!
+			return false
+		end
 
-				local itemTable = self:GetItem(INVSLOT_OFFHAND, self.slotCounters[INVSLOT_OFFHAND])
-				if not itemTable then return false end
-
-				if self.set:CanDualWield() then
-					-- off hand may be a one-handed weapon
-					if not FilterOneHanded(self, itemTable) then
-						return false
-					end
-				else
-					-- no weapons allowed in off hand
-					if not FilterNoWeapon(self, itemTable) then
-						return false
-					end
-				end
-			else
-				-- a 2H-Mainhand is set, there can be no offhand!
+		if self.set:CanDualWield() then
+			-- off hand may only be a one-handed weapon or other item
+			if not FilterOneHanded(self, offHand) then
+				return false
+			end
+		else
+			-- no weapons allowed in off hand
+			if not FilterNoWeapon(self, offHand) then
 				return false
 			end
 		end
 	end
+
+	-- no problems detected
 	return true
 end
 
---TODO: use INVSLOT_-constants
+--TODO: refactor
 function DefaultCalculation:SaveCurrentCombination()
 	self.combinationCount = self.combinationCount + 1
 
