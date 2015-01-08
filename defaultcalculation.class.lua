@@ -6,7 +6,7 @@ ns.DefaultCalculation = DefaultCalculation
 
 -- run steps needed for initializing the calculation process
 function DefaultCalculation:Initialize()
-	ns.itemRecommendations = {}
+	ns.itemRecommendations = {} --TODO: why are we accessing this?
 
 	self.combinationCount = 0
 	self.slotCounters = {}
@@ -15,31 +15,38 @@ function DefaultCalculation:Initialize()
 
 	self:InitializeCapHeuristics()
 	self:InitializeAvailableUniqueItems()
-
-	self:InitializeSlots(INVSLOT_FIRST_EQUIPPED - 1) --TODO: why INVSLOT_FIRST_EQUIPPED - 1?
+	self:InitializeSlots(INVSLOT_FIRST_EQUIPPED)
 end
 
 --- Find out how much of a given capped stat can be contributed by any slot
 function DefaultCalculation:InitializeCapHeuristics()
 	self.capHeuristics = {}
+	self.maximumCapRemaining = {}
 
 	-- create maximum values for each cap and item slot
 	for statCode, _ in pairs(self.set:GetHardCaps()) do
 		self.capHeuristics[statCode] = {}
-		for _, slotID in pairs(ns.slots) do
+		self.maximumCapRemaining[statCode] = {}
+
+		local capSum = 0
+		for slotID = INVSLOT_LAST_EQUIPPED, INVSLOT_FIRST_EQUIPPED, -1 do
+			self.maximumCapRemaining[statCode][slotID] = capSum
+			local maxValue = 0
 			local items = self:GetItems(slotID)
 
 			-- get maximum value contributed to cap in this slot
-			local maxStat = 0
-			for _, itemTable in pairs(items) do
-				local thisStat = itemTable.totalBonus[statCode] or 0
+			if items then
+				for _, itemTable in pairs(items) do
+					local statValue = itemTable.totalBonus[statCode] or 0
 
-				if thisStat > maxStat then
-					maxStat = thisStat
+					if statValue > maxValue then
+						maxValue = statValue
+					end
 				end
 			end
 
-			self.capHeuristics[statCode][slotID] = maxStat
+			self.capHeuristics[statCode][slotID] = maxValue
+			capSum = capSum + maxValue
 		end
 	end
 end
@@ -71,53 +78,13 @@ function DefaultCalculation:InitializeAvailableUniqueItems()
 	end
 end
 
--- run single step of this calculation
-function DefaultCalculation:Step()
-	-- set counters to next combination
-
-	-- check all nil counters from the end
-	local currentSlot = INVSLOT_LAST_EQUIPPED
-	local increased = false
-	while (not increased) and (currentSlot > 0) do
-		local currentItems = self:GetItems()
-		while (self.slotCounters[currentSlot] == nil or self.slotCounters[currentSlot] == #currentItems[currentSlot]) and (currentSlot > 0) do
-			self.slotCounters[currentSlot] = nil -- reset to "no item"
-			currentSlot = currentSlot - 1
-		end
-
-		if (currentSlot >= INVSLOT_FIRST_EQUIPPED) then
-			-- increase combination, starting at currentSlot
-			self.slotCounters[currentSlot] = self.slotCounters[currentSlot] + 1
-			if (not self:IsDuplicateItem(currentSlot)) and (self:IsOffhandValid(currentSlot)) then
-				increased = true
-			end
-		else
-			-- we're back here, and so we're done
-			TopFit:Debug("Finished calculation after " .. math.ceil(self.elapsed * 100) / 100 .. " seconds at " .. self:GetOperationsPerFrame() .. " operations per frame")
-			self:Done()
-			return
-		end
-	end
-
-	currentSlot = self:InitializeSlots(currentSlot)
-end
-
+-- TODO: this needs a logic check
 function DefaultCalculation:InitializeSlots(currentSlot)
+	self:ChooseFirstItem(currentSlot)
 	-- fill all further slots with first choices again - until caps are reached or unreachable
 	while (not self:IsCapsReached(currentSlot) or self.moreUniquesAvailable[currentSlot]) and not self:IsCapsUnreachable(currentSlot) and not self:UniquenessViolated(currentSlot) and (currentSlot < INVSLOT_LAST_EQUIPPED) do
 		currentSlot = currentSlot + 1
-		local currentItems = self:GetItems(currentSlot)
-		if #currentItems > 0 then
-			self.slotCounters[currentSlot] = 1
-			while self:IsDuplicateItem(currentSlot) or self:UniquenessViolated(currentSlot) or (not self:IsOffhandValid(currentSlot)) do
-				self.slotCounters[currentSlot] = self.slotCounters[currentSlot] + 1
-			end
-			if self.slotCounters[currentSlot] > #currentItems then
-				self.slotCounters[currentSlot] = 0
-			end
-		else
-			self.slotCounters[currentSlot] = 0
-		end
+		self:ChooseFirstItem(currentSlot)
 	end
 
 	if self:IsCapsReached(currentSlot) and not self:UniquenessViolated(currentSlot) then
@@ -130,9 +97,63 @@ function DefaultCalculation:InitializeSlots(currentSlot)
 	return currentSlot
 end
 
+--- initialize the current item for the given slot with the first valid choice
+function DefaultCalculation:ChooseFirstItem(slotID)
+	self.slotCounters[slotID] = 0
+	self:ChooseNextItem(slotID)
+end
+
+--- choose the next current item for the given slot while making sure it's a valid choice
+function DefaultCalculation:ChooseNextItem(slotID)
+	local currentItems = self:GetItems(slotID)
+	if #currentItems > 0 then
+		self.slotCounters[slotID] = self.slotCounters[slotID] + 1
+		while self.slotCounters[slotID] <= #currentItems and (self:IsDuplicateItem(slotID) or self:UniquenessViolated(slotID) or (not self:IsOffhandValid(slotID))) do
+			self.slotCounters[slotID] = self.slotCounters[slotID] + 1
+		end
+		if self.slotCounters[slotID] > #currentItems then
+			self.slotCounters[slotID] = nil
+		end
+	else
+		self.slotCounters[slotID] = nil
+	end
+end
+
+-- run single step of this calculation
+function DefaultCalculation:Step()
+	-- set counters to next combination
+
+	-- check all nil counters from the end
+	local currentSlot = INVSLOT_LAST_EQUIPPED
+	local increased = false
+	while (not increased) and (currentSlot > 0) do
+		local currentItems = self:GetItems()
+		while (not self.slotCounters[currentSlot] or self.slotCounters[currentSlot] == #currentItems[currentSlot]) and (currentSlot >= INVSLOT_FIRST_EQUIPPED) do
+			self.slotCounters[currentSlot] = nil -- reset to "no item"
+			currentSlot = currentSlot - 1
+		end
+
+		if (currentSlot >= INVSLOT_FIRST_EQUIPPED) then
+			-- increase combination, starting at currentSlot
+			self:ChooseNextItem(currentSlot)
+			if self.slotCounters[currentSlot] then
+				-- a new item was chosen for the current slot
+				increased = true
+			end
+		else
+			-- if we could not switch to a new item in any slot we're done
+			ns:Debug("Finished calculation after " .. math.ceil(self.elapsed * 100) / 100 .. " seconds at " .. self:GetOperationsPerFrame() .. " operations per frame")
+			self:Done()
+			return
+		end
+	end
+
+	currentSlot = self:InitializeSlots(currentSlot + 1)
+end
+
 --- Returns the item currently selected for a slot
 function DefaultCalculation:GetCurrentItem(slotID)
-	if self.slotCounters[slotID] and self.slotCounters[slotID] > 0 then
+	if self.slotCounters[slotID] then
 		return self:GetItem(slotID, self.slotCounters[slotID])
 	end
 end
@@ -145,34 +166,32 @@ end
 
 -- returns a value between 0 and 1 indicating how far along the calculation is
 function DefaultCalculation:GetCurrentProgress()
-	if not self.done then --TODO: variable has been removed, replace with new way of checking whether calculation has finished
-		local progress = 0
-		local impact = 1
-		for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED + 1 do
-			-- check if slot has items for calculation
-			local items = self:GetItems(slot)
-			if items and #items > 0 then
-				-- calculate current progress towards finish
-				local numItemsInSlot = #items
-				local selectedItem = (self.slotCounters[slot] == 0) and #items or (self.slotCounters[slot] or 1)
-				if selectedItem == 0 then selectedItem = 1 end
+	if self.done then return 1 end --TODO: variable has been removed, replace with new way of checking whether calculation has finished
 
-				impact = impact / numItemsInSlot
-				progress = progress + impact * (selectedItem - 1)
-			end
+	local progress = 0
+	local impact = 1
+	for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+		-- check if slot has items for calculation
+		local items = self:GetItems(slot)
+		if items and #items > 0 then
+			-- calculate current progress towards finish
+			local numItemsInSlot = #items
+			local selectedItem = (self.slotCounters[slot] == 0) and #items or (self.slotCounters[slot] or 1)
+			if selectedItem == 0 then selectedItem = 1 end
+
+			impact = impact / numItemsInSlot
+			progress = progress + impact * (selectedItem - 1)
 		end
-
-		return progress
-	else
-		return 1
 	end
+
+	return progress
 end
 
 local secondaryStats = {'ITEM_MOD_SPIRIT_SHORT', 'ITEM_MOD_CRIT_RATING_SHORT', 'ITEM_MOD_HASTE_RATING_SHORT', --[['ITEM_MOD_HIT_RATING_SHORT', ]]'ITEM_MOD_MASTERY_RATING_SHORT'}
 function DefaultCalculation:ApplySecondaryPercentBonus(stat, value)
 	-- TODO: this is probably slow to check evey time and should be cached
-	for j = 1, #secondaryStats do
-		if secondaryStats[j] == stat then
+	for _, secondaryStat in ipairs(secondaryStats) do
+		if stat == secondaryStat then
 			-- check if percent bonus is active until now
 			for slotID = INVSLOT_TRINKET1, INVSLOT_TRINKET2 do
 				if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 then
@@ -187,46 +206,37 @@ function DefaultCalculation:ApplySecondaryPercentBonus(stat, value)
 	return value
 end
 
--- check whether the selected items up to currentSlot already fulfill all hard cap requirements
+--- determine whether the selected items up to currentSlot already fulfill all hard cap requirements
 function DefaultCalculation:IsCapsReached(currentSlot)
-	local currentValues = {}
-	for slotID = 1, currentSlot do
-		if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 then
-			for stat, _ in pairs(self.set:GetHardCaps()) do
-				local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
-				if itemTable then
-					currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
-				end
+	for stat, value in pairs(self.set:GetHardCaps()) do
+		local currentValue = 0
+		for slotID = INVSLOT_FIRST_EQUIPPED, currentSlot do
+			local itemTable = self:GetCurrentItem(slotID)
+			if itemTable then
+				currentValue = currentValue + (itemTable.totalBonus[stat] or 0)
 			end
 		end
-	end
 
-	for stat, value in pairs(self.set:GetHardCaps()) do
-		if (self:ApplySecondaryPercentBonus(stat, currentValues[stat] or 0)) < value then
+		if (self:ApplySecondaryPercentBonus(stat, currentValue)) < value then
 			return false
 		end
 	end
 	return true
 end
 
--- check whether the selected items up to currentSlot make it impossible to fulfill any hard cap requirements
+--- determine whether the selected items up to currentSlot make it impossible to fulfill all hard cap requirements
 function DefaultCalculation:IsCapsUnreachable(currentSlot)
-	local currentValues = {}
-	local restValues = {}
 	for stat, value in pairs(self.set:GetHardCaps()) do
+		local currentValue = 0
 		for slotID = INVSLOT_FIRST_EQUIPPED, currentSlot do
-			local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
-			if self.slotCounters[slotID] ~= nil and self.slotCounters[slotID] > 0 and itemTable then
-				currentValues[stat] = (currentValues[stat] or 0) + (itemTable.totalBonus[stat] or 0)
+			local itemTable = self:GetCurrentItem(slotID)
+			if itemTable then
+				currentValue = currentValue + (itemTable.totalBonus[stat] or 0)
 			end
 		end
 
-		for slotID = currentSlot + 1, INVSLOT_LAST_EQUIPPED do
-			restValues[stat] = (restValues[stat] or 0) + (self.capHeuristics[stat][slotID] or 0)
-		end
-
-		if (currentValues[stat] or 0) + (restValues[stat] or 0) < value then
-			TopFit:Debug("|cffff0000Caps unreachable - "..stat.." reached "..(currentValues[stat] or 0).." + "..(restValues[stat] or 0).." / "..value)
+		if currentValue + self.maximumCapRemaining[stat][currentSlot] < value then
+			ns:Debug("|cffff0000Caps unreachable|r: "..stat.." reached "..currentValue.." + "..self.maximumCapRemaining[stat][currentSlot].." / "..value, 'checking slot '..currentSlot)
 			return true
 		end
 	end
