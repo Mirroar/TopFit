@@ -248,13 +248,11 @@ local weights = {}
 function DefaultCalculation:UniquenessViolated(currentSlot)
 	local currentValues = {}
 	for slotID = INVSLOT_FIRST_EQUIPPED, currentSlot do
-		if self.slotCounters[slotID] and self.slotCounters[slotID] ~= 0 then
-			local itemTable = self:GetItem(slotID, self.slotCounters[slotID])
-			if itemTable then
-				for stat, amount in pairs(itemTable.totalBonus) do
-					if stat:find('^UNIQUE: ') then
-						currentValues[stat] = (currentValues[stat] or 0) + (amount or 0)
-					end
+		local itemTable = self:GetCurrentItem(slotID)
+		if itemTable then
+			for stat, amount in pairs(itemTable.totalBonus) do
+				if stat:find('^UNIQUE: ') then
+					currentValues[stat] = (currentValues[stat] or 0) + (amount or 0)
 				end
 			end
 		end
@@ -271,14 +269,11 @@ end
 
 -- check whether the selected items up to currentSlot already contain the item in currentSlot itself
 function DefaultCalculation:IsDuplicateItem(currentSlot)
-	--TODO: do not rely on global funciton to determine item count, it should by apparent by how ofthen the item has been added to the calculation
+	local currentItem = self:GetCurrentItem(currentSlot)
 	for i = INVSLOT_FIRST_EQUIPPED, currentSlot - 1 do
-		if self.slotCounters[i] and self.slotCounters[i] > 0 then
-			local item1 = self:GetItem(i, self.slotCounters[i])
-			local item2 = self:GetItem(currentSlot, self.slotCounters[currentSlot])
-			if item1 and item2 and item1 == item2 and self:GetItemCount(item1.itemLink) < 2 then
-				return true
-			end
+		local otherItem = self:GetCurrentItem(i)
+		if otherItem and currentItem and otherItem == currentItem and self:GetItemCount(currentItem.itemLink) < 2 then
+			return true
 		end
 	end
 	return false
