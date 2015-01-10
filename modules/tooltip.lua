@@ -501,6 +501,7 @@ local function TooltipAddCompareLines(tt, link)
 		end
 	end
 end
+ns.TooltipAddCompareLines = TooltipAddCompareLines --TODO: this is temporary
 
 local function TooltipAddNewLines(tooltip, link)
 	if not (TopFit.db.profile.debugMode) then return end
