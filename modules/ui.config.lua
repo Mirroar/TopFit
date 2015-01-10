@@ -577,10 +577,10 @@ function ui.Initialize()
 
 		GameTooltip:AddLine('Warning')
 		for _, gem in pairs(ns.enhancementWarnings.gems) do
-			GameTooltip:AddLine(ns.locale.unknownGemNotification:format(gem.itemLink))
+			GameTooltip:AddLine(ns.locale.unknownGemNotification:format(gem.itemLink), nil, nil, nil, true)
 		end
 		for _, enchant in pairs(ns.enhancementWarnings.enchants) do
-			GameTooltip:AddLine(ns.locale.unknownEnchantNotification:format(enchant.itemLink or enchant.itemID or ('enchant ID '..enchant.enchantID), enchant.hostItemLink))
+			GameTooltip:AddLine(ns.locale.unknownEnchantNotification:format(enchant.itemLink or enchant.itemID or ('enchant ID '..enchant.enchantID), enchant.hostItemLink), nil, nil, nil, true)
 		end
 
 		GameTooltip:Show()
