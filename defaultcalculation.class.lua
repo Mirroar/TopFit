@@ -318,114 +318,21 @@ end
 function DefaultCalculation:SaveCurrentCombination()
 	self.combinationCount = self.combinationCount + 1
 
-	local currentCombination = { --TODO: reuse tables
-		items = {},
-		totalScore = 0,
-		totalStats = {},
-	}
+	local totalScore = 0
+	local selectedItems = {} -- indexed by slot
+	local totalStats = {}
 
-	local itemsAlreadyChosen = {}
-
-	local i
-	for i = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED + 1 do
-		local itemTable = nil
+	for slotID = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED + 1 do --TODO: why INVSLOT_LAST_EQUIPPED + 1
 		local stat, slotTable
-
-		if self.slotCounters[i] ~= nil and self.slotCounters[i] > 0 then
-			itemTable = self:GetItem(i, self.slotCounters[i])
-		else
-			-- choose highest valued item for otherwise empty slots, if possible
-			itemTable = self:CalculateBestInSlot(itemsAlreadyChosen, i)
-
-			if itemTable then
-				-- special cases for main an offhand (to account for dual wielding and Titan's Grip)
-				if i == INVSLOT_MAINHAND then
-					-- check if off hand is forced
-					if self.slotCounters[INVSLOT_OFFHAND] then
-						-- use 1H-weapon in main hand (or a titan's grip 2H, if applicable)
-						itemTable = self:CalculateBestInSlot(itemsAlreadyChosen, i, FilterOneHanded)
-					else
-						-- choose best main- and offhand combo
-						if not ns:IsOnehandedWeapon(self.set, itemTable.itemID) then
-							-- see if a combination of main and offhand would have a better score
-							local bestMainScore, bestOffScore = 0, 0
-							local bestOff = nil
-							local bestMain = self:CalculateBestInSlot(itemsAlreadyChosen, i, FilterOneHanded)
-							if bestMain then
-								bestMainScore = (self.set:GetItemScore(bestMain.itemLink) or 0)
-							end
-							if (self.set:CanDualWield()) then
-								-- any non-two-handed offhand is fine
-								bestOff = self:CalculateBestInSlot(ns:JoinTables(itemsAlreadyChosen, bestMain and {bestMain.itemLink}), i + 1, FilterOneHanded)
-							else
-								-- offhand may not be a weapon (only shield, other offhand...)
-								bestOff = self:CalculateBestInSlot(ns:JoinTables(itemsAlreadyChosen, bestMain and {bestMain.itemLink}), i + 1, FilterNoWeapon)
-							end
-							if bestOff then
-								bestOffScore = (self.set:GetItemScore(bestOff.itemLink) or 0)
-							end
-
-							-- alternatively, calculate offhand first, then mainhand
-							local bestMainScore2, bestOffScore2 = 0, 0
-							local bestMain2 = nil
-							local bestOff2 = nil
-							if (self.set:CanDualWield()) then
-								-- any non-two-handed offhand is fine
-								bestOff2 = self:CalculateBestInSlot(itemsAlreadyChosen, i + 1, FilterOneHanded)
-							else
-								-- offhand may not be a weapon (only shield, other offhand...)
-								bestOff2 = self:CalculateBestInSlot(itemsAlreadyChosen, i + 1, FilterNoWeapon)
-							end
-							if bestOff2 then
-								bestOffScore2 = (self.set:GetItemScore(bestOff2.itemLink) or 0)
-							end
-
-							bestMain2 = self:CalculateBestInSlot(ns:JoinTables(itemsAlreadyChosen, bestOff2 and {bestOff2.itemLink}), i, FilterOneHanded)
-							if bestMain2 then
-								bestMainScore2 = (self.set:GetItemScore(bestMain2.itemLink) or 0)
-							end
-
-							local maxScore = (self.set:GetItemScore(itemTable.itemLink) or 0)
-							if (maxScore < (bestMainScore + bestOffScore)) then
-								-- main- + offhand is better, use the one-handed mainhand
-								itemTable = bestMain
-								maxScore = bestMainScore + bestOffScore
-								--ns:Debug("Choosing Mainhand "..itemTable.itemLink)
-							end
-							if (maxScore < (bestMainScore2 + bestOffScore2)) then
-								-- main- + offhand is better, use the one-handed mainhand
-								itemTable = bestMain2
-								--ns:Debug("Choosing Mainhand "..itemTable.itemLink)
-							end
-						end -- if mainhand would not be twohanded anyway, it can just be used
-					end
-				elseif (i == INVSLOT_OFFHAND) then
-					-- check if mainhand is empty or one-handed
-					if (not currentCombination.items[i - 1]) or (ns:IsOnehandedWeapon(self.set, currentCombination.items[i - 1].itemLink)) then
-						-- check if player can dual wield
-						if self.set:CanDualWield() then
-							-- only use 1H-weapons in Offhand
-							itemTable = self:CalculateBestInSlot(itemsAlreadyChosen, i, FilterOneHanded)
-						else
-							-- player cannot dualwield, only use offhands which are not weapons
-							itemTable = self:CalculateBestInSlot(itemsAlreadyChosen, i, FilterNoWeapon)
-						end
-					else
-						-- Two-handed mainhand means we leave offhand empty
-						itemTable = nil
-					end
-				end
-			end
-		end
+		local itemTable = self:GetCurrentItem(slotID) or self:ChooseDefaultItem(slotID, selectedItems)
 
 		if itemTable then -- slot will be filled
-			tinsert(itemsAlreadyChosen, itemTable.itemLink)
-			currentCombination.items[i] = itemTable
-			currentCombination.totalScore = currentCombination.totalScore + (self.set:GetItemScore(itemTable.itemLink) or 0)
+			selectedItems[slotID] = itemTable
+			totalScore = totalScore + (self.set:GetItemScore(itemTable.itemLink) or 0)
 
 			-- add total stats
 			for stat, value in pairs(itemTable.totalBonus) do
-				currentCombination.totalStats[stat] = (currentCombination.totalStats[stat] or 0) + value
+				totalStats[stat] = (totalStats[stat] or 0) + value
 			end
 		end
 	end
@@ -433,7 +340,7 @@ function DefaultCalculation:SaveCurrentCombination()
 	-- check all caps one last time and see if all are reached
 	local satisfied = true
 	for stat, value in pairs(self.set:GetHardCaps()) do
-		if ((not currentCombination.totalStats[stat]) or (currentCombination.totalStats[stat] < value)) then
+		if ((not totalStats[stat]) or (totalStats[stat] < value)) then
 			satisfied = false
 			break
 		end
@@ -441,7 +348,7 @@ function DefaultCalculation:SaveCurrentCombination()
 
 	-- check if any uniqueness constraints are broken
 	if not self.set.calculationData.ignoreCapsForCalculation then
-		for stat, value in pairs(currentCombination.totalStats) do
+		for stat, value in pairs(totalStats) do
 			if (string.sub(stat, 1, 8) == "UNIQUE: ") then
 				local _, maxCount = strsplit("*", stat)
 				maxCount = tonumber(maxCount)
@@ -454,14 +361,109 @@ function DefaultCalculation:SaveCurrentCombination()
 	end
 
 	-- check if it's better than old best
-	if ((satisfied) and ((self.maxScore == nil) or (self.maxScore < currentCombination.totalScore))) then
-		self.maxScore = currentCombination.totalScore
-		self.bestCombination = currentCombination
+	if ((satisfied) and ((self.maxScore == nil) or (self.maxScore < totalScore))) then
+		self.maxScore = totalScore
+		self.bestCombination = {
+			items = selectedItems,
+			totalStats = totalStats,
+			totalScore = totalScore,
+		}
 	end
 end
 
+--- determine the best item for a given slot
+-- beware, this function expects the main hand choice to be final when calculating a corresponding off hand
+function DefaultCalculation:ChooseDefaultItem(slotID, selectedItems)
+	-- choose highest valued item for otherwise empty slots, if possible
+	local itemTable = self:CalculateBestInSlot(slotID, selectedItems)
+
+	if not itemTable then return end
+
+	-- special cases for main an offhand (to account for dual wielding and Titan's Grip)
+	if slotID == INVSLOT_MAINHAND then
+		-- check if off hand is forced
+		if self.slotCounters[INVSLOT_OFFHAND] then
+			-- use 1H-weapon in main hand (or a titan's grip 2H, if applicable)
+			return self:CalculateBestInSlot(INVSLOT_MAINHAND, selectedItems, FilterOneHanded)
+		else
+			-- choose best main- and offhand combo
+			if not ns:IsOnehandedWeapon(self.set, itemTable.itemID) then
+				-- see if a combination of main and offhand would have a better score
+				local bestMainScore, bestOffScore = 0, 0
+				local bestOff = nil
+				local bestMain = self:CalculateBestInSlot(INVSLOT_MAINHAND, selectedItems, FilterOneHanded)
+				if bestMain then
+					bestMainScore = (self.set:GetItemScore(bestMain.itemLink) or 0)
+				end
+				local withMainhand = ns.MergeAssocInto({}, selectedItems, {[INVSLOT_MAINHAND] = bestMain})
+				if (self.set:CanDualWield()) then
+					-- any non-two-handed offhand is fine
+					bestOff = self:CalculateBestInSlot(INVSLOT_OFFHAND, withMainhand, FilterOneHanded)
+				else
+					-- offhand may not be a weapon (only shield, other offhand...)
+					bestOff = self:CalculateBestInSlot(INVSLOT_OFFHAND, withMainhand, FilterNoWeapon)
+				end
+				if bestOff then
+					bestOffScore = (self.set:GetItemScore(bestOff.itemLink) or 0)
+				end
+
+				-- alternatively, calculate offhand first, then mainhand
+				local bestMainScore2, bestOffScore2 = 0, 0
+				local bestMain2 = nil
+				local bestOff2 = nil
+				if (self.set:CanDualWield()) then
+					-- any non-two-handed offhand is fine
+					bestOff2 = self:CalculateBestInSlot(INVSLOT_OFFHAND, selectedItems, FilterOneHanded)
+				else
+					-- offhand may not be a weapon (only shield, other offhand...)
+					bestOff2 = self:CalculateBestInSlot(INVSLOT_OFFHAND, selectedItems, FilterNoWeapon)
+				end
+				if bestOff2 then
+					bestOffScore2 = (self.set:GetItemScore(bestOff2.itemLink) or 0)
+				end
+
+				local withOffhand = ns.MergeAssocInto({}, selectedItems, {[INVSLOT_OFFHAND] = bestOff2})
+				bestMain2 = self:CalculateBestInSlot(INVSLOT_MAINHAND, withOffhand, FilterOneHanded)
+				if bestMain2 then
+					bestMainScore2 = (self.set:GetItemScore(bestMain2.itemLink) or 0)
+				end
+
+				local maxScore = (self.set:GetItemScore(itemTable.itemLink) or 0)
+				if (maxScore < (bestMainScore + bestOffScore)) then
+					-- main- + offhand is better, use the one-handed mainhand
+					itemTable = bestMain
+					maxScore = bestMainScore + bestOffScore
+					--ns:Debug("Choosing Mainhand "..itemTable.itemLink)
+				end
+				if (maxScore < (bestMainScore2 + bestOffScore2)) then
+					-- main- + offhand is better, use the one-handed mainhand
+					itemTable = bestMain2
+					--ns:Debug("Choosing Mainhand "..itemTable.itemLink)
+				end
+			end -- if mainhand would not be twohanded anyway, it can just be used
+		end
+	elseif (slotID == INVSLOT_OFFHAND) then
+		-- check if mainhand is empty or one-handed
+		if (not selectedItems[INVSLOT_MAINHAND]) or (ns:IsOnehandedWeapon(self.set, selectedItems[INVSLOT_MAINHAND].itemLink)) then
+			-- check if player can dual wield
+			if self.set:CanDualWield() then
+				-- only use 1H-weapons in Offhand
+				itemTable = self:CalculateBestInSlot(INVSLOT_OFFHAND, selectedItems, FilterOneHanded)
+			else
+				-- player cannot dualwield, only use offhands which are not weapons
+				itemTable = self:CalculateBestInSlot(INVSLOT_OFFHAND, selectedItems, FilterNoWeapon)
+			end
+		else
+			-- Two-handed mainhand means we leave offhand empty
+			itemTable = nil
+		end
+	end
+
+	return itemTable
+end
+
 -- replacement of old function that no longer uses locationTables
-function DefaultCalculation:CalculateBestInSlot(itemsAlreadyChosen, slotID, assertion)
+function DefaultCalculation:CalculateBestInSlot(slotID, selectedItems, assertion)
 	--TODO: make sure this doesn't break any uniqueness constraints
 	-- get best item(s) for each equipment slot
 	local set = self.set
@@ -477,9 +479,9 @@ function DefaultCalculation:CalculateBestInSlot(itemsAlreadyChosen, slotID, asse
 					and (not assertion or assertion(self, itemTable)) then -- optional assertion is true
 					-- also check if item has been chosen already (so we don't get the same ring / trinket twice)
 					local itemAvailable = true
-					if itemsAlreadyChosen then
-						for _, itemLink in pairs(itemsAlreadyChosen) do
-							if itemLink == itemTable.itemLink and self:GetItemCount(itemLink) < 2 then
+					if selectedItems then
+						for _, item in pairs(selectedItems) do
+							if item.itemLink == itemTable.itemLink and self:GetItemCount(item.itemLink) < 2 then
 								itemAvailable = false
 								break
 							end

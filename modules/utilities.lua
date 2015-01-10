@@ -77,21 +77,17 @@ function ns:Debug(...)
 	end
 end
 
--- joins any number of tables together, one after the other. elements within the input-tables will get mixed, though
-function ns:JoinTables(...)
-	local result = {}
-	local tab
-
+function ns.MergeAssocInto(target, ...)
 	for i = 1, select("#", ...) do
 		tab = select(i, ...)
 		if tab then
 			for index, value in pairs(tab) do
-				tinsert(result, value)
+				target[index] = value
 			end
 		end
 	end
 
-	return result
+	return target
 end
 
 function ns.IsEmpty(table)

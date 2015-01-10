@@ -790,6 +790,8 @@ end
 local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
 function TopFit:IsOnehandedWeapon(set, item)
 	local itemTable = TopFit:GetCachedItem(item)
+	if not itemTable then return false end
+
 	if itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "2HWEAPON") then
 		if (set:CanTitansGrip()) then
 			if itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES then
