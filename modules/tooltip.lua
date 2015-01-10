@@ -306,15 +306,21 @@ local function TooltipAddCompareLines(tt, link)
 	end
 
 	-- iterate all sets and compare with set's items
+	local sets = ns.GetSetList()
+	if #sets > 0 and GetNumEquipmentSets() == 0 and CanUseEquipmentSets() then
+		tt:AddLine("Can't compare: Blizzard equipment sets are missing!", 1, 0, 0)
+		return
+	end
+
 	tt:AddLine(" ")
 	tt:AddLine("Compared with your current items for each set:")
-	local sets = ns.GetSetList()
 	for _, setCode in ipairs(sets) do
 		local set = ns.GetSetByID(setCode, true)
 		if set:GetDisplayInTooltip() then
 			-- find current item(s) from set
-			local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(set:GetName()))
-			local itemIDs = GetEquipmentSetItemIDs(TopFit:GenerateSetName(set:GetName()))
+			local setName       = TopFit:GenerateSetName(set:GetName())
+			local itemPositions = GetEquipmentSetLocations(setName)
+			local itemIDs       = GetEquipmentSetItemIDs(setName)
 			local itemLinks = {}
 			if itemPositions then
 				for slotID, itemLocation in pairs(itemPositions) do
