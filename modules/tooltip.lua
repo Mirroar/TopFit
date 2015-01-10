@@ -118,6 +118,64 @@ end
 -- TODO: remove. this is only needed until we properly work with set objects
 local emptySet = ns.Set()
 
+-- TODO: this function used to be part of DefaultCalculation but has been refactored a lot by now. It needs to be retired
+function ns:CalculateBestInSlot(set, itemsAlreadyChosen, insert, sID, setCode, assertion) --TODO: make sure this doesn't break any uniqueness constraints
+	-- get best item(s) for each equipment slot
+	local bis = {}
+	local itemListBySlot = ns.itemListBySlot or ns:GetEquippableItems()
+	for slotID, itemsTable in pairs(itemListBySlot) do
+		if ((not sID) or (sID == slotID)) then -- use single slot if sID is set, or all slots
+			bis[slotID] = {}
+			local maxScore = nil
+
+			-- iterate all items of given location
+			for _, locationTable in pairs(itemsTable) do
+				local itemTable = ns:GetCachedItem(locationTable.itemLink)
+
+				if (itemTable and ((maxScore == nil) or (maxScore < set:GetItemScore(itemTable.itemLink))) -- score
+					and (itemTable.itemMinLevel <= ns.characterLevel or locationTable.isVirtual)) -- character level
+					and (not assertion or assertion(locationTable)) then -- optional assertion is true
+					-- also check if item has been chosen already (so we don't get the same ring / trinket twice)
+					local found = false
+					if (itemsAlreadyChosen) then
+						for _, lTable in pairs(itemsAlreadyChosen) do
+							if ((not lTable.bag and not lTable.slot) or ((lTable.bag == locationTable.bag) and (lTable.slot == locationTable.slot))) and (lTable.itemLink == locationTable.itemLink) then
+								found = true
+							end
+						end
+					end
+
+					if not found then
+						bis[slotID].locationTable = locationTable
+						maxScore = set:GetItemScore(itemTable.itemLink)
+					end
+				end
+			end
+
+			if (not bis[slotID].locationTable) then
+				-- remove dummy table if no item has been found
+				bis[slotID] = nil
+			else
+				-- mark this item as used
+				if (itemsAlreadyChosen and insert) then
+					tinsert(itemsAlreadyChosen, bis[slotID].locationTable)
+				end
+			end
+		end
+	end
+
+	if (not sID) then
+		return bis
+	else
+		-- return only the slot item's table (if it exists)
+		if (bis[sID]) then
+			return bis[sID].locationTable
+		else
+			return nil
+		end
+	end
+end
+
 function TopFit:getComparePercentage(itemTable, setCode)
 	if not itemTable or not setCode then return 0 end
 	local set = ns.GetSetByID(setCode)
