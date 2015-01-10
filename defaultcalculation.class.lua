@@ -1,13 +1,10 @@
---TODO: split into multiple files
 local addonName, ns, _ = ...
 
 local DefaultCalculation = ns.class(ns.Calculation)
 ns.DefaultCalculation = DefaultCalculation
 
--- run steps needed for initializing the calculation process
+--- Run steps needed for initializing the calculation process.
 function DefaultCalculation:Initialize()
-	ns.itemRecommendations = {} --TODO: why are we accessing this?
-
 	self.combinationCount = 0
 	self.slotCounters = {}
 	self.bestCombination = nil
@@ -119,10 +116,9 @@ function DefaultCalculation:ChooseNextItem(slotID)
 	end
 end
 
--- run single step of this calculation
+--- runs a single step of this calculation by checking the next combination of items
 function DefaultCalculation:Step()
 	-- set counters to next combination
-
 	-- check all nil counters from the end
 	local currentSlot = INVSLOT_LAST_EQUIPPED
 	local increased = false

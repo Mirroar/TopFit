@@ -98,6 +98,7 @@ function ns.CalculationHasCompleted(calculation) --TODO: don't interact directly
 		--ns:Print("Total Score: " .. math.ceil(calculation.bestCombination.totalScore))
 		-- TODO: find a way to create decent output like "Increased set score by 5%"
 		-- caps are reached, save and equip best combination
+		ns.itemRecommendations = {}
 		for slotID, itemTable in pairs(calculation.bestCombination.items) do
 			ns.itemRecommendations[slotID] = itemTable.itemLink
 		end
@@ -172,9 +173,10 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 
 	-- try equipping the items every 100 frames (some weird ring positions might stop us from correctly equipping items on the first try, for example)
 	if (TopFit.updateEquipmentCounter > 1) then
-		for slotID, recItemLink in pairs(TopFit.itemRecommendations) do
+		for slotID = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+			local recItemLink = TopFit.itemRecommendations[slotID]
 			slotItemLink = GetInventoryItemLink("player", slotID)
-			if (slotItemLink ~= recItemLink) then
+			if recItemLink and slotItemLink ~= recItemLink then
 				-- find itemLink in bags
 				--TODO: just use functions from itemlocations.lua
 				local itemTable = nil
