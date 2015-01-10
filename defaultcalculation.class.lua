@@ -466,43 +466,37 @@ end
 function DefaultCalculation:CalculateBestInSlot(slotID, selectedItems, assertion)
 	--TODO: make sure this doesn't break any uniqueness constraints
 	-- get best item(s) for each equipment slot
+	local itemsTable = self:GetItems(slotID)
+
+	if not itemsTable then return end
+
+	local bis
 	local set = self.set
-	local bis = {}
-	local itemListBySlot = self:GetItems()
-	for slot, itemsTable in pairs(itemListBySlot) do
-		if not slotID or slotID == slot then
-			local maxScore = nil
+	local maxScore = nil
 
-			-- iterate all items of given location
-			for _, itemTable in pairs(itemsTable) do
-				if (itemTable and ((maxScore == nil) or (maxScore < set:GetItemScore(itemTable.itemLink)))) -- score
-					and (not assertion or assertion(self, itemTable)) then -- optional assertion is true
-					-- also check if item has been chosen already (so we don't get the same ring / trinket twice)
-					local itemAvailable = true
-					if selectedItems then
-						for _, item in pairs(selectedItems) do
-							if item.itemLink == itemTable.itemLink and self:GetItemCount(item.itemLink) < 2 then
-								itemAvailable = false
-								break
-							end
-						end
-					end
-
-					if itemAvailable then
-						bis[slot] = itemTable
-						maxScore = set:GetItemScore(itemTable.itemLink)
+	-- iterate all items of given location
+	for _, itemTable in pairs(itemsTable) do
+		if (itemTable and ((maxScore == nil) or (maxScore < set:GetItemScore(itemTable.itemLink)))) -- score
+			and (not assertion or assertion(self, itemTable)) then -- optional assertion is true
+			-- also check if item has been chosen already (so we don't get the same ring / trinket twice)
+			local itemAvailable = true
+			if selectedItems then
+				for _, item in pairs(selectedItems) do
+					if item.itemLink == itemTable.itemLink and self:GetItemCount(item.itemLink) < 2 then
+						itemAvailable = false
+						break
 					end
 				end
+			end
+
+			if itemAvailable then
+				bis = itemTable
+				maxScore = set:GetItemScore(itemTable.itemLink)
 			end
 		end
 	end
 
-	if not slotID then
-		return bis
-	else
-		-- return only the slot item's table (if it exists)
-		return bis[slotID]
-	end
+	return bis
 end
 
 -- now with assertion as optional parameter
