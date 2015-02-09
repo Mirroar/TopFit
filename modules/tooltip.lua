@@ -20,101 +20,150 @@ local function percentilize(ratio, noColor)
 end
 
 --- takes a string and escapes the magic characters ^$()%.[]*+-? with a %-character for safe use in Lua patterns
-local function noPattern(text)
+local function escape(text)
 	return string.gsub(text, "([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
 end
 
+--- New Tooltip handler code, wheeeee!
+-- TODO: react to http://www.townlong-yak.com/framexml/19116/GameTooltip.lua#350
+local tokenHandlers = {}
+-- allow plugins to register their own tooltip token replacement handlers
+function TopFit:RegisterTokenHandler(token, handler, allowReplace)
+	if tokenHandlers[token] and not allowReplace then
+		return false, 'Token handler for '..token..' is already registered.'
+	end
+	tokenHandlers[token] = handler
+	return true
+end
+function TopFit:GetTokenHandler(token)
+	return token and tokenHandlers[token] or nil
+end
 
-
-
-
---- New Tooltip code, wheeeee!
-local tooltipPatternLeft, tooltipPatternRight = '[set:icon] [set:name] ([delta:raw:percent]/[delta:current:percent])', '[item:score]'
-
-local currentSet, currentItem
-local tokenCache = {}
-
-local tokenHandlers = {
-	['item'] = function(base, options)
-		if options == 'score' then
-			return ('%.2f'):format(currentSet:GetItemScore(currentItem.itemLink))
+-- initialize token replacement handlers
+TopFit:RegisterTokenHandler('equipped', function(base, options, itemTable, set, tooltip)
+	-- whether or not the item is equipped
+	for _, slotID in ipairs(itemTable.equipLocationsByType) do
+		local setItem = ns:GetSetItemFromSlot(slotID, set)
+		if setItem == itemTable.itemLink then
+			return options or 'equipped'
 		end
-	end,
-	['set'] = function(base, options)
-		if options == 'icon' then
-			return '|T'..currentSet:GetIconTexture()..':0|t'
-		elseif options == 'name' then
-			return currentSet:GetName()
-		end
-	end,
-	['delta'] = function(base, options)
-		local scoreType, scoreFormat = string.split(':', options)
-		local useRaw = scoreType and scoreType == 'raw'
+	end
+end)
+TopFit:RegisterTokenHandler('item', function(base, options, itemTable, set, tooltip)
+	-- metadata on the item displayed in the tooltip
+	if options == 'score' then
+		return ('%.2f'):format(set:GetItemScore(itemTable.itemLink))
+	end
+end)
+TopFit:RegisterTokenHandler('set', function(base, options, itemTable, set, tooltip)
+	-- metadata on the TopFit equipment set that data is displayed for
+	if options == 'icon' then
+		return '|T'..set:GetIconTexture()..':0|t'
+	elseif options == 'name' then
+		return set:GetName()
+	end
+end)
+TopFit:RegisterTokenHandler('delta', function(base, options, itemTable, set, tooltip)
+	-- comparison for primary item
+	local scoreType, scoreFormat = string.split(':', options)
+	local useRaw = scoreType and scoreType == 'raw'
 
-		local itemScore = currentSet:GetItemScore(currentItem.itemLink, useRaw)
+	-- TODO: handle edge cases (no score and no item in set)
+	-- TODO: handle scoreFormat
+	-- TODO: handle 2H <=> MH/OH, 1H <=> MH/OH, Rings, Trinkets
+	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Strong-Small:0|t'
+	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Weak-Small:0|t'
+	-- http://wowinterface.com/downloads/info22536
 
-		--TODO: handle edge cases (no score and no item in set)
-		--TODO: handle scoreFormat
-		-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Strong-Small:0|t'
-		-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Weak-Small:0|t'
-		-- http://wowinterface.com/downloads/info22536
-
-		for _, slotID in ipairs(currentItem.equipLocationsByType) do
-			local setItem = ns:GetSetItemFromSlot(slotID, currentSet)
-			local setItemScore = setItem and currentSet:GetItemScore(setItem, useRaw) or 0
-
+	local slotID = itemTable.equipLocationsByType[1]
+	-- for _, slotID in ipairs(itemTable.equipLocationsByType) do
+	if slotID then
+		local setItem = ns:GetSetItemFromSlot(slotID, set)
+		if setItem and setItem ~= itemTable.itemLink then
+			local itemScore = set:GetItemScore(itemTable.itemLink, useRaw)
+			local setItemScore = set:GetItemScore(setItem, useRaw) or 0
 			if setItemScore > 0 then
 				return percentilize(itemScore / setItemScore)
 			elseif itemScore > 0 then
 				return percentilize(math.huge)
 			end
 		end
-	end,
-}
-
-local function ReplaceToken(token)
-	if not tokenCache[currentSet] then
-		tokenCache[currentSet] = {}
 	end
+end)
+TopFit:RegisterTokenHandler('delta2', function(base, options, itemTable, set, tooltip)
+	-- comparison values for secondary item
+	local scoreType, scoreFormat = string.split(':', options)
+	local useRaw = scoreType and scoreType == 'raw'
 
-	if tokenCache[currentSet][token] ~= nil then
-		return tokenCache[currentSet][token]
-	end
-
-	--TODO: allow plugins to provide token replacements
-	local base, options = string.split(':', token:sub(2, strlen(token) - 1), 2)
-	local replacement = tokenHandlers[base] and tokenHandlers[base](base, options) or false
-	TopFit:Debug('Replacing Token', base, options, 'with', replacement)
-
-	tokenCache[currentSet][token] = replacement
-	return replacement
-end
-
-function ns.AddComparisonTooltipLines(tooltip, itemTable)
-	local wipeCache = itemTable ~= currentItem
-	currentItem = itemTable
-
-	for _, setCode in pairs(ns.GetSetList()) do
-		local set = ns.GetSetByID(setCode, true)
-		if wipeCache and tokenCache[set] then wipe(tokenCache[set]) end
-
-		if set:GetDisplayInTooltip() then
-			currentSet = set
-			local left, right = tooltipPatternLeft:gsub('(%b[])', ReplaceToken), tooltipPatternRight:gsub('(%b[])', ReplaceToken)
-
-			tooltip:AddDoubleLine(left, right)
+	local slotID = itemTable.equipLocationsByType[2]
+	if slotID then
+		local setItem = ns:GetSetItemFromSlot(slotID, set)
+		if setItem and setItem ~= itemTable.itemLink then
+			local itemScore = set:GetItemScore(itemTable.itemLink, useRaw)
+			local setItemScore = set:GetItemScore(setItem, useRaw) or 0
+			if setItemScore > 0 then
+				return percentilize(itemScore / setItemScore)
+			elseif itemScore > 0 then
+				return percentilize(math.huge)
+			end
 		end
 	end
+end)
+
+local tokenCache, tokenCacheItem = {}, nil
+-- call this if you want to add comparison lines to a tooltip
+function TopFit:AddComparisonTooltipLines(tooltip, itemLink)
+	if tooltip and not itemLink then
+		-- item not supplied, try to get it from tooltip
+		_, itemLink = tooltip:GetItem()
+	end
+	if not tooltip or not itemLink then return end
+
+	local itemTable = TopFit:GetCachedItem(itemLink)
+	for _, setCode in pairs(ns.GetSetList()) do
+		local set = ns.GetSetByID(setCode, true)
+		if itemLink ~= tokenCacheItem and tokenCache[set] then
+			wipe(tokenCache[set])
+		end
+		TopFit:AddTooltipItemComparisonForSet(tooltip, set, itemTable)
+	end
+	tokenCacheItem = itemLink
 end
 
+-- TODO: allow complex tokens as oUF does: https://github.com/haste/oUF/blob/master/elements/tags.lua#L513
+local tooltipPatternLeft, tooltipPatternRight = '[set:icon] [set:name][ (>delta:raw:percent</][delta:current:percent<)][ (>delta2:raw:percent</][delta2:current:percent<)][ (>equipped:eq.<)]', '[item:score]'
 
+-- adds comparison lines for specific item set
+function TopFit:AddTooltipItemComparisonForSet(tooltip, set, itemTable)
+	if not set:GetDisplayInTooltip() then return end
+	if not tokenCache[set] then tokenCache[set] = {} end
 
+	local left, right = tooltipPatternLeft, tooltipPatternRight
+	for component in (tooltipPatternLeft .. ' ' .. tooltipPatternRight):gmatch('(%b[])') do
+		local tag, prefix, suffix = component:sub(2, -2)
+		prefix, tag = strsplit('>', tag, 2)
+		if not tag then tag = prefix; prefix = nil end
+		tag, suffix = strsplit('<', tag, 2)
 
+		local replacement = tokenCache[set][tag]
+		if replacement == nil then -- cache stores false for n/a
+			local base, options = string.split(':', tag, 2)
+			replacement = tokenHandlers[base] and tokenHandlers[base](base, options, itemTable, set, tooltip) or false
+			-- cache result
+			tokenCache[set][tag] = replacement
+			TopFit:Debug('Replacing Token', tag, 'with', replacement)
+		end
 
+		if replacement and replacement ~= '' then
+			replacement = (prefix or '') .. replacement .. (suffix or '')
+		end
+		left  = left:gsub(escape(component), replacement or '')
+		right = right:gsub(escape(component), replacement or '')
+	end
+	tooltip:AddDoubleLine(left, right)
+end
 
-
-
-
+-- WARNING: old code below
 -- TODO: remove. this is only needed until we properly work with set objects
 local emptySet = ns.Set()
 
@@ -509,13 +558,6 @@ local function TooltipAddCompareLines(tt, link)
 end
 ns.TooltipAddCompareLines = TooltipAddCompareLines --TODO: this is temporary
 
-local function TooltipAddNewLines(tooltip, link)
-	if not (TopFit.db.profile.debugMode) then return end
-
-	local itemTable = TopFit:GetCachedItem(link)
-	TopFit.AddComparisonTooltipLines(tooltip, itemTable)
-end
-
 local statNames = {
 	TOPFIT_ARMORTYPE_CLOTH   = 'Cloth armor',
 	TOPFIT_ARMORTYPE_LEATHER = 'Leather armor',
@@ -610,7 +652,6 @@ local function TooltipAddLines(tt, link)
 					tt:AddLine(' ')
 					tt:AddLine("TopFit Set Values:", 0.6, 1, 0.7) --TODO: translate
 				end
-
 				tt:AddLine(string.format("  %.2f - %s", set:GetItemScore(itemTable.itemLink), set:GetName()), 0.6, 1, 0.7)
 			end
 		end
@@ -631,8 +672,8 @@ local function OnTooltipSetItem(self, semaphore, skipCompareLines)
 				TooltipAddLines(self, link)
 				if (TopFit.db.profile.showComparisonTooltip and not TopFit.isBlocked and not skipCompareLines) then
 					TooltipAddCompareLines(self, link)
+					TopFit:AddComparisonTooltipLines(self, link)
 				end
-				TooltipAddNewLines(self, link)
 			end
 			clearedSemaphores[semaphore] = true
 		end
