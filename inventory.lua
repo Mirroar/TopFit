@@ -43,16 +43,25 @@ end
 
 --TODO: move into set
 function TopFit:GetSetItemFromSlot(slotID, set)
-	local itemPositions = GetEquipmentSetLocations(TopFit:GenerateSetName(set:GetName()))
+	local itemLink = nil
+	local setName = TopFit:GenerateSetName(set:GetName())
+	local itemPositions = GetEquipmentSetLocations(setName)
 	if itemPositions then
+		if slotID == _G.INVSLOT_OFFHAND then
+			local item = GetEquipmentSetItemIDs(setName)[_G.INVSLOT_MAINHAND]
+			if item and TopFit:IsOnehandedWeapon(set, item) == false then
+				-- set uses a 2H weapon w/o DW, OH is not possible
+				return nil
+			end
+		end
+
 		local itemLocation = itemPositions[slotID]
 		if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
-			local itemLink = nil
 			local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
 			if player then
 				if bank then
 					-- item is banked, use itemID
-					local itemID = GetEquipmentSetItemIDs(TopFit:GenerateSetName(set:GetName()))[slotID]
+					local itemID = GetEquipmentSetItemIDs(setName)[slotID]
 					if itemID and itemID ~= 1 then
 						_, itemLink = GetItemInfo(itemID)
 					end
@@ -63,12 +72,10 @@ function TopFit:GetSetItemFromSlot(slotID, set)
 					-- item is equipped
 					itemLink = GetInventoryItemLink("player", slot)
 				end
-
-				return itemLink
 			end
 		end
 	end
-	return nil
+	return itemLink
 end
 
 --- Gather all items from inventory and bags and save their info to cache.
@@ -788,9 +795,15 @@ end
 
 -- check whether a weapon can be equipped in one hand (takes titan's grip into account)
 local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
+-- returns true:item is weapon wielded in one hand, false:item is weapon wielded in two hands, nil:no item/does not go in weapon slots
 function TopFit:IsOnehandedWeapon(set, item)
-	local itemTable = TopFit:GetCachedItem(item)
-	if not itemTable then return false end
+	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)
+	if not itemTable then return nil end
+
+	-- item might not have been a weapon at all
+	if itemTable.equipLocationsByType[1] ~= 16 and itemTable.equipLocationsByType[1] ~= 17 then
+		return nil
+	end
 
 	if itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "2HWEAPON") then
 		if (set:CanTitansGrip()) then

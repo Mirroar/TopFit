@@ -24,8 +24,17 @@ local function escape(text)
 	return string.gsub(text, "([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
 end
 
+local function GetSecondaryCompareItem(tooltip)
+	if not tooltip.shoppingTooltips then return end
+	local shoppingTooltip1, shoppingTooltip2 = unpack(tooltip.shoppingTooltips)
+	if not shoppingTooltip2 or not shoppingTooltip2:IsShown() then return end
+	local _, itemLink = shoppingTooltip2:GetItem()
+	return itemLink
+end
+
 --- New Tooltip handler code, wheeeee!
 -- TODO: react to http://www.townlong-yak.com/framexml/19116/GameTooltip.lua#350
+local tokenCache, tokenCacheItem = {}, nil
 local tokenHandlers = {}
 -- allow plugins to register their own tooltip token replacement handlers
 function TopFit:RegisterTokenHandler(token, handler, allowReplace)
@@ -49,6 +58,10 @@ TopFit:RegisterTokenHandler('equipped', function(base, options, itemTable, set, 
 		end
 	end
 end)
+TopFit:RegisterTokenHandler('info', function(base, options, itemTable, set, tooltip)
+	-- additional info, mostly used for "when also using ..."
+	return tokenCache[set]['info']
+end)
 TopFit:RegisterTokenHandler('item', function(base, options, itemTable, set, tooltip)
 	-- metadata on the item displayed in the tooltip
 	if options == 'score' then
@@ -63,54 +76,67 @@ TopFit:RegisterTokenHandler('set', function(base, options, itemTable, set, toolt
 		return set:GetName()
 	end
 end)
+
+local EQUIPPEDITEM_MH = _G.ITEM_DELTA_DUAL_WIELD_COMPARISON_MAINHAND_DESCRIPTION:sub(2, -2)
+local EQUIPPEDITEM_OH = _G.ITEM_DELTA_DUAL_WIELD_COMPARISON_OFFHAND_DESCRIPTION:sub(2, -2)
 TopFit:RegisterTokenHandler('delta', function(base, options, itemTable, set, tooltip)
 	-- comparison for primary item
 	local scoreType, scoreFormat = string.split(':', options)
 	local useRaw = scoreType and scoreType == 'raw'
 
-	-- TODO: handle edge cases (no score and no item in set)
 	-- TODO: handle scoreFormat
-	-- TODO: handle 2H <=> MH/OH, 1H <=> MH/OH, Rings, Trinkets
+	-- TODO: handle non-dual-wielding (i.e. currently Y but compared set is N)
 	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Strong-Small:0|t'
 	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Weak-Small:0|t'
 	-- http://wowinterface.com/downloads/info22536
 
-	local slotID = itemTable.equipLocationsByType[1]
-	-- for _, slotID in ipairs(itemTable.equipLocationsByType) do
-	if slotID then
-		local setItem = ns:GetSetItemFromSlot(slotID, set)
-		if setItem and setItem ~= itemTable.itemLink then
-			local itemScore = set:GetItemScore(itemTable.itemLink, useRaw)
-			local setItemScore = set:GetItemScore(setItem, useRaw) or 0
-			if setItemScore > 0 then
-				return percentilize(itemScore / setItemScore)
-			elseif itemScore > 0 then
-				return percentilize(math.huge)
+	-- only regard one slot, needed for 1H weapons, rings, trinkets
+	local slotID = itemTable.equipLocationsByType[base == 'delta' and 1 or 2]
+	if not slotID then return end
+	local setItem = ns:GetSetItemFromSlot(slotID, set)
+	if not setItem then
+		return 'unknown item'
+	elseif setItem == itemTable.itemLink then
+		return nil
+	end
+
+	local itemScore    = set:GetItemScore(itemTable.itemLink, useRaw) or 0
+	local setItemScore = set:GetItemScore(setItem, useRaw) or 0
+
+	local isOneHanded = TopFit:IsOnehandedWeapon(set, itemTable)
+	if isOneHanded ~= nil then
+		-- this is an item that's equipped in MH and/or OH
+		if not isOneHanded then
+			-- 2H vs. MH/OH: add other item to compare values
+			local otherSlotID = itemTable.equipLocationsByType[base == 'delta' and 2 or 1]
+			local otherSetItem = otherSlotID and ns:GetSetItemFromSlot(otherSlotID, set)
+			if otherSetItem then
+				setItemScore = setItemScore + (otherSetItem and set:GetItemScore(otherSetItem, useRaw) or 0)
+			end
+		elseif TopFit:IsOnehandedWeapon(set, setItem) == false then
+			-- MH/OH vs. 2H: "when also using"
+			local otherItem = GetSecondaryCompareItem(tooltip)
+			if otherItem then
+				local otherItemScore = set:GetItemScore(otherItem, useRaw)
+				itemScore = itemScore + otherItemScore
+
+				-- add info text
+				local text = base == 'delta' and EQUIPPEDITEM_OH or EQUIPPEDITEM_MH
+				local itemName, _, quality = GetItemInfo(otherItem)
+				local _, _, _, hexColor = GetItemQualityColor(quality)
+				tokenCache[set].info = tokenCache[set].info or text:format(hexColor, itemName)
 			end
 		end
 	end
-end)
-TopFit:RegisterTokenHandler('delta2', function(base, options, itemTable, set, tooltip)
-	-- comparison values for secondary item
-	local scoreType, scoreFormat = string.split(':', options)
-	local useRaw = scoreType and scoreType == 'raw'
 
-	local slotID = itemTable.equipLocationsByType[2]
-	if slotID then
-		local setItem = ns:GetSetItemFromSlot(slotID, set)
-		if setItem and setItem ~= itemTable.itemLink then
-			local itemScore = set:GetItemScore(itemTable.itemLink, useRaw)
-			local setItemScore = set:GetItemScore(setItem, useRaw) or 0
-			if setItemScore > 0 then
-				return percentilize(itemScore / setItemScore)
-			elseif itemScore > 0 then
-				return percentilize(math.huge)
-			end
-		end
+	if setItemScore > 0 then
+		return percentilize(itemScore / setItemScore)
+	elseif itemScore > 0 then
+		return percentilize(math.huge)
 	end
 end)
+TopFit:RegisterTokenHandler('delta2', TopFit:GetTokenHandler('delta'))
 
-local tokenCache, tokenCacheItem = {}, nil
 -- call this if you want to add comparison lines to a tooltip
 function TopFit:AddComparisonTooltipLines(tooltip, itemLink)
 	if tooltip and not itemLink then
@@ -130,8 +156,19 @@ function TopFit:AddComparisonTooltipLines(tooltip, itemLink)
 	tokenCacheItem = itemLink
 end
 
+hooksecurefunc('GameTooltip_AdvanceSecondaryCompareItem', function(tooltip)
+	-- wipe cache when user changes secondary compare item
+	if not GetCVarBool('allowCompareWithToggle') then return end
+	for _, setCode in pairs(ns.GetSetList()) do
+		local set = ns.GetSetByID(setCode, true)
+		if tokenCache[set] then
+			wipe(tokenCache[set])
+		end
+	end
+end)
+
 -- TODO: allow complex tokens as oUF does: https://github.com/haste/oUF/blob/master/elements/tags.lua#L513
-local tooltipPatternLeft, tooltipPatternRight = '[set:icon] [set:name][ (>delta:raw:percent</][delta:current:percent<)][ (>delta2:raw:percent</][delta2:current:percent<)][ (>equipped:eq.<)]', '[item:score]'
+local tooltipPatternLeft, tooltipPatternRight = '[set:icon] [set:name][ (>delta:raw:percent</][delta:current:percent<)][ (>delta2:raw:percent</][delta2:current:percent<)][ (>equipped:eq.<)][|n    >info]', '[item:score]'
 
 -- adds comparison lines for specific item set
 function TopFit:AddTooltipItemComparisonForSet(tooltip, set, itemTable)
