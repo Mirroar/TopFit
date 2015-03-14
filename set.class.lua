@@ -245,6 +245,24 @@ function Set:GetStatWeights(useTable)
 	return weights
 end
 
+local secondaryStats = {
+	'ITEM_MOD_CRIT_RATING_SHORT',
+	'ITEM_MOD_HASTE_RATING_SHORT',
+	'ITEM_MOD_MASTERY_RATING_SHORT',
+	'ITEM_MOD_VERSATILITY',
+}
+function Set:GetBestSecondaryStat()
+	local statName, weight
+	for _, stat in pairs(secondaryStats) do
+		local value = self:GetStatWeight(stat)
+		if not weight or value > weight then
+			statName = stat
+			weight = value
+		end
+	end
+	return statName, weight
+end
+
 -- remove all hard caps from this set
 function Set:ClearAllHardCaps()
 	--TODO: this should be handled with care and should modify saved variables, too
@@ -538,6 +556,17 @@ function Set:GetItemScore(item, useRaw)
 				if not self.caps[stat] then
 					rawScore = itemScore + statValue * itemTable.procBonus[stat]
 				end
+			end
+		end
+
+		-- dirty quick fix for socket raw values
+		if itemTable.itemLevel >= 500 and itemTable.itemBonus['EMPTY_SOCKET_PRISMATIC'] then
+			-- TODO: consider gem min item level requirements
+			local _, weight = self:GetBestSecondaryStat()
+			if weight then
+				-- TODO: add set setting for gem tier/quality
+				local gemSize = (itemTable.itemQuality >= _G.LE_ITEM_QUALITY_EPIC or itemTable.itemLevel >= GetAverageItemLevel()) and 50 or 35
+				rawScore = rawScore + itemTable.itemBonus['EMPTY_SOCKET_PRISMATIC'] * gemSize * weight
 			end
 		end
 
