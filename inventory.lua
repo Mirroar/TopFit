@@ -48,9 +48,9 @@ function TopFit:GetSetItemFromSlot(slotID, set)
 	local itemPositions = GetEquipmentSetLocations(setName)
 	if itemPositions then
 		if slotID == _G.INVSLOT_OFFHAND then
+			-- check mainhand: can't use OH with 2H weapon w/o DW
 			local item = GetEquipmentSetItemIDs(setName)[_G.INVSLOT_MAINHAND]
 			if item and TopFit:IsOnehandedWeapon(set, item) == false then
-				-- set uses a 2H weapon w/o DW, OH is not possible
 				return nil
 			end
 		end
@@ -814,10 +814,7 @@ function TopFit:IsOnehandedWeapon(set, item)
 			return false
 		end
 	elseif itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "RANGED") then
-		if itemTable.subclass == WANDS then
-			return true
-		end
-		return false
+		return itemTable.subClass == WANDS
 	end
 	return true
 end
