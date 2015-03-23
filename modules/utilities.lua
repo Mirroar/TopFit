@@ -79,7 +79,7 @@ end
 
 function ns.MergeAssocInto(target, ...)
 	for i = 1, select("#", ...) do
-		tab = select(i, ...)
+		local tab = select(i, ...)
 		if tab then
 			for index, value in pairs(tab) do
 				target[index] = value
