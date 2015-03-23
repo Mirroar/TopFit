@@ -50,7 +50,7 @@ function TopFit:GetSetItemFromSlot(slotID, set)
 		if slotID == _G.INVSLOT_OFFHAND then
 			-- check mainhand: can't use OH with 2H weapon w/o DW
 			local item = GetEquipmentSetItemIDs(setName)[_G.INVSLOT_MAINHAND]
-			if item and TopFit:IsOnehandedWeapon(set, item) == false then
+			if item and set:IsOnehandedWeapon(item) == false then
 				return nil
 			end
 		end
@@ -793,30 +793,9 @@ function TopFit:GetCachedItem(itemLink)
 	return TopFit.itemsCache[itemLink]
 end
 
--- check whether a weapon can be equipped in one hand (takes titan's grip into account)
-local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
--- returns true:item is weapon wielded in one hand, false:item is weapon wielded in two hands, nil:no item/does not go in weapon slots
+-- legacy support, kind of
 function TopFit:IsOnehandedWeapon(set, item)
-	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)
-	if not itemTable then return nil end
-
-	-- item might not have been a weapon at all
-	if itemTable.equipLocationsByType[1] ~= 16 and itemTable.equipLocationsByType[1] ~= 17 then
-		return nil
-	end
-
-	if itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "2HWEAPON") then
-		if (set:CanTitansGrip()) then
-			if itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES then
-				return false
-			end
-		else
-			return false
-		end
-	elseif itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "RANGED") then
-		return itemTable.subClass == WANDS
-	end
-	return true
+	return set:IsOnehandedWeapon(item)
 end
 
 

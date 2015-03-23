@@ -319,7 +319,7 @@ function ns.RemoveNonForcedItemsFromItemList(set, itemList)
 			--TODO: check if forced item is a weapon and remove all weapons from mainhand if player cannot dualwield
 			-- always remove all 2H-weapons from mainhand
 			for i = #(itemList[16]), 1, -1 do
-				if (not ns:IsOnehandedWeapon(set, itemList[16][i].itemLink)) then
+				if (not set:IsOnehandedWeapon(itemList[16][i].itemLink)) then
 					ns:Debug('Reduce: Two-handed weapon when offhand is forced', itemList[16][i].itemLink)
 					tremove(itemList[16], i)
 				end

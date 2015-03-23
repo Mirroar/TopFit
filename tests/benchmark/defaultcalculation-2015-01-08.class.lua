@@ -275,7 +275,7 @@ end
 
 -- assertion functions for CalculateBestInSlot
 local function FilterOneHanded(calculation, itemTable)
-	return ns:IsOnehandedWeapon(calculation.set, itemTable.itemLink)
+	return calculation.set:IsOnehandedWeapon(itemTable.itemLink)
 end
 local function FilterNoWeapon(calculation, itemTable)
 	return not itemTable.itemEquipLoc:find("WEAPON")
@@ -286,7 +286,7 @@ function DefaultCalculation:IsOffhandValid(currentSlot)
 	if currentSlot == INVSLOT_OFFHAND then -- offhand slot
 		if (self.slotCounters[INVSLOT_OFFHAND] ~= nil) and (self.slotCounters[INVSLOT_OFFHAND] > 0) then -- offhand is set to something
 			if (self.slotCounters[INVSLOT_MAINHAND] == nil or self.slotCounters[INVSLOT_MAINHAND] == 0) or -- no Mainhand is forced
-				(TopFit:IsOnehandedWeapon(self.set, self:GetItem(INVSLOT_MAINHAND, self.slotCounters[INVSLOT_MAINHAND]).itemLink)) then -- Mainhand is not a Two-Handed Weapon
+				(self.set:IsOnehandedWeapon(self:GetItem(INVSLOT_MAINHAND, self.slotCounters[INVSLOT_MAINHAND]).itemLink)) then -- Mainhand is not a Two-Handed Weapon
 
 				local itemTable = self:GetItem(INVSLOT_OFFHAND, self.slotCounters[INVSLOT_OFFHAND])
 				if not itemTable then return false end
@@ -343,7 +343,7 @@ function DefaultCalculation:SaveCurrentCombination()
 						itemTable = self:CalculateBestInSlot(itemsAlreadyChosen, i, FilterOneHanded)
 					else
 						-- choose best main- and offhand combo
-						if not ns:IsOnehandedWeapon(self.set, itemTable.itemID) then
+						if not self.set:IsOnehandedWeapon(itemTable.itemID) then
 							-- see if a combination of main and offhand would have a better score
 							local bestMainScore, bestOffScore = 0, 0
 							local bestOff = nil
@@ -398,7 +398,7 @@ function DefaultCalculation:SaveCurrentCombination()
 					end
 				elseif (i == INVSLOT_OFFHAND) then
 					-- check if mainhand is empty or one-handed
-					if (not currentCombination.items[i - 1]) or (ns:IsOnehandedWeapon(self.set, currentCombination.items[i - 1].itemLink)) then
+					if (not currentCombination.items[i - 1]) or (self.set:IsOnehandedWeapon(currentCombination.items[i - 1].itemLink)) then
 						-- check if player can dual wield
 						if self.set:CanDualWield() then
 							-- only use 1H-weapons in Offhand

@@ -449,6 +449,32 @@ function Set:IsTitansGripForced()
 	return self.forceTitansGrip
 end
 
+-- check whether a weapon can be equipped in one hand (takes titan's grip into account)
+local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
+-- returns true:item is weapon wielded in one hand, false:item is weapon wielded in two hands, nil:no item/does not go in weapon slots
+function Set:IsOnehandedWeapon(item)
+	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)
+	if not itemTable then return nil end
+
+	-- item might not have been a weapon at all
+	if itemTable.equipLocationsByType[1] ~= 16 and itemTable.equipLocationsByType[1] ~= 17 then
+		return nil
+	end
+
+	if itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "2HWEAPON") then
+		if (self:CanTitansGrip()) then
+			if itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES then
+				return false
+			end
+		else
+			return false
+		end
+	elseif itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "RANGED") then
+		return itemTable.subClass == WANDS
+	end
+	return true
+end
+
 function Set:SetDisplayInTooltip(enable)
 	self.displayInTooltip = enable and true or false
 	if self.savedVariables then

@@ -109,7 +109,7 @@ TopFit:RegisterTokenHandler('delta', function(base, options, itemTable, set, too
 	local itemScore    = set:GetItemScore(itemTable.itemLink, useRaw) or 0
 	local setItemScore = set:GetItemScore(setItem, useRaw) or 0
 
-	local isOneHanded = TopFit:IsOnehandedWeapon(set, itemTable)
+	local isOneHanded = set:IsOnehandedWeapon(itemTable)
 	if isOneHanded ~= nil then
 		-- this is an item that's equipped in MH and/or OH
 		if not isOneHanded then
@@ -119,7 +119,7 @@ TopFit:RegisterTokenHandler('delta', function(base, options, itemTable, set, too
 			if otherSetItem then
 				setItemScore = setItemScore + (otherSetItem and set:GetItemScore(otherSetItem, useRaw) or 0)
 			end
-		elseif TopFit:IsOnehandedWeapon(set, setItem) == false then
+		elseif set:IsOnehandedWeapon(setItem) == false then
 			-- MH/OH vs. 2H: "when also using"
 			local otherItem = GetSecondaryCompareItem(tooltip)
 			if otherItem then
