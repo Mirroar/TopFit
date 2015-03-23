@@ -38,8 +38,9 @@ SlashCmdList["TopFit"] = TopFit.ChatCommand
 function ns:OnEnable()
 	ns:PrepareDatabase()
 
-	-- load Unfit-1.0
+	-- load common libraries
 	ns.Unfit = LibStub('Unfit-1.0')
+	ns.ItemLocations = LibStub('LibItemLocations')
 
 	-- create gametooltip for scanning
 	ns.scanTooltip = CreateFrame('GameTooltip', addonName..'ScanTooltip', UIParent, 'GameTooltipTemplate')

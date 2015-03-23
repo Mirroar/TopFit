@@ -802,8 +802,6 @@ end
 -- --------------------------------------------------------
 --  Add missing items to Blizzard's GetInventoryItemsForSlot
 -- --------------------------------------------------------
-local Unfit = LibStub('Unfit-1.0')
-local ItemLocations = LibStub('LibItemLocations')
 local equipLocation = {
 	INVTYPE_HEAD            =  1,
 	INVTYPE_NECK            =  2,
@@ -891,13 +889,13 @@ local function AddEquippableItem(useTable, inventorySlot, container, slot)
 	local isPlayer = not isBank
 	if not isBags then container = nil end
 
-	local location = ItemLocations:PackInventoryLocation(container, slot, isPlayer, isBank, isBags)
+	local location = ns.ItemLocations:PackInventoryLocation(container, slot, isPlayer, isBank, isBags)
 
 	if inventorySlot == 14 then inventorySlot = 13 end -- trinket
 	if inventorySlot == 12 then inventorySlot = 11 end -- ring
 	-- maybe also use IsUsableItem()?
 	if not useTable[location] and equipLocation[equipSlot] == inventorySlot
-		and not Unfit:IsClassUnusable(subClass, equipSlot) and PassesTooltipRequirements(link) then
+		and not ns.Unfit:IsClassUnusable(subClass, equipSlot) and PassesTooltipRequirements(link) then
 		useTable[location] = itemID
 	end
 end
