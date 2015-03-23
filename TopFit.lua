@@ -151,7 +151,7 @@ local function EvaluateNewItems(newItems)
 		local itemTable = ns:GetCachedItem(newItem)
 		for _, slotID in pairs(itemTable.equipLocationsByType) do
 			-- try to get the currently used item from the player's equipment set
-			local setItem = ns:GetSetItemFromSlot(slotID, set)
+			local setItem = set:GetItemInSlot(slotID)
 			local setItemTable = ns:GetCachedItem(setItem)
 			if setItem and setItemTable then
 				-- if either score or any cap is higher than currently equipped, calculate

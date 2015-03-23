@@ -41,43 +41,6 @@ function TopFit:ClearCache()
 	TopFit.scoresCache = {}
 end
 
---TODO: move into set
-function TopFit:GetSetItemFromSlot(slotID, set)
-	local itemLink = nil
-	local setName = TopFit:GenerateSetName(set:GetName())
-	local itemPositions = GetEquipmentSetLocations(setName)
-	if itemPositions then
-		if slotID == _G.INVSLOT_OFFHAND then
-			-- check mainhand: can't use OH with 2H weapon w/o DW
-			local item = GetEquipmentSetItemIDs(setName)[_G.INVSLOT_MAINHAND]
-			if item and set:IsOnehandedWeapon(item) == false then
-				return nil
-			end
-		end
-
-		local itemLocation = itemPositions[slotID]
-		if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
-			local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
-			if player then
-				if bank then
-					-- item is banked, use itemID
-					local itemID = GetEquipmentSetItemIDs(setName)[slotID]
-					if itemID and itemID ~= 1 then
-						_, itemLink = GetItemInfo(itemID)
-					end
-				elseif bags then
-					-- item is in player's bags
-					itemLink = GetContainerItemLink(bag, slot)
-				else
-					-- item is equipped
-					itemLink = GetInventoryItemLink("player", slot)
-				end
-			end
-		end
-	end
-	return itemLink
-end
-
 --- Gather all items from inventory and bags and save their info to cache.
 -- @param bag Limit collection to this bag.
 function ns:updateItemsCache(bag)

@@ -457,22 +457,47 @@ function Set:IsOnehandedWeapon(item)
 	if not itemTable then return nil end
 
 	-- item might not have been a weapon at all
-	if itemTable.equipLocationsByType[1] ~= 16 and itemTable.equipLocationsByType[1] ~= 17 then
+	if not itemTable.itemEquipLoc or itemTable.itemEquipLoc == ''
+		or (not tContains(itemTable.equipLocationsByType, INVSLOT_MAINHAND)
+		and not tContains(itemTable.equipLocationsByType, INVSLOT_OFFHAND)) then
 		return nil
 	end
 
-	if itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "2HWEAPON") then
-		if (self:CanTitansGrip()) then
-			if itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES then
-				return false
-			end
-		else
-			return false
-		end
-	elseif itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "RANGED") then
+	if itemTable.itemEquipLoc:find('2HWEAPON') then
+		return self:CanTitansGrip() and not (itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES)
+	elseif itemTable.itemEquipLoc:find('RANGED') then
 		return itemTable.subClass == WANDS
 	end
 	return true
+end
+
+function Set:CanItemGoInSlot(item, slotID)
+	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)
+	if not itemTable then return nil end
+
+	local canGoInSlot = tContains(itemTable.equipLocationsByType, slotID)
+		and not ns.Unfit:IsClassUnusable(itemTable.subClass, itemTable.itemEquipLoc)
+	if canGoInSlot and slotID == INVSLOT_OFFHAND and self:IsOnehandedWeapon(itemTable) then
+		-- check offhand item type
+		canGoInSlot = self:CanDualWield() -- weapons only work with dual wield
+			or itemTable.itemEquipLoc == 'INVTYPE_HOLDABLE'
+			or itemTable.itemEquipLoc == 'INVTYPE_SHIELD'
+	end
+	-- TODO: check for forced types, e.g. OH:shield or MH:dagger
+	return canGoInSlot
+end
+
+function Set:GetItemInSlot(slotID)
+	local locationBySlot = GetEquipmentSetLocations(self:GetEquipmentSetName())
+	local location = locationBySlot and locationBySlot[slotID]
+	if location and location <= 0 then location = nil end
+	if location and slotID == INVSLOT_OFFHAND then
+		-- can't use OH when MH item is wielded 2H
+		if self:IsOnehandedWeapon(locationBySlot[INVSLOT_MAINHAND]) == false then
+			location = nil
+		end
+	end
+	return location and select(3, ns.ItemLocations:GetLocationItemInfo(location)) or nil
 end
 
 function Set:SetDisplayInTooltip(enable)
