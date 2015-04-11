@@ -139,12 +139,12 @@ function ns.IsInitialized()
 	return ns.initialized
 end
 
+-- checks items that just entered the player's inventory to evaluate whether auto-calculation might be necessary
 local function EvaluateNewItems(newItems)
 	local set = ns.GetCurrentAutoUpdateSet()
 	if not set then return end
 
 	-- new equippable item in inventory, check if it is actually better than anything currently available
-	--TODO: optimize! This takes a lot of time if the player has many items
 	for _, newItem in pairs(newItems) do
 		ns:Debug("New Item: "..newItem)
 		local itemTable = ns:GetCachedItem(newItem)
@@ -183,13 +183,14 @@ function ns:PLAYER_EQUIPMENT_CHANGED(event, ...)
 end
 
 function ns:BAG_UPDATE(event, ...)
+	-- update item location information
 	ns.CheckBagItems(...)
 end
 
 function ns:BAG_UPDATE_DELAYED(event, ...)
 	if not ns.canAutoCalculate then return end
 	-- update item list
-	ns:updateItemsCache() --TODO: check if necessary
+	--ns:updateItemsCache() --TODO: check if necessary
 
 	-- check inventory for new equippable items
 	local newEquip = ns.GetNewItems()
