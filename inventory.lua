@@ -41,43 +41,6 @@ function TopFit:ClearCache()
 	TopFit.scoresCache = {}
 end
 
---TODO: move into set
-function TopFit:GetSetItemFromSlot(slotID, set)
-	local itemLink = nil
-	local setName = TopFit:GenerateSetName(set:GetName())
-	local itemPositions = GetEquipmentSetLocations(setName)
-	if itemPositions then
-		if slotID == _G.INVSLOT_OFFHAND then
-			local item = GetEquipmentSetItemIDs(setName)[_G.INVSLOT_MAINHAND]
-			if item and TopFit:IsOnehandedWeapon(set, item) == false then
-				-- set uses a 2H weapon w/o DW, OH is not possible
-				return nil
-			end
-		end
-
-		local itemLocation = itemPositions[slotID]
-		if itemLocation and itemLocation ~= 1 and itemLocation ~= 0 then
-			local player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(itemLocation)
-			if player then
-				if bank then
-					-- item is banked, use itemID
-					local itemID = GetEquipmentSetItemIDs(setName)[slotID]
-					if itemID and itemID ~= 1 then
-						_, itemLink = GetItemInfo(itemID)
-					end
-				elseif bags then
-					-- item is in player's bags
-					itemLink = GetContainerItemLink(bag, slot)
-				else
-					-- item is equipped
-					itemLink = GetInventoryItemLink("player", slot)
-				end
-			end
-		end
-	end
-	return itemLink
-end
-
 --- Gather all items from inventory and bags and save their info to cache.
 -- @param bag Limit collection to this bag.
 function ns:updateItemsCache(bag)
@@ -793,41 +756,15 @@ function TopFit:GetCachedItem(itemLink)
 	return TopFit.itemsCache[itemLink]
 end
 
--- check whether a weapon can be equipped in one hand (takes titan's grip into account)
-local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
--- returns true:item is weapon wielded in one hand, false:item is weapon wielded in two hands, nil:no item/does not go in weapon slots
+-- legacy support, kind of
 function TopFit:IsOnehandedWeapon(set, item)
-	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)
-	if not itemTable then return nil end
-
-	-- item might not have been a weapon at all
-	if itemTable.equipLocationsByType[1] ~= 16 and itemTable.equipLocationsByType[1] ~= 17 then
-		return nil
-	end
-
-	if itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "2HWEAPON") then
-		if (set:CanTitansGrip()) then
-			if itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES then
-				return false
-			end
-		else
-			return false
-		end
-	elseif itemTable.itemEquipLoc and string.find(itemTable.itemEquipLoc, "RANGED") then
-		if itemTable.subclass == WANDS then
-			return true
-		end
-		return false
-	end
-	return true
+	return set:IsOnehandedWeapon(item)
 end
 
 
 -- --------------------------------------------------------
 --  Add missing items to Blizzard's GetInventoryItemsForSlot
 -- --------------------------------------------------------
-local Unfit = LibStub('Unfit-1.0')
-local ItemLocations = LibStub('LibItemLocations')
 local equipLocation = {
 	INVTYPE_HEAD            =  1,
 	INVTYPE_NECK            =  2,
@@ -915,13 +852,13 @@ local function AddEquippableItem(useTable, inventorySlot, container, slot)
 	local isPlayer = not isBank
 	if not isBags then container = nil end
 
-	local location = ItemLocations:PackInventoryLocation(container, slot, isPlayer, isBank, isBags)
+	local location = ns.ItemLocations:PackInventoryLocation(container, slot, isPlayer, isBank, isBags)
 
 	if inventorySlot == 14 then inventorySlot = 13 end -- trinket
 	if inventorySlot == 12 then inventorySlot = 11 end -- ring
 	-- maybe also use IsUsableItem()?
 	if not useTable[location] and equipLocation[equipSlot] == inventorySlot
-		and not Unfit:IsClassUnusable(subClass, equipSlot) and PassesTooltipRequirements(link) then
+		and not ns.Unfit:IsClassUnusable(subClass, equipSlot) and PassesTooltipRequirements(link) then
 		useTable[location] = itemID
 	end
 end

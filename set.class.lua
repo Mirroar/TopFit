@@ -245,6 +245,24 @@ function Set:GetStatWeights(useTable)
 	return weights
 end
 
+local secondaryStats = {
+	'ITEM_MOD_CRIT_RATING_SHORT',
+	'ITEM_MOD_HASTE_RATING_SHORT',
+	'ITEM_MOD_MASTERY_RATING_SHORT',
+	'ITEM_MOD_VERSATILITY',
+}
+function Set:GetBestSecondaryStat()
+	local statName, weight
+	for _, stat in pairs(secondaryStats) do
+		local value = self:GetStatWeight(stat)
+		if not weight or value > weight then
+			statName = stat
+			weight = value
+		end
+	end
+	return statName, weight
+end
+
 -- remove all hard caps from this set
 function Set:ClearAllHardCaps()
 	--TODO: this should be handled with care and should modify saved variables, too
@@ -431,6 +449,57 @@ function Set:IsTitansGripForced()
 	return self.forceTitansGrip
 end
 
+-- check whether a weapon can be equipped in one hand (takes titan's grip into account)
+local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
+-- returns true:item is weapon wielded in one hand, false:item is weapon wielded in two hands, nil:no item/does not go in weapon slots
+function Set:IsOnehandedWeapon(item)
+	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)
+	if not itemTable then return nil end
+
+	-- item might not have been a weapon at all
+	if not itemTable.itemEquipLoc or itemTable.itemEquipLoc == ''
+		or (not tContains(itemTable.equipLocationsByType, INVSLOT_MAINHAND)
+		and not tContains(itemTable.equipLocationsByType, INVSLOT_OFFHAND)) then
+		return nil
+	end
+
+	if itemTable.itemEquipLoc:find('2HWEAPON') then
+		return self:CanTitansGrip() and not (itemTable.subclass == POLEARMS or itemTable.subclass == STAVES or itemTable.subclass == FISHINGPOLES)
+	elseif itemTable.itemEquipLoc:find('RANGED') then
+		return itemTable.subClass == WANDS
+	end
+	return true
+end
+
+function Set:CanItemGoInSlot(item, slotID)
+	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)
+	if not itemTable then return nil end
+
+	local canGoInSlot = tContains(itemTable.equipLocationsByType, slotID)
+		and not ns.Unfit:IsClassUnusable(itemTable.subClass, itemTable.itemEquipLoc)
+	if canGoInSlot and slotID == INVSLOT_OFFHAND and self:IsOnehandedWeapon(itemTable) then
+		-- check offhand item type
+		canGoInSlot = self:CanDualWield() -- weapons only work with dual wield
+			or itemTable.itemEquipLoc == 'INVTYPE_HOLDABLE'
+			or itemTable.itemEquipLoc == 'INVTYPE_SHIELD'
+	end
+	-- TODO: check for forced types, e.g. OH:shield or MH:dagger
+	return canGoInSlot
+end
+
+function Set:GetItemInSlot(slotID)
+	local locationBySlot = GetEquipmentSetLocations(self:GetEquipmentSetName())
+	local location = locationBySlot and locationBySlot[slotID]
+	if location and location <= 0 then location = nil end
+	if location and slotID == INVSLOT_OFFHAND then
+		-- can't use OH when MH item is wielded 2H
+		if self:IsOnehandedWeapon(locationBySlot[INVSLOT_MAINHAND]) == false then
+			location = nil
+		end
+	end
+	return location and select(3, ns.ItemLocations:GetLocationItemInfo(location)) or nil
+end
+
 function Set:SetDisplayInTooltip(enable)
 	self.displayInTooltip = enable and true or false
 	if self.savedVariables then
@@ -538,6 +607,17 @@ function Set:GetItemScore(item, useRaw)
 				if not self.caps[stat] then
 					rawScore = itemScore + statValue * itemTable.procBonus[stat]
 				end
+			end
+		end
+
+		-- dirty quick fix for socket raw values
+		if itemTable.itemLevel >= 500 and itemTable.itemBonus['EMPTY_SOCKET_PRISMATIC'] then
+			-- TODO: consider gem min item level requirements
+			local _, weight = self:GetBestSecondaryStat()
+			if weight then
+				-- TODO: add set setting for gem tier/quality
+				local gemSize = (itemTable.itemQuality >= _G.LE_ITEM_QUALITY_EPIC or itemTable.itemLevel >= GetAverageItemLevel()) and 50 or 35
+				rawScore = rawScore + itemTable.itemBonus['EMPTY_SOCKET_PRISMATIC'] * gemSize * weight
 			end
 		end
 

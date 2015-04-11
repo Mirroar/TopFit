@@ -277,7 +277,7 @@ end
 
 -- assertion functions for CalculateBestInSlot
 local function FilterOneHanded(calculation, itemTable)
-	return ns:IsOnehandedWeapon(calculation.set, itemTable.itemLink)
+	return calculation.set:IsOnehandedWeapon(itemTable.itemLink)
 end
 local function FilterNoWeapon(calculation, itemTable)
 	return not itemTable.itemEquipLoc:find("WEAPON")
@@ -288,7 +288,7 @@ function DefaultCalculation:IsOffhandValid(currentSlot)
 	local offHand = self:GetCurrentItem(INVSLOT_OFFHAND)
 	if offHand then -- offhand is set to something
 		local mainHand = self:GetCurrentItem(INVSLOT_MAINHAND)
-		if mainHand and not TopFit:IsOnehandedWeapon(self.set, mainHand.itemLink) then
+		if mainHand and not self.set:IsOnehandedWeapon(mainHand.itemLink) then
 			-- a 2H-Mainhand is set, there can be no offhand!
 			return false
 		end
@@ -383,7 +383,7 @@ function DefaultCalculation:ChooseDefaultItem(slotID, selectedItems)
 			return self:CalculateBestInSlot(INVSLOT_MAINHAND, selectedItems, FilterOneHanded)
 		else
 			-- choose best main- and offhand combo
-			if not ns:IsOnehandedWeapon(self.set, itemTable.itemID) then
+			if not self.set:IsOnehandedWeapon(itemTable.itemID) then
 				-- see if a combination of main and offhand would have a better score
 				local bestMainScore, bestOffScore = 0, 0
 				local bestOff = nil
@@ -440,7 +440,7 @@ function DefaultCalculation:ChooseDefaultItem(slotID, selectedItems)
 		end
 	elseif (slotID == INVSLOT_OFFHAND) then
 		-- check if mainhand is empty or one-handed
-		if (not selectedItems[INVSLOT_MAINHAND]) or (ns:IsOnehandedWeapon(self.set, selectedItems[INVSLOT_MAINHAND].itemLink)) then
+		if (not selectedItems[INVSLOT_MAINHAND]) or (self.set:IsOnehandedWeapon(selectedItems[INVSLOT_MAINHAND].itemLink)) then
 			-- check if player can dual wield
 			if self.set:CanDualWield() then
 				-- only use 1H-weapons in Offhand

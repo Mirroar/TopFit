@@ -54,7 +54,7 @@ end
 TopFit:RegisterTokenHandler('equipped', function(base, options, itemTable, set, tooltip)
 	-- whether or not the item is equipped
 	for _, slotID in ipairs(itemTable.equipLocationsByType) do
-		local setItem = ns:GetSetItemFromSlot(slotID, set)
+		local setItem = set:GetItemInSlot(slotID)
 		if setItem == itemTable.itemLink then
 			return options or 'equipped'
 		end
@@ -94,32 +94,32 @@ TopFit:RegisterTokenHandler('delta', function(base, options, itemTable, set, too
 	local useRaw = scoreType and scoreType == 'raw'
 
 	-- TODO: handle scoreFormat
-	-- TODO: handle (non)dual-wielding in compare set (i.e. this:Y but that:N)
-	-- TODO: handle item type restrictions (i.e. daggers, shield)
+	-- TODO: handle comparing to empty slots
 	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Strong-Small:0|t'
 	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Weak-Small:0|t'
 	-- http://wowinterface.com/downloads/info22536
 
 	-- only regard one slot, needed for 1H weapons, rings, trinkets
 	local slotID = itemTable.equipLocationsByType[base == 'delta' and 1 or 2]
-	if not slotID then return end
-	local setItem = ns:GetSetItemFromSlot(slotID, set)
+	if not slotID or not set:CanItemGoInSlot(itemTable, slotID) then return end
+	local setItem = set:GetItemInSlot(slotID)
 	if not setItem or setItem == itemTable.itemLink then return end
 
 	local itemScore    = set:GetItemScore(itemTable.itemLink, useRaw) or 0
 	local setItemScore = set:GetItemScore(setItem, useRaw) or 0
 
-	local isOneHanded = TopFit:IsOnehandedWeapon(set, itemTable)
+	-- comparison cases: 1H => 1:MH/2:OH, 2H => 1:MH+OH, MH => 1:MH, OH => 1:OH
+	local isOneHanded = set:IsOnehandedWeapon(itemTable)
 	if isOneHanded ~= nil then
 		-- this is an item that's equipped in MH and/or OH
 		if not isOneHanded then
 			-- 2H vs. MH/OH: add other item to compare values
 			local otherSlotID = itemTable.equipLocationsByType[base == 'delta' and 2 or 1]
-			local otherSetItem = otherSlotID and ns:GetSetItemFromSlot(otherSlotID, set)
+			local otherSetItem = otherSlotID and set:GetItemInSlot(otherSlotID)
 			if otherSetItem then
 				setItemScore = setItemScore + (otherSetItem and set:GetItemScore(otherSetItem, useRaw) or 0)
 			end
-		elseif TopFit:IsOnehandedWeapon(set, setItem) == false then
+		elseif set:IsOnehandedWeapon(setItem) == false then
 			-- MH/OH vs. 2H: "when also using"
 			local otherItem = GetSecondaryCompareItem(tooltip)
 			if otherItem then

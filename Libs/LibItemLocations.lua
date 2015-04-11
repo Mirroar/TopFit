@@ -1,5 +1,4 @@
--- written by ckaotik
-local MAJOR, MINOR = 'LibItemLocations', 4
+local MAJOR, MINOR = 'LibItemLocations', 6
 assert(LibStub, MAJOR..' requires LibStub')
 local lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
@@ -12,6 +11,8 @@ local ITEM_INVENTORY_LOCATION_BAGS    = ITEM_INVENTORY_LOCATION_BAGS
 local ITEM_INVENTORY_LOCATION_BANK    = ITEM_INVENTORY_LOCATION_BANK
 local ITEM_INVENTORY_LOCATION_PLAYER  = ITEM_INVENTORY_LOCATION_PLAYER
 local ITEM_INVENTORY_LOCATION_VAULT   = ITEM_INVENTORY_LOCATION_VOIDSTORAGE
+-- slot offsets
+local BANK_CONTAINER_INVENTORY_OFFSET = BANK_CONTAINER_INVENTORY_OFFSET
 
 -- existing location container identifiers
 local BACKPACK_CONTAINER, BANK_CONTAINER, KEYRING_CONTAINER, REAGENTBANK_CONTAINER = _G.BACKPACK_CONTAINER, _G.BANK_CONTAINER, _G.KEYRING_CONTAINER, _G.REAGENTBANK_CONTAINER
@@ -55,8 +56,6 @@ function lib:PackInventoryLocation(container, slot, equipment, bank, bags, voidS
 end
 
 function lib:UnpackInventoryLocation(location)
-	local reagentBank, mailAttachment, auctionHouse
-
 	local reagentBank    = band(location, ITEM_INVENTORY_LOCATION_REAGENTBANK) ~= 0
 	local guildBank      = band(location, ITEM_INVENTORY_LOCATION_GUILDBANK) ~= 0
 	local mailAttachment = band(location, ITEM_INVENTORY_LOCATION_MAIL) ~= 0
@@ -75,6 +74,9 @@ function lib:UnpackInventoryLocation(location)
 	if voidStorage then
 		container = tab
 		slot = voidSlot
+	elseif bank and not bags then
+		container = BANK_CONTAINER
+		slot = slot - BANK_CONTAINER_INVENTORY_OFFSET
 	end
 
 	return container, slot, player, bank, bags, voidStorage, reagentBank, mailAttachment, guildBank, auctionHouse
@@ -152,10 +154,12 @@ function lib:GetLocation(container, slot, index)
 end
 
 function lib:GetLocationItemInfo(location)
+	-- local id, name, textureName, count, durability, maxDurability, invType, locked, start, duration, enable, setTooltip, gem1, gem2, gem3, quality = EquipmentManager_GetItemInfoByLocation(location)
 	local name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture, vendorPrice, itemID
 
 	local container, slot, player, bank, bags, voidStorage, reagentBank, mailAttachment, guildBank, auctionHouse = lib:UnpackInventoryLocation(location)
-	if player or container == EQUIPMENT_CONTAINER then
+
+	if (player and not bags) or container == EQUIPMENT_CONTAINER then
 		-- slot: equipment slot
 		link = GetInventoryItemLink('player', slot)
 	elseif voidStorage then

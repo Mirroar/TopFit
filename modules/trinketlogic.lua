@@ -30,6 +30,10 @@ local durSec = ReformatGlobalString(INT_SPELL_DURATION_SEC):gsub('%%%.', '')
 local durMin = ReformatGlobalString(INT_SPELL_DURATION_MIN):gsub('%%%.', '')
 local statAmount = '(%d[%d%.]+)[^%%]'
 
+local statAlias = { -- all lower case, please
+	['kritisch.?.? trefferwert'] = 'ITEM_MOD_CRIT_RATING_SHORT', -- deDE
+}
+
 local function FindSpecialBonus(effectText, ...)
 	if not effectText then return end
 	-- deDE uses "." here which messes up patterns
@@ -66,11 +70,22 @@ local function FindSpecialBonus(effectText, ...)
 	-- stat amount
 	local amount = tonumber(effectText:match(statAmount) or 0)
 	effectText = effectText:gsub(statAmount, '', 1)
+	-- print('amount', amount)
 
 	-- stat name
+	effectText = effectText:lower()
 	for i = 1, select('#', ...) do
 		local stat = select(i, ...)
-		if string.find(effectText, _G[stat] or addonName) then
+		local hasMatch = false
+		for alias, source in pairs(statAlias) do
+			if stat == source then
+				hasMatch = hasMatch or effectText:find(alias)
+			end
+		end
+
+		-- fallback to any string not found in stat names
+		hasMatch = hasMatch or effectText:find((_G[stat] or addonName):lower())
+		if hasMatch then
 			return stat, amount, duration, cooldown
 		end
 	end
