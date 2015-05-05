@@ -95,6 +95,7 @@ TopFit:RegisterTokenHandler('delta', function(base, options, itemTable, set, too
 
 	-- TODO: handle scoreFormat
 	-- TODO: handle comparing to empty slots
+	-- TODO: do not compare 2h if shield is forced
 	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Strong-Small:0|t'
 	-- '|TInterface\\PetBattles\\BattleBar-AbilityBadge-Weak-Small:0|t'
 	-- http://wowinterface.com/downloads/info22536
@@ -166,6 +167,9 @@ function TopFit:AddComparisonTooltipLines(tooltip, itemLink)
 	if not tooltip or not itemLink then return end
 	if not tokenCache[tooltip] then tokenCache[tooltip] = {} end
 
+	local itemTable = TopFit:GetCachedItem(itemLink)
+	if not itemTable or itemTable.itemEquipLoc == 'INVTYPE_BAG' then return end
+
 	local cache = tokenCache[tooltip]
 	if cache.itemLink ~= itemLink then
 		for set, data in pairs(cache) do
@@ -175,9 +179,6 @@ function TopFit:AddComparisonTooltipLines(tooltip, itemLink)
 		end
 		cache.itemLink = itemLink
 	end
-
-	local itemTable = TopFit:GetCachedItem(itemLink)
-	if not itemTable then return end
 
 	local hasData = false
 	for _, setCode in pairs(ns.GetSetList()) do
