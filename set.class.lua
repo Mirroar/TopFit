@@ -105,11 +105,11 @@ function Set.CreateFromSavedVariables(savedVariables, writable)
 	if savedVariables.simulateTitansGrip then
 		setInstance:ForceTitansGrip(true)
 	end
-	if not savedVariables.excludeFromTooltip then
-		setInstance:SetDisplayInTooltip(true)
-	end
 	if savedVariables.forceArmorType then
 		setInstance:SetForceArmorType(true)
+	end
+	if savedVariables.excludeFromTooltip then
+		setInstance:SetDisplayInTooltip(false)
 	end
 	if savedVariables.skipVirtualItems then
 		setInstance:SetUseVirtualItems(false)
