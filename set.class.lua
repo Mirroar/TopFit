@@ -232,7 +232,7 @@ end
 function Set:GetStatWeight(stat)
 	self.AssertArgumentType(stat, 'string')
 
-	return self.weights[stat]
+	return self.weights[stat] or 0
 end
 
 --- Get a list of all configured stat weights and their values, keyed by stat.
