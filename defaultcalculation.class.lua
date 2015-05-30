@@ -103,7 +103,7 @@ end
 --- choose the next current item for the given slot while making sure it's a valid choice
 function DefaultCalculation:ChooseNextItem(slotID)
 	local currentItems = self:GetItems(slotID)
-	if #currentItems > 0 then
+	if items and #currentItems > 0 then
 		self.slotCounters[slotID] = self.slotCounters[slotID] + 1
 		while self.slotCounters[slotID] <= #currentItems and (self:IsDuplicateItem(slotID) or self:UniquenessViolated(slotID) or (not self:IsOffhandValid(slotID))) do
 			self.slotCounters[slotID] = self.slotCounters[slotID] + 1
