@@ -133,6 +133,9 @@ local function createMockItem(base)
 	if not base.itemMinLevel then
 		base.itemMinLevel = 1
 	end
+	if not base.itemLevel then
+		base.itemLevel = 500
+	end
 	if not base.itemEquipLoc then
 		base.itemEquipLoc = "INVTYPE_FOO"
 	end

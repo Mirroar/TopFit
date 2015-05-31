@@ -610,6 +610,7 @@ function Set:GetItemScore(item, useRaw)
 			end
 		end
 
+		-- TODO: don't actually do this here, this is the job of the optimizer plugin
 		-- dirty quick fix for socket raw values
 		if itemTable.itemLevel >= 500 and itemTable.itemBonus['EMPTY_SOCKET_PRISMATIC'] then
 			-- TODO: consider gem min item level requirements
