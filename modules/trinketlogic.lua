@@ -54,10 +54,6 @@ local function FindSpecialBonus(effectText, ...)
 			cooldown = 60 / (cooldown:match('([0-9.]+)') * 1)
 			effectText = effectText:gsub(procsPerMinute, '')
 			-- print('cooldown: ppm', cooldown)
-		else
-			-- cooldown within main description
-			cooldown = (effectText:match(durMin) or 0) * 60 + (effectText:match(durSec) or 0) * 1
-			-- print('cooldown: misc', cooldown)
 		end
 	end
 
@@ -65,6 +61,13 @@ local function FindSpecialBonus(effectText, ...)
 	local duration = tonumber(string.match(effectText, durSec) or 0)
 	if duration > 0 then
 		effectText = effectText:gsub(durSec, '', 1)
+		if not cooldown then
+			-- cooldown within main description
+			local min, sec = effectText:match(durMin) or 0, effectText:match(durSec) or 0
+			if min == 0 and sec == 0 then min = 1 end
+			cooldown = min * 60 + sec * 1
+			-- print('cooldown: misc', cooldown)
+		end
 	end
 
 	-- stat amount

@@ -393,7 +393,6 @@ function TopFit:GetItemInfoTable(item)
 	local procUptime = 0.5
 	local searchStat, amount, duration, cooldown = TopFit:ItemHasSpecialBonus(itemLink, unpack(TopFit.allStatsInATable))
 	if searchStat and amount and amount > 0 then
-		if not cooldown or cooldown <= 0 then cooldown = 45 end
 		procBonus[searchStat] = procUptime * amount * duration / cooldown
 	end
 
