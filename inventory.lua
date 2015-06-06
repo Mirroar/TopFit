@@ -872,7 +872,7 @@ local partnerSlots = {
 }
 hooksecurefunc('GetInventoryItemsForSlot', function(inventorySlot, useTable, transmog)
 	-- transmog: "transmogrify"|nil
-	if UnitLevel('player') >= _G.MAX_PLAYER_LEVEL then return end
+	if transmog or UnitLevel('player') >= _G.MAX_PLAYER_LEVEL then return end
 	-- scan equipped items
 	AddEquippableItem(useTable, inventorySlot)
 	if partnerSlots[inventorySlot] then
