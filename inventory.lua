@@ -764,29 +764,29 @@ end
 --  Add missing items to Blizzard's GetInventoryItemsForSlot
 -- --------------------------------------------------------
 local equipLocation = {
-	INVTYPE_HEAD            =  1,
-	INVTYPE_NECK            =  2,
-	INVTYPE_SHOULDER        =  3,
-	INVTYPE_BODY            =  4,
-	INVTYPE_CHEST           =  5,
-	INVTYPE_ROBE            =  5,
-	INVTYPE_WAIST           =  6,
-	INVTYPE_LEGS            =  7,
-	INVTYPE_FEET            =  8,
-	INVTYPE_WRIST           =  9,
-	INVTYPE_HAND            = 10,
-	INVTYPE_FINGER          = 11,
-	INVTYPE_TRINKET         = 13,
-	INVTYPE_CLOAK           = 15,
-	INVTYPE_WEAPON          = 16,
-	INVTYPE_SHIELD          = 17,
-	INVTYPE_2HWEAPON        = 16,
-	INVTYPE_RANGED          = 16,
-	INVTYPE_RANGEDRIGHT     = 16,
-	INVTYPE_WEAPONMAINHAND  = 16,
-	INVTYPE_WEAPONOFFHAND   = 17,
-	INVTYPE_HOLDABLE        = 17,
-	INVTYPE_TABARD          = 19,
+	['INVTYPE_HEAD']            =  1,
+	['INVTYPE_NECK']            =  2,
+	['INVTYPE_SHOULDER']        =  3,
+	['INVTYPE_BODY']            =  4,
+	['INVTYPE_CHEST']           =  5,
+	['INVTYPE_ROBE']            =  5,
+	['INVTYPE_WAIST']           =  6,
+	['INVTYPE_LEGS']            =  7,
+	['INVTYPE_FEET']            =  8,
+	['INVTYPE_WRIST']           =  9,
+	['INVTYPE_HAND']            = 10,
+	['INVTYPE_FINGER']          = 11,
+	['INVTYPE_TRINKET']         = 13,
+	['INVTYPE_CLOAK']           = 15,
+	['INVTYPE_WEAPON']          = 16,
+	['INVTYPE_SHIELD']          = 17,
+	['INVTYPE_2HWEAPON']        = 16,
+	['INVTYPE_RANGED']          = 16,
+	['INVTYPE_RANGEDRIGHT']     = 16,
+	['INVTYPE_WEAPONMAINHAND']  = 16,
+	['INVTYPE_WEAPONOFFHAND']   = 17,
+	['INVTYPE_HOLDABLE']        = 17,
+	['INVTYPE_TABARD']          = 19,
 }
 local equippableCache = {}
 local function PassesTooltipRequirements(link)
@@ -828,6 +828,9 @@ local function AddEquippableItem(useTable, inventorySlot, container, slot)
 		link   = GetContainerItemLink(container, slot)
 	end
 
+	-- even when there's an id, without the link we can't do anything
+	if not link then return end
+
 	local _, _, _, _, _, _, subClass, _, equipSlot = GetItemInfo(link or '')
 	if not container and slot == 16 or slot == 17 then
 		-- not all partner slots are interchangable, e.g. mh/shield
@@ -843,19 +846,17 @@ local function AddEquippableItem(useTable, inventorySlot, container, slot)
 		end
 	end
 
-	if not link then return end -- even when there's an id, without the link we can't do anything
-
-	local isBags   = container and container >= _G.BACKPACK_CONTAINER and container <= _G.NUM_BAG_SLOTS+_G.NUM_BANKBAGSLOTS
 	local isBank   = container and container == _G.BANK_CONTAINER or (isBags and container > _G.NUM_BAG_SLOTS)
+	local isBags   = container and container >= _G.BACKPACK_CONTAINER and container <= _G.NUM_BAG_SLOTS+_G.NUM_BANKBAGSLOTS
 	local isPlayer = not isBank
-	if not isBags then container = nil end
+	if isPlayer and not isBags then container = nil end
 
 	local location = ns.ItemLocations:PackInventoryLocation(container, slot, isPlayer, isBank, isBags)
 
 	if inventorySlot == 14 then inventorySlot = 13 end -- trinket
 	if inventorySlot == 12 then inventorySlot = 11 end -- ring
 	-- maybe also use IsUsableItem()?
-	if not useTable[location] and equipLocation[equipSlot] == inventorySlot
+	if not useTable[location] and equipLocation[equipSlot] and equipLocation[equipSlot] == inventorySlot
 		and not ns.Unfit:IsClassUnusable(subClass, equipSlot) and PassesTooltipRequirements(link) then
 		useTable[location] = itemID
 	end
@@ -871,7 +872,7 @@ local partnerSlots = {
 }
 hooksecurefunc('GetInventoryItemsForSlot', function(inventorySlot, useTable, transmog)
 	-- transmog: "transmogrify"|nil
-	if transmog or UnitLevel('player') >= _G.MAX_PLAYER_LEVEL then return end
+	if UnitLevel('player') >= _G.MAX_PLAYER_LEVEL then return end
 	-- scan equipped items
 	AddEquippableItem(useTable, inventorySlot)
 	if partnerSlots[inventorySlot] then
