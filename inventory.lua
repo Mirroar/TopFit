@@ -760,7 +760,6 @@ function TopFit:IsOnehandedWeapon(set, item)
 	return set:IsOnehandedWeapon(item)
 end
 
-
 -- --------------------------------------------------------
 --  Add missing items to Blizzard's GetInventoryItemsForSlot
 -- --------------------------------------------------------
@@ -871,7 +870,8 @@ local partnerSlots = {
 	[17] = 16,
 }
 hooksecurefunc('GetInventoryItemsForSlot', function(inventorySlot, useTable, transmog)
-	if UnitLevel('player') >= MAX_PLAYER_LEVEL_TABLE[#MAX_PLAYER_LEVEL_TABLE] then return end
+	-- transmog: "transmogrify"|nil
+	if transmog or UnitLevel('player') >= _G.MAX_PLAYER_LEVEL then return end
 	-- scan equipped items
 	AddEquippableItem(useTable, inventorySlot)
 	if partnerSlots[inventorySlot] then
