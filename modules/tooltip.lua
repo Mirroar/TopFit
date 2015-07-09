@@ -248,8 +248,7 @@ function TopFit:AddTooltipItemComparisonForSet(tooltip, set, itemTable)
 	tooltip:AddDoubleLine(left, right)
 end
 
-local function OnTooltipSetItem(self)
-	local _, link = self:GetItem()
+local function AddItemComparison(self, link)
 	local equipSlot = link and select(9, GetItemInfo(link))
 	if equipSlot and equipSlot ~= 'INVTYPE_BAG'
 		and IsEquippableItem(link) and not ns.Unfit:IsItemUnusable(link) then
@@ -258,9 +257,22 @@ local function OnTooltipSetItem(self)
 			TopFit:AddComparisonTooltipLines(self, link)
 		end
 	end
+	self:Show()
+end
+
+local function OnTooltipSetItem(self)
+	local _, link = self:GetItem()
+	AddItemComparison(self, link)
+end
+
+local function OnTooltipSetQuestItem(self, itemType, index)
+	local link = GetQuestLogItemLink(itemType, index)
+	AddItemComparison(self, link)
 end
 
 -- hook all tooltips that interest us
 for _, tooltip in pairs({GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2}) do
 	tooltip:HookScript('OnTooltipSetItem', OnTooltipSetItem)
+	hooksecurefunc(tooltip, 'SetQuestLogItem', OnTooltipSetQuestItem)
+	hooksecurefunc(tooltip, 'SetQuestItem', OnTooltipSetQuestItem)
 end
