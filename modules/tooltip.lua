@@ -266,6 +266,11 @@ local function OnTooltipSetItem(self)
 end
 
 local function OnTooltipSetQuestItem(self, itemType, index)
+	local link = GetQuestItemLink(itemType, index)
+	AddItemComparison(self, link)
+end
+
+local function OnTooltipSetQuestLogItem(self, itemType, index)
 	local link = GetQuestLogItemLink(itemType, index)
 	AddItemComparison(self, link)
 end
@@ -273,6 +278,6 @@ end
 -- hook all tooltips that interest us
 for _, tooltip in pairs({GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2}) do
 	tooltip:HookScript('OnTooltipSetItem', OnTooltipSetItem)
-	hooksecurefunc(tooltip, 'SetQuestLogItem', OnTooltipSetQuestItem)
+	hooksecurefunc(tooltip, 'SetQuestLogItem', OnTooltipSetQuestLogItem)
 	hooksecurefunc(tooltip, 'SetQuestItem', OnTooltipSetQuestItem)
 end
