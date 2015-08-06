@@ -375,6 +375,20 @@ function ns.GetCurrentAutoEquipSet(useGlobalInstance)
 	end
 end
 
+-- takes itemID, itemTable or any value accepted by GetItemInfo and returns its itemID
+function ns.GetItemID(item)
+	local sourceType = type(item)
+	if sourceType == 'number' then
+		return item
+	elseif sourceType == 'table' then
+		return item.itemID
+	else
+		local itemLink = select(2, GetItemInfo(item)) or item
+		local itemID = itemLink:match('item:(%d+)')
+		return tonumber(itemID)
+	end
+end
+
 -----------------------------------------------------
 -- hook system
 -----------------------------------------------------
