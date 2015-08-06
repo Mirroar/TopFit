@@ -331,16 +331,13 @@ local function UpdateForcedSlotIndicator(slotButton)
 	local set = ns.GetSetByID(ns.selectedSet, true)
 	set:GetForcedItems(slotID, forcedItemsInSlot)
 
-	local indicator = _G[slotButton:GetName() .. "ForcedItemIndicator"]
+	local indicator = _G[slotButton:GetName() .. 'ForcedItemIndicator']
 	if #forcedItemsInSlot > 0 then
 		if not indicator then
-			indicator = CreateFrame("Frame", "$parentForcedItemIndicator", slotButton)
-			indicator:SetPoint("BOTTOMLEFT", -2, 0)
+			indicator = slotButton:CreateTexture('$parentForcedItemIndicator', 'OVERLAY')
+			indicator:SetPoint('BOTTOMLEFT', -2, 0)
 			indicator:SetSize(14, 14)
-			local tex = indicator:CreateTexture()
-			tex:SetDrawLayer("OVERLAY")
-			tex:SetTexture("Interface\\PetBattles\\PetBattle-LockIcon") -- "Interface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon"
-			tex:SetAllPoints()
+			indicator:SetTexture('Interface\\PetBattles\\PetBattle-LockIcon')
 		end
 		indicator:Show()
 	elseif indicator then
@@ -356,6 +353,20 @@ end)
 -- ----------------------------------------------
 -- item flyout forcing
 -- ----------------------------------------------
+local function ToggleFlyoutItemForced(self, btn)
+	clickSound(self)
+	local flyoutButton = self:GetParent()
+	local set = ns.GetSetByID(ns.selectedSet, true)
+	if self:GetChecked() then
+		set:ForceItem(flyoutButton.id, flyoutButton.TopFitItemID)
+	else
+		set:UnforceItem(flyoutButton.id, flyoutButton.TopFitItemID)
+	end
+
+	local _, paperDollItemSlot = flyoutButton:GetParent():GetParent():GetPoint()
+	UpdateForcedSlotIndicator(paperDollItemSlot)
+end
+
 local tekCheck = LibStub("tekKonfig-Checkbox")
 local function CreateFlyoutCheckBox(itemButton)
 	local button = tekCheck.new(itemButton, 20, "", "BOTTOMLEFT", -4, -4)
@@ -363,19 +374,7 @@ local function CreateFlyoutCheckBox(itemButton)
 	button.tiptext = ns.locale.FlyoutTooltip -- [TODO] inform user when checkbox displayed for current item?
 
 	local clickSound = button:GetScript("OnClick")
-	button:SetScript("OnClick", function(self, btn)
-		clickSound(self)
-		local flyoutButton = self:GetParent()
-		local set = ns.GetSetByID(ns.selectedSet, true)
-		if self:GetChecked() then
-			set:ForceItem(flyoutButton.id, flyoutButton.TopFitItemID)
-		else
-			set:UnforceItem(flyoutButton.id, flyoutButton.TopFitItemID)
-		end
-
-		local _, paperDollItemSlot = flyoutButton:GetParent():GetParent():GetPoint()
-		UpdateForcedSlotIndicator(paperDollItemSlot)
-	end)
+	button:SetScript("OnClick", ToggleFlyoutItemForced)
 
 	itemButton.TopFitCheckBox = button
 	return button
