@@ -340,6 +340,11 @@ local function UpdateForcedSlotIndicator(slotButton)
 			indicator:SetTexture('Interface\\PetBattles\\PetBattle-LockIcon')
 		end
 		indicator:Show()
+
+		-- indicate if item does not match force restrictions/is unavailable
+		local item = set:GetItemInSlot(slotID)
+		local isValid = item and GetItemCount(item) and set:IsForcedItem(item, slotID)
+		indicator:SetVertexColor(1, isValid and 1 or 0, isValid and 1 or 0, 1)
 	elseif indicator then
 		indicator:Hide()
 	end
