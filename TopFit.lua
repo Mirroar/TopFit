@@ -382,7 +382,7 @@ function ns.GetItemID(item)
 		return item
 	elseif sourceType == 'table' then
 		return item.itemID
-	else
+	elseif item then
 		local itemLink = select(2, GetItemInfo(item)) or item
 		local itemID = itemLink:match('item:(%d+)')
 		return tonumber(itemID)
