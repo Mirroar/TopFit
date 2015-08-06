@@ -344,11 +344,21 @@ local function UpdateForcedSlotIndicator(slotButton)
 		indicator:Hide()
 	end
 end
-hooksecurefunc("PaperDollItemSlotButton_OnShow", function(self, isBag)
-	if not isBag then
-		UpdateForcedSlotIndicator(self)
+
+local paperDollItemButtons = {}
+for _, button in pairs({ PaperDollItemsFrame:GetChildren() }) do
+	local slotID = button.GetID and button:GetID() or nil
+	if slotID then
+		paperDollItemButtons[slotID] = button
 	end
-end)
+end
+function ui.UpdateForcedSlotIndicators(slot)
+	for slotID, slotButton in pairs(paperDollItemButtons) do
+		if not slot or slot == slotID then
+			UpdateForcedSlotIndicator(slotButton)
+		end
+	end
+end
 
 -- ----------------------------------------------
 -- item flyout forcing

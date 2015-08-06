@@ -302,7 +302,8 @@ function ns:SetSelectedSet(setID)
 		end
 	end
 
-	ns.ui.Update(true)
+	ns.ui.UpdateForcedSlotIndicators() -- character frame ui
+	ns.ui.Update(true) -- topfit frame ui
 end
 
 -- get a list of all set IDs in the database
