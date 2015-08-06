@@ -369,7 +369,6 @@ end
 -- item flyout forcing
 -- ----------------------------------------------
 local function ToggleFlyoutItemForced(self, btn)
-	clickSound(self)
 	local flyoutButton = self:GetParent()
 	local set = ns.GetSetByID(ns.selectedSet, true)
 	if self:GetChecked() then
@@ -387,9 +386,7 @@ local function CreateFlyoutCheckBox(itemButton)
 	local button = tekCheck.new(itemButton, 20, "", "BOTTOMLEFT", -4, -4)
 	button:SetHitRectInsets(0, 0, 0, 0)
 	button.tiptext = ns.locale.FlyoutTooltip -- [TODO] inform user when checkbox displayed for current item?
-
-	local clickSound = button:GetScript("OnClick")
-	button:SetScript("OnClick", ToggleFlyoutItemForced)
+	button:HookScript("OnClick", ToggleFlyoutItemForced)
 
 	itemButton.TopFitCheckBox = button
 	return button
