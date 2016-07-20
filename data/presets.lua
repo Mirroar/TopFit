@@ -1194,7 +1194,7 @@ ns.presets = {
 }
 
 -- add some universal stats to every spec at very low scores for leveling if character is low level
-if UnitLevel('player') < MAX_PLAYER_LEVEL_TABLE[EXPANSION_LEVEL_CLASSIC] then
+if UnitLevel('player') < _G.MAX_PLAYER_LEVEL_TABLE[_G.LE_EXPANSION_CLASSIC] then
 	for class, presets in pairs(ns.presets) do
 		for _, preset in pairs(presets) do
 			preset.weights.RESISTANCE0_NAME = preset.weights.RESISTANCE0_NAME or 0.001
