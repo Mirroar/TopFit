@@ -200,7 +200,7 @@ function TopFit:GetItemInfoTable(item)
 			-- go through our stats to find the bonus
 			for _, sTable in pairs(TopFit.statList) do
 				for _, statCode in pairs(sTable) do
-					if (string.find(socketBonus, _G[statCode])) then -- simple short stat codes like "Intellect", "Hit Rating"
+					if _G[statCode] and (string.find(socketBonus, _G[statCode])) then -- simple short stat codes like "Intellect", "Hit Rating"
 						local bonusValue = string.gsub(socketBonus, _G[statCode], "")
 
 						bonusValue = (tonumber(bonusValue) or 0)
