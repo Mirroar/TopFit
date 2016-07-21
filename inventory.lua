@@ -661,28 +661,6 @@ function TopFit:GetEquippableItems(requestedSlotID)
 					tinsertonce(availableSlots[availableItemID], slotID)
 				end
 			end
-
-			-- special handling for plate heirlooms
-			if (TopFit.heirloomInfo.isPlateWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
-				for i = 1, #(TopFit.heirloomInfo.plateHeirlooms[slotID]) do
-					if (not availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]]) then
-						availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]] = { slotID }
-					else
-						tinsertonce(availableSlots[TopFit.heirloomInfo.plateHeirlooms[slotID][i]], slotID)
-					end
-				end
-			end
-
-			-- special handling for mail heirlooms
-			if (TopFit.heirloomInfo.isMailWearer and (slotID == 3 or slotID == 5) and UnitLevel("player") < 40) then
-				for i = 1, #(TopFit.heirloomInfo.mailHeirlooms[slotID]) do
-					if (not availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]]) then
-						availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]] = { slotID }
-					else
-						tinsertonce(availableSlots[TopFit.heirloomInfo.mailHeirlooms[slotID][i]], slotID)
-					end
-				end
-			end
 		end
 	end
 

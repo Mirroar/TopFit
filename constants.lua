@@ -14,25 +14,6 @@ TOPFIT_SECONDARY_PERCENT   = ns.locale.SecondaryPercentBonus
 TOPFIT_ITEM_MOD_MAINHAND = _G.INVTYPE_WEAPONMAINHAND
 TOPFIT_ITEM_MOD_OFFHAND  = _G.INVTYPE_WEAPONOFFHAND
 
--- heirloom info
-local _, playerClass = UnitClass('player')
--- tables of itemIDs for heirlooms which change armor type
--- 1: head, 3: shoulder, 5: chest
-ns.heirloomInfo = {
-	plateHeirlooms = {
-		[1] = {69887, 61931},
-		[3] = {42949, 44100, 44099, 69890},
-		[5] = {48685, 69889},
-	},
-	mailHeirlooms = {
-		[1] = {61936, 61935},
-		[3] = {44102, 42950, 42951, 44101},
-		[5] = {48677, 48683},
-	},
-	isPlateWearer = playerClass == 'WARRIOR' or playerClass == 'PALADIN' or playerClass == 'DEATHKNIGHT',
-	isMailWearer  = playerClass == 'SHAMAN' or playerClass == 'HUNTER'
-}
-
 -- list of inventory slot names
 ns.slotList = {
 	--"AmmoSlot",
