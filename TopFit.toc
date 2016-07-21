@@ -58,7 +58,7 @@ data\enchants.manual.lua
 data\presets.lua
 
 # files below are should not be included in a release version
-modules\optimizerplugin.class.lua
+#modules\optimizerplugin.class.lua
 modules\itemstatsplugin.class.lua
 modules\builder.lua
 

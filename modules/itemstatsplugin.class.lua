@@ -64,65 +64,83 @@ function ItemStatsPlugin:SetActiveItem(itemLink)
 
 	self.currentItem = item
 
+	local statOrder = {}
+
 	-- display item's stats
 	local panel = self:GetConfigPanel()
-	local statCategories = {'itemBonus', 'procBonus', 'reforgeBonus', 'gemBonus', 'enchantBonus', 'totalBonus'}
-	if not self.statFrames then self.statFrames = {} end
-	for frameNum, category in ipairs(statCategories) do
-		-- get a container for stats of this category
-		if not self.statFrames[category] then
-			local frame = CreateFrame("Frame", "$parent"..category.."StatFrame", panel)
-			self.statFrames[category] = frame
+	local statCategories = {
+		{'itemBonus', ''},
+		{'procBonus', ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_COMMON].hex},
+		{'reforgeBonus', ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_UNCOMMON].hex},
+		{'gemBonus', ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_RARE].hex},
+		{'enchantBonus', ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_EPIC].hex},
+		-- {'totalBonus', 'Total '},
+	}
 
+	if not self.statFrames then self.statFrames = {} end
+	for categoryIndex, categoryInfo in ipairs(statCategories) do
+		local category, prefix = unpack(categoryInfo)
+
+		-- get a container for stats of this category
+		local frame = self.statFrames[category]
+		if not frame then
+			frame = CreateFrame("Frame", "$parent"..category.."StatFrame", panel)
+			frame:SetSize(panel:GetWidth(), 1)
 			frame.statNames = {}
 			frame.statValues = {}
 
-			if frameNum == 1 then
-				-- anchor to panel
-				frame:SetPoint("TOPLEFT", panel, "TOPLEFT")
-				frame:SetPoint("TOPRIGHT", panel, "TOPRIGHT")
-			else
-				-- anchor to previous frame
-				frame:SetPoint("TOPLEFT", self.statFrames[statCategories[frameNum - 1]], "BOTTOMLEFT")
-				frame:SetPoint("TOPRIGHT", self.statFrames[statCategories[frameNum - 1]], "BOTTOMRIGHT")
-			end
+			local anchor = categoryIndex == 1 and panel
+				or self.statFrames[statCategories[categoryIndex - 1][1]]
+			local anchorPoint = categoryIndex == 1 and "TOPLEFT" or "BOTTOMLEFT"
+			frame:SetPoint("TOPLEFT", anchor, anchorPoint)
+			frame:Hide()
+			self.statFrames[category] = frame
 		end
-		local frame = self.statFrames[category]
 
 		-- collect and display current stats
-		local statCount = 0
 		local lineHeight = 20
 		if item[category] then
-			for stat, value in pairs(item[category]) do
-				statCount = statCount + 1
-
-				-- get the controls for this stat
-				if #frame.statNames < statCount then
-					local nameText = panel:CreateFontString("$parentNameText"..statCount, "ARTWORK", "GameFontNormal")
-					tinsert(frame.statNames, nameText)
-					nameText:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, lineHeight * (statCount - 1) * -1)
-
-					local valueText = panel:CreateFontString("$parentNameText"..statCount, "ARTWORK", "GameFontNormal")
-					tinsert(frame.statValues, valueText)
-					valueText:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, lineHeight * (statCount - 1) * -1)
-				end
-				local nameText = frame.statNames[statCount]
-				local valueText = frame.statValues[statCount]
-				nameText:Show()
-				nameText:SetText(_G[stat] or stat)
-				valueText:Show()
-				valueText:SetText(value)
+			-- Use a consistent stat order.
+			wipe(statOrder)
+			for stat in pairs(item[category]) do
+				table.insert(statOrder, stat)
 			end
+			table.sort(statOrder)
 
-			-- hide unused elements
-			for i = statCount + 1, #frame.statNames do
-				frame.statNames[i]:Hide()
-				frame.statValues[i]:Hide()
+			if #statOrder > 0 then
+				for statIndex, stat in ipairs(statOrder) do
+					local value = item[category][stat]
+
+					-- get the controls for this stat
+					if #frame.statNames < statIndex then
+						local yOffset = -1 *lineHeight * (statIndex - 1)
+						local nameText = frame:CreateFontString("$parentNameText"..statIndex, "ARTWORK", "GameFontNormal")
+						nameText:SetPoint("TOPLEFT", "$parent", "TOPLEFT", 0, yOffset)
+						tinsert(frame.statNames, nameText)
+
+						local valueText = frame:CreateFontString("$parentNameText"..statIndex, "ARTWORK", "GameFontNormal")
+						valueText:SetPoint("TOPRIGHT", "$parent", "TOPRIGHT", 0, yOffset)
+						tinsert(frame.statValues, valueText)
+					end
+					local nameText = frame.statNames[statIndex]
+					nameText:SetText(prefix .. (_G[stat] or stat))
+					nameText:Show()
+
+					local valueText = frame.statValues[statIndex]
+					valueText:SetText(value)
+					valueText:Show()
+				end
+
+				-- hide unused elements
+				for i = #statOrder + 1, #frame.statNames do
+					frame.statNames[i]:Hide()
+					frame.statValues[i]:Hide()
+				end
+
+				frame:Show()
+				frame:SetHeight(#statOrder * lineHeight)
 			end
 		end
-
-		frame:Show()
-		frame:SetHeight(0.01 + statCount * lineHeight)
 	end
 end
 
@@ -151,7 +169,4 @@ function ItemStatsPlugin:OnShow()
 		SetItemButtonTexture(self.itemButton, "Interface\\PaperDoll\\UI-PaperDoll-Slot-Bag")
 		self.itemButton.itemLink = nil
 	end
-
-
-	print("Item Stats!")
 end

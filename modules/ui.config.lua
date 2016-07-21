@@ -153,7 +153,7 @@ function ui.GetSidebarButton(index)
 		if index == 1 then
 			button:SetPoint("TOPLEFT", 6, -65) -- -56
 		else
-			button:SetPoint("TOP", "$parentSpecButton"..(index-1), "BOTTOM", 0, -10)
+			button:SetPoint("TOP", "$parentSpecButton"..(index-1), "BOTTOM", 0, -16)
 		end
 
 		button.roleIcon:Hide()
