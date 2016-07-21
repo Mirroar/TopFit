@@ -154,7 +154,7 @@ function WeightsPlugin:SetStatLine(i, stat, value, capValue)
 		if i%2 ~= 0 then
 			-- statLine:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"})
 			local bgTex = statLine:CreateTexture(nil, "BACKGROUND")
-				  bgTex:SetTexture(1, 1, 1, 0.15)
+				  bgTex:SetColorTexture(1, 1, 1, 0.15)
 				  bgTex:SetHorizTile(true)
 				  bgTex:SetVertTile(true)
 				  bgTex:SetAllPoints()
