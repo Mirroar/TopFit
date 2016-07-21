@@ -257,7 +257,7 @@ end
 function ns:CreateEquipmentManagerSet(set)
 	if (CanUseEquipmentSets()) then
 		local setName = ns:GenerateSetName(set:GetName())
-		local texture = set:GetIconTexture():gsub("Interface\\Icons\\", "")
+		local texture = set:GetIconTexture(true)
 
 		ns:Debug("Trying to create set: "..setName..", "..(texture or "nil"))
 		SaveEquipmentSet(setName, texture)

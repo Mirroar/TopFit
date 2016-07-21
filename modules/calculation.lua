@@ -260,19 +260,7 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 		end
 
 		-- save equipment set
-		if (CanUseEquipmentSets()) then
-			local texture
-			local setName = set:GetEquipmentSetName()
-			-- check if a set with this name exists
-			if (GetEquipmentSetInfoByName(setName)) then
-				texture = GetEquipmentSetInfoByName(setName)
-			else
-				texture = "Spell_Holy_EmpowerChampion"
-			end
-
-			TopFit:Debug("Trying to save set: "..setName..", "..(texture or "nil"))
-			SaveEquipmentSet(setName, texture)
-		end
+		ns:CreateEquipmentManagerSet(set)
 
 		-- we are done with this set
 		TopFit.isBlocked = false

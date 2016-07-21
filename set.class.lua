@@ -149,18 +149,26 @@ function Set:GetName()
 end
 
 --- Get the set's icon texture used for its equipment set.
-function Set:GetIconTexture()
+function Set:GetIconTexture(onlyFile)
 	local icon = GetEquipmentSetInfoByName(self:GetEquipmentSetName())
-	if icon then
-		return "Interface\\Icons\\" .. icon
+	if not icon then
+		local spec = self:GetAssociatedSpec()
+		if spec then
+			icon = select(4, GetSpecializationInfoByID(spec))
+		end
+		icon = icon or "Spell_Holy_EmpowerChampion"
 	end
 
-	local spec = self:GetAssociatedSpec()
-	if spec then
-		icon = select(4, GetSpecializationInfoByID(spec))
-		icon = icon:gsub('[iI][nN][tT][eE][rR][fF][aA][cC][eE]\\[iI][cC][oO][nN][sS]\\', 'Interface\\Icons\\')
+	if type(icon) == "string" then
+		if icon:find("\\") then
+			if onlyFile then
+				icon = icon:gsub('[iI][nN][tT][eE][rR][fF][aA][cC][eE]\\[iI][cC][oO][nN][sS]\\', '')
+			end
+		elseif not onlyFile then
+			icon = "Interface\\Icons\\" .. icon
+		end
 	end
-	return icon or "Interface\\Icons\\Spell_Holy_EmpowerChampion"
+	return icon
 end
 
 --- Gets the name of the equipment manager set associated with this set.

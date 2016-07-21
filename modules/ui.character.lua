@@ -19,14 +19,13 @@ function ui.ShowRenameDialog()
 	popup.setID = ns.selectedSet
 
 	local name = set:GetName():sub(1, 12)
-	local tfSetName = set:GetEquipmentSetName()
-	local icon = GetEquipmentSetInfoByName(tfSetName)
+	local eqSetName = set:GetEquipmentSetName()
+	local icon = set:GetIconTexture(true)
 	if icon then
 		-- set exists, we're editing not creating
 		popup.isEdit = true
 		popup.origName = name
 	end
-
 	RecalculateGearManagerDialogPopup(name, icon)
 end
 function ui.InitializeGearManagerHooks()
@@ -36,8 +35,7 @@ function ui.InitializeGearManagerHooks()
 
 	hooksecurefunc("GearSetPopupButton_OnClick", function(self, button)
 		local popup = self:GetParent()
-		local texture = self:GetNormalTexture():GetTexture()
-		popup.setIconTexture = string.sub(texture or "", 17)
+		popup.setIconTexture = self:GetNormalTexture():GetTexture()
 	end)
 
 	hooksecurefunc("GearManagerDialogPopupOkay_OnClick", function(self, button, pushed)
@@ -50,13 +48,12 @@ function ui.InitializeGearManagerHooks()
 
 		if not newName then
 			-- new eq set was created
-			newName = GetEquipmentSetInfo( GetNumEquipmentSets() )
+			newName = GetEquipmentSetInfo(GetNumEquipmentSets())
 			eqSetName = newName
 		end
 
 		set:SetName(newName)
 		ModifyEquipmentSet(eqSetName, set:GetEquipmentSetName(), popup.setIconTexture)
-
 		ui.Update()
 	end)
 end
