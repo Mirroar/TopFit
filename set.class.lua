@@ -447,7 +447,10 @@ function Set:IsTitansGripForced()
 end
 
 -- check whether a weapon can be equipped in one hand (takes titan's grip into account)
-local POLEARMS, _, _, STAVES, _, _, _, _, _, WANDS, FISHINGPOLES = select(7, GetAuctionItemSubClasses(1))
+local POLEARMS = GetItemSubClassInfo(LE_ITEM_CLASS_WEAPON, LE_ITEM_WEAPON_POLEARM)
+local STAVES = GetItemSubClassInfo(LE_ITEM_CLASS_WEAPON, LE_ITEM_WEAPON_STAFF)
+local WANDS = GetItemSubClassInfo(LE_ITEM_CLASS_WEAPON, LE_ITEM_WEAPON_WAND)
+local FISHINGPOLES = GetItemSubClassInfo(LE_ITEM_CLASS_WEAPON, LE_ITEM_WEAPON_FISHINGPOLE)
 -- returns true:item is weapon wielded in one hand, false:item is weapon wielded in two hands, nil:no item/does not go in weapon slots
 function Set:IsOnehandedWeapon(item)
 	local itemTable = type(item) == 'table' and item or TopFit:GetCachedItem(item)

@@ -12,7 +12,7 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 -- GLOBALS: TopFit, TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE
 
 -- GLOBALS: _G, UIParent, MAX_PLAYER_LEVEL_TABLE, ITEM_BIND_ON_EQUIP, SPEED, MAX_NUM_SOCKETS
--- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, GetAuctionItemSubClasses, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetSpecialization
+-- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetSpecialization
 -- GLOBALS: string, math, select, pairs, tonumber, wipe, unpack
 
 local tinsert = table.insert
