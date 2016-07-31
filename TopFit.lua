@@ -42,6 +42,10 @@ function ns:OnEnable()
 	ns.Unfit = LibStub('Unfit-1.0')
 	ns.ItemLocations = LibStub('LibItemLocations')
 
+	-- cache tables
+	ns.itemsCache = {}
+	ns.scoresCache = {}
+
 	-- create gametooltip for scanning
 	ns.scanTooltip = CreateFrame('GameTooltip', addonName..'ScanTooltip', UIParent, 'GameTooltipTemplate')
 
@@ -77,10 +81,6 @@ function ns:OnEnable()
 
 	-- create options
 	ns:createOptions()
-
-	-- cache tables
-	ns.itemsCache = {}
-	ns.scoresCache = {}
 
 	-- table for equippable item list
 	ns.equippableItems = {}
