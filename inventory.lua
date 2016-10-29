@@ -687,9 +687,9 @@ function TopFit:GetEquippableItems(requestedSlotID)
 
 	-- check player's inventory
 	for _, invSlot in pairs(TopFit.slots) do
-		local itemID   = GetInventoryItemID("player", invSlot)
-		local itemLink = GetInventoryItemLink("player", invSlot)
+		local itemID = GetInventoryItemID("player", invSlot)
 		if itemID and availableSlots[itemID] then
+			local itemLink = GetInventoryItemLink("player", invSlot)
 			for _, slotID in pairs(availableSlots[itemID]) do
 				tinsert(itemListBySlot[slotID], {
 					itemLink = itemLink,
