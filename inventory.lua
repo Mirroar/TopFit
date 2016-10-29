@@ -640,19 +640,20 @@ end
 -- returns all equippable items, limited by slot, if given
 -- TODO: rewrite this complex of functions so available items are determined and then saved as part of a calculation, not globally
 local slotAvailableItems = {}
+local itemListBySlot = {}
+for slotID = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+	itemListBySlot[slotID] = {}
+end
+
 function TopFit:GetEquippableItems(requestedSlotID)
-	local itemListBySlot = {}
 	local availableSlots = {}
-	for i = 1, 20 do
-		--TODO: only initilize for IDs in ns.slotList
-		itemListBySlot[i] = {}
+	for slotID, items in pairs(itemListBySlot) do
+		wipe(items)
 	end
 
 	-- find available item ids for each slot
 	for slotName, slotID in pairs(TopFit.slots) do
 		if not requestedSlotID or requestedSlotID == slotID then
-			itemListBySlot[slotID] = {}
-
 			-- TODO/FIXME: this is duplicated by our blizz fix
 			wipe(slotAvailableItems)
 			GetInventoryItemsForSlot(slotID, slotAvailableItems)
