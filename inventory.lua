@@ -93,6 +93,9 @@ function TopFit:GetItemInfoTable(item)
 	local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(item)
 	if not itemLink then
 		return nil
+	elseif type(item) == 'string' then
+		-- Why does GetItemInfo return a DIFFERENT link from the called one?!
+		itemLink = item
 	end
 
 	-- generate item info
