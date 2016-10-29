@@ -502,10 +502,10 @@ function ns.ReduceItemList(set, itemList)
 	-- preprocess unique items - so we are able to remove items when uniqueness doesn't matter in the next step
 	-- step 1: sum up the number of unique items for each uniqueness family
 	local preprocessUniqueness = {}
-	for slotID, itemList in pairs(itemList) do
-		if #itemList > 1 then
-			for i = #itemList, 1, -1 do
-				local itemTable = TopFit:GetCachedItem(itemList[i].itemLink)
+	for slotID, slotItemList in pairs(itemList) do
+		if #slotItemList > 1 then
+			for i = #slotItemList, 1, -1 do
+				local itemTable = TopFit:GetCachedItem(slotItemList[i].itemLink)
 				if itemTable then
 					for stat, value in pairs(itemTable.totalBonus) do
 						if (string.sub(stat, 1, 8) == "UNIQUE: ") then
