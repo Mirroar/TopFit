@@ -102,6 +102,10 @@ function ns.GetItemCount(itemLink)
     return #(ns.GetItemLocations(itemLink))
 end
 
+function ns.PickupItemFromLocation(location)
+    return ItemLocations:PickupLocationItem(location)
+end
+
 --- Mark all current items as known again
 function ns.ResetNewItems()
     wipe(itemCountChanges)

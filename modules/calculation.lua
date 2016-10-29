@@ -175,57 +175,25 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 	if (TopFit.updateEquipmentCounter > 1) then
 		for slotID = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
 			local recItemLink = TopFit.itemRecommendations[slotID]
-			slotItemLink = GetInventoryItemLink("player", slotID)
-			if recItemLink and slotItemLink ~= recItemLink then
-				-- find itemLink in bags
-				--TODO: just use functions from itemlocations.lua
-				local itemTable = nil
-				local found = false
-				local foundBag, foundSlot
-				for bag = 0, 4 do
-					for slot = 1, GetContainerNumSlots(bag) do
-						local itemLink = GetContainerItemLink(bag,slot)
+			-- Only do something if the suggested item is not yet equipped.
+			if recItemLink and recItemLink ~= GetInventoryItemLink("player", slotID) then
+				local locations = TopFit.GetItemLocations(recItemLink)
 
-						if itemLink == recItemLink then
-							foundBag = bag
-							foundSlot = slot
-							found = true
-							break
-						end
-					end
+				-- Try to equip the item.
+				ClearCursor()
+				local hasItem = false
+				for _, location in ipairs(locations) do
+					hasItem = TopFit.PickupItemFromLocation(location)
+					if hasItem then break end
 				end
-
-				if not found then
-					-- try to find item in equipped items
-					for _, invSlot in pairs(TopFit.slots) do
-						local itemLink = GetInventoryItemLink("player", invSlot)
-
-						if itemLink == recItemLink then
-							foundBag = nil
-							foundSlot = invSlot
-							found = true
-							break
-						end
-					end
-				end
-
-				if not found then
+				if hasItem then
+					EquipCursorItem(slotID)
+				else
 					TopFit:Print(string.format(TopFit.locale.ErrorItemNotFound, recItemLink))
 					TopFit.itemRecommendations[slotID] = nil
-				else
-					-- try equipping the item again
-					--TODO: if we try to equip offhand, and mainhand is two-handed, and no titan's grip, unequip mainhand first
-					ClearCursor()
-					if foundBag then
-						PickupContainerItem(foundBag, foundSlot)
-					else
-						PickupInventoryItem(foundSlot)
-					end
-					EquipCursorItem(slotID)
 				end
 			end
 		end
-
 		TopFit.updateEquipmentCounter = 0
 		TopFit.equipRetries = TopFit.equipRetries + 1
 	end
