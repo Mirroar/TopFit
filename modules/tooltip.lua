@@ -266,6 +266,6 @@ local function OnTooltipSetItem(self)
 end
 
 -- hook all tooltips that interest us
-for _, tooltip in pairs({GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2}) do
+for _, tooltip in pairs({GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2, WorldMapTooltip.ItemTooltip.Tooltip}) do
 	tooltip:HookScript('OnTooltipSetItem', OnTooltipSetItem)
 end
