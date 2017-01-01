@@ -36,6 +36,13 @@ ns.enhancementWarnings = {
 	enchants = {},
 }
 
+local primaryStatMap = {
+	[LE_UNIT_STAT_STRENGTH] = 'ITEM_MOD_STRENGTH_SHORT',
+	[LE_UNIT_STAT_AGILITY] = 'ITEM_MOD_AGILITY_SHORT',
+	[LE_UNIT_STAT_STAMINA] = 'ITEM_MOD_STAMINA_SHORT',
+	[LE_UNIT_STAT_INTELLECT] = 'ITEM_MOD_INTELLECT_SHORT',
+}
+
 function TopFit:ClearCache()
 	TopFit.itemsCache = {}
 	TopFit.scoresCache = {}
@@ -99,8 +106,7 @@ function TopFit:GetItemInfoTable(item)
 	end
 
 	-- generate item info
-	local itemID = string.gsub(itemLink, ".*|Hitem:([0-9]*):.*", "%1")
-	itemID = tonumber(itemID)
+	local itemID = GetItemInfoInstant(itemLink)
 
 	local enchantID = string.gsub(itemLink, ".*|Hitem:[0-9]*:([0-9]*):.*", "%1")
 	enchantID = tonumber(enchantID)
@@ -278,25 +284,6 @@ function TopFit:GetItemInfoTable(item)
 		end
 	end
 
-	-- scan for currently inactive primary stats
-	for i = 1, numLines do
-		local leftLine = _G[tooltip:GetName()..'TextLeft'..i]
-		local textLeft = leftLine:GetText()
-		local start, _, amount, stat = string.find(textLeft, "^%+(%d*) (.*)")
-		if start then --and math.abs(_G[tooltip:GetName()..'TextLeft'..i]:GetTextColor() - GRAY_FONT_COLOR.r) < 0.01 then
-			local r, g, b = leftLine:GetTextColor()
-			if math.abs(GRAY_FONT_COLOR.r - r) < 0.01 and math.abs(GRAY_FONT_COLOR.g - g) < 0.01 and math.abs(GRAY_FONT_COLOR.b - b) < 0.01 then
-				if stat == ITEM_MOD_INTELLECT_SHORT then
-					itemBonus.ITEM_MOD_INTELLECT_SHORT = tonumber(amount)
-				elseif stat == ITEM_MOD_AGILITY_SHORT then
-					itemBonus.ITEM_MOD_AGILITY_SHORT = tonumber(amount)
-				elseif stat == ITEM_MOD_STRENGTH_SHORT then
-					itemBonus.ITEM_MOD_STRENGTH_SHORT = tonumber(amount)
-				end
-			end
-		end
-	end
-
 	-- add set name
 	if setName then
 		itemBonus["SET: "..setName] = 1
@@ -331,6 +318,40 @@ function TopFit:GetItemInfoTable(item)
 	local specs = GetItemSpecInfo(item)
 	if specs and #specs <= 0 then
 		specs = nil
+	end
+
+	-- Scan for currently inactive primary stats.
+	if specs then
+		local primaryStatValue
+		for statID, statName in pairs(primaryStatMap) do
+			primaryStatValue = primaryStatValue or itemBonus[statName]
+		end
+		for specIndex = 1, GetNumSpecializations() do
+			local specID, _, _, _, _, specRole, specPrimaryStat = GetSpecializationInfo(specIndex)
+			if tContains(specs, specID) then
+				itemBonus[primaryStatMap[specPrimaryStat]] = itemBonus[primaryStatMap[specPrimaryStat]] or primaryStatValue
+			end
+		end
+	else
+		-- Rely on tooltip scanning for grayed out lines.
+		-- TODO Can we remove this?
+		for i = 1, numLines do
+			local leftLine = _G[tooltip:GetName()..'TextLeft'..i]
+			local textLeft = leftLine:GetText()
+			local start, _, amount, stat = string.find(textLeft, "^%+(%d*) (.*)")
+			if start then --and math.abs(_G[tooltip:GetName()..'TextLeft'..i]:GetTextColor() - GRAY_FONT_COLOR.r) < 0.01 then
+				local r, g, b = leftLine:GetTextColor()
+				if math.abs(GRAY_FONT_COLOR.r - r) < 0.01 and math.abs(GRAY_FONT_COLOR.g - g) < 0.01 and math.abs(GRAY_FONT_COLOR.b - b) < 0.01 then
+					if stat == ITEM_MOD_INTELLECT_SHORT then
+						itemBonus.ITEM_MOD_INTELLECT_SHORT = tonumber(amount)
+					elseif stat == ITEM_MOD_AGILITY_SHORT then
+						itemBonus.ITEM_MOD_AGILITY_SHORT = tonumber(amount)
+					elseif stat == ITEM_MOD_STRENGTH_SHORT then
+						itemBonus.ITEM_MOD_STRENGTH_SHORT = tonumber(amount)
+					end
+				end
+			end
+		end
 	end
 
 	-- for weapons, add melee/ranged dps
