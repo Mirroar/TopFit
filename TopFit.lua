@@ -217,8 +217,7 @@ end
 
 function ns:ACTIVE_TALENT_GROUP_CHANGED(event, ...)
 	ns:ClearCache()
-	-- @todo This is now a core feature.
-	-- ns:AutoEquipSet()
+	ns:AutoEquipSet()
 end
 
 function ns:RunAutoUpdate(skipDelay)
@@ -250,8 +249,10 @@ function ns:AutoEquipSet()
 	local set, setID = ns.GetCurrentAutoEquipSet()
 	if setID then
 		ns:SetSelectedSet(setID)
-		local equipSet = set:GetEquipmentSetName()
-		C_EquipmentSet.UseEquipmentSet(equipSet)
+		-- @todo This is now a core feature.
+		local setName = set:GetEquipmentSetName()
+		local setID = C_EquipmentSet.GetEquipmentSetID(setName)
+		C_EquipmentSet.UseEquipmentSet(setID)
 	end
 end
 
