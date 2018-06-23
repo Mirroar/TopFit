@@ -9,7 +9,7 @@ _G[addonName] = ns
 
 -- GLOBALS: _G, LibStub, C_Timer, SLASH_TopFit1, SLASH_TopFit2, SLASH_TopFit3, GameTooltip, DEFAULT_CHAT_FRAME, UIParent, NUM_BAG_SLOTS, InterfaceOptionsFrame_OpenToCategory, CreateFrame, ToggleFrame
 -- GLOBALS: TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE, TOPFIT_ITEM_MOD_MAINHAND, TOPFIT_ITEM_MOD_OFFHAND
--- GLOBALS: GetEquipmentSetInfoByName, SaveEquipmentSet, GetRealmName, GetActiveSpecGroup, GetSpecializationInfo, CanUseEquipmentSets, UseEquipmentSet, IsEquippableItem, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, GetInventorySlotInfo
+-- GLOBALS: C_EquipmentSet, GetRealmName, GetActiveSpecGroup, GetSpecializationInfo, IsEquippableItem, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, GetInventorySlotInfo
 -- GLOBALS: setmetatable, getmetatable, type, pairs, assert, error, wipe, tinsert, next, select, tonumber, tContains
 
 --TODO: replace old ugly set_i set IDs with simple numbers - in profile.sets
@@ -217,7 +217,8 @@ end
 
 function ns:ACTIVE_TALENT_GROUP_CHANGED(event, ...)
 	ns:ClearCache()
-	ns:AutoEquipSet()
+	-- @todo This is now a core feature.
+	-- ns:AutoEquipSet()
 end
 
 function ns:RunAutoUpdate(skipDelay)
@@ -250,17 +251,17 @@ function ns:AutoEquipSet()
 	if setID then
 		ns:SetSelectedSet(setID)
 		local equipSet = set:GetEquipmentSetName()
-		UseEquipmentSet(equipSet)
+		C_EquipmentSet.UseEquipmentSet(equipSet)
 	end
 end
 
 function ns:CreateEquipmentManagerSet(set)
-	if (CanUseEquipmentSets()) then
+	if (C_EquipmentSet.CanUseEquipmentSets()) then
 		local setName = ns:GenerateSetName(set:GetName())
 		local texture = set:GetIconTexture(true)
 
 		ns:Debug("Trying to create set: "..setName..", "..(texture or "nil"))
-		SaveEquipmentSet(setName, texture)
+		C_EquipmentSet.CreateEquipmentSet(setName, texture)
 	end
 end
 

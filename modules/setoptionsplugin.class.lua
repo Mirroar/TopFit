@@ -149,7 +149,7 @@ function SetOptionsPlugin:InitializeUI()
 			-- list all specs
 			local doubleSpecID = ns:GetPlayerDoubleSpec()
 			for index = 1, GetNumSpecializations() do
-				local specID, name, _, icon, _, role = GetSpecializationInfo(index)
+				local specID, name, _, icon, role = GetSpecializationInfo(index)
 				info.text = name
 				info.value = specID
 				info.icon = icon

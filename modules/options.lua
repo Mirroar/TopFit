@@ -77,7 +77,7 @@ end
 
 function TopFit:AddSet(preset)
 	local i = 1
-	while  TopFit.db.profile.sets["set_"..i] do i = i + 1 end
+	while TopFit.db.profile.sets["set_"..i] do i = i + 1 end
 
 	local setName
 	local weights = {}
@@ -129,10 +129,7 @@ function TopFit:AddSet(preset)
 		set:SetAssociatedSpec(preset.specialization)
 	end
 
-	if not GetEquipmentSetInfoByName(ns:GenerateSetName(set:GetName())) then
-		TopFit:CreateEquipmentManagerSet(set)
-	end
-
+	TopFit:CreateEquipmentManagerSet(set)
 	TopFit:SetSelectedSet(setID)
 
 	return setID
@@ -153,8 +150,9 @@ function TopFit:DeleteSet(setCode)
 	local setName = set:GetEquipmentSetName()
 
 	-- remove from equipment manager
-	if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(setName)) then
-		DeleteEquipmentSet(setName)
+	local setID = C_EquipmentSet.CanUseEquipmentSets() and C_EquipmentSet.GetEquipmentSetID(setName)
+	if setID then
+		C_EquipmentSet.DeleteEquipmentSet(setID)
 	end
 
 	-- remove from saved variables
@@ -187,8 +185,9 @@ function TopFit:RenameSet(setCode, newName)
 	set:SetName(newName)
 
 	-- rename equipment set if it exists
-	if (CanUseEquipmentSets() and GetEquipmentSetInfoByName(oldSetName)) then
-		ModifyEquipmentSet(oldSetName, newSetName)
+	local setID = C_EquipmentSet.CanUseEquipmentSets() and C_EquipmentSet.GetEquipmentSetID(setName)
+	if setID then
+		C_EquipmentSet.ModifyEquipmentSet(setID, newName)
 	end
 
 	-- trigger UI update

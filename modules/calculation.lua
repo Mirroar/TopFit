@@ -1,7 +1,7 @@
 local addonName, ns, _ = ...
 
 -- GLOBALS: TopFit
--- GLOBALS: SaveEquipmentSet, GetProfessions, GetProfessionInfo, UnitClass, ClearCursor, EquipCursorItem, CanUseEquipmentSets, GetEquipmentSetInfoByName, EquipmentManagerClearIgnoredSlotsForSave, EquipmentManagerIgnoreSlotForSave, InCombatLockdown, UnitIsDeadOrGhost, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, PickupContainerItem, PickupInventoryItem
+-- GLOBALS: GetProfessions, GetProfessionInfo, UnitClass, ClearCursor, EquipCursorItem, EquipmentManagerClearIgnoredSlotsForSave, EquipmentManagerIgnoreSlotForSave, InCombatLockdown, UnitIsDeadOrGhost, GetContainerNumSlots, GetContainerItemLink, GetInventoryItemLink, PickupContainerItem, PickupInventoryItem
 -- GLOBALS: tremove, tinsert, select, wipe, pairs, math, string, strsplit, tonumber
 
 function ns:StartCalculations(setCode)

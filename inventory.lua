@@ -12,7 +12,7 @@ TopFit.scoresCache - scores, indexed by itemLink and setCode
 -- GLOBALS: TopFit, TOPFIT_ARMORTYPE_CLOTH, TOPFIT_ARMORTYPE_LEATHER, TOPFIT_ARMORTYPE_MAIL, TOPFIT_ARMORTYPE_PLATE
 
 -- GLOBALS: _G, UIParent, MAX_PLAYER_LEVEL_TABLE, ITEM_BIND_ON_EQUIP, SPEED, MAX_NUM_SOCKETS
--- GLOBALS: GetEquipmentSetLocations, EquipmentManager_UnpackLocation, GetEquipmentSetItemIDs, GetEquipmentSetInfo, GetNumEquipmentSets, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetSpecialization
+-- GLOBALS: C_EquipmentSet, EquipmentManager_UnpackLocation, UnitLevel, UnitClass, GetItemInfo, GetContainerNumSlots, GetContainerItemID, GetContainerItemLink, GetInventoryItemLink, GetItemStats, GetInventoryItemsForSlot, GetItemGem, GetSpecialization
 -- GLOBALS: string, math, select, pairs, tonumber, wipe, unpack
 
 local tinsert = table.insert
@@ -327,8 +327,8 @@ function TopFit:GetItemInfoTable(item)
 			primaryStatValue = primaryStatValue or itemBonus[statName]
 		end
 		for specIndex = 1, GetNumSpecializations() do
-			local specID, _, _, _, _, specRole, specPrimaryStat = GetSpecializationInfo(specIndex)
-			if tContains(specs, specID) then
+			local specID, _, _, _, specRole, specPrimaryStat = GetSpecializationInfo(specIndex)
+			if tContains(specs, specID) and primaryStatMap[specPrimaryStat] then
 				itemBonus[primaryStatMap[specPrimaryStat]] = itemBonus[primaryStatMap[specPrimaryStat]] or primaryStatValue
 			end
 		end
@@ -522,9 +522,9 @@ function TopFit:IsInterestingItem(itemID, setID)
 
 	if not setID then
 		-- check if item is part of any current equipment set
-		for i = 1, GetNumEquipmentSets() do
-			local name, _, _ = GetEquipmentSetInfo(i)
-			local itemIDs = GetEquipmentSetItemIDs(name)
+		-- Yes, this counts from zero. Because Blizzard.
+		for i = 0, C_EquipmentSet.GetNumEquipmentSets() - 1 do
+			local itemIDs = C_EquipmentSet.GetItemIDs(i)
 
 			for _, iID in pairs(itemIDs) do
 				if iID == item.itemID then return true, "part of current set" end

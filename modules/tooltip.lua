@@ -149,7 +149,7 @@ local function AddComparisonTooltipIntro(tooltip)
 	-- don't use a full line's height as spacer
 	_G[tooltip:GetName()..'TextLeft'..tooltip:NumLines()]:SetText(nil)
 
-	if GetNumEquipmentSets() == 0 and CanUseEquipmentSets() then
+	if C_EquipmentSet.GetNumEquipmentSets() == 0 and C_EquipmentSet.CanUseEquipmentSets() then
 		tooltip:AddLine('Can\'t compare: Blizzard equipment sets are missing!', 1, 0, 0)
 		return false
 	else

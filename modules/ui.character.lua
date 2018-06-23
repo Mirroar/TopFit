@@ -3,7 +3,7 @@ ns.ui = ns.ui or {}
 local ui = ns.ui
 
 -- GLOBALS: UIParent, StaticPopupDialogs, GameTooltip, _G, OKAY, CANCEL, CONFIRM_DELETE_EQUIPMENT_SET, EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION, NORMAL_FONT_COLOR_CODE
--- GLOBALS: hooksecurefunc, InterfaceOptionsFrame_OpenToCategory, IsShiftKeyDown, CreateFrame, GetInventoryItemLink, GetItemInfo, GetItemCount, GetEquipmentSetInfo, GetNumEquipmentSets, ModifyEquipmentSet, GetEquipmentSetInfoByName, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton, UIDropDownMenu_JustifyText, UIDropDownMenu_SetWidth, UIDropDownMenu_GetSelectedValue, SetItemButtonTexture, SetItemButtonCount
+-- GLOBALS: C_EquipmentSet, hooksecurefunc, InterfaceOptionsFrame_OpenToCategory, IsShiftKeyDown, CreateFrame, GetInventoryItemLink, GetItemInfo, GetItemCount, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton, UIDropDownMenu_JustifyText, UIDropDownMenu_SetWidth, UIDropDownMenu_GetSelectedValue, SetItemButtonTexture, SetItemButtonCount
 -- GLOBALS: string, table, select, pairs, wipe
 
 -- ----------------------------------------------
@@ -44,16 +44,11 @@ function ui.InitializeGearManagerHooks()
 
 		local set = ns.GetSetByID(popup.setID, true)
 		local tfSetName, eqSetName = set:GetName(), set:GetEquipmentSetName()
-		local newName = PaperDollEquipmentManagerPane.selectedSetName
 
-		if not newName then
-			-- new eq set was created
-			newName = GetEquipmentSetInfo(GetNumEquipmentSets())
-			eqSetName = newName
-		end
+		local setName = PaperDollEquipmentManagerPane.selectedSetName or (C_EquipmentSet.GetEquipmentSetInfo(popup.setID))
 
-		set:SetName(newName)
-		ModifyEquipmentSet(eqSetName, set:GetEquipmentSetName(), popup.setIconTexture)
+		set:SetName(setName)
+		C_EquipmentSet.ModifyEquipmentSet(popup.setID, set:GetEquipmentSetName(), popup.setIconTexture)
 		ui.Update()
 	end)
 end

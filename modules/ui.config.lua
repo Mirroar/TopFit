@@ -3,7 +3,7 @@ ns.ui = ns.ui or {}
 local ui = ns.ui
 
 -- GLOBALS: NORMAL_FONT_COLOR, GREEN_FONT_COLOR_CODE, RED_FONT_COLOR_CODE, MAX_EQUIPMENT_SETS_PER_PLAYER, EQUIPMENT_SETS_TOO_MANY, ADD_ANOTHER, _G, PANEL_INSET_LEFT_OFFSET, PANEL_INSET_TOP_OFFSET, PANEL_INSET_RIGHT_OFFSET, PANEL_INSET_BOTTOM_OFFSET, UIParent, GameTooltip, assert, hooksecurefunc, unpack, select, type, pairs, ipairs
--- GLOBALS: LoadAddOn, PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic, GetNumEquipmentSets, ToggleDropDownMenu, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton
+-- GLOBALS: C_EquipmentSet, LoadAddOn, PlaySound, CreateFrame, ShowUIPanel, HideUIPanel, SetPortraitToTexture, GetTexCoordsForRole, ButtonFrameTemplate_HideAttic, ToggleDropDownMenu, UIDropDownMenu_CreateInfo, UIDropDownMenu_AddButton
 
 local noButtonConfigID = 1
 function ui.CreateConfigPanel(isFull, noButton)
@@ -111,7 +111,7 @@ local function DisplayScrollFramePanel(scrollFrame, panel)
 end
 local function ButtonOnClick(self)
 	GameTooltip:Hide()
-	PlaySound("igMainMenuOptionCheckBoxOn")
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	ui.ShowPanel(self.panel)
 end
 local function ButtonOnEnter(self)
@@ -315,7 +315,7 @@ local function CreateSideTab(index)
 	tab:SetScript("OnEnter", ButtonOnEnter)
 	tab:SetScript("OnLeave", ButtonOnLeave)
 	tab:SetScript("OnClick", function(self, btn)
-		PlaySound("igCharacterInfoTab")
+		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
 
 		if self.setID then
 			ns:SetSelectedSet(self.setID)
@@ -324,7 +324,7 @@ local function CreateSideTab(index)
 				local set = ns.GetSetByID(ns.selectedSet, true)
 				StaticPopup_Show("TOPFIT_DELETESET", set:GetName())
 			end
-		elseif GetNumEquipmentSets() < MAX_EQUIPMENT_SETS_PER_PLAYER then
+		elseif C_EquipmentSet.GetNumEquipmentSets() < MAX_EQUIPMENT_SETS_PER_PLAYER then
 			-- new set tab
 			ToggleDropDownMenu(nil, nil, _G["TopFitConfigFrameInsetAddFromPreset"], self)
 			self:SetChecked(false)
@@ -361,7 +361,7 @@ function ui.UpdateSetTabs()
 	tab = _G["TopFitConfigFrameTab"..numSets] or CreateSideTab(numSets)
 	tab.setID = nil
 	tab:GetNormalTexture():SetTexture("Interface\\GuildBankFrame\\UI-GuildBankFrame-NewTab") -- "Interface\\PaperDollInfoFrame\\Character-Plus"
-	if GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then
+	if C_EquipmentSet.GetNumEquipmentSets() >= MAX_EQUIPMENT_SETS_PER_PLAYER then
 		tab:GetNormalTexture():SetDesaturated(true)
 		tab.tooltip = RED_FONT_COLOR_CODE..EQUIPMENT_SETS_TOO_MANY
 	else

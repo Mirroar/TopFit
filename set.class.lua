@@ -150,7 +150,8 @@ end
 
 --- Get the set's icon texture used for its equipment set.
 function Set:GetIconTexture(onlyFile)
-	local icon = GetEquipmentSetInfoByName(self:GetEquipmentSetName())
+	local setID = C_EquipmentSet.GetEquipmentSetID(self:GetEquipmentSetName())
+	local icon = setID and (select(2, C_EquipmentSet.GetEquipmentSetInfo(setID)))
 	if not icon then
 		local spec = self:GetAssociatedSpec()
 		if spec then
@@ -488,7 +489,8 @@ function Set:CanItemGoInSlot(item, slotID)
 end
 
 function Set:GetItemInSlot(slotID)
-	local locationBySlot = GetEquipmentSetLocations(self:GetEquipmentSetName())
+	local setID = C_EquipmentSet.GetEquipmentSetID(self:GetEquipmentSetName())
+	local locationBySlot = setID and C_EquipmentSet.GetItemLocations(setID)
 	local location = locationBySlot and locationBySlot[slotID]
 	if location and location <= 0 then location = nil end
 	if location and slotID == INVSLOT_OFFHAND then
@@ -530,6 +532,7 @@ function Set:GetUseVirtualItems()
 	return self.useVirtualItems
 end
 
+-- @todo Use Blizzard's core feature instead.
 function Set:SetAssociatedSpec(spec)
 	self.associatedSpec = spec
 	if self.savedVariables then

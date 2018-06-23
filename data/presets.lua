@@ -11,7 +11,7 @@ local function BuildPresets(class)
 
 	ns.presets[class] = {}
 	for i = 1, GetNumSpecializations() do
-		local specID, specName, description, icon, background, role, primaryStat = GetSpecializationInfo(i)
+		local specID, specName, description, icon, role, primaryStat = GetSpecializationInfo(i)
 		ns.presets[class][i] = {
 			name = specName,
 			wizardName = specName,
