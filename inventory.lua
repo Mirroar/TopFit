@@ -522,9 +522,8 @@ function TopFit:IsInterestingItem(itemID, setID)
 
 	if not setID then
 		-- check if item is part of any current equipment set
-		-- Yes, this counts from zero. Because Blizzard.
-		for i = 0, C_EquipmentSet.GetNumEquipmentSets() - 1 do
-			local itemIDs = C_EquipmentSet.GetItemIDs(i)
+		for _, id in ipairs(C_EquipmentSet.GetEquipmentSetIDs()) do
+			local itemIDs = C_EquipmentSet.GetItemIDs(id)
 
 			for _, iID in pairs(itemIDs) do
 				if iID == item.itemID then return true, "part of current set" end
