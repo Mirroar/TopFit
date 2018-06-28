@@ -257,10 +257,18 @@ function ns:AutoEquipSet()
 end
 
 function ns:CreateEquipmentManagerSet(set)
-	if (C_EquipmentSet.CanUseEquipmentSets()) then
-		local setName = ns:GenerateSetName(set:GetName())
-		local texture = set:GetIconTexture(true)
+	if not C_EquipmentSet.CanUseEquipmentSets() then
+		return
+	end
 
+	local setName = ns:GenerateSetName(set:GetName())
+	local texture = set:GetIconTexture(true)
+
+	local setID = C_EquipmentSet.GetEquipmentSetID(setName)
+	if setID then
+		ns:Debug("Updating set " .. setID .. ": "..setName..", "..(texture or "nil"))
+		C_EquipmentSet.SaveEquipmentSet(setID, texture)
+	else
 		ns:Debug("Trying to create set: "..setName..", "..(texture or "nil"))
 		C_EquipmentSet.CreateEquipmentSet(setName, texture)
 	end

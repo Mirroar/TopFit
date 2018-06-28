@@ -219,11 +219,11 @@ function TopFit.onUpdateForEquipment(frame, elapsed)
 		TopFit.updateFrame:SetScript("OnUpdate", nil)
 		ns.ui.SetButtonState('idle')
 
-		EquipmentManagerClearIgnoredSlotsForSave()
+		C_EquipmentSet.ClearIgnoredSlotsForSave()
 		for _, slotID in pairs(TopFit.slots) do
 			if (not TopFit.itemRecommendations[slotID]) then
 				TopFit:Debug("Ignoring slot "..slotID)
-				EquipmentManagerIgnoreSlotForSave(slotID)
+				C_EquipmentSet.IgnoreSlotForSave(slotID)
 			end
 		end
 
