@@ -1,8 +1,8 @@
-## Interface: 70000
+## Interface: 80000
 ## Author: Mirroar
 ## Title: TopFit
 ## Notes: Gear Optimization made easy
-## Version: 7.0v1
+## Version: 8.0v1
 ## X-Category: Inventory
 ## X-Credits: ckaotik, tekkub, trefane (SmartFitter), vger(Pawn)
 ## SavedVariables: TopFitDB
@@ -11,7 +11,12 @@
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\LibDataBroker-1.1.lua
-libs\tekKonfig\tekKonfig.xml
+libs\tekKonfig\tekKonfigCheckbox.lua
+libs\tekKonfig\tekKonfigDropdown.lua
+libs\tekKonfig\tekKonfigHeading.lua
+libs\tekKonfig\tekKonfigAboutPanel.lua
+libs\tekKonfig\tekKonfigGroup.lua
+libs\tekKonfig\tekKonfigTopTab.lua
 libs\Unfit-1.0\Unfit-1.0.lua
 libs\LibItemLocations.lua
 libs\AceAddon-3.0\AceAddon-3.0.xml
