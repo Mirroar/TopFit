@@ -317,7 +317,7 @@ hooksecurefunc("ToggleCharacter", ui.Initialize)
 local forcedItemsInSlot = {}
 local function UpdateForcedSlotIndicator(slotButton)
 	local slotID = slotButton:GetID()
-	if not slotButton or not slotID or not ns.selectedSet then return end
+	if not slotButton or not slotButton:GetName() or not slotID or not ns.selectedSet then return end
 	wipe(forcedItemsInSlot)
 
 	local set = ns.GetSetByID(ns.selectedSet, true)
