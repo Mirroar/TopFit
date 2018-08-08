@@ -1,5 +1,5 @@
-﻿
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Checkbox", 1)
+
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Checkbox", 3)
 if not lib then return end
 
 
@@ -9,9 +9,12 @@ local function ShowTooltip(self)
 	if self.tiptext then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetText(self.tiptext, nil, nil, nil, nil, true)
+	elseif self.tiplink then
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetHyperlink(self.tiplink)
 	end
 end
-local function OnClick(self) PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff") end
+local function OnClick(self) PlaySound(self:GetChecked() and SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF) end
 
 
 -- Creates a checkbox.
@@ -36,6 +39,7 @@ function lib.new(parent, size, label, ...)
 
 	-- Sound
 	check:SetScript("OnClick", OnClick)
+	check:SetScript("PostClick", OnClick) -- So we don't have to hook OnClick to get the sound
 
 	-- Label
 	local fs = check:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
