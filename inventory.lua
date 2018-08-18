@@ -687,8 +687,23 @@ function TopFit:GetEquippableItems(requestedSlotID)
 		end
 	end
 
+	-- check player's inventory
+	for _, invSlot in pairs(TopFit.slots) do
+		local itemID = GetInventoryItemID("player", invSlot)
+		if itemID and availableSlots[itemID] then
+			local itemLink = GetInventoryItemLink("player", invSlot)
+			for _, slotID in pairs(availableSlots[itemID]) do
+				tinsert(itemListBySlot[slotID], {
+					itemLink = itemLink,
+					isBoE = false, -- item is already equipped
+					slot = invSlot
+				})
+			end
+		end
+	end
+
 	-- check player's bags
-	for bag = 0, 4 do
+	for bag = 0, NUM_BAG_SLOTS do
 		for slot = 1, GetContainerNumSlots(bag) do
 			local itemID = GetContainerItemID(bag, slot)
 			if itemID and availableSlots[itemID] then
@@ -701,21 +716,6 @@ function TopFit:GetEquippableItems(requestedSlotID)
 						slot = slot
 					})
 				end
-			end
-		end
-	end
-
-	-- check player's inventory
-	for _, invSlot in pairs(TopFit.slots) do
-		local itemID = GetInventoryItemID("player", invSlot)
-		if itemID and availableSlots[itemID] then
-			local itemLink = GetInventoryItemLink("player", invSlot)
-			for _, slotID in pairs(availableSlots[itemID]) do
-				tinsert(itemListBySlot[slotID], {
-					itemLink = itemLink,
-					isBoE = false, -- item is already equipped
-					slot = invSlot
-				})
 			end
 		end
 	end
