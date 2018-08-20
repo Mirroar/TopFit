@@ -534,12 +534,16 @@ end
 
 -- @todo Use Blizzard's core feature instead.
 function Set:SetAssociatedSpec(spec)
+	-- @todo Use C_EquipmentSet.UnassignEquipmentSetSpec(equipmentSetID) and
+	-- C_EquipmentSet.AssignSpecToEquipmentSet(equipmentSetID, specIndex), with
+	-- specIndex in [1, 4].
 	self.associatedSpec = spec
 	if self.savedVariables then
 		self.savedVariables.associatedSpec = spec
 	end
 end
 function Set:GetAssociatedSpec()
+	-- @todo Use C_EquipmentSet.GetEquipmentSetAssignedSpec(equipmentSetID).
 	return self.associatedSpec
 end
 
