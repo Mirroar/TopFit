@@ -367,12 +367,12 @@ end
 
 --remove items that are marked as bind on equip
 function ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
-	for slotID, itemList in pairs(itemList) do
-		if #itemList > 0 then
-			for i = #itemList, 1, -1 do
-				if itemList[i].isBoE then
-					ns:Debug('Reduce: Binds on equip', itemList[i].itemLink)
-					tremove(itemList, i)
+	for slotID, items in pairs(itemList) do
+		if #items > 0 then
+			for i = #items, 1, -1 do
+				if items[i].isBoE then
+					ns:Debug('Reduce: Binds on equip', items[i].itemLink)
+					tremove(items, i)
 				end
 			end
 		end
