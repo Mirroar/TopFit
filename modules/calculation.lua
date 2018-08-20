@@ -315,6 +315,56 @@ function ns.RemoveWrongArmorTypesFromItemList(set, itemList)
 	end
 end
 
+-- remove azerite items with spec-inapropriate traits.
+function ns.RemoveWrongAzeriteItemsFromItemList(set, itemList)
+	local specID = set.associatedSpec
+	if not specID then
+		-- check if the equipment manager knows the set's spec.
+		local setID = C_EquipmentSet.GetEquipmentSetID(self:GetEquipmentSetName())
+		specID = C_EquipmentSet.GetEquipmentSetAssignedSpec(setID)
+	end
+	if not specID then return end
+
+	local classID = select(3, UnitClass('player')) -- @todo Provide globally.
+	local powerLevel = C_AzeriteItem.GetPowerLevel(C_AzeriteItem.FindActiveAzeriteItem())
+
+	for slotID, items in pairs(itemList) do
+		for i = #items, 1, -1 do
+		-- for _, item in pairs(items) do
+			local item = items[i]
+			if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(item.itemLink) and item.slot then
+				local location = (item.bag and item.slot)
+					and ItemLocation:CreateFromBagAndSlot(item.bag, item.slot)
+					or ItemLocation:CreateFromEquipmentSlot(item.slot)
+
+				for tier, info in ipairs(C_AzeriteEmpoweredItem.GetAllTierInfo(location)) do
+					-- @todo Maybe remove item if another one has more active traits?
+					if info.unlockLevel > powerLevel then break end
+
+					local suitableTraits = false
+					for _, powerID in pairs(info.azeritePowerIDs) do
+						if C_AzeriteEmpoweredItem.IsPowerSelected(location, powerID) then
+							local powerSpecs = C_AzeriteEmpoweredItem.GetSpecsForPower(powerID)
+							if not powerSpecs then
+								suitableTraits = true
+							else
+								for _, specInfo in pairs(powerSpecs) do
+									suitableTraits = suitableTraits or (specInfo.classID == classID and specInfo.specID == specID)
+								end
+							end
+
+							if not suitableTraits then
+								ns:Debug('Reduce: Wrong azerite traits', itemList[slotID][i].itemLink)
+								tremove(itemList[slotID], i)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
 --remove items that are marked as bind on equip
 function ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
 	for slotID, itemList in pairs(itemList) do
@@ -488,8 +538,8 @@ end
 function ns.ReduceItemList(set, itemList)
 	ns.RemoveNonForcedItemsFromItemList(set, itemList)
 	ns.RemoveWrongArmorTypesFromItemList(set, itemList)
+	ns.RemoveWrongAzeriteItemsFromItemList(set, itemList)
 	ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
-	-- @todo [optional] remove inapropriate spec/azerite items.
 
 	-- remove all items with score <= 0 that are neither forced nor contribute to caps
 	for slotID, subList in pairs(itemList) do
