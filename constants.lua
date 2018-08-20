@@ -120,4 +120,5 @@ ns.statList = {
 	}]]
 	-- TODO: empty sockets
 	-- TODO: mainhand / offhand dps + speed
+	-- @todo Weapon types (e.g. fist, 2h, 1h+shield)
 }

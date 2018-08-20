@@ -489,6 +489,7 @@ function ns.ReduceItemList(set, itemList)
 	ns.RemoveNonForcedItemsFromItemList(set, itemList)
 	ns.RemoveWrongArmorTypesFromItemList(set, itemList)
 	ns.RemoveBindOnEquipItemsFromItemList(set, itemList)
+	-- @todo [optional] remove inapropriate spec/azerite items.
 
 	-- remove all items with score <= 0 that are neither forced nor contribute to caps
 	for slotID, subList in pairs(itemList) do
