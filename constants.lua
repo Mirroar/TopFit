@@ -14,6 +14,8 @@ TOPFIT_SECONDARY_PERCENT   = ns.locale.SecondaryPercentBonus
 TOPFIT_ITEM_MOD_MAINHAND = _G.INVTYPE_WEAPONMAINHAND
 TOPFIT_ITEM_MOD_OFFHAND  = _G.INVTYPE_WEAPONOFFHAND
 
+TOPFIT_PRIMARY_STAT = _G.SPEC_FRAME_PRIMARY_STAT:gsub(':.+', '')
+
 -- list of inventory slot names
 ns.slotList = {
 	--"AmmoSlot",

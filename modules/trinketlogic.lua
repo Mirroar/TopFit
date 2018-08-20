@@ -9,6 +9,7 @@ scan "On Use" & "Equip" bonuses and try to parse amount, stat, duration and cool
 examples:
   "Benutzen: Gewährt Euch 15 Sek. lang 1.060 Vielseitigkeit. (1 Min. 30 Sek. Abklingzeit)"
   "Anlegen: Eure Angriffe haben eine Chance, 10 Sek. lang 1.383 Mehrfachschlag zu gewähren. (Ungefähr 0,92 Auslösungen pro Minute)"
+  "Anlegen: Eure Zauber und Fähigkeiten haben eine Chance, Euren Primärwert für 12 Sek. um 177 zu erhöhen."
 --]]
 
 local function ReformatGlobalString(globalString)
@@ -32,6 +33,7 @@ local statAmount = '(%d[%d%.]+)[^%%]'
 
 local statAlias = { -- all lower case, please
 	['kritisch.?.? trefferwert'] = 'ITEM_MOD_CRIT_RATING_SHORT', -- deDE
+	[SPEC_FRAME_PRIMARY_STAT:lower():gsub(':.+', '')] = 'TOPFIT_PRIMARY_STAT',
 }
 
 local function FindSpecialBonus(effectText, ...)

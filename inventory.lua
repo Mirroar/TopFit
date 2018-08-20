@@ -405,7 +405,9 @@ function TopFit:GetItemInfoTable(item)
 	-- also check proc / on-use effects for score calculation
 	-- TODO: clean up this mess!
 	if not TopFit.allStatsInATable then
-		TopFit.allStatsInATable = {}
+		TopFit.allStatsInATable = {
+			"TOPFIT_PRIMARY_STAT",
+		}
 		for _, statsTable in pairs(TopFit.statList) do
 			for _, stat in pairs(statsTable) do
 				tinsert(TopFit.allStatsInATable, stat)
@@ -417,7 +419,18 @@ function TopFit:GetItemInfoTable(item)
 	local procUptime = 0.5
 	local searchStat, amount, duration, cooldown = TopFit:ItemHasSpecialBonus(itemLink, unpack(TopFit.allStatsInATable))
 	if searchStat and amount and amount > 0 then
-		procBonus[searchStat] = procUptime * amount * duration / cooldown
+		-- @todo This does not handle procs with multiple stats.
+		local procValue = procUptime * amount * duration / cooldown
+
+		if searchStat == 'TOPFIT_PRIMARY_STAT' then
+			--
+			for specIndex = 1, GetNumSpecializations() do
+				local _, _, _, _, _, specPrimaryStat = GetSpecializationInfo(specIndex)
+				procBonus[primaryStatMap[specPrimaryStat]] = procValue
+			end
+		else
+			procBonus[searchStat] = procValue
+		end
 	end
 
 	-- calculate total values
