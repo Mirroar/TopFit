@@ -325,12 +325,14 @@ function ns.RemoveWrongAzeriteItemsFromItemList(set, itemList)
 	end
 	if not specID then return end
 
+	local azeriteItem = C_AzeriteItem.FindActiveAzeriteItem()
+	if not azeriteItem then return end
+
 	local classID = select(3, UnitClass('player')) -- @todo Provide globally.
-	local powerLevel = C_AzeriteItem.GetPowerLevel(C_AzeriteItem.FindActiveAzeriteItem())
+	local powerLevel = C_AzeriteItem.GetPowerLevel(azeriteItem)
 
 	for slotID, items in pairs(itemList) do
 		for i = #items, 1, -1 do
-		-- for _, item in pairs(items) do
 			local item = items[i]
 			if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(item.itemLink) and item.slot then
 				local location = (item.bag and item.slot)
@@ -341,22 +343,11 @@ function ns.RemoveWrongAzeriteItemsFromItemList(set, itemList)
 					-- @todo Maybe remove item if another one has more active traits?
 					if info.unlockLevel > powerLevel then break end
 
-					local suitableTraits = false
+					-- local suitableTraits = false
 					for _, powerID in pairs(info.azeritePowerIDs) do
-						if C_AzeriteEmpoweredItem.IsPowerSelected(location, powerID) then
-							local powerSpecs = C_AzeriteEmpoweredItem.GetSpecsForPower(powerID)
-							if not powerSpecs then
-								suitableTraits = true
-							else
-								for _, specInfo in pairs(powerSpecs) do
-									suitableTraits = suitableTraits or (specInfo.classID == classID and specInfo.specID == specID)
-								end
-							end
-
-							if not suitableTraits then
-								ns:Debug('Reduce: Wrong azerite traits', itemList[slotID][i].itemLink)
-								tremove(itemList[slotID], i)
-							end
+						if C_AzeriteEmpoweredItem.IsPowerSelected(location, powerID) and not C_AzeriteEmpoweredItem.IsPowerAvailableForSpec(powerID, specID) then
+							ns:Debug('Reduce: Wrong azerite traits', itemList[slotID][i].itemLink)
+							tremove(itemList[slotID], i)
 						end
 					end
 				end
