@@ -27,6 +27,7 @@ end
 
 local procsPerMinute = '(%(.*'..MINUTES:match('\1244([^:;]+)')..'.*%))$'
 local onUseCooldown  = ReformatGlobalString(ITEM_COOLDOWN_TOTAL)
+local levelLimit = ReformatGlobalString(ITEM_SPELL_MAX_USABLE_LEVEL)
 local durSec = ReformatGlobalString(INT_SPELL_DURATION_SEC):gsub('%%%.', '')
 local durMin = ReformatGlobalString(INT_SPELL_DURATION_MIN):gsub('%%%.', '')
 local statAmount = '(%d[%d%.]+)[^%%]'
@@ -42,6 +43,9 @@ local function FindSpecialBonus(effectText, ...)
 	effectText = effectText:gsub('%'..LARGE_NUMBER_SEPERATOR, '')
 	-- convert separator to "." which we know how to handle
 	effectText = effectText:gsub('%'..DECIMAL_SEPERATOR, '%.')
+
+	local maxLevel = effectText:match(levelLimit)
+	if maxLevel and UnitLevel('player') > (maxLevel*1) then return end
 
 	local cooldown = effectText:match(onUseCooldown)
 	if cooldown then
