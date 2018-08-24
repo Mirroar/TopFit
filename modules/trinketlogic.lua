@@ -100,13 +100,18 @@ local function FindSpecialBonus(effectText, ...)
 	end
 end
 
+local itemStats = {}
 local function ScanTooltipFor(searchString, itemLink, filterFunc)
 	if not itemLink then return end
-	local itemStats = filterFunc and GetItemStats(itemLink) or nil
-	addon.scanTooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-	addon.scanTooltip:SetHyperlink(itemLink)
+	if filterFunc then
+		wipe(itemStats)
+		GetItemStats(itemLink, itemStats)
+	end
 
 	local tooltip = addon.scanTooltip
+	      tooltip:SetOwner(UIParent, 'ANCHOR_NONE')
+	      tooltip:SetHyperlink(itemLink)
+
 	for i = 1, tooltip:NumLines() do
 		local left = _G[tooltip:GetName()..'TextLeft'..i]
 		local leftText  = left and left:GetText() or ''
