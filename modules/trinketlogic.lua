@@ -134,6 +134,8 @@ function addon:ItemHasSpecialBonus(itemLink, ...)
 	local equipSlot = select(9, GetItemInfo(itemLink))
 	if not equipSlot or equipSlot == '' or equipSlot == 'INVTYPE_BAG' then return end
 
+	if ScanTooltipFor(ITEM_LEGACY_INACTIVE_EFFECTS, itemLink) then return end
+
 	local effectText = ScanTooltipFor(ITEM_SPELL_TRIGGER_ONUSE, itemLink)
 		or ScanTooltipFor(ITEM_SPELL_TRIGGER_ONEQUIP, itemLink, FilterOnEquipLine)
 	if not effectText then return end
