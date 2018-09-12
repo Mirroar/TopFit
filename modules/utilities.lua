@@ -115,6 +115,7 @@ function ns:PlayerCanDualWield()
 	local canDualWield =
 		   playerClass == 'DEATHKNIGHT'
 		or playerClass == 'ROGUE'
+		or playerClass == 'DEMONHUNTER'
 		or specID == 72  -- fury warrior
 		or specID == 263 -- enhancement shaman
 		or specID == 268 or specID == 269 -- brewmaster/windwalker monk
